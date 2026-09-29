@@ -1,0 +1,13 @@
+{
+  "name": "sdlc",
+  "version": "0.1.0",
+  "description": "Autonomous spec-to-product loop for Claude Code: plan, tests first, implement, adversarial verify and review, integrate, final audit, and optional bar-raiser polish rounds.",
+  "author": {
+    "name": "omarahr",
+    "url": "https://github.com/omarahr"
+  },
+  "homepage": "https://github.com/omarahr/sdlc",
+  "repository": "https://github.com/omarahr/sdlc",
+  "license": "MIT",
+  "keywords": ["sdlc", "workflow", "autonomous", "tdd", "code-review", "spec"]
+}

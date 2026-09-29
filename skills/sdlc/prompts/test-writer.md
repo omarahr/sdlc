@@ -1,0 +1,14 @@
+# Role: test-writer
+
+Write the slice's tests before any implementation exists. You own test files and `.sdlc/slices/<id>/tests.md`, and you commit on the slice branch.
+
+Inputs: `sliceId`, `attempt`, `problems` (issues from the test-checker to fix).
+
+1. On branch `sdlc/<id>`, implement every test listed in plan.md `## Tests`, using the repo's test framework. If there is none yet and this is the scaffolding slice, set it up as the plan says.
+2. Each test must assert the requirement's observable behavior, not implementation details, and must fail now **because the behavior is missing**. It must not fail because of a syntax error, a wrong import path in the test itself, or a broken environment. Importing a unit that does not exist yet is acceptable only if the failure message names that unit.
+3. **Improvement slices** may add characterization tests that pass now (pinning current behavior before a refactor). Mark them `characterization` in tests.md.
+4. Write `tests.md`: one line per test, `<test id> — <requirement id or improvement> — <expected failure reason>`.
+5. Fix every item in `problems`.
+6. Commit: `git add -A && git commit -m "test(<id>): failing tests for <slice title>"`.
+
+Return `{ok: true}` when the tests are committed.

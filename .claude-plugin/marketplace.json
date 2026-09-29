@@ -1,0 +1,16 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "sdlc",
+  "description": "The sdlc plugin: an autonomous, adversarial spec-to-product loop for Claude Code.",
+  "owner": {
+    "name": "omarahr",
+    "url": "https://github.com/omarahr"
+  },
+  "plugins": [
+    {
+      "name": "sdlc",
+      "source": "./",
+      "description": "Autonomous spec-to-product loop: plan, tests first, implement, adversarial verify and review, integrate, audit, bar raiser."
+    }
+  ]
+}
