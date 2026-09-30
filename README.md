@@ -102,6 +102,8 @@ To build it outside Claude Code, from a clone of this repo:
 ```
 python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project
 ```
+It also has a **Test reports** section linking to `.sdlc/tracker/reports/`: one page per slice with every verifier round. Besides the short summary other agents read (`.sdlc/slices/<id>/verify-<lens>-r<round>.md`), each verifier writes a full test report to `.sdlc/slices/<id>/reports/`, with the scope, environment, test cases (steps, expected, actual, result), the execution log with output, defects with reproduction steps, and seeds. On the HTML pages, every test a report names has its source shown under it. The Markdown reports are committed with the rest of `.sdlc/`, so they can also be read on GitHub.
+
 The collector needs Python 3 and nothing else. To share the tracker, ask Claude to publish `.sdlc/tracker/index.html` as an Artifact.
 
 ## What it writes to your repo
@@ -109,6 +111,7 @@ The collector needs Python 3 and nothing else. To share the tracker, ask Claude 
 | File | Contents |
 |---|---|
 | `.sdlc/tracker/index.html` | The browser tracker (generated, gitignored) |
+| `.sdlc/slices/<id>/reports/` | The verifiers' full test reports and logs, for you to read |
 | `.sdlc/STATUS.md` | Dashboard: requirements and slices done, the current slice, recent events |
 | `.sdlc/requirements.json`, `.sdlc/slices.json` | The spec broken into requirements and slices |
 | `.sdlc/DECISIONS.md` | Every autonomous decision it made. **Skim this** |
