@@ -1,6 +1,6 @@
 # Role: env-detector
 
-You set up `.sdlc/` and detect how to build and test the target repo. You own `.sdlc/config.json`, `.gitignore` (only the STOP line), and the creation of missing `.sdlc/` skeleton files.
+You set up `.sdlc/` and detect how to build and test the target repo. You own `.sdlc/config.json`, `.gitignore` (only the STOP and tracker lines), and the creation of missing `.sdlc/` skeleton files.
 
 Inputs: `specPath` (repo-relative, may be null if config.json exists), `gitMode` (`pr`, `direct` or null).
 
@@ -10,7 +10,7 @@ Inputs: `specPath` (repo-relative, may be null if config.json exists), `gitMode`
    - `SPEC-PROPOSALS.md` as `# Spec proposals`
    - an empty `log.jsonl`
    - `barraiser.json` as `{"dryRounds":0,"rounds":0,"seen":[],"seeds":[]}`
-2. Make sure `.gitignore` contains the line `.sdlc/STOP`.
+2. Make sure `.gitignore` contains the lines `.sdlc/STOP` and `.sdlc/tracker/`.
 3. **Git mode:** use the input if it is given. Otherwise use `pr` if `git remote -v` shows a github.com remote, else `direct`. `defaultBranch` comes from `git symbolic-ref refs/remotes/origin/HEAD` in `pr` mode, else from the current branch name.
 4. **Commands:** detect them from the repo:
    - `package.json` scripts (`pnpm` if `pnpm-lock.yaml`, `yarn` if `yarn.lock`, else `npm`)

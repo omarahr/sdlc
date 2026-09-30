@@ -12,6 +12,7 @@ Invoking this skill is the user's explicit opt-in to running the `sdlc-loop` Wor
 - `/sdlc <spec-path> [--git pr|direct] [--max-iterations N] [--bar-raiser N]`: start or resume.
   - `--bar-raiser N` allows up to N quality-polish rounds **in total** after the spec is complete and audited. Default 0: the run ends at spec-complete. To polish a finished project later, re-run with a higher N than the rounds already done (see `rounds` in `.sdlc/barraiser.json`).
 - `/sdlc status`: print `.sdlc/STATUS.md` from the repo root. If it is missing, say "No SDLC run in this repo."
+- `/sdlc tracker`: build the progress tracker (see **Tracker** below) and give the user the path of `.sdlc/tracker/index.html` to open in a browser.
 - `/sdlc stop`: `touch "$(git rev-parse --show-toplevel)/.sdlc/STOP"`. Tell the user that the current iteration finishes first, then the run exits, and that `/sdlc <spec>` resumes it.
 
 For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <spec-path>`.
@@ -33,7 +34,9 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
 2. **Launch.**
    - `SKILL_DIR` is this skill's base directory, shown as "Base directory for this skill" when it loads. Use that absolute path.
    - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, maxIterations, barRaiserRounds } })`. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.
-   - Tell the user in one line: live progress is in `/workflows`, the dashboard via `/sdlc status`, and they can stop with `/sdlc stop`.
+   - Remember the launch result's transcript dir: the run's journal is `<transcript dir>/journal.jsonl`.
+   - Build the tracker (see **Tracker**).
+   - Tell the user in one line: live progress is in `/workflows`, the tracker page at `.sdlc/tracker/index.html`, the text dashboard via `/sdlc status`, and they can stop with `/sdlc stop`.
 3. **On the workflow's completion notification,** read `state` and `reason`:
    - **Every relaunch** passes the result's `lastKey` and `streak` back in `args`, so the no-progress guard survives across runs.
    - **`continue`:** if `$REPO/.sdlc/STOP` exists, treat it as `stopped`. If the user gave `--max-iterations` and the reason is `max iterations … reached`, report STATUS.md and end: that flag is a smoke run, not a pacing hint. Otherwise launch again.
@@ -45,5 +48,16 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - **`livelock`:** print STATUS.md and the "smallest human decision" lines from `.sdlc/STUCK.md`. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **A missing result or a workflow error:** launch once more. If that also fails, retry with `resumeFromRunId` set to the failed run id and the same `scriptPath`. If it still fails, report the error, and say that `/sdlc <spec>` resumes from `.sdlc/`.
 4. **Heartbeat** (only under `/loop`): after each launch, call `ScheduleWakeup({delaySeconds: 1800, prompt: <the same /loop input>, reason: "sdlc heartbeat while run is active", noop: true})`.
-   - On a heartbeat wake-up, if you launched a run and have not yet received its completion notification, schedule another heartbeat and do nothing else.
+   - On a heartbeat wake-up, if you launched a run and have not yet received its completion notification, rebuild the tracker, schedule another heartbeat, and do nothing else.
    - Otherwise resume from step 3 using the last result, or from step 1.
+
+## Tracker
+
+A self-contained HTML page with progress, milestones (with their behavior-campaign status), ETAs, pace, recent events and what is waiting for a human. Build it with:
+
+```
+python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl of the active run, if known>" --run-label "Run <n>"
+```
+
+It writes `.sdlc/tracker/index.html` and `status.json` (gitignored). The page reloads itself every minute, so rebuilding it on each heartbeat keeps an open tab current. If the Artifact tool is available and the user asks to share it, publish `index.html` as an artifact and republish it on each heartbeat. A tracker failure never stops the loop: report it once and carry on.
+

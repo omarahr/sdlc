@@ -10,7 +10,7 @@ Inputs: `reason`.
    - Aim for 4–8 slices per milestone. Every non-rejected slice belongs to exactly one milestone.
    - List only the ids that exist in slices.json. Split children (`S-013a`) and fix slices created later belong to their parent's milestone automatically; do not list them unless their parent is absent.
 3. **Repos already in progress:** merge every milestone whose slices are all `done`, `parked` or `rejected` into one baseline milestone `M-0` titled "Baseline: everything built so far". Its campaign verifies the whole existing system once.
-4. **Write `.sdlc/milestones.json`** (format in state-schema.md) with ids `M-0` (if any), `M-1`, `M-2` … in order, `status: pending`, `attempts: 0`, empty `fixSlices` and `gaps`, and a `demo` sentence saying what a person can do once it is verified.
+4. **Write `.sdlc/milestones.json`** (format in state-schema.md) with ids `M-0` (if any), `M-1`, `M-2` … in order, `status: pending`, `attempts: 0`, empty `fixSlices` and `gaps`, a `demo` sentence saying what a person can do once it is verified, and `ui: true` when that demo happens in a user interface (a person can click around in it).
 5. Do a **default-branch commit** (commit-state.md): "plan milestones".
 
 Return `{added: <milestone count>, notes: "<id: title, one per line>"}`.
