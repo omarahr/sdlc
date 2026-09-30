@@ -12,7 +12,7 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
 ## mode: ship
 1. **Final check:** `git checkout sdlc/<id>`, `git status` is clean, and the full `config.commands` test, lint, typecheck and build all pass. If any fails, return `{state: "failed", notes}`.
 2. **Record evidence:**
-   - Set each requirement of the slice to `status: done`, with `evidence.files` (from `git diff --name-only <defaultBranch>...HEAD`), `evidence.tests` (from tests.md plus the breaker tests), and `evidence.commit: "pending"`.
+   - Set each requirement of the slice to `status: done`, with `evidence.files` (from `git diff --name-only <defaultBranch>...HEAD`), `evidence.tests` (from tests.md plus the behavior tests), and `evidence.commit: "pending"`.
    - Copy into each requirement's `adrs` the id of every ADR whose `Affects` line names the requirement or this slice.
    - If failures.md or any ADR says an external system was replaced by a local fake, add the `external-stub` flag.
 3. Write `evidence.md`: the requirements with their tests, and for improvement slices, the before and after numbers of every benchmark.

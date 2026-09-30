@@ -19,7 +19,8 @@ Inputs: `sliceId`, `revision`, `critiques` (strings you must address).
    - `## Steps`: ordered implementation steps.
    - `## Risks`
    - `## Critique responses`: one bullet per input critique, saying how the plan now addresses it.
-4. **If the plan cannot be written** without a decision the spec and ADRs do not settle, list it in `ambiguities` (`kind: contradiction` when the spec contradicts itself). Still write your best plan, and still return `ok: true`.
-5. **Scaffolding:** if `config.commands` are empty and this slice scaffolds the project, the plan must include filling them.
+4. **Too big:** if the slice has more than 5 requirements, or the plan would touch more than 3 units or change more than about 300 lines, stop planning and return `tooBig: true` with a one-line reason in `notes`. The escalator splits it before anyone builds it. A slice that already came out of a split returns `tooBig` only if it still has more than 5 requirements.
+5. **If the plan cannot be written** without a decision the spec and ADRs do not settle, list it in `ambiguities` (`kind: contradiction` when the spec contradicts itself). Still write your best plan, and still return `ok: true`.
+6. **Scaffolding:** if `config.commands` are empty and this slice scaffolds the project, the plan must include filling them.
 
-Do not commit. Return `{ok, ambiguities, notes}`.
+Do not commit. Return `{ok, ambiguities, tooBig, notes}`.

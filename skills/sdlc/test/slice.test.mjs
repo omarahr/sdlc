@@ -67,7 +67,7 @@ test('tests that never fail for the right reason escalate after three attempts',
 test('happy path runs implement, three verifiers, three reviewers, integrate', async () => {
   const rt = await runMain(happy())
   assert.deepEqual(rt.errors, [])
-  assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => c.inputs.lens).sort(), ['breaker', 'regression', 'spec-fidelity'])
+  assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => c.inputs.lens).sort(), ['behavior', 'regression', 'spec-fidelity'])
   assert.deepEqual(rt.calls.filter(c => c.role === 'reviewer').map(c => c.inputs.lens).sort(), ['architecture', 'security', 'test-quality'])
   assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.mode, 'ship')
   assert.match(rt.result.iterations[0].outcome, /S-1 merged abc123/)
@@ -89,10 +89,10 @@ test('resume at integrate goes straight to the integrator with persisted seeds',
   assert.equal(rt.calls[1].inputs.seeds[0].title, 's')
 })
 
-test('a breaker failing test forces a fix round carrying the evidence', async () => {
+test('a behavior failing test forces a fix round carrying the evidence', async () => {
   let round = 0
   const rt = await runMain(happy({
-    verifier: c => (c.inputs.lens === 'breaker' && round++ === 0
+    verifier: c => (c.inputs.lens === 'behavior' && round++ === 0
       ? { refuted: true, evidence: 'empty input crashes', failingTest: 'edge.test.ts > empty' }
       : clear()),
   }, 'implement'))

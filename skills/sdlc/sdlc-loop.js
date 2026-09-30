@@ -12,6 +12,9 @@ export const meta = {
     { title: 'Review' },
     { title: 'Integrate' },
     { title: 'Escalate' },
+    { title: 'Behavior plan' },
+    { title: 'Behavior run' },
+    { title: 'Behavior judge' },
     { title: 'Audit' },
     { title: 'Bar raiser' },
   ],
@@ -25,7 +28,7 @@ const CAP = A.runAgentCap || 850
 const MAX_ITER = A.maxIterations === undefined || A.maxIterations === null ? Infinity : A.maxIterations
 // bar raiser is opt-in: 0 (default) means stop at spec-complete; N allows up to N polish rounds in total
 const BAR_RAISER_ROUNDS = A.barRaiserRounds > 0 ? A.barRaiserRounds : 0
-const COST = { bootstrap: 40, slice: 60, parkedRetry: 60, retryMerge: 5, audit: 80, barRaiserRound: 90, livelock: 2 }
+const COST = { bootstrap: 40, slice: 60, parkedRetry: 60, retryMerge: 5, milestonePlan: 5, milestone: 90, audit: 80, barRaiserRound: 90, livelock: 2 }
 
 // ---------- shared schemas ----------
 const str = { type: 'string' }
@@ -33,17 +36,20 @@ const OK = { type: 'object', properties: { ok: { type: 'boolean' }, notes: str }
 const NEXT = {
   type: 'object',
   properties: {
-    action: { type: 'string', enum: ['stop', 'bootstrap', 'slice', 'parkedRetry', 'retryMerge', 'audit', 'barRaiserRound', 'livelock', 'done', 'wait'] },
+    action: { type: 'string', enum: ['stop', 'bootstrap', 'slice', 'parkedRetry', 'retryMerge', 'milestonePlan', 'milestone', 'audit', 'barRaiserRound', 'livelock', 'done', 'wait'] },
     sliceId: str,
     slice: { type: 'object' },
+    milestoneId: str,
+    milestone: { type: 'object' },
     reason: str,
     summary: str,
   },
   required: ['action', 'reason'],
 }
+const SEED = { type: 'object', properties: { title: str, detail: str, file: str }, required: ['title', 'detail'] }
 const VOTE = {
   type: 'object',
-  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str },
+  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, seeds: { type: 'array', items: SEED } },
   required: ['refuted', 'evidence'],
 }
 
@@ -229,6 +235,7 @@ const PLAN = {
       type: 'array',
       items: { type: 'object', properties: { question: str, context: str, kind: { type: 'string', enum: ['ambiguity', 'contradiction'] } }, required: ['question'] },
     },
+    tooBig: { type: 'boolean' },
     notes: str,
   },
   required: ['ok'],
@@ -244,6 +251,8 @@ async function planPhase(id, counters) {
   let ambiguityRounds = 0
   while (counters.planRevisions < 3) {
     const plan = await run('planner', { sliceId: id, revision: counters.planRevisions, critiques }, { schema: PLAN, phase: 'Plan', label: id })
+    // an oversized slice is split before anyone reviews or builds it; critics and fix rounds on it are wasted work
+    if (plan && plan.tooBig) return 'tooBig'
     const amb = (plan && plan.ambiguities) || []
     if (amb.length && ambiguityRounds < AMBIGUITY_ROUND_LIMIT) {
       ambiguityRounds++
@@ -292,7 +301,13 @@ async function sliceAction(next) {
   const counters = normalizeCounters(s.counters)
   let at = Math.max(0, PHASE_ORDER.indexOf(s.phase || 'plan'))
   if (at === 0) {
-    if (!(await planPhase(id, counters))) return escalate(id, s, counters, 'plan refuted 3 times')
+    const planned = await planPhase(id, counters)
+    if (planned === 'tooBig') {
+      // jump straight to the split rung of the ladder
+      counters.ladderStep = Math.max(counters.ladderStep, 1)
+      return escalate(id, s, counters, 'planner judged the slice too big for one reviewable change')
+    }
+    if (!planned) return escalate(id, s, counters, 'plan refuted 3 times')
     await persist(id, { status: 'in_progress', phase: 'tests', counters })
     at = 1
   }
@@ -329,7 +344,7 @@ const INTEGRATE = {
   properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed'] }, commit: str, pr: str, notes: str },
   required: ['state'],
 }
-const VERIFY_LENSES = ['spec-fidelity', 'breaker', 'regression']
+const VERIFY_LENSES = ['spec-fidelity', 'behavior', 'regression']
 const REVIEW_LENSES = ['security', 'architecture', 'test-quality']
 const FIX_ROUND_LIMIT = 3
 const STREAK_LIMIT = 3
@@ -359,6 +374,8 @@ async function reviewPhase(id, round) {
 
 async function buildLoop(id, counters) {
   let evidence = []
+  // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
+  const verifySeeds = []
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
     if (spent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
@@ -371,6 +388,7 @@ async function buildLoop(id, counters) {
       const votes = await parallel(VERIFY_LENSES.map(lens => () =>
         run('verifier', { sliceId: id, lens, round }, { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` })))
       const v = tallyVerify(votes, VERIFY_LENSES)
+      verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
       log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
       if (!v.pass) {
         evidence = votes.map((x, i) => (x
@@ -379,7 +397,7 @@ async function buildLoop(id, counters) {
       } else {
         const review = await reviewPhase(id, round)
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
-        if (!review.blocking.length) return { ok: true, seeds: review.seeds, lastEvidence: [] }
+        if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
         evidence = review.blocking.map(f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`)
       }
     }
@@ -406,6 +424,151 @@ async function parkedRetry(next) {
 async function retryMerge(next) {
   const s = next.slice || {}
   return integrate(next.sliceId, s, normalizeCounters(s.counters), [], 'retry-merge')
+}
+
+// milestone behavior verification: a black-box campaign against the running system.
+// Scenarios come from the spec (every expected outcome cites it), critics hunt for missing corner cases,
+// runners drive the real stack (API, UI, database, logs, metrics), and judges reproduce every failure
+// before it becomes a fix slice.
+const SCENARIO_PLAN = {
+  type: 'object',
+  properties: {
+    ok: { type: 'boolean' },
+    areas: { type: 'array', items: { type: 'object', properties: { id: str, scenarioIds: { type: 'array', items: str } }, required: ['id', 'scenarioIds'] } },
+    notes: str,
+  },
+  required: ['ok', 'areas'],
+}
+const HARNESS = { type: 'object', properties: { ok: { type: 'boolean' }, channels: { type: 'array', items: str }, notes: str }, required: ['ok'] }
+const SCENARIO_RESULTS = {
+  type: 'object',
+  properties: {
+    results: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          scenarioId: str,
+          status: { type: 'string', enum: ['pass', 'fail', 'blocked'] },
+          requirementIds: { type: 'array', items: str },
+          specRef: str,
+          expected: str,
+          observed: str,
+          evidence: str,
+          test: str,
+        },
+        required: ['scenarioId', 'status', 'evidence'],
+      },
+    },
+  },
+  required: ['results'],
+}
+const JUDGED = {
+  type: 'object',
+  properties: {
+    refuted: { type: 'boolean' },
+    classification: { type: 'string', enum: ['product-bug', 'test-bug', 'spec-gap', 'out-of-scope', 'flaky'] },
+    evidence: str,
+  },
+  required: ['refuted', 'evidence'],
+}
+const MS_WRITE = { type: 'object', properties: { ok: { type: 'boolean' }, status: str, attempt: { type: 'number' }, fixSlices: { type: 'array', items: str }, notes: str }, required: ['ok'] }
+const COVERAGE_LENSES = ['spec-coverage', 'adversary', 'observability']
+const COVERAGE_ROUND_LIMIT = 3
+const RUNNER_BATCH = 3
+const FAIL_JUDGE_LIMIT = 8
+
+// the classification most refuting voters agree on; ties fall back to the first refuting voter
+function dismissalClass(votes) {
+  const counts = {}
+  for (const v of votes) if (v && v.refuted === true && v.classification) counts[v.classification] = (counts[v.classification] || 0) + 1
+  const best = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]
+  return best ? best[0] : 'test-bug'
+}
+
+async function milestonePlan(next) {
+  phase('Behavior plan')
+  const r = await run('milestone-planner', { reason: next.reason }, { schema: COUNT, phase: 'Behavior plan' })
+  if (!r) return 'milestone planning aborted: milestone-planner failed'
+  return `milestones planned: ${r.added}${r.notes ? ` (${r.notes})` : ''}`
+}
+
+async function scenarioPlan(mid, rerun) {
+  let critiques = []
+  let latest = null
+  for (let rev = 0; rev <= COVERAGE_ROUND_LIMIT; rev++) {
+    const p = await run('scenario-planner', { milestoneId: mid, revision: rev, rerun, critiques },
+      { schema: SCENARIO_PLAN, effort: rerun ? 'low' : undefined, phase: 'Behavior plan', label: `${mid}:r${rev}` })
+    if (!p || !p.ok || !(p.areas || []).length) {
+      critiques = [p ? `scenario-planner reported not ok: ${p.notes || ''}` : 'scenario-planner failed to report']
+      continue
+    }
+    latest = p
+    // a re-run replays the scenarios already planned and reviewed; the last revision gets no further critique
+    if (rerun || rev === COVERAGE_ROUND_LIMIT) return latest
+    const votes = await parallel(COVERAGE_LENSES.map(lens => () =>
+      run('coverage-critic', { milestoneId: mid, lens, revision: rev }, { schema: VOTE, phase: 'Behavior plan', label: `${mid}:${lens}` })))
+    if (allClear(votes)) return latest
+    critiques = votes
+      .map((v, i) => (!isRefuting(v) ? null : v ? `[${COVERAGE_LENSES[i]}] ${v.evidence}` : `[${COVERAGE_LENSES[i]}] critic failed to report`))
+      .filter(Boolean)
+    log(`${mid} scenario coverage r${rev}: ${critiques.length}/${votes.length} critics found gaps`)
+  }
+  return latest
+}
+
+async function writeMilestone(mid, report) {
+  const w = await run('milestone-writer', { milestoneId: mid, ...report }, { schema: MS_WRITE, phase: 'Behavior judge', label: mid })
+  if (!w || !w.ok) return `${mid} ${report.outcome}; milestone-writer did not confirm`
+  const fixes = (w.fixSlices || []).length ? `; fix slices ${w.fixSlices.join(', ')}` : ''
+  return `${mid} ${w.status || report.outcome} (attempt ${w.attempt || '?'}): ${report.summary}${fixes}`
+}
+
+async function milestoneAction(next) {
+  const mid = next.milestoneId
+  const m = next.milestone || {}
+  const rerun = m.status === 'fixing'
+  phase('Behavior plan')
+  const plan = await scenarioPlan(mid, rerun)
+  if (!plan) return writeMilestone(mid, { outcome: 'blocked', summary: 'scenario planning failed', results: [], confirmed: [], dismissed: [], unjudged: [], blocked: [] })
+  phase('Behavior run')
+  const h = await run('e2e-harness', { milestoneId: mid, rerun }, { schema: HARNESS, phase: 'Behavior run', label: mid })
+  if (!h || !h.ok) {
+    return writeMilestone(mid, { outcome: 'blocked', summary: `stack or harness not runnable: ${h ? h.notes || '' : 'e2e-harness failed to report'}`, results: [], confirmed: [], dismissed: [], unjudged: [], blocked: [] })
+  }
+  const results = []
+  // batches keep the number of agents hammering one local stack (and the laptop) bounded
+  for (const batch of chunk(plan.areas, RUNNER_BATCH)) {
+    const outs = await parallel(batch.map(a => () =>
+      run('scenario-runner', { milestoneId: mid, areaId: a.id, scenarioIds: a.scenarioIds, channels: h.channels || [] },
+        { schema: SCENARIO_RESULTS, phase: 'Behavior run', label: `${mid}:${a.id}` })))
+    outs.forEach((o, i) => {
+      if (o) results.push(...(o.results || []))
+      else results.push(...batch[i].scenarioIds.map(scenarioId => ({ scenarioId, status: 'blocked', evidence: 'scenario-runner failed to report' })))
+    })
+  }
+  const fails = results.filter(r => r.status === 'fail')
+  const blocked = results.filter(r => r.status === 'blocked')
+  const passed = results.filter(r => r.status === 'pass').length
+  if (fails.length > FAIL_JUDGE_LIMIT) log(`${mid}: judging ${FAIL_JUDGE_LIMIT} of ${fails.length} failures; the rest carry to the re-run`)
+  phase('Behavior judge')
+  const judged = await parallel(fails.slice(0, FAIL_JUDGE_LIMIT).map((f, fi) => async () => {
+    const votes = await parallel([0, 1, 2].map(k => () =>
+      run('behavior-judge', { milestoneId: mid, result: f, voter: k }, { schema: JUDGED, phase: 'Behavior judge', label: `${mid}:f${fi}v${k}` })))
+    const notes = votes.filter(Boolean).map(v => v.evidence)
+    // like review findings: only explicit refutations dismiss a failure, dead judges never do
+    return refutedByMajority(votes)
+      ? { ...f, verdict: dismissalClass(votes), judgeNotes: notes }
+      : { ...f, verdict: 'product-bug', judgeNotes: notes }
+  }))
+  const confirmed = judged.filter(j => j.verdict === 'product-bug')
+  const dismissed = judged.filter(j => j.verdict !== 'product-bug')
+  const unjudged = fails.slice(FAIL_JUDGE_LIMIT)
+  const outcome = confirmed.length || unjudged.length ? 'bugs' : blocked.length ? 'partial' : 'verified'
+  const summary = `${passed}/${results.length} scenarios passed, ${confirmed.length} confirmed bug(s), ${dismissed.length} dismissed, ${blocked.length} blocked`
+  log(`${mid} behavior: ${summary}`)
+  // passing results stay in the runners' reports; only what needs a decision travels on
+  return writeMilestone(mid, { outcome, summary, total: results.length, passed, confirmed, dismissed, unjudged, blocked })
 }
 
 // final audit + livelock
@@ -497,7 +660,7 @@ async function barRaiserRound() {
 }
 
 // ---------- registry + main ----------
-const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, audit, livelock, barRaiserRound }
+const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milestonePlan, milestone: milestoneAction, audit, livelock, barRaiserRound }
 
 const INTERNALS = {
   run, persist, hasHeadroom, spent: () => spent,
@@ -506,6 +669,7 @@ const INTERNALS = {
   decisionPanel, escalate,
   planPhase, testsPhase, sliceAction,
   reviewPhase, buildLoop, integrate, parkedRetry, retryMerge,
+  dismissalClass, milestonePlan, scenarioPlan, milestoneAction,
   audit, livelock,
   barRaiserRound,
 }
@@ -517,7 +681,7 @@ async function main() {
     phase('Read state')
     const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS }, { schema: NEXT, effort: 'low', phase: 'Read state' })
     if (!next) return finish('continue', 'state reader failed twice', history)
-    log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}: ${next.reason}`)
+    log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)
     if (next.action === 'wait') return finish('waiting', next.reason, history)
@@ -532,7 +696,7 @@ async function main() {
     const outcome = await act(next)
     history.push({ action: next.action, sliceId: next.sliceId || null, outcome })
     if (next.action === 'livelock') return finish('livelock', outcome, history)
-    const key = `${next.action}|${next.sliceId || ''}|${outcome}`
+    const key = `${next.action}|${next.sliceId || next.milestoneId || ''}|${outcome}`
     streak = key === lastKey ? streak + 1 : 1
     lastKey = key
     if (streak >= STREAK_LIMIT) {
