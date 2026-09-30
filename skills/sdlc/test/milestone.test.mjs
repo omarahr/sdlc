@@ -164,9 +164,7 @@ test('dismissalClass picks the majority classification among refuting voters', a
 
 test('verifier seeds reach the integrator alongside review seeds', async () => {
   const rt = await runMain(happy({
-    verifier: c => (c.inputs.lens === 'behavior'
-      ? { refuted: false, evidence: 'in-scope cases hold', seeds: [{ title: 'cap regex size', detail: 'a 10 KB pattern takes 5 s; spec states no bound' }] }
-      : clear()),
+    'verify-security': () => ({ refuted: false, evidence: 'in-scope cases hold', seeds: [{ title: 'cap regex size', detail: 'a 10 KB pattern takes 5 s; spec states no bound' }] }),
     reviewer: c => ({ findings: c.inputs.lens === 'architecture' ? [{ title: 'rename helper', detail: 'x', blocking: false }] : [] }),
   }, 'implement'))
   const seeds = rt.calls.find(c => c.role === 'integrator').inputs.seeds.map(s => s.title).sort()
