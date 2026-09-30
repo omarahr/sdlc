@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="60">
+<title>SDLC Build Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #eef0f3;
+  --surface: #ffffff;
+  --sunk: #f6f7f9;
+  --ink: #131720;
+  --muted: #586173;
+  --faint: #8b93a2;
+  --line: #e1e4ea;
+  --accent: #2f4fd8;
+  --accent-soft: #e7ebfd;
+  --done: #1b8353;
+  --done-soft: #ddf1e6;
+  --parked: #b26a0e;
+  --parked-soft: #fbecd6;
+  --todo: #d7dbe2;
+  --warn: #c2410c;
+  --shadow: 0 1px 2px rgba(19, 23, 32, .05), 0 6px 20px rgba(19, 23, 32, .04);
+  --sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0c0f14;
+    --surface: #151920;
+    --sunk: #1a1f27;
+    --ink: #e9ecf2;
+    --muted: #a3abba;
+    --faint: #6e7787;
+    --line: #252b35;
+    --accent: #93a4ff;
+    --accent-soft: #1d2442;
+    --done: #4dc48b;
+    --done-soft: #13281f;
+    --parked: #e8a640;
+    --parked-soft: #2d2213;
+    --todo: #2f3642;
+    --warn: #fb923c;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0c0f14;
+  --surface: #151920;
+  --sunk: #1a1f27;
+  --ink: #e9ecf2;
+  --muted: #a3abba;
+  --faint: #6e7787;
+  --line: #252b35;
+  --accent: #93a4ff;
+  --accent-soft: #1d2442;
+  --done: #4dc48b;
+  --done-soft: #13281f;
+  --parked: #e8a640;
+  --parked-soft: #2d2213;
+  --todo: #2f3642;
+  --warn: #fb923c;
+  --shadow: none;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 22px; }
+#app { display: grid; gap: 20px; min-width: 0; }
+@media (max-width: 560px) { .wrap { gap: 16px; padding-block: 20px 40px; } #app { gap: 14px; } }
+h1, h2 { margin: 0; text-wrap: balance; }
+h1 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+h2 { font-size: 11.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); }
+p { margin: 0; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+
+/* header */
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
+.top .sub { color: var(--muted); font-size: 13px; }
+.fresh { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.pill.ok { background: var(--done-soft); color: var(--done); }
+.pill.warn { background: var(--parked-soft); color: var(--parked); }
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill.live .dot { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .pill.live .dot { animation: none; } }
+.stale { color: var(--warn); font-weight: 600; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px; min-width: 0; }
+
+/* hero */
+.hero { display: grid; gap: 20px; padding: 22px 24px; }
+.hero-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 14px 32px; }
+.headline { display: flex; align-items: baseline; gap: 22px; flex-wrap: wrap; }
+.big { font-family: var(--mono); font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.big small { font-size: 16px; color: var(--faint); letter-spacing: 0; }
+.big-label { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+.next { text-align: right; }
+.next .lbl { font-size: 12px; color: var(--muted); }
+.next .what { font-size: 17px; font-weight: 600; }
+.next .when { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-top: 2px; }
+@media (max-width: 640px) { .next { text-align: left; } }
+
+.track { display: flex; gap: 3px; height: 14px; }
+.seg { position: relative; height: 100%; border-radius: 3px; background: var(--todo); overflow: hidden; min-width: 10px; display: flex; }
+.seg i { display: block; height: 100%; }
+.seg .d { background: var(--done); }
+.seg .p { background: var(--parked); }
+.seg.cur { outline: 2px solid var(--accent); outline-offset: 1px; }
+.seg.ui::after { content: ""; position: absolute; right: 2px; top: 2px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+.track-labels { display: flex; gap: 3px; margin-top: 6px; }
+.track-labels span { font-size: 10.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 10px; }
+.track-labels span.cur { color: var(--accent); font-weight: 600; }
+@media (max-width: 720px) { .track-labels { display: none; } }
+
+/* three cards */
+.grid3 { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 20px; }
+@media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } .grid3 > :first-child { grid-column: 1 / -1; } }
+@media (max-width: 560px) { .grid3 { grid-template-columns: 1fr; } }
+.card h2 { margin-bottom: 12px; }
+.slice-id { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.slice-title { font-size: 16px; font-weight: 600; line-height: 1.3; margin-top: 2px; }
+.steps { display: flex; gap: 3px; margin-top: 12px; }
+.steps i { flex: 1; height: 5px; border-radius: 3px; background: var(--todo); }
+.steps i.past { background: var(--done); }
+.steps i.on { background: var(--accent); }
+.step-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 6px; gap: 8px; }
+.step-label b { color: var(--accent); font-weight: 600; }
+.lastc { font-size: 12px; color: var(--faint); margin-top: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 7px 12px; margin: 0; font-size: 13px; align-items: baseline; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.meter { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--todo); overflow: hidden; margin-top: -3px; }
+.meter i { display: block; height: 100%; background: var(--accent); }
+
+/* milestones table */
+.ms-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.ms-note { font-size: 12px; color: var(--faint); }
+.ms-table { width: 100%; border-collapse: collapse; }
+.ms-table td { padding: 12px 10px; border-top: 1px solid var(--line); vertical-align: middle; }
+.ms-table tr:first-child td { border-top: 0; }
+.ms-table td:first-child { padding-left: 0; width: 22px; }
+.ms-table td:last-child { padding-right: 0; text-align: right; white-space: nowrap; }
+.dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--todo); display: block; }
+tr.done .dot { background: var(--done); border-color: var(--done); }
+tr.active .dot { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px var(--accent-soft); }
+tr.active { background: linear-gradient(90deg, var(--accent-soft), transparent 60%); }
+.ms-name { font-weight: 600; font-size: 14px; }
+.ms-what { font-size: 12.5px; color: var(--muted); }
+tr.done .ms-name, tr.done .ms-what { color: var(--muted); }
+tr.done .ms-name { font-weight: 500; }
+.badge { font-size: 9.5px; font-weight: 700; letter-spacing: .07em; padding: 2px 5px; border-radius: 4px; background: var(--accent); color: var(--surface); margin-left: 7px; vertical-align: 2px; }
+.prog { width: 160px; }
+.prog .mini { display: flex; gap: 2px; height: 8px; }
+.prog .mini i { flex: 1; border-radius: 2px; background: var(--todo); }
+.prog .mini i.done { background: var(--done); }
+.prog .mini i.parked { background: var(--parked); }
+.prog .mini i.in_progress { background: var(--accent); }
+.prog .cnt { font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 4px; }
+.eta b { font-family: var(--mono); font-weight: 500; font-size: 13px; display: block; }
+.eta span { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+tr.done .eta b { color: var(--done); }
+@media (max-width: 680px) {
+  .prog { display: none; }
+  .ms-what { display: none; }
+}
+
+/* chart */
+.chart-wrap { overflow-x: auto; margin-top: 4px; }
+svg text { font-family: var(--mono); font-size: 11px; }
+
+/* bottom */
+.grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+@media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
+.events { display: grid; gap: 10px; }
+.ev { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 0 12px; font-size: 13px; }
+.ev .when { font-family: var(--mono); font-size: 11.5px; color: var(--faint); padding-top: 1px; }
+.ev .kind { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.ev .kind.merged { color: var(--done); }
+.ev .kind.escalated { color: var(--parked); }
+.ev .txt { color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.parked { display: grid; gap: 8px; font-size: 13px; }
+.parked div { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 10px; }
+.parked .mono { color: var(--parked); font-size: 12px; }
+.note { font-size: 12px; color: var(--faint); }
+.review { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.review span { font-size: 12px; background: var(--sunk); border: 1px solid var(--line); padding: 4px 9px; border-radius: 6px; color: var(--muted); }
+.review b { font-family: var(--mono); color: var(--ink); font-weight: 500; }
+.empty { padding: 48px 0; text-align: center; color: var(--muted); }
+
+.vbadge { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; background: var(--sunk); color: var(--muted); border: 1px solid var(--line); }
+.vbadge.verified { background: var(--done-soft); color: var(--done); border-color: transparent; }
+.vbadge.fixing, .vbadge.exhausted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
+.example { font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 8px 12px; border-radius: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">SDLC Build Tracker</h1>
+      <p class="sub">Autonomous build of the spec with /sdlc, one slice at a time.</p>
+    </div>
+    <div class="fresh" id="fresh"></div>
+  </header>
+  <div id="app"><div class="card empty">No status yet. Run the tracker collector.</div></div>
+</div>
+<script>
+window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
+</script>
+<script>
+(function () {
+  "use strict";
+
+  // Hours added after the last slice (final audit + bar raiser) and per unverified milestone campaign.
+  const FINAL_SLICES = 3;
+  const CAMPAIGN_HOURS = { low: 1, mid: 2, high: 4 };
+  const SLICE_STEPS = ["planner", "plan-critic", "test-writer", "implementer", "verifier", "reviewer", "integrator"];
+  const CAMPAIGN_STEPS = ["scenario-planner", "coverage-critic", "e2e-harness", "scenario-runner", "behavior-judge", "milestone-writer"];
+  const NAMES = {
+    "planner": "Planning", "plan-critic": "Plan review", "test-writer": "Writing tests", "implementer": "Implementing",
+    "verifier": "Verifying", "reviewer": "Code review", "integrator": "Merging", "escalator": "Escalating",
+    "decision-judge": "Deciding", "decision-proposer": "Deciding", "state-writer": "Saving state", "state-reader": "Choosing next step",
+    "scenario-planner": "Planning scenarios", "coverage-critic": "Reviewing coverage", "e2e-harness": "Booting the stack",
+    "scenario-runner": "Running scenarios", "behavior-judge": "Judging failures", "milestone-writer": "Writing the report",
+    "milestone-planner": "Planning milestones"
+  };
+
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const fmtDay = (d) => d.toLocaleString(undefined, { weekday: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  const fmtShort = (d) => d.toLocaleString(undefined, { weekday: "short", hour: "2-digit" });
+  const fmtTime = (d) => d.toLocaleString(undefined, { hour: "2-digit", minute: "2-digit" });
+  let NOW = () => Date.now();
+  function ago(d) {
+    const m = Math.round((NOW() - d.getTime()) / 60000);
+    if (m < 1) return "just now";
+    if (m < 60) return m + " min ago";
+    return Math.floor(m / 60) + " h " + (m % 60) + " min ago";
+  }
+  function inHours(h) {
+    if (h < 1) return "in " + Math.max(1, Math.round(h * 60)) + " min";
+    if (h < 48) return "in ~" + Math.round(h) + " h";
+    return "in ~" + (h / 24).toFixed(1) + " days";
+  }
+  function dur(h) { return h < 1 ? Math.round(h * 60) + " min" : h.toFixed(1) + " h"; }
+  const isOpen = (s) => s.status === "todo" || s.status === "in_progress" || s.status === "awaiting-merge";
+
+  function pace(data) {
+    const now = new Date(data.updatedAt).getTime();
+    const times = data.slices.filter((s) => s.doneAt).map((s) => new Date(s.doneAt).getTime()).sort((a, b) => a - b);
+    const recent = times.filter((t) => t > now - 24 * 3600e3).length;
+    let mid = 2;
+    if (recent >= 3) mid = 24 / recent;
+    else if (times.length >= 2) mid = (now - times[0]) / 3600e3 / times.length;
+    return { low: mid * 0.6, mid, high: mid * 1.6, recent };
+  }
+
+  // Milestones come from .sdlc/milestones.json. Members: listed ids, their split children, and fix slices.
+  function groups(data) {
+    const slices = data.slices || [];
+    const list = (data.milestones || []).filter((m) => m && m.id);
+    const taken = new Set();
+    const out = list.map((m) => {
+      const ids = (m.slices || []).concat(m.fixSlices || []);
+      const own = slices.filter((s) => !taken.has(s.id) && ids.some((id) => s.id === id || (s.id.startsWith(id) && /^[a-z]$/.test(s.id.slice(id.length)))));
+      own.forEach((s) => taken.add(s.id));
+      return { id: m.id, name: m.title || m.id, what: m.demo || "", ui: !!m.ui, status: m.status || null, own };
+    });
+    const rest = slices.filter((s) => !taken.has(s.id));
+    if (rest.length) out.push({ id: "rest", name: list.length ? "Not yet in a milestone" : "All slices", what: "", ui: false, status: null, own: rest });
+    out.push({ id: "END", name: "Final audit & polish", what: "Spec audit, then bar-raiser rounds if enabled", final: true, own: [] });
+    return out;
+  }
+
+  function model(data) {
+    const slices = data.slices || [];
+    const p = pace(data);
+    const upd = new Date(data.updatedAt).getTime();
+    let openSoFar = 0, campaignsSoFar = { low: 0, mid: 0, high: 0 };
+    let activeFound = false;
+    const ms = groups(data).map((m) => {
+      openSoFar += m.own.filter(isOpen).length;
+      const needsCampaign = !m.final && m.status !== null && m.status !== "verified" && m.status !== "exhausted";
+      if (needsCampaign) Object.keys(campaignsSoFar).forEach((k) => { campaignsSoFar[k] += CAMPAIGN_HOURS[k]; });
+      const built = m.own.length > 0 && m.own.every((s) => !isOpen(s));
+      const done = !m.final && built && !needsCampaign;
+      const extra = (k) => campaignsSoFar[k] + (m.final ? FINAL_SLICES * p[k] : 0);
+      const at = (k) => new Date(upd + (openSoFar * p[k] + extra(k)) * 3600e3);
+      const out = Object.assign({}, m, {
+        done, built,
+        eta: { low: at("low"), mid: at("mid"), high: at("high") },
+        hours: openSoFar * p.mid + extra("mid"),
+        doneAt: done ? m.own.filter((s) => s.doneAt).map((s) => new Date(s.doneAt)).sort((a, b) => b - a)[0] : null,
+        active: false
+      });
+      if (!done && !activeFound) { out.active = true; activeFound = true; }
+      return out;
+    });
+    return { slices, p, ms };
+  }
+
+  function render(data) {
+    const app = $("#app");
+    app.replaceChildren();
+    if (data.title) { $("#title").textContent = data.title; document.title = data.title + " · build tracker"; }
+    const updated = new Date(data.updatedAt);
+    const { slices, p, ms } = model(data);
+    const c = { done: 0, parked: 0, in_progress: 0, todo: 0 };
+    slices.forEach((s) => { c[s.status] = (c[s.status] || 0) + 1; });
+    const open = slices.filter(isOpen).length;
+    const req = data.requirements || { done: 0, total: 0, parked: 0 };
+
+    if (data.example) app.append(el("div", "example", "Example tracker with made-up data. Your own is generated at .sdlc/tracker/index.html."));
+
+    // freshness
+    const fresh = $("#fresh");
+    fresh.replaceChildren();
+    const staleMin = (NOW() - updated.getTime()) / 60000;
+    const finished = open === 0 && ms.every((m) => m.final || m.done);
+    const pill = el("span", "pill " + (finished ? "ok" : staleMin > 45 ? "warn" : "live"));
+    pill.append(el("span", "dot"), document.createTextNode(finished ? "Finished" : staleMin > 45 ? "Quiet" : "Running"));
+    const updEl = el("span", staleMin > 45 ? "stale" : "", "Updated " + ago(updated) + " · " + fmtTime(updated));
+    if (staleMin > 45) updEl.title = "No update for a while. The /sdlc heartbeat regenerates this page every 30 minutes while the loop runs.";
+    fresh.append(pill, updEl);
+
+    // hero
+    const hero = el("section", "card hero");
+    const row = el("div", "hero-row");
+    const hl = el("div", "headline");
+    const b1 = el("div"); const n1 = el("div", "big", String(c.done)); n1.append(el("small", "", " / " + slices.length)); b1.append(n1, el("div", "big-label", "slices done" + (c.parked ? " · " + c.parked + " parked" : "")));
+    const b2 = el("div"); const n2 = el("div", "big", String(req.done)); n2.append(el("small", "", " / " + req.total)); b2.append(n2, el("div", "big-label", "requirements · " + Math.round(100 * req.done / Math.max(1, req.total)) + "%"));
+    hl.append(b1, b2);
+    const real = ms.filter((m) => !m.final && m.status !== null);
+    if (real.length) {
+      const b3 = el("div"); const n3 = el("div", "big", String(real.filter((m) => m.status === "verified").length)); n3.append(el("small", "", " / " + real.length)); b3.append(n3, el("div", "big-label", "milestones verified"));
+      hl.append(b3);
+    }
+    row.append(hl);
+    const nextUi = ms.find((m) => m.ui && !m.done);
+    if (nextUi) {
+      const nx = el("div", "next");
+      nx.append(el("div", "lbl", "Next thing you can click around in"), el("div", "what", nextUi.name), el("div", "when", fmtDay(nextUi.eta.mid) + " · " + inHours(nextUi.hours)));
+      row.append(nx);
+    }
+    hero.append(row);
+
+    const trackBox = el("div");
+    const track = el("div", "track");
+    const labels = el("div", "track-labels");
+    ms.forEach((m) => {
+      const weight = m.final ? 3 : Math.max(1, m.own.length);
+      const seg = el("div", "seg" + (m.active ? " cur" : "") + (m.ui ? " ui" : ""));
+      seg.style.flex = String(weight);
+      const d = m.own.filter((s) => s.status === "done").length;
+      const pk = m.own.filter((s) => s.status === "parked").length;
+      const tot = Math.max(1, m.own.length);
+      const di = el("i", "d"); di.style.width = (100 * d / tot) + "%";
+      const pi = el("i", "p"); pi.style.width = (100 * pk / tot) + "%";
+      seg.append(di, pi);
+      seg.title = m.name + (m.done ? " · done" : " · " + (m.own.length ? d + "/" + m.own.length + " slices · " : "") + "est. " + fmtDay(m.eta.mid));
+      track.append(seg);
+      const lab = el("span", m.active ? "cur" : "", m.final ? "Polish" : m.id === "rest" ? "Other" : m.id);
+      lab.style.flex = String(weight);
+      labels.append(lab);
+    });
+    trackBox.append(track, labels);
+    hero.append(trackBox);
+    app.append(hero);
+
+    // three cards
+    const g3 = el("section", "grid3");
+    const now = el("div", "card");
+    now.append(el("h2", "", "Working on now"));
+    const act = data.activity || {};
+    const role = (act.role || (data.current && data.current.phase) || "").replace(/-r\d+$/, "");
+    const inCampaign = CAMPAIGN_STEPS.indexOf(role) >= 0;
+    if (inCampaign) {
+      now.append(el("div", "slice-id", act.target || "milestone"), el("div", "slice-title", "Behavior campaign on the running system"));
+    } else if (data.current) {
+      now.append(el("div", "slice-id", data.current.id), el("div", "slice-title", data.current.title));
+    }
+    if (inCampaign || data.current) {
+      const steps = inCampaign ? CAMPAIGN_STEPS : SLICE_STEPS;
+      const at = steps.indexOf(role);
+      const bar = el("div", "steps");
+      steps.forEach((_, i) => bar.append(el("i", i < at ? "past" : i === at ? "on" : "")));
+      now.append(bar);
+      const sl = el("div", "step-label");
+      sl.append(el("b", "", NAMES[role] || role || "Working"), el("span", "", at >= 0 ? "step " + (at + 1) + " of " + steps.length : ""));
+      now.append(sl);
+    } else {
+      now.append(el("p", "muted", finished ? "Everything is built." : "Between steps, picking what to do next."));
+    }
+    if (data.lastCommit && data.lastCommit.text) {
+      const lc = el("div", "lastc", "Last commit " + ago(new Date(data.lastCommit.at)) + " · " + data.lastCommit.text);
+      lc.title = data.lastCommit.text;
+      now.append(lc);
+    }
+    g3.append(now);
+
+    const pc = el("div", "card");
+    pc.append(el("h2", "", "Pace & finish"));
+    const all = ms[ms.length - 1];
+    const dl = el("dl", "kv");
+    const kv = (k, v, cls) => { dl.append(el("dt", "", k)); dl.append(el("dd", cls || "", v)); };
+    kv("Time per slice", dur(p.mid));
+    kv("Slices in last 24 h", String(p.recent));
+    kv("Slices left", String(open));
+    kv("Likely finish", all.eta.mid.toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric" }));
+    kv("Range", fmtShort(all.eta.low) + " – " + all.eta.high.toLocaleString(undefined, { weekday: "short", day: "numeric" }));
+    pc.append(dl);
+    g3.append(pc);
+
+    const hc = el("div", "card");
+    hc.append(el("h2", "", "Run & machine"));
+    const dl2 = el("dl", "kv");
+    if (data.run && data.run.agents != null) {
+      dl2.append(el("dt", "", (data.run.label || "Run") + " agents"), el("dd", "", data.run.agents + (data.run.cap ? " / " + data.run.cap : "")));
+      if (data.run.cap) { const m = el("div", "meter"); const mi = el("i"); mi.style.width = Math.min(100, 100 * data.run.agents / data.run.cap) + "%"; m.append(mi); dl2.append(m); }
+    }
+    const mach = data.machine || {};
+    if (mach.load) dl2.append(el("dt", "", "CPU load"), el("dd", "", mach.load.map((x) => Number(x).toFixed(1)).join(" · ")));
+    if (mach.thermalSleepsToday != null) dl2.append(el("dt", "", "Overheating today"), el("dd", mach.thermalSleepsToday > 0 ? "stale" : "", String(mach.thermalSleepsToday)));
+    if (data.decisions != null) dl2.append(el("dt", "", "Autonomous decisions"), el("dd", "", String(data.decisions)));
+    hc.append(dl2);
+    g3.append(hc);
+    app.append(g3);
+
+    // milestones
+    const mc = el("section", "card");
+    const mh = el("div", "ms-head");
+    mh.append(el("h2", "", "Milestones"), el("span", "ms-note", "A milestone is done when its slices are built and its behavior campaign verified it. Estimates use the last 24 h of pace."));
+    mc.append(mh);
+    const tbl = el("table", "ms-table");
+    ms.forEach((m) => {
+      const tr = el("tr", (m.done ? "done" : "") + (m.active ? " active" : ""));
+      const td0 = el("td"); td0.append(el("span", "dot")); tr.append(td0);
+      const td1 = el("td");
+      const nm = el("div", "ms-name", m.name);
+      if (m.ui) nm.append(el("span", "badge", "UI"));
+      if (m.status) nm.append(el("span", "vbadge " + m.status, m.status === "pending" && m.built ? "to verify" : m.status));
+      td1.append(nm, el("div", "ms-what", m.what));
+      tr.append(td1);
+      const td2 = el("td", "prog");
+      if (m.own.length) {
+        const mini = el("div", "mini");
+        m.own.forEach((s) => { const i = el("i", s.status); i.title = s.id + " · " + s.title + " · " + s.status.replace("_", " ") + (s.doneAt ? " · " + fmtDay(new Date(s.doneAt)) : ""); mini.append(i); });
+        const d = m.own.filter((s) => s.status === "done").length;
+        const pk = m.own.filter((s) => s.status === "parked").length;
+        td2.append(mini, el("div", "cnt", d + "/" + m.own.length + " done" + (pk ? " · " + pk + " parked" : "")));
+      } else {
+        td2.append(el("div", "cnt", m.final ? "after all slices" : "no slices yet"));
+      }
+      tr.append(td2);
+      const td3 = el("td", "eta");
+      if (m.done) td3.append(el("b", "", "Done"), el("span", "", m.doneAt ? fmtDay(m.doneAt) : ""));
+      else td3.append(el("b", "", fmtDay(m.eta.mid)), el("span", "", fmtShort(m.eta.low) + " – " + fmtShort(m.eta.high)));
+      tr.append(td3);
+      tbl.append(tr);
+    });
+    mc.append(tbl);
+    app.append(mc);
+
+    // chart
+    const cc = el("section", "card");
+    const chh = el("div", "ms-head");
+    chh.append(el("h2", "", "Slices finished over time"), el("span", "ms-note", "solid: actual · dashed: projected"));
+    cc.append(chh);
+    const cw = el("div", "chart-wrap");
+    cw.append(chart(data, p, open, slices.length - c.parked));
+    cc.append(cw);
+    app.append(cc);
+
+    // events + waiting for you
+    const g2 = el("section", "grid2");
+    const ev = el("div", "card");
+    ev.append(el("h2", "", "Recent events"));
+    const evs = el("div", "events");
+    (data.recent || []).slice(-6).reverse().forEach((e) => {
+      const r = el("div", "ev");
+      const w = new Date(e.at);
+      r.append(el("span", "when", isNaN(w) ? "" : w.toLocaleString(undefined, { weekday: "short", hour: "2-digit", minute: "2-digit" })));
+      const body = el("div");
+      const k = e.kind || "";
+      body.append(el("div", "kind " + (k.includes("merged") ? "merged" : (k.includes("escalat") || k.includes("park")) ? "escalated" : ""), (k.replace("slice-", "").replace("-", " ") + (e.slice ? " " + e.slice : ""))));
+      const t = el("div", "txt", e.text); t.title = e.text;
+      body.append(t);
+      r.append(body);
+      evs.append(r);
+    });
+    if (!evs.children.length) evs.append(el("p", "note", "No events yet."));
+    ev.append(evs);
+    g2.append(ev);
+
+    const pk = el("div", "card");
+    pk.append(el("h2", "", "Waiting for you"));
+    const pl = el("div", "parked");
+    slices.filter((s) => s.status === "parked").forEach((s) => { const r = el("div"); r.append(el("span", "mono", s.id), el("span", "", s.title)); pl.append(r); });
+    (data.milestones || []).filter((m) => m.status === "exhausted").forEach((m) => { const r = el("div"); r.append(el("span", "mono", m.id), el("span", "", m.title + ": not verified after 3 campaigns")); pl.append(r); });
+    if (!pl.children.length) pl.append(el("p", "note", "Nothing parked."));
+    pk.append(pl);
+    const rv = el("div", "review");
+    const chip = (n, label) => { const s = el("span"); s.append(el("b", "", String(n)), document.createTextNode(" " + label)); return s; };
+    if (data.decisions != null) rv.append(chip(data.decisions, "decisions in DECISIONS.md"));
+    if (data.proposals != null) rv.append(chip(data.proposals, "proposals in SPEC-PROPOSALS.md"));
+    pk.append(rv);
+    const note = el("p", "note", "Parked slices ran out of escalation steps; they are retried at the end, or you can decide them by hand.");
+    note.style.marginTop = "10px";
+    pk.append(note);
+    g2.append(pk);
+    app.append(g2);
+  }
+
+  function chart(data, p, open, total) {
+    const NS = "http://www.w3.org/2000/svg";
+    const W = 1000, H = 190, L = 36, R = 14, T = 12, B = 26;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("width", "100%");
+    svg.style.minWidth = "520px";
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Slices finished over time with projection");
+    const mk = (tag, a) => { const n = document.createElementNS(NS, tag); for (const k in a) n.setAttribute(k, a[k]); return n; };
+    const css = getComputedStyle(document.documentElement);
+    const col = (v) => css.getPropertyValue(v).trim();
+
+    const start = new Date(data.startedAt).getTime();
+    const upd = new Date(data.updatedAt).getTime();
+    const times = data.slices.filter((s) => s.doneAt).map((s) => new Date(s.doneAt).getTime()).sort((a, b) => a - b);
+    const end = upd + open * p.mid * 3600e3;
+    const x = (t) => L + (t - start) / Math.max(1, end - start) * (W - L - R);
+    const y = (v) => T + (1 - v / Math.max(1, total)) * (H - T - B);
+    const txt = (a, s, fill) => { const t = mk("text", a); t.style.fill = fill || col("--faint"); t.textContent = s; return t; };
+
+    [0, 0.5, 1].forEach((f) => {
+      const v = Math.round(total * f);
+      svg.append(mk("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: col("--line"), "stroke-width": 1 }));
+      svg.append(txt({ x: L - 8, y: y(v) + 4, "text-anchor": "end" }, v));
+    });
+    const d0 = new Date(start); d0.setHours(24, 0, 0, 0);
+    for (let t = d0.getTime(); t < end; t += 24 * 3600e3) {
+      svg.append(mk("line", { x1: x(t), x2: x(t), y1: T, y2: H - B, stroke: col("--line"), "stroke-dasharray": "2 4" }));
+      svg.append(txt({ x: x(t) + 4, y: H - 8 }, new Date(t).toLocaleDateString(undefined, { weekday: "short", day: "numeric" })));
+    }
+    let d = "M" + x(start) + " " + y(0), n = 0;
+    times.forEach((t) => { d += " H" + x(t).toFixed(1) + " V" + y(++n).toFixed(1); });
+    d += " H" + x(upd).toFixed(1);
+    svg.append(mk("path", { d: d + " V" + y(0) + " Z", fill: col("--done"), opacity: 0.13 }));
+    svg.append(mk("path", { d, fill: "none", stroke: col("--done"), "stroke-width": 2 }));
+    svg.append(mk("line", { x1: x(upd), y1: y(n), x2: x(end), y2: y(total), stroke: col("--accent"), "stroke-width": 2, "stroke-dasharray": "6 5" }));
+    svg.append(mk("circle", { cx: x(upd), cy: y(n), r: 4.5, fill: col("--done") }));
+    svg.append(mk("circle", { cx: x(end), cy: y(total), r: 4, fill: col("--surface"), stroke: col("--accent"), "stroke-width": 2 }));
+    svg.append(txt({ x: x(upd) + 9, y: y(n) + 4 }, n + " now", col("--ink")));
+    svg.append(txt({ x: x(end) - 8, y: y(total) + 16, "text-anchor": "end" }, "all slices ~" + new Date(end).toLocaleString(undefined, { weekday: "short", hour: "2-digit" }), col("--accent")));
+    return svg;
+  }
+
+  const data = window.SDLC_STATUS;
+  if (!data) return;
+  // an example page is frozen at its own timestamp so it never looks stale
+  if (data.example) NOW = () => new Date(data.updatedAt).getTime();
+  try { render(data); } catch (err) { $("#app").replaceChildren(el("div", "card empty", "Couldn't draw the status: " + err.message)); }
+})();
+</script>
+</body>
+</html>

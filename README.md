@@ -84,10 +84,31 @@ Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many a
 
 Live progress shows in `/workflows`.
 
+## Track progress in the browser
+
+`/sdlc` builds a progress tracker at `.sdlc/tracker/index.html`. Open it in a browser and leave it open: the loop regenerates it on every 30-minute heartbeat, and the page reloads itself every minute. `/sdlc tracker` builds it on demand. It shows:
+- slices and requirements done, and milestones verified;
+- the milestone track, with each milestone's behavior-campaign status (to verify, fixing, verified) and its ETA;
+- what is running right now (slice step, or campaign step);
+- pace, likely finish and the run's agent budget;
+- CPU load, and overheating on macOS;
+- recent events, and what is waiting for you: parked slices, decisions and spec proposals.
+
+![Example tracker](docs/tracker.png)
+
+See the [live example page](https://htmlpreview.github.io/?https://github.com/omarahr/sdlc/blob/main/docs/example-tracker.html) (made-up data, source in [`docs/example-tracker.html`](docs/example-tracker.html)).
+
+To build it outside Claude Code, from a clone of this repo:
+```
+python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project
+```
+The collector needs Python 3 and nothing else. To share the tracker, ask Claude to publish `.sdlc/tracker/index.html` as an Artifact.
+
 ## What it writes to your repo
 
 | File | Contents |
 |---|---|
+| `.sdlc/tracker/index.html` | The browser tracker (generated, gitignored) |
 | `.sdlc/STATUS.md` | Dashboard: requirements and slices done, the current slice, recent events |
 | `.sdlc/requirements.json`, `.sdlc/slices.json` | The spec broken into requirements and slices |
 | `.sdlc/DECISIONS.md` | Every autonomous decision it made. **Skim this** |
@@ -111,6 +132,7 @@ The workflow script and prompts live in `skills/sdlc/`:
 ```
 skills/sdlc/
   SKILL.md        # the /sdlc command
+  tracker/        # collect.py + template.html: the browser tracker
   sdlc-loop.js    # the workflow (orchestration)
   prompts/        # one prompt per role: planner, test-writer, implementer, verifier, reviewer, …
   test/           # tests for the workflow logic (node:test)
