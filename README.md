@@ -5,7 +5,17 @@
 ```
 plan → tests first → implement → verify → review → integrate
                  └── on repeated failure: replan → split → spike → alternative → park
+
+every milestone: plan scenarios → critique coverage → boot the real stack → run scenarios → judge failures → fix slices
 ```
+
+Each slice is verified at its real boundary: integration tests through the public API against a real database, scoped to what the spec says. Anything the spec leaves undefined is noted for later instead of blocking the slice.
+
+When a milestone's slices are done, a **behavior campaign** checks what the running system actually does:
+- It plans black-box scenarios from the spec, and every expected outcome cites the spec or an ADR. Critics then hunt for missing corner cases: authz, limits, races, retries, dependency failures and RTL.
+- It boots the whole stack from source, then runners drive it through the API and Playwright. They check the response, the database, the logs, emitted events and metrics.
+- Three independent judges reproduce every failure before it becomes a fix slice.
+- The scenarios stay in the repo as an e2e suite that every later slice must keep green.
 
 When every slice is done, a final audit checks the whole spec. Optional **bar-raiser** rounds then polish quality past what the spec asks for.
 
@@ -65,13 +75,15 @@ Live progress shows in `/workflows`.
 | `.sdlc/requirements.json`, `.sdlc/slices.json` | The spec broken into requirements and slices |
 | `.sdlc/DECISIONS.md` | Every autonomous decision it made. **Skim this** |
 | `.sdlc/SPEC-PROPOSALS.md` | Product ideas it found and left for you to decide |
+| `.sdlc/milestones.json`, `.sdlc/milestones/<id>/` | Milestones and their behavior campaigns: scenarios, runs with raw evidence, judge verdicts and a report |
+| `e2e/`, `e2e/pending.json` | The black-box e2e suite the campaigns build, and the scenarios waiting on a fix slice |
 | `.sdlc/STUCK.md` | Written only if it livelocks. Contains the smallest human decision that would unblock it |
 | `.sdlc/slices/<id>/` | Per-slice plans, reviews and verification reports |
 
 ## Before you run it
 
-- **It is expensive.** Every slice goes through planning, test writing, implementation, several rounds of adversarial "breaker" tests, review and verification. As a rough guide, one real project averaged about 70 agents and about 4–5M subagent tokens per finished slice. Use it for well-specified projects on a plan with high limits.
-- **It is heavy on your machine.** It runs builds, test suites and containers for hours. On laptops, keep the machine plugged in and ventilated, and keep an eye on heat.
+- **It is expensive.** Every slice goes through planning, test writing, implementation, integration-level behavior tests, review and verification, plus a black-box behavior campaign per milestone. As a rough guide, one real project averaged about 70 agents and about 4–5M subagent tokens per finished slice. Use it for well-specified projects on a plan with high limits.
+- **It is heavy on your machine.** It runs builds, test suites, containers and browsers for hours. Behavior campaigns run at most three scenario runners at a time. On laptops, keep the machine plugged in and ventilated, and keep an eye on heat.
 - **It only knows what the spec says.** Gaps in the spec are filled with autonomous decisions, and every one is logged in `DECISIONS.md`.
 - **It never overwrites your uncommitted work.** It refuses to start on a dirty working tree.
 

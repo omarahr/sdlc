@@ -14,7 +14,7 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
   "overridesSeen": 0,
   "gitMode": "pr",
   "defaultBranch": "main",
-  "commands": { "install": "", "build": "", "test": "", "lint": "", "typecheck": "" },
+  "commands": { "install": "", "build": "", "test": "", "lint": "", "typecheck": "", "e2e": "" },
   "environment": []
 }
 ```
@@ -24,6 +24,7 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
 - `gitMode` is `pr` or `direct`.
 - A command that does not apply is `""`.
 - `environment` lists the install and service commands the env-fixer ran.
+- `commands.e2e` is set by the e2e-harness: one command that boots the whole system, runs every e2e test except the ids in `e2e/pending.json`, and tears it down.
 
 ## requirements.json
 The extractor and critic add entries. The integrator sets `done` and evidence. The state-writer reopens and parks. The escalator parks.
@@ -70,9 +71,41 @@ Array order is execution order, and a human may reorder it.
   }
 ]
 ```
-- `kind` is `spec`, `improvement` or `fix`.
+- `kind` is `spec`, `improvement` or `fix`. Fix slices come from the audit (`S-fix-<n>`) or from a milestone's behavior campaign (`S-fix-<milestone>-<n>`).
 - `status` is `todo`, `in_progress`, `awaiting-merge`, `done`, `parked` or `rejected`.
 - `phase` is `plan`, `tests`, `implement` or `integrate`.
+
+## milestones.json
+Created by the milestone-planner. The slicer appends slices to it, and the milestone-writer updates status after each campaign.
+```json
+[
+  {
+    "id": "M-1",
+    "title": "Sessions and submit",
+    "demo": "Publish a form, open a session, submit answers and see them stored",
+    "slices": ["S-014", "S-015", "S-016"],
+    "status": "pending",
+    "attempts": 0,
+    "lastRun": "",
+    "fixSlices": [],
+    "gaps": []
+  }
+]
+```
+- `status` is `pending`, `fixing`, `verified` or `exhausted`. `exhausted` means 3 campaigns ran without verifying, and `gaps` says what still fails, for a human.
+- Members are the listed slices, their split children (the listed id followed by a letter) and `fixSlices`.
+
+## milestones/<id>/
+| File | Owner |
+|---|---|
+| `scenarios.json`, `scenarios.md` | scenario-planner |
+| `coverage-<lens>-r<n>.md` | coverage-critic |
+| `run-<area>.md` | scenario-runner: expected, observed and raw evidence per scenario |
+| `judge-<scenario>-v<k>.md` | behavior-judge |
+| `report.md` | milestone-writer |
+
+## e2e/pending.json
+Maps a scenario id to the fix slice that owns it: `{"SC-M-1-004": "S-fix-M-1-1"}`. The e2e command skips these tests. The milestone-writer adds entries, and the fix slice's test-writer removes them.
 
 ## DECISIONS.md (append-only)
 ```
@@ -96,7 +129,7 @@ Humans write `Status: OVERRIDE` entries. Agents never do. Timestamps come from `
 
 ## log.jsonl (append-only, one JSON object per line)
 ```json
-{"ts":"<date -u +%FT%TZ>","type":"bootstrap|slice-merged|slice-awaiting-merge|slice-escalated|audit|bar-raiser|state-pr-blocked|note","slice":"S-001","detail":"..."}
+{"ts":"<date -u +%FT%TZ>","type":"bootstrap|slice-merged|slice-awaiting-merge|slice-escalated|milestone|audit|bar-raiser|state-pr-blocked|note","slice":"S-001","detail":"..."}
 ```
 
 ## STATUS.md
@@ -107,6 +140,7 @@ Updated: <date -u +%FT%TZ>
 
 Requirements: <done>/<total> done · <parked> parked · <external-stub> stubbed · <obsolete> obsolete
 Slices: <done>/<total> done · current: <id title | none> · awaiting merge: <ids>
+Milestones: <verified>/<total> verified · next: <id title | none> · fixing: <ids>
 Audit: <passed | pending> · Bar raiser: round <rounds>, dry rounds <dryRounds>/2
 ADRs: <count> · Spec proposals: <count>
 
@@ -114,7 +148,7 @@ ADRs: <count> · Spec proposals: <count>
 <last 10 log.jsonl lines as "- ts type slice detail">
 
 ## Needs a human eye (non-blocking)
-<parked slices with one-line reason; awaiting-merge PR links; STUCK.md if present>
+<parked slices with one-line reason; exhausted milestones and milestone gaps; awaiting-merge PR links; STUCK.md if present>
 ```
 
 ## audit.json (owned by the state-writer)
