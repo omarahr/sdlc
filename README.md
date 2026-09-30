@@ -9,7 +9,25 @@ plan → tests first → implement → verify → review → integrate
 every milestone: plan scenarios → critique coverage → boot the real stack → run scenarios → judge failures → fix slices
 ```
 
-Each slice is verified at its real boundary: integration tests through the public API against a real database, scoped to what the spec says. Anything the spec leaves undefined is noted for later instead of blocking the slice.
+Each slice is verified at its real boundary by a **verification group**:
+- A **verify-planner** breaks the slice into test scenarios and tags each with every **profile** that can prove it wrong.
+- A **verify-toolsmith** builds any verification tool the profiles need that the repo does not have yet. The tools go into the repo's testkit, each with its own self-test, and later slices reuse them.
+- One **profile verifier** per profile tests its scenarios, alongside the spec-fidelity and regression verifiers.
+
+| Profile | Verifies | Against |
+|---|---|---|
+| `http-api` | endpoints, errors, persisted state | the real server and database |
+| `async` | retries, backoff, outbox, leases | the worker loop on a fake clock |
+| `concurrency` | uniqueness, idempotency, ordering | forced interleavings and the race detector |
+| `data` | migrations, constraints, stored formats | the real database engine |
+| `ui` | screens and interaction | Playwright and Chromium, with screenshots and axe |
+| `i18n` | locales, fallback, RTL, bidi | UI and API in each locale |
+| `cli` | commands, flags, exit codes, files | the built binary in a scratch project |
+| `contract` | exported functions and types | the public entry point, with property and type tests |
+| `security` | auth, tokens, tenancy, egress | an exploratory attack session |
+| `limits` | stated sizes, timeouts, budgets, UI performance | measured at and past the spec's number (Chrome DevTools MCP when available) |
+
+Everything is scoped to what the spec says. Anything the spec leaves undefined is noted for later instead of blocking the slice.
 
 When a milestone's slices are done, a **behavior campaign** checks what the running system actually does:
 - It plans black-box scenarios from the spec, and every expected outcome cites the spec or an ADR. Critics then hunt for missing corner cases: authz, limits, races, retries, dependency failures and RTL.
@@ -102,7 +120,15 @@ To build it outside Claude Code, from a clone of this repo:
 ```
 python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project
 ```
-It also has a **Test reports** section linking to `.sdlc/tracker/reports/`: one page per slice with every verifier round. Besides the short summary other agents read (`.sdlc/slices/<id>/verify-<lens>-r<round>.md`), each verifier writes a full test report to `.sdlc/slices/<id>/reports/`, with the scope, environment, test cases (steps, expected, actual, result), the execution log with output, defects with reproduction steps, and seeds. On the HTML pages, every test a report names has its source shown under it. The Markdown reports are committed with the rest of `.sdlc/`, so they can also be read on GitHub.
+It also has a **Test reports** section linking to `.sdlc/tracker/reports/`, with one page per slice. When a slice merges (or is parked), a **test-reporter** writes its test completion report, `.sdlc/slices/<id>/REPORT.md`. It contains:
+- a summary;
+- traceability from each spec line to the cases that prove it;
+- every scenario and case, in Given / When / Then form, with its evidence (HTTP exchanges, database diffs, attempt timelines, screenshots, transcripts, property runs);
+- the security sessions;
+- the defects found along the way and how each was fixed;
+- what was not tested.
+
+On the HTML pages, every test a report names has its source shown under it, and each verification round follows as an appendix. The Markdown files are committed with the rest of `.sdlc/`, so they can also be read on GitHub.
 
 The collector needs Python 3 and nothing else. To share the tracker, ask Claude to publish `.sdlc/tracker/index.html` as an Artifact.
 
@@ -111,7 +137,9 @@ The collector needs Python 3 and nothing else. To share the tracker, ask Claude 
 | File | Contents |
 |---|---|
 | `.sdlc/tracker/index.html` | The browser tracker (generated, gitignored) |
-| `.sdlc/slices/<id>/reports/` | The verifiers' full test reports and logs, for you to read |
+| `.sdlc/slices/<id>/REPORT.md` | The slice's test completion report, for you to read |
+| `.sdlc/slices/<id>/verification/` | Each round's scenario plan and the profile verifiers' cases, evidence, logs and screenshots |
+| `.sdlc/testkit.json` | The verification tools in the repo's testkit, and how to use them |
 | `.sdlc/STATUS.md` | Dashboard: requirements and slices done, the current slice, recent events |
 | `.sdlc/requirements.json`, `.sdlc/slices.json` | The spec broken into requirements and slices |
 | `.sdlc/DECISIONS.md` | Every autonomous decision it made. **Skim this** |

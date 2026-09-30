@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Render the verifiers' test reports as browsable HTML.
+"""Render the slices' test reports as browsable HTML.
 
 Usage:
   reports.py [--repo DIR] [--out DIR]
 
-Reads .sdlc/slices/<id>/reports/verify-*.md (the full test reports) and, for slices
-without one, the short verify-*.md summaries. Writes <out>/index.html and one
+Reads each slice's REPORT.md (the test completion report from the test-reporter) and its
+per-round records: verification/plan-r*.md, verification/r*/<profile>-<part>.md, the core
+verifiers' verify-*.md summaries, and older reports/verify-*.md full reports. Writes <out>/index.html and one
 <out>/<slice id>.html per slice (default out: <repo>/.sdlc/tracker/reports).
 Every `path:line` test reference in a report that names a file in the repo gets the
 test's source shown under it, so the tests can be read next to the evidence.
@@ -19,7 +20,7 @@ import os
 import re
 
 VERIFY = re.compile(r"^verify-(?P<lens>[a-z-]+)-r(?P<round>\d+)\.md$")
-VERDICT = re.compile(r"\b(?:Verdict|Result)\s*:\s*\**\s*(HELD|REFUTED|NOT REFUTED|PASS|FAIL)", re.I)
+VERDICT = re.compile(r"\b(?:Verdict|Result)\s*:\s*\**\s*(HELD|REFUTED|NOT REFUTED|PASS|FAIL|RELEASED|PARKED)", re.I)
 # a repo-relative source reference such as packages/sdk/src/locale.test.ts:42
 SOURCE_REF = re.compile(r"(?<![\w/.-])((?:[\w.@-]+/)*[\w.@-]+\.[A-Za-z0-9]{1,5}):(\d{1,6})\b")
 # a bare test file path, such as internal/submit/store_behavior_test.go
@@ -59,7 +60,11 @@ details.src pre { margin-top:6px; }
 .tag { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
   padding:2px 7px; border-radius:4px; background:var(--sunk); color:var(--muted); border:1px solid var(--line); }
 .tag.held { background:var(--done-soft); color:var(--done); border-color:transparent; }
-.tag.refuted { background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+.tag.refuted, .tag.parked { background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+.tag.released { background:var(--done-soft); color:var(--done); border-color:transparent; }
+.report img, .rec img { max-width:100%; border:1px solid var(--line); border-radius:6px; }
+details.rec { border-top:1px solid var(--line); padding:8px 0; } details.rec > summary { cursor:pointer; }
+details.appendix > summary { cursor:pointer; list-style-position:outside; }
 .kind { color:var(--faint); font-size:12px; margin-left:6px; }
 .toc { display:flex; flex-wrap:wrap; gap:6px 12px; font-size:13px; }
 .muted { color:var(--muted); }
@@ -140,6 +145,7 @@ def inline(s, ctx):
         t = esc(text)
         t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
         t = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", t)
+        t = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)", lambda m: '<img alt="%s" src="%s" loading="lazy">' % (m.group(1), link(html.unescape(m.group(2)), ctx)), t)
         t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", lambda m: '<a href="%s">%s</a>' % (link(html.unescape(m.group(2)), ctx), m.group(1)), t)
         parts.append(t)
     return "".join(parts)
@@ -281,11 +287,21 @@ def verdict(md):
     if not m:
         return ""
     v = m.group(1).upper()
+    if v in ("RELEASED", "PARKED"):
+        return v.lower()
     return "held" if v in ("HELD", "NOT REFUTED", "PASS") else "refuted"
 
 
+PROFILE_FILE = re.compile(r"^(?P<lens>[a-z0-9-]+)-(?P<part>\d+)\.md$")
+PLAN_FILE = re.compile(r"^plan-r(?P<round>\d+)\.md$")
+
+
 def collect(repo):
-    """[{id, title, status, reports: [{lens, round, kind, path, verdict}]}] for slices that have any."""
+    """[{id, title, status, report, reports: [{lens, round, kind, path, verdict}]}] for slices with any verification record.
+
+    `report` is the slice's REPORT.md (the test completion report) when the test-reporter wrote one. `reports` are
+    the per-round records: verification plans, profile evidence, the core verifiers' summaries, and older full reports.
+    """
     sdlc = os.path.join(repo, ".sdlc")
     raw = read_json(os.path.join(sdlc, "slices.json"), [])
     known = {s["id"]: s for s in (raw if isinstance(raw, list) else raw.get("slices", [])) if s.get("id")}
@@ -307,25 +323,43 @@ def collect(repo):
                 if key not in full:
                     reps.append({"lens": key[0], "round": key[1], "kind": "summary", "path": p})
         reps += [{"lens": k[0], "round": k[1], "kind": "report", "path": p} for k, p in full.items()]
-        if not reps:
+        for p in glob.glob(os.path.join(d, "verification", "plan-r*.md")):
+            m = PLAN_FILE.match(os.path.basename(p))
+            if m:
+                reps.append({"lens": "plan", "round": int(m.group("round")), "kind": "plan", "path": p})
+        for p in glob.glob(os.path.join(d, "verification", "r*", "*.md")):
+            rd = re.match(r"^r(\d+)$", os.path.basename(os.path.dirname(p)))
+            m = PROFILE_FILE.match(os.path.basename(p))
+            if rd and m:
+                part = int(m.group("part"))
+                lens = m.group("lens") + ("#%d" % part if part else "")
+                reps.append({"lens": lens, "round": int(rd.group(1)), "kind": "profile", "path": p})
+        report = os.path.join(d, "REPORT.md")
+        report = report if os.path.isfile(report) else None
+        if not reps and not report:
             continue
         for r in reps:
-            r["verdict"] = verdict(read(r["path"]))
-        reps.sort(key=lambda r: (r["round"], r["lens"]))
+            r["verdict"] = "" if r["kind"] == "plan" else verdict(read(r["path"]))
+        order = {"plan": 0, "summary": 1, "report": 1, "profile": 2}
+        reps.sort(key=lambda r: (r["round"], order[r["kind"]], r["lens"]))
         s = known.get(sid, {})
-        out.append({"id": sid, "title": s.get("title", ""), "status": s.get("status", ""), "reports": reps})
+        out.append({"id": sid, "title": s.get("title", ""), "status": s.get("status", ""), "report": report,
+                    "verdict": verdict(read(report)) if report else "", "reports": reps})
     return out
 
 
 def summary(slices):
-    """The tracker's view: per slice, the latest verdict per lens and how many reports there are."""
+    """The tracker's view: per slice, whether it has a test report, and the latest verdict per lens or profile."""
     out = []
     for s in slices:
         latest = {}
         for r in s["reports"]:
-            latest[r["lens"]] = {"round": r["round"], "verdict": r["verdict"]}
+            if r["kind"] != "plan":
+                latest[r["lens"]] = {"round": r["round"], "verdict": r["verdict"]}
         out.append({"id": s["id"], "title": s["title"], "status": s["status"], "lenses": latest,
-                    "reports": len(s["reports"]), "full": sum(1 for r in s["reports"] if r["kind"] == "report")})
+                    "hasReport": bool(s["report"]), "verdict": s["verdict"],
+                    "reports": len(s["reports"]) + (1 if s["report"] else 0),
+                    "full": (1 if s["report"] else 0) + sum(1 for r in s["reports"] if r["kind"] == "report")})
     return out
 
 
@@ -338,7 +372,7 @@ def page(title, body, back=None):
 
 
 def tag(v):
-    return '<span class="tag %s">%s</span>' % (v, {"held": "held", "refuted": "refuted"}.get(v, "no verdict"))
+    return '<span class="tag %s">%s</span>' % (v, v if v in ("held", "refuted", "released", "parked") else "no verdict")
 
 
 def build(repo, out):
@@ -347,35 +381,52 @@ def build(repo, out):
     os.makedirs(out, exist_ok=True)
     slices = collect(repo)
     rows = []
+    kinds = {"plan": "verification plan", "summary": "core verifier summary", "report": "full report (older format)", "profile": "profile evidence"}
     for s in slices:
-        sections, toc = [], []
+        parts = []
+        if s["report"]:
+            ctx = {"repo": repo, "out": out, "md_dir": os.path.dirname(s["report"]), "seen": set(), "pending": []}
+            rel = os.path.relpath(s["report"], out).replace(os.sep, "/")
+            parts.append('<section class="card report" id="report"><p class="kind">Test completion report %s · <a href="%s">markdown</a></p>%s</section>'
+                         % (tag(s["verdict"]), esc(rel), markdown(read(s["report"]) or "", ctx)))
+        else:
+            parts.append('<section class="card"><p class="muted">%s · status: %s. No test completion report yet: it is written when the slice '
+                         'merges or is parked. The verification records so far are below.</p></section>' % (esc(s["title"]), esc(s["status"] or "unknown")))
+        rounds = {}
         for r in s["reports"]:
-            anchor = "%s-r%d" % (r["lens"], r["round"])
-            ctx = {"repo": repo, "out": out, "md_dir": os.path.dirname(r["path"]), "seen": set(), "pending": []}
-            body = markdown(read(r["path"]) or "", ctx)
-            kind = "full report" if r["kind"] == "report" else "summary only"
-            rel = os.path.relpath(r["path"], out).replace(os.sep, "/")
-            toc.append('<a href="#%s">%s r%d</a> %s' % (anchor, esc(r["lens"]), r["round"], tag(r["verdict"])))
-            sections.append('<section class="card" id="%s"><h2>%s · round %d %s<span class="kind">%s · <a href="%s">markdown</a></span></h2>%s</section>'
-                            % (anchor, esc(r["lens"]), r["round"], tag(r["verdict"]), kind, esc(rel), body))
-        head = '<section class="card"><p class="muted">%s · status: %s</p><div class="toc">%s</div></section>' % (
-            esc(s["title"]), esc(s["status"] or "unknown"), " ".join(toc))
+            rounds.setdefault(r["round"], []).append(r)
+        app = []
+        for rd in sorted(rounds):
+            items = []
+            for r in rounds[rd]:
+                anchor = "r%d-%s-%s" % (rd, r["kind"], re.sub(r"[^a-z0-9-]", "-", r["lens"]))
+                ctx = {"repo": repo, "out": out, "md_dir": os.path.dirname(r["path"]), "seen": set(), "pending": []}
+                rel = os.path.relpath(r["path"], out).replace(os.sep, "/")
+                items.append('<details class="rec" id="%s"><summary><b>%s</b> %s <span class="kind">%s · <a href="%s">markdown</a></span></summary>%s</details>'
+                             % (anchor, esc(r["lens"]), tag(r["verdict"]) if r["kind"] != "plan" else "", kinds[r["kind"]], esc(rel),
+                                markdown(read(r["path"]) or "", ctx)))
+            app.append('<h3>Round %d</h3>%s' % (rd, "".join(items)))
+        if app:
+            open_attr = "" if s["report"] else " open"
+            parts.append('<section class="card"><details class="appendix"%s><summary><h2 style="display:inline">Verification rounds</h2> '
+                         '<span class="kind">%d records</span></summary>%s</details></section>' % (open_attr, len(s["reports"]), "".join(app)))
         with open(os.path.join(out, s["id"] + ".html"), "w") as f:
-            f.write(page("%s test reports" % s["id"], head + "".join(sections), back="index.html"))
+            f.write(page("%s · %s" % (s["id"], s["title"]) if s["title"] else s["id"], "".join(parts), back="index.html"))
         latest = {}
         for r in s["reports"]:
-            latest[r["lens"]] = r
-        full = sum(1 for r in s["reports"] if r["kind"] == "report")
-        rows.append('<tr><td><a href="%s.html">%s</a></td><td>%s</td><td>%s</td><td>%s</td><td>%d / %d</td></tr>' % (
+            if r["kind"] != "plan":
+                latest[r["lens"]] = r
+        rows.append('<tr><td><a href="%s.html">%s</a></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % (
             esc(s["id"]), esc(s["id"]), esc(s["title"]), esc(s["status"]),
-            " ".join("%s r%d %s" % (esc(l), r["round"], tag(r["verdict"])) for l, r in sorted(latest.items())),
-            full, len(s["reports"])))
-    table = ('<table><thead><tr><th>Slice</th><th>Title</th><th>Status</th><th>Latest verdict per lens</th>'
-             '<th>Full reports</th></tr></thead><tbody>%s</tbody></table>' % "".join(rows)) if rows else '<p class="muted">No verifier reports yet.</p>'
-    intro = ('<p class="muted">One page per slice with every verifier round. A full report has the test cases, '
-             'the execution log and the test source; slices verified before full reports existed show the short summary.</p>')
+            tag(s["verdict"]) if s["report"] else '<span class="muted">not yet</span>',
+            " ".join("%s r%d %s" % (esc(l), r["round"], tag(r["verdict"])) for l, r in sorted(latest.items()))))
+    table = ('<table><thead><tr><th>Slice</th><th>Title</th><th>Status</th><th>Test report</th><th>Latest verdict per lens and profile</th>'
+             '</tr></thead><tbody>%s</tbody></table>' % "".join(rows)) if rows else '<p class="muted">No verification records yet.</p>'
+    intro = ('<p class="muted">One page per slice. The test completion report comes first: traceability, scenarios and cases with their '
+             'evidence and test source, defects found on the way, and what was not tested. Every verification round follows as an appendix. '
+             'Slices verified before these reports existed show their round records only.</p>')
     with open(os.path.join(out, "index.html"), "w") as f:
-        f.write(page("Verifier test reports", '<section class="card">%s%s</section>' % (intro, table)))
+        f.write(page("Slice test reports", '<section class="card">%s%s</section>' % (intro, table)))
     return summary(slices)
 
 

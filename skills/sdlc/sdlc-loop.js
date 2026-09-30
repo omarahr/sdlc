@@ -10,6 +10,7 @@ export const meta = {
     { title: 'Implement' },
     { title: 'Verify' },
     { title: 'Review' },
+    { title: 'Report' },
     { title: 'Integrate' },
     { title: 'Escalate' },
     { title: 'Behavior plan' },
@@ -65,6 +66,53 @@ function tallyVerify(votes, lenses = []) {
   })
   const refutations = votes.filter(isRefuting).length
   return { pass: failingTests.length === 0 && refutations * 2 < votes.length, refutations, failingTests }
+}
+
+// the verifier group: one agent per verification profile, each covering the scenarios tagged with it
+const PROFILES = ['http-api', 'async', 'concurrency', 'data', 'ui', 'i18n', 'cli', 'contract', 'security', 'limits']
+const PROFILE_CHUNK = 6
+const PROFILE_AGENT_LIMIT = 8
+
+// [{profile, part, scenarioIds}]: scenarios grouped per profile, chunked so no round runs more than `max` profile agents
+function groupScenarios(scenarios, max = PROFILE_AGENT_LIMIT) {
+  const by = new Map()
+  for (const sc of scenarios || []) {
+    for (const p of new Set(sc.profiles || [])) {
+      if (!PROFILES.includes(p)) continue
+      if (!by.has(p)) by.set(p, [])
+      by.get(p).push(sc.id)
+    }
+  }
+  const profiles = PROFILES.filter(p => by.has(p))
+  if (!profiles.length) return []
+  let size = PROFILE_CHUNK
+  const count = n => profiles.reduce((t, p) => t + Math.ceil(by.get(p).length / n), 0)
+  while (count(size) > Math.max(max, profiles.length)) size++
+  return profiles.flatMap(p => chunk(by.get(p), size).map((ids, part) => ({ profile: p, part, scenarioIds: ids })))
+}
+
+// folds the profile agents into one vote: any in-scope failing test or blocked scenario refutes it
+function profileVote(votes, groups) {
+  const failing = []
+  const blocked = []
+  const refuters = []
+  votes.forEach((v, i) => {
+    const g = groups[i]
+    const tag = `[${g.profile}${g.part ? `#${g.part}` : ''}]`
+    if (!v) {
+      blocked.push(...g.scenarioIds.map(id => `${tag} ${id}: profile verifier failed to report`))
+      return
+    }
+    if (v.failingTest) failing.push(`${tag} ${v.failingTest}`)
+    for (const b of v.blocked || []) blocked.push(`${tag} ${b.scenarioId}: ${b.reason}`)
+    if (isRefuting(v)) refuters.push(`${tag} ${v.evidence}`)
+  })
+  const failingTest = [...failing, ...blocked.map(b => `blocked: ${b}`)].join(' | ')
+  const evidence = groups.length
+    ? votes.map((v, i) => `[${groups[i].profile}${groups[i].part ? `#${groups[i].part}` : ''}] ${v ? `${v.refuted ? 'REFUTED' : 'ok'}: ${v.evidence}` : 'failed to report'}`).join(' ; ')
+    : 'no scenarios to verify'
+  const seeds = votes.filter(Boolean).flatMap(v => v.seeds || [])
+  return { refuted: failing.length > 0 || blocked.length > 0 || refuters.length > 0, evidence, failingTest, seeds }
 }
 
 function allClear(votes) {
@@ -222,6 +270,7 @@ async function escalate(id, slice, counters, why) {
         context: `Read .sdlc/slices/${id}/failures.md and .sdlc/slices/${id}/spike.md first.`,
       })
     : null
+  if (action === 'park') await testReport(id, 'park')
   const r = await run('escalator', { sliceId: id, step, action, why, adr }, { schema: OK, phase: 'Escalate', label: `${id}:${action}` })
   return `${id} escalated to ${action}${r && r.ok ? '' : ' (escalator did not confirm)'}`
 }
@@ -344,12 +393,12 @@ const INTEGRATE = {
   properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed'] }, commit: str, pr: str, notes: str },
   required: ['state'],
 }
-const VERIFY_LENSES = ['spec-fidelity', 'behavior', 'regression']
+const VERIFY_LENSES = ['spec-fidelity', 'regression']
 const REVIEW_LENSES = ['security', 'architecture', 'test-quality']
 const FIX_ROUND_LIMIT = 3
 const STREAK_LIMIT = 3
 const BLOCKING_JUDGE_LIMIT = 5
-const ROUND_COST = 25
+const ROUND_COST = 35
 
 async function reviewPhase(id, round) {
   phase('Review')
@@ -372,6 +421,86 @@ async function reviewPhase(id, round) {
   return { blocking: [...missing, ...judged.filter(Boolean)], seeds }
 }
 
+// verify one round: plan scenarios and their profiles, build missing tools, then the core lenses and the
+// profile group in parallel, then fold the profile agents' test commits into the slice branch
+const VPLAN = {
+  type: 'object',
+  properties: {
+    scenarios: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: { id: str, title: str, requirementIds: { type: 'array', items: str }, profiles: { type: 'array', items: { type: 'string', enum: PROFILES } } },
+        required: ['id', 'title', 'requirementIds', 'profiles'],
+      },
+    },
+    tools: {
+      type: 'array',
+      items: { type: 'object', properties: { id: str, profile: str, purpose: str, exists: { type: 'boolean' } }, required: ['id', 'profile', 'purpose', 'exists'] },
+    },
+    notes: str,
+  },
+  required: ['scenarios', 'tools'],
+}
+const TOOLS = {
+  type: 'object',
+  properties: {
+    ok: { type: 'boolean' },
+    built: { type: 'array', items: str },
+    failed: { type: 'array', items: { type: 'object', properties: { id: str, reason: str }, required: ['id', 'reason'] } },
+    notes: str,
+  },
+  required: ['ok'],
+}
+const PVOTE = {
+  type: 'object',
+  properties: {
+    refuted: { type: 'boolean' },
+    evidence: str,
+    failingTest: str,
+    seeds: { type: 'array', items: SEED },
+    blocked: { type: 'array', items: { type: 'object', properties: { scenarioId: str, reason: str }, required: ['scenarioId', 'reason'] } },
+    cases: { type: 'number' },
+    passed: { type: 'number' },
+  },
+  required: ['refuted', 'evidence'],
+}
+
+async function verifyPhase(id, round) {
+  phase('Verify')
+  const plan = await run('verify-planner', { sliceId: id, round }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
+  const groups = plan ? groupScenarios(plan.scenarios) : []
+  let unavailable = []
+  const missing = plan ? (plan.tools || []).filter(t => !t.exists) : []
+  if (missing.length) {
+    const t = await run('verify-toolsmith', { sliceId: id, round, tools: missing }, { schema: TOOLS, phase: 'Verify', label: `${id}:r${round}` })
+    unavailable = t ? t.failed || [] : missing.map(m => ({ id: m.id, reason: 'verify-toolsmith failed to report' }))
+    if (unavailable.length) log(`${id} verify r${round}: ${unavailable.length} tool(s) unavailable: ${unavailable.map(u => u.id).join(', ')}`)
+  }
+  const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
+  const all = await parallel([
+    ...VERIFY_LENSES.map(lens => () =>
+      run('verifier', { sliceId: id, lens, round }, { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` })),
+    ...groups.map(g => () =>
+      run(`verify-${g.profile}`, { sliceId: id, round, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
+        { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })),
+  ])
+  const core = all.slice(0, VERIFY_LENSES.length)
+  const profiles = all.slice(VERIFY_LENSES.length)
+  if (groups.length) {
+    const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
+    if (!c || !c.ok) {
+      profiles.push({ refuted: true, evidence: `verify-collector could not fold the profile tests into sdlc/${id}: ${c ? c.notes || '' : 'no report'}` })
+      groups.push({ profile: 'collector', part: 0, scenarioIds: [] })
+    }
+  }
+  const pv = plan
+    ? profileVote(profiles, groups)
+    : { refuted: true, evidence: 'verify-planner failed to report; no scenario was verified at its boundary', failingTest: '' }
+  if (plan && !groups.length) log(`${id} verify r${round}: planner tagged no scenario with a known profile`)
+  return { votes: [core[0], pv, core[1]], lenses: ['spec-fidelity', 'profiles', 'regression'] }
+}
+
 async function buildLoop(id, counters) {
   let evidence = []
   // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
@@ -384,16 +513,14 @@ async function buildLoop(id, counters) {
     if (!impl || !impl.green) {
       evidence = [impl ? `implementer could not get green: ${impl.notes || ''}` : 'implementer failed to report']
     } else {
-      phase('Verify')
-      const votes = await parallel(VERIFY_LENSES.map(lens => () =>
-        run('verifier', { sliceId: id, lens, round }, { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` })))
-      const v = tallyVerify(votes, VERIFY_LENSES)
+      const { votes, lenses } = await verifyPhase(id, round)
+      const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
       log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
       if (!v.pass) {
         evidence = votes.map((x, i) => (x
-          ? `[${VERIFY_LENSES[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
-          : `[${VERIFY_LENSES[i]}] verifier failed to report`))
+          ? `[${lenses[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
+          : `[${lenses[i]}] verifier failed to report`))
       } else {
         const review = await reviewPhase(id, round)
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
@@ -408,10 +535,18 @@ async function buildLoop(id, counters) {
 }
 
 async function integrate(id, s, counters, seeds, mode = 'ship') {
+  if (mode === 'ship') await testReport(id, 'ship')
   phase('Integrate')
   const r = await run('integrator', { sliceId: id, mode, seeds }, { schema: INTEGRATE, phase: 'Integrate', label: id })
   if (!r || r.state === 'failed') return escalate(id, s, counters, `integration failed: ${r ? r.notes || '' : 'integrator did not report'}`)
   return `${id} ${r.state}${r.pr ? ' ' + r.pr : ''}${r.commit ? ' ' + r.commit : ''}`
+}
+
+// the slice's test completion report (REPORT.md), for the human; it never blocks the slice
+async function testReport(id, mode) {
+  phase('Report')
+  const r = await run('test-reporter', { sliceId: id, mode }, { schema: OK, phase: 'Report', label: id })
+  if (!r || !r.ok) log(`${id}: test-reporter did not write REPORT.md (${r ? r.notes || '' : 'no report'})`)
 }
 
 async function parkedRetry(next) {
@@ -665,10 +800,11 @@ const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milest
 const INTERNALS = {
   run, persist, hasHeadroom, spent: () => spent,
   tallyVerify, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
+  PROFILES, groupScenarios, profileVote,
   bootstrap,
   decisionPanel, escalate,
   planPhase, testsPhase, sliceAction,
-  reviewPhase, buildLoop, integrate, parkedRetry, retryMerge,
+  reviewPhase, verifyPhase, buildLoop, integrate, testReport, parkedRetry, retryMerge,
   dismissalClass, milestonePlan, scenarioPlan, milestoneAction,
   audit, livelock,
   barRaiserRound,

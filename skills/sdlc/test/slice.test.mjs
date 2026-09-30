@@ -15,6 +15,11 @@ export function happy(overrides = {}, phase = 'plan') {
     'test-checker': () => ({ allFailCorrectly: true, problems: [] }),
     implementer: () => ({ green: true, notes: 'all green' }),
     verifier: () => clear(),
+    'verify-planner': () => ({ scenarios: [{ id: 'VS-1', title: 'replay a dead letter', requirementIds: ['R-1'], profiles: ['http-api', 'security'] }], tools: [] }),
+    'verify-http-api': () => ({ ...clear(), cases: 2, passed: 2 }),
+    'verify-security': () => ({ ...clear(), cases: 3, passed: 3 }),
+    'verify-collector': () => ok(),
+    'test-reporter': () => ok(),
     reviewer: () => ({ findings: [] }),
     'finding-refuter': () => clear(),
     integrator: () => ({ state: 'merged', commit: 'abc123' }),
@@ -64,10 +69,15 @@ test('tests that never fail for the right reason escalate after three attempts',
   assert.deepEqual(rt.calls.filter(c => c.role === 'test-writer')[1].inputs.problems, ['T1 passes already'])
   assert.equal(rt.calls.find(c => c.role === 'escalator').inputs.action, 'replan')
 })
-test('happy path runs implement, three verifiers, three reviewers, integrate', async () => {
+test('happy path runs implement, core verifiers, the profile group, three reviewers, the report, integrate', async () => {
   const rt = await runMain(happy())
   assert.deepEqual(rt.errors, [])
-  assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => c.inputs.lens).sort(), ['behavior', 'regression', 'spec-fidelity'])
+  assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => c.inputs.lens).sort(), ['regression', 'spec-fidelity'])
+  assert.deepEqual(rt.roles().filter(r => r.startsWith('verify-')), ['verify-planner', 'verify-http-api', 'verify-security', 'verify-collector'])
+  const roles = rt.roles()
+  assert.ok(roles.indexOf('reviewer') < roles.indexOf('test-reporter'))
+  assert.ok(roles.indexOf('test-reporter') < roles.indexOf('integrator'))
+  assert.equal(rt.calls.find(c => c.role === 'test-reporter').inputs.mode, 'ship')
   assert.deepEqual(rt.calls.filter(c => c.role === 'reviewer').map(c => c.inputs.lens).sort(), ['architecture', 'security', 'test-quality'])
   assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.mode, 'ship')
   assert.match(rt.result.iterations[0].outcome, /S-1 merged abc123/)
@@ -84,21 +94,22 @@ test('resume at integrate goes straight to the integrator with persisted seeds',
   const rt = await runMain(scripted({
     'state-reader': [sliceNext('integrate', { seeds: [{ title: 's', detail: 'd', blocking: false }] }), { action: 'stop', reason: 'end' }],
     integrator: () => ({ state: 'merged', commit: 'c1' }),
+    'test-reporter': () => ok(),
   }))
-  assert.deepEqual(rt.roles(), ['state-reader', 'integrator', 'state-reader'])
-  assert.equal(rt.calls[1].inputs.seeds[0].title, 's')
+  assert.deepEqual(rt.roles(), ['state-reader', 'test-reporter', 'integrator', 'state-reader'])
+  assert.equal(rt.calls[2].inputs.seeds[0].title, 's')
 })
 
-test('a behavior failing test forces a fix round carrying the evidence', async () => {
+test('a profile verifier failing test forces a fix round carrying the evidence', async () => {
   let round = 0
   const rt = await runMain(happy({
-    verifier: c => (c.inputs.lens === 'behavior' && round++ === 0
+    'verify-http-api': () => (round++ === 0
       ? { refuted: true, evidence: 'empty input crashes', failingTest: 'edge.test.ts > empty' }
       : clear()),
   }, 'implement'))
   const impls = rt.calls.filter(c => c.role === 'implementer')
   assert.equal(impls.length, 2)
-  assert.match(impls[1].inputs.evidence.join('\n'), /failing test: edge\.test\.ts > empty/)
+  assert.match(impls[1].inputs.evidence.join('\n'), /failing test: \[http-api\] edge\.test\.ts > empty/)
   assert.equal(impls[1].inputs.fixRound, 1)
 })
 

@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { loadInternals, scripted, ok } from './harness.mjs'
 
-const base = { escalator: () => ok() }
+const base = { escalator: () => ok(), 'test-reporter': () => ok() }
 
 test('first escalation is replan', async () => {
   const rt = await loadInternals(scripted(base))
@@ -36,13 +36,16 @@ test('step 5 parks a spec slice and reverts an improvement slice', async () => {
   const rt = await loadInternals(scripted(base))
   await rt.I.escalate('S-1', { kind: 'spec' }, rt.I.normalizeCounters({ ladderStep: 4 }), 'x')
   await rt.I.escalate('S-2', { kind: 'improvement' }, rt.I.normalizeCounters({ ladderStep: 4 }), 'x')
-  assert.deepEqual(rt.calls.map(c => c.inputs.action), ['park', 'revert-reject'])
+  assert.deepEqual(rt.calls.filter(c => c.role === 'escalator').map(c => c.inputs.action), ['park', 'revert-reject'])
+  // a parked slice gets its test report before the escalator archives the attempt; a reverted one does not
+  assert.deepEqual(rt.roles(), ['test-reporter', 'escalator', 'escalator'])
+  assert.equal(rt.calls[0].inputs.mode, 'park')
 })
 
 test('ladder never goes past park', async () => {
   const rt = await loadInternals(scripted(base))
   await rt.I.escalate('S-1', { kind: 'spec' }, rt.I.normalizeCounters({ ladderStep: 5 }), 'x')
-  assert.equal(rt.calls[0].inputs.step, 5)
+  assert.equal(rt.calls.find(c => c.role === 'escalator').inputs.step, 5)
 })
 
 test('escalator that fails to confirm is reported in the outcome', async () => {

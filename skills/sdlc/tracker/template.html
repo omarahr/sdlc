@@ -211,6 +211,7 @@ svg text { font-family: var(--mono); font-size: 11px; }
 .rep a.id:hover { text-decoration: underline; }
 .rep .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
 .rep .n { font-family: var(--mono); font-size: 11.5px; color: var(--faint); white-space: nowrap; }
+.rep .n.has { color: var(--done); }
 .rep .lenses { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 5px; }
 .lens { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--sunk); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
 .lens.held { background: var(--done-soft); color: var(--done); border-color: transparent; }
@@ -352,7 +353,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
         const row = el("div", "rep");
         const a = el("a", "id", r.id); a.href = "reports/" + encodeURIComponent(r.id) + ".html";
         const t = el("span", "t", r.title || ""); t.title = r.title || "";
-        row.append(a, t, el("span", "n", r.reports + (r.reports === 1 ? " report" : " reports") + (r.full ? " · " + r.full + " full" : "")));
+        row.append(a, t, el("span", "n " + (r.hasReport ? "has" : ""), r.hasReport ? "test report · " + (r.verdict || "written") : r.reports + (r.reports === 1 ? " record" : " records")));
         const ls = el("div", "lenses");
         Object.keys(r.lenses).sort().forEach((k) => {
           const v = r.lenses[k];
