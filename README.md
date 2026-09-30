@@ -27,6 +27,10 @@ Each slice is verified at its real boundary by a **verification group**:
 | `security` | auth, tokens, tenancy, egress | an exploratory attack session |
 | `limits` | stated sizes, timeouts, budgets, UI performance | measured at and past the spec's number (Chrome DevTools MCP when available) |
 
+Verification scales with the slice:
+- The planner rates each slice's risk, and the rating caps the group: low risk runs 2 profiles, medium 4, and high up to 8. Each profile agent works to a time limit.
+- The full group runs once, in the slice's first round. Fix rounds re-run only the scenarios that failed or were blocked, and the regression lens re-runs every committed test.
+
 Everything is scoped to what the spec says. Anything the spec leaves undefined is noted for later instead of blocking the slice.
 
 When a milestone's slices are done, a **behavior campaign** checks what the running system actually does:

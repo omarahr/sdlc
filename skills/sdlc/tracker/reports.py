@@ -226,6 +226,23 @@ def markdown(md, ctx):
             out.append(flush_refs(ctx))
             i += 1
             continue
+        # collapsed blocks the test-reporter writes around case detail (GitHub renders them the same way)
+        if re.match(r"^<details( open)?>$", s):
+            end_para()
+            out.append('<details class="rec"%s>' % (" open" if "open" in s else ""))
+            i += 1
+            continue
+        m = re.match(r"^<summary>(.*)</summary>$", s)
+        if m:
+            end_para()
+            out.append("<summary>%s</summary>" % inline(m.group(1), ctx))
+            i += 1
+            continue
+        if s == "</details>":
+            end_para()
+            out.append("</details>")
+            i += 1
+            continue
         m = re.match(r"^(#{1,6})\s+(.*)$", s)
         if m:
             end_para()

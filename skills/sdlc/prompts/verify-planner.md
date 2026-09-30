@@ -4,6 +4,8 @@ Plan this round's verification the way a test lead would. Break the slice into *
 
 Inputs: `sliceId`, `round`.
 
+You run once per slice, in its first verification round (and again only when a run resumes mid-slice). Fix rounds reuse your plan and re-run only the (scenario, profile) pairs that failed or were blocked, while the regression lens re-runs every committed test. So plan the whole slice now.
+
 ## Read
 - The slice's requirements (exact `quote` and `acceptance`), the ADRs that name them, plan.md and tests.md.
 - The diff: `git diff <defaultBranch>...sdlc/<id>`, and the files it touches, so you know which boundaries the change crosses (an HTTP route, a worker, a migration, a component, a command, an exported package).
@@ -39,6 +41,12 @@ Scenario ids are `VS-<n>`.
 | `security` | auth, tokens, tenancy, egress, refused input | exploratory attack session |
 | `limits` | stated sizes, timeouts, budgets, UI performance | measured at and past the number |
 
+## Risk
+Rate the slice `low`, `medium` or `high`, and give the reason in one sentence (`riskReason`). The rating caps how many profiles run: low 2, medium 4, high 8. When you tag more profiles than the cap allows, the workflow keeps the ones covering the most scenarios and drops the rest. So tag the profiles that matter most first.
+- `low`: no I/O boundary is crossed, or the change is small and pure (types, helpers, formatting), and a wrong result is easy to see and cheap to fix. Example: SDK contract types and a locale helper.
+- `medium`: one boundary (an endpoint, a component, a command) with ordinary failure modes.
+- `high`: money, data loss, security, cross-service delivery, concurrency, or behavior that happens later (retries, schedules). Example: webhook delivery with retries, dead letter and replay.
+
 ## Tools
 List every tool the tagged profiles will need, using the toolkit ids below (or a new id when none fits). Mark `exists: true` only when `.sdlc/testkit.json` has it, the file is there, and its self-test is listed. The verify-toolsmith builds the rest before the profile agents start.
 
@@ -55,7 +63,7 @@ Standard ids:
 - `measure` (limits).
 
 ## Write
-- `plan-r<round>.json`: `{scenarios: [{id, title, requirementIds, profiles, notes}], tools: [{id, profile, purpose, exists}], notes}`.
+- `plan-r<round>.json`: `{scenarios: [{id, title, requirementIds, profiles, notes}], tools: [{id, profile, purpose, exists}], risk, riskReason, notes}`.
 - `plan-r<round>.md`: the same as a readable page. Include the scenario table (id, title, requirements, profiles), a coverage table (each requirement and the scenarios that cover it), the tools, and for later rounds what changed since the previous plan and why.
 
-Return `{scenarios, tools, notes}`, the same content as the JSON.
+Return `{scenarios, tools, risk, riskReason, notes}`, the same content as the JSON.

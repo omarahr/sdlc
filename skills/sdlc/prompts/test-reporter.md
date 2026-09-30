@@ -11,53 +11,61 @@ Everything in the report comes from recorded evidence. Never invent a case, a nu
 - failures.md, plan.md, tests.md, the requirements (their `quote` and `acceptance`) and the ADRs that name the slice or its requirements;
 - `git log --oneline <defaultBranch>..sdlc/<id>`, and the test files themselves (open each test you cite to get its start line).
 
-The **final round** is the one whose results count. Earlier rounds are history.
+A case's result is its **latest run**. Fix rounds re-run only the cases that failed or were blocked, so a case not re-run keeps its earlier result. Its test was still re-run by every later regression round. Earlier results of re-run cases are history, and they belong in the defect section.
 
 ## Layout
-Use exactly these sections, in this order.
+Aim for a report a reviewer reads in five minutes. The top holds everything that matters. Case detail sits in collapsed blocks for whoever wants to dig in. Use exactly these sections, in this order.
 
 ```markdown
 # <id> · <slice title>
 Verdict: RELEASED        (mode ship)   |   Verdict: PARKED (mode park)
-Commit under test: <short sha of sdlc/<id>> · Rounds: <n> · Attempts: <n> · Written: <UTC date>
+Commit under test: <short sha of sdlc/<id>> · Rounds: <n> · Attempts: <n> · Risk: <plan risk> · Written: <UTC date>
 
-| Requirements | Scenarios | Cases | Passed | Failed | Blocked | Defects found | Defects fixed |
+| Requirements | Scenarios | Cases | Passed | Failed | Blocked | Blocking defects found / fixed | Open seeds |
 |---|---|---|---|---|---|---|---|
-| … |
 
 ## Summary
-Three to six sentences in plain language: what the slice does for a user, how it was verified (which profiles, against which boundaries), what the verifiers found on the way, and what remains open. For `park`, say what blocks it and the smallest human decision that would unblock it (from failures.md).
+At most six sentences, in plain language: what the slice does for a user, how it was verified (profiles and boundaries), what the verifiers caught on the way, and what remains open. For `park`: what blocks it, and the smallest human decision that would unblock it (from failures.md).
+
+## Open risks
+At most eight bullets, most important first: blocked cases and what unblocks them, accepted risks (ADRs), seeds a reviewer should weigh before relying on this slice, and anything measured without a spec number. Every other seed goes in the table under Defects.
 
 ## Traceability
-| Requirement | Spec says | Scenarios | Profiles | Cases | Result |
-|---|---|---|---|---|---|
-One row per requirement. "Spec says" is the exact quote (shorten it only with "…"). "Result" is `pass` only when every final-round case for that requirement passed.
+| Requirement | Spec says | Scenarios | Cases | Result |
+|---|---|---|---|---|
+One row per requirement. "Spec says" is the exact quote (shorten only with "…"). "Result" is `pass` only when every case for that requirement passed in its latest run.
 
-## Scenarios and test cases
-One `###` section per scenario: `### VS-<n> · <title>` followed by `Profiles: …` and the scenario's risk note.
-For each final-round case under that scenario:
+## Scenarios
+One `###` section per scenario: `### VS-<n> · <title>`, then one line with `Profiles: …` and the scenario's risk in a single sentence. Then a table with one row per case:
+
+| Case | What it proves | Result | Test |
+|---|---|---|---|
+| TC-async-3 | Retry gaps at least double up to dead letter | PASS | `backend/…/retry_verify_async_test.go:41` |
+
+After the table, **one** collapsed block per scenario holding each case's full detail:
+
+<details>
+<summary>Case detail (n cases)</summary>
 
 #### TC-<profile>-<n> · <title> · PASS | FAIL | BLOCKED
 - **Given** … **When** … **Then** …
 - **Expected** … **Actual** …
-- **Spec source:** …
-- **Test:** `path/to/file:line` · run with `<command>`
-- **Evidence:** render each evidence item as the block that fits its kind (see below).
+- **Spec source:** … · **Run:** `<command>`
+- The evidence, rendered as the block that fits its kind (see below). Show at most two evidence items per case, and link the rest.
+
+</details>
+
+Put a blank line after `<summary>…</summary>` and before `</details>`, so the Markdown inside renders.
 
 ## How it was attacked
-The security sessions, one per scenario: the charter, the threat-model boundary, a table of the attacks tried (`input · expected · observed · held/broke/out-of-scope`), and what was learned. Write "No security profile was needed" when none ran.
+One short paragraph per security session: the charter, the threat-model boundary, how many attacks were tried, and how many held, broke or were out of scope. Put the attack table (`input · expected · observed · result`) inside a `<details>` block. Write "No security profile was needed" when none ran.
 
 ## Defects found on the way
-One entry per defect, from any round, any profile, the core verifiers or the review: the title, severity (blocker or seed), which agent and round found it, the spec source, the steps to reproduce, how it was fixed (the fix-round commit or ADR), and the test that now guards against it. For park, include the ones still open.
-
-## Not tested, and residual risk
-What was out of scope and why (seeds, "no number in the spec" measurements with their values), blocked cases and what would unblock them, and the risks a human reviewer should know about.
-
-## Verification toolkit
-The testkit tools used, with their paths, and any tools built for this slice.
+- **Blocking defects**, one entry each from any round, any profile, the core verifiers or the review: the title, which agent and round found it, the spec source, how to reproduce it in one line, how it was fixed (the commit or ADR), and the test that now guards it. For park, the ones still open come first.
+- **Seeds**, as one table: `| Seed | Found by | File |`. Open seeds only; drop the ones already fixed.
 
 ## Appendix
-Links to each round's plan and profile evidence files, and to the core verifier summaries, one line each.
+One line each: the verification toolkit tools used (with paths); links to each round's plan and profile evidence files and to the core verifiers' summaries; and any source that was missing.
 ```
 
 ## Evidence blocks by kind
@@ -76,7 +84,7 @@ Links to each round's plan and profile evidence files, and to the core verifier 
 - `type-check`: a `console` code block with the command and the expected errors.
 - `log` and `events`: a `text` code block.
 
-Long evidence stays in its file. Link it rather than pasting it.
+Long evidence stays in its file. Link it rather than pasting it. Never paste a whole log, trace or corpus into the report.
 
 ## Finish
 - Paths in the report are relative to the report's own folder (`.sdlc/slices/<id>/`), and test references are repo-relative `path:line`.

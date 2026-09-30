@@ -15,7 +15,7 @@ export function happy(overrides = {}, phase = 'plan') {
     'test-checker': () => ({ allFailCorrectly: true, problems: [] }),
     implementer: () => ({ green: true, notes: 'all green' }),
     verifier: () => clear(),
-    'verify-planner': () => ({ scenarios: [{ id: 'VS-1', title: 'replay a dead letter', requirementIds: ['R-1'], profiles: ['http-api', 'security'] }], tools: [] }),
+    'verify-planner': () => ({ scenarios: [{ id: 'VS-1', title: 'replay a dead letter', requirementIds: ['R-1'], profiles: ['http-api', 'security'] }], tools: [], risk: 'high' }),
     'verify-http-api': () => ({ ...clear(), cases: 2, passed: 2 }),
     'verify-security': () => ({ ...clear(), cases: 3, passed: 3 }),
     'verify-collector': () => ok(),

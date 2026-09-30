@@ -4,14 +4,19 @@ Every `verify-<profile>` agent reads this file first, then its own profile file.
 
 Your job is to prove the slice wrong at its real boundary, the way a professional tester would, and to leave evidence a human can check without re-running anything.
 
-Inputs: `sliceId`, `round`, `part`, `scenarioIds`, `branch`, `unavailableTools` (`[{id, reason}]` from the toolsmith).
+Inputs: `sliceId`, `round`, `planRound` (the round whose plan you follow), `part`, `scenarioIds`, `branch`, `unavailableTools` (`[{id, reason}]` from the toolsmith).
+
+In a fix round you are given only the scenarios that failed or were blocked for your profile last time. Re-run those cases first. Then check what the fix changed around them, and stop.
 
 ## 1. Read first
-- `.sdlc/slices/<id>/verification/plan-r<round>.json`: your scenarios (`scenarioIds`), their requirements and their `notes`.
+- `.sdlc/slices/<id>/verification/plan-r<planRound>.json`: your scenarios (`scenarioIds`), their requirements and their `notes`.
 - Each requirement's exact `quote` and `acceptance` in requirements.json, the ADRs that name them in DECISIONS.md, and the slice's plan.md and tests.md.
 - `.sdlc/testkit.json` and the usage notes of every tool your profile file names. Use the toolkit rather than writing helpers again.
 - For round > 0: your profile's evidence from earlier rounds (`verification/r*/<profile>-*.json`) for the same scenarios. Re-run those cases first and keep their ids. Do not re-report seeds you or others already reported.
 - The diff: `git diff <defaultBranch>...sdlc/<id>`.
+
+## Time limit
+Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover each scenario's notes and your profile's required corners first. Go further only when something gives: a surprising answer is worth depth, a clean pass is not. When the time is up, stop adding cases, then write and commit what you have.
 
 ## 2. Scope rule
 A defect blocks the slice only when the expected behavior is required by a requirement's `quote` or `acceptance`, an ADR, or a limit, error code or failure behavior the spec states. Cite that source on the case (`specSource`). Anything else goes to `seeds` as `[{title, detail, file}]`. The bar raiser weighs seeds later, and they never refute.
@@ -69,7 +74,8 @@ In the main tree, at `.sdlc/slices/<id>/verification/r<round>/<profile>-<part>.j
 Next to it, write `<profile>-<part>.md`: the same content as a readable page. Include a header (slice, profile, round, commit, verdict), the environment, one section per case (Given / When / Then, the steps, expected vs actual, result, test source, the evidence rendered as code blocks, and images as `![title](assets/…)`), then the attacks and the seeds. The test-reporter builds the slice report from both files.
 
 ## 7. Return
-`{refuted, evidence, failingTest, seeds, blocked, cases, passed}`
+`{refuted, evidence, failingTest, seeds, blocked, failedScenarios, cases, passed}`
 - `refuted: true` only when an in-scope case failed, in which case `failingTest` is `<test id> — <command> — <spec source>` (join several with ` | `), or when a case is blocked, in which case `blocked` is `[{scenarioId, reason}]`. A doubt with no failing test is not a refutation; describe it in `evidence` or a seed.
+- `failedScenarios`: the ids of your scenarios with at least one in-scope failing case. The next fix round re-runs exactly these and the blocked ones.
 - `evidence`: one paragraph naming the cases run, what failed and why, with spec sources.
 - `cases` and `passed`: counts.

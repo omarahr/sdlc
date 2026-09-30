@@ -72,6 +72,42 @@ function tallyVerify(votes, lenses = []) {
 const PROFILES = ['http-api', 'async', 'concurrency', 'data', 'ui', 'i18n', 'cli', 'contract', 'security', 'limits']
 const PROFILE_CHUNK = 6
 const PROFILE_AGENT_LIMIT = 8
+// the planner rates the slice's risk; the group is sized to it
+const RISK_AGENTS = { low: 2, medium: 4, high: PROFILE_AGENT_LIMIT }
+
+// keeps at most `max` profiles (those tagging the most scenarios, catalog order on ties) and strips the rest
+function capProfiles(scenarios, max) {
+  const count = new Map()
+  for (const sc of scenarios || []) for (const p of new Set(sc.profiles || [])) if (PROFILES.includes(p)) count.set(p, (count.get(p) || 0) + 1)
+  const ranked = PROFILES.filter(p => count.has(p)).sort((a, b) => count.get(b) - count.get(a) || PROFILES.indexOf(a) - PROFILES.indexOf(b))
+  const keep = new Set(ranked.slice(0, max))
+  return {
+    scenarios: (scenarios || []).map(sc => ({ ...sc, profiles: (sc.profiles || []).filter(p => keep.has(p)) })),
+    dropped: ranked.slice(max),
+  }
+}
+
+// [{profile, scenarioId}] pairs back into scenarios, for a later round that re-runs only what failed
+function pairsToScenarios(pairs) {
+  const by = new Map()
+  for (const { profile, scenarioId } of pairs || []) {
+    if (!by.has(scenarioId)) by.set(scenarioId, { id: scenarioId, profiles: [] })
+    if (!by.get(scenarioId).profiles.includes(profile)) by.get(scenarioId).profiles.push(profile)
+  }
+  return [...by.values()]
+}
+
+// what the next round must re-run: every scenario a profile agent failed or could not run, per profile
+function pendingPairs(votes, groups) {
+  const out = []
+  votes.forEach((v, i) => {
+    const g = groups[i]
+    if (!g || !PROFILES.includes(g.profile)) return
+    const ids = !v ? g.scenarioIds : [...(v.failedScenarios || []), ...(v.blocked || []).map(b => b.scenarioId)]
+    for (const scenarioId of new Set(ids)) if (g.scenarioIds.includes(scenarioId)) out.push({ profile: g.profile, scenarioId })
+  })
+  return out
+}
 
 // [{profile, part, scenarioIds}]: scenarios grouped per profile, chunked so no round runs more than `max` profile agents
 function groupScenarios(scenarios, max = PROFILE_AGENT_LIMIT) {
@@ -439,9 +475,11 @@ const VPLAN = {
       type: 'array',
       items: { type: 'object', properties: { id: str, profile: str, purpose: str, exists: { type: 'boolean' } }, required: ['id', 'profile', 'purpose', 'exists'] },
     },
+    risk: { type: 'string', enum: ['low', 'medium', 'high'] },
+    riskReason: str,
     notes: str,
   },
-  required: ['scenarios', 'tools'],
+  required: ['scenarios', 'tools', 'risk'],
 }
 const TOOLS = {
   type: 'object',
@@ -461,21 +499,41 @@ const PVOTE = {
     failingTest: str,
     seeds: { type: 'array', items: SEED },
     blocked: { type: 'array', items: { type: 'object', properties: { scenarioId: str, reason: str }, required: ['scenarioId', 'reason'] } },
+    failedScenarios: { type: 'array', items: str },
     cases: { type: 'number' },
     passed: { type: 'number' },
   },
   required: ['refuted', 'evidence'],
 }
 
-async function verifyPhase(id, round) {
+// The first round plans and runs the whole group. A fix round reuses that plan and re-runs only the
+// (scenario, profile) pairs that failed or were blocked: the regression lens re-runs every committed test.
+async function verifyPhase(id, round, prev = null) {
   phase('Verify')
-  const plan = await run('verify-planner', { sliceId: id, round }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
-  const groups = plan ? groupScenarios(plan.scenarios) : []
+  let plan = prev && prev.plan
+  let planRound = prev ? prev.planRound : round
+  let groups = []
+  let tools = []
+  if (plan) {
+    groups = groupScenarios(pairsToScenarios(prev.pending), RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT)
+    const failedTools = new Set((prev.unavailable || []).map(u => u.id))
+    tools = (prev.missing || []).filter(t => failedTools.has(t.id))
+    log(`${id} verify r${round}: re-running ${prev.pending.length} failed (scenario, profile) pair(s) from plan r${planRound}`)
+  } else {
+    plan = await run('verify-planner', { sliceId: id, round }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
+    planRound = round
+    if (plan) {
+      const cap = RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT
+      const capped = capProfiles(plan.scenarios, cap)
+      if (capped.dropped.length) log(`${id} verify r${round}: ${plan.risk} risk allows ${cap} profile(s); dropped ${capped.dropped.join(', ')}`)
+      groups = groupScenarios(capped.scenarios, cap)
+      tools = (plan.tools || []).filter(t => !t.exists)
+    }
+  }
   let unavailable = []
-  const missing = plan ? (plan.tools || []).filter(t => !t.exists) : []
-  if (missing.length) {
-    const t = await run('verify-toolsmith', { sliceId: id, round, tools: missing }, { schema: TOOLS, phase: 'Verify', label: `${id}:r${round}` })
-    unavailable = t ? t.failed || [] : missing.map(m => ({ id: m.id, reason: 'verify-toolsmith failed to report' }))
+  if (tools.length) {
+    const t = await run('verify-toolsmith', { sliceId: id, round, tools }, { schema: TOOLS, phase: 'Verify', label: `${id}:r${round}` })
+    unavailable = t ? t.failed || [] : tools.map(m => ({ id: m.id, reason: 'verify-toolsmith failed to report' }))
     if (unavailable.length) log(`${id} verify r${round}: ${unavailable.length} tool(s) unavailable: ${unavailable.map(u => u.id).join(', ')}`)
   }
   const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
@@ -483,14 +541,17 @@ async function verifyPhase(id, round) {
     ...VERIFY_LENSES.map(lens => () =>
       run('verifier', { sliceId: id, lens, round }, { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` })),
     ...groups.map(g => () =>
-      run(`verify-${g.profile}`, { sliceId: id, round, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
+      run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
         { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })),
   ])
   const core = all.slice(0, VERIFY_LENSES.length)
   const profiles = all.slice(VERIFY_LENSES.length)
+  let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
     if (!c || !c.ok) {
+      // the tests never reached the slice branch, so the next round runs this round's pairs again
+      pending = groups.flatMap(g => g.scenarioIds.map(scenarioId => ({ profile: g.profile, scenarioId })))
       profiles.push({ refuted: true, evidence: `verify-collector could not fold the profile tests into sdlc/${id}: ${c ? c.notes || '' : 'no report'}` })
       groups.push({ profile: 'collector', part: 0, scenarioIds: [] })
     }
@@ -498,14 +559,17 @@ async function verifyPhase(id, round) {
   const pv = plan
     ? profileVote(profiles, groups)
     : { refuted: true, evidence: 'verify-planner failed to report; no scenario was verified at its boundary', failingTest: '' }
-  if (plan && !groups.length) log(`${id} verify r${round}: planner tagged no scenario with a known profile`)
-  return { votes: [core[0], pv, core[1]], lenses: ['spec-fidelity', 'profiles', 'regression'] }
+  if (plan && !groups.length && !prev) log(`${id} verify r${round}: planner tagged no scenario with a known profile`)
+  const next = plan ? { plan, planRound, pending, unavailable, missing: tools.length ? tools : (prev && prev.missing) || [] } : null
+  return { votes: [core[0], pv, core[1]], lenses: ['spec-fidelity', 'profiles', 'regression'], next }
 }
 
 async function buildLoop(id, counters) {
   let evidence = []
   // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
   const verifySeeds = []
+  // the round-0 plan carries into fix rounds within this run; a resumed run plans again
+  let prevVerify = null
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
     if (spent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
@@ -514,7 +578,8 @@ async function buildLoop(id, counters) {
     if (!impl || !impl.green) {
       evidence = [impl ? `implementer could not get green: ${impl.notes || ''}` : 'implementer failed to report']
     } else {
-      const { votes, lenses } = await verifyPhase(id, round)
+      const { votes, lenses, next } = await verifyPhase(id, round, prevVerify)
+      prevVerify = next
       const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
       log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
@@ -801,7 +866,7 @@ const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milest
 const INTERNALS = {
   run, persist, hasHeadroom, spent: () => spent,
   tallyVerify, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
-  PROFILES, groupScenarios, profileVote,
+  PROFILES, RISK_AGENTS, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
   decisionPanel, escalate,
   planPhase, testsPhase, sliceAction,
