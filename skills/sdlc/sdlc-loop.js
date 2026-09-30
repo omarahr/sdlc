@@ -29,6 +29,10 @@ const CAP = A.runAgentCap || 850
 const MAX_ITER = A.maxIterations === undefined || A.maxIterations === null ? Infinity : A.maxIterations
 // bar raiser is opt-in: 0 (default) means stop at spec-complete; N allows up to N polish rounds in total
 const BAR_RAISER_ROUNDS = A.barRaiserRounds > 0 ? A.barRaiserRounds : 0
+// roles that run on a different model than the one that planned and wrote the code, so one model's blind
+// spots are not graded by the same model: the spec-fidelity verifier and the code reviewers. Pass
+// args.reviewModel null to inherit the session model everywhere.
+const REVIEW_MODEL = A.reviewModel === undefined ? 'fable' : A.reviewModel
 const COST = { bootstrap: 40, slice: 60, parkedRetry: 60, retryMerge: 5, milestonePlan: 5, milestone: 90, audit: 80, barRaiserRound: 90, livelock: 2 }
 
 // ---------- shared schemas ----------
@@ -74,6 +78,8 @@ const PROFILE_CHUNK = 6
 const PROFILE_AGENT_LIMIT = 8
 // the planner rates the slice's risk; the group is sized to it
 const RISK_AGENTS = { low: 2, medium: 4, high: PROFILE_AGENT_LIMIT }
+// profile agents each start their own database and test runs; batches keep one laptop from overheating
+const PROFILE_BATCH = 4
 
 // keeps at most `max` profiles (those tagging the most scenarios, catalog order on ties) and strips the rest
 function capProfiles(scenarios, max) {
@@ -224,17 +230,30 @@ async function run(role, vars, opts = {}) {
   ].join('\n')
   const { label, ...rest } = opts
   const fullLabel = label ? `${role}:${label}` : role
+  let o = { ...rest, label: fullLabel }
   for (let attempt = 0; attempt < 2; attempt++) {
     spent++
     let out = null
+    let err = ''
     try {
-      out = await agent(prompt, { ...rest, label: fullLabel })
+      out = await agent(prompt, o)
     } catch (e) {
       out = null
+      err = e && e.message ? e.message : String(e)
     }
     if (out !== null && out !== undefined) return out
+    // an unavailable model must never cost the slice a verdict: the retry inherits the session model
+    if (o.model) {
+      log(`${fullLabel}: model ${o.model} failed (${err || 'no result'}); retrying on the session model`)
+      const { model, ...inherit } = o
+      o = inherit
+    }
   }
   return null
+}
+
+function reviewOpts(opts) {
+  return REVIEW_MODEL ? { ...opts, model: REVIEW_MODEL } : opts
 }
 
 async function persist(sliceId, patch) {
@@ -440,7 +459,7 @@ const ROUND_COST = 35
 async function reviewPhase(id, round) {
   phase('Review')
   const reports = await parallel(REVIEW_LENSES.map(lens => () =>
-    run('reviewer', { sliceId: id, lens, round }, { schema: FINDINGS, phase: 'Review', label: `${id}:${lens}` })))
+    run('reviewer', { sliceId: id, lens, round }, reviewOpts({ schema: FINDINGS, phase: 'Review', label: `${id}:${lens}` }))))
   const missing = REVIEW_LENSES
     .filter((lens, i) => !reports[i])
     .map(lens => ({ title: `reviewer ${lens} failed to report`, detail: 'Re-run review; no evidence the slice is clean for this lens.', blocking: true }))
@@ -537,15 +556,21 @@ async function verifyPhase(id, round, prev = null) {
     if (unavailable.length) log(`${id} verify r${round}: ${unavailable.length} tool(s) unavailable: ${unavailable.map(u => u.id).join(', ')}`)
   }
   const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
+  const profileRun = g => run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
+    { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })
   const all = await parallel([
-    ...VERIFY_LENSES.map(lens => () =>
-      run('verifier', { sliceId: id, lens, round }, { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` })),
-    ...groups.map(g => () =>
-      run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
-        { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })),
+    ...VERIFY_LENSES.map(lens => () => {
+      const opts = { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` }
+      return run('verifier', { sliceId: id, lens, round }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
+    }),
+    async () => {
+      const out = []
+      for (const batch of chunk(groups, PROFILE_BATCH)) out.push(...(await parallel(batch.map(g => () => profileRun(g)))))
+      return out
+    },
   ])
   const core = all.slice(0, VERIFY_LENSES.length)
-  const profiles = all.slice(VERIFY_LENSES.length)
+  const profiles = all[VERIFY_LENSES.length] || groups.map(() => null)
   let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
@@ -866,7 +891,7 @@ const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milest
 const INTERNALS = {
   run, persist, hasHeadroom, spent: () => spent,
   tallyVerify, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
-  PROFILES, RISK_AGENTS, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
+  PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
   decisionPanel, escalate,
   planPhase, testsPhase, sliceAction,
