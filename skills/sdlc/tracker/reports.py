@@ -67,7 +67,8 @@ details.src pre { margin-top:6px; }
 
 
 def esc(s):
-    return html.escape(s, quote=True)
+    # U+FFFD (from undecodable bytes in a source file) as an entity, so hosts that reject it accept the page
+    return html.escape(s, quote=True).replace("\ufffd", "&#xFFFD;")
 
 
 def read(path):
