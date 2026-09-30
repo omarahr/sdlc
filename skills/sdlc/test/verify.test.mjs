@@ -157,3 +157,47 @@ test('every profile has a prompt file that reads the shared profile rules', asyn
     assert.ok(existsSync(join(SKILL_DIR, 'prompts', `${r}.md`)), `${r}.md missing`)
   }
 })
+
+test('the spec-fidelity verifier and the reviewers run on the review model; everyone else inherits', async () => {
+  const rt = await runMain(happy({}, 'implement'))
+  const model = r => [...new Set(rt.calls.filter(c => c.role === r).map(c => c.opts.model))]
+  assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => [c.inputs.lens, c.opts.model]).sort(), [['regression', undefined], ['spec-fidelity', 'fable']])
+  assert.deepEqual(model('reviewer'), ['fable'])
+  for (const r of ['implementer', 'verify-planner', 'verify-http-api', 'finding-refuter', 'integrator', 'test-reporter']) {
+    assert.deepEqual(model(r).filter(Boolean), [], `${r} should inherit the session model`)
+  }
+})
+
+test('reviewModel null keeps every agent on the session model', async () => {
+  const rt = await runMain(happy({}, 'implement'), { reviewModel: null })
+  assert.equal(rt.calls.some(c => c.opts.model), false)
+})
+
+test('a review model that fails is retried once on the session model', async () => {
+  const rt = await loadInternals(c => {
+    if (c.opts.model) throw new Error('model not available')
+    return { findings: [] }
+  })
+  const out = await rt.I.run('reviewer', { sliceId: 'S-1' }, rt.I.reviewOpts({ label: 'x' }))
+  assert.deepEqual(out, { findings: [] })
+  assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', undefined])
+  assert.match(rt.logs.join('\n'), /model fable failed .*retrying on the session model/)
+})
+
+test('profile agents run in batches of four', async () => {
+  let live = 0
+  let peak = 0
+  const slow = () => new Promise(r => setTimeout(r, 5))
+  const profiles = ['http-api', 'async', 'concurrency', 'data', 'i18n', 'cli', 'security']
+  const table = {
+    'verify-planner': () => ({ scenarios: [{ id: 'VS-1', title: 't', requirementIds: ['R-1'], profiles }], tools: [], risk: 'high' }),
+    verifier: () => clear(),
+    'verify-collector': () => ok(),
+  }
+  for (const p of profiles) table[`verify-${p}`] = async () => { live++; peak = Math.max(peak, live); await slow(); live--; return clear() }
+  const rt = await loadInternals(scripted(table))
+  const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
+  assert.equal(rt.roles().filter(r => profiles.includes(r.replace('verify-', ''))).length, 7)
+  assert.equal(peak, 4)
+  assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+})

@@ -30,6 +30,8 @@ Each slice is verified at its real boundary by a **verification group**:
 Verification scales with the slice:
 - The planner rates each slice's risk, and the rating caps the group: low risk runs 2 profiles, medium 4, and high up to 8. Each profile agent works to a time limit.
 - The full group runs once, in the slice's first round. Fix rounds re-run only the scenarios that failed or were blocked, and the regression lens re-runs every committed test.
+- Profile agents run 4 at a time, because each one starts its own database and test runs.
+- The spec-fidelity verifier and the three code reviewers run on a different model (Fable 5.1) than the one that plans and writes the code, so one model's blind spots are not graded by the same model. The agents that challenge review findings stay on the session model, so each blocking finding is checked by both. Pass `reviewModel: null` in the workflow args to use the session model everywhere. If the review model is unavailable, that agent retries on the session model.
 
 Everything is scoped to what the spec says. Anything the spec leaves undefined is noted for later instead of blocking the slice.
 
