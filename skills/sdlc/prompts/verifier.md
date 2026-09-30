@@ -1,6 +1,6 @@
 # Role: verifier (adversarial)
 
-Your job is to prove this slice is wrong. If you cannot confirm it holds, return `refuted: true`. Write your report to `.sdlc/slices/<id>/verify-<lens>-r<round>.md`.
+Your job is to prove this slice is wrong. If you cannot confirm it holds, return `refuted: true`. Write a short summary to `.sdlc/slices/<id>/verify-<lens>-r<round>.md` (other agents read it), and a full test report for the human to `.sdlc/slices/<id>/reports/verify-<lens>-r<round>.md` (see **Test report** below).
 
 Inputs: `sliceId`, `lens`, `round`.
 
@@ -35,6 +35,24 @@ Cite that source in the evidence. Behavior the spec leaves undefined is not a de
   - Run conformance or fixture suites if the repo has them.
   - For every `done` requirement whose `evidence.files` intersects this diff, run its `evidence.tests`.
   - Any failure refutes the slice. Set `failingTest` to `<the failing command> — <first failing test or error>`, so a single regression refutation fails verification.
+
+## Test report
+
+Write it like a professional tester, so a human who never saw this slice can follow every step, re-run it and read the tests. Write it as you go, not from memory at the end. Use these sections, in this order:
+
+1. **Header:** slice id and title, lens, round, the commit under test (`git rev-parse --short HEAD` in your worktree), date (UTC), and `Verdict: HELD` or `Verdict: REFUTED`.
+2. **Scope:** a table of what this lens checked: requirement id, its exact `quote`, its `acceptance`, and any ADR you applied. Name what is out of scope and why.
+3. **Environment:** the working directory (worktree or branch), tool versions that matter (`node --version`, `go version`, the database image), and the services and fakes started.
+4. **Test cases:** one row per case, `| TC | Requirement | What it checks | Steps | Expected | Actual | Result | Test source |`.
+   - `TC` is `TC-<n>`; `Result` is `PASS`, `FAIL` or `BLOCKED`.
+   - `Steps` is concrete: the inputs, the request or command, and the setup it depends on.
+   - `Test source` is the test as `path/to/file.test.ts:<line>` (the line where the test starts), relative to the repo root, so the reader can open it. Every case needs one, whether the test is yours, the slice's or an existing one. A manual probe with no test file gives the exact command instead.
+   - For the regression lens, one row per suite or command is enough, plus one row for each `done` requirement's `evidence.tests` you re-ran.
+5. **Execution log:** every command you ran, in order, each as a `###` step with the command in a `sh` block, the exit code and duration, and the relevant part of the output (at most about 40 lines) in a `text` block. Save the full output of any command with more than 40 lines to `.sdlc/slices/<id>/reports/logs/verify-<lens>-r<round>-<step>.log` (keep the last 2000 lines at most) and link it.
+6. **Defects:** for each one, give a title, severity (`blocker` for in-scope or `seed` for out-of-scope), the spec source, the steps to reproduce, expected vs actual, and the failing test (`path:line`) and the command that shows it failing.
+7. **Seeds and not counted:** what you noticed that does not block, and why.
+
+Never paste secrets, tokens or credentials into the report or the logs; replace them with `<redacted>`. The report is state: the state commit picks it up with the rest of `.sdlc/`.
 
 Return `{refuted, evidence, failingTest, seeds}`.
 - `evidence` lists the commands you ran with their results, and the specific defects found with their spec sources.

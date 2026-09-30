@@ -4,7 +4,8 @@
 Usage:
   collect.py [--repo DIR] [--out DIR] [--journal FILE] [--run-label TEXT] [--run-cap N]
 
-Writes <out>/status.json and <out>/index.html (default out: <repo>/.sdlc/tracker).
+Writes <out>/status.json, <out>/index.html and the verifier test reports under
+<out>/reports/ (default out: <repo>/.sdlc/tracker).
 Open index.html in a browser; it reloads itself every minute, so re-running this
 script (the /sdlc heartbeat does) keeps the page current. Python 3 standard library only.
 """
@@ -15,6 +16,10 @@ import re
 import subprocess
 import sys
 from datetime import datetime, timezone
+
+sys.dont_write_bytecode = True  # no __pycache__ inside the installed plugin
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import reports  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, "template.html")
@@ -196,6 +201,12 @@ def main():
     data = read_json(a.data, None) if a.data else build(repo, a.journal, a.run_label, a.run_cap)
     if data is None:
         raise SystemExit(f"cannot read {a.data}")
+    if not a.data:
+        try:
+            # the verifier test reports, browsable from the tracker's "Test reports" section
+            data["reports"] = reports.build(repo, os.path.join(out, "reports"))
+        except Exception as e:  # a report that fails to render never breaks the tracker
+            print(f"test reports not rendered: {e}", file=sys.stderr)
     print(render(data, out))
 
 

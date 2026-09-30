@@ -202,6 +202,20 @@ svg text { font-family: var(--mono); font-size: 11px; }
 .vbadge.verified { background: var(--done-soft); color: var(--done); border-color: transparent; }
 .vbadge.fixing, .vbadge.exhausted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
 .example { font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 8px 12px; border-radius: 8px; }
+.reports-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.reports-head input { font: inherit; font-size: 13px; padding: 5px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--sunk); color: var(--ink); min-width: 0; width: 220px; max-width: 100%; }
+.rep-list { display: grid; gap: 0; }
+.rep { display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; }
+.rep:first-child { border-top: 0; }
+.rep a.id { font-family: var(--mono); font-size: 12px; color: var(--accent); text-decoration: none; }
+.rep a.id:hover { text-decoration: underline; }
+.rep .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.rep .n { font-family: var(--mono); font-size: 11.5px; color: var(--faint); white-space: nowrap; }
+.rep .lenses { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 5px; }
+.lens { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--sunk); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
+.lens.held { background: var(--done-soft); color: var(--done); border-color: transparent; }
+.lens.refuted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
+.rep-more { margin-top: 10px; font: inherit; font-size: 12.5px; background: none; border: 1px solid var(--line); color: var(--accent); padding: 5px 10px; border-radius: 6px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -308,6 +322,54 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       return out;
     });
     return { slices, p, ms };
+  }
+
+  // "Test reports": every slice with verifier reports, linking to the pages reports.py renders.
+  let repFilter = "", repAll = false;
+  function reportsCard(list) {
+    const card = el("section", "card");
+    const head = el("div", "reports-head");
+    const h = el("h2", "", "Test reports");
+    h.style.margin = "0";
+    const right = el("div");
+    right.style.cssText = "display:flex;gap:12px;align-items:center;flex-wrap:wrap";
+    const input = el("input");
+    input.type = "search"; input.placeholder = "Filter by slice or title"; input.value = repFilter;
+    input.setAttribute("aria-label", "Filter test reports");
+    const all = el("a", "", "Browse all");
+    all.href = "reports/index.html";
+    right.append(input, all);
+    head.append(h, right);
+    card.append(head);
+    const box = el("div", "rep-list");
+    const more = el("button", "rep-more");
+    const draw = () => {
+      box.replaceChildren();
+      const q = repFilter.toLowerCase();
+      const hits = list.slice().reverse().filter((r) => !q || (r.id + " " + r.title).toLowerCase().includes(q));
+      const shown = repAll || q ? hits : hits.slice(0, 8);
+      shown.forEach((r) => {
+        const row = el("div", "rep");
+        const a = el("a", "id", r.id); a.href = "reports/" + encodeURIComponent(r.id) + ".html";
+        const t = el("span", "t", r.title || ""); t.title = r.title || "";
+        row.append(a, t, el("span", "n", r.reports + (r.reports === 1 ? " report" : " reports") + (r.full ? " · " + r.full + " full" : "")));
+        const ls = el("div", "lenses");
+        Object.keys(r.lenses).sort().forEach((k) => {
+          const v = r.lenses[k];
+          ls.append(el("span", "lens " + (v.verdict || ""), k + " r" + v.round + (v.verdict ? " · " + v.verdict : "")));
+        });
+        row.append(ls);
+        box.append(row);
+      });
+      if (!shown.length) box.append(el("p", "note", list.length ? "No slice matches." : "No verifier reports yet."));
+      more.hidden = !!q || hits.length <= 8;
+      more.textContent = repAll ? "Show fewer" : "Show all " + hits.length;
+    };
+    input.addEventListener("input", () => { repFilter = input.value; draw(); });
+    more.addEventListener("click", () => { repAll = !repAll; draw(); });
+    draw();
+    card.append(box, more);
+    return card;
   }
 
   function render(data) {
@@ -520,6 +582,8 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     pk.append(note);
     g2.append(pk);
     app.append(g2);
+
+    if (data.reports) app.append(reportsCard(data.reports));
   }
 
   function chart(data, p, open, total) {

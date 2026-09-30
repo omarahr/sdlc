@@ -61,3 +61,43 @@ test('collector refuses a repo without .sdlc', { skip: !python && 'python3 not i
   assert.throws(() => execFileSync('python3', [COLLECT, '--repo', repo], { stdio: 'pipe' }))
   assert.equal(existsSync(join(repo, '.sdlc')), false)
 })
+
+test('verifier test reports render as pages with the referenced test source', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const s = join(repo, '.sdlc', 'slices')
+  mkdirSync(join(s, 'S-001', 'reports', 'logs'), { recursive: true })
+  mkdirSync(join(s, 'S-002a'), { recursive: true })
+  mkdirSync(join(repo, 'src'))
+  writeFileSync(join(repo, 'src', 'add.test.ts'), "import { add } from './add'\n\ntest('adds <b>', () => {\n  expect(add(1, 2)).toBe(3)\n})\n\ntest('next', () => {})\n")
+  writeFileSync(join(s, 'S-001', 'verify-behavior-r0.md'), '# short\nVerdict: NOT refuted\n')
+  writeFileSync(join(s, 'S-001', 'reports', 'logs', 'verify-behavior-r0-1.log'), 'full output\n')
+  writeFileSync(join(s, 'S-001', 'reports', 'verify-behavior-r0.md'), [
+    '# S-001 verify — behavior — r0', 'Verdict: HELD', '',
+    '| TC | Requirement | Steps | Expected | Actual | Result | Test source |', '|---|---|---|---|---|---|---|',
+    '| TC-1 | R-1 | add 1 and 2 | 3 | 3 | PASS | `src/add.test.ts:3` |', '',
+    '### Step 1', '```sh', 'npx vitest run src/add.test.ts', '```', 'Full output: [log](logs/verify-behavior-r0-1.log)', '',
+    'Escape [out](../../../../../etc/passwd) and [js](javascript:alert(1)) and <script>x</script>',
+  ].join('\n'))
+  writeFileSync(join(s, 'S-002a', 'verify-regression-r1.md'), 'Verdict: **REFUTED**\nRan `src/add.test.ts`.\n')
+  execFileSync('python3', [COLLECT, '--repo', repo])
+  const out = join(repo, '.sdlc', 'tracker')
+  const data = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8'))
+  assert.deepEqual(data.reports.map(r => [r.id, r.reports, r.full]), [['S-001', 1, 1], ['S-002a', 1, 0]])
+  assert.deepEqual(data.reports[0].lenses, { behavior: { round: 0, verdict: 'held' } })
+  assert.equal(data.reports[1].lenses.regression.verdict, 'refuted')
+  const page = readFileSync(join(out, 'reports', 'S-001.html'), 'utf8')
+  // the full report wins over the short summary, and the test at line 3 is shown up to its closing line
+  assert.doesNotMatch(page, /# short/)
+  assert.match(page, /Test source: <code>src\/add\.test\.ts:3<\/code>/)
+  assert.match(page, /adds &lt;b&gt;/)
+  assert.match(page, /toBe\(3\)/)
+  assert.doesNotMatch(page, /test\(&#x27;next/)
+  assert.match(page, /href="\.\.\/\.\.\/slices\/S-001\/reports\/logs\/verify-behavior-r0-1\.log"/)
+  assert.doesNotMatch(page, /etc\/passwd"|javascript:|<script>x/)
+  // a bare test file path embeds the whole file
+  const summary = readFileSync(join(out, 'reports', 'S-002a.html'), 'utf8')
+  assert.match(summary, /Test source: <code>src\/add\.test\.ts<\/code>/)
+  assert.match(summary, /test\(&#x27;next/)
+  assert.match(readFileSync(join(out, 'reports', 'index.html'), 'utf8'), /href="S-002a\.html"/)
+  assert.match(readFileSync(join(out, 'index.html'), 'utf8'), /Test reports/)
+})
