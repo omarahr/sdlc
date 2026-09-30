@@ -181,6 +181,7 @@ async function run(role, vars, opts = {}) {
   const prompt = [
     `You are the "${role}" agent of the SDLC workflow.`,
     `Read ${SKILL_DIR}/prompts/_common.md, then ${SKILL_DIR}/prompts/${role}.md, and follow them exactly.`,
+    `Prompts directory: ${SKILL_DIR}/prompts (every prompt file named in these instructions is there).`,
     `Target repo: ${REPO}`,
     'Inputs (JSON):',
     JSON.stringify(vars || {}, null, 2),
