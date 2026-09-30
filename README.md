@@ -44,12 +44,29 @@ To update later:
 - `git`. For PR mode, the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`.
 - Whatever toolchain your spec needs (Node, Go, Docker, …). The loop detects the build, test and lint commands on its own.
 
+## Write the spec first (recommended: Superpowers)
+
+`/sdlc` works best on a spec written with the **brainstorming** skill from [obra's Superpowers plugin](https://github.com/obra/superpowers). That skill turns an idea into an approved design through a short Q&A. The design it writes has what the loop relies on:
+- clear intent and non-goals;
+- the architecture and units;
+- exact error behavior and limits;
+- a testing strategy;
+- a build order.
+
+The slicer follows the build order. The behavior campaigns take their expected outcomes and corner cases from the error-handling and limits sections. The fewer gaps the spec leaves, the fewer decisions the loop has to make on its own.
+
+1. Install Superpowers: `/plugin install superpowers@claude-plugins-official`.
+2. Describe what you want to build and let the brainstorming skill lead. Review the spec it writes to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` before you approve it.
+3. Hand the approved spec to the loop (below).
+
+Any clear Markdown spec works, but a vague one leaves many autonomous decisions to the loop, so skim `DECISIONS.md`.
+
 ## Usage
 
 Run it from inside a git repo with a clean working tree:
 
 ```
-/loop /sdlc docs/spec.md
+/loop /sdlc docs/superpowers/specs/2026-01-15-my-app-design.md
 ```
 
 Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many agents it can use (850 by default), and the loop relaunches the run whenever it hits that cap or a usage limit. It checks back every 30 minutes until the spec is done.
