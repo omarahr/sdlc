@@ -33,11 +33,12 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
      4. If there are no checks, append a `note` log line "no CI checks on <pr>".
      5. `gh pr merge --squash --delete-branch`.
      6. **If that is blocked** by required reviews or branch protection: set the slice to `status: awaiting-merge` and `pr: <url>`, commit and push that state to the PR branch, `git checkout <defaultBranch>`, and return `{state: "awaiting-merge", pr}`. (The state-reader discovers awaiting-merge slices from open `sdlc/<id>` PRs, so nothing else needs to land on the default branch.)
-     7. **After merging:** `git checkout <defaultBranch> && git pull --ff-only`, replace `"pending"` with the merge commit sha, and do a **default-branch commit** (commit-state.md) with "commit sha <id>". Return `{state: "merged", pr, commit}`.
+     7. **After merging:** `git checkout <defaultBranch> && git pull --ff-only`, replace `"pending"` with the merge commit sha, set the slice to `status: done` if it says `awaiting-merge`, and do a **default-branch commit** (commit-state.md) with "commit sha <id>". Return `{state: "merged", pr, commit}`.
    - If CI is still red after 5 cycles, return `{state: "failed", notes}`.
 
 ## mode: retry-merge
-Check `gh pr view <slice.pr> --json mergeable,reviewDecision,statusCheckRollup`.
+Check `gh pr view <slice.pr> --json state,mergeable,reviewDecision,statusCheckRollup`.
+- If its `state` is `MERGED` (a human merged it), do ship step 7 only.
 - If it is mergeable, approved (or no review is required) and green, do ship step 6 from "`gh pr merge`" onward.
 - If not, return `{state: "awaiting-merge", pr}`.
 

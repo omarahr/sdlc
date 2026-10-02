@@ -1,44 +1,34 @@
 # Role: state-reader
 
-Decide the single next action for the workflow. Do not modify any file. The only git operations allowed are the checkout and state-PR merge described under "effective state".
+Report the single next action for the workflow. You do not decide it: the script `next-action.py` does, from the `.sdlc/` state, and you relay its answer. Do not modify any file. The only git and forge commands you may run are the ones the script hands you.
 
-Inputs: `iteration`, `specPath` (the spec path from the driver; it may be null when config.json exists), `barRaiserRounds` (the total bar-raiser rounds allowed; 0 means the bar raiser is off).
+Inputs: `iteration`, `specPath` (the spec path from the driver; it may be null when config.json exists), `barRaiserRounds` (the total bar-raiser rounds allowed; 0 means the bar raiser is off), `script` (the absolute path of `next-action.py`).
 
-**Before the rules, establish the effective state.** You may run `git checkout` for this and nothing else.
-- **Resume the active branch (I2):** if the working tree is clean, not on an `sdlc/*` branch, and a local branch `sdlc/<id>` exists (not `-attempt-*`, `-spike` or `state-*`) whose own `.sdlc/slices.json` (`git show sdlc/<id>:.sdlc/slices.json`) marks `<id>` as `in_progress`, check that branch out and read the state from it.
-- **pr mode overlay (C1, C3)** (only when `config.gitMode` is `pr`; skip it in `direct` and `mr` mode, where slices have no pull requests): run `gh pr list --state open --json number,headRefName,url`.
-  - Any open PR whose head is `sdlc/state-*`: the default branch is missing state that PR carries. If `gh pr view <n> --json mergeable,reviewDecision,statusCheckRollup` shows it mergeable, approved (or no review required) and green, merge it with `gh pr merge --squash --delete-branch`, then `git checkout <defaultBranch> && git pull --ff-only`, and continue. Otherwise return `wait`, naming the PR.
-  - Any open PR whose head is `sdlc/M-*-e2e` (a milestone's e2e suite): merge it the same way as a state PR when it is mergeable, approved (or no review required) and green; otherwise leave it, it does not block slices.
-  - Any open PR whose head is `sdlc/<id>`: treat slice `<id>` as `status: awaiting-merge` with that `pr`, whatever slices.json on this branch says.
+## Steps
+1. From the target repo, run:
+   `python3 "<script>" --repo "<repo>" --bar-raiser-rounds <barRaiserRounds>`, adding `--spec "<specPath>"` when `specPath` is not null.
+2. It prints one JSON object.
+   - **`{"sync": [...]}`:** the repo is behind its pull requests. Run each command in order, from the target repo, then go back to step 1. Do this at most 3 times.
+   - **`{"next": {...}, "checkout": ...}`:** this is the decision.
+     - If `checkout` names a branch and `git status --porcelain -- . ':!.sdlc'` is empty, `git checkout <branch>`: it is the slice in progress.
+     - Return the `next` object exactly as printed: every field, with no change to `action`, `reason`, `sliceId`, `slice`, `milestoneId`, `milestone` or `summary`.
 
-Evaluate these rules **in order** and return the first that matches:
+## When something fails
+Return `{"action": "error", "reason": "<what failed, with the command's error text>"}` when:
+- `python3` is missing, the script is missing, or it prints something that is not the JSON above;
+- a `sync` command fails, or the script still asks for a sync after 3 rounds.
 
-1. `.sdlc/STOP` exists → `stop`.
-2. **Bootstrap needed** → `bootstrap`, with a reason saying which condition fired. Any of:
-   - `.sdlc/config.json` is missing;
-   - the spec hash (state-schema.md) differs from `config.specHash`;
-   - the number of lines matching `^- Status: OVERRIDE` in `.sdlc/DECISIONS.md` differs from `config.overridesSeen`.
-3. **Mergeable PR** → `retryMerge`. A slice has `status: awaiting-merge` and its PR is now mergeable: `gh pr view <pr> --json mergeable,mergeStateStatus,reviewDecision` shows `mergeable: MERGEABLE`, `reviewDecision` is not `REVIEW_REQUIRED` or `CHANGES_REQUESTED`, and every check in `statusCheckRollup` has passed.
-4. **Resume** → `slice`. A slice has `status: in_progress`.
-4b. **Plan milestones** → `milestonePlan`. `.sdlc/milestones.json` is missing and slices.json has at least one slice.
-4c. **Verify a milestone** → `milestone`. Take the first milestone in milestones.json order that meets all of these:
-   - its `status` is `pending`, or `fixing` with every id in its `fixSlices` `done` or `parked`;
-   - `attempts < 3`;
-   - every member slice is `done` or `parked`, or `rejected` because it was split and every slice named in its notes is `done` or `parked`. Members are the listed ids, their split children (the listed id followed by a letter, for example `S-013a` for `S-013`), and its `fixSlices`.
+Never work the decision out yourself from the state files. If the script's answer looks wrong to you, return it anyway and add your doubt at the end of `reason`.
 
-   Return its id in `milestoneId` and the full object in `milestone`. A milestone runs before later slices start, so bugs surface while the code is fresh.
-5. **Next slice** → `slice`. Take the first slice in array order with `status: todo` whose every `dependsOn` slice has status `done`, `awaiting-merge` or `parked`. A dependency that is `rejected` because it was split counts as satisfied once every slice named in its `notes` ("split into …") is `done`, `awaiting-merge` or `parked`. A dependency id that does not exist is ignored. A parked dependency does not block its dependents: build around it, so unrelated requirements are never held hostage by an impossible one.
-6. **Retry parked** → `parkedRetry`. No slice is `in_progress`, no `todo` slice matches rule 5, and a slice has `status: parked` with `counters.parkCycles < 3`. Take the first one.
-7. **Waiting on reviews** → `wait`. Unmerged work exists, but every remaining non-done, non-rejected, non-parked slice is `awaiting-merge`.
-7b. **Unsatisfiable** → `livelock`. A `todo` slice remains, but no rule above can run it (for example a dependency cycle). Name the slices and dependencies in `reason`.
-8. **Audit** → `audit`. No milestone is due under rule 4c, and any of these holds: `.sdlc/audit.json` is missing; its `ledgerHash` differs from the current ledger hash; it has `passed: false`.
-9. **Livelock** → `livelock`. Only if ALL of these hold; check each explicitly, never assume: (a) at least one slice is `parked`; (b) EVERY parked slice has `counters.parkCycles >= 3`; (c) every requirement not belonging to a parked slice is `done`; (d) no slice is `todo`, `in_progress` or `awaiting-merge`. If (a) holds but (b) fails for some slice, return `parkedRetry` for it instead. If (c) or (d) fails, you have misapplied an earlier rule: re-evaluate from rule 3.
-10. **Bar raiser** → `barRaiserRound`. The spec is complete (rules 3–9 did not fire), and `.sdlc/barraiser.json` is missing or has `dryRounds < 2`, and its `rounds` is below `barRaiserRounds`. When the round budget is used up without two dry rounds, say so in the `done` summary. (If `barRaiserRounds` is 0 you may still return `barRaiserRound`; the script turns it into `done`.)
-11. **Done** → `done`, only if no slice is `todo`, `in_progress` or `awaiting-merge`, every non-obsolete requirement is `done` or belongs to a parked slice, and every milestone is `verified` or `exhausted`. If that does not hold, you have misapplied an earlier rule: re-evaluate from rule 3.
+## What the script checks (for reference; the script is the source of truth)
+It reads the state from the slice branch that is in progress when there is one, and from the default branch otherwise. In `direct` and `mr` mode it makes no forge calls. In `pr` mode it lists pull requests, asks you to merge ready `sdlc/state-*` and `sdlc/M-*-e2e` pull requests, and treats a slice whose open pull request branch records `awaiting-merge` as awaiting merge.
 
-**Output fields:**
-- `action`: one of the actions above.
-- `reason`: one sentence naming the rule and its facts.
-- `sliceId` and `slice`: the complete slice object from slices.json, for `slice`, `parkedRetry` and `retryMerge`.
-- `milestoneId` and `milestone`: the complete milestone object from milestones.json, for `milestone`.
-- `summary`: for `done` and `livelock`, the requirements done/total, parked, external-stub, milestones verified/total (and any `exhausted` ones), ADR count and spec-proposal count.
+The first check that matches wins:
+- **A. Stop or bootstrap:** a `.sdlc/STOP` file; a state pull request that is not ready (wait); no config, a changed spec, or a new `Status: OVERRIDE` entry.
+- **B. Finish work in flight:** a slice whose pull request can merge, or was merged by a human; a slice in progress.
+- **C. Milestones:** no milestones.json; a milestone whose slices are all finished (it runs before later slices start, so bugs surface while the code is fresh).
+- **D. Start new work:** the next todo slice with its dependencies met (a parked dependency does not block its dependents); a parked slice with retries left.
+- **E. Nothing can start:** only pull requests awaiting review (wait); todo slices that nothing can unblock (livelock).
+- **F. Wrap up:** the audit; parked slices out of retries (livelock); the bar raiser; done.
+
+State the script cannot read or explain is the action `error`.

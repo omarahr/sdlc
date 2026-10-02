@@ -85,6 +85,7 @@ Array order is execution order, and a human may reorder it.
 - `kind` is `spec`, `improvement` or `fix`. Fix slices come from the audit (`S-fix-<n>`) or from a milestone's behavior campaign (`S-fix-<milestone>-<n>`).
 - `status` is `todo`, `in_progress`, `awaiting-merge`, `done`, `parked` or `rejected`.
 - `phase` is `plan`, `tests`, `implement` or `integrate`.
+- A slice that was split is `rejected` and lists the slices it became in `splitInto` (for example `["S-013a", "S-013b"]`). It counts as finished, or as a met dependency, once every one of those does.
 
 ## milestones.json
 Created by the milestone-planner. The slicer appends slices to it, and the milestone-writer updates status after each campaign.

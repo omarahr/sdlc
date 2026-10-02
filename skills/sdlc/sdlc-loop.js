@@ -29,10 +29,13 @@ const CAP = A.runAgentCap || 850
 const MAX_ITER = A.maxIterations === undefined || A.maxIterations === null ? Infinity : A.maxIterations
 // bar raiser is opt-in: 0 (default) means stop at spec-complete; N allows up to N polish rounds in total
 const BAR_RAISER_ROUNDS = A.barRaiserRounds > 0 ? A.barRaiserRounds : 0
-// roles that run on a different model than the one that planned and wrote the code, so one model's blind
-// spots are not graded by the same model: the spec-fidelity verifier and the code reviewers. Pass
-// args.reviewModel null to inherit the session model everywhere.
-const REVIEW_MODEL = A.reviewModel === undefined ? 'fable' : A.reviewModel
+// roles that can run on a different model than the one that planned and wrote the code, so one model's blind
+// spots are not graded by the same model: the spec-fidelity verifier and the code reviewers. The value is a
+// list in order of preference: an agent uses the first one that works and falls back to the session model
+// after the last. Default is null (inherit the session model everywhere), because an override model that
+// hangs instead of failing stalls the run: the fallback chain only advances on failure. Pass
+// args.reviewModel one name or a list (e.g. ['fable', 'opus']) to opt back into split-model review.
+const REVIEW_MODEL = A.reviewModel === undefined ? null : A.reviewModel
 const COST = { bootstrap: 40, slice: 60, parkedRetry: 60, retryMerge: 5, milestonePlan: 5, milestone: 90, audit: 80, barRaiserRound: 90, livelock: 2 }
 
 // ---------- shared schemas ----------
@@ -41,7 +44,7 @@ const OK = { type: 'object', properties: { ok: { type: 'boolean' }, notes: str }
 const NEXT = {
   type: 'object',
   properties: {
-    action: { type: 'string', enum: ['stop', 'bootstrap', 'slice', 'parkedRetry', 'retryMerge', 'milestonePlan', 'milestone', 'audit', 'barRaiserRound', 'livelock', 'done', 'wait'] },
+    action: { type: 'string', enum: ['stop', 'bootstrap', 'slice', 'parkedRetry', 'retryMerge', 'milestonePlan', 'milestone', 'audit', 'barRaiserRound', 'livelock', 'done', 'wait', 'error'] },
     sliceId: str,
     slice: { type: 'object' },
     milestoneId: str,
@@ -216,6 +219,10 @@ function chunk(arr, size) {
 
 // ---------- core ----------
 let spent = 0
+// consecutive failures per named model; one that reaches the limit is skipped for the rest of the run, so a
+// model this account cannot use does not cost every review agent a failed call
+const modelFails = new Map()
+const MODEL_FAIL_LIMIT = 2
 
 function hasHeadroom(action) {
   if (spent + (COST[action] || 60) > CAP) return false
@@ -232,25 +239,33 @@ async function run(role, vars, opts = {}) {
     'Inputs (JSON):',
     JSON.stringify(vars || {}, null, 2),
   ].join('\n')
-  const { label, ...rest } = opts
+  const { label, model, ...rest } = opts
   const fullLabel = label ? `${role}:${label}` : role
-  let o = { ...rest, label: fullLabel }
-  for (let attempt = 0; attempt < 2; attempt++) {
-    spent++
-    let out = null
-    let err = ''
-    try {
-      out = await agent(prompt, o)
-    } catch (e) {
-      out = null
-      err = e && e.message ? e.message : String(e)
-    }
-    if (out !== null && out !== undefined) return out
-    // an unavailable model must never cost the slice a verdict: the retry inherits the session model
-    if (o.model) {
-      log(`${fullLabel}: model ${o.model} failed (${err || 'no result'}); retrying on the session model`)
-      const { model, ...inherit } = o
-      o = inherit
+  // an unavailable model must never cost the slice a verdict: each named model gets one try, in order, and
+  // the session model (null) then gets the usual two
+  const chain = [...[].concat(model || []).filter(m => (modelFails.get(m) || 0) < MODEL_FAIL_LIMIT), null]
+  for (let c = 0; c < chain.length; c++) {
+    const m = chain[c]
+    for (let attempt = 0; attempt < (m ? 1 : 2); attempt++) {
+      spent++
+      let out = null
+      let err = ''
+      try {
+        out = await agent(prompt, m ? { ...rest, label: fullLabel, model: m } : { ...rest, label: fullLabel })
+      } catch (e) {
+        out = null
+        err = e && e.message ? e.message : String(e)
+      }
+      if (out !== null && out !== undefined) {
+        if (m) modelFails.set(m, 0)
+        return out
+      }
+      if (m) {
+        const fails = (modelFails.get(m) || 0) + 1
+        modelFails.set(m, fails)
+        log(`${fullLabel}: model ${m} failed (${err || 'no result'}); trying ${chain[c + 1] || 'the session model'}`)
+        if (fails >= MODEL_FAIL_LIMIT) log(`model ${m} failed twice in a row; not using it again in this run`)
+      }
     }
   }
   return null
@@ -965,12 +980,15 @@ async function main() {
   for (let iteration = 0; ; iteration++) {
     if (iteration >= MAX_ITER) return finish('continue', `max iterations (${MAX_ITER}) reached`, history)
     phase('Read state')
-    const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS }, { schema: NEXT, effort: 'low', phase: 'Read state' })
+    // the decision is computed by next-action.py; the state-reader agent syncs the repo, runs it and relays its answer
+    const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS, script: `${SKILL_DIR}/next-action.py` }, { schema: NEXT, effort: 'low', phase: 'Read state' })
     if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)
     if (next.action === 'wait') return finish('waiting', next.reason, history)
+    // the state could not be read or explained: nothing to run, so back off like any run without progress
+    if (next.action === 'error') return pause(`state error: ${next.reason}`, history)
     if (next.action === 'barRaiserRound' && !BAR_RAISER_ROUNDS) {
       return finish('done', `spec complete; bar raiser off (run /sdlc with --bar-raiser N to polish). ${next.reason}`, history)
     }

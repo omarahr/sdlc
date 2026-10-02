@@ -98,6 +98,19 @@ test('stop, done and wait leave stalledRuns as it came in', async () => {
   assert.equal(rt.result.stalledRuns, 3)
 })
 
+test('an error from the state reader ends a run that did nothing as stalled, with the reason', async () => {
+  const rt = await runMain(scripted({ 'state-reader': [{ action: 'error', reason: 'slices.json is not valid JSON' }] }))
+  assert.equal(rt.result.state, 'stalled')
+  assert.match(rt.result.reason, /state error: slices\.json is not valid JSON/)
+  assert.deepEqual(rt.roles(), ['state-reader'])
+})
+
+test('the state reader is given the decision script path', async () => {
+  const rt = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'x' }] }), { skillDir: '/S' })
+  assert.equal(rt.calls[0].inputs.script, '/S/next-action.py')
+  assert.ok(rt.calls[0].opts.schema.properties.action.enum.includes('error'))
+})
+
 test('prompt names the common and role prompt files and embeds inputs', async () => {
   const rt = await runMain(
     scripted({ 'state-reader': [{ action: 'stop', reason: 'x' }] }),
