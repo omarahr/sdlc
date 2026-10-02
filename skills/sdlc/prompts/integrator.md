@@ -10,7 +10,7 @@ Ship a verified slice and record its evidence. You own:
 Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
 
 ## mode: ship
-1. **Final check:** `git checkout sdlc/<id>`, `git status` is clean, and the full `config.commands` test, lint, typecheck and build all pass. If any fails, return `{state: "failed", notes}`.
+1. **Final check:** `git checkout sdlc/<id>`, `git status` is clean, and the full `config.commands` test, lint, typecheck and build all pass. Run the long ones in the background as "Long commands" in _common.md says. If any fails, return `{state: "failed", notes}` naming the failing test. If one could not run to completion (cut off, killed, no exit code), that is not a failure: return `{state: "inconclusive", notes}` with the command and how long it ran, and change nothing.
 2. **Record evidence:**
    - Set each requirement of the slice to `status: done`, with `evidence.files` (from `git diff --name-only <defaultBranch>...HEAD`), `evidence.tests` (from tests.md plus the `test` of every passing final-round case in `verification/r<last>/*.json`), and `evidence.commit: "pending"`.
    - Copy into each requirement's `adrs` the id of every ADR whose `Affects` line names the requirement or this slice.
