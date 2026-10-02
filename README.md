@@ -369,7 +369,7 @@ skills/sdlc/
   fixtures/       # tiny specs for end-to-end checks
 ```
 
-Run the tests with `npm test` (Node 20+).
+Run the tests with `npm test` (Node 20+ and Python 3). CI runs the same suite on Linux and macOS, on Node 20 and 24.
 
 ## License
 
