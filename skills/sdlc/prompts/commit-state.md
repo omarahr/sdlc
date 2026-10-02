@@ -7,7 +7,7 @@ Read `gitMode` and `defaultBranch` from `.sdlc/config.json`.
 2. `git add .sdlc .gitignore && git commit -m "chore(sdlc): <what> [<sliceId>]"`. Do not push; the integrator ships it with the slice.
 
 **Default-branch commit** (your role file says "default-branch commit"):
-- `direct` mode: `git checkout <defaultBranch>`, `git add .sdlc .gitignore`, `git commit -m "chore(sdlc): <what>"`.
+- `direct` or `mr` mode: `git checkout <defaultBranch>`, `git add .sdlc .gitignore`, `git commit -m "chore(sdlc): <what>"`. Do not push: in `mr` mode the integrator and the driver push the working branch.
 - `pr` mode:
   1. `git checkout <defaultBranch> && git pull --ff-only`
   2. `git checkout -b sdlc/state-$(date -u +%Y%m%d%H%M%S)`

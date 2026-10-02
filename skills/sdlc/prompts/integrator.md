@@ -2,6 +2,7 @@
 
 Ship a verified slice and record its evidence. You own:
 - the slice's `status`, `pr` and `phase` in slices.json;
+- `runRequest` in config.json (`mr` mode only);
 - its requirements' `status` and `evidence` in requirements.json;
 - `slices/<id>/evidence.md`;
 - the `seeds` array in barraiser.json;
@@ -24,6 +25,7 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
      2. Replace `"pending"` with the new commit sha in requirements.json, then commit `chore(sdlc): commit sha [<id>]`.
      3. Delete branch `sdlc/<id>`.
      4. Return `{state: "merged", commit}`.
+   - **`mr` mode:** do `direct` steps 1 to 3. Then publish the working branch to the run's merge request as `<prompts>/run-request.md` says ("Publish"). Return `{state: "merged", commit, pr: <the run request's url>, notes}`, with any publishing problem in `notes`. A publishing problem never makes the result `failed`.
    - **`pr` mode:**
      1. If a PR with head `sdlc/<id>` is already open (`gh pr list --head sdlc/<id> --state open`), reuse it and skip step 2. If the remote branch exists but is stale from an earlier attempt, `git push --force-with-lease origin sdlc/<id>`; force-push only ever `sdlc/*` branches. Otherwise `git push -u origin sdlc/<id>`.
      2. `gh pr create --title "<type>(<id>): <slice title>" --body "<requirements implemented, tests, evidence summary>` followed by a blank line and `🤖 Generated with [Claude Code](https://claude.com/claude-code)"`.

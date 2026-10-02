@@ -8,7 +8,7 @@ Inputs: `milestoneId`, `outcome` (`verified`, `partial`, `bugs` or `blocked`), `
    1. Merge every `sdlc/<id>-e2e-<area>` branch into `sdlc/<id>-e2e`, then delete them.
    2. Add every `confirmed` and `unjudged` scenario id to `e2e/pending.json`, mapped to its fix slice (step 3).
    3. Run `config.commands.e2e`. Anything else that fails is a regression: add it to `unjudged` and to the pending list, and say so in the report.
-   4. Merge `sdlc/<id>-e2e` into the default branch the way the integrator does for the git mode (direct: squash-merge; pr: open a PR and let the state-reader merge it when green). Delete the branch when merged.
+   4. Merge `sdlc/<id>-e2e` into the default branch the way the integrator does for the git mode (`direct` or `mr`: squash-merge; pr: open a PR and let the state-reader merge it when green). Delete the branch when merged.
 2. **Report** `.sdlc/milestones/<id>/report.md`:
    - the summary;
    - a table of every scenario with its status, requirement and one-line observed behavior (from the runners' `run-*.md`);

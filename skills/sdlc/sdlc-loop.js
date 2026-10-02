@@ -291,13 +291,13 @@ function pause(reason, history) {
 
 // bootstrap
 const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str }, required: ['added'] }
-const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: ['pr', 'direct'] }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
+const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: ['pr', 'direct', 'mr'] }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
 const CRITIC_ROUND_LIMIT = 8
 
 async function bootstrap(next) {
   const P = 'Bootstrap'
   phase(P)
-  const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null }, { schema: ENV, phase: P })
+  const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null, commitFormat: A.commitFormat || null }, { schema: ENV, phase: P })
   if (!env) return 'bootstrap aborted: env-detector failed'
   const ext = await run('requirements-extractor', { reason: next.reason }, { schema: COUNT, phase: P })
   if (!ext) return 'bootstrap aborted: requirements-extractor failed'
