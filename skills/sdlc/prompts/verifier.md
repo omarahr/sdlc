@@ -31,7 +31,7 @@ Cite that source in the evidence. Behavior the spec leaves undefined is not a de
   - Run conformance or fixture suites if the repo has them.
   - For every `done` requirement whose `evidence.files` intersects this diff, run its `evidence.tests`.
   - Run the long commands in the background as "Long commands" in _common.md says. A command that could not run to completion is not a failure and never refutes; re-run it.
-  - **Test-time budget:** also time `config.commands.test` on the default branch in a second worktree (sequentially, not at the same time as the branch run). If the slice adds more than max(60 s, 20 %) of wall time, refute it with `failingTest: "<test command> — test time <branch>s vs <base>s"` and list the slowest added test files with their durations.
+  - **Test-time budget:** compare the branch's `config.commands.test` wall time with the default branch's. The baseline is measured once per slice and kept in `.sdlc/slices/<id>/verification/test-baseline.json` as `{commit, seconds}`, which you own. If that file exists and its `commit` is the default branch's current commit (`git rev-parse <defaultBranch>`), use its `seconds` and do not run the baseline again. Otherwise time `config.commands.test` on the default branch in a second worktree (sequentially, not at the same time as the branch run) and write the file. If the slice adds more than max(60 s, 20 %) of wall time, refute it with `failingTest: "<test command> — test time <branch>s vs <base>s"` and list the slowest added test files with their durations.
   - Any failure refutes the slice. Set `failingTest` to `<the failing command> — <first failing test or error>`, so a single regression refutation fails verification.
 
 ## Report file

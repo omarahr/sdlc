@@ -30,6 +30,7 @@ Each slice is verified at its real boundary by a **verification group**:
 Verification scales with the slice:
 - The planner rates each slice's risk, and the rating caps the group: low risk runs 2 profiles, medium 4, and high up to 8. Each profile agent works to a time limit.
 - The full group runs once, in the slice's first round. Fix rounds re-run only the scenarios that failed or were blocked, and the regression lens re-runs every committed test.
+- When a review finding sends the slice back for a fix, the planner adds scenarios for what the fix changed, and the profile verifiers test those.
 - Profile agents run 4 at a time, because each one starts its own database and test runs.
 - The spec-fidelity verifier and the three code reviewers run on a different model (Fable 5.1) than the one that plans and writes the code, so one model's blind spots are not graded by the same model. The agents that challenge review findings stay on the session model, so each blocking finding is checked by both. Pass `reviewModel: null` in the workflow args to use the session model everywhere. If the review model is unavailable, that agent retries on the session model.
 
@@ -93,7 +94,7 @@ Run it from inside a git repo with a clean working tree:
 /loop /sdlc docs/superpowers/specs/2026-01-15-my-app-design.md
 ```
 
-Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many agents it can use (850 by default), and the loop relaunches the run whenever it hits that cap or a usage limit. It checks back every 30 minutes until the spec is done.
+Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many agents it can use (850 by default), and the loop relaunches the run whenever it hits that cap or a usage limit. It checks back every 30 minutes until the spec is done. If 24 runs in a row make no progress (about 12 hours), the loop stops and reports why; run `/sdlc <spec>` to start it again.
 
 | Command | What it does |
 |---|---|
@@ -161,6 +162,181 @@ The collector needs Python 3 and nothing else. To share the tracker, ask Claude 
 - **It is heavy on your machine.** It runs builds, test suites, containers and browsers for hours. Behavior campaigns run at most three scenario runners at a time. On laptops, keep the machine plugged in and ventilated, and keep an eye on heat.
 - **It only knows what the spec says.** Gaps in the spec are filled with autonomous decisions, and every one is logged in `DECISIONS.md`.
 - **It never overwrites your uncommitted work.** It refuses to start on a dirty working tree.
+
+## How it works
+
+These diagrams follow `skills/sdlc/sdlc-loop.js` and `skills/sdlc/SKILL.md`. Every box is an agent role from `prompts/` or a function in the script.
+
+### The driver: `/sdlc` relaunches the workflow until it ends
+
+```mermaid
+flowchart TD
+  U(["/loop /sdlc spec.md"]) --> PF{"Pre-flight<br/>git repo, spec exists,<br/>clean tree, git mode, gh auth"}
+  PF -- fail --> X1(["report and end"])
+  PF -- ok --> DF["read driver.json if present<br/>(lastKey, streak, stalledRuns)"]
+  DF --> L["launch the sdlc-loop workflow<br/>and build the tracker"]
+  L --> HB["heartbeat every 30 min<br/>rebuild the tracker"]
+  HB --> L2{"run finished?"}
+  L2 -- no --> HB
+  L2 -- yes --> SV["save the counters to driver.json"]
+  SV --> S{"result state"}
+  S -- "continue<br/>(did work, hit the agent cap)" --> L
+  S -- "waiting or stalled" --> W["wait 30 min"] --> L
+  S -- "done, stopped, livelock or stuck" --> DEL["delete driver.json"] --> E(["report and end the loop"])
+```
+
+- `waiting`: only PRs awaiting human review remain.
+- `stalled`: the run completed nothing, or it repeated the same outcome three times.
+- `stuck`: 24 stalled runs in a row, about 12 hours without progress.
+- `livelock`: nothing can run without a human decision. `.sdlc/STUCK.md` names the smallest one.
+
+### One run: read the state, pick one action, repeat
+
+```mermaid
+flowchart TD
+  RS["state-reader<br/>reads .sdlc/ and open PRs,<br/>applies its rules in order"] --> D{"next action"}
+  D -- "STOP file" --> stop(["stopped"])
+  D -- "no config, or the spec changed" --> BS["bootstrap"]
+  D -- "a PR is now mergeable" --> RM["retryMerge"]
+  D -- "a slice is in progress,<br/>or the next todo slice is ready" --> SL["slice"]
+  D -- "no milestones yet" --> MP["milestonePlan"]
+  D -- "a milestone's slices are finished" --> MS["milestone"]
+  D -- "a parked slice has retries left" --> PR["parkedRetry"]
+  D -- "only PRs awaiting review" --> wait(["waiting"])
+  D -- "audit missing or out of date" --> AU["audit"]
+  D -- "nothing can run" --> LL["stuck-writer"] --> ll(["livelock"])
+  D -- "spec complete,<br/>bar-raiser rounds left" --> BR["barRaiserRound"]
+  D -- "everything finished" --> done(["done"])
+  BS & RM & SL & MP & MS & PR & AU & BR --> G{"same outcome<br/>3 times in a row?"}
+  G -- no --> H{"room under the agent cap<br/>for the next action?"}
+  H -- yes --> RS
+  H -- no --> cont(["continue"])
+  G -- "yes, on a slice" --> FP["force-park the slice"] --> RS
+  G -- "yes, no slice to park" --> st(["stalled or stuck"])
+```
+
+The script never chooses the next step itself. The state-reader agent decides, and the script runs that one action and asks again.
+
+### Bootstrap: the spec becomes requirements and slices
+
+```mermaid
+flowchart LR
+  A["env-detector<br/>build, test and lint commands,<br/>git mode"] --> B["requirements-extractor"]
+  B --> C["completeness-critic"]
+  C -- "found more" --> C
+  C -- "2 dry rounds, or 8 rounds" --> D["slicer<br/>vertical slices in build order"]
+  D --> E["state-writer<br/>bootstrap complete"]
+```
+
+### A slice: plan, tests first, build loop, integrate
+
+```mermaid
+flowchart TD
+  subgraph Plan ["Plan (up to 3 revisions)"]
+    P["planner"] --> AMB{"ambiguities?"}
+    AMB -- yes --> DP["decision panel<br/>3 proposers and a judge,<br/>recorded as an ADR"] --> P
+    AMB -- no --> PC["plan-critic x2<br/>spec-fidelity, architecture"]
+    PC -- refuted --> P
+  end
+  P -- "too big" --> ESC
+  PC -- "all clear" --> T
+  subgraph Tests ["Tests first (3 attempts)"]
+    T["test-writer"] --> TC["test-checker<br/>do the tests fail<br/>for the right reason?"]
+    TC -- no --> T
+  end
+  TC -- yes --> I
+  subgraph Build ["Build loop (3 fix rounds)"]
+    I["implementer"] -- green --> V["verification group"]
+    V -- refuted --> FX["next fix round,<br/>evidence fed back"] --> I
+    V -- pass --> RV["reviewer x3<br/>security, architecture, test-quality"]
+    RV --> FR["finding-refuter<br/>challenges blocking findings"]
+    FR -- "a blocking finding survives" --> FX
+    I -- "not green" --> FX
+  end
+  FR -- "nothing blocking" --> REP["test-reporter<br/>REPORT.md"]
+  REP --> INT["integrator<br/>PR or direct commit"]
+  INT --> OUT(["merged, or awaiting merge"])
+  PC -- "3 refutations" --> ESC["escalation ladder"]
+  TC -- "3 failed attempts" --> ESC
+  FX -- "3 rounds used" --> ESC
+  INT -- failed --> ESC
+```
+
+Progress is saved after each phase, so a resumed slice picks up where it stopped. Review findings that do not block, and verifier ideas outside the spec, are kept as seeds for the bar raiser.
+
+### The verification group
+
+```mermaid
+flowchart TD
+  R0{"first round?"}
+  R0 -- yes --> VP["verify-planner<br/>scenarios, profiles, risk, tools"]
+  VP --> CAP["cap the profiles by risk<br/>low 2, medium 4, high 8"]
+  R0 -- "no, a fix round" --> PEND["re-run only the scenarios<br/>that failed or were blocked"]
+  R0 -- "no, after a review fix" --> RF["verify-planner<br/>adds scenarios for the fix"]
+  RF --> TS
+  CAP --> TS{"tools missing?"}
+  PEND --> TS
+  TS -- yes --> TSM["verify-toolsmith<br/>builds testkit tools with self-tests"] --> PAR
+  TS -- no --> PAR
+  subgraph PAR ["in parallel"]
+    SF["verifier: spec-fidelity<br/>(review model)"]
+    RG["verifier: regression<br/>every committed test"]
+    PV["one verifier per profile,<br/>4 at a time, each on its own branch"]
+  end
+  PV --> COL["verify-collector<br/>folds the profile tests<br/>into the slice branch"]
+  SF & RG & COL --> TALLY{"any of the 3 votes refuted?<br/>spec-fidelity, profiles, regression"}
+  TALLY -- yes --> BACK(["back to the implementer"])
+  TALLY -- no --> REV(["on to review"])
+```
+
+### The escalation ladder
+
+```mermaid
+flowchart LR
+  F(["repeated failure"]) --> S1["Step 1: replan"] --> S2["Step 2: split"] --> S3["Step 3: spike"] --> S4["Step 4: alternative<br/>a decision panel picks<br/>a new approach"] --> S5["Step 5: park<br/>with a test report"]
+  S5 -. "retried later, up to 3 times" .-> S1
+```
+
+Each failure climbs one rung. A parked slice never blocks the slices that depend on it. An improvement slice from the bar raiser is reverted and rejected at the last rung instead of parked.
+
+### A milestone's behavior campaign
+
+```mermaid
+flowchart TD
+  SP["scenario-planner<br/>black-box scenarios,<br/>each citing the spec or an ADR"] --> CC["coverage-critic x3<br/>spec-coverage, adversary, observability"]
+  CC -- "gaps (up to 3 revisions)" --> SP
+  CC -- clear --> EH["e2e-harness<br/>boots the whole stack from source"]
+  EH -- "cannot run" --> BL(["milestone blocked"])
+  EH -- ok --> SR["scenario-runner per area, 3 at a time<br/>API, UI, database, logs, events, metrics"]
+  SR --> FAILS{"failures?"}
+  FAILS -- none --> MW
+  FAILS -- "yes (first 8)" --> BJ["behavior-judge x3 per failure<br/>each reproduces it independently"]
+  BJ -- "a majority refutes it" --> DIS["dismissed<br/>test bug, spec gap, flaky, out of scope"]
+  BJ -- otherwise --> BUG["product bug"]
+  DIS & BUG --> MW["milestone-writer<br/>status and fix slices"]
+  MW --> NX(["verified, or fixing:<br/>the fix slices run, then the campaign<br/>runs again (3 attempts at most)"])
+```
+
+### The final audit and the bar raiser
+
+```mermaid
+flowchart TD
+  subgraph Audit
+    AP["audit-planner<br/>requirements in chunks"] --> AD["auditor x3 per chunk"]
+    AD --> AW["state-writer<br/>records the result"]
+    AW -- "some refuted" --> RO(["requirements reopened"])
+    AW -- "none refuted" --> OK(["audit passed"])
+  end
+  subgraph Bar ["Bar raiser (only with --bar-raiser N)"]
+    BRR["barraiser-reader<br/>ideas seen so far, seed backlog"] --> BF["bar-finder x7<br/>performance, security hardening, test gaps,<br/>accessibility and RTL, resilience,<br/>observability, code health"]
+    BF --> DD["drop duplicates, take 20"]
+    DD --> BC{"changes behavior?"}
+    BC -- yes --> PROP["SPEC-PROPOSALS.md,<br/>for you to decide"]
+    BC -- no --> BJ2["bar-judge x3"]
+    BJ2 --> BW["barraiser-writer<br/>accepted ideas become<br/>improvement slices"]
+    BW --> DRY(["ends after 2 dry rounds<br/>or N rounds"])
+  end
+```
 
 ## Development
 

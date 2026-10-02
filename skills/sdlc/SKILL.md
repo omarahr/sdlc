@@ -32,24 +32,33 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
      In `pr` mode, `gh auth status` must succeed.
    - `rm -f "$REPO/.sdlc/STOP"`.
 2. **Launch.**
+   - **Counters.** Read `$REPO/.sdlc/tracker/driver.json` (see **Driver file** below). If it is missing or unreadable, the counters are `lastKey: ""`, `streak: 0`, `stalledRuns: 0`.
    - `SKILL_DIR` is this skill's base directory, shown as "Base directory for this skill" when it loads. Use that absolute path.
-   - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, maxIterations, barRaiserRounds } })`. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.
+   - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, maxIterations, barRaiserRounds, lastKey, streak, stalledRuns } })`. The three counters always come from the driver file, never from memory. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.
    - Remember the launch result's transcript dir: the run's journal is `<transcript dir>/journal.jsonl`.
    - Build the tracker (see **Tracker**).
    - Tell the user in one line: live progress is in `/workflows`, the tracker page at `.sdlc/tracker/index.html`, the text dashboard via `/sdlc status`, and they can stop with `/sdlc stop`.
 3. **On the workflow's completion notification,** read `state` and `reason`:
-   - **Every relaunch** passes the result's `lastKey` and `streak` back in `args`, so the no-progress guard survives across runs.
-   - **`continue`:** if `$REPO/.sdlc/STOP` exists, treat it as `stopped`. If the user gave `--max-iterations` and the reason is `max iterations … reached`, report STATUS.md and end: that flag is a smoke run, not a pacing hint. Otherwise launch again.
-   - **`waiting`** (only PRs awaiting human review remain) **or `stalled`** (no progress): back off for 30 minutes, then launch again.
+   - **First, save the counters:** write the result's `lastKey`, `streak` and `stalledRuns` to the driver file, so the no-progress guards survive across runs and across a lost conversation.
+   - **`continue`** (the run did work, then hit its agent cap or could not go on): if `$REPO/.sdlc/STOP` exists, treat it as `stopped`. If the user gave `--max-iterations` and the reason is `max iterations … reached`, report STATUS.md and end: that flag is a smoke run, not a pacing hint. Otherwise launch again.
+   - **`waiting`** (only PRs awaiting human review remain) **or `stalled`** (the run made no progress: it completed nothing, or it repeated the same outcome): back off for 30 minutes, then launch again.
      - Under `/loop`, call `ScheduleWakeup({delaySeconds: 1800, prompt: <the same /loop input>, reason: "sdlc <state>: <reason>", noop: false})`.
      - Without `/loop`, tell the user the state and reason, and that re-running `/sdlc <spec>` resumes it.
+   - **`stuck`** (24 stalled runs in a row, about 12 hours without progress): print the top of STATUS.md and the result's `reason`, and say that `/sdlc <spec>` starts it again. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **`stopped`:** print the top of STATUS.md (everything through the Recent section) and end.
    - **`done`:** print STATUS.md, then point to DECISIONS.md (autonomous choices to skim), SPEC-PROPOSALS.md (product ideas waiting for them) and any `external-stub` requirements. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **`livelock`:** print STATUS.md and the "smallest human decision" lines from `.sdlc/STUCK.md`. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **A missing result or a workflow error:** launch once more. If that also fails, retry with `resumeFromRunId` set to the failed run id and the same `scriptPath`. If it still fails, report the error, and say that `/sdlc <spec>` resumes from `.sdlc/`.
+   - **Whenever the loop ends** (`stuck`, `stopped`, `done`, `livelock`, a `--max-iterations` smoke run, or a `waiting` or `stalled` result without `/loop`), delete the driver file. A later `/sdlc <spec>` then starts with fresh counters.
 4. **Heartbeat** (only under `/loop`): after each launch, call `ScheduleWakeup({delaySeconds: 1800, prompt: <the same /loop input>, reason: "sdlc heartbeat while run is active", noop: true})`.
    - On a heartbeat wake-up, if you launched a run and have not yet received its completion notification, rebuild the tracker, schedule another heartbeat, and do nothing else.
    - Otherwise resume from step 3 using the last result, or from step 1.
+
+## Driver file
+
+`$REPO/.sdlc/tracker/driver.json` holds `{"lastKey": "...", "streak": 0, "stalledRuns": 0}`: the counters the workflow returned last. It exists only while the loop is waiting to relaunch.
+
+Before writing it, make sure it cannot be committed: `mkdir -p "$REPO/.sdlc/tracker"`, and if `$REPO/.sdlc/tracker/.gitignore` is missing, create it containing `*`.
 
 ## Tracker
 

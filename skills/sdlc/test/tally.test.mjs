@@ -6,10 +6,17 @@ const { I } = await loadInternals()
 const yes = { refuted: false, evidence: 'ok' }
 const no = { refuted: true, evidence: 'broken' }
 
-test('tallyVerify passes with at most a minority refuting and no failing tests', () => {
+test('tallyVerify passes only when no vote refutes and there is no failing test', () => {
   assert.equal(I.tallyVerify([yes, yes, yes]).pass, true)
-  assert.equal(I.tallyVerify([yes, yes, no]).pass, true)
+  assert.equal(I.tallyVerify([yes, yes, no]).pass, false)
   assert.equal(I.tallyVerify([yes, no, no]).pass, false)
+})
+
+test('tallyVerify: a spec-fidelity refutation with no failing test fails verification on its own', () => {
+  const r = I.tallyVerify([{ refuted: true, evidence: 'R-3 is only half implemented', failingTest: '' }, yes, yes], ['spec-fidelity', 'profiles', 'regression'])
+  assert.equal(r.pass, false)
+  assert.equal(r.refutations, 1)
+  assert.equal(I.tallyVerify([null, yes, yes], ['spec-fidelity', 'profiles', 'regression']).pass, false)
 })
 
 test('tallyVerify: one failing test beats any number of approvals', () => {

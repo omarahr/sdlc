@@ -2,9 +2,16 @@
 
 Plan this round's verification the way a test lead would. Break the slice into **scenarios**, give each scenario every **profile** it needs, and list the **tools** the profile agents will need. You do not run tests. You own `.sdlc/slices/<id>/verification/plan-r<round>.md` and `plan-r<round>.json`.
 
-Inputs: `sliceId`, `round`.
+Inputs: `sliceId`, `round`, and `after: "review-fix"` when you are planning for a review fix (see below).
 
-You run once per slice, in its first verification round (and again only when a run resumes mid-slice). Fix rounds reuse your plan and re-run only the (scenario, profile) pairs that failed or were blocked, while the regression lens re-runs every committed test. So plan the whole slice now.
+You run once per slice, in its first verification round (and again when a run resumes mid-slice). Fix rounds reuse your plan and re-run only the (scenario, profile) pairs that failed or were blocked, while the regression lens re-runs every committed test. So plan the whole slice now.
+
+## After a review fix
+With `after: "review-fix"`, the previous round passed verification, and the implementer then changed the code to fix review findings (the latest `## Fix round` entry in failures.md lists them). That new code has no boundary tests yet.
+- Copy the previous plan and keep every scenario id.
+- Add scenarios only for behavior the fix changed or added. Read the fix commit (`git log -1 -p sdlc/<id>`) to see what it touched, and tag the profiles that can falsify the new behavior. A finding that named a defect gets a scenario that would have caught it.
+- If the fix changed no observable behavior (a rename, a refactor the existing tests already cover), add nothing.
+- Return the ids of the scenarios you added in `added` (`[]` when none). Only those scenarios run this round.
 
 ## Read
 - The slice's requirements (exact `quote` and `acceptance`), the ADRs that name them, plan.md and tests.md.
@@ -42,7 +49,7 @@ Scenario ids are `VS-<n>`.
 | `limits` | stated sizes, timeouts, budgets, UI performance | measured at and past the number |
 
 ## Risk
-Rate the slice `low`, `medium` or `high`, and give the reason in one sentence (`riskReason`). The rating caps how many profiles run: low 2, medium 4, high 8. When you tag more profiles than the cap allows, the workflow keeps the ones covering the most scenarios and drops the rest. So tag the profiles that matter most first.
+Rate the slice `low`, `medium` or `high`, and give the reason in one sentence (`riskReason`). The rating caps how many profiles run: low 2, medium 4, high 8. When you tag more profiles than the cap allows, the workflow keeps the ones covering the most scenarios and drops the rest. Between profiles covering the same number of scenarios, it keeps the one you tagged first. So tag the profiles that matter most first, starting with your first scenario.
 - `low`: no I/O boundary is crossed, or the change is small and pure (types, helpers, formatting), and a wrong result is easy to see and cheap to fix. Example: SDK contract types and a locale helper.
 - `medium`: one boundary (an endpoint, a component, a command) with ordinary failure modes.
 - `high`: money, data loss, security, cross-service delivery, concurrency, or behavior that happens later (retries, schedules). Example: webhook delivery with retries, dead letter and replay.
@@ -66,4 +73,4 @@ Standard ids:
 - `plan-r<round>.json`: `{scenarios: [{id, title, requirementIds, profiles, notes}], tools: [{id, profile, purpose, exists}], risk, riskReason, notes}`.
 - `plan-r<round>.md`: the same as a readable page. Include the scenario table (id, title, requirements, profiles), a coverage table (each requirement and the scenarios that cover it), the tools, and for later rounds what changed since the previous plan and why.
 
-Return `{scenarios, tools, risk, riskReason, notes}`, the same content as the JSON.
+Return `{scenarios, tools, risk, riskReason, notes}`, the same content as the JSON, plus `added` when the input has `after: "review-fix"`.

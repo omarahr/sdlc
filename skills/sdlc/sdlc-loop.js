@@ -1,7 +1,7 @@
 export const meta = {
   name: 'sdlc-loop',
   description: 'Implement a spec end-to-end through an adversarial SDLC loop, then raise the bar',
-  whenToUse: 'Launched by the /sdlc skill. One run advances .sdlc/ state until done, livelock, stop, waiting, stalled, or the per-run agent cap.',
+  whenToUse: 'Launched by the /sdlc skill. One run advances .sdlc/ state until done, livelock, stop, waiting, stalled, stuck, or the per-run agent cap.',
   phases: [
     { title: 'Read state' },
     { title: 'Bootstrap' },
@@ -69,7 +69,9 @@ function tallyVerify(votes, lenses = []) {
     if (lenses[i] === 'regression' && isRefuting(v) && !(v && v.failingTest)) failingTests.push(`regression: ${v ? v.evidence : 'verifier failed to report'}`)
   })
   const refutations = votes.filter(isRefuting).length
-  return { pass: failingTests.length === 0 && refutations * 2 < votes.length, refutations, failingTests }
+  // each vote looks at something the others do not, so one refutation is enough: the spec-fidelity verifier
+  // often has no failing test to name, and a majority rule would let the other two outvote it
+  return { pass: failingTests.length === 0 && refutations === 0, refutations, failingTests }
 }
 
 // the verifier group: one agent per verification profile, each covering the scenarios tagged with it
@@ -81,11 +83,13 @@ const RISK_AGENTS = { low: 2, medium: 4, high: PROFILE_AGENT_LIMIT }
 // profile agents each start their own database and test runs; batches keep one laptop from overheating
 const PROFILE_BATCH = 4
 
-// keeps at most `max` profiles (those tagging the most scenarios, catalog order on ties) and strips the rest
+// keeps at most `max` profiles (those tagging the most scenarios; on ties, the one the planner tagged first) and strips the rest
 function capProfiles(scenarios, max) {
   const count = new Map()
   for (const sc of scenarios || []) for (const p of new Set(sc.profiles || [])) if (PROFILES.includes(p)) count.set(p, (count.get(p) || 0) + 1)
-  const ranked = PROFILES.filter(p => count.has(p)).sort((a, b) => count.get(b) - count.get(a) || PROFILES.indexOf(a) - PROFILES.indexOf(b))
+  // a Map keeps insertion order, which is the order the planner first tagged each profile
+  const tagged = [...count.keys()]
+  const ranked = [...tagged].sort((a, b) => count.get(b) - count.get(a) || tagged.indexOf(a) - tagged.indexOf(b))
   const keep = new Set(ranked.slice(0, max))
   return {
     scenarios: (scenarios || []).map(sc => ({ ...sc, profiles: (sc.profiles || []).filter(p => keep.has(p)) })),
@@ -263,9 +267,24 @@ async function persist(sliceId, patch) {
 // the no-progress streak survives relaunches: the driver passes lastKey/streak back in args
 let lastKey = A.lastKey || ''
 let streak = A.streak || 0
+// runs in a row that ended stalled; the driver passes it back like the streak. An action with a new outcome resets it.
+let stalledRuns = A.stalledRuns || 0
+// the driver relaunches a stalled run every 30 minutes, so this is about 12 hours without progress
+const STUCK_LIMIT = 24
 
 function finish(state, reason, history) {
-  return { state, reason, agentsSpent: spent, iterations: history, lastKey, streak }
+  return { state, reason, agentsSpent: spent, iterations: history, lastKey, streak, stalledRuns }
+}
+
+// a run that made no progress: the driver backs off and relaunches, until STUCK_LIMIT such runs in a row end the loop
+function stall(reason, history) {
+  stalledRuns++
+  return finish(stalledRuns >= STUCK_LIMIT ? 'stuck' : 'stalled', reason, history)
+}
+
+// the run cannot go on: relaunch at once if it completed an action, back off if it did nothing
+function pause(reason, history) {
+  return history.length ? finish('continue', reason, history) : stall(reason, history)
 }
 
 // ---------- actions ----------
@@ -468,14 +487,19 @@ async function reviewPhase(id, round) {
   const seeds = findings.filter(f => !f.blocking)
   const blockingFound = findings.filter(f => f.blocking)
   if (blockingFound.length > BLOCKING_JUDGE_LIMIT) {
-    log(`${id} review r${round}: judging ${BLOCKING_JUDGE_LIMIT} of ${blockingFound.length} blocking findings; reviewers re-report the rest next round`)
+    log(`${id} review r${round}: judging ${blockingFound.length} blocking findings ${BLOCKING_JUDGE_LIMIT} at a time, until one holds; reviewers re-report the rest next round`)
   }
-  const judged = await parallel(blockingFound.slice(0, BLOCKING_JUDGE_LIMIT).map((f, fi) => async () => {
-    const votes = await parallel([0, 1, 2].map(k => () =>
-      run('finding-refuter', { sliceId: id, finding: f, voter: k }, { schema: VOTE, phase: 'Review', label: `${id}:f${fi}v${k}` })))
-    return refutedByMajority(votes) ? null : f
-  }))
-  return { blocking: [...missing, ...judged.filter(Boolean)], seeds }
+  // a batch that is refuted whole must not let the unjudged findings through: judge on until one holds or none are left
+  let held = []
+  for (let at = 0; at < blockingFound.length && !held.length; at += BLOCKING_JUDGE_LIMIT) {
+    const judged = await parallel(blockingFound.slice(at, at + BLOCKING_JUDGE_LIMIT).map((f, i) => async () => {
+      const votes = await parallel([0, 1, 2].map(k => () =>
+        run('finding-refuter', { sliceId: id, finding: f, voter: k }, { schema: VOTE, phase: 'Review', label: `${id}:f${at + i}v${k}` })))
+      return refutedByMajority(votes) ? null : f
+    }))
+    held = judged.filter(Boolean)
+  }
+  return { blocking: [...missing, ...held], seeds }
 }
 
 // verify one round: plan scenarios and their profiles, build missing tools, then the core lenses and the
@@ -497,6 +521,8 @@ const VPLAN = {
     },
     risk: { type: 'string', enum: ['low', 'medium', 'high'] },
     riskReason: str,
+    // only on a plan made after a review fix: the ids of the scenarios it added for the fix
+    added: { type: 'array', items: str },
     notes: str,
   },
   required: ['scenarios', 'tools', 'risk'],
@@ -528,13 +554,28 @@ const PVOTE = {
 
 // The first round plans and runs the whole group. A fix round reuses that plan and re-runs only the
 // (scenario, profile) pairs that failed or were blocked: the regression lens re-runs every committed test.
-async function verifyPhase(id, round, prev = null) {
+// reviewFix: the last round passed verification and the code then changed to fix review findings, so nothing is
+// pending and the new code has no boundary tests yet; the planner adds scenarios for the fix and only those run
+async function verifyPhase(id, round, prev = null, reviewFix = false) {
   phase('Verify')
   let plan = prev && prev.plan
   let planRound = prev ? prev.planRound : round
   let groups = []
   let tools = []
-  if (plan) {
+  const replan = plan && reviewFix
+    ? await run('verify-planner', { sliceId: id, round, after: 'review-fix' }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
+    : null
+  if (plan && reviewFix && !replan) log(`${id} verify r${round}: verify-planner could not plan the review fix; keeping the plan from r${planRound}`)
+  if (replan) {
+    plan = replan
+    planRound = round
+    const added = new Set(plan.added || [])
+    const cap = RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT
+    const capped = capProfiles((plan.scenarios || []).filter(sc => added.has(sc.id)), cap)
+    groups = groupScenarios(capped.scenarios, cap)
+    tools = (plan.tools || []).filter(t => !t.exists)
+    log(`${id} verify r${round}: ${added.size} scenario(s) added for the review fix`)
+  } else if (plan) {
     groups = groupScenarios(pairsToScenarios(prev.pending), RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT)
     const failedTools = new Set((prev.unavailable || []).map(u => u.id))
     tools = (prev.missing || []).filter(t => failedTools.has(t.id))
@@ -596,6 +637,8 @@ async function buildLoop(id, counters) {
   const verifySeeds = []
   // the round-0 plan carries into fix rounds within this run; a resumed run plans again
   let prevVerify = null
+  // set when a review finding sends the slice back to the implementer, until the next verification has run
+  let reviewFix = false
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
     if (spent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
@@ -611,8 +654,9 @@ async function buildLoop(id, counters) {
         ? `implementer could not get green${impl.inconclusive ? ' (a required command still did not finish)' : ''}: ${impl.notes || ''}`
         : 'implementer failed to report']
     } else {
-      const { votes, lenses, next } = await verifyPhase(id, round, prevVerify)
+      const { votes, lenses, next } = await verifyPhase(id, round, prevVerify, reviewFix)
       prevVerify = next
+      reviewFix = false
       const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
       log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
@@ -625,6 +669,7 @@ async function buildLoop(id, counters) {
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
         if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
         evidence = review.blocking.map(f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`)
+        reviewFix = true
       }
     }
     counters.fixRounds++
@@ -921,7 +966,7 @@ async function main() {
     if (iteration >= MAX_ITER) return finish('continue', `max iterations (${MAX_ITER}) reached`, history)
     phase('Read state')
     const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS }, { schema: NEXT, effort: 'low', phase: 'Read state' })
-    if (!next) return finish('continue', 'state reader failed twice', history)
+    if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)
@@ -930,23 +975,24 @@ async function main() {
       return finish('done', `spec complete; bar raiser off (run /sdlc with --bar-raiser N to polish). ${next.reason}`, history)
     }
     if (!hasHeadroom(next.action)) {
-      return finish('continue', `agent cap or budget: ${spent}/${CAP} agents spent, ${next.action} needs ~${COST[next.action] || 60}`, history)
+      return pause(`agent cap or budget: ${spent}/${CAP} agents spent, ${next.action} needs ~${COST[next.action] || 60}`, history)
     }
     const act = ACTIONS[next.action]
-    if (!act) return finish('continue', `unknown action: ${next.action}`, history)
+    if (!act) return pause(`unknown action: ${next.action}`, history)
     const outcome = await act(next)
     history.push({ action: next.action, sliceId: next.sliceId || null, outcome })
     if (next.action === 'livelock') return finish('livelock', outcome, history)
     const key = `${next.action}|${next.sliceId || next.milestoneId || ''}|${outcome}`
     streak = key === lastKey ? streak + 1 : 1
+    if (streak === 1) stalledRuns = 0
     lastKey = key
     if (streak >= STREAK_LIMIT) {
-      if (!next.sliceId) return finish('stalled', `no progress: "${key}" repeated ${STREAK_LIMIT} times`, history)
+      if (!next.sliceId) return stall(`no progress: "${key}" repeated ${streak} times`, history)
       // a PR that keeps waiting needs a human, not a park
       if (next.action === 'retryMerge') return finish('waiting', `${next.sliceId} still awaiting merge: ${outcome}`, history)
       const kind = (next.slice && next.slice.kind) || 'spec'
       const fp = await run('state-writer', { op: 'force-park', sliceId: next.sliceId, kind, reason: `no progress: ${outcome} (x${STREAK_LIMIT})` }, { schema: OK, effort: 'low', label: next.sliceId })
-      if (!fp || !fp.ok) return finish('stalled', `force-park failed for ${next.sliceId} after: ${outcome}`, history)
+      if (!fp || !fp.ok) return stall(`force-park failed for ${next.sliceId} after: ${outcome}`, history)
       log(`${next.sliceId} force-parked after ${STREAK_LIMIT} identical outcomes`)
       lastKey = ''
       streak = 0
