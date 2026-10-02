@@ -32,7 +32,7 @@ Verification scales with the slice:
 - The full group runs once, in the slice's first round. Fix rounds re-run only the scenarios that failed or were blocked, and the regression lens re-runs every committed test.
 - When a review finding sends the slice back for a fix, the planner adds scenarios for what the fix changed, and the profile verifiers test those.
 - Profile agents run 4 at a time, because each one starts its own database and test runs.
-- The spec-fidelity verifier and the three code reviewers run on a different model (Fable 5.1) than the one that plans and writes the code, so one model's blind spots are not graded by the same model. The agents that challenge review findings stay on the session model, so each blocking finding is checked by both. Pass `reviewModel: null` in the workflow args to use the session model everywhere. If the review model is unavailable, that agent retries on the session model.
+- The spec-fidelity verifier and the three code reviewers run on a different model than the one that plans and writes the code, so one model's blind spots are not graded by the same model. They prefer Fable 5.1, then Opus. The agents that challenge review findings stay on the session model, so each blocking finding is checked by both. If a review model is unavailable, the agent falls back to the next one and finally to the session model, so no particular model is required; a model that fails twice in a row is not tried again in that run. Pass `reviewModel` in the workflow args to choose your own (one model name or a list), or `null` to use the session model everywhere.
 
 Everything is scoped to what the spec says. Anything the spec leaves undefined is noted for later instead of blocking the slice.
 
