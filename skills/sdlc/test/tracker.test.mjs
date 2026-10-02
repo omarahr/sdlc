@@ -1,7 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
+import vm from 'node:vm'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
@@ -52,7 +53,7 @@ test('collector turns .sdlc state into a self-contained tracker page', { skip: !
   assert.equal(data.milestones[0].status, 'pending')
   const html = readFileSync(join(out, 'index.html'), 'utf8')
   assert.doesNotMatch(html, /__SDLC_STATUS__/)
-  assert.equal(html.match(/<\/script>/g).length, 2, 'a </script> inside the data must not close the tag early')
+  assert.equal(html.match(/<\/script>/g).length, 3, 'a </script> inside the data must not close the tag early')
   assert.equal(readFileSync(join(out, '.gitignore'), 'utf8'), '*\n')
 })
 
@@ -203,4 +204,163 @@ test('a watcher keeps rebuilding until --stop-watch, and a newer watcher replace
   await secondDone
   assert.equal(existsSync(pid), false)
   assert.ok(JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).updatedAt >= before)
+})
+
+// runs a live.js file the way the page does, and returns the payloads it passed to SDLC_LIVE
+function loadLive(path) {
+  const got = []
+  vm.runInNewContext(readFileSync(path, 'utf8'), { window: { SDLC_LIVE: p => got.push(JSON.parse(JSON.stringify(p))) } })
+  return got
+}
+
+test('a build writes live.js with the same workflow block the page embeds, safe inside a script tag', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [
+    { id: 'a1', label: 'state-reader', phase: 'Read state', end: 'result', from: '2026-01-12T09:00:00Z', to: '2026-01-12T09:00:30Z' },
+    { id: 'a2', label: 'odd</script>\u2028label', phase: 'Plan', from: '2026-01-12T09:01:00Z' },
+  ])
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal])
+  const out = join(repo, '.sdlc', 'tracker')
+  const text = readFileSync(join(out, 'live.js'), 'utf8')
+  assert.ok(!text.includes('</script>'))
+  const got = loadLive(join(out, 'live.js'))
+  assert.equal(got.length, 1)
+  assert.match(got[0].builtAt, /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/)
+  assert.deepEqual(got[0].workflow, JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow)
+  assert.equal(got[0].workflow.run.agents[1].label, 'odd</script>\u2028label')
+})
+
+test('a poke rebuilds live.js within a second or two without rebuilding the page, and live.js refreshes on its own every 5 s', { skip: !python && 'python3 not installed' }, async () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [{ id: 'a1', label: 'state-reader', phase: 'Read state', from: '2026-01-12T09:00:00Z' }])
+  const out = join(repo, '.sdlc', 'tracker')
+  const live = join(out, 'live.js')
+  const builtAt = () => existsSync(live) ? loadLive(live)[0].builtAt : ''
+  const until = async (cond, ms) => { const end = Date.now() + ms; while (!cond() && Date.now() < end) await new Promise(r => setTimeout(r, 50)); return cond() }
+  const w = spawn('python3', [COLLECT, '--repo', repo, '--journal', journal, '--watch', '60'], { stdio: 'ignore' })
+  const done = new Promise(res => w.on('exit', res))
+  try {
+    assert.ok(await until(() => builtAt() !== '' && existsSync(join(out, 'index.html')), 10000))
+    const page = statSync(join(out, 'index.html')).mtimeMs
+    const first = builtAt()
+    writeFileSync(join(out, 'poke'), '')
+    const poked = Date.now()
+    assert.ok(await until(() => builtAt() !== first, 2500), 'live.js rebuilt after a poke')
+    assert.ok(Date.now() - poked < 2500)
+    assert.equal(statSync(join(out, 'index.html')).mtimeMs, page, 'a poke does not rebuild the page')
+    const second = builtAt()
+    assert.ok(await until(() => builtAt() !== second, 6500), 'live.js rebuilt by the 5 s fallback')
+  } finally {
+    execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal, '--stop-watch'])
+    await done
+  }
+})
+
+// the template's live decision block, run on its own: it must not touch the DOM
+function createLive() {
+  const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
+  const m = src.match(/\/\* live:begin \*\/([\s\S]*?)\/\* live:end \*\//)
+  assert.ok(m, 'template has a live:begin … live:end block')
+  const ctx = {}
+  vm.runInNewContext(m[1], ctx)
+  return ctx.SDLC_createLive
+}
+
+test('the page redraws the workflow card only for a newer live payload, and flags a live run gone quiet', () => {
+  let now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push([wf.run.id, paused]) })
+  const wf = id => ({ run: { id, live: true, agents: [] } })
+  assert.equal(live.tick(), false, 'nothing to flag before the first payload')
+  for (const bad of [null, {}, { builtAt: 'soon' }, { builtAt: 7 }]) assert.equal(live.apply(bad), false)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: wf('r1') }), true)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: wf('r2') }), false)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:01.000Z', workflow: wf('r3') }), false)
+  assert.deepEqual(draws, [['r1', false]])
+  assert.equal(live.tick(), false)
+  now += 31000
+  assert.equal(live.tick(), true, 'the watcher went quiet')
+  assert.equal(live.tick(), false, 'flagged once')
+  assert.deepEqual(draws.at(-1), ['r1', true])
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:45.000Z', workflow: wf('r1') }), true)
+  assert.deepEqual(draws.at(-1), ['r1', false])
+})
+
+test('the page keeps its last card for an empty live payload, and never flags a finished run', () => {
+  let now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push([wf.run.id, paused]) })
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: null }), false)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:06.000Z', workflow: { run: { id: 'r1', live: false, agents: [] } } }), true)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:07.000Z', workflow: null }), false)
+  now += 10 * 60 * 1000
+  assert.equal(live.tick(), false)
+  assert.deepEqual(draws, [['r1', false]])
+})
+
+test('the page redraws again only when the workflow data changed, not for a payload that differs in builtAt alone', () => {
+  const now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push([wf.run.id, paused]) })
+  const wf = (id, n = 0) => ({ run: { id, live: true, agents: Array.from({ length: n }, (_, i) => ({ id: 'a' + i })) } })
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:01.000Z', workflow: wf('r1') }), true)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:02.000Z', workflow: wf('r1') }), false, 'same data, newer builtAt')
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:03.000Z', workflow: wf('r1') }), false)
+  assert.equal(draws.length, 1)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:04.000Z', workflow: wf('r1', 1) }), true, 'a new agent')
+  assert.equal(draws.length, 2)
+})
+
+test('a payload with unchanged data still resets the paused clock, with exactly one redraw', () => {
+  let now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push(paused) })
+  const wf = () => ({ run: { id: 'r1', live: true, agents: [] } })
+  live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: wf() })
+  now += 31000
+  assert.equal(live.tick(), true)
+  assert.deepEqual(draws, [false, true])
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:40.000Z', workflow: wf() }), true)
+  assert.deepEqual(draws, [false, true, false])
+  now += 20000
+  assert.equal(live.tick(), false, 'the newer builtAt counts: not paused 20 s later')
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:55.000Z', workflow: wf() }), false)
+  assert.equal(draws.length, 3)
+})
+
+test('--stop-watch marks the run as not running in status.json and live.js, and fixes its end time', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [
+    { id: 'a1', label: 'state-reader', phase: 'Read state', end: 'result', from: '2026-01-12T09:00:00Z', to: '2026-01-12T09:00:30Z' },
+  ])
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal, '--stop-watch'])
+  const out = join(repo, '.sdlc', 'tracker')
+  const run = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow.run
+  const liveRun = loadLive(join(out, 'live.js'))[0].workflow.run
+  assert.equal(run.live, false)
+  assert.equal(liveRun.live, false)
+  assert.equal(liveRun.endedAt, '2026-01-12T09:00:30+00:00')
+})
+
+test('an agent cut off in an earlier run is read once, not on every rebuild', { skip: !python && 'python3 not installed' }, () => {
+  const code = `
+import sys, os, tempfile, json
+sys.path.insert(0, ${JSON.stringify(join(SKILL_DIR, 'tracker'))})
+import workflow
+d = tempfile.mkdtemp()
+with open(os.path.join(d, 'journal.jsonl'), 'w') as f:
+    f.write(json.dumps({'type': 'started', 'agentId': 'x', 'label': 'l', 'phase': 'Plan'}) + '\\n')
+with open(os.path.join(d, 'agent-x.jsonl'), 'w') as f:
+    f.write(json.dumps({'type': 'user', 'timestamp': '2026-01-12T08:00:00Z', 'message': {}}) + '\\n')
+c = {}
+workflow.read_run(os.path.join(d, 'journal.jsonl'), False, c)
+print(len(c))
+os.remove(os.path.join(d, 'agent-x.jsonl'))
+a = workflow.read_run(os.path.join(d, 'journal.jsonl'), False, c)['agents'][0]
+print(a['status'], a['startedAt'])
+c2 = {}
+workflow.read_run(os.path.join(d, 'journal.jsonl'), True, c2)
+print(len(c2))
+`
+  assert.equal(execFileSync('python3', ['-c', code], { encoding: 'utf8' }), '1\nstopped 2026-01-12T08:00:00Z\n0\n')
 })

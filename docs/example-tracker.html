@@ -202,6 +202,59 @@ svg text { font-family: var(--mono); font-size: 11px; }
 .vbadge.verified { background: var(--done-soft); color: var(--done); border-color: transparent; }
 .vbadge.fixing, .vbadge.exhausted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
 .example { font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 8px 12px; border-radius: 8px; }
+.reports-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.reports-head input { font: inherit; font-size: 13px; padding: 5px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--sunk); color: var(--ink); min-width: 0; width: 220px; max-width: 100%; }
+.rep-list { display: grid; gap: 0; }
+.rep { display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; }
+.rep:first-child { border-top: 0; }
+.rep a.id { font-family: var(--mono); font-size: 12px; color: var(--accent); text-decoration: none; }
+.rep a.id:hover { text-decoration: underline; }
+.rep .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.rep .n { font-family: var(--mono); font-size: 11.5px; color: var(--faint); white-space: nowrap; }
+.rep .n.has { color: var(--done); }
+.rep .lenses { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 5px; }
+.lens { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--sunk); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
+.lens.held { background: var(--done-soft); color: var(--done); border-color: transparent; }
+.lens.refuted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
+.rep-more { margin-top: 10px; font: inherit; font-size: 12.5px; background: none; border: 1px solid var(--line); color: var(--accent); padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+.wf { font-family: var(--mono); font-size: 12.5px; }
+.wf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 12px; }
+.wf-head .name { color: var(--accent); font-weight: 500; font-size: 14px; }
+.wf-head .desc { color: var(--muted); flex: 1 1 320px; min-width: 0; }
+.wf-head .tot { color: var(--muted); white-space: nowrap; }
+.wf-head .paused { color: var(--warn); white-space: nowrap; }
+.wf-slot { display: contents; }
+.wf-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.wf-phases { border-right: 1px solid var(--line); padding: 8px 0; background: var(--sunk); }
+.wf-phase { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; width: 100%; padding: 4px 12px; border: 0; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
+.wf-phase:hover { background: var(--accent-soft); }
+.wf-phase.sel { background: var(--accent-soft); color: var(--accent); }
+.wf-phase.idle { color: var(--faint); cursor: default; }
+.wf-phase.idle:hover { background: none; }
+.wf-phase .mk { text-align: right; color: var(--faint); }
+.wf-phase .cnt { color: var(--faint); }
+.wf-phase.sel .cnt { color: var(--accent); }
+.wf .ok { color: var(--done); }
+.wf .bad { color: var(--warn); }
+.wf .run { color: var(--accent); animation: pulse 2s ease-in-out infinite; }
+.wf-agents { padding: 8px 14px 12px; min-width: 0; }
+.wf-agents h3 { font: inherit; font-weight: 500; color: var(--ink); margin: 2px 0 8px; }
+.wf-agents h3 span { color: var(--faint); font-weight: 400; }
+.wf-agent { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto auto; gap: 10px; align-items: baseline; padding: 3px 0; }
+.wf-agent .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.wf-agent .meta, .wf-agent .time { color: var(--faint); white-space: nowrap; }
+.wf-agent.failed .lbl, .wf-agent.stopped .lbl { color: var(--muted); }
+.wf-foot { display: flex; gap: 6px 16px; flex-wrap: wrap; margin-top: 10px; color: var(--faint); font-size: 12px; }
+.wf-foot button { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; }
+.wf-earlier { margin-top: 10px; font-size: 12px; color: var(--muted); }
+.wf-earlier summary { cursor: pointer; color: var(--accent); }
+.wf-earlier div { padding: 3px 0; }
+@media (max-width: 720px) {
+  .wf-body { grid-template-columns: 1fr; }
+  .wf-phases { border-right: 0; border-bottom: 1px solid var(--line); }
+  .wf-agent { grid-template-columns: 18px minmax(0, 1fr) auto; }
+  .wf-agent .meta { display: none; }
+}
 </style>
 </head>
 <body>
@@ -217,6 +270,43 @@ svg text { font-family: var(--mono); font-size: 11px; }
 </div>
 <script>
 window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt": "2026-01-13T06:49:42.817334+00:00", "startedAt": "2026-01-12T09:00:00+00:00", "run": {"label": "Run 2", "agents": 412, "cap": 850}, "requirements": {"done": 71, "total": 142, "parked": 3}, "decisions": 58, "proposals": 4, "current": {"id": "S-018", "title": "Import wizard UI", "phase": "verifier"}, "activity": {"role": "verifier", "target": "S-018"}, "lastCommit": {"at": "2026-01-13T06:43:42.817334+00:00", "text": "test(S-018): behavior tests r0"}, "machine": {"load": [3.1, 3.6, 3.4], "thermalSleepsToday": 0}, "recent": [{"at": "2026-01-13T01:37:42.817334+00:00", "kind": "slice-merged", "slice": "S-016", "text": "Tag manager UI; R-061, R-062, R-063 done; direct squash-merge to main"}, {"at": "2026-01-13T02:43:42.817334+00:00", "kind": "milestone", "slice": "", "text": "M-3 fixing: 46/48 scenarios passed, 1 confirmed bug (search over 256 chars returns 500, spec says 400), 1 dismissed as flaky"}, {"at": "2026-01-13T03:49:42.817334+00:00", "kind": "slice-merged", "slice": "S-fix-M-3-1", "text": "Search returns 400 QUERY_TOO_LONG past 256 chars; e2e scenario SC-M-3-017 un-pended and green"}, {"at": "2026-01-13T05:13:42.817334+00:00", "kind": "slice-escalated", "slice": "S-017", "text": "step 1 replan: plan refuted 3 times; re-plan with a single keyboard-shortcut registry"}, {"at": "2026-01-13T05:55:42.817334+00:00", "kind": "slice-merged", "slice": "S-017", "text": "Search UI with keyboard shortcuts; R-070, R-071 done; Playwright checks en and ar"}, {"at": "2026-01-13T06:25:42.817334+00:00", "kind": "slice-escalated", "slice": "S-018", "text": "step 2 split: planner judged the slice too big; split into S-018a (file upload + parse) and S-018b (review and confirm)"}], "milestones": [{"id": "M-1", "title": "Bookmarks API", "demo": "Create, list, tag and filter bookmarks over the API", "ui": false, "slices": ["S-001", "S-002", "S-003", "S-004"], "status": "verified", "fixSlices": [], "gaps": [], "attempts": 1}, {"id": "M-2", "title": "Accounts and import", "demo": "Sign up, keep bookmarks private, import a browser export", "ui": false, "slices": ["S-005", "S-006", "S-007", "S-008"], "status": "verified", "fixSlices": [], "gaps": [], "attempts": 1}, {"id": "M-3", "title": "Search and link health", "demo": "Search bookmarks and see broken links flagged", "ui": false, "slices": ["S-009", "S-010", "S-011", "S-012"], "status": "fixing", "fixSlices": ["S-fix-M-3-1"], "gaps": [], "attempts": 1}, {"id": "M-4", "title": "Web app", "demo": "Browse, add, edit, tag and search bookmarks in the browser", "ui": true, "slices": ["S-013", "S-014", "S-015", "S-016", "S-017", "S-018"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}, {"id": "M-5", "title": "Sharing and extension", "demo": "Share a collection and save tabs from the extension", "ui": true, "slices": ["S-019", "S-020", "S-021", "S-022"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}, {"id": "M-6", "title": "Hardening and reach", "demo": "Quotas, admin metrics, accessibility, RTL, digests and export", "ui": true, "slices": ["S-023", "S-024", "S-025", "S-026", "S-027", "S-028"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}], "slices": [{"id": "S-001", "title": "Project scaffolding and test runner", "status": "done", "doneAt": "2026-01-12T10:14:51.595907+00:00"}, {"id": "S-002", "title": "Bookmark model and storage", "status": "done", "doneAt": "2026-01-12T11:08:57.709959+00:00"}, {"id": "S-003", "title": "Create and list bookmarks API", "status": "done", "doneAt": "2026-01-12T13:03:04.438165+00:00"}, {"id": "S-004", "title": "Tags and filtering", "status": "done", "doneAt": "2026-01-12T13:47:45.979429+00:00"}, {"id": "S-005", "title": "Auth: sign up, sign in, sessions", "status": "done", "doneAt": "2026-01-12T15:28:04.329860+00:00"}, {"id": "S-006", "title": "Per-user access control", "status": "done", "doneAt": "2026-01-12T16:47:57.290062+00:00"}, {"id": "S-007", "title": "Import from browser HTML export", "status": "done", "doneAt": "2026-01-12T17:30:54.882320+00:00"}, {"id": "S-008", "title": "Duplicate detection", "status": "parked", "doneAt": null}, {"id": "S-009", "title": "Full-text search", "status": "done", "doneAt": "2026-01-12T19:48:18.388340+00:00"}, {"id": "S-010", "title": "Search ranking and highlighting", "status": "done", "doneAt": "2026-01-12T21:16:20.637262+00:00"}, {"id": "S-011", "title": "Link health checker job", "status": "done", "doneAt": "2026-01-12T22:00:43.596312+00:00"}, {"id": "S-012", "title": "Archive snapshots", "status": "done", "doneAt": "2026-01-12T22:47:36.730008+00:00"}, {"id": "S-fix-M-3-1", "title": "Search: 400 for queries over the 256-char limit", "status": "done", "doneAt": "2026-01-13T06:19:42.817334+00:00"}, {"id": "S-013", "title": "Web app shell and routing", "status": "done", "doneAt": "2026-01-13T00:14:33.268170+00:00"}, {"id": "S-014", "title": "Bookmark list UI", "status": "done", "doneAt": "2026-01-13T02:29:46.603468+00:00"}, {"id": "S-015", "title": "Add and edit bookmark UI", "status": "done", "doneAt": "2026-01-13T03:20:37.977588+00:00"}, {"id": "S-016", "title": "Tag manager UI", "status": "done", "doneAt": "2026-01-13T04:23:25.298133+00:00"}, {"id": "S-017", "title": "Search UI with keyboard shortcuts", "status": "done", "doneAt": "2026-01-13T06:14:42.817334+00:00"}, {"id": "S-018", "title": "Import wizard UI", "status": "in_progress", "doneAt": null}, {"id": "S-019", "title": "Sharing public collections", "status": "todo", "doneAt": null}, {"id": "S-020", "title": "Collection pages", "status": "todo", "doneAt": null}, {"id": "S-021", "title": "Browser extension: save current tab", "status": "todo", "doneAt": null}, {"id": "S-022", "title": "Extension auth handshake", "status": "todo", "doneAt": null}, {"id": "S-023", "title": "Rate limits and quotas", "status": "todo", "doneAt": null}, {"id": "S-024", "title": "Admin metrics dashboard", "status": "todo", "doneAt": null}, {"id": "S-025", "title": "Accessibility pass (WCAG AA)", "status": "todo", "doneAt": null}, {"id": "S-026", "title": "Arabic and RTL layout", "status": "todo", "doneAt": null}, {"id": "S-027", "title": "Email digests", "status": "todo", "doneAt": null}, {"id": "S-028", "title": "Export to CSV and JSON", "status": "todo", "doneAt": null}]};
+</script>
+<script>
+/* live:begin */
+(function (root) {
+  "use strict";
+  // a live run whose live.js has not moved for this long has lost its watcher
+  const PAUSED_MS = 30 * 1000;
+  // decides when the workflow card is redrawn from a live.js payload; the page wires it to the DOM
+  root.SDLC_createLive = function (opts) {
+    let builtAt = "", wf = null, paused = false, drawn = "";
+    const isPaused = () => !!wf.run.live && opts.now() - Date.parse(builtAt) > PAUSED_MS;
+    return {
+      apply(p) {
+        if (!p || typeof p.builtAt !== "string" || isNaN(Date.parse(p.builtAt)) || p.builtAt <= builtAt) return false;
+        // a payload without a run (the journal was unreadable for a moment) keeps the last good card
+        if (!p.workflow || !p.workflow.run) return false;
+        // every payload moves the clock that decides "paused", but the card is rebuilt only when it would look different
+        const was = paused, json = JSON.stringify(p.workflow);
+        builtAt = p.builtAt;
+        wf = p.workflow;
+        paused = isPaused();
+        if (json === drawn && paused === was) return false;
+        drawn = json;
+        opts.redraw(wf, paused);
+        return true;
+      },
+      // runs on every poll: a dead watcher sends nothing, so the paused note has to come from the clock
+      tick() {
+        if (!wf || isPaused() === paused) return false;
+        paused = !paused;
+        opts.redraw(wf, paused);
+        return true;
+      },
+    };
+  };
+})(typeof window !== "undefined" ? window : globalThis);
+/* live:end */
 </script>
 <script>
 (function () {
@@ -310,6 +400,193 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     return { slices, p, ms };
   }
 
+  // "Test reports": every slice with verifier reports, linking to the pages reports.py renders.
+  let repFilter = "", repAll = false;
+  function reportsCard(list) {
+    const card = el("section", "card");
+    const head = el("div", "reports-head");
+    const h = el("h2", "", "Test reports");
+    h.style.margin = "0";
+    const right = el("div");
+    right.style.cssText = "display:flex;gap:12px;align-items:center;flex-wrap:wrap";
+    const input = el("input");
+    input.type = "search"; input.placeholder = "Filter by slice or title"; input.value = repFilter;
+    input.setAttribute("aria-label", "Filter test reports");
+    const all = el("a", "", "Browse all");
+    all.href = "reports/index.html";
+    right.append(input, all);
+    head.append(h, right);
+    card.append(head);
+    const box = el("div", "rep-list");
+    const more = el("button", "rep-more");
+    const draw = () => {
+      box.replaceChildren();
+      const q = repFilter.toLowerCase();
+      const hits = list.slice().reverse().filter((r) => !q || (r.id + " " + r.title).toLowerCase().includes(q));
+      const shown = repAll || q ? hits : hits.slice(0, 8);
+      shown.forEach((r) => {
+        const row = el("div", "rep");
+        const a = el("a", "id", r.id); a.href = "reports/" + encodeURIComponent(r.id) + ".html";
+        const t = el("span", "t", r.title || ""); t.title = r.title || "";
+        row.append(a, t, el("span", "n " + (r.hasReport ? "has" : ""), r.hasReport ? "test report · " + (r.verdict || "written") : r.reports + (r.reports === 1 ? " record" : " records")));
+        const ls = el("div", "lenses");
+        Object.keys(r.lenses).sort().forEach((k) => {
+          const v = r.lenses[k];
+          ls.append(el("span", "lens " + (v.verdict || ""), k + " r" + v.round + (v.verdict ? " · " + v.verdict : "")));
+        });
+        row.append(ls);
+        box.append(row);
+      });
+      if (!shown.length) box.append(el("p", "note", list.length ? "No slice matches." : "No verifier reports yet."));
+      more.hidden = !!q || hits.length <= 8;
+      more.textContent = repAll ? "Show fewer" : "Show all " + hits.length;
+    };
+    input.addEventListener("input", () => { repFilter = input.value; draw(); });
+    more.addEventListener("click", () => { repAll = !repAll; draw(); });
+    draw();
+    card.append(box, more);
+    return card;
+  }
+
+  // the live workflow view: the same phases and agents as Claude Code's /workflows screen
+  function clock(sec) {
+    if (sec == null || isNaN(sec)) return "";
+    sec = Math.max(0, Math.round(sec));
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    const two = (n) => String(n).padStart(2, "0");
+    return h ? h + "h" + two(m) + "m" : m ? m + "m" + two(s) + "s" : s + "s";
+  }
+  function tokens(n) { return n >= 1000 ? (n / 1000).toFixed(1) + "k tok" : (n || 0) + " tok"; }
+  function agentSeconds(a) {
+    if (a.status === "running" && a.startedAt) return (NOW() - new Date(a.startedAt).getTime()) / 1000;
+    return a.seconds;
+  }
+  function pinned(runId, set) {
+    try {
+      if (set !== undefined) { if (set) sessionStorage.setItem("sdlc-wf", runId + "|" + set); else sessionStorage.removeItem("sdlc-wf"); return set; }
+      const v = (sessionStorage.getItem("sdlc-wf") || "").split("|");
+      return v[0] === runId ? v[1] : null;
+    } catch (e) { return set || null; }
+  }
+  // the "earlier runs" list stays open or shut across redraws and the minute reload
+  function earlierOpen(set) {
+    try {
+      if (set !== undefined) { if (set) sessionStorage.setItem("sdlc-wf-earlier", "1"); else sessionStorage.removeItem("sdlc-wf-earlier"); return set; }
+      return sessionStorage.getItem("sdlc-wf-earlier") === "1";
+    } catch (e) { return !!set; }
+  }
+  function workflowCard(wf, paused) {
+    const run = wf.run, agents = run.agents || [];
+    const card = el("section", "card wf");
+    const names = (wf.phases || []).slice();
+    agents.forEach((a) => { if (names.indexOf(a.phase) < 0) names.push(a.phase); });
+    const by = {};
+    names.forEach((n) => { by[n] = []; });
+    agents.forEach((a) => by[a.phase].push(a));
+    const settled = agents.filter((a) => a.status !== "running").length;
+    const failed = agents.filter((a) => a.status === "failed").length;
+    const end = run.endedAt ? new Date(run.endedAt).getTime() : NOW();
+    const head = el("div", "wf-head");
+    head.append(el("span", "name", wf.name || "workflow"), el("span", "desc", wf.description || ""),
+      el("span", "tot", settled + "/" + agents.length + " agents" + (run.startedAt ? " · " + clock((end - new Date(run.startedAt).getTime()) / 1000) : "") + (run.live ? "" : " · not running")));
+    if (paused) head.append(el("span", "paused", "live updates paused"));
+    card.append(head);
+
+    // follow the agent that started last among the running ones, or the last agent of a finished run
+    const busy = agents.filter((a) => a.status === "running");
+    const auto = busy.length ? busy[busy.length - 1].phase : agents.length ? agents[agents.length - 1].phase : names[0];
+    let sel = pinned(run.id);
+    if (!sel || !by[sel] || !by[sel].length) sel = auto;
+
+    const body = el("div", "wf-body");
+    const left = el("div", "wf-phases");
+    const right = el("div", "wf-agents");
+    const foot = el("div", "wf-foot");
+    const draw = () => {
+      left.replaceChildren();
+      names.forEach((n, i) => {
+        const list = by[n];
+        const done = list.filter((a) => a.status !== "running").length;
+        const b = el("button", "wf-phase" + (n === sel ? " sel" : "") + (list.length ? "" : " idle"));
+        b.type = "button";
+        const running = list.some((a) => a.status === "running");
+        const bad = list.some((a) => a.status === "failed");
+        const mk = !list.length ? el("span", "mk", String(i + 1)) : running ? el("span", "mk run", "●") : el("span", "mk " + (bad ? "bad" : "ok"), bad ? "!" : "✔");
+        b.dataset.phase = n;
+        b.append(mk, el("span", "", n), el("span", "cnt", list.length ? done + "/" + list.length : ""));
+        b.title = !list.length ? "Not started in this run" : running ? "Running" : bad ? "Finished; some agents failed and were retried" : "Finished";
+        if (list.length) b.addEventListener("click", () => { sel = n; pinned(run.id, n === auto ? "" : n); draw(); });
+        left.append(b);
+      });
+      right.replaceChildren();
+      const list = by[sel] || [];
+      const total = list.reduce((t, a) => t + (agentSeconds(a) || 0), 0);
+      const h = el("h3", "", sel + " ");
+      h.append(el("span", "", "· " + list.length + (list.length === 1 ? " agent" : " agents") + (total ? " · " + clock(total) + " of agent time" : "")));
+      right.append(h);
+      list.forEach((a) => {
+        const r = el("div", "wf-agent " + a.status);
+        if (a.status === "running" && a.startedAt) r.dataset.start = a.startedAt;
+        const icon = a.status === "done" ? el("span", "ok", "✔") : a.status === "failed" ? el("span", "bad", "✘") : a.status === "running" ? el("span", "run", "●") : el("span", "", "○");
+        icon.title = a.status === "stopped" ? "The run ended before this agent finished" : a.status;
+        const lbl = el("span", "lbl", a.label); lbl.title = a.label;
+        r.append(icon, lbl, el("span", "meta", (a.model ? a.model + " · " : "") + tokens(a.tokens)), el("span", "time", clock(agentSeconds(a))));
+        right.append(r);
+      });
+      if (!list.length) right.append(el("p", "note", "No agent has run in this phase yet."));
+      foot.replaceChildren();
+      if (failed) foot.append(el("span", "bad", failed + (failed === 1 ? " agent failed" : " agents failed") + " in this run"));
+      if (sel !== auto) {
+        const f = el("button", "", "Follow the live phase");
+        f.type = "button";
+        f.dataset.follow = "1";
+        f.addEventListener("click", () => { sel = auto; pinned(run.id, ""); draw(); });
+        foot.append(f);
+      }
+    };
+    draw();
+    body.append(left, right);
+    card.append(body, foot);
+    if ((wf.earlier || []).length) {
+      const d = el("details", "wf-earlier");
+      d.open = earlierOpen();
+      d.addEventListener("toggle", () => earlierOpen(d.open));
+      d.append(el("summary", "", wf.earlier.length + (wf.earlier.length === 1 ? " earlier run" : " earlier runs") + " of this loop"));
+      wf.earlier.forEach((r) => {
+        const span = r.startedAt && r.endedAt ? clock((new Date(r.endedAt) - new Date(r.startedAt)) / 1000) : "";
+        d.append(el("div", "", (r.startedAt ? fmtDay(new Date(r.startedAt)) + " · " : "") + r.done + "/" + r.agents + " agents done" + (r.failed ? " · " + r.failed + " failed" : "") + (r.stopped ? " · " + r.stopped + " cut off" : "") + (span ? " · " + span : "")));
+      });
+      card.append(d);
+    }
+    return card;
+  }
+
+  // the workflow card is redrawn on its own from live.js, so it sits in a slot of its own
+  let wfSlot = null;
+  function drawWorkflow(wf, paused) {
+    if (!wfSlot || !wf || !wf.run) return;
+    // drawn from Claude Code's own run files; if their shape changes, the last card stays
+    try {
+      // a rebuild must not take keyboard focus away from the phase or follow button the person is on
+      const at = document.activeElement;
+      const had = at && wfSlot.contains(at) ? (at.dataset.follow ? { follow: true } : at.dataset.phase ? { phase: at.dataset.phase } : null) : null;
+      wfSlot.replaceChildren(workflowCard(wf, paused));
+      if (had) {
+        const btns = Array.from(wfSlot.querySelectorAll("button"));
+        const next = btns.find((b) => had.follow ? b.dataset.follow : b.dataset.phase === had.phase);
+        if (next) next.focus();
+      }
+    } catch (err) { /* no workflow view */ }
+  }
+  // running agents' clocks tick between redraws
+  function tickClocks() {
+    if (!wfSlot) return;
+    wfSlot.querySelectorAll(".wf-agent.running[data-start]").forEach((r) => {
+      const t = r.querySelector(".time");
+      if (t) t.textContent = clock(agentSeconds({ status: "running", startedAt: r.dataset.start }));
+    });
+  }
+
   function render(data) {
     const app = $("#app");
     app.replaceChildren();
@@ -331,7 +608,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     const pill = el("span", "pill " + (finished ? "ok" : staleMin > 45 ? "warn" : "live"));
     pill.append(el("span", "dot"), document.createTextNode(finished ? "Finished" : staleMin > 45 ? "Quiet" : "Running"));
     const updEl = el("span", staleMin > 45 ? "stale" : "", "Updated " + ago(updated) + " · " + fmtTime(updated));
-    if (staleMin > 45) updEl.title = "No update for a while. The /sdlc heartbeat regenerates this page every 30 minutes while the loop runs.";
+    if (staleMin > 45) updEl.title = "No update for a while. While the loop runs, /sdlc regenerates this page every minute.";
     fresh.append(pill, updEl);
 
     // hero
@@ -377,6 +654,10 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     trackBox.append(track, labels);
     hero.append(trackBox);
     app.append(hero);
+
+    wfSlot = el("div", "wf-slot");
+    app.append(wfSlot);
+    drawWorkflow(data.workflow, false);
 
     // three cards
     const g3 = el("section", "grid3");
@@ -520,6 +801,8 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     pk.append(note);
     g2.append(pk);
     app.append(g2);
+
+    if (data.reports) app.append(reportsCard(data.reports));
   }
 
   function chart(data, p, open, total) {
@@ -566,11 +849,41 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     return svg;
   }
 
+  // the watcher rewrites live.js within seconds of each agent event; a fresh <script> tag reads it,
+  // which works from file:// where fetch does not
+  function startLive() {
+    const live = window.SDLC_createLive({ now: () => NOW(), redraw: drawWorkflow });
+    window.SDLC_LIVE = (p) => { try { live.apply(p); } catch (err) { /* keep the last good card */ } };
+    let probe = null;
+    const poll = () => {
+      try { live.tick(); } catch (err) { /* keep the last good card */ }
+      try { tickClocks(); } catch (err) { /* the clocks just stop for a moment */ }
+      if (probe) probe.remove();
+      probe = document.createElement("script");
+      probe.src = "live.js?t=" + Date.now();
+      probe.onerror = () => {}; // no live.js: a one-off build, or a published copy
+      document.body.append(probe);
+    };
+    poll();
+    setInterval(poll, 2000);
+  }
+  // the page still reloads every minute for the other sections; come back to the same place
+  function keepScroll() {
+    try {
+      const y = Number(sessionStorage.getItem("sdlc-scroll"));
+      if (y) window.scrollTo(0, y);
+    } catch (err) { /* no sessionStorage */ }
+    window.addEventListener("pagehide", () => {
+      try { sessionStorage.setItem("sdlc-scroll", String(window.scrollY)); } catch (err) { /* no sessionStorage */ }
+    });
+  }
+
   const data = window.SDLC_STATUS;
   if (!data) return;
   // an example page is frozen at its own timestamp so it never looks stale
   if (data.example) NOW = () => new Date(data.updatedAt).getTime();
   try { render(data); } catch (err) { $("#app").replaceChildren(el("div", "card empty", "Couldn't draw the status: " + err.message)); }
+  if (!data.example) { keepScroll(); startLive(); }
 })();
 </script>
 </body>

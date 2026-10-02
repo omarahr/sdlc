@@ -103,7 +103,7 @@ def read_run(journal, live, cache=None):
     cache = cache if cache is not None else {}
     for a in agents:
         key = (run_dir, a["id"])
-        if key in cache and a["status"] != "running":
+        if key in cache and (a["status"] != "running" or (not live and cache[key].get("status") == "stopped")):
             a.update(cache[key])
             continue
         path = os.path.join(run_dir, f"agent-{a['id']}.jsonl")
@@ -118,20 +118,35 @@ def read_run(journal, live, cache=None):
             if not live or quiet:
                 a["status"] = "stopped"
                 info["seconds"] = seconds_between(t.get("startedAt"), t.get("lastAt"))
+                if not live:
+                    cache[key] = {**info, "status": "stopped"}  # the run is over: it will not come back, so do not read it again
         else:
             info["seconds"] = seconds_between(t.get("startedAt"), t.get("lastAt"))
             cache[key] = info
         a.update(info)
     starts = [a["startedAt"] for a in agents if a.get("startedAt")]
-    ends = [a for a in agents if a.get("startedAt") and a.get("seconds") is not None]
-    last = max((datetime.fromisoformat(a["startedAt"].replace("Z", "+00:00")).timestamp() + a["seconds"] for a in ends), default=None)
-    return {
+    run = {
         "id": os.path.basename(run_dir),
         "live": live,
         "startedAt": min(starts) if starts else None,
-        "endedAt": None if live or last is None else datetime.fromtimestamp(last, timezone.utc).isoformat(timespec="seconds"),
+        "endedAt": None,
         "agents": agents,
     }
+    if not live:
+        run["endedAt"] = last_end(agents)
+    return run
+
+
+def last_end(agents):
+    ends = [a for a in agents if a.get("startedAt") and a.get("seconds") is not None]
+    last = max((datetime.fromisoformat(a["startedAt"].replace("Z", "+00:00")).timestamp() + a["seconds"] for a in ends), default=None)
+    return None if last is None else datetime.fromtimestamp(last, timezone.utc).isoformat(timespec="seconds")
+
+
+def mark_ended(run):
+    """The loop is over (--stop-watch): the run is not live whatever its folder's age, and has an end time."""
+    run["live"] = False
+    run["endedAt"] = last_end(run["agents"])
 
 
 def summary(run):

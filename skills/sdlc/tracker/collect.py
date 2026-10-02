@@ -4,11 +4,12 @@
 Usage:
   collect.py [--repo DIR] [--out DIR] [--journal FILE] [--run-label TEXT] [--run-cap N] [--watch SECONDS]
 
-Writes <out>/status.json, <out>/index.html and the verifier test reports under
+Writes <out>/status.json, <out>/index.html, <out>/live.js and the verifier test reports under
 <out>/reports/ (default out: <repo>/.sdlc/tracker).
-Open index.html in a browser; it reloads itself every minute, so re-running this
-script keeps the page current. With --watch it rebuilds on its own until the run goes quiet, which
-gives the page a live view of the running workflow. Python 3 standard library only.
+Open index.html in a browser; it reloads itself every minute, and redraws its workflow card from
+live.js every 2 s. With --watch SECONDS it rebuilds the page at that interval until the run goes
+quiet, and rebuilds live.js within a second of a hook's poke (.sdlc/tracker/poke), or every 5 s
+without one. Python 3 standard library only.
 """
 import argparse
 import json
@@ -31,6 +32,10 @@ SCRIPT = os.path.join(os.path.dirname(HERE), "sdlc-loop.js")
 WATCH_IDLE_SECONDS = 45 * 60
 # in watch mode the slow parts (the macOS power log, the test reports) are refreshed this often
 SLOW_EVERY_SECONDS = 10 * 60
+# in watch mode the loop wakes this often, so a hook's poke reaches live.js within a second
+TICK_SECONDS = 1
+# without a poke, live.js is still rebuilt this often (the hooks may not fire for workflow agents)
+LIVE_EVERY_SECONDS = 5
 MARKER = "/*__SDLC_STATUS__*/null"
 
 
@@ -205,6 +210,26 @@ def render(data, out_dir):
     return os.path.join(out_dir, "index.html")
 
 
+def write_live(out_dir, wf):
+    """live.js: the workflow block alone, which the open page loads every 2 s to redraw its workflow card."""
+    os.makedirs(out_dir, exist_ok=True)
+    built = datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    # "</" inside JSON strings would close the probe's <script> early, as in index.html
+    blob = json.dumps({"builtAt": built, "workflow": wf}, ensure_ascii=False).replace("</", "<\\/")
+    # each watcher writes its own temp file, and the rename means the page never reads half a file
+    tmp = os.path.join(out_dir, f"live.js.{os.getpid()}.tmp")
+    with open(tmp, "w") as f:
+        f.write(f"window.SDLC_LIVE && window.SDLC_LIVE({blob});\n")
+    os.replace(tmp, os.path.join(out_dir, "live.js"))
+
+
+def mtime(path):
+    try:
+        return os.path.getmtime(path)
+    except OSError:
+        return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--repo", default=".")
@@ -231,54 +256,75 @@ def main():
         except OSError:
             pass
     cache, box, rep, slow_at, me = {}, None, None, 0, str(os.getpid())
+    poke = os.path.join(out, "poke")
+    full_at = live_at = 0
+    poked = mtime(poke)
     if a.watch:
         # the newest watcher owns the pid file; an older one sees the change and exits
         os.makedirs(out, exist_ok=True)
         with open(pid_file, "w") as f:
             f.write(me)
     while True:
-        try:
-            slow = time.time() - slow_at >= SLOW_EVERY_SECONDS
-            if slow:
-                box, slow_at = machine(), time.time()
-            else:
-                try:
-                    box = {**box, "load": [round(x, 2) for x in os.getloadavg()]}
-                except (OSError, AttributeError):
-                    pass
-            data = build(repo, a.journal, a.run_label, a.run_cap, cache, box)
-            if slow:
-                try:
-                    # the verifier test reports, browsable from the tracker's "Test reports" section
-                    rep = reports.build(repo, os.path.join(out, "reports"))
-                except Exception as e:  # a report that fails to render never breaks the tracker
-                    print(f"test reports not rendered: {e}", file=sys.stderr)
-            if rep is not None:
-                data["reports"] = rep
-            page = render(data, out)
-            if not a.watch:
-                print(page)
-                return
-        except SystemExit:
-            raise
-        except Exception as e:
-            if not a.watch:
+        now = time.time()
+        if now - full_at >= a.watch:
+            if full_at:
+                quiet = now - workflow.newest_mtime(os.path.dirname(os.path.abspath(a.journal))) if a.journal else WATCH_IDLE_SECONDS
+                if quiet >= WATCH_IDLE_SECONDS:
+                    try:
+                        os.remove(pid_file)
+                    except OSError:
+                        pass
+                    return
+            # the full build covers every poke so far
+            full_at = live_at = now
+            poked = mtime(poke)
+            try:
+                slow = time.time() - slow_at >= SLOW_EVERY_SECONDS
+                if slow:
+                    box, slow_at = machine(), time.time()
+                else:
+                    try:
+                        box = {**box, "load": [round(x, 2) for x in os.getloadavg()]}
+                    except (OSError, AttributeError):
+                        pass
+                data = build(repo, a.journal, a.run_label, a.run_cap, cache, box)
+                if slow:
+                    try:
+                        # the verifier test reports, browsable from the tracker's "Test reports" section
+                        rep = reports.build(repo, os.path.join(out, "reports"))
+                    except Exception as e:  # a report that fails to render never breaks the tracker
+                        print(f"test reports not rendered: {e}", file=sys.stderr)
+                if rep is not None:
+                    data["reports"] = rep
+                if a.stop_watch and (data.get("workflow") or {}).get("run"):
+                    # --stop-watch runs when the loop has ended; the run folder may still look recent
+                    workflow.mark_ended(data["workflow"]["run"])
+                page = render(data, out)
+                write_live(out, data.get("workflow"))
+                if not a.watch:
+                    print(page)
+                    return
+            except SystemExit:
                 raise
-            print(f"tracker not rebuilt: {e}", file=sys.stderr)
-        time.sleep(a.watch)
+            except Exception as e:
+                if not a.watch:
+                    raise
+                print(f"tracker not rebuilt: {e}", file=sys.stderr)
+        elif a.journal and (mtime(poke) != poked or now - live_at >= LIVE_EVERY_SECONDS):
+            # the fast path: only the workflow block, read again within a second of a hook's poke
+            live_at, poked = now, mtime(poke)
+            try:
+                write_live(out, workflow.build(a.journal, SCRIPT, cache))
+            except Exception as e:  # leave the last live.js; the page shows "paused" if this keeps failing
+                print(f"live view not rebuilt: {e}", file=sys.stderr)
+        time.sleep(TICK_SECONDS)
         try:
             with open(pid_file) as f:
                 if f.read().strip() != me:
                     return
         except OSError:
             return
-        quiet = time.time() - workflow.newest_mtime(os.path.dirname(os.path.abspath(a.journal))) if a.journal else WATCH_IDLE_SECONDS
-        if quiet >= WATCH_IDLE_SECONDS:
-            try:
-                os.remove(pid_file)
-            except OSError:
-                pass
-            return
+
 
 if __name__ == "__main__":
     main()
