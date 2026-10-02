@@ -1,7 +1,7 @@
 export const meta = {
   name: 'sdlc-loop',
   description: 'Implement a spec end-to-end through an adversarial SDLC loop, then raise the bar',
-  whenToUse: 'Launched by the /sdlc skill. One run advances .sdlc/ state until done, livelock, stop, waiting, stalled, or the per-run agent cap.',
+  whenToUse: 'Launched by the /sdlc skill. One run advances .sdlc/ state until done, livelock, stop, waiting, stalled, stuck, or the per-run agent cap.',
   phases: [
     { title: 'Read state' },
     { title: 'Bootstrap' },
@@ -263,9 +263,24 @@ async function persist(sliceId, patch) {
 // the no-progress streak survives relaunches: the driver passes lastKey/streak back in args
 let lastKey = A.lastKey || ''
 let streak = A.streak || 0
+// runs in a row that ended stalled; the driver passes it back like the streak. An action with a new outcome resets it.
+let stalledRuns = A.stalledRuns || 0
+// the driver relaunches a stalled run every 30 minutes, so this is about 12 hours without progress
+const STUCK_LIMIT = 24
 
 function finish(state, reason, history) {
-  return { state, reason, agentsSpent: spent, iterations: history, lastKey, streak }
+  return { state, reason, agentsSpent: spent, iterations: history, lastKey, streak, stalledRuns }
+}
+
+// a run that made no progress: the driver backs off and relaunches, until STUCK_LIMIT such runs in a row end the loop
+function stall(reason, history) {
+  stalledRuns++
+  return finish(stalledRuns >= STUCK_LIMIT ? 'stuck' : 'stalled', reason, history)
+}
+
+// the run cannot go on: relaunch at once if it completed an action, back off if it did nothing
+function pause(reason, history) {
+  return history.length ? finish('continue', reason, history) : stall(reason, history)
 }
 
 // ---------- actions ----------
@@ -921,7 +936,7 @@ async function main() {
     if (iteration >= MAX_ITER) return finish('continue', `max iterations (${MAX_ITER}) reached`, history)
     phase('Read state')
     const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS }, { schema: NEXT, effort: 'low', phase: 'Read state' })
-    if (!next) return finish('continue', 'state reader failed twice', history)
+    if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)
@@ -930,23 +945,24 @@ async function main() {
       return finish('done', `spec complete; bar raiser off (run /sdlc with --bar-raiser N to polish). ${next.reason}`, history)
     }
     if (!hasHeadroom(next.action)) {
-      return finish('continue', `agent cap or budget: ${spent}/${CAP} agents spent, ${next.action} needs ~${COST[next.action] || 60}`, history)
+      return pause(`agent cap or budget: ${spent}/${CAP} agents spent, ${next.action} needs ~${COST[next.action] || 60}`, history)
     }
     const act = ACTIONS[next.action]
-    if (!act) return finish('continue', `unknown action: ${next.action}`, history)
+    if (!act) return pause(`unknown action: ${next.action}`, history)
     const outcome = await act(next)
     history.push({ action: next.action, sliceId: next.sliceId || null, outcome })
     if (next.action === 'livelock') return finish('livelock', outcome, history)
     const key = `${next.action}|${next.sliceId || next.milestoneId || ''}|${outcome}`
     streak = key === lastKey ? streak + 1 : 1
+    if (streak === 1) stalledRuns = 0
     lastKey = key
     if (streak >= STREAK_LIMIT) {
-      if (!next.sliceId) return finish('stalled', `no progress: "${key}" repeated ${STREAK_LIMIT} times`, history)
+      if (!next.sliceId) return stall(`no progress: "${key}" repeated ${streak} times`, history)
       // a PR that keeps waiting needs a human, not a park
       if (next.action === 'retryMerge') return finish('waiting', `${next.sliceId} still awaiting merge: ${outcome}`, history)
       const kind = (next.slice && next.slice.kind) || 'spec'
       const fp = await run('state-writer', { op: 'force-park', sliceId: next.sliceId, kind, reason: `no progress: ${outcome} (x${STREAK_LIMIT})` }, { schema: OK, effort: 'low', label: next.sliceId })
-      if (!fp || !fp.ok) return finish('stalled', `force-park failed for ${next.sliceId} after: ${outcome}`, history)
+      if (!fp || !fp.ok) return stall(`force-park failed for ${next.sliceId} after: ${outcome}`, history)
       log(`${next.sliceId} force-parked after ${STREAK_LIMIT} identical outcomes`)
       lastKey = ''
       streak = 0
