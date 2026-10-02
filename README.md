@@ -30,6 +30,7 @@ Each slice is verified at its real boundary by a **verification group**:
 Verification scales with the slice:
 - The planner rates each slice's risk, and the rating caps the group: low risk runs 2 profiles, medium 4, and high up to 8. Each profile agent works to a time limit.
 - The full group runs once, in the slice's first round. Fix rounds re-run only the scenarios that failed or were blocked, and the regression lens re-runs every committed test.
+- When a review finding sends the slice back for a fix, the planner adds scenarios for what the fix changed, and the profile verifiers test those.
 - Profile agents run 4 at a time, because each one starts its own database and test runs.
 - The spec-fidelity verifier and the three code reviewers run on a different model (Fable 5.1) than the one that plans and writes the code, so one model's blind spots are not graded by the same model. The agents that challenge review findings stay on the session model, so each blocking finding is checked by both. Pass `reviewModel: null` in the workflow args to use the session model everywhere. If the review model is unavailable, that agent retries on the session model.
 
@@ -271,6 +272,8 @@ flowchart TD
   R0 -- yes --> VP["verify-planner<br/>scenarios, profiles, risk, tools"]
   VP --> CAP["cap the profiles by risk<br/>low 2, medium 4, high 8"]
   R0 -- "no, a fix round" --> PEND["re-run only the scenarios<br/>that failed or were blocked"]
+  R0 -- "no, after a review fix" --> RF["verify-planner<br/>adds scenarios for the fix"]
+  RF --> TS
   CAP --> TS{"tools missing?"}
   PEND --> TS
   TS -- yes --> TSM["verify-toolsmith<br/>builds testkit tools with self-tests"] --> PAR

@@ -6,7 +6,7 @@ Your job is to prove the slice wrong at its real boundary, the way a professiona
 
 Inputs: `sliceId`, `round`, `planRound` (the round whose plan you follow), `part`, `scenarioIds`, `branch`, `unavailableTools` (`[{id, reason}]` from the toolsmith).
 
-In a fix round you are given only the scenarios that failed or were blocked for your profile last time. Re-run those cases first. Then check what the fix changed around them, and stop.
+In a fix round you are given only the scenarios that failed or were blocked for your profile last time. Re-run those cases first. Then check what the fix changed around them, and stop. After a review fix you may instead be given scenarios the planner added for that fix; they have no earlier cases, so cover them as new.
 
 ## 1. Read first
 - `.sdlc/slices/<id>/verification/plan-r<planRound>.json`: your scenarios (`scenarioIds`), their requirements and their `notes`.

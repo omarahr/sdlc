@@ -53,8 +53,9 @@ test('a planner that fails to report refutes the profiles vote without running a
   const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
   assert.equal(rt.roles().some(r => r.startsWith('verify-') && r !== 'verify-planner'), false)
   assert.equal(votes[1].refuted, true)
-  // with spec-fidelity and regression clear, a lone evidence-only refutation does not fail the round by itself
+  // nothing was verified at its boundary, so the round fails even with spec-fidelity and regression clear
   assert.equal(rt.I.tallyVerify(votes, lenses).refutations, 1)
+  assert.equal(rt.I.tallyVerify(votes, lenses).pass, false)
 })
 
 test('a fix round reuses the round-0 plan and re-runs only the failed (scenario, profile) pairs', async () => {
@@ -208,4 +209,56 @@ test('profile agents run in batches of four', async () => {
   assert.equal(rt.roles().filter(r => profiles.includes(r.replace('verify-', ''))).length, 7)
   assert.equal(peak, 4)
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+})
+
+const reviewFix = (planner, extra = {}) => {
+  let reviews = 0
+  let plans = 0
+  return happy({
+    reviewer: c => (c.inputs.lens === 'security' && reviews++ === 0 ? { findings: [{ title: 'SQL injection', detail: 'raw concat', blocking: true }] } : { findings: [] }),
+    'verify-planner': c => (plans++ === 0
+      ? { scenarios: [{ id: 'VS-1', title: 't', requirementIds: ['R-1'], profiles: ['http-api', 'security'] }], tools: [], risk: 'high' }
+      : planner(c)),
+    ...extra,
+  }, 'implement')
+}
+
+test('after a review fix, the planner adds scenarios for the fix and only those run', async () => {
+  const rt = await runMain(reviewFix(() => ({
+    scenarios: [
+      { id: 'VS-1', title: 't', requirementIds: ['R-1'], profiles: ['http-api', 'security'] },
+      { id: 'VS-2', title: 'query input is parameterized', requirementIds: ['R-1'], profiles: ['http-api'] },
+    ],
+    added: ['VS-2'], tools: [], risk: 'high',
+  })))
+  assert.deepEqual(rt.errors, [])
+  const planners = rt.calls.filter(c => c.role === 'verify-planner').map(c => c.inputs)
+  assert.deepEqual(planners, [{ sliceId: 'S-1', round: 0 }, { sliceId: 'S-1', round: 1, after: 'review-fix' }])
+  const api = rt.calls.filter(c => c.role === 'verify-http-api').map(c => c.inputs)
+  assert.equal(api.length, 2)
+  assert.deepEqual([api[1].round, api[1].planRound, api[1].scenarioIds], [1, 1, ['VS-2']])
+  assert.equal(rt.calls.filter(c => c.role === 'verify-security').length, 1)
+  assert.equal(rt.roles().includes('integrator'), true)
+})
+
+test('after a review fix that changed no behavior, the planner adds nothing and no profile agent runs', async () => {
+  const rt = await runMain(reviewFix(() => ({ scenarios: [{ id: 'VS-1', title: 't', requirementIds: ['R-1'], profiles: ['http-api', 'security'] }], added: [], tools: [], risk: 'high' })))
+  assert.equal(rt.calls.filter(c => c.role === 'verify-planner').length, 2)
+  assert.equal(rt.calls.filter(c => c.role === 'verify-http-api').length, 1)
+  assert.equal(rt.roles().includes('integrator'), true)
+})
+
+test('after a review fix, a planner that fails to report falls back to the earlier plan', async () => {
+  const rt = await runMain(reviewFix(() => null))
+  assert.equal(rt.calls.filter(c => c.role === 'verify-http-api').length, 1)
+  assert.equal(rt.roles().includes('integrator'), true)
+  assert.ok(rt.logs.some(l => /could not plan the review fix/.test(l)))
+})
+
+test('a fix round after a verification failure does not plan again', async () => {
+  let n = 0
+  const rt = await runMain(happy({
+    'verify-http-api': () => (n++ === 0 ? { refuted: true, evidence: 'x', failingTest: 'TC-1', failedScenarios: ['VS-1'] } : clear()),
+  }, 'implement'))
+  assert.equal(rt.calls.filter(c => c.role === 'verify-planner').length, 1)
 })

@@ -521,6 +521,8 @@ const VPLAN = {
     },
     risk: { type: 'string', enum: ['low', 'medium', 'high'] },
     riskReason: str,
+    // only on a plan made after a review fix: the ids of the scenarios it added for the fix
+    added: { type: 'array', items: str },
     notes: str,
   },
   required: ['scenarios', 'tools', 'risk'],
@@ -552,13 +554,28 @@ const PVOTE = {
 
 // The first round plans and runs the whole group. A fix round reuses that plan and re-runs only the
 // (scenario, profile) pairs that failed or were blocked: the regression lens re-runs every committed test.
-async function verifyPhase(id, round, prev = null) {
+// reviewFix: the last round passed verification and the code then changed to fix review findings, so nothing is
+// pending and the new code has no boundary tests yet; the planner adds scenarios for the fix and only those run
+async function verifyPhase(id, round, prev = null, reviewFix = false) {
   phase('Verify')
   let plan = prev && prev.plan
   let planRound = prev ? prev.planRound : round
   let groups = []
   let tools = []
-  if (plan) {
+  const replan = plan && reviewFix
+    ? await run('verify-planner', { sliceId: id, round, after: 'review-fix' }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
+    : null
+  if (plan && reviewFix && !replan) log(`${id} verify r${round}: verify-planner could not plan the review fix; keeping the plan from r${planRound}`)
+  if (replan) {
+    plan = replan
+    planRound = round
+    const added = new Set(plan.added || [])
+    const cap = RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT
+    const capped = capProfiles((plan.scenarios || []).filter(sc => added.has(sc.id)), cap)
+    groups = groupScenarios(capped.scenarios, cap)
+    tools = (plan.tools || []).filter(t => !t.exists)
+    log(`${id} verify r${round}: ${added.size} scenario(s) added for the review fix`)
+  } else if (plan) {
     groups = groupScenarios(pairsToScenarios(prev.pending), RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT)
     const failedTools = new Set((prev.unavailable || []).map(u => u.id))
     tools = (prev.missing || []).filter(t => failedTools.has(t.id))
@@ -620,6 +637,8 @@ async function buildLoop(id, counters) {
   const verifySeeds = []
   // the round-0 plan carries into fix rounds within this run; a resumed run plans again
   let prevVerify = null
+  // set when a review finding sends the slice back to the implementer, until the next verification has run
+  let reviewFix = false
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
     if (spent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
@@ -635,8 +654,9 @@ async function buildLoop(id, counters) {
         ? `implementer could not get green${impl.inconclusive ? ' (a required command still did not finish)' : ''}: ${impl.notes || ''}`
         : 'implementer failed to report']
     } else {
-      const { votes, lenses, next } = await verifyPhase(id, round, prevVerify)
+      const { votes, lenses, next } = await verifyPhase(id, round, prevVerify, reviewFix)
       prevVerify = next
+      reviewFix = false
       const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
       log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
@@ -649,6 +669,7 @@ async function buildLoop(id, counters) {
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
         if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
         evidence = review.blocking.map(f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`)
+        reviewFix = true
       }
     }
     counters.fixRounds++
