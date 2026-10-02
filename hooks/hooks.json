@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "SubagentStart": [
+      { "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/live-poke.py\"", "timeout": 5 }] }
+    ],
+    "SubagentStop": [
+      { "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/live-poke.py\"", "timeout": 5 }] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Agent|Task|Workflow", "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/live-poke.py\"", "timeout": 5 }] }
+    ]
+  }
+}
