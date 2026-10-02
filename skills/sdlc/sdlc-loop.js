@@ -29,12 +29,13 @@ const CAP = A.runAgentCap || 850
 const MAX_ITER = A.maxIterations === undefined || A.maxIterations === null ? Infinity : A.maxIterations
 // bar raiser is opt-in: 0 (default) means stop at spec-complete; N allows up to N polish rounds in total
 const BAR_RAISER_ROUNDS = A.barRaiserRounds > 0 ? A.barRaiserRounds : 0
-// roles that run on a different model than the one that planned and wrote the code, so one model's blind
-// spots are not graded by the same model: the spec-fidelity verifier and the code reviewers. It is a list in
-// order of preference: an agent uses the first one that works and falls back to the session model after the
-// last, so no single model has to be available. args.reviewModel takes one name or a list; null inherits the
-// session model everywhere.
-const REVIEW_MODEL = A.reviewModel === undefined ? ['fable', 'opus'] : A.reviewModel
+// roles that can run on a different model than the one that planned and wrote the code, so one model's blind
+// spots are not graded by the same model: the spec-fidelity verifier and the code reviewers. The value is a
+// list in order of preference: an agent uses the first one that works and falls back to the session model
+// after the last. Default is null (inherit the session model everywhere), because an override model that
+// hangs instead of failing stalls the run: the fallback chain only advances on failure. Pass
+// args.reviewModel one name or a list (e.g. ['fable', 'opus']) to opt back into split-model review.
+const REVIEW_MODEL = A.reviewModel === undefined ? null : A.reviewModel
 const COST = { bootstrap: 40, slice: 60, parkedRetry: 60, retryMerge: 5, milestonePlan: 5, milestone: 90, audit: 80, barRaiserRound: 90, livelock: 2 }
 
 // ---------- shared schemas ----------

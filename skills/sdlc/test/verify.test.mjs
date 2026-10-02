@@ -167,8 +167,13 @@ test('every profile has a prompt file that reads the shared profile rules', asyn
   }
 })
 
-test('the spec-fidelity verifier and the reviewers run on the review model; everyone else inherits', async () => {
+test('by default every agent runs on the session model', async () => {
   const rt = await runMain(happy({}, 'implement'))
+  assert.equal(rt.calls.some(c => c.opts.model), false)
+})
+
+test('with a review model set, the spec-fidelity verifier and the reviewers run on it; everyone else inherits', async () => {
+  const rt = await runMain(happy({}, 'implement'), { reviewModel: 'fable' })
   const model = r => [...new Set(rt.calls.filter(c => c.role === r).map(c => c.opts.model))]
   assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => [c.inputs.lens, c.opts.model]).sort(), [['regression', undefined], ['spec-fidelity', 'fable']])
   assert.deepEqual(model('reviewer'), ['fable'])
@@ -182,23 +187,25 @@ test('reviewModel null keeps every agent on the session model', async () => {
   assert.equal(rt.calls.some(c => c.opts.model), false)
 })
 
-test('a review model that fails falls back to the next one in the list, then to the session model', async () => {
+test('a review model that fails falls back to the session model', async () => {
+  const rt = await loadInternals(c => {
+    if (c.opts.model) throw new Error('model not available')
+    return { findings: [] }
+  }, { reviewModel: 'fable' })
+  const out = await rt.I.run('reviewer', { sliceId: 'S-1' }, rt.I.reviewOpts({ label: 'x' }))
+  assert.deepEqual(out, { findings: [] })
+  assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', undefined])
+  assert.match(rt.logs.join('\n'), /model fable failed .*trying the session model/)
+})
+
+test('a list of review models is tried in order before the session model', async () => {
   const rt = await loadInternals(c => {
     if (c.opts.model === 'fable') throw new Error('model not available')
     return { findings: [] }
-  })
-  const out = await rt.I.run('reviewer', { sliceId: 'S-1' }, rt.I.reviewOpts({ label: 'x' }))
-  assert.deepEqual(out, { findings: [] })
+  }, { reviewModel: ['fable', 'opus'] })
+  assert.deepEqual(await rt.I.run('reviewer', {}, rt.I.reviewOpts({ label: 'x' })), { findings: [] })
   assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', 'opus'])
   assert.match(rt.logs.join('\n'), /model fable failed .*trying opus/)
-
-  const none = await loadInternals(c => {
-    if (c.opts.model) throw new Error('model not available')
-    return { findings: [] }
-  })
-  assert.deepEqual(await none.I.run('reviewer', {}, none.I.reviewOpts({ label: 'x' })), { findings: [] })
-  assert.deepEqual(none.calls.map(c => c.opts.model), ['fable', 'opus', undefined])
-  assert.match(none.logs.join('\n'), /model opus failed .*trying the session model/)
 })
 
 test('the session model gets its two attempts after every review model failed', async () => {
@@ -206,22 +213,22 @@ test('the session model gets its two attempts after every review model failed', 
   const rt = await loadInternals(c => {
     if (c.opts.model) throw new Error('model not available')
     return inherited++ === 0 ? null : { findings: [] }
-  })
+  }, { reviewModel: 'fable' })
   assert.deepEqual(await rt.I.run('reviewer', {}, rt.I.reviewOpts({ label: 'x' })), { findings: [] })
-  assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', 'opus', undefined, undefined])
+  assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', undefined, undefined])
 })
 
 test('a review model that failed twice in a row is skipped for the rest of the run, and one success resets the count', async () => {
   const rt = await loadInternals(c => {
     if (c.opts.model === 'fable') throw new Error('model not available')
     return { findings: [] }
-  })
+  }, { reviewModel: 'fable' })
   for (let i = 0; i < 3; i++) await rt.I.run('reviewer', {}, rt.I.reviewOpts({ label: `r${i}` }))
-  assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', 'opus', 'fable', 'opus', 'opus'])
+  assert.deepEqual(rt.calls.map(c => c.opts.model), ['fable', undefined, 'fable', undefined, undefined])
   assert.match(rt.logs.join('\n'), /fable failed twice in a row; not using it again in this run/)
 
   let n = 0
-  const flaky = await loadInternals(c => (c.opts.model === 'fable' && n++ % 2 === 0 ? null : { findings: [] }))
+  const flaky = await loadInternals(c => (c.opts.model === 'fable' && n++ % 2 === 0 ? null : { findings: [] }), { reviewModel: 'fable' })
   for (let i = 0; i < 4; i++) await flaky.I.run('reviewer', {}, flaky.I.reviewOpts({ label: `r${i}` }))
   assert.equal(flaky.calls.filter(c => c.opts.model === 'fable').length, 4)
 })

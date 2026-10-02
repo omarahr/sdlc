@@ -166,7 +166,7 @@ test('a blocking finding refuted by the majority is dropped and non-blocking one
 
 test('reviewer that fails to report blocks the slice', async () => {
   let calls = 0
-  const rt = await runMain(happy({ reviewer: c => (c.inputs.lens === 'architecture' && calls++ < 4 ? null : { findings: [] }) }, 'implement'))
+  const rt = await runMain(happy({ reviewer: c => (c.inputs.lens === 'architecture' && calls++ < 2 ? null : { findings: [] }) }, 'implement'))
   const impls = rt.calls.filter(c => c.role === 'implementer')
   assert.equal(impls.length, 2)
   assert.match(impls[1].inputs.evidence[0], /reviewer architecture failed to report/)
