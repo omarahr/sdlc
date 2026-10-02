@@ -53,7 +53,7 @@ test('collector turns .sdlc state into a self-contained tracker page', { skip: !
   assert.equal(data.milestones[0].status, 'pending')
   const html = readFileSync(join(out, 'index.html'), 'utf8')
   assert.doesNotMatch(html, /__SDLC_STATUS__/)
-  assert.equal(html.match(/<\/script>/g).length, 2, 'a </script> inside the data must not close the tag early')
+  assert.equal(html.match(/<\/script>/g).length, 3, 'a </script> inside the data must not close the tag early')
   assert.equal(readFileSync(join(out, '.gitignore'), 'utf8'), '*\n')
 })
 
@@ -254,4 +254,46 @@ test('a poke rebuilds live.js within a second or two without rebuilding the page
     execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal, '--stop-watch'])
     await done
   }
+})
+
+// the template's live decision block, run on its own: it must not touch the DOM
+function createLive() {
+  const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
+  const m = src.match(/\/\* live:begin \*\/([\s\S]*?)\/\* live:end \*\//)
+  assert.ok(m, 'template has a live:begin … live:end block')
+  const ctx = {}
+  vm.runInNewContext(m[1], ctx)
+  return ctx.SDLC_createLive
+}
+
+test('the page redraws the workflow card only for a newer live payload, and flags a live run gone quiet', () => {
+  let now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push([wf.run.id, paused]) })
+  const wf = id => ({ run: { id, live: true, agents: [] } })
+  assert.equal(live.tick(), false, 'nothing to flag before the first payload')
+  for (const bad of [null, {}, { builtAt: 'soon' }, { builtAt: 7 }]) assert.equal(live.apply(bad), false)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: wf('r1') }), true)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: wf('r2') }), false)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:01.000Z', workflow: wf('r3') }), false)
+  assert.deepEqual(draws, [['r1', false]])
+  assert.equal(live.tick(), false)
+  now += 31000
+  assert.equal(live.tick(), true, 'the watcher went quiet')
+  assert.equal(live.tick(), false, 'flagged once')
+  assert.deepEqual(draws.at(-1), ['r1', true])
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:45.000Z', workflow: wf('r1') }), true)
+  assert.deepEqual(draws.at(-1), ['r1', false])
+})
+
+test('the page keeps its last card for an empty live payload, and never flags a finished run', () => {
+  let now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push([wf.run.id, paused]) })
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: null }), false)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:06.000Z', workflow: { run: { id: 'r1', live: false, agents: [] } } }), true)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:07.000Z', workflow: null }), false)
+  now += 10 * 60 * 1000
+  assert.equal(live.tick(), false)
+  assert.deepEqual(draws, [['r1', false]])
 })
