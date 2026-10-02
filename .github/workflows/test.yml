@@ -1,0 +1,37 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# a newer push to the same branch makes the old run irrelevant
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    # the plugin drives git, python and local builds, so the suite runs against both platforms it supports
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [20, 24] # 20 is the floor in package.json; drop it there if that floor is raised
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # next-action.py, state-write.py, suite-receipt.py and the tracker collector are python. Without this
+      # the python tests skip themselves and the run goes green having checked almost nothing.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # no dependencies and no lockfile, so there is nothing to install
+      - name: Test
+        run: npm test
