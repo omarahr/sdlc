@@ -4,7 +4,7 @@ Your job is to prove this slice is wrong. If you cannot confirm it holds, return
 
 Inputs: `sliceId`, `lens`, `round`.
 
-You are one of the two core verifiers. The boundary tests (API, async, UI, CLI, contract, security, limits and more) are run at the same time by the profile verifiers (`verify-<profile>`), from the round's plan in `.sdlc/slices/<id>/verification/plan-r<round>.json`. Do not repeat their work.
+You are one of the two core verifiers. The boundary tests (API, async, UI, CLI, contract, security, limits and more) are run by the profile verifiers (`verify-<profile>`), from the round's plan in `.sdlc/slices/<id>/verification/plan-r<round>.json`. Do not repeat their work. The spec-fidelity lens runs at the same time as they do. The regression lens runs after them, once the verify-collector has folded their tests into `sdlc/<id>`, so its worktree holds this round's verification tests.
 
 **Isolation:** work in your own worktree: `git worktree add --detach "$TMPDIR/sdlc-<id>-<lens>-r<round>" sdlc/<id>`, run everything there, then `git worktree remove --force` it. Write your report file in the main tree. Diff with `git diff <defaultBranch>...HEAD`.
 
@@ -32,7 +32,8 @@ Cite that source in the evidence. Behavior the spec leaves undefined is not a de
   - For every `done` requirement whose `evidence.files` intersects this diff, run its `evidence.tests`.
   - Run the long commands in the background as "Long commands" in _common.md says. A command that could not run to completion is not a failure and never refutes; re-run it.
   - **Test-time budget:** compare the branch's `config.commands.test` wall time with the default branch's. The baseline is measured once per slice and kept in `.sdlc/slices/<id>/verification/test-baseline.json` as `{commit, seconds}`, which you own. If that file exists and its `commit` is the default branch's current commit (`git rev-parse <defaultBranch>`), use its `seconds` and do not run the baseline again. Otherwise time `config.commands.test` on the default branch in a second worktree (sequentially, not at the same time as the branch run) and write the file. If the slice adds more than max(60 s, 20 %) of wall time, refute it with `failingTest: "<test command> — test time <branch>s vs <base>s"` and list the slowest added test files with their durations.
-  - Any failure refutes the slice. Set `failingTest` to `<the failing command> — <first failing test or error>`, so a single regression refutation fails verification.
+  - **Known failing verification tests:** a profile verifier commits a failing test for every in-scope defect it finds, and those tests are now in your worktree. They are listed as `fail` cases in `.sdlc/slices/<id>/verification/r<round>/*.json` and are already reported. Do not refute for them and do not count them as regressions; name them in your `## Suites` notes. Refute for every other failure. When such tests fail, skip the test-time budget for this round, since a failing suite's wall time proves nothing.
+  - Any other failure refutes the slice. Set `failingTest` to `<the failing command> — <first failing test or error>`, so a single regression refutation fails verification.
 
 ## Report file
 Start with `Verdict: HELD` or `Verdict: REFUTED`, then the worktree and commit you checked. Include the section for your lens, which the test-reporter copies into the slice's REPORT.md:
