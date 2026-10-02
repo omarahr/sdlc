@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs'
+import { execFileSync, spawn } from 'node:child_process'
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
@@ -125,4 +125,82 @@ test('a slice test report leads the page, with the verification rounds as an app
   assert.match(page, /tag released/)
   assert.match(page, /<details class="rec">\s*<summary>Case detail \(1 case\) &lt;script&gt;/)
   assert.match(page, /<h5>TC-ui-1 · PASS<\/h5>[\s\S]*<\/details>/)
+})
+
+// a Workflow run folder as Claude Code writes it: a journal plus one transcript per agent
+function runFolder(root, name, agents) {
+  const dir = join(root, 'workflows', name)
+  mkdirSync(dir, { recursive: true })
+  const lines = [{ type: 'launched' }]
+  for (const a of agents) {
+    lines.push({ type: 'started', agentId: a.id, label: a.label, phase: a.phase })
+    if (a.end) lines.push({ type: a.end, agentId: a.id })
+    const t = [{ type: 'user', timestamp: a.from, message: { role: 'user' } }]
+    if (a.to) t.push({ type: 'assistant', timestamp: a.to, message: { model: 'model-x', usage: { input_tokens: 400, output_tokens: 100, cache_read_input_tokens: 44000, cache_creation_input_tokens: 406 } } })
+    if (!a.noTranscript) writeFileSync(join(dir, `agent-${a.id}.jsonl`), t.map(e => JSON.stringify(e)).join('\n') + '\n')
+  }
+  writeFileSync(join(dir, 'journal.jsonl'), lines.map(e => JSON.stringify(e)).join('\n') + '\nnot json\n')
+  return join(dir, 'journal.jsonl')
+}
+
+test('collector adds the workflow view: phases, agents with status, model, tokens and time, and earlier runs', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const old = runFolder(repo, 'wf_old', [
+    { id: 'o1', label: 'state-reader', phase: 'Read state', end: 'result', from: '2026-01-12T08:00:00Z', to: '2026-01-12T08:01:00Z' },
+    { id: 'o2', label: 'planner:S-001', phase: 'Plan', from: '2026-01-12T08:01:00Z', to: '2026-01-12T08:03:00Z' },
+  ])
+  runFolder(repo, 'wf_other', [{ id: 'x1', label: 'something', phase: 'Not ours', end: 'result', from: '2026-01-12T07:00:00Z', to: '2026-01-12T07:01:00Z' }])
+  const past = new Date('2026-01-12T08:03:00Z')
+  utimesSync(old, past, past)
+  const journal = runFolder(repo, 'wf_new', [
+    { id: 'a1', label: 'state-reader', phase: 'Read state', end: 'result', from: '2026-01-12T09:00:00Z', to: '2026-01-12T09:00:30Z' },
+    { id: 'a2', label: 'reviewer:S-002a:security', phase: 'Review', end: 'result', from: '2026-01-12T09:01:00Z', to: '2026-01-12T09:02:32Z' },
+    { id: 'a3', label: 'reviewer:S-002a:architecture', phase: 'Review', end: 'failed', from: '2026-01-12T09:01:00Z', to: '2026-01-12T09:01:10Z' },
+    { id: 'a4', label: 'reviewer:S-002a:test-quality', phase: 'Review', from: '2026-01-12T09:01:00Z' },
+    { id: 'a5', label: 'reviewer:S-002a:architecture', phase: 'Review', from: '2026-01-12T09:01:20Z', noTranscript: true },
+  ])
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal])
+  const out = join(repo, '.sdlc', 'tracker')
+  const wf = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow
+  assert.equal(wf.name, 'sdlc-loop')
+  assert.deepEqual(wf.phases.slice(0, 3), ['Read state', 'Bootstrap', 'Plan'])
+  assert.equal(wf.phases.length, 15)
+  assert.equal(wf.run.id, 'wf_new')
+  assert.equal(wf.run.live, true)
+  assert.equal(wf.run.startedAt, '2026-01-12T09:00:00Z')
+  assert.deepEqual(wf.run.agents.map(a => a.status), ['done', 'done', 'failed', 'running', 'running'])
+  const sec = wf.run.agents[1]
+  assert.deepEqual([sec.label, sec.phase, sec.model, sec.tokens, sec.seconds], ['reviewer:S-002a:security', 'Review', 'model-x', 44906, 92])
+  assert.equal(wf.run.agents[4].tokens, 0)
+  // the earlier run of this loop is summarised; its unfinished agent was cut off; another workflow's run is left out
+  assert.deepEqual(wf.earlier.map(r => [r.id, r.agents, r.done, r.stopped]), [['wf_old', 2, 1, 1]])
+  assert.match(readFileSync(join(out, 'index.html'), 'utf8'), /workflowCard/)
+})
+
+test('collector leaves the workflow view out when the run folder cannot be read', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', join(repo, 'missing', 'journal.jsonl')])
+  assert.equal(JSON.parse(readFileSync(join(repo, '.sdlc', 'tracker', 'status.json'), 'utf8')).workflow, null)
+})
+
+test('a watcher keeps rebuilding until --stop-watch, and a newer watcher replaces it', { skip: !python && 'python3 not installed' }, async () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [{ id: 'a1', label: 'state-reader', phase: 'Read state', from: '2026-01-12T09:00:00Z' }])
+  const out = join(repo, '.sdlc', 'tracker')
+  const pid = join(out, 'watch.pid')
+  const exited = p => new Promise(res => p.on('exit', res))
+  const until = async cond => { for (let i = 0; i < 100 && !cond(); i++) await new Promise(r => setTimeout(r, 100)) }
+  const first = spawn('python3', [COLLECT, '--repo', repo, '--journal', journal, '--watch', '1'], { stdio: 'ignore' })
+  const firstDone = exited(first)
+  await until(() => existsSync(join(out, 'status.json')) && existsSync(pid))
+  assert.equal(readFileSync(pid, 'utf8'), String(first.pid))
+  const second = spawn('python3', [COLLECT, '--repo', repo, '--journal', journal, '--watch', '1'], { stdio: 'ignore' })
+  const secondDone = exited(second)
+  await firstDone
+  assert.equal(readFileSync(pid, 'utf8'), String(second.pid))
+  const before = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).updatedAt
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal, '--stop-watch'])
+  await secondDone
+  assert.equal(existsSync(pid), false)
+  assert.ok(JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).updatedAt >= before)
 })

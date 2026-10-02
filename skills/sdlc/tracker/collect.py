@@ -2,12 +2,13 @@
 """Build the /sdlc progress tracker: a self-contained HTML page from the repo's .sdlc/ state.
 
 Usage:
-  collect.py [--repo DIR] [--out DIR] [--journal FILE] [--run-label TEXT] [--run-cap N]
+  collect.py [--repo DIR] [--out DIR] [--journal FILE] [--run-label TEXT] [--run-cap N] [--watch SECONDS]
 
 Writes <out>/status.json, <out>/index.html and the verifier test reports under
 <out>/reports/ (default out: <repo>/.sdlc/tracker).
 Open index.html in a browser; it reloads itself every minute, so re-running this
-script (the /sdlc heartbeat does) keeps the page current. Python 3 standard library only.
+script keeps the page current. With --watch it rebuilds on its own until the run goes quiet, which
+gives the page a live view of the running workflow. Python 3 standard library only.
 """
 import argparse
 import json
@@ -15,14 +16,21 @@ import os
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed plugin
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import reports  # noqa: E402
+import workflow  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, "template.html")
+SCRIPT = os.path.join(os.path.dirname(HERE), "sdlc-loop.js")
+# a watcher stops once the run folder has been quiet this long; the next heartbeat starts a new one
+WATCH_IDLE_SECONDS = 45 * 60
+# in watch mode the slow parts (the macOS power log, the test reports) are refreshed this often
+SLOW_EVERY_SECONDS = 10 * 60
 MARKER = "/*__SDLC_STATUS__*/null"
 
 
@@ -115,7 +123,7 @@ def last_commit(repo):
         return None
 
 
-def build(repo, journal=None, run_label=None, run_cap=None):
+def build(repo, journal=None, run_label=None, run_cap=None, cache=None, box=None):
     sdlc = os.path.join(repo, ".sdlc")
     if not os.path.isdir(sdlc):
         raise SystemExit(f"no .sdlc/ in {repo}: run /sdlc first")
@@ -158,7 +166,9 @@ def build(repo, journal=None, run_label=None, run_cap=None):
         # the latest agent label is "<role>:<slice or milestone id>:..." while a run is live
         "activity": {"role": label.split(":")[0], "target": (label.split(":") + [""])[1]} if label else None,
         "lastCommit": last_commit(repo),
-        "machine": machine(),
+        "machine": box if box is not None else machine(),
+        # the live workflow view: phases and their agents; None when the run folder cannot be read
+        "workflow": safe_workflow(journal, cache),
         "recent": [{"at": e.get("ts", ""), "kind": e.get("type", ""), "slice": e.get("slice", ""), "text": str(e.get("detail", ""))[:240]} for e in log[-8:]],
         "milestones": [
             {k: m.get(k) for k in ("id", "title", "demo", "ui", "slices", "status", "attempts", "fixSlices", "gaps")}
@@ -166,6 +176,14 @@ def build(repo, journal=None, run_label=None, run_cap=None):
         ],
         "slices": out_slices,
     }
+
+
+def safe_workflow(journal, cache):
+    try:
+        return workflow.build(journal, SCRIPT, cache)
+    except Exception as e:  # the run folder's format is not ours: a surprise there never breaks the tracker
+        print(f"workflow view not built: {e}", file=sys.stderr)
+        return None
 
 
 def render(data, out_dir):
@@ -194,21 +212,73 @@ def main():
     ap.add_argument("--journal", help="the running Workflow's journal.jsonl, for agent counts and the live phase")
     ap.add_argument("--run-label")
     ap.add_argument("--run-cap", type=int, default=850)
+    ap.add_argument("--watch", type=int, default=0, metavar="SECONDS", help="keep rebuilding at this interval until the run folder goes quiet or a newer watcher starts")
+    ap.add_argument("--stop-watch", action="store_true", help="stop a running watcher (the loop has ended), then build once")
     ap.add_argument("--data", help="render this status.json instead of reading .sdlc/ (for examples)")
     a = ap.parse_args()
     repo = os.path.abspath(a.repo)
     out = os.path.abspath(a.out or os.path.join(repo, ".sdlc", "tracker"))
-    data = read_json(a.data, None) if a.data else build(repo, a.journal, a.run_label, a.run_cap)
-    if data is None:
-        raise SystemExit(f"cannot read {a.data}")
-    if not a.data:
+    if a.data:
+        data = read_json(a.data, None)
+        if data is None:
+            raise SystemExit(f"cannot read {a.data}")
+        print(render(data, out))
+        return
+    pid_file = os.path.join(out, "watch.pid")
+    if a.stop_watch:
         try:
-            # the verifier test reports, browsable from the tracker's "Test reports" section
-            data["reports"] = reports.build(repo, os.path.join(out, "reports"))
-        except Exception as e:  # a report that fails to render never breaks the tracker
-            print(f"test reports not rendered: {e}", file=sys.stderr)
-    print(render(data, out))
-
+            os.remove(pid_file)
+        except OSError:
+            pass
+    cache, box, rep, slow_at, me = {}, None, None, 0, str(os.getpid())
+    if a.watch:
+        # the newest watcher owns the pid file; an older one sees the change and exits
+        os.makedirs(out, exist_ok=True)
+        with open(pid_file, "w") as f:
+            f.write(me)
+    while True:
+        try:
+            slow = time.time() - slow_at >= SLOW_EVERY_SECONDS
+            if slow:
+                box, slow_at = machine(), time.time()
+            else:
+                try:
+                    box = {**box, "load": [round(x, 2) for x in os.getloadavg()]}
+                except (OSError, AttributeError):
+                    pass
+            data = build(repo, a.journal, a.run_label, a.run_cap, cache, box)
+            if slow:
+                try:
+                    # the verifier test reports, browsable from the tracker's "Test reports" section
+                    rep = reports.build(repo, os.path.join(out, "reports"))
+                except Exception as e:  # a report that fails to render never breaks the tracker
+                    print(f"test reports not rendered: {e}", file=sys.stderr)
+            if rep is not None:
+                data["reports"] = rep
+            page = render(data, out)
+            if not a.watch:
+                print(page)
+                return
+        except SystemExit:
+            raise
+        except Exception as e:
+            if not a.watch:
+                raise
+            print(f"tracker not rebuilt: {e}", file=sys.stderr)
+        time.sleep(a.watch)
+        try:
+            with open(pid_file) as f:
+                if f.read().strip() != me:
+                    return
+        except OSError:
+            return
+        quiet = time.time() - workflow.newest_mtime(os.path.dirname(os.path.abspath(a.journal))) if a.journal else WATCH_IDLE_SECONDS
+        if quiet >= WATCH_IDLE_SECONDS:
+            try:
+                os.remove(pid_file)
+            except OSError:
+                pass
+            return
 
 if __name__ == "__main__":
     main()

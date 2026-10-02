@@ -114,10 +114,11 @@ Live progress shows in `/workflows`.
 
 ## Track progress in the browser
 
-`/sdlc` builds a progress tracker at `.sdlc/tracker/index.html`. Open it in a browser and leave it open: the loop regenerates it on every 30-minute heartbeat, and the page reloads itself every minute. `/sdlc tracker` builds it on demand. It shows:
+`/sdlc` builds a progress tracker at `.sdlc/tracker/index.html`. Open it in a browser and leave it open: while a run is active the loop regenerates it every minute, and the page reloads itself every minute. `/sdlc tracker` builds it on demand. It shows:
 - slices and requirements done, and milestones verified;
 - the milestone track, with each milestone's behavior-campaign status (to verify, fixing, verified) and its ETA;
 - what is running right now (slice step, or campaign step);
+- the workflow view, as in Claude Code's `/workflows` screen: the run's phases, and under each the agents with their status, model, tokens and time. Failed agents and the loop's earlier runs are listed too. It is read from Claude Code's own run files, whose format is not documented, so the section is left out if they cannot be read;
 - pace, likely finish and the run's agent budget;
 - CPU load, and overheating on macOS;
 - recent events, and what is waiting for you: parked slices, decisions and spec proposals.
@@ -178,7 +179,7 @@ flowchart TD
   PF -- fail --> X1(["report and end"])
   PF -- ok --> DF["read driver.json if present<br/>(lastKey, streak, stalledRuns)"]
   DF --> L["launch the sdlc-loop workflow<br/>and build the tracker"]
-  L --> HB["heartbeat every 30 min<br/>rebuild the tracker"]
+  L --> HB["heartbeat every 30 min<br/>keep the tracker live"]
   HB --> L2{"run finished?"}
   L2 -- no --> HB
   L2 -- yes --> SV["save the counters to driver.json"]
@@ -348,7 +349,7 @@ The workflow script and prompts live in `skills/sdlc/`:
 ```
 skills/sdlc/
   SKILL.md        # the /sdlc command
-  tracker/        # collect.py + template.html: the browser tracker
+  tracker/        # collect.py, workflow.py + template.html: the browser tracker
   sdlc-loop.js    # the workflow (orchestration)
   next-action.py  # decides the next action from the .sdlc/ state
   prompts/        # one prompt per role: planner, test-writer, implementer, verifier, reviewer, …
