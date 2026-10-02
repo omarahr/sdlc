@@ -41,7 +41,7 @@ const OK = { type: 'object', properties: { ok: { type: 'boolean' }, notes: str }
 const NEXT = {
   type: 'object',
   properties: {
-    action: { type: 'string', enum: ['stop', 'bootstrap', 'slice', 'parkedRetry', 'retryMerge', 'milestonePlan', 'milestone', 'audit', 'barRaiserRound', 'livelock', 'done', 'wait'] },
+    action: { type: 'string', enum: ['stop', 'bootstrap', 'slice', 'parkedRetry', 'retryMerge', 'milestonePlan', 'milestone', 'audit', 'barRaiserRound', 'livelock', 'done', 'wait', 'error'] },
     sliceId: str,
     slice: { type: 'object' },
     milestoneId: str,
@@ -965,12 +965,15 @@ async function main() {
   for (let iteration = 0; ; iteration++) {
     if (iteration >= MAX_ITER) return finish('continue', `max iterations (${MAX_ITER}) reached`, history)
     phase('Read state')
-    const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS }, { schema: NEXT, effort: 'low', phase: 'Read state' })
+    // the decision is computed by next-action.py; the state-reader agent syncs the repo, runs it and relays its answer
+    const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS, script: `${SKILL_DIR}/next-action.py` }, { schema: NEXT, effort: 'low', phase: 'Read state' })
     if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)
     if (next.action === 'wait') return finish('waiting', next.reason, history)
+    // the state could not be read or explained: nothing to run, so back off like any run without progress
+    if (next.action === 'error') return pause(`state error: ${next.reason}`, history)
     if (next.action === 'barRaiserRound' && !BAR_RAISER_ROUNDS) {
       return finish('done', `spec complete; bar raiser off (run /sdlc with --bar-raiser N to polish). ${next.reason}`, history)
     }

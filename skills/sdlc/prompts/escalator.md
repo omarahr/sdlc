@@ -25,7 +25,7 @@ Inputs: `sliceId`, `step`, `action`, `why`, `adr` (`{adrId, choice}` or null).
   1. Replace the slice with 2–4 sub-slices `<id>a`, `<id>b`, and so on, inserted at its position in slices.json.
   2. Partition its requirements across them; chain `dependsOn` where needed; each gets `status: todo`, `phase: plan`, `counters.ladderStep: 2`, and `counters.parkCycles` equal to the parent's (splitting never resets how many times this work has been parked).
   - If the slice has only one requirement, or is itself a sub-slice of an earlier split whose problem was not size, do not split: perform **spike** instead (below) and record that in failures.md.
-  3. Mark the original `status: rejected` with `notes: "split into <ids>"`, and in every other slice replace the original id in `dependsOn` with the sub-slice ids.
+  3. Mark the original `status: rejected` with `splitInto: [<ids>]` and `notes: "split into <ids>"`, and in every other slice replace the original id in `dependsOn` with the sub-slice ids.
   4. Do a **default-branch commit**.
 - **spike:**
   1. On a scratch branch `sdlc/<id>-spike` from the default branch, run the smallest experiments that explain why this slice keeps failing: reproduce the failure, isolate the cause, and test one or two hypotheses.

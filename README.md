@@ -67,6 +67,7 @@ To update later:
 
 - A Claude Code version that has the **Workflow** tool (multi-agent workflows). The plugin launches the `sdlc-loop` workflow through it.
 - `git`. For PR mode, the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`. For MR mode on GitLab, the [GitLab CLI](https://gitlab.com/gitlab-org/cli) signed in with `glab auth login`.
+- Python 3, which the loop uses to decide each next step and to build the tracker.
 - Whatever toolchain your spec needs (Node, Go, Docker, …). The loop detects the build, test and lint commands on its own.
 
 ## Write the spec first (recommended: Superpowers)
@@ -196,7 +197,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  RS["state-reader<br/>reads .sdlc/ and open PRs,<br/>applies its rules in order"] --> D{"next action"}
+  RS["state-reader<br/>syncs the repo with its PRs, then runs<br/>next-action.py on the .sdlc/ state"] --> D{"next action"}
   D -- "STOP file" --> stop(["stopped"])
   D -- "no config, or the spec changed" --> BS["bootstrap"]
   D -- "a PR is now mergeable" --> RM["retryMerge"]
@@ -217,7 +218,7 @@ flowchart TD
   G -- "yes, no slice to park" --> st(["stalled or stuck"])
 ```
 
-The script never chooses the next step itself. The state-reader agent decides, and the script runs that one action and asks again.
+The workflow script cannot read files, so it never chooses the next step itself. Each iteration the state-reader agent runs `next-action.py`, a small script that reads the `.sdlc/` state and checks, in order: stop or bootstrap, work in flight, milestones, new work, nothing can start, wrap up. The workflow runs that one action and asks again. State the script cannot explain ends the run as stalled instead of guessing.
 
 ### Bootstrap: the spec becomes requirements and slices
 
@@ -349,6 +350,7 @@ skills/sdlc/
   SKILL.md        # the /sdlc command
   tracker/        # collect.py + template.html: the browser tracker
   sdlc-loop.js    # the workflow (orchestration)
+  next-action.py  # decides the next action from the .sdlc/ state
   prompts/        # one prompt per role: planner, test-writer, implementer, verifier, reviewer, …
   test/           # tests for the workflow logic (node:test)
   fixtures/       # tiny specs for end-to-end checks
