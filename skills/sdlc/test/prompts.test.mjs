@@ -35,3 +35,11 @@ test('the common rules scope the relayed user request to the driver', () => {
   assert.match(common, /relayed user request/)
   assert.match(common, /do not create or switch branches/)
 })
+
+test('the integrator deletes archived attempt branches once a slice ships', () => {
+  const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  assert.match(integrator, /\*\*Clean up\*\*/)
+  assert.match(integrator, /sdlc\/<id>-attempt-\*/)
+  assert.match(integrator, /splitInto/)
+  assert.match(integrator, /Never delete a branch of a slice that is not finished/)
+})

@@ -110,6 +110,8 @@ Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many a
 - `--bar-raiser N`: allow up to N polish rounds after the spec is complete. The default is 0.
 - `--max-iterations N`: a smoke run that stops after N iterations.
 
+In every mode, when a slice ships the integrator deletes the branches of its earlier failed attempts (`sdlc/<id>-attempt-<n>`, locally and on the remote), and those of the slice it was split from once all of that slice's parts are done. The write-ups stay in `.sdlc/slices/<id>/`.
+
 Live progress shows in `/workflows`.
 
 ## Track progress in the browser
