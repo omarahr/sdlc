@@ -309,3 +309,37 @@ test('a fix round after a verification failure does not plan again', async () =>
   }, 'implement'))
   assert.equal(rt.calls.filter(c => c.role === 'verify-planner').length, 1)
 })
+
+test('the regression verifier runs after the collector, and alongside spec-fidelity when there are no profile tests', async () => {
+  const rt = await loadInternals(scripted({
+    'verify-planner': plan(['ui', 'i18n']),
+    verifier: () => clear(),
+    'verify-ui': () => clear(),
+    'verify-i18n': () => clear(),
+    'verify-collector': () => ok(),
+  }))
+  const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
+  assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+  const order = rt.calls.map(c => (c.role === 'verifier' ? c.inputs.lens : c.role))
+  assert.ok(order.indexOf('spec-fidelity') < order.indexOf('verify-collector'))
+  assert.equal(order.indexOf('regression'), order.length - 1)
+  assert.equal(order[order.length - 2], 'verify-collector')
+
+  const none = await loadInternals(scripted({ 'verify-planner': plan([]), verifier: c => ({ ...clear(), evidence: c.inputs.lens }) }))
+  const r = await none.I.verifyPhase('S-1', 0)
+  assert.deepEqual([r.votes[0].evidence, r.votes[2].evidence], ['spec-fidelity', 'regression'])
+  assert.equal(none.roles().includes('verify-collector'), false)
+})
+
+test('a failed collector still gets a regression run', async () => {
+  const rt = await loadInternals(scripted({
+    'verify-planner': plan(['ui']),
+    verifier: () => clear(),
+    'verify-ui': () => clear(),
+    'verify-collector': () => ({ ok: false, notes: 'conflict' }),
+  }))
+  const { votes } = await rt.I.verifyPhase('S-1', 0)
+  assert.equal(rt.calls.filter(c => c.role === 'verifier' && c.inputs.lens === 'regression').length, 1)
+  assert.equal(votes[2].refuted, false)
+  assert.equal(votes[1].refuted, true)
+})

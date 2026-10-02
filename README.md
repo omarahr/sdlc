@@ -12,7 +12,7 @@ every milestone: plan scenarios → critique coverage → boot the real stack �
 Each slice is verified at its real boundary by a **verification group**:
 - A **verify-planner** breaks the slice into test scenarios and tags each with every **profile** that can prove it wrong.
 - A **verify-toolsmith** builds any verification tool the profiles need that the repo does not have yet. The tools go into the repo's testkit, each with its own self-test, and later slices reuse them.
-- One **profile verifier** per profile tests its scenarios, alongside the spec-fidelity and regression verifiers.
+- One **profile verifier** per profile tests its scenarios, alongside the spec-fidelity verifier. The regression verifier runs the full suite afterwards, on the branch that now holds the profile tests.
 
 | Profile | Verifies | Against |
 |---|---|---|
@@ -283,11 +283,11 @@ flowchart TD
   TS -- no --> PAR
   subgraph PAR ["in parallel"]
     SF["verifier: spec-fidelity<br/>(review model)"]
-    RG["verifier: regression<br/>every committed test"]
     PV["one verifier per profile,<br/>4 at a time, each on its own branch"]
   end
   PV --> COL["verify-collector<br/>folds the profile tests<br/>into the slice branch"]
-  SF & RG & COL --> TALLY{"any of the 3 votes refuted?<br/>spec-fidelity, profiles, regression"}
+  COL --> RG["verifier: regression<br/>every committed test,<br/>including the folded ones"]
+  SF & RG --> TALLY{"any of the 3 votes refuted?<br/>spec-fidelity, profiles, regression"}
   TALLY -- yes --> BACK(["back to the implementer"])
   TALLY -- no --> REV(["on to review"])
 ```

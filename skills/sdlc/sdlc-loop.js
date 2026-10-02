@@ -484,7 +484,6 @@ const INTEGRATE = {
   properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive'] }, commit: str, pr: str, notes: str },
   required: ['state'],
 }
-const VERIFY_LENSES = ['spec-fidelity', 'regression']
 const REVIEW_LENSES = ['security', 'architecture', 'test-quality']
 const FIX_ROUND_LIMIT = 3
 const STREAK_LIMIT = 3
@@ -615,19 +614,23 @@ async function verifyPhase(id, round, prev = null, reviewFix = false) {
   const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
   const profileRun = g => run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
     { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })
+  const coreRun = lens => () => {
+    const opts = { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` }
+    return run('verifier', { sliceId: id, lens, round }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
+  }
+  // with profile tests to fold in, the regression verifier waits for the collector: it then runs the full suite once,
+  // on the commit that holds those tests, and times it on a machine the profile agents have left
+  const early = groups.length ? ['spec-fidelity'] : ['spec-fidelity', 'regression']
   const all = await parallel([
-    ...VERIFY_LENSES.map(lens => () => {
-      const opts = { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` }
-      return run('verifier', { sliceId: id, lens, round }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
-    }),
+    ...early.map(coreRun),
     async () => {
       const out = []
       for (const batch of chunk(groups, PROFILE_BATCH)) out.push(...(await parallel(batch.map(g => () => profileRun(g)))))
       return out
     },
   ])
-  const core = all.slice(0, VERIFY_LENSES.length)
-  const profiles = all[VERIFY_LENSES.length] || groups.map(() => null)
+  const fidelity = all[0]
+  const profiles = all[early.length] || groups.map(() => null)
   let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
@@ -638,12 +641,13 @@ async function verifyPhase(id, round, prev = null, reviewFix = false) {
       groups.push({ profile: 'collector', part: 0, scenarioIds: [] })
     }
   }
+  const regression = early.length > 1 ? all[1] : await coreRun('regression')()
   const pv = plan
     ? profileVote(profiles, groups)
     : { refuted: true, evidence: 'verify-planner failed to report; no scenario was verified at its boundary', failingTest: '' }
   if (plan && !groups.length && !prev) log(`${id} verify r${round}: planner tagged no scenario with a known profile`)
   const next = plan ? { plan, planRound, pending, unavailable, missing: tools.length ? tools : (prev && prev.missing) || [] } : null
-  return { votes: [core[0], pv, core[1]], lenses: ['spec-fidelity', 'profiles', 'regression'], next }
+  return { votes: [fidelity, pv, regression], lenses: ['spec-fidelity', 'profiles', 'regression'], next }
 }
 
 async function buildLoop(id, counters) {
