@@ -116,7 +116,7 @@ Live progress shows in `/workflows`.
 
 ## Track progress in the browser
 
-`/sdlc` builds a progress tracker at `.sdlc/tracker/index.html`. Open it in a browser and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` builds it on demand. It shows:
+`/sdlc` builds a progress tracker at `.sdlc/tracker/index.html`. Open it in a browser and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The hook fires for the loop's workflow agents, so the card follows each agent within a couple of seconds. The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` builds it on demand. It shows:
 - slices and requirements done, and milestones verified;
 - the milestone track, with each milestone's behavior-campaign status (to verify, fixing, verified) and its ETA;
 - what is running right now (slice step, or campaign step);
