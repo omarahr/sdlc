@@ -1,6 +1,6 @@
 {
   "name": "sdlc",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Autonomous spec-to-product loop for Claude Code: plan, tests first, implement, adversarial verify and review, integrate, final audit, and optional bar-raiser polish rounds.",
   "author": {
     "name": "omarahr",
