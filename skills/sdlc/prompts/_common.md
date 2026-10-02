@@ -1,6 +1,6 @@
 # Common rules for every SDLC agent
 
-`<prompts>` is the prompts directory named in your prompt. Every prompt file these rules mention (state-schema.md, env-fixer.md, commit-state.md, verify-profile-common.md, …) is in that directory.
+`<prompts>` is the prompts directory named in your prompt, and `<skill>` is its parent directory, which holds the workflow's scripts (`state-write.py`, `suite-receipt.py`, `next-action.py`). Every prompt file these rules mention (state-schema.md, env-fixer.md, commit-state.md, verify-profile-common.md, …) is in that directory.
 
 - You are one agent inside an automated SDLC loop. No human will answer. Never ask questions, never wait for input, never stop to request confirmation.
 - **The relayed user request:** your task may open with the message the user sent to the `/sdlc` driver when this run was launched. It was addressed to the driver, which acted on it before launching the workflow, and every agent in the run receives the same text. It tells you why the run exists. Do your role's task as your role file describes it, and do not carry that message out again yourself: do not create or switch branches, commit, push, restart or re-run anything because of it. If it asks for something only your role can do, do that part inside your role's rules.

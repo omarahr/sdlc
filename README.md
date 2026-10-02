@@ -67,7 +67,7 @@ To update later:
 
 - A Claude Code version that has the **Workflow** tool (multi-agent workflows). The plugin launches the `sdlc-loop` workflow through it.
 - `git`. For PR mode, the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`. For MR mode on GitLab, the [GitLab CLI](https://gitlab.com/gitlab-org/cli) signed in with `glab auth login`.
-- Python 3, which the loop uses to decide each next step and to build the tracker.
+- Python 3, which the loop uses to decide each next step, to write its state and to build the tracker.
 - Whatever toolchain your spec needs (Node, Go, Docker, …). The loop detects the build, test and lint commands on its own.
 
 ## Write the spec first (recommended: Superpowers)
@@ -226,11 +226,13 @@ The workflow script cannot read files, so it never chooses the next step itself.
 ```mermaid
 flowchart LR
   A["env-detector<br/>build, test and lint commands,<br/>git mode"] --> B["requirements-extractor"]
-  B --> C["completeness-critic"]
-  C -- "found more" --> C
-  C -- "2 dry rounds, or 8 rounds" --> D["slicer<br/>vertical slices in build order"]
+  B --> C["completeness-critic x3 in parallel<br/>statements, structures, cross-cutting"]
+  C -- "any of them found more" --> C
+  C -- "a dry round, or 3 rounds" --> D["slicer<br/>vertical slices in build order"]
   D --> E["state-writer<br/>bootstrap complete"]
 ```
+
+The three critics add requirements through `state-write.py`, which takes a lock, assigns the ids and refuses a quote that is already in the ledger, so they can work at the same time.
 
 ### A slice: plan, tests first, build loop, integrate
 
@@ -252,7 +254,7 @@ flowchart TD
   subgraph Build ["Build loop (3 fix rounds)"]
     I["implementer"] -- green --> V["verification group"]
     V -- refuted --> FX["next fix round,<br/>evidence fed back"] --> I
-    V -- pass --> RV["reviewer x3<br/>security, architecture, test-quality"]
+    V -- pass --> RV["reviewer x3<br/>security, architecture, test-quality<br/>(started during the regression run)"]
     RV --> FR["finding-refuter<br/>challenges blocking findings"]
     FR -- "a blocking finding survives" --> FX
     I -- "not green" --> FX
@@ -290,8 +292,14 @@ flowchart TD
   COL --> RG["verifier: regression<br/>every committed test,<br/>including the folded ones"]
   SF & RG --> TALLY{"any of the 3 votes refuted?<br/>spec-fidelity, profiles, regression"}
   TALLY -- yes --> BACK(["back to the implementer"])
-  TALLY -- no --> REV(["on to review"])
+  TALLY -- no --> REV(["on to the review result"])
 ```
+
+**The full suite runs twice per round, not four times.** The implementer runs it to get green, and the regression verifier runs it on the branch that holds the profile tests. The regression verifier then writes a receipt (`suite-receipt.py`) for the exact code it tested, where state commits under `.sdlc/` do not count as a change:
+- the integrator's final check reuses the receipt and only runs the suite itself when the code differs;
+- the next slice's test-time budget uses the receipt's wall time as its baseline, so the suite is not run on the default branch just to time it.
+
+When the spec-fidelity and profile verifiers all held, the three reviewers start together with the regression verifier instead of after it: they only read code, and by then the branch holds the profile tests. If the regression run then fails, any blocking review finding goes back to the implementer in the same fix round.
 
 ### The escalation ladder
 
@@ -352,6 +360,8 @@ skills/sdlc/
   tracker/        # collect.py, workflow.py + template.html: the browser tracker
   sdlc-loop.js    # the workflow (orchestration)
   next-action.py  # decides the next action from the .sdlc/ state
+  state-write.py  # applies state changes: slice patches, STATUS.md, ledger additions
+  suite-receipt.py  # records full test-suite runs, so the same code is not tested twice
   prompts/        # one prompt per role: planner, test-writer, implementer, verifier, reviewer, …
   test/           # tests for the workflow logic (node:test)
   fixtures/       # tiny specs for end-to-end checks

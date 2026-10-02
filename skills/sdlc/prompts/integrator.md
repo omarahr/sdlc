@@ -11,13 +11,13 @@ Ship a verified slice and record its evidence. You own:
 Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
 
 ## mode: ship
-1. **Final check:** `git checkout sdlc/<id>`, `git status` is clean, and the full `config.commands` test, lint, typecheck and build all pass. Run the long ones in the background as "Long commands" in _common.md says. If any fails, return `{state: "failed", notes}` naming the failing test. If one could not run to completion (cut off, killed, no exit code), that is not a failure: return `{state: "inconclusive", notes}` with the command and how long it ran, and change nothing.
+1. **Final check:** `git checkout sdlc/<id>` and `git status` is clean. Then ask whether the full suite already passed on this exact code: `python3 "<skill>/suite-receipt.py" check --repo . --slice <id> --ref sdlc/<id>`. When it prints `"valid": true`, the regression verifier ran test, lint, typecheck and build on this code (commits that only touch `.sdlc/` do not count as a change) and they passed: do not run them again, and note the receipt's commit in evidence.md. When it prints `"valid": false`, or the script cannot run, run the full `config.commands` test, lint, typecheck and build yourself; all must pass. Run the long ones in the background as "Long commands" in _common.md says. If any fails, return `{state: "failed", notes}` naming the failing test. If one could not run to completion (cut off, killed, no exit code), that is not a failure: return `{state: "inconclusive", notes}` with the command and how long it ran, and change nothing.
 2. **Record evidence:**
    - Set each requirement of the slice to `status: done`, with `evidence.files` (from `git diff --name-only <defaultBranch>...HEAD`), `evidence.tests` (from tests.md plus the `test` of every passing final-round case in `verification/r<last>/*.json`), and `evidence.commit: "pending"`.
    - Copy into each requirement's `adrs` the id of every ADR whose `Affects` line names the requirement or this slice.
    - If failures.md or any ADR says an external system was replaced by a local fake, add the `external-stub` flag.
 3. Write `evidence.md`: the requirements with their tests, and for improvement slices, the before and after numbers of every benchmark.
-4. **Bookkeeping:** for `spec` and `fix` slices only, append `seeds` to `barraiser.json` `seeds` (improvement slices drop their review nits, or the bar raiser feeds itself); set the slice to `status: done`, `phase: integrate`; append a `slice-merged` log line; regenerate STATUS.md.
+4. **Bookkeeping:** for `spec` and `fix` slices only, append `seeds` to `barraiser.json` `seeds` (improvement slices drop their review nits, or the bar raiser feeds itself); set the slice to `status: done`, `phase: integrate`; append a `slice-merged` log line; regenerate STATUS.md (state-schema.md says how).
 5. Commit on the slice branch: `chore(sdlc): record evidence [<id>]`.
 6. **Ship:**
    - **`direct` mode:**
