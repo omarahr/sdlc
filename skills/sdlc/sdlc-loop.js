@@ -516,8 +516,9 @@ async function reviewPhase(id, round) {
   return { blocking: [...missing, ...held], seeds }
 }
 
-// verify one round: plan scenarios and their profiles, build missing tools, then the core lenses and the
-// profile group in parallel, then fold the profile agents' test commits into the slice branch
+// verify one round: plan scenarios and their profiles, build missing tools, then the spec-fidelity lens and the
+// profile group in parallel, then fold the profile agents' test commits into the slice branch, then the regression
+// lens (with `alongside`, the review, next to it when everything before it held)
 const VPLAN = {
   type: 'object',
   properties: {
@@ -570,7 +571,7 @@ const PVOTE = {
 // (scenario, profile) pairs that failed or were blocked: the regression lens re-runs every committed test.
 // reviewFix: the last round passed verification and the code then changed to fix review findings, so nothing is
 // pending and the new code has no boundary tests yet; the planner adds scenarios for the fix and only those run
-async function verifyPhase(id, round, prev = null, reviewFix = false) {
+async function verifyPhase(id, round, prev = null, reviewFix = false, alongside = null) {
   phase('Verify')
   let plan = prev && prev.plan
   let planRound = prev ? prev.planRound : round
@@ -641,14 +642,25 @@ async function verifyPhase(id, round, prev = null, reviewFix = false) {
       groups.push({ profile: 'collector', part: 0, scenarioIds: [] })
     }
   }
-  const regression = early.length > 1 ? all[1] : await coreRun('regression')()
   const pv = plan
     ? profileVote(profiles, groups)
     : { refuted: true, evidence: 'verify-planner failed to report; no scenario was verified at its boundary', failingTest: '' }
+  // the regression run is the long tail of a round. When everything before it held, the review (read-only, and now
+  // looking at the branch with the profile tests in it) runs next to it instead of after it. A review is then only
+  // wasted when the regression run alone fails, and in that case its findings reach the implementer in the same round.
+  const heldSoFar = !!fidelity && !fidelity.refuted && !pv.refuted
+  let regression = all[1]
+  let review
+  if (early.length === 1) {
+    if (alongside && heldSoFar) [regression, review] = await parallel([coreRun('regression'), alongside])
+    else regression = await coreRun('regression')()
+  }
   if (plan && !groups.length && !prev) log(`${id} verify r${round}: planner tagged no scenario with a known profile`)
   const next = plan ? { plan, planRound, pending, unavailable, missing: tools.length ? tools : (prev && prev.missing) || [] } : null
-  return { votes: [fidelity, pv, regression], lenses: ['spec-fidelity', 'profiles', 'regression'], next }
+  return { votes: [fidelity, pv, regression], lenses: ['spec-fidelity', 'profiles', 'regression'], next, review }
 }
+
+const reviewEvidence = f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`
 
 async function buildLoop(id, counters) {
   let evidence = []
@@ -673,7 +685,7 @@ async function buildLoop(id, counters) {
         ? `implementer could not get green${impl.inconclusive ? ' (a required command still did not finish)' : ''}: ${impl.notes || ''}`
         : 'implementer failed to report']
     } else {
-      const { votes, lenses, next } = await verifyPhase(id, round, prevVerify, reviewFix)
+      const { votes, lenses, next, review: early } = await verifyPhase(id, round, prevVerify, reviewFix, () => reviewPhase(id, round))
       prevVerify = next
       reviewFix = false
       const v = tallyVerify(votes, lenses)
@@ -683,11 +695,17 @@ async function buildLoop(id, counters) {
         evidence = votes.map((x, i) => (x
           ? `[${lenses[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
           : `[${lenses[i]}] verifier failed to report`))
+        if (early && early.blocking.length) {
+          // the review ran next to a regression run that failed: the implementer fixes both in one round
+          log(`${id} review r${round}: ${early.blocking.length} blocking, sent back with the failed verification`)
+          evidence.push(...early.blocking.map(reviewEvidence))
+          reviewFix = true
+        }
       } else {
-        const review = await reviewPhase(id, round)
+        const review = early || await reviewPhase(id, round)
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
         if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
-        evidence = review.blocking.map(f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`)
+        evidence = review.blocking.map(reviewEvidence)
         reviewFix = true
       }
     }

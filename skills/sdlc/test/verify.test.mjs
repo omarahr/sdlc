@@ -343,3 +343,55 @@ test('a failed collector still gets a regression run', async () => {
   assert.equal(votes[2].refuted, false)
   assert.equal(votes[1].refuted, true)
 })
+
+test('the review runs next to the regression verifier when everything before it held, and only once', async () => {
+  const rt = await runMain(happy({}, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  const order = rt.calls.map(c => (c.role === 'verifier' ? c.inputs.lens : c.role))
+  assert.equal(order.filter(r => r === 'reviewer').length, 3)
+  // the reviewers start with the regression run, after the collector, and before the report
+  assert.ok(order.indexOf('verify-collector') < order.indexOf('reviewer'))
+  assert.ok(order.indexOf('reviewer') - order.indexOf('regression') <= 1)
+  assert.ok(order.lastIndexOf('reviewer') < order.indexOf('test-reporter'))
+  assert.equal(rt.roles().filter(r => r === 'implementer').length, 1)
+})
+
+test('no review is started when a profile verifier or the spec-fidelity verifier refuted the slice', async () => {
+  for (const overrides of [
+    { 'verify-security': () => ({ refuted: true, evidence: 'IDOR', failingTest: 't1', failedScenarios: ['VS-1'] }) },
+    { verifier: c => (c.inputs.lens === 'spec-fidelity' ? { refuted: true, evidence: 'R-1 half done' } : clear()) },
+    { 'verify-collector': () => ({ ok: false, notes: 'conflict' }) },
+  ]) {
+    const rt = await loadInternals(happy(overrides))
+    let reviews = 0
+    const { votes, review } = await rt.I.verifyPhase('S-1', 0, null, false, async () => { reviews++; return { blocking: [], seeds: [] } })
+    assert.equal(reviews, 0)
+    assert.equal(review, undefined)
+    assert.equal(votes[2].refuted, false, 'the regression verifier still runs')
+  }
+})
+
+test('a regression failure and a blocking review finding reach the implementer in the same round', async () => {
+  let reg = 0
+  let rev = 0
+  const rt = await runMain(happy({
+    verifier: c => (c.inputs.lens === 'regression' && reg++ === 0 ? { refuted: true, evidence: 'lint red', failingTest: 'lint' } : clear()),
+    reviewer: c => (c.inputs.lens === 'security' && rev++ === 0 ? { findings: [{ title: 'token logged', detail: 'remove it', blocking: true }] } : { findings: [] }),
+    'finding-refuter': () => ({ refuted: false, evidence: 'real' }),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  const impl = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impl.length, 2)
+  assert.ok(impl[1].inputs.evidence.some(e => /\[regression\] REFUTED: lint red/.test(e)))
+  assert.ok(impl[1].inputs.evidence.some(e => /\[review\] token logged/.test(e)))
+  // the fix answered a review finding, so the next round plans scenarios for it
+  assert.equal(rt.calls.filter(c => c.role === 'verify-planner')[1].inputs.after, 'review-fix')
+  assert.equal(rt.roles().includes('integrator'), true)
+})
+
+test('with no profile tests the review still runs, after verification', async () => {
+  const rt = await runMain(happy({ 'verify-planner': () => ({ scenarios: [{ id: 'VS-1', title: 't', requirementIds: ['R-1'], profiles: [] }], tools: [], risk: 'low' }) }, 'implement'))
+  const order = rt.calls.map(c => (c.role === 'verifier' ? c.inputs.lens : c.role))
+  assert.equal(order.filter(r => r === 'reviewer').length, 3)
+  assert.ok(order.indexOf('regression') < order.indexOf('reviewer'))
+})

@@ -252,7 +252,7 @@ flowchart TD
   subgraph Build ["Build loop (3 fix rounds)"]
     I["implementer"] -- green --> V["verification group"]
     V -- refuted --> FX["next fix round,<br/>evidence fed back"] --> I
-    V -- pass --> RV["reviewer x3<br/>security, architecture, test-quality"]
+    V -- pass --> RV["reviewer x3<br/>security, architecture, test-quality<br/>(started during the regression run)"]
     RV --> FR["finding-refuter<br/>challenges blocking findings"]
     FR -- "a blocking finding survives" --> FX
     I -- "not green" --> FX
@@ -290,8 +290,10 @@ flowchart TD
   COL --> RG["verifier: regression<br/>every committed test,<br/>including the folded ones"]
   SF & RG --> TALLY{"any of the 3 votes refuted?<br/>spec-fidelity, profiles, regression"}
   TALLY -- yes --> BACK(["back to the implementer"])
-  TALLY -- no --> REV(["on to review"])
+  TALLY -- no --> REV(["on to the review result"])
 ```
+
+When the spec-fidelity and profile verifiers all held, the three reviewers start together with the regression verifier instead of after it: they only read code, and by then the branch holds the profile tests. If the regression run then fails, any blocking review finding goes back to the implementer in the same fix round.
 
 ### The escalation ladder
 
