@@ -36,10 +36,15 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
      7. **After merging:** `git checkout <defaultBranch> && git pull --ff-only`, replace `"pending"` with the merge commit sha, set the slice to `status: done` if it says `awaiting-merge`, and do a **default-branch commit** (commit-state.md) with "commit sha <id>". Return `{state: "merged", pr, commit}`.
    - If CI is still red after 5 cycles, return `{state: "failed", notes}`.
 
+**Clean up** before you return `merged`, in every mode (and in retry-merge after a merge). An escalation archives a failed attempt as `sdlc/<id>-attempt-<n>`; its write-up is already on the default branch, so once the slice ships the branch only holds dead code.
+1. Delete every local branch matching `sdlc/<id>-attempt-*`. In `pr` and `mr` modes also delete each name on `origin` (`git push origin --delete <name>`); a name the remote does not have is fine.
+2. Then the slice it was split from: strip the trailing letter one at a time (`S-013ab` -> `S-013a` -> `S-013`). For each parent that is `rejected` and now finished (every slice in its `splitInto` is `done` or itself finished, as state-schema.md says), delete its `sdlc/<parent>-attempt-*` branches the same way. Stop at the first parent that is not finished.
+3. Never delete a branch of a slice that is not finished, and never any other branch. A failed deletion goes into `notes`; it never changes the result.
+
 ## mode: retry-merge
 Check `gh pr view <slice.pr> --json state,mergeable,reviewDecision,statusCheckRollup`.
-- If its `state` is `MERGED` (a human merged it), do ship step 7 only.
-- If it is mergeable, approved (or no review is required) and green, do ship step 6 from "`gh pr merge`" onward.
+- If its `state` is `MERGED` (a human merged it), do ship step 7 only, then **Clean up**.
+- If it is mergeable, approved (or no review is required) and green, do ship step 6 from "`gh pr merge`" onward, then **Clean up**.
 - If not, return `{state: "awaiting-merge", pr}`.
 
 Never use `--admin` and never force-push the default branch.
