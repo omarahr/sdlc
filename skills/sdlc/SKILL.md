@@ -37,6 +37,7 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - **Branch name (first run only):** if `$REPO/.sdlc/config.json` does not exist and the current branch name starts with `sdlc/`, report that the workflow keeps that prefix for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end.
    - `rm -f "$REPO/.sdlc/STOP"`.
 2. **Launch.**
+   - **Other instructions first.** The workflow relays the user message that triggered the launch to every agent in the run, word for word. If that message asks for anything besides running `/sdlc` (a new branch, a commit, a config change), do it yourself now, before launching, and tell the user that a plain `/sdlc <spec>` is the cleanest way to start or resume a run.
    - **Counters.** Read `$REPO/.sdlc/tracker/driver.json` (see **Driver file** below). If it is missing or unreadable, the counters are `lastKey: ""`, `streak: 0`, `stalledRuns: 0`.
    - `SKILL_DIR` is this skill's base directory, shown as "Base directory for this skill" when it loads. Use that absolute path.
    - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, commitFormat, maxIterations, barRaiserRounds, lastKey, streak, stalledRuns } })`. Omit `commitFormat` unless `--commit-format` was given. The three counters always come from the driver file, never from memory. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.

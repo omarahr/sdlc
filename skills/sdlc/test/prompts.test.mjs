@@ -29,3 +29,9 @@ test('every prompt that branches on the git mode says what mr mode does', () => 
     assert.match(readFileSync(join(SKILL_DIR, 'prompts', `${f}.md`), 'utf8'), /`mr`/, `${f}.md does not mention mr mode`)
   }
 })
+
+test('the common rules scope the relayed user request to the driver', () => {
+  const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
+  assert.match(common, /relayed user request/)
+  assert.match(common, /do not create or switch branches/)
+})
