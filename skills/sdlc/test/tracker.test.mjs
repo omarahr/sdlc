@@ -373,6 +373,9 @@ const freePort = () => new Promise(res => {
 })
 const exited = p => new Promise(res => p.on('exit', res))
 const until = async (cond, ms = 10000) => { const end = Date.now() + ms; while (!cond() && Date.now() < end) await new Promise(r => setTimeout(r, 50)); return cond() }
+// the first build also collects the machine readings, which on macOS reads the whole power log and can
+// take up to the 20 s collect.py allows it, so the first url gets room the rest of the waits do not need
+const FIRST_BUILD_MS = 45000
 
 // --serve implies --watch, so a served tracker keeps rebuilding until the watcher stops
 async function serving(args) {
@@ -391,7 +394,7 @@ test('--serve publishes a url for the page, and takes the next free port when th
   const port = await freePort()
   const first = await serving(['--serve', String(port)])
   try {
-    assert.ok(await until(() => existsSync(first.urlFile)), 'published a url')
+    assert.ok(await until(() => existsSync(first.urlFile), FIRST_BUILD_MS), 'published a url')
     // the url appears only once there is a page behind it, so opening it never lands on a blank page
     assert.ok(existsSync(join(first.out, 'index.html')), 'the page was built before the url was published')
     assert.equal(readFileSync(first.urlFile, 'utf8').trim(), `http://localhost:${port}/`)
@@ -421,7 +424,7 @@ time.sleep(60)
   assert.ok(await until(() => existsSync(ready), 5000), 'the blocker holds the port')
   const second = await serving(['--serve', String(port)])
   try {
-    assert.ok(await until(() => existsSync(second.urlFile)), 'published a url on another port')
+    assert.ok(await until(() => existsSync(second.urlFile), FIRST_BUILD_MS), 'published a url on another port')
     const url = readFileSync(second.urlFile, 'utf8').trim()
     assert.notEqual(url, `http://localhost:${port}/`, 'a busy port is not an error')
     assert.ok(Number(new URL(url).port) > port, 'moved forward to the next port')
