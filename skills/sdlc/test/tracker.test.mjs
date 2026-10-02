@@ -1,7 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
+import vm from 'node:vm'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
@@ -203,4 +204,54 @@ test('a watcher keeps rebuilding until --stop-watch, and a newer watcher replace
   await secondDone
   assert.equal(existsSync(pid), false)
   assert.ok(JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).updatedAt >= before)
+})
+
+// runs a live.js file the way the page does, and returns the payloads it passed to SDLC_LIVE
+function loadLive(path) {
+  const got = []
+  vm.runInNewContext(readFileSync(path, 'utf8'), { window: { SDLC_LIVE: p => got.push(JSON.parse(JSON.stringify(p))) } })
+  return got
+}
+
+test('a build writes live.js with the same workflow block the page embeds, safe inside a script tag', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [
+    { id: 'a1', label: 'state-reader', phase: 'Read state', end: 'result', from: '2026-01-12T09:00:00Z', to: '2026-01-12T09:00:30Z' },
+    { id: 'a2', label: 'odd</script>\u2028label', phase: 'Plan', from: '2026-01-12T09:01:00Z' },
+  ])
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal])
+  const out = join(repo, '.sdlc', 'tracker')
+  const text = readFileSync(join(out, 'live.js'), 'utf8')
+  assert.ok(!text.includes('</script>'))
+  const got = loadLive(join(out, 'live.js'))
+  assert.equal(got.length, 1)
+  assert.match(got[0].builtAt, /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/)
+  assert.deepEqual(got[0].workflow, JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow)
+  assert.equal(got[0].workflow.run.agents[1].label, 'odd</script>\u2028label')
+})
+
+test('a poke rebuilds live.js within a second or two without rebuilding the page, and live.js refreshes on its own every 5 s', { skip: !python && 'python3 not installed' }, async () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [{ id: 'a1', label: 'state-reader', phase: 'Read state', from: '2026-01-12T09:00:00Z' }])
+  const out = join(repo, '.sdlc', 'tracker')
+  const live = join(out, 'live.js')
+  const builtAt = () => existsSync(live) ? loadLive(live)[0].builtAt : ''
+  const until = async (cond, ms) => { const end = Date.now() + ms; while (!cond() && Date.now() < end) await new Promise(r => setTimeout(r, 50)); return cond() }
+  const w = spawn('python3', [COLLECT, '--repo', repo, '--journal', journal, '--watch', '60'], { stdio: 'ignore' })
+  const done = new Promise(res => w.on('exit', res))
+  try {
+    assert.ok(await until(() => builtAt() !== '' && existsSync(join(out, 'index.html')), 10000))
+    const page = statSync(join(out, 'index.html')).mtimeMs
+    const first = builtAt()
+    writeFileSync(join(out, 'poke'), '')
+    const poked = Date.now()
+    assert.ok(await until(() => builtAt() !== first, 2500), 'live.js rebuilt after a poke')
+    assert.ok(Date.now() - poked < 2500)
+    assert.equal(statSync(join(out, 'index.html')).mtimeMs, page, 'a poke does not rebuild the page')
+    const second = builtAt()
+    assert.ok(await until(() => builtAt() !== second, 6500), 'live.js rebuilt by the 5 s fallback')
+  } finally {
+    execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal, '--stop-watch'])
+    await done
+  }
 })
