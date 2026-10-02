@@ -9,7 +9,9 @@ Invoking this skill is the user's explicit opt-in to running the `sdlc-loop` Wor
 
 ## Commands
 
-- `/sdlc <spec-path> [--git pr|direct] [--max-iterations N] [--bar-raiser N]`: start or resume.
+- `/sdlc <spec-path> [--git pr|direct|mr] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]`: start or resume.
+  - `--git mr` commits the slices to the branch you are on and keeps one merge request for the whole run open against the remote's default branch (GitLab with `glab`, or GitHub with `gh`).
+  - `--commit-format` sets the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`, for example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one.
   - `--bar-raiser N` allows up to N quality-polish rounds **in total** after the spec is complete and audited. Default 0: the run ends at spec-complete. To polish a finished project later, re-run with a higher N than the rounds already done (see `rounds` in `.sdlc/barraiser.json`).
 - `/sdlc status`: print `.sdlc/STATUS.md` from the repo root. If it is missing, say "No SDLC run in this repo."
 - `/sdlc tracker`: build the progress tracker (see **Tracker** below) and give the user the path of `.sdlc/tracker/index.html` to open in a browser.
@@ -27,14 +29,17 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - **Git mode:**
      - Use the `--git` flag if given.
      - Otherwise use `config.json`'s `gitMode`.
-     - Otherwise use `pr` when `git -C "$REPO" remote -v` shows github.com, else `direct`.
+     - Otherwise use `pr` when `git -C "$REPO" remote -v` shows github.com.
+     - Otherwise use `mr` when `glab auth status --hostname <the remote's host>` succeeds and the current branch is not the remote's default branch.
+     - Otherwise use `direct`.
 
-     In `pr` mode, `gh auth status` must succeed.
+     In `pr` mode, `gh auth status` must succeed. In `mr` mode, the forge's CLI must be signed in (`glab auth status --hostname <host>`, or `gh auth status` for GitHub), and the current branch must not be the remote's default branch: tell the user to start from a feature branch. On GitLab, also read the push rule (`glab api "projects/:fullpath/push_rule"`): if it has a `branch_name_regex` that the current branch does not match, the push would be rejected, so report the pattern, ask the user to rename the branch, and end. A project with no push rule (an error or an empty answer) passes this check.
+   - **Branch name (first run only):** if `$REPO/.sdlc/config.json` does not exist and the current branch name starts with `sdlc/`, report that the workflow keeps that prefix for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end.
    - `rm -f "$REPO/.sdlc/STOP"`.
 2. **Launch.**
    - **Counters.** Read `$REPO/.sdlc/tracker/driver.json` (see **Driver file** below). If it is missing or unreadable, the counters are `lastKey: ""`, `streak: 0`, `stalledRuns: 0`.
    - `SKILL_DIR` is this skill's base directory, shown as "Base directory for this skill" when it loads. Use that absolute path.
-   - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, maxIterations, barRaiserRounds, lastKey, streak, stalledRuns } })`. The three counters always come from the driver file, never from memory. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.
+   - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, commitFormat, maxIterations, barRaiserRounds, lastKey, streak, stalledRuns } })`. Omit `commitFormat` unless `--commit-format` was given. The three counters always come from the driver file, never from memory. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.
    - Remember the launch result's transcript dir: the run's journal is `<transcript dir>/journal.jsonl`.
    - Build the tracker (see **Tracker**).
    - Tell the user in one line: live progress is in `/workflows`, the tracker page at `.sdlc/tracker/index.html`, the text dashboard via `/sdlc status`, and they can stop with `/sdlc stop`.
@@ -46,7 +51,7 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
      - Without `/loop`, tell the user the state and reason, and that re-running `/sdlc <spec>` resumes it.
    - **`stuck`** (24 stalled runs in a row, about 12 hours without progress): print the top of STATUS.md and the result's `reason`, and say that `/sdlc <spec>` starts it again. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **`stopped`:** print the top of STATUS.md (everything through the Recent section) and end.
-   - **`done`:** print STATUS.md, then point to DECISIONS.md (autonomous choices to skim), SPEC-PROPOSALS.md (product ideas waiting for them) and any `external-stub` requirements. Under `/loop`, call `ScheduleWakeup({stop: true})`.
+   - **`done`:** if `config.json` has `gitMode: "mr"`, finish the run's merge request as "Finish" in `<SKILL_DIR>/prompts/run-request.md` says (push the working branch, update the description, mark it ready), and give the user its link; a failure here is reported, never retried in a loop. Then print STATUS.md, then point to DECISIONS.md (autonomous choices to skim), SPEC-PROPOSALS.md (product ideas waiting for them) and any `external-stub` requirements. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **`livelock`:** print STATUS.md and the "smallest human decision" lines from `.sdlc/STUCK.md`. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **A missing result or a workflow error:** launch once more. If that also fails, retry with `resumeFromRunId` set to the failed run id and the same `scriptPath`. If it still fails, report the error, and say that `/sdlc <spec>` resumes from `.sdlc/`.
    - **Whenever the loop ends** (`stuck`, `stopped`, `done`, `livelock`, a `--max-iterations` smoke run, or a `waiting` or `stalled` result without `/loop`), delete the driver file. A later `/sdlc <spec>` then starts with fresh counters.

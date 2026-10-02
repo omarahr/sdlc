@@ -6,7 +6,7 @@ Inputs: `iteration`, `specPath` (the spec path from the driver; it may be null w
 
 **Before the rules, establish the effective state.** You may run `git checkout` for this and nothing else.
 - **Resume the active branch (I2):** if the working tree is clean, not on an `sdlc/*` branch, and a local branch `sdlc/<id>` exists (not `-attempt-*`, `-spike` or `state-*`) whose own `.sdlc/slices.json` (`git show sdlc/<id>:.sdlc/slices.json`) marks `<id>` as `in_progress`, check that branch out and read the state from it.
-- **pr mode overlay (C1, C3):** run `gh pr list --state open --json number,headRefName,url`.
+- **pr mode overlay (C1, C3)** (only when `config.gitMode` is `pr`; skip it in `direct` and `mr` mode, where slices have no pull requests): run `gh pr list --state open --json number,headRefName,url`.
   - Any open PR whose head is `sdlc/state-*`: the default branch is missing state that PR carries. If `gh pr view <n> --json mergeable,reviewDecision,statusCheckRollup` shows it mergeable, approved (or no review required) and green, merge it with `gh pr merge --squash --delete-branch`, then `git checkout <defaultBranch> && git pull --ff-only`, and continue. Otherwise return `wait`, naming the PR.
   - Any open PR whose head is `sdlc/M-*-e2e` (a milestone's e2e suite): merge it the same way as a state PR when it is mergeable, approved (or no review required) and green; otherwise leave it, it does not block slices.
   - Any open PR whose head is `sdlc/<id>`: treat slice `<id>` as `status: awaiting-merge` with that `pr`, whatever slices.json on this branch says.

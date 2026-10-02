@@ -66,7 +66,7 @@ To update later:
 ### Requirements
 
 - A Claude Code version that has the **Workflow** tool (multi-agent workflows). The plugin launches the `sdlc-loop` workflow through it.
-- `git`. For PR mode, the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`.
+- `git`. For PR mode, the [GitHub CLI](https://cli.github.com) signed in with `gh auth login`. For MR mode on GitLab, the [GitLab CLI](https://gitlab.com/gitlab-org/cli) signed in with `glab auth login`.
 - Whatever toolchain your spec needs (Node, Go, Docker, …). The loop detects the build, test and lint commands on its own.
 
 ## Write the spec first (recommended: Superpowers)
@@ -98,12 +98,14 @@ Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many a
 
 | Command | What it does |
 |---|---|
-| `/sdlc <spec> [--git pr\|direct] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
+| `/sdlc <spec> [--git pr\|direct\|mr] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
 | `/sdlc status` | Print the dashboard (`.sdlc/STATUS.md`) |
 | `/sdlc stop` | Finish the current step, then exit. Run `/sdlc <spec>` to resume |
 
 - `--git pr` (default when the repo has a GitHub remote): one branch and one PR per slice. It merges only once CI passes.
-- `--git direct`: commits to the default branch. This is the default when there is no GitHub remote.
+- `--git mr` (default when the remote is a GitLab that `glab` is signed in to): commits every slice to the branch you started on, pushes it, and keeps **one** merge request for the whole run open against the remote's default branch. After each slice it waits for the pipeline and fixes CI-only failures. When the run is done it marks the merge request ready; you review and merge it. Start from a feature branch. It also works on GitHub, as one pull request for the run.
+- `--git direct`: commits to the branch you are on and pushes nothing. This is the default when there is no GitHub remote and no signed-in GitLab.
+- `--commit-format "<format>"`: the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`. For example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one (a GitLab push rule, commitlint or a commit-msg hook).
 - `--bar-raiser N`: allow up to N polish rounds after the spec is complete. The default is 0.
 - `--max-iterations N`: a smoke run that stops after N iterations.
 

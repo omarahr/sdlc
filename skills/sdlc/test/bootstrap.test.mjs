@@ -17,8 +17,22 @@ test('bootstrap runs env, extractor, critic until two dry rounds, slicer, then c
   assert.equal(rt.result.state, 'stopped')
   assert.equal(rt.roles().filter(r => r === 'completeness-critic').length, 5)
   assert.equal(rt.calls.find(c => c.role === 'state-writer').inputs.op, 'bootstrap-complete')
-  assert.deepEqual(rt.calls.find(c => c.role === 'env-detector').inputs, { specPath: 'docs/spec.md', gitMode: 'direct' })
+  assert.deepEqual(rt.calls.find(c => c.role === 'env-detector').inputs, { specPath: 'docs/spec.md', gitMode: 'direct', commitFormat: null })
   assert.match(rt.result.iterations[0].outcome, /8 extracted.*5 critic rounds.*3 slices/)
+})
+
+test('bootstrap passes mr mode and the commit format to the env-detector, whose schema allows mr', async () => {
+  const rt = await runMain(scripted({
+    'state-reader': reader(),
+    'env-detector': [{ gitMode: 'mr', commands: {} }],
+    'requirements-extractor': [{ added: 1 }],
+    'completeness-critic': () => ({ added: 0 }),
+    slicer: [{ added: 1 }],
+    'state-writer': () => ok(),
+  }), { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
+  const env = rt.calls.find(c => c.role === 'env-detector')
+  assert.deepEqual(env.inputs, { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
+  assert.deepEqual(env.opts.schema.properties.gitMode.enum, ['pr', 'direct', 'mr'])
 })
 
 test('critic that never goes dry is capped and the cap is logged', async () => {

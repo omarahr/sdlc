@@ -13,7 +13,11 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
   "specHash": "",
   "overridesSeen": 0,
   "gitMode": "pr",
+  "forge": "github",
   "defaultBranch": "main",
+  "targetBranch": "",
+  "commitFormat": "",
+  "runRequest": null,
   "commands": { "install": "", "build": "", "test": "", "lint": "", "typecheck": "", "e2e": "" },
   "environment": []
 }
@@ -21,7 +25,14 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
 - `specPath` is repo-relative.
 - `specHash` is written only by the state-writer `bootstrap-complete` op.
 - `overridesSeen` counts the lines matching `^- Status: OVERRIDE` in DECISIONS.md.
-- `gitMode` is `pr` or `direct`.
+- `gitMode` is `pr`, `direct` or `mr`.
+  - `pr`: one branch and one pull request per slice (GitHub only).
+  - `direct`: slices are committed to `defaultBranch`, and nothing is pushed.
+  - `mr`: as `direct`, and the integrator also pushes `defaultBranch` and keeps one merge request for the whole run open against `targetBranch` (run-request.md). Wherever a prompt names only `pr` and `direct`, `mr` behaves as `direct`.
+- `forge` is `github`, `gitlab` or `""`.
+- `targetBranch` is set only in `mr` mode: the branch the run's merge request targets.
+- `commitFormat` is `""` (use the subjects the role files give) or a format for every commit subject and merge-request title (see _common.md).
+- `runRequest` is `null` or `{"url", "number"}`: the run's merge request, written by the integrator in `mr` mode.
 - A command that does not apply is `""`.
 - `environment` lists the install and service commands the env-fixer ran.
 - `commands.e2e` is set by the e2e-harness: one command that boots the whole system, runs every e2e test except the ids in `e2e/pending.json`, and tears it down.
