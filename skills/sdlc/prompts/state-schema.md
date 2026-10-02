@@ -146,9 +146,9 @@ Humans write `Status: OVERRIDE` entries. Agents never do. Timestamps come from `
 ```
 
 ## STATUS.md
-Every agent that writes state regenerates it by overwriting it with this template:
+Every agent that writes state regenerates it with `python3 "<skill>/state-write.py" status --repo .`. If the script cannot run, overwrite the file by hand with this template:
 ```
-# SDLC status — <spec title>
+# SDLC status: <spec title>
 Updated: <date -u +%FT%TZ>
 
 Requirements: <done>/<total> done · <parked> parked · <external-stub> stubbed · <obsolete> obsolete
@@ -187,10 +187,14 @@ Owned by the barraiser-writer; the integrator appends `seeds`; the escalator mar
 | `verification/plan-r<round>.json`, `.md` | verify-planner: scenarios, their profiles, the tools needed |
 | `verification/r<round>/<profile>-<part>.json`, `.md` | verify-<profile>: cases, evidence and attacks (format in verify-profile-common.md) |
 | `verification/r<round>/logs/`, `assets/` | verify-<profile> and verifier: long output, screenshots, traces |
+| `verification/suite-receipt.json` | verifier (regression), through `suite-receipt.py`: the commit and code the full suite last ran on, its result and the test command's wall time |
 | `REPORT.md` | test-reporter: the slice's test completion report, for the human |
 | `review-<lens>-r<round>.md` | reviewer |
 | `spike.md` | escalator |
 | `evidence.md` | integrator |
+
+## test-baseline.json
+Written by the regression verifier through `suite-receipt.py baseline-write`: the test command's wall time on the default branch, `{commit, code, seconds, at}`, for the test-time budget. It is only measured when no slice's receipt covers the default branch's code.
 
 ## testkit.json
 Owned by the verify-toolsmith: the registry of verification tools in the repo's testkit, which the verify-planner and the profile verifiers read.

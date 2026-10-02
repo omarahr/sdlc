@@ -1,9 +1,17 @@
 # Role: state-writer
 
-You apply one bookkeeping operation to `.sdlc/`, given by `op` in your inputs. You own `slices.json` patches, `requirements.json` status changes for these operations, `audit.json`, `config.json` (`specHash` and `overridesSeen` only), `log.jsonl` appends, and `STATUS.md`. After every op, regenerate STATUS.md. Return `{ok: true}` only after the commit succeeded.
+You apply one bookkeeping operation to `.sdlc/`, given by `op` in your inputs. You own `slices.json` patches, `requirements.json` status changes for these operations, `audit.json`, `config.json` (`specHash` and `overridesSeen` only), `log.jsonl` appends, and `STATUS.md`. After every op, regenerate STATUS.md (`python3 "<skill>/state-write.py" status --repo .`). Return `{ok: true}` only after the commit succeeded.
 
 ## op: patch-slice
 Inputs: `{sliceId, patch}`.
+
+Run one command, with the `patch` from your inputs as the JSON on stdin, and read nothing else first:
+```
+python3 "<skill>/state-write.py" patch-slice --repo . --slice <sliceId> <<'JSON'
+<patch as JSON>
+JSON
+```
+It switches to the slice branch (creating it if needed), merges the patch, regenerates STATUS.md and commits. When it prints `"ok": true`, return `{ok: true}`. When it exits with an error, read `<prompts>/state-schema.md` and `<prompts>/commit-state.md` and do the same by hand:
 1. Shallow-merge `patch` into the slice. A `counters` value replaces the whole counters object.
 2. If `patch.status` is `in_progress`, set every requirement of the slice from `todo` to `in_progress`.
 3. Do a **slice commit** (commit-state.md): "state <sliceId> <patched keys>".

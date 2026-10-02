@@ -307,7 +307,10 @@ function pause(reason, history) {
 // bootstrap
 const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str }, required: ['added'] }
 const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: ['pr', 'direct', 'mr'] }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
-const CRITIC_ROUND_LIMIT = 8
+// the critics of one round look at the same ledger from different angles, in parallel; they add through a script
+// that takes a lock and refuses a quote already in the ledger, so their additions do not collide
+const CRITIC_LENSES = ['statements', 'structures', 'cross-cutting']
+const CRITIC_ROUND_LIMIT = 3
 
 async function bootstrap(next) {
   const P = 'Bootstrap'
@@ -316,14 +319,16 @@ async function bootstrap(next) {
   if (!env) return 'bootstrap aborted: env-detector failed'
   const ext = await run('requirements-extractor', { reason: next.reason }, { schema: COUNT, phase: P })
   if (!ext) return 'bootstrap aborted: requirements-extractor failed'
-  let dry = 0
+  let dry = false
   let round = 0
-  while (dry < 2 && round < CRITIC_ROUND_LIMIT) {
-    const c = await run('completeness-critic', { round }, { schema: COUNT, phase: P, label: `r${round}` })
+  while (!dry && round < CRITIC_ROUND_LIMIT) {
+    const outs = await parallel(CRITIC_LENSES.map(lens => () =>
+      run('completeness-critic', { round, lens }, { schema: COUNT, phase: P, label: `r${round}:${lens}` })))
     round++
-    dry = c && c.added === 0 ? dry + 1 : 0
+    // a critic that failed to report proves nothing, so its round is not dry
+    dry = outs.every(c => c && c.added === 0)
   }
-  if (dry < 2) log(`completeness critic stopped at the ${CRITIC_ROUND_LIMIT}-round limit without two dry rounds`)
+  if (!dry) log(`completeness critics stopped at the ${CRITIC_ROUND_LIMIT}-round limit without a dry round`)
   const sl = await run('slicer', {}, { schema: COUNT, phase: P })
   if (!sl) return 'bootstrap aborted: slicer failed'
   await run('state-writer', { op: 'bootstrap-complete' }, { schema: OK, effort: 'low', phase: P })
