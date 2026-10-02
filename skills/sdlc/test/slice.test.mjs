@@ -120,6 +120,25 @@ test('three failed fix rounds escalate', async () => {
   assert.match(rt.calls.find(c => c.role === 'escalator').inputs.why, /fix rounds exhausted/)
 })
 
+test('an inconclusive implementer run is re-run without spending a fix round', async () => {
+  let n = 0
+  const rt = await runMain(happy({
+    implementer: () => (n++ === 0 ? { green: false, inconclusive: true, notes: 'pnpm test cut off at 600s' } : { green: true, notes: 'all green' }),
+  }, 'implement'))
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 2)
+  assert.equal(impls[1].inputs.fixRound, 0)
+  assert.equal(impls[1].inputs.rerun, 'inconclusive')
+  assert.equal(rt.roles().includes('escalator'), false)
+  assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.mode, 'ship')
+})
+
+test('a fix round is spent only when the implementer stays inconclusive after its re-run', async () => {
+  const rt = await runMain(happy({ implementer: () => ({ green: false, inconclusive: true, notes: 'cut off' }) }, 'implement'))
+  assert.equal(rt.roles().filter(r => r === 'implementer').length, 6)
+  assert.match(rt.calls.find(c => c.role === 'escalator').inputs.why, /still did not finish/)
+})
+
 test('a blocking finding that survives refutation forces a fix round', async () => {
   let reviews = 0
   const rt = await runMain(happy({
@@ -156,6 +175,23 @@ test('reviewer that fails to report blocks the slice', async () => {
 test('integration failure escalates', async () => {
   const rt = await runMain(happy({ integrator: () => ({ state: 'failed', notes: 'CI red after 5 cycles' }) }, 'implement'))
   assert.match(rt.calls.find(c => c.role === 'escalator').inputs.why, /integration failed: CI red/)
+})
+
+test('an inconclusive final check is re-run, and never escalates', async () => {
+  let n = 0
+  const rt = await runMain(happy({
+    integrator: () => (n++ === 0 ? { state: 'inconclusive', notes: 'pnpm test cut off' } : { state: 'merged', commit: 'abc' }),
+  }, 'implement'))
+  const ints = rt.calls.filter(c => c.role === 'integrator')
+  assert.equal(ints.length, 2)
+  assert.equal(ints[1].inputs.rerun, 'inconclusive')
+  assert.equal(rt.roles().includes('escalator'), false)
+})
+
+test('a final check still inconclusive after its re-run leaves the slice in integrate', async () => {
+  const rt = await runMain(happy({ integrator: () => ({ state: 'inconclusive', notes: 'cut off' }) }, 'implement'))
+  assert.equal(rt.roles().filter(r => r === 'integrator').length, 2)
+  assert.equal(rt.roles().includes('escalator'), false)
 })
 
 test('parkedRetry unparks then runs the slice from plan with reset counters', async () => {

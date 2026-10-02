@@ -16,6 +16,8 @@ Inputs: `sliceId`, `fixRound`, `evidence` (failures from the previous round; emp
    - `build`.
 
    If this is the scaffolding slice, fill in the empty `config.commands` first.
+
+   Run the full test command in the background as "Long commands" in _common.md says. Keep it fast: the slice may add at most max(60 s, 20 %) to the full `config.commands.test` wall time over the default branch. Tests that each run an expensive end-to-end setup (installs, builds, packing, containers) share it across cases (one fixture per file, `beforeAll`, a cached sandbox) instead of repeating it per case.
 6. Commit: `git add -A && git commit -m "feat(<id>): <what>"`. On fix rounds, use `"fix(<id>): <what>"`.
 
-Return `{green, notes}`. `green` is true only if you ran every command above in this session after your last change and all passed. `notes` lists each command with its pass or fail result.
+Return `{green, inconclusive, notes}`. `green` is true only if you ran every command above in this session after your last change and all passed. `inconclusive` is true only when `green` is false because a command could not run to completion (see "Long commands" in _common.md), not because anything failed. `notes` lists each command with its pass, fail or inconclusive result and its duration. If the input has `rerun: "inconclusive"`, the previous attempt could not finish a command: do not change code for that, re-run the unfinished commands in the background as _common.md describes.

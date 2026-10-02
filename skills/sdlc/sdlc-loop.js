@@ -433,7 +433,8 @@ async function sliceAction(next) {
 }
 
 // slice: implement + verify + review + integrate
-const IMPL = { type: 'object', properties: { green: { type: 'boolean' }, notes: str }, required: ['green'] }
+// inconclusive: a required command could not run to completion (cut off or killed), which is not a failing result
+const IMPL = { type: 'object', properties: { green: { type: 'boolean' }, inconclusive: { type: 'boolean' }, notes: str }, required: ['green'] }
 const FINDINGS = {
   type: 'object',
   properties: {
@@ -446,7 +447,7 @@ const FINDINGS = {
 }
 const INTEGRATE = {
   type: 'object',
-  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed'] }, commit: str, pr: str, notes: str },
+  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive'] }, commit: str, pr: str, notes: str },
   required: ['state'],
 }
 const VERIFY_LENSES = ['spec-fidelity', 'regression']
@@ -599,9 +600,16 @@ async function buildLoop(id, counters) {
     if (spent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
     phase('Implement')
-    const impl = await run('implementer', { sliceId: id, fixRound: round, evidence }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}` })
+    let impl = await run('implementer', { sliceId: id, fixRound: round, evidence }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}` })
+    if (impl && !impl.green && impl.inconclusive) {
+      // a command that never finished proves nothing, so it must not spend a fix round
+      log(`${id} r${round}: implementer could not finish a required command; re-running it (no fix round spent)`)
+      impl = await run('implementer', { sliceId: id, fixRound: round, evidence, rerun: 'inconclusive' }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}:rerun` })
+    }
     if (!impl || !impl.green) {
-      evidence = [impl ? `implementer could not get green: ${impl.notes || ''}` : 'implementer failed to report']
+      evidence = [impl
+        ? `implementer could not get green${impl.inconclusive ? ' (a required command still did not finish)' : ''}: ${impl.notes || ''}`
+        : 'implementer failed to report']
     } else {
       const { votes, lenses, next } = await verifyPhase(id, round, prevVerify)
       prevVerify = next
@@ -628,7 +636,13 @@ async function buildLoop(id, counters) {
 async function integrate(id, s, counters, seeds, mode = 'ship') {
   if (mode === 'ship') await testReport(id, 'ship')
   phase('Integrate')
-  const r = await run('integrator', { sliceId: id, mode, seeds }, { schema: INTEGRATE, phase: 'Integrate', label: id })
+  let r = await run('integrator', { sliceId: id, mode, seeds }, { schema: INTEGRATE, phase: 'Integrate', label: id })
+  if (r && r.state === 'inconclusive') {
+    log(`${id}: final check could not finish (${r.notes || 'no notes'}); re-running the integrator`)
+    r = await run('integrator', { sliceId: id, mode, seeds, rerun: 'inconclusive' }, { schema: INTEGRATE, phase: 'Integrate', label: `${id}:rerun` })
+    // still unfinished: stay in integrate for the next iteration instead of spending a ladder step on an unknown result
+    if (r && r.state === 'inconclusive') return `${id} integrate inconclusive: ${r.notes || 'final check did not finish'}`
+  }
   if (!r || r.state === 'failed') return escalate(id, s, counters, `integration failed: ${r ? r.notes || '' : 'integrator did not report'}`)
   return `${id} ${r.state}${r.pr ? ' ' + r.pr : ''}${r.commit ? ' ' + r.commit : ''}`
 }
