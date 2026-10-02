@@ -296,6 +296,9 @@ def main():
                         print(f"test reports not rendered: {e}", file=sys.stderr)
                 if rep is not None:
                     data["reports"] = rep
+                if a.stop_watch and (data.get("workflow") or {}).get("run"):
+                    # --stop-watch runs when the loop has ended; the run folder may still look recent
+                    workflow.mark_ended(data["workflow"]["run"])
                 page = render(data, out)
                 write_live(out, data.get("workflow"))
                 if not a.watch:

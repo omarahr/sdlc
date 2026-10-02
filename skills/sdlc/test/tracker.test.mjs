@@ -297,3 +297,70 @@ test('the page keeps its last card for an empty live payload, and never flags a 
   assert.equal(live.tick(), false)
   assert.deepEqual(draws, [['r1', false]])
 })
+
+test('the page redraws again only when the workflow data changed, not for a payload that differs in builtAt alone', () => {
+  const now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push([wf.run.id, paused]) })
+  const wf = (id, n = 0) => ({ run: { id, live: true, agents: Array.from({ length: n }, (_, i) => ({ id: 'a' + i })) } })
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:01.000Z', workflow: wf('r1') }), true)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:02.000Z', workflow: wf('r1') }), false, 'same data, newer builtAt')
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:03.000Z', workflow: wf('r1') }), false)
+  assert.equal(draws.length, 1)
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:04.000Z', workflow: wf('r1', 1) }), true, 'a new agent')
+  assert.equal(draws.length, 2)
+})
+
+test('a payload with unchanged data still resets the paused clock, with exactly one redraw', () => {
+  let now = Date.parse('2026-01-12T09:00:10Z')
+  const draws = []
+  const live = createLive()({ now: () => now, redraw: (wf, paused) => draws.push(paused) })
+  const wf = () => ({ run: { id: 'r1', live: true, agents: [] } })
+  live.apply({ builtAt: '2026-01-12T09:00:05.000Z', workflow: wf() })
+  now += 31000
+  assert.equal(live.tick(), true)
+  assert.deepEqual(draws, [false, true])
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:40.000Z', workflow: wf() }), true)
+  assert.deepEqual(draws, [false, true, false])
+  now += 20000
+  assert.equal(live.tick(), false, 'the newer builtAt counts: not paused 20 s later')
+  assert.equal(live.apply({ builtAt: '2026-01-12T09:00:55.000Z', workflow: wf() }), false)
+  assert.equal(draws.length, 3)
+})
+
+test('--stop-watch marks the run as not running in status.json and live.js, and fixes its end time', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const journal = runFolder(repo, 'wf_new', [
+    { id: 'a1', label: 'state-reader', phase: 'Read state', end: 'result', from: '2026-01-12T09:00:00Z', to: '2026-01-12T09:00:30Z' },
+  ])
+  execFileSync('python3', [COLLECT, '--repo', repo, '--journal', journal, '--stop-watch'])
+  const out = join(repo, '.sdlc', 'tracker')
+  const run = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow.run
+  const liveRun = loadLive(join(out, 'live.js'))[0].workflow.run
+  assert.equal(run.live, false)
+  assert.equal(liveRun.live, false)
+  assert.equal(liveRun.endedAt, '2026-01-12T09:00:30+00:00')
+})
+
+test('an agent cut off in an earlier run is read once, not on every rebuild', { skip: !python && 'python3 not installed' }, () => {
+  const code = `
+import sys, os, tempfile, json
+sys.path.insert(0, ${JSON.stringify(join(SKILL_DIR, 'tracker'))})
+import workflow
+d = tempfile.mkdtemp()
+with open(os.path.join(d, 'journal.jsonl'), 'w') as f:
+    f.write(json.dumps({'type': 'started', 'agentId': 'x', 'label': 'l', 'phase': 'Plan'}) + '\\n')
+with open(os.path.join(d, 'agent-x.jsonl'), 'w') as f:
+    f.write(json.dumps({'type': 'user', 'timestamp': '2026-01-12T08:00:00Z', 'message': {}}) + '\\n')
+c = {}
+workflow.read_run(os.path.join(d, 'journal.jsonl'), False, c)
+print(len(c))
+os.remove(os.path.join(d, 'agent-x.jsonl'))
+a = workflow.read_run(os.path.join(d, 'journal.jsonl'), False, c)['agents'][0]
+print(a['status'], a['startedAt'])
+c2 = {}
+workflow.read_run(os.path.join(d, 'journal.jsonl'), True, c2)
+print(len(c2))
+`
+  assert.equal(execFileSync('python3', ['-c', code], { encoding: 'utf8' }), '1\nstopped 2026-01-12T08:00:00Z\n0\n')
+})

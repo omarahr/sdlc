@@ -279,16 +279,20 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
   const PAUSED_MS = 30 * 1000;
   // decides when the workflow card is redrawn from a live.js payload; the page wires it to the DOM
   root.SDLC_createLive = function (opts) {
-    let builtAt = "", wf = null, paused = false;
+    let builtAt = "", wf = null, paused = false, drawn = "";
     const isPaused = () => !!wf.run.live && opts.now() - Date.parse(builtAt) > PAUSED_MS;
     return {
       apply(p) {
         if (!p || typeof p.builtAt !== "string" || isNaN(Date.parse(p.builtAt)) || p.builtAt <= builtAt) return false;
         // a payload without a run (the journal was unreadable for a moment) keeps the last good card
         if (!p.workflow || !p.workflow.run) return false;
+        // every payload moves the clock that decides "paused", but the card is rebuilt only when it would look different
+        const was = paused, json = JSON.stringify(p.workflow);
         builtAt = p.builtAt;
         wf = p.workflow;
         paused = isPaused();
+        if (json === drawn && paused === was) return false;
+        drawn = json;
         opts.redraw(wf, paused);
         return true;
       },
@@ -464,6 +468,13 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
       return v[0] === runId ? v[1] : null;
     } catch (e) { return set || null; }
   }
+  // the "earlier runs" list stays open or shut across redraws and the minute reload
+  function earlierOpen(set) {
+    try {
+      if (set !== undefined) { if (set) sessionStorage.setItem("sdlc-wf-earlier", "1"); else sessionStorage.removeItem("sdlc-wf-earlier"); return set; }
+      return sessionStorage.getItem("sdlc-wf-earlier") === "1";
+    } catch (e) { return !!set; }
+  }
   function workflowCard(wf, paused) {
     const run = wf.run, agents = run.agents || [];
     const card = el("section", "card wf");
@@ -501,6 +512,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
         const running = list.some((a) => a.status === "running");
         const bad = list.some((a) => a.status === "failed");
         const mk = !list.length ? el("span", "mk", String(i + 1)) : running ? el("span", "mk run", "●") : el("span", "mk " + (bad ? "bad" : "ok"), bad ? "!" : "✔");
+        b.dataset.phase = n;
         b.append(mk, el("span", "", n), el("span", "cnt", list.length ? done + "/" + list.length : ""));
         b.title = !list.length ? "Not started in this run" : running ? "Running" : bad ? "Finished; some agents failed and were retried" : "Finished";
         if (list.length) b.addEventListener("click", () => { sel = n; pinned(run.id, n === auto ? "" : n); draw(); });
@@ -514,6 +526,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
       right.append(h);
       list.forEach((a) => {
         const r = el("div", "wf-agent " + a.status);
+        if (a.status === "running" && a.startedAt) r.dataset.start = a.startedAt;
         const icon = a.status === "done" ? el("span", "ok", "✔") : a.status === "failed" ? el("span", "bad", "✘") : a.status === "running" ? el("span", "run", "●") : el("span", "", "○");
         icon.title = a.status === "stopped" ? "The run ended before this agent finished" : a.status;
         const lbl = el("span", "lbl", a.label); lbl.title = a.label;
@@ -526,6 +539,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
       if (sel !== auto) {
         const f = el("button", "", "Follow the live phase");
         f.type = "button";
+        f.dataset.follow = "1";
         f.addEventListener("click", () => { sel = auto; pinned(run.id, ""); draw(); });
         foot.append(f);
       }
@@ -535,6 +549,8 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     card.append(body, foot);
     if ((wf.earlier || []).length) {
       const d = el("details", "wf-earlier");
+      d.open = earlierOpen();
+      d.addEventListener("toggle", () => earlierOpen(d.open));
       d.append(el("summary", "", wf.earlier.length + (wf.earlier.length === 1 ? " earlier run" : " earlier runs") + " of this loop"));
       wf.earlier.forEach((r) => {
         const span = r.startedAt && r.endedAt ? clock((new Date(r.endedAt) - new Date(r.startedAt)) / 1000) : "";
@@ -550,7 +566,25 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
   function drawWorkflow(wf, paused) {
     if (!wfSlot || !wf || !wf.run) return;
     // drawn from Claude Code's own run files; if their shape changes, the last card stays
-    try { wfSlot.replaceChildren(workflowCard(wf, paused)); } catch (err) { /* no workflow view */ }
+    try {
+      // a rebuild must not take keyboard focus away from the phase or follow button the person is on
+      const at = document.activeElement;
+      const had = at && wfSlot.contains(at) ? (at.dataset.follow ? { follow: true } : at.dataset.phase ? { phase: at.dataset.phase } : null) : null;
+      wfSlot.replaceChildren(workflowCard(wf, paused));
+      if (had) {
+        const btns = Array.from(wfSlot.querySelectorAll("button"));
+        const next = btns.find((b) => had.follow ? b.dataset.follow : b.dataset.phase === had.phase);
+        if (next) next.focus();
+      }
+    } catch (err) { /* no workflow view */ }
+  }
+  // running agents' clocks tick between redraws
+  function tickClocks() {
+    if (!wfSlot) return;
+    wfSlot.querySelectorAll(".wf-agent.running[data-start]").forEach((r) => {
+      const t = r.querySelector(".time");
+      if (t) t.textContent = clock(agentSeconds({ status: "running", startedAt: r.dataset.start }));
+    });
   }
 
   function render(data) {
@@ -823,6 +857,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     let probe = null;
     const poll = () => {
       try { live.tick(); } catch (err) { /* keep the last good card */ }
+      try { tickClocks(); } catch (err) { /* the clocks just stop for a moment */ }
       if (probe) probe.remove();
       probe = document.createElement("script");
       probe.src = "live.js?t=" + Date.now();

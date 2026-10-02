@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
@@ -25,9 +25,12 @@ function project({ watching }) {
 
 test('the hook pokes the watcher of the project it runs in, from any subfolder', opts, () => {
   const { repo, poke } = project({ watching: true })
+  const past = new Date('2020-01-01T00:00:00Z')
+  writeFileSync(poke, '')
+  utimesSync(poke, past, past)
   const r = run(JSON.stringify({ hook_event_name: 'SubagentStop', cwd: join(repo, 'src', 'deep') }), tmpdir())
   assert.deepEqual([r.status, r.stdout, r.stderr], [0, '', ''])
-  assert.ok(existsSync(poke))
+  assert.ok(statSync(poke).mtimeMs > past.getTime(), 'the poke mtime moved')
 })
 
 test('the hook does nothing when no watcher is running', opts, () => {
