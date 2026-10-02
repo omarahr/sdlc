@@ -42,7 +42,7 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - `SKILL_DIR` is this skill's base directory, shown as "Base directory for this skill" when it loads. Use that absolute path.
    - Call `Workflow({ scriptPath: "<SKILL_DIR>/sdlc-loop.js", args: { specPath, repoRoot: REPO, skillDir: "<SKILL_DIR>", gitMode, commitFormat, maxIterations, barRaiserRounds, lastKey, streak, stalledRuns } })`. Omit `commitFormat` unless `--commit-format` was given. The three counters always come from the driver file, never from memory. Omit `maxIterations` unless it was given. `barRaiserRounds` is the `--bar-raiser` value, or 0.
    - Remember the launch result's transcript dir: the run's journal is `<transcript dir>/journal.jsonl`.
-   - Build the tracker (see **Tracker**).
+   - Start the tracker watcher (see **Tracker**).
    - Tell the user in one line: live progress is in `/workflows`, the tracker page at `.sdlc/tracker/index.html`, the text dashboard via `/sdlc status`, and they can stop with `/sdlc stop`.
 3. **On the workflow's completion notification,** read `state` and `reason`:
    - **First, save the counters:** write the result's `lastKey`, `streak` and `stalledRuns` to the driver file, so the no-progress guards survive across runs and across a lost conversation.
@@ -55,9 +55,9 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - **`done`:** if `config.json` has `gitMode: "mr"`, finish the run's merge request as "Finish" in `<SKILL_DIR>/prompts/run-request.md` says (push the working branch, update the description, mark it ready), and give the user its link; a failure here is reported, never retried in a loop. Then print STATUS.md, then point to DECISIONS.md (autonomous choices to skim), SPEC-PROPOSALS.md (product ideas waiting for them) and any `external-stub` requirements. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **`livelock`:** print STATUS.md and the "smallest human decision" lines from `.sdlc/STUCK.md`. Under `/loop`, call `ScheduleWakeup({stop: true})`.
    - **A missing result or a workflow error:** launch once more. If that also fails, retry with `resumeFromRunId` set to the failed run id and the same `scriptPath`. If it still fails, report the error, and say that `/sdlc <spec>` resumes from `.sdlc/`.
-   - **Whenever the loop ends** (`stuck`, `stopped`, `done`, `livelock`, a `--max-iterations` smoke run, or a `waiting` or `stalled` result without `/loop`), delete the driver file. A later `/sdlc <spec>` then starts with fresh counters.
+   - **Whenever the loop ends** (`stuck`, `stopped`, `done`, `livelock`, a `--max-iterations` smoke run, or a `waiting` or `stalled` result without `/loop`), delete the driver file, and stop the tracker watcher with a final build (see **Tracker**). A later `/sdlc <spec>` then starts with fresh counters.
 4. **Heartbeat** (only under `/loop`): after each launch, call `ScheduleWakeup({delaySeconds: 1800, prompt: <the same /loop input>, reason: "sdlc heartbeat while run is active", noop: true})`.
-   - On a heartbeat wake-up, if you launched a run and have not yet received its completion notification, rebuild the tracker, schedule another heartbeat, and do nothing else.
+   - On a heartbeat wake-up, if you launched a run and have not yet received its completion notification, start the tracker watcher again (see **Tracker**), schedule another heartbeat, and do nothing else.
    - Otherwise resume from step 3 using the last result, or from step 1.
 
 ## Driver file
@@ -74,5 +74,15 @@ A self-contained HTML page with progress, milestones (with their behavior-campai
 python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl of the active run, if known>" --run-label "Run <n>"
 ```
 
-It writes `.sdlc/tracker/index.html` and `status.json` (gitignored). The page reloads itself every minute, so rebuilding it on each heartbeat keeps an open tab current. If the Artifact tool is available and the user asks to share it, publish `index.html` as an artifact and republish it on each heartbeat. A tracker failure never stops the loop: report it once and carry on.
+It writes `.sdlc/tracker/index.html` and `status.json` (gitignored). With a journal, the page also shows the run the way `/workflows` does: the phases, and under each the agents with their status, model, tokens and time.
+
+**While a run is active,** keep the page live with a watcher: the same command with `--watch 60`, detached so it does not block you and does not notify you when it exits:
+
+```
+nohup python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl>" --run-label "Run <n>" --watch 60 >/dev/null 2>&1 &
+```
+
+Start it after every launch and on every heartbeat. A new watcher replaces the old one, and a watcher exits by itself once the run folder has been quiet for 45 minutes. **Whenever the loop ends** (the same cases as for deleting the driver file), run the command once with `--stop-watch` instead of `--watch 60`: it stops the watcher and builds the final page.
+
+The page reloads itself every minute, so an open tab stays current. If the Artifact tool is available and the user asks to share it, publish `index.html` as an artifact and republish it on each heartbeat. A tracker failure never stops the loop: report it once and carry on.
 
