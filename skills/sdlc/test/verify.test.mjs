@@ -143,6 +143,14 @@ test('capProfiles keeps the profiles that cover most scenarios, and pendingPairs
   assert.deepEqual(I.pairsToScenarios([{ profile: 'a', scenarioId: 'VS-1' }, { profile: 'b', scenarioId: 'VS-1' }]), [{ id: 'VS-1', profiles: ['a', 'b'] }])
 })
 
+test('capProfiles breaks a tie by the order the planner tagged the profiles, not by catalog order', async () => {
+  const { I } = await loadInternals()
+  const sc = [{ id: 'VS-1', profiles: ['security', 'http-api'] }, { id: 'VS-2', profiles: ['data'] }]
+  const c = I.capProfiles(sc, 2)
+  assert.deepEqual(c.dropped, ['data'])
+  assert.deepEqual(c.scenarios.map(s => s.profiles), [['security', 'http-api'], []])
+})
+
 test('every profile has a prompt file that reads the shared profile rules', async () => {
   const { readFileSync, existsSync } = await import('node:fs')
   const { join } = await import('node:path')

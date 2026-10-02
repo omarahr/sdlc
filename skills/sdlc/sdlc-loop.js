@@ -69,7 +69,9 @@ function tallyVerify(votes, lenses = []) {
     if (lenses[i] === 'regression' && isRefuting(v) && !(v && v.failingTest)) failingTests.push(`regression: ${v ? v.evidence : 'verifier failed to report'}`)
   })
   const refutations = votes.filter(isRefuting).length
-  return { pass: failingTests.length === 0 && refutations * 2 < votes.length, refutations, failingTests }
+  // each vote looks at something the others do not, so one refutation is enough: the spec-fidelity verifier
+  // often has no failing test to name, and a majority rule would let the other two outvote it
+  return { pass: failingTests.length === 0 && refutations === 0, refutations, failingTests }
 }
 
 // the verifier group: one agent per verification profile, each covering the scenarios tagged with it
@@ -81,11 +83,13 @@ const RISK_AGENTS = { low: 2, medium: 4, high: PROFILE_AGENT_LIMIT }
 // profile agents each start their own database and test runs; batches keep one laptop from overheating
 const PROFILE_BATCH = 4
 
-// keeps at most `max` profiles (those tagging the most scenarios, catalog order on ties) and strips the rest
+// keeps at most `max` profiles (those tagging the most scenarios; on ties, the one the planner tagged first) and strips the rest
 function capProfiles(scenarios, max) {
   const count = new Map()
   for (const sc of scenarios || []) for (const p of new Set(sc.profiles || [])) if (PROFILES.includes(p)) count.set(p, (count.get(p) || 0) + 1)
-  const ranked = PROFILES.filter(p => count.has(p)).sort((a, b) => count.get(b) - count.get(a) || PROFILES.indexOf(a) - PROFILES.indexOf(b))
+  // a Map keeps insertion order, which is the order the planner first tagged each profile
+  const tagged = [...count.keys()]
+  const ranked = [...tagged].sort((a, b) => count.get(b) - count.get(a) || tagged.indexOf(a) - tagged.indexOf(b))
   const keep = new Set(ranked.slice(0, max))
   return {
     scenarios: (scenarios || []).map(sc => ({ ...sc, profiles: (sc.profiles || []).filter(p => keep.has(p)) })),
@@ -483,14 +487,19 @@ async function reviewPhase(id, round) {
   const seeds = findings.filter(f => !f.blocking)
   const blockingFound = findings.filter(f => f.blocking)
   if (blockingFound.length > BLOCKING_JUDGE_LIMIT) {
-    log(`${id} review r${round}: judging ${BLOCKING_JUDGE_LIMIT} of ${blockingFound.length} blocking findings; reviewers re-report the rest next round`)
+    log(`${id} review r${round}: judging ${blockingFound.length} blocking findings ${BLOCKING_JUDGE_LIMIT} at a time, until one holds; reviewers re-report the rest next round`)
   }
-  const judged = await parallel(blockingFound.slice(0, BLOCKING_JUDGE_LIMIT).map((f, fi) => async () => {
-    const votes = await parallel([0, 1, 2].map(k => () =>
-      run('finding-refuter', { sliceId: id, finding: f, voter: k }, { schema: VOTE, phase: 'Review', label: `${id}:f${fi}v${k}` })))
-    return refutedByMajority(votes) ? null : f
-  }))
-  return { blocking: [...missing, ...judged.filter(Boolean)], seeds }
+  // a batch that is refuted whole must not let the unjudged findings through: judge on until one holds or none are left
+  let held = []
+  for (let at = 0; at < blockingFound.length && !held.length; at += BLOCKING_JUDGE_LIMIT) {
+    const judged = await parallel(blockingFound.slice(at, at + BLOCKING_JUDGE_LIMIT).map((f, i) => async () => {
+      const votes = await parallel([0, 1, 2].map(k => () =>
+        run('finding-refuter', { sliceId: id, finding: f, voter: k }, { schema: VOTE, phase: 'Review', label: `${id}:f${at + i}v${k}` })))
+      return refutedByMajority(votes) ? null : f
+    }))
+    held = judged.filter(Boolean)
+  }
+  return { blocking: [...missing, ...held], seeds }
 }
 
 // verify one round: plan scenarios and their profiles, build missing tools, then the core lenses and the

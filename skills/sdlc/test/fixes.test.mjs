@@ -91,6 +91,28 @@ test('I5: at most five blocking findings are judged per round', async () => {
   assert.equal(rt.roles().filter(r => r === 'finding-refuter').length, 15)
 })
 
+test('I5: when the first five blocking findings are all refuted, the rest are judged too', async () => {
+  const many = Array.from({ length: 7 }, (_, i) => ({ title: `bug ${i}`, detail: 'd', blocking: true }))
+  const rt = await runMain(happy({
+    reviewer: c => (c.inputs.lens === 'security' ? { findings: many } : { findings: [] }),
+    'finding-refuter': () => ({ refuted: true, evidence: 'not reachable' }),
+  }, 'implement'))
+  assert.equal(rt.roles().filter(r => r === 'finding-refuter').length, 21)
+  assert.equal(rt.roles().filter(r => r === 'implementer').length, 1)
+})
+
+test('I5: a blocking finding past the first five still forces a fix round when it holds', async () => {
+  let reviews = 0
+  const many = Array.from({ length: 7 }, (_, i) => ({ title: `bug ${i}`, detail: 'd', blocking: true }))
+  const rt = await runMain(happy({
+    reviewer: c => (c.inputs.lens === 'security' && reviews++ === 0 ? { findings: many } : { findings: [] }),
+    'finding-refuter': c => (c.inputs.finding.title === 'bug 6' ? clear() : { refuted: true, evidence: 'not reachable' }),
+  }, 'implement'))
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 2)
+  assert.match(impls[1].inputs.evidence[0], /\[review\] bug 6/)
+})
+
 test('I5: at most three ambiguities go to decision panels per planner round', async () => {
   let n = 0
   const amb = Array.from({ length: 5 }, (_, i) => ({ question: `q${i}` }))

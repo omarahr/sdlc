@@ -42,7 +42,7 @@ Scenario ids are `VS-<n>`.
 | `limits` | stated sizes, timeouts, budgets, UI performance | measured at and past the number |
 
 ## Risk
-Rate the slice `low`, `medium` or `high`, and give the reason in one sentence (`riskReason`). The rating caps how many profiles run: low 2, medium 4, high 8. When you tag more profiles than the cap allows, the workflow keeps the ones covering the most scenarios and drops the rest. So tag the profiles that matter most first.
+Rate the slice `low`, `medium` or `high`, and give the reason in one sentence (`riskReason`). The rating caps how many profiles run: low 2, medium 4, high 8. When you tag more profiles than the cap allows, the workflow keeps the ones covering the most scenarios and drops the rest. Between profiles covering the same number of scenarios, it keeps the one you tagged first. So tag the profiles that matter most first, starting with your first scenario.
 - `low`: no I/O boundary is crossed, or the change is small and pure (types, helpers, formatting), and a wrong result is easy to see and cheap to fix. Example: SDK contract types and a locale helper.
 - `medium`: one boundary (an endpoint, a component, a command) with ordinary failure modes.
 - `high`: money, data loss, security, cross-service delivery, concurrency, or behavior that happens later (retries, schedules). Example: webhook delivery with retries, dead letter and replay.
