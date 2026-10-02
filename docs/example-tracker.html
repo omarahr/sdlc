@@ -7,254 +7,273 @@
 <title>SDLC Build Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root {
-  --ground: #eef0f3;
-  --surface: #ffffff;
-  --sunk: #f6f7f9;
-  --ink: #131720;
-  --muted: #586173;
-  --faint: #8b93a2;
-  --line: #e1e4ea;
-  --accent: #2f4fd8;
-  --accent-soft: #e7ebfd;
-  --done: #1b8353;
-  --done-soft: #ddf1e6;
-  --parked: #b26a0e;
-  --parked-soft: #fbecd6;
-  --todo: #d7dbe2;
-  --warn: #c2410c;
-  --shadow: 0 1px 2px rgba(19, 23, 32, .05), 0 6px 20px rgba(19, 23, 32, .04);
-  --sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ground: #e6e8ec;
+  --surface: #f7f8fa;
+  --sunk: #edeff3;
+  --ink: #0d1117;
+  --muted: #59616f;
+  --faint: #858d9b;
+  --rule: #c6ccd5;
+  --rule-soft: #dee2e9;
+  --live: #0b6fd4;
+  --live-soft: #e2ecfa;
+  --held: #0f7a52;
+  --held-soft: #ddeee5;
+  --hold: #a35c00;
+  --hold-soft: #f6ead6;
+  --fail: #b3261e;
+  --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --ground: #0c0f14;
-    --surface: #151920;
-    --sunk: #1a1f27;
-    --ink: #e9ecf2;
-    --muted: #a3abba;
-    --faint: #6e7787;
-    --line: #252b35;
-    --accent: #93a4ff;
-    --accent-soft: #1d2442;
-    --done: #4dc48b;
-    --done-soft: #13281f;
-    --parked: #e8a640;
-    --parked-soft: #2d2213;
-    --todo: #2f3642;
-    --warn: #fb923c;
-    --shadow: none;
+    --ground: #0b0e12;
+    --surface: #13171d;
+    --sunk: #191e25;
+    --ink: #e7ebf1;
+    --muted: #9aa3b1;
+    --faint: #6b7482;
+    --rule: #2b323c;
+    --rule-soft: #222831;
+    --live: #58a2f8;
+    --live-soft: #16233a;
+    --held: #46b581;
+    --held-soft: #12271e;
+    --hold: #d99a3a;
+    --hold-soft: #2b2113;
+    --fail: #f0776b;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --ground: #0c0f14;
-  --surface: #151920;
-  --sunk: #1a1f27;
-  --ink: #e9ecf2;
-  --muted: #a3abba;
-  --faint: #6e7787;
-  --line: #252b35;
-  --accent: #93a4ff;
-  --accent-soft: #1d2442;
-  --done: #4dc48b;
-  --done-soft: #13281f;
-  --parked: #e8a640;
-  --parked-soft: #2d2213;
-  --todo: #2f3642;
-  --warn: #fb923c;
-  --shadow: none;
+  --ground: #0b0e12;
+  --surface: #13171d;
+  --sunk: #191e25;
+  --ink: #e7ebf1;
+  --muted: #9aa3b1;
+  --faint: #6b7482;
+  --rule: #2b323c;
+  --rule-soft: #222831;
+  --live: #58a2f8;
+  --live-soft: #16233a;
+  --held: #46b581;
+  --held-soft: #12271e;
+  --hold: #d99a3a;
+  --hold-soft: #2b2113;
+  --fail: #f0776b;
 }
 
 * { box-sizing: border-box; }
-body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 22px; }
-#app { display: grid; gap: 20px; min-width: 0; }
-@media (max-width: 560px) { .wrap { gap: 16px; padding-block: 20px 40px; } #app { gap: 14px; } }
-h1, h2 { margin: 0; text-wrap: balance; }
-h1 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
-h2 { font-size: 11.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); }
+body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 13px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 18px; padding-block: 20px 48px; }
+#app { display: block; background: var(--surface); border: 1px solid var(--rule); }
+h1, h2 { margin: 0; font-weight: 600; }
+h2 { font-size: 12.5px; letter-spacing: 0; }
 p { margin: 0; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .muted { color: var(--muted); }
 .faint { color: var(--faint); }
+a { color: var(--live); }
 
 /* header */
-.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
-.top .sub { color: var(--muted); font-size: 13px; }
-.fresh { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
-.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
-.pill.ok { background: var(--done-soft); color: var(--done); }
-.pill.warn { background: var(--parked-soft); color: var(--parked); }
-.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.pill.live .dot { animation: pulse 2s ease-in-out infinite; }
-@keyframes pulse { 50% { opacity: .3; } }
+.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; padding-bottom: 14px; }
+.top h1 { font-size: 19px; letter-spacing: -.01em; }
+.top .sub { color: var(--muted); font-size: 12.5px; }
+.fresh { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--live); }
+.pill.ok .dot { background: var(--held); }
+.pill.warn .dot { background: var(--hold); }
+.pill.live .dot { animation: pulse 2.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { .pill.live .dot { animation: none; } }
-.stale { color: var(--warn); font-weight: 600; }
+.stale { color: var(--hold); font-weight: 500; }
 
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 20px; min-width: 0; }
+/* one ruled surface: regions divide it, nothing floats */
+.card { background: var(--surface); padding: 16px 18px; min-width: 0; }
+.card + .card, .grid3, .grid2, .band, .collapse { border-top: 1px solid var(--rule); }
+.grid3 { display: grid; grid-template-columns: 1.3fr 1fr 1fr; }
+.grid2 { display: grid; grid-template-columns: 1.5fr 1fr; }
+@media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } .grid3 > :first-child { grid-column: 1 / -1; border-right: 0; } }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .grid3 { grid-template-columns: 1fr; } }
+.grid3 > .card, .grid2 > .card { border-right: 1px solid var(--rule); }
+.grid3 > .card:last-child, .grid2 > .card:last-child { border-right: 0; }
+@media (max-width: 620px) { .grid3 > .card { border-right: 0; } .grid3 > .card + .card { border-top: 1px solid var(--rule); } }
+.card h2 { margin-bottom: 10px; color: var(--muted); }
+.card h2 .n { font-family: var(--mono); color: var(--faint); font-weight: 400; margin-left: 6px; }
 
-/* hero */
-.hero { display: grid; gap: 20px; padding: 22px 24px; }
-.hero-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 14px 32px; }
-.headline { display: flex; align-items: baseline; gap: 22px; flex-wrap: wrap; }
-.big { font-family: var(--mono); font-size: 34px; font-weight: 500; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
-.big small { font-size: 16px; color: var(--faint); letter-spacing: 0; }
-.big-label { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-.next { text-align: right; }
-.next .lbl { font-size: 12px; color: var(--muted); }
-.next .what { font-size: 17px; font-weight: 600; }
-.next .when { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-top: 2px; }
-@media (max-width: 640px) { .next { text-align: left; } }
+/* the run band: where the machine is right now */
+.band { padding: 0; }
+.band-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 28px; padding: 15px 18px 13px; }
+.band-top > div { min-width: 0; max-width: 100%; }
+.run-name { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+.run-name .beacon { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; }
+.run-name .beacon.on { animation: pulse 2.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .run-name .beacon.on { animation: none; } }
+.run-name .beacon.done { background: var(--held); }
+.run-line { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+.run-now { font-family: var(--mono); font-size: 12px; color: var(--live); margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.band-right { display: flex; gap: 26px; align-items: flex-start; }
 
-.track { display: flex; gap: 3px; height: 14px; }
-.seg { position: relative; height: 100%; border-radius: 3px; background: var(--todo); overflow: hidden; min-width: 10px; display: flex; }
-.seg i { display: block; height: 100%; }
-.seg .d { background: var(--done); }
-.seg .p { background: var(--parked); }
-.seg.cur { outline: 2px solid var(--accent); outline-offset: 1px; }
-.seg.ui::after { content: ""; position: absolute; right: 2px; top: 2px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
-.track-labels { display: flex; gap: 3px; margin-top: 6px; }
-.track-labels span { font-size: 10.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 10px; }
-.track-labels span.cur { color: var(--accent); font-weight: 600; }
-@media (max-width: 720px) { .track-labels { display: none; } }
+/* the phase rail: every phase, sized by the agent time spent in it */
+.rail { display: flex; gap: 1px; border-top: 1px solid var(--rule); background: var(--rule-soft); }
+@media (max-width: 720px) { .run-now { white-space: normal; } }
+.rail-seg { flex: 1 1 0; min-width: 0; background: var(--surface); padding: 8px 7px 7px; position: relative; }
+.rail-seg .ph { display: block; font-size: 10.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rail-seg .bar { height: 3px; background: var(--held); margin: 6px 0 5px; min-width: 3px; }
+.rail-seg .ct { font-family: var(--mono); font-size: 10px; color: var(--faint); }
+.rail-seg.idle { background: var(--sunk); }
+.rail-seg.idle .bar { background: var(--rule); }
+.rail-seg.done .ph, .rail-seg.done .ct { color: var(--muted); }
+.rail-seg.run { background: var(--live-soft); }
+.rail-seg.run .ph { color: var(--live); font-weight: 600; }
+.rail-seg.run .bar { background: var(--live); animation: pulse 2.2s ease-in-out infinite; }
+.rail-seg.run .ct { color: var(--live); }
+@media (prefers-reduced-motion: reduce) { .rail-seg.run .bar { animation: none; } }
+.rail-seg.bad .bar { background: var(--fail); }
+@media (max-width: 820px) { .rail { flex-wrap: wrap; } .rail-seg { flex: 1 1 30%; } }
 
-/* three cards */
-.grid3 { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 20px; }
-@media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } .grid3 > :first-child { grid-column: 1 / -1; } }
-@media (max-width: 560px) { .grid3 { grid-template-columns: 1fr; } }
-.card h2 { margin-bottom: 12px; }
-.slice-id { font-family: var(--mono); font-size: 12px; color: var(--accent); }
-.slice-title { font-size: 16px; font-weight: 600; line-height: 1.3; margin-top: 2px; }
-.steps { display: flex; gap: 3px; margin-top: 12px; }
-.steps i { flex: 1; height: 5px; border-radius: 3px; background: var(--todo); }
-.steps i.past { background: var(--done); }
-.steps i.on { background: var(--accent); }
+/* the numbers, when no run is live */
+.stats { display: flex; flex-wrap: wrap; gap: 4px 40px; padding: 15px 18px; }
+.stat .n { font-family: var(--mono); font-size: 27px; font-weight: 500; letter-spacing: -.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat .n small { font-size: 14px; color: var(--faint); }
+.stat .l { color: var(--muted); font-size: 12px; }
+
+/* the current slice */
+.slice-id { font-family: var(--mono); font-size: 11.5px; color: var(--live); }
+.slice-title { font-size: 15px; font-weight: 600; line-height: 1.25; margin-top: 1px; }
+.steps { display: flex; gap: 2px; margin-top: 11px; }
+.steps i { flex: 1; height: 3px; background: var(--rule-soft); }
+.steps i.past { background: var(--held); }
+.steps i.on { background: var(--live); }
 .step-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 6px; gap: 8px; }
-.step-label b { color: var(--accent); font-weight: 600; }
-.lastc { font-size: 12px; color: var(--faint); margin-top: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.kv { display: grid; grid-template-columns: 1fr auto; gap: 7px 12px; margin: 0; font-size: 13px; align-items: baseline; }
+.step-label b { color: var(--live); font-weight: 600; }
+.lastc { font-size: 11.5px; color: var(--faint); margin-top: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; margin: 0; font-size: 12.5px; align-items: baseline; }
 .kv dt { color: var(--muted); }
 .kv dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
-.meter { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--todo); overflow: hidden; margin-top: -3px; }
-.meter i { display: block; height: 100%; background: var(--accent); }
+.meter { grid-column: 1 / -1; height: 3px; background: var(--rule-soft); margin-top: 1px; }
+.meter i { display: block; height: 100%; background: var(--live); }
 
-/* milestones table */
-.ms-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.ms-note { font-size: 12px; color: var(--faint); }
-.ms-table { width: 100%; border-collapse: collapse; }
-.ms-table td { padding: 12px 10px; border-top: 1px solid var(--line); vertical-align: middle; }
-.ms-table tr:first-child td { border-top: 0; }
-.ms-table td:first-child { padding-left: 0; width: 22px; }
-.ms-table td:last-child { padding-right: 0; text-align: right; white-space: nowrap; }
-.dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--todo); display: block; }
-tr.done .dot { background: var(--done); border-color: var(--done); }
-tr.active .dot { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px var(--accent-soft); }
-tr.active { background: linear-gradient(90deg, var(--accent-soft), transparent 60%); }
-.ms-name { font-weight: 600; font-size: 14px; }
-.ms-what { font-size: 12.5px; color: var(--muted); }
-tr.done .ms-name, tr.done .ms-what { color: var(--muted); }
-tr.done .ms-name { font-weight: 500; }
-.badge { font-size: 9.5px; font-weight: 700; letter-spacing: .07em; padding: 2px 5px; border-radius: 4px; background: var(--accent); color: var(--surface); margin-left: 7px; vertical-align: 2px; }
-.prog { width: 160px; }
-.prog .mini { display: flex; gap: 2px; height: 8px; }
-.prog .mini i { flex: 1; border-radius: 2px; background: var(--todo); }
-.prog .mini i.done { background: var(--done); }
-.prog .mini i.parked { background: var(--parked); }
-.prog .mini i.in_progress { background: var(--accent); }
-.prog .cnt { font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 4px; }
-.eta b { font-family: var(--mono); font-weight: 500; font-size: 13px; display: block; }
-.eta span { font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
-tr.done .eta b { color: var(--done); }
-@media (max-width: 680px) {
-  .prog { display: none; }
-  .ms-what { display: none; }
-}
-
-/* chart */
-.chart-wrap { overflow-x: auto; margin-top: 4px; }
-svg text { font-family: var(--mono); font-size: 11px; }
-
-/* bottom */
-.grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
-@media (max-width: 820px) { .grid2 { grid-template-columns: 1fr; } }
-.events { display: grid; gap: 10px; }
-.ev { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 0 12px; font-size: 13px; }
-.ev .when { font-family: var(--mono); font-size: 11.5px; color: var(--faint); padding-top: 1px; }
-.ev .kind { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-.ev .kind.merged { color: var(--done); }
-.ev .kind.escalated { color: var(--parked); }
-.ev .txt { color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
-.parked { display: grid; gap: 8px; font-size: 13px; }
-.parked div { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 10px; }
-.parked .mono { color: var(--parked); font-size: 12px; }
-.note { font-size: 12px; color: var(--faint); }
-.review { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-.review span { font-size: 12px; background: var(--sunk); border: 1px solid var(--line); padding: 4px 9px; border-radius: 6px; color: var(--muted); }
+/* needs you */
+.parked { display: grid; gap: 5px; font-size: 12.5px; }
+.parked div { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 10px; }
+.parked .mono { color: var(--hold); font-size: 11.5px; }
+.review { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 11px; }
+.review span { font-size: 12px; background: var(--sunk); padding: 3px 8px; color: var(--muted); }
 .review b { font-family: var(--mono); color: var(--ink); font-weight: 500; }
-.empty { padding: 48px 0; text-align: center; color: var(--muted); }
+.note { font-size: 11.5px; color: var(--faint); margin-top: 9px; }
 
-.vbadge { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-left: 7px; vertical-align: 2px; background: var(--sunk); color: var(--muted); border: 1px solid var(--line); }
-.vbadge.verified { background: var(--done-soft); color: var(--done); border-color: transparent; }
-.vbadge.fixing, .vbadge.exhausted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
-.example { font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 8px 12px; border-radius: 8px; }
-.reports-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.reports-head input { font: inherit; font-size: 13px; padding: 5px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--sunk); color: var(--ink); min-width: 0; width: 220px; max-width: 100%; }
-.rep-list { display: grid; gap: 0; }
-.rep { display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; }
-.rep:first-child { border-top: 0; }
-.rep a.id { font-family: var(--mono); font-size: 12px; color: var(--accent); text-decoration: none; }
-.rep a.id:hover { text-decoration: underline; }
-.rep .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
-.rep .n { font-family: var(--mono); font-size: 11.5px; color: var(--faint); white-space: nowrap; }
-.rep .n.has { color: var(--done); }
-.rep .lenses { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 5px; }
-.lens { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--sunk); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
-.lens.held { background: var(--done-soft); color: var(--done); border-color: transparent; }
-.lens.refuted { background: var(--parked-soft); color: var(--parked); border-color: transparent; }
-.rep-more { margin-top: 10px; font: inherit; font-size: 12.5px; background: none; border: 1px solid var(--line); color: var(--accent); padding: 5px 10px; border-radius: 6px; cursor: pointer; }
-.wf { font-family: var(--mono); font-size: 12.5px; }
-.wf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 12px; }
-.wf-head .name { color: var(--accent); font-weight: 500; font-size: 14px; }
-.wf-head .desc { color: var(--muted); flex: 1 1 320px; min-width: 0; }
-.wf-head .tot { color: var(--muted); white-space: nowrap; }
-.wf-head .paused { color: var(--warn); white-space: nowrap; }
-.wf-slot { display: contents; }
-.wf-body { display: grid; grid-template-columns: 220px minmax(0, 1fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-.wf-phases { border-right: 1px solid var(--line); padding: 8px 0; background: var(--sunk); }
-.wf-phase { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; width: 100%; padding: 4px 12px; border: 0; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
-.wf-phase:hover { background: var(--accent-soft); }
-.wf-phase.sel { background: var(--accent-soft); color: var(--accent); }
+/* collapsible regions */
+.collapse { padding: 0; }
+.collapse > summary { cursor: pointer; padding: 12px 18px; display: flex; align-items: baseline; gap: 10px; list-style: none; }
+.collapse > summary::-webkit-details-marker { display: none; }
+.collapse > summary::before { content: "›"; color: var(--faint); font-size: 14px; line-height: 1; transition: transform .15s ease; }
+.collapse[open] > summary::before { transform: rotate(90deg); }
+.collapse > summary h2 { margin: 0; }
+.collapse > summary .hint { color: var(--faint); font-size: 11.5px; }
+.collapse > summary .go { color: var(--live); font-size: 11.5px; margin-left: auto; }
+@media (prefers-reduced-motion: reduce) { .collapse > summary::before { transition: none; } }
+.collapse-body { padding: 0 18px 16px; }
+
+/* milestones, one ruled row each */
+.ms-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.ms-note { font-size: 11.5px; color: var(--faint); }
+.ms-row { display: grid; grid-template-columns: 14px minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 0 12px; align-items: center; padding: 9px 0; border-top: 1px solid var(--rule-soft); }
+.ms-row:first-child { border-top: 0; }
+.ms-row .dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--rule); }
+.ms-row.done .dot { background: var(--held); border-color: var(--held); }
+.ms-row.active .dot { border-color: var(--live); background: var(--live); }
+.ms-name { font-weight: 500; font-size: 13px; }
+.ms-row.done .ms-name { color: var(--muted); font-weight: 400; }
+.ms-what { font-size: 11.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-prog { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+.ms-eta { font-family: var(--mono); font-size: 11.5px; color: var(--faint); text-align: right; white-space: nowrap; }
+.ms-row.done .ms-eta { color: var(--held); }
+@media (max-width: 720px) { .ms-what, .ms-prog { display: none; } }
+.badge, .vbadge { font-size: 9.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 1px 5px; margin-left: 6px; border: 1px solid var(--rule); color: var(--muted); }
+.badge { border-color: var(--live); color: var(--live); }
+.vbadge.verified { color: var(--held); border-color: var(--held); }
+.vbadge.fixing, .vbadge.exhausted { color: var(--hold); border-color: var(--hold); }
+
+/* pace chart */
+.chart-wrap { overflow-x: auto; }
+svg text { font-family: var(--mono); font-size: 10px; }
+.spark { display: block; width: 100%; height: 34px; }
+
+/* events */
+.events { display: grid; }
+.ev { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 0 12px; font-size: 12.5px; padding: 7px 0; border-top: 1px solid var(--rule-soft); }
+.ev:first-child { border-top: 0; }
+.ev .when { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+.ev .kind { font-size: 11.5px; font-weight: 600; }
+.ev .kind.merged { color: var(--held); }
+.ev .kind.escalated { color: var(--hold); }
+.ev .txt { color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.more { font: inherit; font-size: 11.5px; background: none; border: 0; padding: 8px 0 0; color: var(--live); cursor: pointer; }
+
+/* workflow view */
+.wf-slot[hidden] { display: none; }
+.wf { padding: 0; }
+.wf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 18px; flex-wrap: wrap; padding: 13px 18px; border-bottom: 1px solid var(--rule); }
+.wf-head .name { color: var(--live); font-weight: 600; font-size: 13px; }
+.wf-head .desc { color: var(--muted); flex: 1 1 260px; min-width: 0; font-size: 12px; }
+.wf-head .tot { color: var(--muted); font-family: var(--mono); font-size: 11.5px; white-space: nowrap; }
+.wf-head .paused { color: var(--hold); white-space: nowrap; }
+.wf-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
+.wf-phases { border-right: 1px solid var(--rule); padding: 6px 0; background: var(--sunk); }
+.wf-phase { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; width: 100%; padding: 3px 12px; border: 0; background: none; font: inherit; font-size: 12px; color: var(--ink); text-align: left; cursor: pointer; }
+.wf-phase:hover { background: var(--live-soft); }
+.wf-phase.sel { background: var(--live-soft); color: var(--live); font-weight: 600; }
 .wf-phase.idle { color: var(--faint); cursor: default; }
 .wf-phase.idle:hover { background: none; }
-.wf-phase .mk { text-align: right; color: var(--faint); }
-.wf-phase .cnt { color: var(--faint); }
-.wf-phase.sel .cnt { color: var(--accent); }
-.wf .ok { color: var(--done); }
-.wf .bad { color: var(--warn); }
-.wf .run { color: var(--accent); animation: pulse 2s ease-in-out infinite; }
-.wf-agents { padding: 8px 14px 12px; min-width: 0; }
-.wf-agents h3 { font: inherit; font-weight: 500; color: var(--ink); margin: 2px 0 8px; }
+.wf-phase .mk { text-align: right; color: var(--faint); font-size: 10px; }
+.wf-phase .cnt { color: var(--faint); font-family: var(--mono); font-size: 10.5px; }
+.wf-phase.sel .cnt { color: var(--live); }
+.wf .ok { color: var(--held); }
+.wf .bad { color: var(--fail); }
+.wf .run { color: var(--live); animation: pulse 2.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .wf .run { animation: none; } }
+.wf-agents { padding: 10px 14px 12px; min-width: 0; }
+.wf-agents h3 { font: inherit; font-weight: 600; font-size: 12.5px; margin: 0 0 6px; }
 .wf-agents h3 span { color: var(--faint); font-weight: 400; }
-.wf-agent { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto auto; gap: 10px; align-items: baseline; padding: 3px 0; }
-.wf-agent .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
-.wf-agent .meta, .wf-agent .time { color: var(--faint); white-space: nowrap; }
+.wf-agent { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto auto; gap: 10px; align-items: baseline; padding: 2px 0; font-size: 12px; }
+.wf-agent .lbl { font-family: var(--mono); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wf-agent .meta, .wf-agent .time { color: var(--faint); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
 .wf-agent.failed .lbl, .wf-agent.stopped .lbl { color: var(--muted); }
-.wf-foot { display: flex; gap: 6px 16px; flex-wrap: wrap; margin-top: 10px; color: var(--faint); font-size: 12px; }
-.wf-foot button { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; }
-.wf-earlier { margin-top: 10px; font-size: 12px; color: var(--muted); }
-.wf-earlier summary { cursor: pointer; color: var(--accent); }
-.wf-earlier div { padding: 3px 0; }
+.wf-foot { display: flex; gap: 6px 16px; flex-wrap: wrap; padding: 0 18px 12px; color: var(--faint); font-size: 11.5px; }
+.wf-foot button { font: inherit; background: none; border: 0; padding: 0; color: var(--live); cursor: pointer; }
+.wf-earlier { margin: 0 18px 14px; font-size: 11.5px; color: var(--muted); }
+.wf-earlier summary { cursor: pointer; color: var(--live); }
 @media (max-width: 720px) {
   .wf-body { grid-template-columns: 1fr; }
-  .wf-phases { border-right: 0; border-bottom: 1px solid var(--line); }
-  .wf-agent { grid-template-columns: 18px minmax(0, 1fr) auto; }
+  .wf-phases { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .wf-agent { grid-template-columns: 14px minmax(0, 1fr) auto; }
   .wf-agent .meta { display: none; }
 }
+
+/* test reports */
+.example { font-size: 12px; background: var(--live-soft); color: var(--live); padding: 8px 18px; }
+.reports-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.reports-head input { font: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid var(--rule); background: var(--sunk); color: var(--ink); min-width: 0; width: 200px; max-width: 100%; }
+.rep-list { display: grid; }
+.rep { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 3px 12px; align-items: baseline; padding: 7px 0; border-top: 1px solid var(--rule-soft); font-size: 12.5px; }
+.rep:first-child { border-top: 0; }
+.rep a.id { font-family: var(--mono); font-size: 11.5px; text-decoration: none; }
+.rep .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rep .n { font-family: var(--mono); font-size: 11px; color: var(--faint); white-space: nowrap; }
+.rep .n.has { color: var(--held); }
+.rep .lenses { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 4px; }
+.lens { font-size: 10.5px; padding: 1px 6px; background: var(--sunk); color: var(--muted); border: 1px solid var(--rule); white-space: nowrap; }
+.lens.held { color: var(--held); border-color: var(--held); }
+.lens.refuted { color: var(--hold); border-color: var(--hold); }
+.rep-more { margin-top: 8px; font: inherit; font-size: 11.5px; background: none; border: 1px solid var(--rule); color: var(--live); padding: 4px 9px; cursor: pointer; }
+.empty { padding: 40px 18px; text-align: center; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -269,7 +288,7 @@ svg text { font-family: var(--mono); font-size: 11px; }
   <div id="app"><div class="card empty">No status yet. Run the tracker collector.</div></div>
 </div>
 <script>
-window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt": "2026-01-13T06:49:42.817334+00:00", "startedAt": "2026-01-12T09:00:00+00:00", "run": {"label": "Run 2", "agents": 412, "cap": 850}, "requirements": {"done": 71, "total": 142, "parked": 3}, "decisions": 58, "proposals": 4, "current": {"id": "S-018", "title": "Import wizard UI", "phase": "verifier"}, "activity": {"role": "verifier", "target": "S-018"}, "lastCommit": {"at": "2026-01-13T06:43:42.817334+00:00", "text": "test(S-018): behavior tests r0"}, "machine": {"load": [3.1, 3.6, 3.4], "thermalSleepsToday": 0}, "recent": [{"at": "2026-01-13T01:37:42.817334+00:00", "kind": "slice-merged", "slice": "S-016", "text": "Tag manager UI; R-061, R-062, R-063 done; direct squash-merge to main"}, {"at": "2026-01-13T02:43:42.817334+00:00", "kind": "milestone", "slice": "", "text": "M-3 fixing: 46/48 scenarios passed, 1 confirmed bug (search over 256 chars returns 500, spec says 400), 1 dismissed as flaky"}, {"at": "2026-01-13T03:49:42.817334+00:00", "kind": "slice-merged", "slice": "S-fix-M-3-1", "text": "Search returns 400 QUERY_TOO_LONG past 256 chars; e2e scenario SC-M-3-017 un-pended and green"}, {"at": "2026-01-13T05:13:42.817334+00:00", "kind": "slice-escalated", "slice": "S-017", "text": "step 1 replan: plan refuted 3 times; re-plan with a single keyboard-shortcut registry"}, {"at": "2026-01-13T05:55:42.817334+00:00", "kind": "slice-merged", "slice": "S-017", "text": "Search UI with keyboard shortcuts; R-070, R-071 done; Playwright checks en and ar"}, {"at": "2026-01-13T06:25:42.817334+00:00", "kind": "slice-escalated", "slice": "S-018", "text": "step 2 split: planner judged the slice too big; split into S-018a (file upload + parse) and S-018b (review and confirm)"}], "milestones": [{"id": "M-1", "title": "Bookmarks API", "demo": "Create, list, tag and filter bookmarks over the API", "ui": false, "slices": ["S-001", "S-002", "S-003", "S-004"], "status": "verified", "fixSlices": [], "gaps": [], "attempts": 1}, {"id": "M-2", "title": "Accounts and import", "demo": "Sign up, keep bookmarks private, import a browser export", "ui": false, "slices": ["S-005", "S-006", "S-007", "S-008"], "status": "verified", "fixSlices": [], "gaps": [], "attempts": 1}, {"id": "M-3", "title": "Search and link health", "demo": "Search bookmarks and see broken links flagged", "ui": false, "slices": ["S-009", "S-010", "S-011", "S-012"], "status": "fixing", "fixSlices": ["S-fix-M-3-1"], "gaps": [], "attempts": 1}, {"id": "M-4", "title": "Web app", "demo": "Browse, add, edit, tag and search bookmarks in the browser", "ui": true, "slices": ["S-013", "S-014", "S-015", "S-016", "S-017", "S-018"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}, {"id": "M-5", "title": "Sharing and extension", "demo": "Share a collection and save tabs from the extension", "ui": true, "slices": ["S-019", "S-020", "S-021", "S-022"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}, {"id": "M-6", "title": "Hardening and reach", "demo": "Quotas, admin metrics, accessibility, RTL, digests and export", "ui": true, "slices": ["S-023", "S-024", "S-025", "S-026", "S-027", "S-028"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}], "slices": [{"id": "S-001", "title": "Project scaffolding and test runner", "status": "done", "doneAt": "2026-01-12T10:14:51.595907+00:00"}, {"id": "S-002", "title": "Bookmark model and storage", "status": "done", "doneAt": "2026-01-12T11:08:57.709959+00:00"}, {"id": "S-003", "title": "Create and list bookmarks API", "status": "done", "doneAt": "2026-01-12T13:03:04.438165+00:00"}, {"id": "S-004", "title": "Tags and filtering", "status": "done", "doneAt": "2026-01-12T13:47:45.979429+00:00"}, {"id": "S-005", "title": "Auth: sign up, sign in, sessions", "status": "done", "doneAt": "2026-01-12T15:28:04.329860+00:00"}, {"id": "S-006", "title": "Per-user access control", "status": "done", "doneAt": "2026-01-12T16:47:57.290062+00:00"}, {"id": "S-007", "title": "Import from browser HTML export", "status": "done", "doneAt": "2026-01-12T17:30:54.882320+00:00"}, {"id": "S-008", "title": "Duplicate detection", "status": "parked", "doneAt": null}, {"id": "S-009", "title": "Full-text search", "status": "done", "doneAt": "2026-01-12T19:48:18.388340+00:00"}, {"id": "S-010", "title": "Search ranking and highlighting", "status": "done", "doneAt": "2026-01-12T21:16:20.637262+00:00"}, {"id": "S-011", "title": "Link health checker job", "status": "done", "doneAt": "2026-01-12T22:00:43.596312+00:00"}, {"id": "S-012", "title": "Archive snapshots", "status": "done", "doneAt": "2026-01-12T22:47:36.730008+00:00"}, {"id": "S-fix-M-3-1", "title": "Search: 400 for queries over the 256-char limit", "status": "done", "doneAt": "2026-01-13T06:19:42.817334+00:00"}, {"id": "S-013", "title": "Web app shell and routing", "status": "done", "doneAt": "2026-01-13T00:14:33.268170+00:00"}, {"id": "S-014", "title": "Bookmark list UI", "status": "done", "doneAt": "2026-01-13T02:29:46.603468+00:00"}, {"id": "S-015", "title": "Add and edit bookmark UI", "status": "done", "doneAt": "2026-01-13T03:20:37.977588+00:00"}, {"id": "S-016", "title": "Tag manager UI", "status": "done", "doneAt": "2026-01-13T04:23:25.298133+00:00"}, {"id": "S-017", "title": "Search UI with keyboard shortcuts", "status": "done", "doneAt": "2026-01-13T06:14:42.817334+00:00"}, {"id": "S-018", "title": "Import wizard UI", "status": "in_progress", "doneAt": null}, {"id": "S-019", "title": "Sharing public collections", "status": "todo", "doneAt": null}, {"id": "S-020", "title": "Collection pages", "status": "todo", "doneAt": null}, {"id": "S-021", "title": "Browser extension: save current tab", "status": "todo", "doneAt": null}, {"id": "S-022", "title": "Extension auth handshake", "status": "todo", "doneAt": null}, {"id": "S-023", "title": "Rate limits and quotas", "status": "todo", "doneAt": null}, {"id": "S-024", "title": "Admin metrics dashboard", "status": "todo", "doneAt": null}, {"id": "S-025", "title": "Accessibility pass (WCAG AA)", "status": "todo", "doneAt": null}, {"id": "S-026", "title": "Arabic and RTL layout", "status": "todo", "doneAt": null}, {"id": "S-027", "title": "Email digests", "status": "todo", "doneAt": null}, {"id": "S-028", "title": "Export to CSV and JSON", "status": "todo", "doneAt": null}]};
+window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt": "2026-01-13T06:49:42.817334+00:00", "startedAt": "2026-01-12T09:00:00+00:00", "run": {"label": "Run 2", "agents": 412, "cap": 850}, "requirements": {"done": 71, "total": 142, "parked": 3}, "decisions": 58, "proposals": 4, "current": {"id": "S-018", "title": "Import wizard UI", "phase": "verifier"}, "activity": {"role": "verifier", "target": "S-018"}, "lastCommit": {"at": "2026-01-13T06:43:42.817334+00:00", "text": "test(S-018): behavior tests r0"}, "machine": {"load": [3.1, 3.6, 3.4], "thermalSleepsToday": 0}, "recent": [{"at": "2026-01-13T01:37:42.817334+00:00", "kind": "slice-merged", "slice": "S-016", "text": "Tag manager UI; R-061, R-062, R-063 done; direct squash-merge to main"}, {"at": "2026-01-13T02:43:42.817334+00:00", "kind": "milestone", "slice": "", "text": "M-3 fixing: 46/48 scenarios passed, 1 confirmed bug (search over 256 chars returns 500, spec says 400), 1 dismissed as flaky"}, {"at": "2026-01-13T03:49:42.817334+00:00", "kind": "slice-merged", "slice": "S-fix-M-3-1", "text": "Search returns 400 QUERY_TOO_LONG past 256 chars; e2e scenario SC-M-3-017 un-pended and green"}, {"at": "2026-01-13T05:13:42.817334+00:00", "kind": "slice-escalated", "slice": "S-017", "text": "step 1 replan: plan refuted 3 times; re-plan with a single keyboard-shortcut registry"}, {"at": "2026-01-13T05:55:42.817334+00:00", "kind": "slice-merged", "slice": "S-017", "text": "Search UI with keyboard shortcuts; R-070, R-071 done; Playwright checks en and ar"}, {"at": "2026-01-13T06:25:42.817334+00:00", "kind": "slice-escalated", "slice": "S-018", "text": "step 2 split: planner judged the slice too big; split into S-018a (file upload + parse) and S-018b (review and confirm)"}], "milestones": [{"id": "M-1", "title": "Bookmarks API", "demo": "Create, list, tag and filter bookmarks over the API", "ui": false, "slices": ["S-001", "S-002", "S-003", "S-004"], "status": "verified", "fixSlices": [], "gaps": [], "attempts": 1}, {"id": "M-2", "title": "Accounts and import", "demo": "Sign up, keep bookmarks private, import a browser export", "ui": false, "slices": ["S-005", "S-006", "S-007", "S-008"], "status": "verified", "fixSlices": [], "gaps": [], "attempts": 1}, {"id": "M-3", "title": "Search and link health", "demo": "Search bookmarks and see broken links flagged", "ui": false, "slices": ["S-009", "S-010", "S-011", "S-012"], "status": "fixing", "fixSlices": ["S-fix-M-3-1"], "gaps": [], "attempts": 1}, {"id": "M-4", "title": "Web app", "demo": "Browse, add, edit, tag and search bookmarks in the browser", "ui": true, "slices": ["S-013", "S-014", "S-015", "S-016", "S-017", "S-018"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}, {"id": "M-5", "title": "Sharing and extension", "demo": "Share a collection and save tabs from the extension", "ui": true, "slices": ["S-019", "S-020", "S-021", "S-022"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}, {"id": "M-6", "title": "Hardening and reach", "demo": "Quotas, admin metrics, accessibility, RTL, digests and export", "ui": true, "slices": ["S-023", "S-024", "S-025", "S-026", "S-027", "S-028"], "status": "pending", "fixSlices": [], "gaps": [], "attempts": 0}], "slices": [{"id": "S-001", "title": "Project scaffolding and test runner", "status": "done", "doneAt": "2026-01-12T10:14:51.595907+00:00"}, {"id": "S-002", "title": "Bookmark model and storage", "status": "done", "doneAt": "2026-01-12T11:08:57.709959+00:00"}, {"id": "S-003", "title": "Create and list bookmarks API", "status": "done", "doneAt": "2026-01-12T13:03:04.438165+00:00"}, {"id": "S-004", "title": "Tags and filtering", "status": "done", "doneAt": "2026-01-12T13:47:45.979429+00:00"}, {"id": "S-005", "title": "Auth: sign up, sign in, sessions", "status": "done", "doneAt": "2026-01-12T15:28:04.329860+00:00"}, {"id": "S-006", "title": "Per-user access control", "status": "done", "doneAt": "2026-01-12T16:47:57.290062+00:00"}, {"id": "S-007", "title": "Import from browser HTML export", "status": "done", "doneAt": "2026-01-12T17:30:54.882320+00:00"}, {"id": "S-008", "title": "Duplicate detection", "status": "parked", "doneAt": null}, {"id": "S-009", "title": "Full-text search", "status": "done", "doneAt": "2026-01-12T19:48:18.388340+00:00"}, {"id": "S-010", "title": "Search ranking and highlighting", "status": "done", "doneAt": "2026-01-12T21:16:20.637262+00:00"}, {"id": "S-011", "title": "Link health checker job", "status": "done", "doneAt": "2026-01-12T22:00:43.596312+00:00"}, {"id": "S-012", "title": "Archive snapshots", "status": "done", "doneAt": "2026-01-12T22:47:36.730008+00:00"}, {"id": "S-fix-M-3-1", "title": "Search: 400 for queries over the 256-char limit", "status": "done", "doneAt": "2026-01-13T06:19:42.817334+00:00"}, {"id": "S-013", "title": "Web app shell and routing", "status": "done", "doneAt": "2026-01-13T00:14:33.268170+00:00"}, {"id": "S-014", "title": "Bookmark list UI", "status": "done", "doneAt": "2026-01-13T02:29:46.603468+00:00"}, {"id": "S-015", "title": "Add and edit bookmark UI", "status": "done", "doneAt": "2026-01-13T03:20:37.977588+00:00"}, {"id": "S-016", "title": "Tag manager UI", "status": "done", "doneAt": "2026-01-13T04:23:25.298133+00:00"}, {"id": "S-017", "title": "Search UI with keyboard shortcuts", "status": "done", "doneAt": "2026-01-13T06:14:42.817334+00:00"}, {"id": "S-018", "title": "Import wizard UI", "status": "in_progress", "doneAt": null}, {"id": "S-019", "title": "Sharing public collections", "status": "todo", "doneAt": null}, {"id": "S-020", "title": "Collection pages", "status": "todo", "doneAt": null}, {"id": "S-021", "title": "Browser extension: save current tab", "status": "todo", "doneAt": null}, {"id": "S-022", "title": "Extension auth handshake", "status": "todo", "doneAt": null}, {"id": "S-023", "title": "Rate limits and quotas", "status": "todo", "doneAt": null}, {"id": "S-024", "title": "Admin metrics dashboard", "status": "todo", "doneAt": null}, {"id": "S-025", "title": "Accessibility pass (WCAG AA)", "status": "todo", "doneAt": null}, {"id": "S-026", "title": "Arabic and RTL layout", "status": "todo", "doneAt": null}, {"id": "S-027", "title": "Email digests", "status": "todo", "doneAt": null}, {"id": "S-028", "title": "Export to CSV and JSON", "status": "todo", "doneAt": null}], "workflow": {"name": "sdlc-loop", "description": "Implement a spec end-to-end through an adversarial SDLC loop, then raise the bar", "phases": ["Read state", "Bootstrap", "Plan", "Tests first", "Implement", "Verify", "Review", "Report", "Integrate", "Escalate", "Behavior plan", "Behavior run", "Behavior judge", "Audit", "Bar raiser"], "run": {"id": "wf_2", "startedAt": "2026-01-13T06:08:42.817Z", "live": true, "agents": [{"id": "a1", "label": "state-reader", "phase": "Read state", "status": "done", "model": "sonnet", "tokens": 40000, "seconds": 4, "startedAt": "2026-01-13T06:08:42.817Z"}, {"id": "a2", "label": "planner:S-018", "phase": "Plan", "status": "done", "model": "sonnet", "tokens": 41700, "seconds": 71, "startedAt": "2026-01-13T06:09:42.817Z"}, {"id": "a3", "label": "plan-critic:S-018:spec-fidelity", "phase": "Plan", "status": "done", "model": "opus", "tokens": 43400, "seconds": 54, "startedAt": "2026-01-13T06:10:42.817Z"}, {"id": "a4", "label": "plan-critic:S-018:architecture", "phase": "Plan", "status": "done", "model": "opus", "tokens": 45100, "seconds": 48, "startedAt": "2026-01-13T06:10:42.817Z"}, {"id": "a5", "label": "test-writer:S-018", "phase": "Tests first", "status": "done", "model": "sonnet", "tokens": 46800, "seconds": 132, "startedAt": "2026-01-13T06:12:42.817Z"}, {"id": "a6", "label": "test-checker:S-018", "phase": "Tests first", "status": "done", "model": "sonnet", "tokens": 48500, "seconds": 38, "startedAt": "2026-01-13T06:14:42.817Z"}, {"id": "a7", "label": "implementer:S-018:r0", "phase": "Implement", "status": "done", "model": "sonnet", "tokens": 50200, "seconds": 486, "startedAt": "2026-01-13T06:15:42.817Z"}, {"id": "a8", "label": "verifier:S-018:spec-fidelity", "phase": "Verify", "status": "done", "model": "opus", "tokens": 51900, "seconds": 92, "startedAt": "2026-01-13T06:23:42.817Z"}, {"id": "a9", "label": "verify-http-api:S-018:r0", "phase": "Verify", "status": "done", "model": "sonnet", "tokens": 53600, "seconds": 148, "startedAt": "2026-01-13T06:23:42.817Z"}, {"id": "a10", "label": "verify-ui:S-018:r0#0", "phase": "Verify", "status": "done", "model": "sonnet", "tokens": 55300, "seconds": 214, "startedAt": "2026-01-13T06:24:42.817Z"}, {"id": "a11", "label": "verify-security:S-018:r0", "phase": "Verify", "status": "done", "model": "opus", "tokens": 57000, "seconds": 167, "startedAt": "2026-01-13T06:24:42.817Z"}, {"id": "a12", "label": "verify-limits:S-018:r0", "phase": "Verify", "status": "failed", "model": "sonnet", "tokens": 58700, "seconds": 121, "startedAt": "2026-01-13T06:25:42.817Z"}, {"id": "a13", "label": "verify-collector:S-018:r0", "phase": "Verify", "status": "done", "model": "sonnet", "tokens": 60400, "seconds": 26, "startedAt": "2026-01-13T06:27:42.817Z"}, {"id": "a14", "label": "verifier:regression:S-018:r0", "phase": "Verify", "status": "running", "model": "sonnet", "tokens": 0, "startedAt": "2026-01-13T06:46:42.817Z"}, {"id": "a15", "label": "verifier:contract:S-018:r0", "phase": "Verify", "status": "running", "model": "opus", "tokens": 0, "startedAt": "2026-01-13T06:47:42.817Z"}]}, "earlier": [{"id": "wf_1", "startedAt": "2026-01-12T05:49:42.817Z", "endedAt": "2026-01-12T11:09:42.817Z", "agents": 268, "done": 264, "failed": 1, "stopped": 3}]}};
 </script>
 <script>
 /* live:begin */
@@ -402,6 +421,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
 
   // "Test reports": every slice with verifier reports, linking to the pages reports.py renders.
   let repFilter = "", repAll = false;
+  let evAllOn = false;
   function reportsCard(list) {
     const card = el("section", "card");
     const head = el("div", "reports-head");
@@ -561,16 +581,18 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     return card;
   }
 
-  // the workflow card is redrawn on its own from live.js, so it sits in a slot of its own
-  let wfSlot = null;
+  // the workflow card is redrawn on its own from live.js, so it sits in a slot of its own.
+  // the rail above it is the summary; the agent list is behind a toggle so the fold still holds.
+  let wfSlot = null, wfBody = null;
   function drawWorkflow(wf, paused) {
-    if (!wfSlot || !wf || !wf.run) return;
+    if (!wfSlot || !wf || !wf.run) { if (wfSlot) wfSlot.hidden = true; return; }
     // drawn from Claude Code's own run files; if their shape changes, the last card stays
     try {
       // a rebuild must not take keyboard focus away from the phase or follow button the person is on
       const at = document.activeElement;
       const had = at && wfSlot.contains(at) ? (at.dataset.follow ? { follow: true } : at.dataset.phase ? { phase: at.dataset.phase } : null) : null;
-      wfSlot.replaceChildren(workflowCard(wf, paused));
+      wfBody.replaceChildren(workflowCard(wf, paused));
+      wfSlot.hidden = false;
       if (had) {
         const btns = Array.from(wfSlot.querySelectorAll("button"));
         const next = btns.find((b) => had.follow ? b.dataset.follow : b.dataset.phase === had.phase);
@@ -585,6 +607,118 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
       const t = r.querySelector(".time");
       if (t) t.textContent = clock(agentSeconds({ status: "running", startedAt: r.dataset.start }));
     });
+  }
+
+  // the phase rail: every phase of the run, sized by the agent time spent in it
+  function phaseRail(wf) {
+    const agents = (wf.run && wf.run.agents) || [];
+    const names = (wf.phases || []).slice();
+    agents.forEach((a) => { if (names.indexOf(a.phase) < 0) names.push(a.phase); });
+    const secs = {};
+    agents.forEach((a) => { secs[a.phase] = (secs[a.phase] || 0) + (agentSeconds(a) || 0); });
+    const peak = Math.max(1, ...names.map((n) => secs[n] || 0));
+    const rail = el("div", "rail");
+    names.forEach((n) => {
+      const list = agents.filter((a) => a.phase === n);
+      const running = list.some((a) => a.status === "running");
+      const bad = list.some((a) => a.status === "failed");
+      const seg = el("div", "rail-seg " + (!list.length ? "idle" : running ? "run" : bad ? "bad" : "done"));
+      const done = list.filter((a) => a.status !== "running").length;
+      const bar = el("div", "bar");
+      bar.style.width = (list.length ? Math.max(6, Math.round(100 * (secs[n] || 0) / peak)) : 100) + "%";
+      seg.append(el("span", "ph", n), bar, el("span", "ct", list.length ? done + "/" + list.length : "not yet"));
+      seg.title = list.length
+        ? n + " · " + done + " of " + list.length + " agents done · " + clock(secs[n] || 0) + " of agent time"
+        : n + " · not started in this run";
+      rail.append(seg);
+    });
+    return rail;
+  }
+
+  function stat(n, total, label) {
+    const w = el("div", "stat");
+    const num = el("div", "n", String(n));
+    num.append(el("small", "", " / " + total));
+    w.append(num, el("div", "l", label));
+    return w;
+  }
+
+  function statsRow(c, slices, req, ms) {
+    const row = el("div", "stats");
+    row.append(stat(c.done, slices.length, "slices done" + (c.parked ? ", " + c.parked + " parked" : "")));
+    row.append(stat(req.done, req.total, "requirements · " + Math.round(100 * req.done / Math.max(1, req.total)) + "%"));
+    const real = ms.filter((m) => !m.final && m.status !== null);
+    if (real.length) row.append(stat(real.filter((m) => m.status === "verified").length, real.length, "milestones verified"));
+    return row;
+  }
+
+  // slices finished over time, actual only: the pace at a glance, without the projection
+  function spark(data) {
+    const NS = "http://www.w3.org/2000/svg";
+    const W = 260, H = 34;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "spark");
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Slices finished over time");
+    const done = (data.slices || []).filter((s) => s.doneAt).map((s) => new Date(s.doneAt).getTime()).sort((a, b) => a - b);
+    if (done.length < 2) return svg;
+    const first = done[0], last = done[done.length - 1];
+    const x = (t) => (t - first) / Math.max(1, last - first) * (W - 4) + 2;
+    const y = (v) => H - 3 - (v / done.length) * (H - 6);
+    let d = "M" + x(first).toFixed(1) + " " + y(0);
+    done.forEach((t, i) => { d += " H" + x(t).toFixed(1) + " V" + y(i + 1).toFixed(1); });
+    const mk = (t, a) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); return n; };
+    svg.append(mk("path", { d: d, fill: "none", stroke: "currentColor", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke" }));
+    svg.style.color = getComputedStyle(document.documentElement).getPropertyValue("--held").trim();
+    return svg;
+  }
+
+  // the hero: the run, if there is one. Otherwise the numbers.
+  function runBand(data, c, slices, req, ms) {
+    const band = el("section", "band");
+    const wf = data.workflow;
+    if (!(wf && wf.run)) {
+      band.append(statsRow(c, slices, req, ms));
+      return band;
+    }
+    const run = wf.run, agents = run.agents || [];
+    const settled = agents.filter((a) => a.status !== "running").length;
+    const failed = agents.filter((a) => a.status === "failed").length;
+    const end = run.endedAt ? new Date(run.endedAt).getTime() : NOW();
+    const top = el("div", "band-top");
+    const left = el("div");
+    const name = el("div", "run-name");
+    name.append(el("span", "beacon" + (run.live ? " on" : " done")),
+      document.createTextNode((data.run && data.run.label) || wf.name || "Run"));
+    left.append(name);
+    left.append(el("div", "run-line", [
+      run.startedAt ? clock((end - new Date(run.startedAt).getTime()) / 1000) + " elapsed" : "",
+      settled + " of " + agents.length + " agents done",
+      failed ? failed + " failed" : "",
+      run.live ? "" : "not running",
+    ].filter(Boolean).join(" · ")));
+    const busy = agents.filter((a) => a.status === "running");
+    if (busy.length) left.append(el("div", "run-now", busy.map((a) => a.label).join(", ")));
+    top.append(left, statsRow(c, slices, req, ms));
+    band.append(top, phaseRail(wf));
+    return band;
+  }
+
+  // a region the person did not ask for stays shut until they do
+  function collapse(title, hint, open) {
+    const d = el("details", "collapse");
+    if (open) d.open = true;
+    const s = el("summary");
+    s.append(el("h2", "", title));
+    if (hint) s.append(el("span", "hint", hint));
+    s.append(el("span", "go", "Show"));
+    d.append(s);
+    const body = el("div", "collapse-body");
+    d.append(body);
+    d.addEventListener("toggle", () => { s.lastChild.textContent = d.open ? "Hide" : "Show"; });
+    return { root: d, body };
   }
 
   function render(data) {
@@ -611,51 +745,11 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     if (staleMin > 45) updEl.title = "No update for a while. While the loop runs, /sdlc regenerates this page every minute.";
     fresh.append(pill, updEl);
 
-    // hero
-    const hero = el("section", "card hero");
-    const row = el("div", "hero-row");
-    const hl = el("div", "headline");
-    const b1 = el("div"); const n1 = el("div", "big", String(c.done)); n1.append(el("small", "", " / " + slices.length)); b1.append(n1, el("div", "big-label", "slices done" + (c.parked ? " · " + c.parked + " parked" : "")));
-    const b2 = el("div"); const n2 = el("div", "big", String(req.done)); n2.append(el("small", "", " / " + req.total)); b2.append(n2, el("div", "big-label", "requirements · " + Math.round(100 * req.done / Math.max(1, req.total)) + "%"));
-    hl.append(b1, b2);
-    const real = ms.filter((m) => !m.final && m.status !== null);
-    if (real.length) {
-      const b3 = el("div"); const n3 = el("div", "big", String(real.filter((m) => m.status === "verified").length)); n3.append(el("small", "", " / " + real.length)); b3.append(n3, el("div", "big-label", "milestones verified"));
-      hl.append(b3);
-    }
-    row.append(hl);
-    const nextUi = ms.find((m) => m.ui && !m.done);
-    if (nextUi) {
-      const nx = el("div", "next");
-      nx.append(el("div", "lbl", "Next thing you can click around in"), el("div", "what", nextUi.name), el("div", "when", fmtDay(nextUi.eta.mid) + " · " + inHours(nextUi.hours)));
-      row.append(nx);
-    }
-    hero.append(row);
+    app.append(runBand(data, c, slices, req, ms));
 
-    const trackBox = el("div");
-    const track = el("div", "track");
-    const labels = el("div", "track-labels");
-    ms.forEach((m) => {
-      const weight = m.final ? 3 : Math.max(1, m.own.length);
-      const seg = el("div", "seg" + (m.active ? " cur" : "") + (m.ui ? " ui" : ""));
-      seg.style.flex = String(weight);
-      const d = m.own.filter((s) => s.status === "done").length;
-      const pk = m.own.filter((s) => s.status === "parked").length;
-      const tot = Math.max(1, m.own.length);
-      const di = el("i", "d"); di.style.width = (100 * d / tot) + "%";
-      const pi = el("i", "p"); pi.style.width = (100 * pk / tot) + "%";
-      seg.append(di, pi);
-      seg.title = m.name + (m.done ? " · done" : " · " + (m.own.length ? d + "/" + m.own.length + " slices · " : "") + "est. " + fmtDay(m.eta.mid));
-      track.append(seg);
-      const lab = el("span", m.active ? "cur" : "", m.final ? "Polish" : m.id === "rest" ? "Other" : m.id);
-      lab.style.flex = String(weight);
-      labels.append(lab);
-    });
-    trackBox.append(track, labels);
-    hero.append(trackBox);
-    app.append(hero);
-
-    wfSlot = el("div", "wf-slot");
+    const wfCol = collapse("Agents in this run", "every agent the loop has spent on");
+    wfSlot = wfCol.root;
+    wfBody = wfCol.body;
     app.append(wfSlot);
     drawWorkflow(data.workflow, false);
 
@@ -696,111 +790,104 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     const dl = el("dl", "kv");
     const kv = (k, v, cls) => { dl.append(el("dt", "", k)); dl.append(el("dd", cls || "", v)); };
     kv("Time per slice", dur(p.mid));
-    kv("Slices in last 24 h", String(p.recent));
     kv("Slices left", String(open));
     kv("Likely finish", all.eta.mid.toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric" }));
-    kv("Range", fmtShort(all.eta.low) + " – " + all.eta.high.toLocaleString(undefined, { weekday: "short", day: "numeric" }));
+    kv("Range", fmtShort(all.eta.low) + " \u2013 " + all.eta.high.toLocaleString(undefined, { weekday: "short", day: "numeric" }));
+    const nextUi = ms.find((m) => m.ui && !m.done);
+    if (nextUi) kv("Next to try", nextUi.name + " \u00b7 " + fmtDay(nextUi.eta.mid));
+    const mach = data.machine || {};
+    if (mach.load) kv("CPU load", mach.load.map((x) => Number(x).toFixed(1)).join(" \u00b7 "));
+    if (mach.thermalSleepsToday != null) kv("Overheating", String(mach.thermalSleepsToday), mach.thermalSleepsToday > 0 ? "stale" : "");
     pc.append(dl);
+    if (open > 1) {
+      const sp = el("div");
+      sp.style.marginTop = "12px";
+      sp.append(spark(data));
+      pc.append(sp);
+    }
     g3.append(pc);
 
+    // what only a person can unblock, kept above the fold
     const hc = el("div", "card");
-    hc.append(el("h2", "", "Run & machine"));
-    const dl2 = el("dl", "kv");
-    if (data.run && data.run.agents != null) {
-      dl2.append(el("dt", "", (data.run.label || "Run") + " agents"), el("dd", "", data.run.agents + (data.run.cap ? " / " + data.run.cap : "")));
-      if (data.run.cap) { const m = el("div", "meter"); const mi = el("i"); mi.style.width = Math.min(100, 100 * data.run.agents / data.run.cap) + "%"; m.append(mi); dl2.append(m); }
-    }
-    const mach = data.machine || {};
-    if (mach.load) dl2.append(el("dt", "", "CPU load"), el("dd", "", mach.load.map((x) => Number(x).toFixed(1)).join(" · ")));
-    if (mach.thermalSleepsToday != null) dl2.append(el("dt", "", "Overheating today"), el("dd", mach.thermalSleepsToday > 0 ? "stale" : "", String(mach.thermalSleepsToday)));
-    if (data.decisions != null) dl2.append(el("dt", "", "Autonomous decisions"), el("dd", "", String(data.decisions)));
-    hc.append(dl2);
-    g3.append(hc);
-    app.append(g3);
-
-    // milestones
-    const mc = el("section", "card");
-    const mh = el("div", "ms-head");
-    mh.append(el("h2", "", "Milestones"), el("span", "ms-note", "A milestone is done when its slices are built and its behavior campaign verified it. Estimates use the last 24 h of pace."));
-    mc.append(mh);
-    const tbl = el("table", "ms-table");
-    ms.forEach((m) => {
-      const tr = el("tr", (m.done ? "done" : "") + (m.active ? " active" : ""));
-      const td0 = el("td"); td0.append(el("span", "dot")); tr.append(td0);
-      const td1 = el("td");
-      const nm = el("div", "ms-name", m.name);
-      if (m.ui) nm.append(el("span", "badge", "UI"));
-      if (m.status) nm.append(el("span", "vbadge " + m.status, m.status === "pending" && m.built ? "to verify" : m.status));
-      td1.append(nm, el("div", "ms-what", m.what));
-      tr.append(td1);
-      const td2 = el("td", "prog");
-      if (m.own.length) {
-        const mini = el("div", "mini");
-        m.own.forEach((s) => { const i = el("i", s.status); i.title = s.id + " · " + s.title + " · " + s.status.replace("_", " ") + (s.doneAt ? " · " + fmtDay(new Date(s.doneAt)) : ""); mini.append(i); });
-        const d = m.own.filter((s) => s.status === "done").length;
-        const pk = m.own.filter((s) => s.status === "parked").length;
-        td2.append(mini, el("div", "cnt", d + "/" + m.own.length + " done" + (pk ? " · " + pk + " parked" : "")));
-      } else {
-        td2.append(el("div", "cnt", m.final ? "after all slices" : "no slices yet"));
-      }
-      tr.append(td2);
-      const td3 = el("td", "eta");
-      if (m.done) td3.append(el("b", "", "Done"), el("span", "", m.doneAt ? fmtDay(m.doneAt) : ""));
-      else td3.append(el("b", "", fmtDay(m.eta.mid)), el("span", "", fmtShort(m.eta.low) + " – " + fmtShort(m.eta.high)));
-      tr.append(td3);
-      tbl.append(tr);
-    });
-    mc.append(tbl);
-    app.append(mc);
-
-    // chart
-    const cc = el("section", "card");
-    const chh = el("div", "ms-head");
-    chh.append(el("h2", "", "Slices finished over time"), el("span", "ms-note", "solid: actual · dashed: projected"));
-    cc.append(chh);
-    const cw = el("div", "chart-wrap");
-    cw.append(chart(data, p, open, slices.length - c.parked));
-    cc.append(cw);
-    app.append(cc);
-
-    // events + waiting for you
-    const g2 = el("section", "grid2");
-    const ev = el("div", "card");
-    ev.append(el("h2", "", "Recent events"));
-    const evs = el("div", "events");
-    (data.recent || []).slice(-6).reverse().forEach((e) => {
-      const r = el("div", "ev");
-      const w = new Date(e.at);
-      r.append(el("span", "when", isNaN(w) ? "" : w.toLocaleString(undefined, { weekday: "short", hour: "2-digit", minute: "2-digit" })));
-      const body = el("div");
-      const k = e.kind || "";
-      body.append(el("div", "kind " + (k.includes("merged") ? "merged" : (k.includes("escalat") || k.includes("park")) ? "escalated" : ""), (k.replace("slice-", "").replace("-", " ") + (e.slice ? " " + e.slice : ""))));
-      const t = el("div", "txt", e.text); t.title = e.text;
-      body.append(t);
-      r.append(body);
-      evs.append(r);
-    });
-    if (!evs.children.length) evs.append(el("p", "note", "No events yet."));
-    ev.append(evs);
-    g2.append(ev);
-
-    const pk = el("div", "card");
-    pk.append(el("h2", "", "Waiting for you"));
+    hc.append(el("h2", "", "Needs you"));
     const pl = el("div", "parked");
     slices.filter((s) => s.status === "parked").forEach((s) => { const r = el("div"); r.append(el("span", "mono", s.id), el("span", "", s.title)); pl.append(r); });
     (data.milestones || []).filter((m) => m.status === "exhausted").forEach((m) => { const r = el("div"); r.append(el("span", "mono", m.id), el("span", "", m.title + ": not verified after 3 campaigns")); pl.append(r); });
-    if (!pl.children.length) pl.append(el("p", "note", "Nothing parked."));
-    pk.append(pl);
+    if (!pl.children.length) pl.append(el("p", "note", "Nothing is waiting on you."));
+    hc.append(pl);
     const rv = el("div", "review");
     const chip = (n, label) => { const s = el("span"); s.append(el("b", "", String(n)), document.createTextNode(" " + label)); return s; };
     if (data.decisions != null) rv.append(chip(data.decisions, "decisions in DECISIONS.md"));
     if (data.proposals != null) rv.append(chip(data.proposals, "proposals in SPEC-PROPOSALS.md"));
-    pk.append(rv);
-    const note = el("p", "note", "Parked slices ran out of escalation steps; they are retried at the end, or you can decide them by hand.");
-    note.style.marginTop = "10px";
-    pk.append(note);
-    g2.append(pk);
-    app.append(g2);
+    if (rv.children.length) {
+      hc.append(rv);
+      hc.append(el("p", "note", "Parked slices ran out of escalation steps; they are retried at the end, or you can decide them by hand."));
+    }
+    g3.append(hc);
+    app.append(g3);
+
+    // milestones, one ruled row each, shut until asked for
+    const mil = collapse("Milestones", ms.filter((m) => !m.final && !m.done).length + " still to build");
+    ms.forEach((m) => {
+      const row = el("div", "ms-row" + (m.done ? " done" : "") + (m.active ? " active" : ""));
+      row.append(el("span", "dot"));
+      const nm = el("div");
+      const nameEl = el("span", "ms-name", m.name);
+      if (m.ui) nameEl.append(el("span", "badge", "UI"));
+      if (m.status) nameEl.append(el("span", "vbadge " + m.status, m.status === "pending" && m.built ? "to verify" : m.status));
+      nm.append(nameEl);
+      row.append(nm, el("div", "ms-what", m.what));
+      const d = m.own.filter((s) => s.status === "done").length;
+      const pkd = m.own.filter((s) => s.status === "parked").length;
+      row.append(el("div", "ms-prog", m.own.length ? d + "/" + m.own.length + (pkd ? " · " + pkd + " parked" : "") : m.final ? "after all slices" : "no slices yet"));
+      const eta = el("div", "ms-eta");
+      if (m.done) eta.append(document.createTextNode(m.doneAt ? "done " + fmtShort(new Date(m.doneAt)) : "done"));
+      else eta.append(document.createTextNode(fmtShort(m.eta.mid) + " \\u00b7 " + fmtShort(m.eta.low) + " \\u2013 " + fmtShort(m.eta.high)));
+      row.append(eta);
+      row.title = m.name + (m.done ? " \\u00b7 done" : " \\u00b7 " + (m.own.length ? d + "/" + m.own.length + " slices \\u00b7 " : "") + "est. " + fmtDay(m.eta.mid));
+      mil.body.append(row);
+    });
+    app.append(mil.root);
+
+    // the full pace chart, with the projection, when you want it
+    const ch = collapse("Slices finished over time", "solid is actual, dashed is projected");
+    const cw = el("div", "chart-wrap");
+    cw.append(chart(data, p, open, slices.length - c.parked));
+    ch.body.append(cw);
+    app.append(ch.root);
+
+    // events
+    const ev = el("section", "card");
+    const evh = el("div", "reports-head");
+    evh.append(el("h2", "", "Recent events"));
+    const evMore = el("button", "more", "Show all");
+    evMore.type = "button";
+    evh.append(evMore);
+    ev.append(evh);
+    const evs = el("div", "events");
+    const evsAll = (data.recent || []).slice().reverse();
+    const drawEvents = () => {
+      evs.replaceChildren();
+      evsAll.slice(0, evAllOn ? evsAll.length : 5).forEach((e) => {
+        const r = el("div", "ev");
+        const w = new Date(e.at);
+        r.append(el("span", "when", isNaN(w) ? "" : w.toLocaleString(undefined, { weekday: "short", hour: "2-digit", minute: "2-digit" })));
+        const body = el("div");
+        const k = e.kind || "";
+        body.append(el("div", "kind " + (k.includes("merged") ? "merged" : (k.includes("escalat") || k.includes("park")) ? "escalated" : ""), (k.replace("slice-", "").replace("-", " ") + (e.slice ? " " + e.slice : ""))));
+        const t = el("div", "txt", e.text); t.title = e.text;
+        body.append(t);
+        r.append(body);
+        evs.append(r);
+      });
+      if (!evsAll.length) evs.append(el("p", "note", "No events yet."));
+      evMore.hidden = evsAll.length <= 5;
+      evMore.textContent = evAllOn ? "Show fewer" : "Show all " + evsAll.length;
+    };
+    evMore.addEventListener("click", () => { evAllOn = !evAllOn; drawEvents(); });
+    drawEvents();
+    ev.append(evs);
+    app.append(ev);
 
     if (data.reports) app.append(reportsCard(data.reports));
   }
@@ -839,13 +926,13 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     let d = "M" + x(start) + " " + y(0), n = 0;
     times.forEach((t) => { d += " H" + x(t).toFixed(1) + " V" + y(++n).toFixed(1); });
     d += " H" + x(upd).toFixed(1);
-    svg.append(mk("path", { d: d + " V" + y(0) + " Z", fill: col("--done"), opacity: 0.13 }));
-    svg.append(mk("path", { d, fill: "none", stroke: col("--done"), "stroke-width": 2 }));
-    svg.append(mk("line", { x1: x(upd), y1: y(n), x2: x(end), y2: y(total), stroke: col("--accent"), "stroke-width": 2, "stroke-dasharray": "6 5" }));
-    svg.append(mk("circle", { cx: x(upd), cy: y(n), r: 4.5, fill: col("--done") }));
-    svg.append(mk("circle", { cx: x(end), cy: y(total), r: 4, fill: col("--surface"), stroke: col("--accent"), "stroke-width": 2 }));
+    svg.append(mk("path", { d: d + " V" + y(0) + " Z", fill: col("--held"), opacity: 0.13 }));
+    svg.append(mk("path", { d, fill: "none", stroke: col("--held"), "stroke-width": 2 }));
+    svg.append(mk("line", { x1: x(upd), y1: y(n), x2: x(end), y2: y(total), stroke: col("--live"), "stroke-width": 2, "stroke-dasharray": "6 5" }));
+    svg.append(mk("circle", { cx: x(upd), cy: y(n), r: 4.5, fill: col("--held") }));
+    svg.append(mk("circle", { cx: x(end), cy: y(total), r: 4, fill: col("--surface"), stroke: col("--live"), "stroke-width": 2 }));
     svg.append(txt({ x: x(upd) + 9, y: y(n) + 4 }, n + " now", col("--ink")));
-    svg.append(txt({ x: x(end) - 8, y: y(total) + 16, "text-anchor": "end" }, "all slices ~" + new Date(end).toLocaleString(undefined, { weekday: "short", hour: "2-digit" }), col("--accent")));
+    svg.append(txt({ x: x(end) - 8, y: y(total) + 16, "text-anchor": "end" }, "all slices ~" + new Date(end).toLocaleString(undefined, { weekday: "short", hour: "2-digit" }), col("--live")));
     return svg;
   }
 

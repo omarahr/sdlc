@@ -14,7 +14,7 @@ Invoking this skill is the user's explicit opt-in to running the `sdlc-loop` Wor
   - `--commit-format` sets the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`, for example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one.
   - `--bar-raiser N` allows up to N quality-polish rounds **in total** after the spec is complete and audited. Default 0: the run ends at spec-complete. To polish a finished project later, re-run with a higher N than the rounds already done (see `rounds` in `.sdlc/barraiser.json`).
 - `/sdlc status`: print `.sdlc/STATUS.md` from the repo root. If it is missing, say "No SDLC run in this repo."
-- `/sdlc tracker`: build the progress tracker (see **Tracker** below) and give the user the path of `.sdlc/tracker/index.html` to open in a browser.
+- `/sdlc tracker`: build the progress tracker, serve it (see **Tracker** below), and give the user the url it printed.
 - `/sdlc stop`: `touch "$(git rev-parse --show-toplevel)/.sdlc/STOP"`. Tell the user that the current iteration finishes first, then the run exits, and that `/sdlc <spec>` resumes it.
 
 For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <spec-path>`.
@@ -68,21 +68,23 @@ Before writing it, make sure it cannot be committed: `mkdir -p "$REPO/.sdlc/trac
 
 ## Tracker
 
-A self-contained HTML page with progress, milestones (with their behavior-campaign status), ETAs, pace, recent events and what is waiting for a human. Build it with:
+A self-contained HTML page with the live run, progress, milestones (with their behavior-campaign status), ETAs, pace, recent events and what is waiting for a human. Build it with:
 
 ```
 python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl of the active run, if known>" --run-label "Run <n>"
 ```
 
-It writes `.sdlc/tracker/index.html` and `status.json` (gitignored). With a journal, the page also shows the run the way `/workflows` does: the phases, and under each the agents with their status, model, tokens and time.
+It writes `.sdlc/tracker/index.html` and `status.json` (gitignored). With a journal, the page leads with the run: its elapsed time, the agents going now, and a rail of every phase sized by the agent time spent in it. The full agent list is under "Agents in this run". Without a journal the numbers lead instead.
 
-**While a run is active,** keep the page live with a watcher: the same command with `--watch 60`, detached so it does not block you and does not notify you when it exits:
+**While a run is active,** keep the page live with a watcher that also serves it over http, so the user opens a url rather than a file. `--serve` implies `--watch 60`; run it detached so it does not block you and does not notify you when it exits:
 
 ```
-nohup python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl>" --run-label "Run <n>" --watch 60 >/dev/null 2>&1 &
+nohup python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl>" --run-label "Run <n>" --serve >/dev/null 2>&1 &
 ```
 
-Start it after every launch and on every heartbeat. A new watcher replaces the old one, and a watcher exits by itself once the run folder has been quiet for 45 minutes. **Whenever the loop ends** (the same cases as for deleting the driver file), run the command once with `--stop-watch` instead of `--watch 60`: it stops the watcher and builds the final page.
+It serves on port 8787, or the next free port up if that one is busy, and writes the url it took to `.sdlc/tracker/url` once there is a page behind it. Read that file and give the user the url. To reach it from another machine, pass `--host 0.0.0.0`; the page carries this repo's spec and decisions, so only do that when the user asks.
 
-The watcher rebuilds the whole page every minute, and the page reloads itself every minute. In between, it rewrites `.sdlc/tracker/live.js` (the workflow view alone) within a second of a poke, and every 5 s without one. The open page reads that file every 2 s and redraws only its workflow card. The plugin's hook (`hooks/hooks.json`) pokes the watcher by touching `.sdlc/tracker/poke` when an agent starts or stops, and only while `watch.pid` exists, so you never run it yourself. If the Artifact tool is available and the user asks to share the tracker, publish `index.html` as an artifact and republish it on each heartbeat; the published copy has no live updates. A tracker failure never stops the loop: report it once and carry on.
+Start the watcher after every launch and on every heartbeat. A new watcher replaces the old one, and a watcher exits by itself once the run folder has been quiet for 45 minutes, taking its url with it. **Whenever the loop ends** (the same cases as for deleting the driver file), run the command once with `--stop-watch` instead of `--serve`: it stops the watcher, withdraws the url, and builds the final page.
+
+The watcher rebuilds the whole page every minute, and the page reloads itself every minute. In between, it rewrites `.sdlc/tracker/live.js` (the workflow view alone) within a second of a poke, and every 5 s without one. The open page reads that file every 2 s and redraws only its workflow card. The plugin's hook (`hooks/hooks.json`) pokes the watcher by touching `.sdlc/tracker/poke` when an agent starts or stops, and only while `watch.pid` exists, so you never run it yourself. To share the page, give the user the url, or point them at the file. A tracker failure never stops the loop: report it once and carry on.
 
