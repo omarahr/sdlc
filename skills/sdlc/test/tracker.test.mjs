@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
+import { createServer } from 'node:net'
 import vm from 'node:vm'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -363,4 +364,74 @@ workflow.read_run(os.path.join(d, 'journal.jsonl'), True, c2)
 print(len(c2))
 `
   assert.equal(execFileSync('python3', ['-c', code], { encoding: 'utf8' }), '1\nstopped 2026-01-12T08:00:00Z\n0\n')
+})
+
+// the port the server takes when the one asked for is free, and a blocker to hold one
+const freePort = () => new Promise(res => {
+  const s = createServer()
+  s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => res(p)) })
+})
+const exited = p => new Promise(res => p.on('exit', res))
+const until = async (cond, ms = 10000) => { const end = Date.now() + ms; while (!cond() && Date.now() < end) await new Promise(r => setTimeout(r, 50)); return cond() }
+// the first build also collects the machine readings, which on macOS reads the whole power log and can
+// take up to the 20 s collect.py allows it, so the first url gets room the rest of the waits do not need
+const FIRST_BUILD_MS = 45000
+
+// --serve implies --watch, so a served tracker keeps rebuilding until the watcher stops
+async function serving(args) {
+  const repo = fixtureRepo()
+  const out = join(repo, '.sdlc', 'tracker')
+  const s = spawn('python3', [COLLECT, '--repo', repo, ...args], { stdio: 'ignore' })
+  const done = exited(s)
+  const stop = async () => {
+    try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore' }) } catch {}
+    await done
+  }
+  return { repo, out, urlFile: join(out, 'url'), stop }
+}
+
+test('--serve publishes a url for the page, and takes the next free port when that one is taken', { skip: !python && 'python3 not installed' }, async () => {
+  const port = await freePort()
+  const first = await serving(['--serve', String(port)])
+  try {
+    assert.ok(await until(() => existsSync(first.urlFile), FIRST_BUILD_MS), 'published a url')
+    // the url appears only once there is a page behind it, so opening it never lands on a blank page
+    assert.ok(existsSync(join(first.out, 'index.html')), 'the page was built before the url was published')
+    assert.equal(readFileSync(first.urlFile, 'utf8').trim(), `http://localhost:${port}/`)
+    const res = await fetch(`http://localhost:${port}/index.html`)
+    assert.equal(res.status, 200)
+    assert.match(await res.text(), /SDLC_STATUS/)
+    // the live view and the report pages are served from the same root
+    assert.equal((await fetch(`http://localhost:${port}/live.js`)).status, 200)
+    assert.equal((await fetch(`http://localhost:${port}/reports/index.html`)).status, 200)
+  } finally {
+    await first.stop()
+  }
+  assert.equal(existsSync(first.urlFile), false, 'the url is withdrawn when the watcher stops')
+
+  // another process holding the port, the way a second tracker or an unrelated tool would
+  const ready = join(tmpdir(), `sdlc-serve-blocked-${port}`)
+  const blocker = spawn('python3', ['-c', `
+import socket, time
+s = socket.socket()
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind(("127.0.0.1", ${port}))
+s.listen(1)
+open(${JSON.stringify(ready)}, "w").close()
+time.sleep(60)
+`], { stdio: 'ignore' })
+  const blockerDone = exited(blocker)
+  assert.ok(await until(() => existsSync(ready), 5000), 'the blocker holds the port')
+  const second = await serving(['--serve', String(port)])
+  try {
+    assert.ok(await until(() => existsSync(second.urlFile), FIRST_BUILD_MS), 'published a url on another port')
+    const url = readFileSync(second.urlFile, 'utf8').trim()
+    assert.notEqual(url, `http://localhost:${port}/`, 'a busy port is not an error')
+    assert.ok(Number(new URL(url).port) > port, 'moved forward to the next port')
+    assert.equal((await fetch(`${url}index.html`)).status, 200)
+  } finally {
+    await second.stop()
+    blocker.kill()
+    await blockerDone
+  }
 })

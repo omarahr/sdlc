@@ -116,23 +116,26 @@ Live progress shows in `/workflows`.
 
 ## Track progress in the browser
 
-`/sdlc` builds a progress tracker at `.sdlc/tracker/index.html`. Open it in a browser and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The hook fires for the loop's workflow agents, so the card follows each agent within a couple of seconds. The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` builds it on demand. It shows:
-- slices and requirements done, and milestones verified;
-- the milestone track, with each milestone's behavior-campaign status (to verify, fixing, verified) and its ETA;
-- what is running right now (slice step, or campaign step);
-- the workflow view, as in Claude Code's `/workflows` screen: the run's phases, and under each the agents with their status, model, tokens and time. Failed agents and the loop's earlier runs are listed too. It is read from Claude Code's own run files, whose format is not documented, so the section is left out if they cannot be read;
-- pace, likely finish and the run's agent budget;
-- CPU load, and overheating on macOS;
-- recent events, and what is waiting for you: parked slices, decisions and spec proposals.
+`/sdlc` serves a progress tracker on `http://localhost:8787` and prints the url. Open it and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The hook fires for the loop's workflow agents, so the card follows each agent within a couple of seconds. The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` rebuilds it on demand. One screen answers the three questions that matter:
+
+- **is it working** — the run's elapsed time, the agents going right now, and a rail of all fifteen phases sized by the agent time spent in each. The phase running pulses; phases not yet reached are greyed;
+- **how far along** — slices and requirements done, milestones verified, and a sparkline of the pace;
+- **does it need me** — parked slices, autonomous decisions and spec proposals.
+
+Under those, folded away until you want them: every agent in the run with its status, model, tokens and time (failed agents and the loop's earlier runs are there too), the milestones with their behavior-campaign status (to verify, fixing, verified) and ETAs, the full pace chart with its projection, and recent events. CPU load and overheating on macOS sit with the pace figures.
+
+The workflow view is read from Claude Code's own run files, whose format is not documented, so it is left out if they cannot be read.
 
 ![Example tracker](docs/tracker.png)
 
 See the [live example page](https://htmlpreview.github.io/?https://github.com/omarahr/sdlc/blob/main/docs/example-tracker.html) (made-up data, source in [`docs/example-tracker.html`](docs/example-tracker.html)).
 
-To build it outside Claude Code, from a clone of this repo:
+To serve it outside Claude Code, from a clone of this repo:
 ```
-python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project
+python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project --serve
 ```
+
+It binds `127.0.0.1` only. Pass `--host 0.0.0.0` to reach it from another machine on your network; the page carries this repo's spec and decisions, so do that only when you mean it. If 8787 is busy it takes the next free port and writes the url it used to `.sdlc/tracker/url`. Drop `--serve` to build the file without serving it.
 It also has a **Test reports** section linking to `.sdlc/tracker/reports/`, with one page per slice. When a slice merges (or is parked), a **test-reporter** writes its test completion report, `.sdlc/slices/<id>/REPORT.md`. It contains:
 - a summary;
 - traceability from each spec line to the cases that prove it;
@@ -143,7 +146,7 @@ It also has a **Test reports** section linking to `.sdlc/tracker/reports/`, with
 
 On the HTML pages, every test a report names has its source shown under it, and each verification round follows as an appendix. The Markdown files are committed with the rest of `.sdlc/`, so they can also be read on GitHub.
 
-The collector needs Python 3 and nothing else. To share the tracker, ask Claude to publish `.sdlc/tracker/index.html` as an Artifact.
+The collector needs Python 3 and nothing else. To share the page, send someone the url while the run is going, or the `.sdlc/tracker/index.html` file afterwards.
 
 ## What it writes to your repo
 
