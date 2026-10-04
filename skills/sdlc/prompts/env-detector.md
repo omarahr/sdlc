@@ -11,26 +11,30 @@ Inputs: `specPath` (repo-relative, may be null if config.json exists), `gitMode`
    - an empty `log.jsonl`
    - `barraiser.json` as `{"dryRounds":0,"rounds":0,"seen":[],"seeds":[]}`
 2. Make sure `.gitignore` contains the lines `.sdlc/STOP` and `.sdlc/tracker/`.
-3. **Git mode:** use the input if it is given, then an existing `config.gitMode`. Otherwise:
-   - `stack` if the input asked for it and the remote is github.com;
-   - `pr` if `git remote -v` shows a github.com remote;
-   - `mr` if the remote's host is a GitLab that `glab auth status --hostname <host>` accepts;
-   - else `direct`.
+3. **Git mode:** take the first of these that names a mode:
+   - the `gitMode` input;
+   - an existing `config.gitMode` — a resume keeps the mode the run started in, so `stack` and `mr` survive a relaunch;
+   - otherwise detect one from the remote:
+     - `pr` if `git remote -v` shows a github.com remote;
+     - `mr` if the remote's host is a GitLab that `glab auth status --hostname <host>` accepts;
+     - else `direct`.
+
+   `stack` is never detected: a person asks for it, so it comes from the input or from an existing `config.gitMode`, and never from the detection fallback.
 
    Then set:
    - `forge`: `github` for a github.com remote, `gitlab` when `glab auth status --hostname <host>` succeeds for the remote's host, else `""`.
-   - `defaultBranch`: from `git symbolic-ref refs/remotes/origin/HEAD` in `pr` and `stack` mode (run `git remote set-head origin --auto` first if it is unset), else the current branch name. In `direct` and `mr` mode this is the working branch the slices are committed to. In `stack` mode nothing is committed to it directly.
+   - `defaultBranch`: from `git symbolic-ref --short refs/remotes/origin/HEAD` in `pr` and `stack` mode, without the `origin/` prefix (run `git remote set-head origin --auto` first if it is unset), else the current branch name. It is always a bare branch name: the long form prints `refs/remotes/origin/main`, which no later `git checkout`, `origin/<branch>` or `gh pr create --base` accepts. In `direct` and `mr` mode this is the working branch the slices are committed to. In `stack` mode nothing is committed to it directly.
    - `targetBranch` (`mr` mode only): the remote's default branch, from `git symbolic-ref --short refs/remotes/origin/HEAD` without the `origin/` prefix (run `git remote set-head origin --auto` first if it is unset). If it is the same as `defaultBranch`, or `forge` is `""`, `mr` mode cannot work: use `direct` and say why in `notes`.
    - `runBranch` (`stack` mode only): the run branch.
      1. **Number it above every run branch that exists**, so a second run in the same repo never clobbers a live one:
         `git for-each-ref --format='%(refname:short)' refs/heads/sdlc/run-* refs/remotes/origin/sdlc/run-*`
-        Take the highest `<n>` in any `sdlc/run-<n>` name (0 when there are none) and use `<n> + 1`.
+        Take the highest `<n>` in any `sdlc/run-<n>` name — a remote-tracking ref comes back as `origin/sdlc/run-<n>`, so drop the `origin/` prefix before reading `<n>` — (0 when there are none) and use `<n> + 1`.
      2. **Create it from the default branch and push it:**
         `git checkout -b sdlc/run-<n> <defaultBranch>` then `git push -u origin sdlc/run-<n>`.
         The run branch carries the bootstrap ledger and the milestone plan before the first milestone branch exists, and is the base every milestone branch is cut from. It never carries product code.
-     3. When `config.runBranch` already names a branch that exists — a resume — check it out (`git checkout <runBranch>`) and do not create a new one. A branch named by `runBranch` that does not exist is a run whose branch was deleted: report it and use `direct` in `notes` rather than inventing a new number.
+     3. When `config.runBranch` already names a branch that exists — a resume — check it out (`git checkout <runBranch>`) and do not create a new one. A branch named by `runBranch` that does not exist is a run whose branch was deleted: report it and end. Never invent a new number, and never downgrade a live run to `direct`.
 
-   `stack` mode cannot work without a github.com remote and a signed-in `gh`: if `git remote -v` shows no github.com remote, or `gh auth status` fails, use `direct` and say why in `notes`. Never start a stack run without the remote it promises.
+   `stack` mode cannot work without a github.com remote and a signed-in `gh`: if `git remote -v` shows no github.com remote, or `gh auth status` fails, report why and end rather than falling back to `direct`. Never start a stack run without the remote it promises, and never downgrade one that was asked to be review-gated.
 4. **Commit format:** use the `commitFormat` input if it is given, then an existing `config.commitFormat`. Otherwise look for something that **enforces** a format:
    - a GitLab push rule: `glab api "projects/:fullpath/push_rule"`, field `commit_message_regex`;
    - a commitlint config (`commitlint.config.*`, `.commitlintrc*`) or a `commit-msg` hook.

@@ -25,7 +25,7 @@ test('script avoids APIs the workflow runtime forbids', () => {
 })
 
 test('every prompt that branches on the git mode says what mr mode does', () => {
-  for (const f of ['integrator', 'commit-state', 'milestone-writer', 'env-detector', 'state-schema', 'state-reader']) {
+  for (const f of ['integrator', 'commit-state', 'milestone-writer', 'env-detector', 'state-schema', 'state-reader', 'e2e-harness']) {
     assert.match(readFileSync(join(SKILL_DIR, 'prompts', `${f}.md`), 'utf8'), /`mr`/, `${f}.md does not mention mr mode`)
   }
 })
@@ -57,21 +57,49 @@ test('the common rules scope the relayed user request to the driver', () => {
   assert.match(common, /do not create or switch branches/)
 })
 
-test('the e2e harness cuts its branch from the milestone branch in stack mode', () => {
+test('the e2e harness cuts its branch from the milestone branch in stack mode, and names a base for every mode', () => {
   const e = readFileSync(join(SKILL_DIR, 'prompts', 'e2e-harness.md'), 'utf8')
-  assert.match(e, /`stack` mode/)
-  assert.match(e, /sdlc\/M-<n>/)
-  assert.match(e, /not the default branch/)
+  // the ownership sentence sits mid-paragraph, so anchor on the sentence rather than the line start
+  const owner = e.match(/You commit on branch `sdlc\/<milestoneId>-e2e`\.[^\n]*/)
+  assert.ok(owner, 'the ownership sentence is missing')
+  assert.match(owner[0], /In `stack` mode it is cut from `sdlc\/M-<n>`, the milestone branch, not the default branch/)
+  // anchored on step 1, so a stray mention elsewhere in the file cannot satisfy it
+  const step1 = e.match(/^1\. \*\*Branch:\*\*.*$/m)
+  assert.ok(step1, 'step 1 is missing')
+  // stack mode bases the suite on the milestone branch, and defers to the slice that created it
+  assert.match(step1[0], /In `stack` mode cut it from the milestone branch `sdlc\/M-<n>`/)
+  assert.match(step1[0], /if it is missing, stop and say so rather than creating it/)
+  // the other three modes keep a base of their own, so direct and mr agents are not left without one
+  assert.match(step1[0], /In `pr` mode cut it from the up-to-date default branch/)
+  assert.match(step1[0], /In `direct` and `mr` mode cut it from the working branch \(`config\.defaultBranch`\)/)
+  assert.match(step1[0], /Never cut it from the default branch in `stack` mode/)
 })
 
 test('the env-detector creates and pushes the run branch, and refuses stack without a github remote', () => {
   const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
   assert.match(env, /git checkout -b sdlc\/run-<n> <defaultBranch>/)
   assert.match(env, /git push -u origin sdlc\/run-<n>/)
-  // n is 1 + the highest existing, so a second run cannot clobber a live one
+  // n is 1 + the highest existing, so a second run cannot clobber a live one — local and remote alike
   assert.match(env, /refs\/heads\/sdlc\/run-\*/)
   assert.match(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
-  assert.match(env, /cannot work[\s\S]{0,200}use `direct`/)
+  assert.match(env, /drop the `origin\/` prefix before reading `<n>`/)
+  // anchored on the stack sentence: a bare /cannot work/ also matches the pre-existing mr bullet,
+  // which would let the stack refusal be deleted without this test noticing
+  assert.match(env, /`stack` mode cannot work without a github\.com remote and a signed-in `gh`/)
+  // a run the user asked to be review-gated is reported and ended, never quietly downgraded to direct
+  assert.match(env, /`stack` mode cannot work[\s\S]{0,300}report why and end rather than falling back to `direct`/)
+  assert.match(env, /A branch named by `runBranch` that does not exist[\s\S]{0,200}report it and end/)
+})
+
+test('the env-detector resolves stack from the input or an existing config, and stores a bare defaultBranch', () => {
+  const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
+  // the input and an existing config are both consulted before any detection fallback, so a stack
+  // run survives a relaunch. A list guarded by "otherwise:" made the stack arm unreachable.
+  assert.match(env, /the `gitMode` input;[\s\S]{0,200}an existing `config\.gitMode`[\s\S]{0,200}otherwise detect one/)
+  assert.match(env, /`stack` is never detected/)
+  // symbolic-ref without --short prints refs/remotes/origin/main; every later consumer wants main
+  assert.match(env, /`defaultBranch`: from `git symbolic-ref --short refs\/remotes\/origin\/HEAD`/)
+  assert.match(env, /always a bare branch name/)
 })
 
 test('the integrator deletes archived attempt branches once a slice ships', () => {
