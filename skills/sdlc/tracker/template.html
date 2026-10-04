@@ -225,6 +225,10 @@ svg text { font-family: var(--mono); font-size: 10px; }
 .wf-head .desc { color: var(--muted); flex: 1 1 260px; min-width: 0; font-size: 12px; }
 .wf-head .tot { color: var(--muted); font-family: var(--mono); font-size: 11.5px; white-space: nowrap; }
 .wf-head .paused { color: var(--hold); white-space: nowrap; }
+/* the box the card is drawn into: it caps how far the agent list can stretch the page, and it wraps
+   the card rather than sitting inside it, because a redraw replaces the card and a scroller inside
+   it would go back to the top every couple of seconds. max-height, so a short run is not padded out */
+.wf-scroll { max-height: min(440px, 60vh); overflow-y: auto; overflow-x: hidden; }
 .wf-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
 .wf-phases { border-right: 1px solid var(--rule); padding: 6px 0; background: var(--sunk); }
 .wf-phase { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; width: 100%; padding: 3px 12px; border: 0; background: none; font: inherit; font-size: 12px; color: var(--ink); text-align: left; cursor: pointer; }
@@ -495,7 +499,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       return sessionStorage.getItem("sdlc-wf-earlier") === "1";
     } catch (e) { return !!set; }
   }
-  function workflowCard(wf, paused) {
+  function workflowCard(wf, paused, reveal) {
     const run = wf.run, agents = run.agents || [];
     const card = el("section", "card wf");
     const names = (wf.phases || []).slice();
@@ -535,7 +539,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
         b.dataset.phase = n;
         b.append(mk, el("span", "", n), el("span", "cnt", list.length ? done + "/" + list.length : ""));
         b.title = !list.length ? "Not started in this run" : running ? "Running" : bad ? "Finished; some agents failed and were retried" : "Finished";
-        if (list.length) b.addEventListener("click", () => { sel = n; pinned(run.id, n === auto ? "" : n); draw(); });
+        if (list.length) b.addEventListener("click", () => { sel = n; pinned(run.id, n === auto ? "" : n); draw(); reveal(); });
         left.append(b);
       });
       right.replaceChildren();
@@ -560,7 +564,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
         const f = el("button", "", "Follow the live phase");
         f.type = "button";
         f.dataset.follow = "1";
-        f.addEventListener("click", () => { sel = auto; pinned(run.id, ""); draw(); });
+        f.addEventListener("click", () => { sel = auto; pinned(run.id, ""); draw(); reveal(); });
         foot.append(f);
       }
     };
@@ -583,7 +587,11 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
 
   // the workflow card is redrawn on its own from live.js, so it sits in a slot of its own.
   // the rail above it is the summary; the agent list is behind a toggle so the fold still holds.
-  let wfSlot = null, wfBody = null;
+  // wfScroll is the slot's own scroll box and is the node whose children the redraw replaces, so
+  // where the person has scrolled to survives it.
+  let wfSlot = null, wfScroll = null;
+  // picking a phase swaps the list under the heading, so the box goes back to the top of the card
+  function revealWorkflow() { if (wfScroll) wfScroll.scrollTop = 0; }
   function drawWorkflow(wf, paused) {
     if (!wfSlot || !wf || !wf.run) { if (wfSlot) wfSlot.hidden = true; return; }
     // drawn from Claude Code's own run files; if their shape changes, the last card stays
@@ -591,12 +599,14 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       // a rebuild must not take keyboard focus away from the phase or follow button the person is on
       const at = document.activeElement;
       const had = at && wfSlot.contains(at) ? (at.dataset.follow ? { follow: true } : at.dataset.phase ? { phase: at.dataset.phase } : null) : null;
-      wfBody.replaceChildren(workflowCard(wf, paused));
+      wfScroll.replaceChildren(workflowCard(wf, paused, revealWorkflow));
       wfSlot.hidden = false;
       if (had) {
         const btns = Array.from(wfSlot.querySelectorAll("button"));
         const next = btns.find((b) => had.follow ? b.dataset.follow : b.dataset.phase === had.phase);
-        if (next) next.focus();
+        // the control is where it was a moment ago, so the focus goes back without moving the page
+        // or the list the person may be reading
+        if (next) next.focus({ preventScroll: true });
       }
     } catch (err) { /* no workflow view */ }
   }
@@ -748,8 +758,9 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     app.append(runBand(data, c, slices, req, ms));
 
     const wfCol = collapse("Agents in this run", "every agent the loop has spent on");
+    wfScroll = el("div", "wf-scroll");
+    wfCol.body.append(wfScroll);
     wfSlot = wfCol.root;
-    wfBody = wfCol.body;
     app.append(wfSlot);
     drawWorkflow(data.workflow, false);
 

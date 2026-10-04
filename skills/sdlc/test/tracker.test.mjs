@@ -377,6 +377,253 @@ const until = async (cond, ms = 10000) => { const end = Date.now() + ms; while (
 // take up to the 20 s collect.py allows it, so the first url gets room the rest of the waits do not need
 const FIRST_BUILD_MS = 45000
 
+// the workflow card's own scroll box, and the page's behaviour around it
+// ---- a DOM small enough to run the page's own script ---------------------------------------
+// enough of the element interface for render() and for the live redraw, and nothing more
+function fakeDom() {
+  const RealDate = Date
+  const clock = { t: RealDate.parse('2026-01-12T10:00:00Z') }
+  const kept = new Map()
+  const sessionStorage = {
+    getItem: k => (kept.has(k) ? kept.get(k) : null),
+    setItem: (k, v) => kept.set(k, String(v)),
+    removeItem: k => kept.delete(k),
+  }
+  const doc = { activeElement: null, title: '', focusCalls: [], ids: {} }
+
+  class E {
+    constructor(tag) {
+      this.tagName = tag; this.className = ''; this.dataset = {}; this.style = {}; this.attrs = {}; this.on = {};
+      this.children = []; this.parentNode = null; this._text = '';
+      this.title = ''; this.type = ''; this.hidden = false; this.open = false; this.scrollTop = 0;
+    }
+    get lastChild() { return this.children[this.children.length - 1] || null }
+    set textContent(v) { for (const c of this.children) c.parentNode = null; this.children = []; this._text = String(v) }
+    get textContent() { return this._text + this.children.map((c) => c.textContent).join('') }
+    setAttribute(k, v) { this.attrs[k] = String(v) }
+    append(...nodes) {
+      for (const n of nodes) {
+        const c = typeof n === 'string' ? doc.createTextNode(n) : n;
+        if (c.parentNode) c.remove();
+        c.parentNode = this; this.children.push(c);
+      }
+    }
+    replaceChildren(...nodes) { for (const c of this.children) c.parentNode = null; this.children = []; this.append(...nodes) }
+    remove() {
+      const p = this.parentNode; if (!p) return;
+      const i = p.children.indexOf(this); if (i >= 0) p.children.splice(i, 1);
+      this.parentNode = null;
+    }
+    addEventListener(type, fn) { (this.on[type] || (this.on[type] = [])).push(fn) }
+    click() { for (const fn of this.on.click || []) fn({ target: this }) }
+    focus(opts) { doc.activeElement = this; doc.focusCalls.push({ node: this, opts }) }
+    contains(n) { for (let p = n; p; p = p.parentNode) if (p === this) return true; return false }
+    querySelectorAll(sel) {
+      const out = [];
+      (function walk(n) { for (const c of n.children) { if (matches(c, sel)) out.push(c); walk(c) } })(this);
+      return out;
+    }
+    querySelector(sel) { return this.querySelectorAll(sel)[0] || null }
+  }
+  // enough selector support for what the page asks for: tags, classes, [data-*], descendants
+  function matches(node, sel) {
+    const parts = sel.trim().split(/\s+/);
+    if (!compound(node, parts[parts.length - 1])) return false;
+    for (let i = parts.length - 2, n = node; i >= 0; i--) {
+      for (n = n.parentNode; n && !compound(n, parts[i]); n = n.parentNode) { /* try the ancestor */ }
+      if (!n) return false;
+    }
+    return true;
+  }
+  function compound(node, part) {
+    const tag = part.match(/^[a-zA-Z][\w-]*/);
+    if (tag && node.tagName !== tag[0]) return false;
+    const have = node.className ? node.className.split(/\s+/) : [];
+    for (const c of part.match(/\.[\w-]+/g) || []) if (!have.includes(c.slice(1))) return false;
+    for (const a of part.match(/\[[^\]]+\]/g) || []) {
+      const m = a.slice(1, -1).match(/^([\w-]+)(?:=["']?([^"'\]]*)["']?)?$/);
+      const v = node.dataset[m[1].replace(/^data-/, '')];
+      if (v === undefined) return false;
+      if (m[2] !== undefined && v !== m[2]) return false;
+    }
+    return true;
+  }
+
+  doc.createElement = tag => new E(tag)
+  doc.createElementNS = (ns, tag) => new E(tag)
+  doc.createTextNode = t => { const n = new E('#text'); n.textContent = t; return n }
+  doc.documentElement = new E('html')
+  doc.body = new E('body')
+  doc.documentElement.append(doc.body)
+  doc.querySelector = sel => sel[0] === '#' ? (doc.ids[sel.slice(1)] || null) : doc.documentElement.querySelector(sel)
+  doc.querySelectorAll = sel => doc.documentElement.querySelectorAll(sel)
+  // the skeleton the template ships with
+  const wrap = doc.createElement('div'); wrap.className = 'wrap';
+  const head = doc.createElement('header');
+  const h1 = doc.createElement('h1'); h1.textContent = 'SDLC Build Tracker';
+  const fresh = doc.createElement('div'); fresh.className = 'fresh';
+  const app = doc.createElement('div');
+  head.append(h1, fresh); wrap.append(head, app); doc.body.append(wrap);
+  doc.ids = { title: h1, fresh, app };
+
+  class FauxDate extends RealDate { static now() { return clock.t } }
+  return { document: doc, sessionStorage, FauxDate, clock }
+}
+
+// the page's own scripts, on that DOM: the live block and the page, as the browser runs them
+function loadPage(status) {
+  const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
+  const scripts = [...src.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1])
+  assert.equal(scripts.length, 3, 'the template has its three script blocks')
+  const dom = fakeDom()
+  let poll = null, built = 0
+  const win = { SDLC_STATUS: status, addEventListener() {}, scrollTo() {}, scrollY: 0 }
+  vm.runInNewContext(scripts[1] + '\n' + scripts[2], {
+    window: win, document: dom.document, sessionStorage: dom.sessionStorage,
+    getComputedStyle: () => ({ getPropertyValue: () => '' }),
+    setInterval: (fn) => { poll = fn; return 0 },
+    Date: dom.FauxDate, console,
+  })
+  const app = dom.document.querySelector('#app')
+  assert.doesNotMatch(app.textContent, /Couldn't draw the status/, 'the page drew itself on the test DOM')
+  return {
+    document: dom.document, clock: dom.clock,
+    poll: () => poll(),                       // the 2 s poll the page sets going
+    live: (p) => win.SDLC_LIVE(p),            // what live.js does when the watcher rebuilds it
+    // a payload the watcher just rebuilt: newer than the last, and as fresh as the clock allows
+    next: (workflow) => ({ builtAt: new Date(dom.clock.t + ++built).toISOString(), workflow }),
+  }
+}
+
+const agent = (id, label, phase, status, extra = {}) => Object.assign({ id, label, phase, status, tokens: 1000, seconds: 60 }, extra)
+function runFixture(agents) {
+  return {
+    name: 'sdlc-loop', description: 'Autonomous slice loop', earlier: [],
+    phases: ['Read state', 'Plan', 'Implement', 'Review'],
+    run: { id: 'wf_new', live: true, startedAt: '2026-01-12T09:00:00Z', agents },
+  }
+}
+// a long run: 14 finished agents in one phase, and the loop working in the last one
+const longRun = () => runFixture([
+  ...Array.from({ length: 14 }, (_, i) => agent('i' + i, 'implementer:S-00' + i, 'Implement', 'done')),
+  agent('p1', 'planner:S-003', 'Plan', 'done'),
+  agent('r1', 'reviewer:S-003:security', 'Review', 'running', { startedAt: '2026-01-12T09:55:00Z', seconds: 0 }),
+])
+const trackerStatus = (workflow) => ({
+  title: 'Bookmarks', updatedAt: '2026-01-12T10:00:00Z', startedAt: '2026-01-12T07:00:00Z',
+  requirements: { done: 1, total: 3, parked: 1 }, slices: [], milestones: [], recent: [], workflow,
+})
+
+test('the workflow card is drawn into a bounded scroll box that a redraw does not replace', () => {
+  const wf = longRun()
+  const page = loadPage(trackerStatus(wf))
+  const box = page.document.querySelector('.wf-scroll')
+  assert.ok(box, 'the card is drawn into a scroll box of its own')
+  const card = box.querySelector('.wf')
+  assert.ok(card, 'and the card is inside it')
+  assert.equal(card.querySelector('.wf-scroll'), null, 'the box wraps the card, not the other way round')
+  assert.equal(card.contains(box), false)
+  assert.equal(box.querySelectorAll('.wf-agent').length, 1, 'the phase the loop is in is the one on show')
+  // the person has read a way down the list; a redraw must not take them back to the top
+  box.scrollTop = 120
+  const more = longRun()
+  more.run.agents.push(agent('r2', 'reviewer:S-003:architecture', 'Review', 'running', { startedAt: '2026-01-12T09:56:00Z', seconds: 0 }))
+  page.live(page.next(more))
+  const after = page.document.querySelector('.wf-scroll')
+  assert.equal(page.document.querySelectorAll('.wf-scroll').length, 1, 'there is still exactly one box')
+  assert.equal(after, box, 'and it is the same node, not one the redraw built')
+  assert.notEqual(after.querySelector('.wf'), card, 'the card inside it really was replaced')
+  assert.equal(after.scrollTop, 120, 'so the box kept where the person had scrolled to')
+  assert.equal(after.querySelectorAll('.wf-agent').length, 2, 'and the new agent is in it')
+})
+
+test('picking a phase and following the live phase bring that phase into view', () => {
+  const page = loadPage(trackerStatus(longRun()))
+  const box = page.document.querySelector('.wf-scroll')
+  const heading = () => box.querySelector('.wf-agents h3').textContent
+  const phase = (n) => box.querySelectorAll('.wf-phase').find((b) => b.dataset.phase === n)
+  assert.match(heading(), /^Review /, 'a fresh page follows the phase the loop is in')
+  phase('Implement').click()
+  assert.match(heading(), /^Implement /, 'the picked phase is the one the box shows')
+  assert.equal(box.scrollTop, 0, 'shown from the top')
+  assert.equal(phase('Implement').className, 'wf-phase sel')
+  const follow = box.querySelectorAll('button').find((b) => b.dataset.follow)
+  assert.ok(follow, 'the follow control appears once a phase is pinned away from the live one')
+  assert.equal(follow.textContent, 'Follow the live phase')
+  box.scrollTop = 90
+  follow.click()
+  assert.match(heading(), /^Review /, 'back to the phase the loop is in')
+  assert.equal(page.document.querySelector('.wf-scroll').scrollTop, 0, 'and it comes into view from the top of the box')
+  assert.equal(box.querySelectorAll('button').some((b) => b.dataset.follow), false, 'nothing left to follow')
+  // and the pin is forgotten, so a redraw keeps following
+  page.live(page.next(longRun()))
+  assert.match(heading(), /^Review /)
+})
+
+test("the running agents' clocks still tick between redraws, inside the box", () => {
+  const wf = longRun()
+  const page = loadPage(trackerStatus(wf))
+  const box = page.document.querySelector('.wf-scroll')
+  const running = () => box.querySelector('.wf-agent.running[data-start]')
+  const time = () => running().querySelector('.time').textContent
+  assert.equal(time(), '5m00s', 'the running agent shows how long it has been going')
+  page.clock.t += 60 * 1000
+  page.poll()
+  assert.equal(time(), '6m00s', 'and keeps counting between redraws')
+  box.scrollTop = 30
+  page.live(page.next(wf))
+  assert.equal(time(), '6m00s', 'a redraw does not lose the running agent')
+  assert.equal(page.document.querySelector('.wf-scroll').scrollTop, 30, 'nor the place in the list')
+})
+
+test('a redraw puts the focus back on the same control without moving the page or the list', () => {
+  const page = loadPage(trackerStatus(longRun()))
+  const box = page.document.querySelector('.wf-scroll')
+  const phase = (n) => box.querySelectorAll('.wf-phase').find((b) => b.dataset.phase === n)
+  phase('Plan').focus() // the person is on this button when the watcher rebuilds the card
+  page.document.focusCalls.length = 0
+  box.scrollTop = 64
+  page.live(page.next(longRun()))
+  const last = page.document.focusCalls.at(-1)
+  assert.ok(last, 'the focus was put back')
+  assert.equal(last.node.dataset.phase, 'Plan', 'on the same phase button')
+  assert.equal(last.opts && last.opts.preventScroll, true, 'without scrolling the page or the box to do it')
+  assert.equal(page.document.querySelector('.wf-scroll').scrollTop, 64, 'and without disturbing the list')
+})
+
+// the source side: the cap, and where the box is built
+function cssRule(src, selector) {
+  const style = src.match(/<style>([\s\S]*?)<\/style>/)[1].replace(/\/\*[\s\S]*?\*\//g, '')
+  for (const m of style.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    if (m[1].split(',').map((s) => s.trim()).includes(selector)) return m[2];
+  }
+  return null;
+}
+function jsFunction(src, name) {
+  const start = src.indexOf('function ' + name + '(')
+  assert.ok(start > 0, name + ' is defined')
+  const end = src.indexOf('\n  function ', start)
+  return src.slice(start, end < 0 ? src.length : end)
+}
+
+test('the scroll box is capped and scrolls, and only the slot ever builds it', () => {
+  const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
+  const rule = cssRule(src, '.wf-scroll')
+  assert.ok(rule, '.wf-scroll has a rule of its own')
+  assert.match(rule, /max-height:\s*(?:min\([^)]*\)|\d+(?:\.\d+)?(?:px|vh|rem|em|%))/, 'the box has a maximum height')
+  assert.doesNotMatch(rule, /(?:^|;)\s*height:/, 'a cap, not a fixed height, so a short run is not padded out')
+  assert.match(rule, /overflow-y:\s*auto|overflow:\s*(?:hidden\s+)?auto/, 'and the box scrolls on its own')
+  // at the narrow breakpoint the columns stack: the card gets taller, so the same cap bounds it
+  const narrow = src.match(/@media \(max-width: 720px\) \{\n([\s\S]*?)\n\}/)
+  assert.ok(narrow, 'the 720px breakpoint is still there')
+  assert.doesNotMatch(narrow[1], /\.wf-scroll/, 'and the cap is unchanged when they stack')
+  // the card a redraw replaces never carries the box; the slot builds it once, and it is the box
+  // itself that a redraw empties
+  assert.doesNotMatch(jsFunction(src, 'workflowCard'), /wf-scroll/, 'the redrawn card does not build the box')
+  assert.match(jsFunction(src, 'drawWorkflow'), /wfScroll\.replaceChildren\(/, 'the box is the node a redraw empties')
+  assert.match(jsFunction(src, 'render'), /wfScroll = el\("div", "wf-scroll"\)/, 'the slot builds the box once')
+})
+
 // --serve implies --watch, so a served tracker keeps rebuilding until the watcher stops
 async function serving(args) {
   const repo = fixtureRepo()
