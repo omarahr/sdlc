@@ -606,6 +606,33 @@ function jsFunction(src, name) {
   return src.slice(start, end < 0 ? src.length : end)
 }
 
+test('the agents, milestones and pace chart are plain open regions, so a reload never folds them shut', () => {
+  const st = trackerStatus(longRun())
+  st.slices = [
+    { id: 'S-001', title: 'Scaffold', status: 'done', doneAt: '2026-01-12T08:00:00Z' },
+    { id: 'S-002', title: 'Store', status: 'in_progress' },
+    { id: 'S-003', title: 'List', status: 'todo' },
+    { id: 'S-004', title: 'Search', status: 'parked' },
+  ]
+  st.milestones = [{ id: 'M1', title: 'Bookmarks you can keep', demo: 'save and list', slices: ['S-001', 'S-002', 'S-003', 'S-004'] }]
+  const page = loadPage(st)
+  const app = page.document.querySelector('#app')
+  assert.equal(app.querySelector('details'), null, 'nothing on the page is a fold')
+  assert.doesNotMatch(app.textContent, /\b(Show|Hide)\b(?! all| fewer)/, 'and no region carries a Show/Hide toggle')
+  const titles = app.querySelectorAll('.panel h2').map((h) => h.textContent)
+  assert.deepEqual(titles, ['Agents in this run', 'Slices finished over time', 'Milestones'])
+  // the chart sits in the three-column section, as a full-width row under the three cards
+  const grid = app.querySelector('.grid3')
+  assert.equal(grid.querySelector('.wide h2').textContent, 'Slices finished over time')
+  assert.equal(grid.children.filter((c) => c.className === 'card').length, 3)
+  // each milestone draws one cell per slice, coloured by status, with the count and the finish window
+  const row = app.querySelector('.ms-row')
+  assert.deepEqual(row.querySelectorAll('.mini i').map((i) => i.className), ['done', 'in_progress', 'todo', 'parked'])
+  assert.equal(row.querySelector('.cnt').textContent, '1/4 done · 1 parked')
+  assert.ok(row.querySelector('.ms-eta b').textContent, 'the likely finish is the bold line')
+  assert.match(row.querySelector('.ms-eta span').textContent, / – /, 'with the range under it')
+})
+
 test('the scroll box is capped and scrolls, and only the slot ever builds it', () => {
   const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
   const rule = cssRule(src, '.wf-scroll')

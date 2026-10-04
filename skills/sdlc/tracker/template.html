@@ -95,14 +95,16 @@ a { color: var(--live); }
 
 /* one ruled surface: regions divide it, nothing floats */
 .card { background: var(--surface); padding: 16px 18px; min-width: 0; }
-.card + .card, .grid3, .grid2, .band, .collapse { border-top: 1px solid var(--rule); }
+.card + .card, .panel + .card, .grid3, .grid2, .band, .panel { border-top: 1px solid var(--rule); }
 .grid3 { display: grid; grid-template-columns: 1.3fr 1fr 1fr; }
 .grid2 { display: grid; grid-template-columns: 1.5fr 1fr; }
 @media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } .grid3 > :first-child { grid-column: 1 / -1; border-right: 0; } }
 @media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
 @media (max-width: 620px) { .grid3 { grid-template-columns: 1fr; } }
 .grid3 > .card, .grid2 > .card { border-right: 1px solid var(--rule); }
-.grid3 > .card:last-child, .grid2 > .card:last-child { border-right: 0; }
+.grid3 > .card:last-child, .grid3 > .card:nth-child(3), .grid2 > .card:last-child { border-right: 0; }
+/* a full-width row under the three columns */
+.grid3 > .wide { grid-column: 1 / -1; border-right: 0; border-top: 1px solid var(--rule); }
 @media (max-width: 620px) { .grid3 > .card { border-right: 0; } .grid3 > .card + .card { border-top: 1px solid var(--rule); } }
 .card h2 { margin-bottom: 10px; color: var(--muted); }
 .card h2 .n { font-family: var(--mono); color: var(--faint); font-weight: 400; margin-left: 6px; }
@@ -169,22 +171,16 @@ a { color: var(--live); }
 .review b { font-family: var(--mono); color: var(--ink); font-weight: 500; }
 .note { font-size: 11.5px; color: var(--faint); margin-top: 9px; }
 
-/* collapsible regions */
-.collapse { padding: 0; }
-.collapse > summary { cursor: pointer; padding: 12px 18px; display: flex; align-items: baseline; gap: 10px; list-style: none; }
-.collapse > summary::-webkit-details-marker { display: none; }
-.collapse > summary::before { content: "›"; color: var(--faint); font-size: 14px; line-height: 1; transition: transform .15s ease; }
-.collapse[open] > summary::before { transform: rotate(90deg); }
-.collapse > summary h2 { margin: 0; }
-.collapse > summary .hint { color: var(--faint); font-size: 11.5px; }
-.collapse > summary .go { color: var(--live); font-size: 11.5px; margin-left: auto; }
-@media (prefers-reduced-motion: reduce) { .collapse > summary::before { transition: none; } }
-.collapse-body { padding: 0 18px 16px; }
+/* titled regions, always open so a reload never folds them away */
+.panel-head { padding: 12px 18px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.panel-head h2 { margin: 0; }
+.panel-head .hint { color: var(--faint); font-size: 11.5px; }
+.panel-body { padding: 0 18px 16px; }
 
 /* milestones, one ruled row each */
 .ms-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .ms-note { font-size: 11.5px; color: var(--faint); }
-.ms-row { display: grid; grid-template-columns: 14px minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 0 12px; align-items: center; padding: 9px 0; border-top: 1px solid var(--rule-soft); }
+.ms-row { display: grid; grid-template-columns: 14px minmax(0, 1fr) 160px 150px; gap: 0 14px; align-items: center; padding: 10px 0; border-top: 1px solid var(--rule-soft); }
 .ms-row:first-child { border-top: 0; }
 .ms-row .dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--rule); }
 .ms-row.done .dot { background: var(--held); border-color: var(--held); }
@@ -192,10 +188,17 @@ a { color: var(--live); }
 .ms-name { font-weight: 500; font-size: 13px; }
 .ms-row.done .ms-name { color: var(--muted); font-weight: 400; }
 .ms-what { font-size: 11.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ms-prog { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
-.ms-eta { font-family: var(--mono); font-size: 11.5px; color: var(--faint); text-align: right; white-space: nowrap; }
-.ms-row.done .ms-eta { color: var(--held); }
-@media (max-width: 720px) { .ms-what, .ms-prog { display: none; } }
+.ms-prog .mini { display: flex; gap: 2px; height: 6px; }
+.ms-prog .mini i { flex: 1; background: var(--rule); }
+.ms-prog .mini i.done { background: var(--held); }
+.ms-prog .mini i.parked { background: var(--hold); }
+.ms-prog .mini i.in_progress { background: var(--live); }
+.ms-prog .cnt { font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 4px; }
+.ms-eta { text-align: right; white-space: nowrap; font-family: var(--mono); }
+.ms-eta b { display: block; font-weight: 500; font-size: 12.5px; color: var(--ink); }
+.ms-eta span { font-size: 11px; color: var(--faint); }
+.ms-row.done .ms-eta b { color: var(--held); }
+@media (max-width: 720px) { .ms-row { grid-template-columns: 14px minmax(0, 1fr) auto; } .ms-what, .ms-prog { display: none; } }
 .badge, .vbadge { font-size: 9.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 1px 5px; margin-left: 6px; border: 1px solid var(--rule); color: var(--muted); }
 .badge { border-color: var(--live); color: var(--live); }
 .vbadge.verified { color: var(--held); border-color: var(--held); }
@@ -716,19 +719,15 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     return band;
   }
 
-  // a region the person did not ask for stays shut until they do
-  function collapse(title, hint, open) {
-    const d = el("details", "collapse");
-    if (open) d.open = true;
-    const s = el("summary");
-    s.append(el("h2", "", title));
-    if (hint) s.append(el("span", "hint", hint));
-    s.append(el("span", "go", "Show"));
-    d.append(s);
-    const body = el("div", "collapse-body");
-    d.append(body);
-    d.addEventListener("toggle", () => { s.lastChild.textContent = d.open ? "Hide" : "Show"; });
-    return { root: d, body };
+  // a titled region; plain, not a <details>, because the page reloads every minute and would fold it shut
+  function panel(title, hint, tag, cls) {
+    const root = el(tag || "section", "panel" + (cls ? " " + cls : ""));
+    const head = el("div", "panel-head");
+    head.append(el("h2", "", title));
+    if (hint) head.append(el("span", "hint", hint));
+    const body = el("div", "panel-body");
+    root.append(head, body);
+    return { root, body };
   }
 
   function render(data) {
@@ -757,7 +756,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
 
     app.append(runBand(data, c, slices, req, ms));
 
-    const wfCol = collapse("Agents in this run", "every agent the loop has spent on");
+    const wfCol = panel("Agents in this run", "every agent the loop has spent on");
     wfScroll = el("div", "wf-scroll");
     wfCol.body.append(wfScroll);
     wfSlot = wfCol.root;
@@ -835,37 +834,46 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       hc.append(el("p", "note", "Parked slices ran out of escalation steps; they are retried at the end, or you can decide them by hand."));
     }
     g3.append(hc);
+
+    // the full pace chart, with the projection, as a full-width row under the three cards
+    const ch = panel("Slices finished over time", "solid is actual, dashed is projected", "div", "wide");
+    const cw = el("div", "chart-wrap");
+    cw.append(chart(data, p, open, slices.length - c.parked));
+    ch.body.append(cw);
+    g3.append(ch.root);
     app.append(g3);
 
-    // milestones, one ruled row each, shut until asked for
-    const mil = collapse("Milestones", ms.filter((m) => !m.final && !m.done).length + " still to build");
+    // milestones, one ruled row each
+    const mil = panel("Milestones", ms.filter((m) => !m.final && !m.done).length + " still to build");
     ms.forEach((m) => {
       const row = el("div", "ms-row" + (m.done ? " done" : "") + (m.active ? " active" : ""));
       row.append(el("span", "dot"));
       const nm = el("div");
-      const nameEl = el("span", "ms-name", m.name);
+      const nameEl = el("div", "ms-name", m.name);
       if (m.ui) nameEl.append(el("span", "badge", "UI"));
       if (m.status) nameEl.append(el("span", "vbadge " + m.status, m.status === "pending" && m.built ? "to verify" : m.status));
-      nm.append(nameEl);
-      row.append(nm, el("div", "ms-what", m.what));
+      const what = el("div", "ms-what", m.what);
+      what.title = m.what || "";
+      nm.append(nameEl, what);
+      row.append(nm);
+      const prog = el("div", "ms-prog");
       const d = m.own.filter((s) => s.status === "done").length;
       const pkd = m.own.filter((s) => s.status === "parked").length;
-      row.append(el("div", "ms-prog", m.own.length ? d + "/" + m.own.length + (pkd ? " · " + pkd + " parked" : "") : m.final ? "after all slices" : "no slices yet"));
+      if (m.own.length) {
+        const mini = el("div", "mini");
+        m.own.forEach((s) => { const i = el("i", s.status); i.title = s.id + " \u00b7 " + s.title + " \u00b7 " + s.status.replace("_", " ") + (s.doneAt ? " \u00b7 " + fmtDay(new Date(s.doneAt)) : ""); mini.append(i); });
+        prog.append(mini, el("div", "cnt", d + "/" + m.own.length + " done" + (pkd ? " \u00b7 " + pkd + " parked" : "")));
+      } else {
+        prog.append(el("div", "cnt", m.final ? "after all slices" : "no slices yet"));
+      }
+      row.append(prog);
       const eta = el("div", "ms-eta");
-      if (m.done) eta.append(document.createTextNode(m.doneAt ? "done " + fmtShort(new Date(m.doneAt)) : "done"));
-      else eta.append(document.createTextNode(fmtShort(m.eta.mid) + " \\u00b7 " + fmtShort(m.eta.low) + " \\u2013 " + fmtShort(m.eta.high)));
+      if (m.done) eta.append(el("b", "", "Done"), el("span", "", m.doneAt ? fmtDay(new Date(m.doneAt)) : ""));
+      else eta.append(el("b", "", fmtDay(m.eta.mid)), el("span", "", fmtShort(m.eta.low) + " \u2013 " + fmtShort(m.eta.high)));
       row.append(eta);
-      row.title = m.name + (m.done ? " \\u00b7 done" : " \\u00b7 " + (m.own.length ? d + "/" + m.own.length + " slices \\u00b7 " : "") + "est. " + fmtDay(m.eta.mid));
       mil.body.append(row);
     });
     app.append(mil.root);
-
-    // the full pace chart, with the projection, when you want it
-    const ch = collapse("Slices finished over time", "solid is actual, dashed is projected");
-    const cw = el("div", "chart-wrap");
-    cw.append(chart(data, p, open, slices.length - c.parked));
-    ch.body.append(cw);
-    app.append(ch.root);
 
     // events
     const ev = el("section", "card");
