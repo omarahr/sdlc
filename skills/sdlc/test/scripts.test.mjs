@@ -82,6 +82,14 @@ const commitState = (repo, files, message) => {
 
 const stackConfig = run => ({ specPath: 'spec.md', gitMode: 'stack', defaultBranch: 'main', commitFormat: '', runBranch: `sdlc/run-${run}` })
 
+// cut <branch> from the current HEAD with a commit of its own, so two candidate bases are two shas
+// rather than two names a wrong answer could be compared against
+const seed = (repo, branch, text) => {
+  git(repo, 'checkout', '-q', '-b', branch)
+  writeFileSync(join(repo, 'src', 'app.txt'), text)
+  git(repo, 'commit', '-q', '-am', text.trim())
+}
+
 // the human half of a milestone, as GitHub does it by default: squash-merge the branch into the default
 // branch and delete the branch. The squash is load-bearing — the branch's commits are never ancestors of
 // main, so `git branch -d` refuses the branch forever — and the deletion is what removes the remote-tracking
@@ -1157,4 +1165,226 @@ test("an earlier run's milestone branch holding unshipped work is kept, and neve
   assert.equal(json(repo, 'slices.json')[0].status, 'todo')
   assert.equal(git(repo, 'show', 'sdlc/M-1:src/unshipped.txt'), 'run 1 work nobody accepted')
   assert.notEqual(existsSync(join(repo, 'src', 'unshipped.txt')), true, "run 1's unshipped work is on run 2's run branch")
+})
+
+// ---------- base-branch ----------
+// The read-only command the prompts ask instead of naming a branch in prose. Six prompts used to spell
+// this rule out, and two of them got it wrong: commit-state.md picked the branch from a milestone's
+// `status`, which is `verified` by the time the milestone-writer commits, and milestone-writer.md
+// described an advance nothing ran. One owner, asked rather than deduced.
+//
+// Every fixture below builds real branches at distinct commits, so "it named the wrong branch" is a
+// different sha rather than an unfalsifiable string. A test that cannot see the topology cannot catch a
+// wrong branch, which is exactly how those defects survived a green suite.
+
+const baseOf = (repo, id) => call(STATE, repo, ['base-branch', '--slice', id])
+
+test('base-branch names the milestone branch for a slice that belongs to a milestone', opts, () => {
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-021')],
+    milestones: [
+      { id: 'M-1', title: 'Search', status: 'pending', slices: [], fixSlices: [] },
+      { id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-020', 'S-021'], fixSlices: [] },
+    ],
+  })
+  // three candidate bases, each its own commit, so naming the run branch or main is a wrong answer
+  seed(repo, 'sdlc/run-1', 'run\n')
+  seed(repo, 'sdlc/M-1', 'm1\n')
+  seed(repo, 'sdlc/M-2', 'm2\n')
+  const r = baseOf(repo, 'S-021')
+  assert.equal(r.code, 0, r.out.error)
+  assert.deepEqual([r.out.ok, r.out.branch], [true, 'sdlc/M-2'])
+  // and the branch it named is the one the slice was actually cut from, per the code that cuts it
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-021'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-2'), git(repo, 'rev-parse', 'sdlc/S-021^'))
+  // the branch is checkable, not merely named: a caller goes on to use this name directly
+  assert.doesNotThrow(() => git(repo, 'rev-parse', '--verify', 'refs/heads/sdlc/M-2'))
+})
+
+test('base-branch names the run branch for an audit fix that belongs to no milestone', opts, () => {
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-fix-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Done', status: 'verified', slices: [], fixSlices: [] }],
+  })
+  seed(repo, 'sdlc/run-1', 'run\n')
+  seed(repo, 'sdlc/M-2', 'm2\n')
+  const r = baseOf(repo, 'S-fix-1')
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'sdlc/run-1')
+  // main is a different commit from the run branch, so answering main here would be visibly wrong:
+  // the run's whole guarantee is that a slice never lands on the default branch
+  assert.notEqual(git(repo, 'rev-parse', 'main'), git(repo, 'rev-parse', 'sdlc/run-1'))
+  assert.notEqual(r.out.branch, 'main')
+  // and it agrees with the base patch-slice cuts the slice from
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-fix-1'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'sdlc/S-fix-1^'))
+})
+
+test('base-branch names the run branch for a fix of a milestone that already shipped', opts, () => {
+  // A verified milestone's branch was deleted after its pull request merged, so the fix builds on the
+  // run branch. Prompt prose that picked the milestone branch here would hand the integrator a base that
+  // does not exist, and gh pr create would create the pull request against the default branch instead.
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-fix-M-1-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Shipped', status: 'verified', slices: [], fixSlices: ['S-fix-M-1-1'] }],
+  })
+  seed(repo, 'sdlc/run-1', 'run\n')
+  const r = baseOf(repo, 'S-fix-M-1-1')
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'sdlc/run-1')
+})
+
+test('base-branch names the dependency branch for a slice whose dependency is awaiting merge', opts, () => {
+  // ensure_slice_branch bases such a slice on the dependency's branch, so the base the integrator opens
+  // its pull request against must be that same branch. Answering the milestone branch would put the
+  // dependency's open work into this slice's pull request.
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-014', { status: 'awaiting-merge', pr: 'u' }), slice('S-015', { dependsOn: ['S-014'] })],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014', 'S-015'], fixSlices: [] }],
+  })
+  seed(repo, 'sdlc/run-1', 'run\n')
+  seed(repo, 'sdlc/M-2', 'm2\n')
+  seed(repo, 'sdlc/S-014', 'fourteen\n')
+  const r = baseOf(repo, 'S-015')
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'sdlc/S-014')
+  assert.notEqual(r.out.branch, 'sdlc/M-2')
+  // and the branch it named is where the slice really came from
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-015'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-014'), git(repo, 'rev-parse', 'sdlc/S-015^'))
+})
+
+test('pr, direct and mr mode answer with the default branch, and stay there', opts, () => {
+  for (const mode of ['pr', 'direct', 'mr']) {
+    // a milestone and a run branch that exist, so answering either of them in a non-stack mode would
+    // be a real mistake this can see rather than a string comparison against a branch that is absent
+    const repo = fixture({
+      config: { gitMode: mode, defaultBranch: 'trunk', commitFormat: '', runBranch: 'sdlc/run-1' },
+      slices: [slice('S-014')],
+      milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+    })
+    git(repo, 'branch', '-m', 'main', 'trunk')
+    seed(repo, 'sdlc/run-1', 'run\n')
+    seed(repo, 'sdlc/M-2', 'm2\n')
+    const r = baseOf(repo, 'S-014')
+    assert.equal(r.code, 0, r.out.error)
+    assert.equal(r.out.branch, 'trunk', `${mode} mode answered ${r.out.branch}`)
+    // the default branch, not the run branch it also has configured
+    assert.notEqual(r.out.branch, 'sdlc/run-1')
+    assert.notEqual(r.out.branch, 'sdlc/M-2')
+    // and the slice is still cut from it, so this command changed no behaviour in these three modes
+    assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' }).code, 0)
+    assert.equal(git(repo, 'rev-parse', 'trunk'), git(repo, 'rev-parse', 'sdlc/S-014^'))
+  }
+})
+
+test('base-branch names a milestone branch that does not exist yet, without creating it', opts, () => {
+  // The first slice of a milestone asks this before its branch exists: ensure_milestone_branch creates
+  // that branch when the slice is cut. So the answer must be the name, and the command must not be the
+  // thing that creates it — two owners for one branch is the defect this change exists to remove.
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-014')],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+  })
+  seed(repo, 'sdlc/run-1', 'run\n')
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), '')
+  const before = git(repo, 'rev-parse', 'HEAD')
+  const r = baseOf(repo, 'S-014')
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'sdlc/M-2')
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), '', 'base-branch created the branch ensure_milestone_branch owns')
+  assert.equal(git(repo, 'rev-parse', 'HEAD'), before)
+})
+
+test('base-branch reads the repo and changes nothing at all', opts, () => {
+  // The whole contract. An integrator asks this mid-ship, with a working tree it must not lose: a
+  // command that checked a branch out, committed, or advanced the run branch would be a second owner
+  // of a transition, which is how the run branch went stale in the first place.
+  //
+  // The slice is an audit fix on purpose. Its base IS the run branch, which is the one answer that has a
+  // transition behind it — `advance_run_branch` merges the default branch in and pushes — so a fixture
+  // whose slice belongs to a milestone would leave that path unexercised and this test would pass a
+  // command that quietly advanced the branch. The default branch below has moved, so an advance would
+  // really move this one: without that, the assertion could not tell an advance from a no-op.
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-fix-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Shipped', status: 'verified', slices: [], fixSlices: [] }],
+    remote: true,
+  })
+  seed(repo, 'sdlc/run-1', 'run\n')
+  writeFileSync(join(repo, 'src', 'dirty.txt'), 'work in progress\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'unmerged work')
+  const pub = publisher(remotes.get(repo))
+  // a file the run branch has never touched, so an advance would merge cleanly and MOVE the branch. A
+  // conflicting default branch would fail the call loudly instead, which would still catch a side effect
+  // but would not show that the branch this test guards against advancing really moved.
+  pushFile(pub, 'src/moved.txt', 'main moved on\n', 'main moved')
+  git(repo, 'fetch', '-q', 'origin')
+  // the fixture must make an advance observable, or this test proves nothing about the run branch
+  assert.notEqual(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'origin/main'), 'the run branch is already level with the default branch, so advancing it is a no-op this cannot see')
+  assert.equal(git(repo, 'status', '--porcelain'), '', 'the fixture left the tree dirty for the wrong reason')
+  const before = {
+    head: git(repo, 'rev-parse', 'HEAD'),
+    current: git(repo, 'branch', '--show-current'),
+    branches: git(repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads'),
+    run: git(repo, 'rev-parse', 'sdlc/run-1'),
+    porcelain: git(repo, 'status', '--porcelain'),
+    log: git(repo, 'rev-list', '--count', 'HEAD'),
+  }
+  const r = baseOf(repo, 'S-fix-1')
+  assert.equal(r.code, 0, r.out.error)
+  // and it really is the run-branch answer, so the assertions below are about the branch that moves
+  assert.equal(r.out.branch, 'sdlc/run-1')
+  assert.equal(git(repo, 'rev-parse', 'HEAD'), before.head, 'base-branch committed')
+  assert.equal(git(repo, 'branch', '--show-current'), before.current, 'base-branch checked a branch out')
+  assert.equal(git(repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads'), before.branches, 'base-branch created or deleted a branch')
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), before.run, 'base-branch advanced the run branch onto a default branch that had moved')
+  assert.equal(git(repo, 'status', '--porcelain'), before.porcelain)
+  assert.equal(git(repo, 'rev-list', '--count', 'HEAD'), before.log)
+})
+
+test('base-branch fails loudly rather than printing a plausible branch', opts, () => {
+  // An unknown slice is the case a prose rule cannot catch: the agent holds a slice id from its inputs,
+  // and every branch name in the file is a legal answer for some other slice. Printing one would send a
+  // pull request to a branch that has nothing to do with the work.
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-021')],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-021'], fixSlices: [] }],
+  })
+  seed(repo, 'sdlc/run-1', 'run\n')
+  const unknown = baseOf(repo, 'S-999')
+  assert.equal(unknown.code, 2)
+  assert.equal(unknown.out.ok, false)
+  assert.match(unknown.out.error, /S-999/)
+  assert.equal(unknown.out.branch, undefined, 'a failed call must not name a branch')
+
+  // stack mode with no run branch to fall back on, for a slice belonging to no milestone
+  const bare = fixture({ config: { ...stackConfig(1), runBranch: '' }, slices: [slice('S-fix-1', { kind: 'fix' })] })
+  const missing = baseOf(bare, 'S-fix-1')
+  assert.equal(missing.code, 2)
+  assert.match(missing.out.error, /runBranch/)
+  assert.equal(missing.out.branch, undefined, 'a failed call must not fall back to the default branch')
+
+  // a runBranch that is configured but absent: naming it would hand the caller a branch to check out
+  const gone = fixture({ config: { ...stackConfig(1), runBranch: 'sdlc/run-7' }, slices: [slice('S-fix-1', { kind: 'fix' })] })
+  const absent = baseOf(gone, 'S-fix-1')
+  assert.equal(absent.code, 2)
+  assert.match(absent.out.error, /sdlc\/run-7/)
+  assert.equal(absent.out.branch, undefined)
+
+  // an unrecognised mode reaches no arm and would answer like direct: the default branch, for a mode
+  // whose delivery nobody has agreed to
+  const odd = fixture({ config: { gitMode: 'stak', defaultBranch: 'main' }, slices: [slice('S-014')] })
+  const bad = baseOf(odd, 'S-014')
+  assert.equal(bad.code, 2)
+  assert.match(bad.out.error, /stak/)
+  assert.equal(bad.out.branch, undefined)
 })

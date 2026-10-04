@@ -33,8 +33,9 @@ Inputs: `{sliceId, kind, reason}`. If `kind` is `improvement`, do not park: appl
 1. Set the slice to `status: parked` and increment `counters.parkCycles`. Set its requirements to `parked`.
 2. Append the reason to `slices/<id>/failures.md` under "## Force-parked (no progress)".
 3. If branch `sdlc/<id>` exists, commit any work on it as "wip before force-park", then rename it `sdlc/<id>-attempt-<n>`, where n is the next free number.
-4. Copy the archived attempt's records onto the branch the run lives on: `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md`. Read them from `sdlc/<id>-attempt-<n>` **after** renaming, and after checking the branch out — in `stack` mode that branch is the slice's milestone branch (`sdlc/M-<n>`), or `runBranch` for a slice belonging to no milestone, and the default branch is never committed to in this mode.
-5. Do a **default-branch commit**: "force-park <id>". In `stack` mode this is the slice's milestone branch `sdlc/M-<n>`, or `runBranch` when the slice belongs to no milestone.
+4. Get the branch this run commits to — the slice's base branch — by running `python3 "<skill>/state-write.py" base-branch --repo . --slice <sliceId>` and using the `branch` it prints. It is read-only. Do not work it out from `gitMode`: that does not say which milestone owns the slice, whether that milestone has already shipped, or whether a dependency is awaiting merge, and each changes the answer. If the command exits non-zero it printed why and named no branch — report that and stop rather than choosing one.
+5. Copy the archived attempt's records onto that branch: `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md`. Read them from `sdlc/<id>-attempt-<n>` **after** renaming, and after checking the branch out. In `stack` mode the default branch is never committed to.
+6. Do a **default-branch commit**: "force-park <id>", on that branch.
 
 ## op: audit-result
 Inputs: `{auditedIds, refuted: [{id, reasons}]}`.

@@ -13,7 +13,7 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
 ## mode: ship
 1. **Final check:** `git checkout sdlc/<id>` and `git status` is clean. Then ask whether the full suite already passed on this exact code: `python3 "<skill>/suite-receipt.py" check --repo . --slice <id> --ref sdlc/<id>`. When it prints `"valid": true`, the regression verifier ran test, lint, typecheck and build on this code (commits that only touch `.sdlc/` do not count as a change) and they passed: do not run them again, and note the receipt's commit in evidence.md. When it prints `"valid": false`, or the script cannot run, run the full `config.commands` test, lint, typecheck and build yourself; all must pass. Run the long ones in the background as "Long commands" in _common.md says. If any fails, return `{state: "failed", notes}` naming the failing test. If one could not run to completion (cut off, killed, no exit code), that is not a failure: return `{state: "inconclusive", notes}` with the command and how long it ran, and change nothing.
 2. **Record evidence:**
-   - `<baseBranch>` is the branch `sdlc/<id>` was cut from, as step 6 defines it: in `stack` mode the slice's milestone branch `sdlc/M-<n>` (or `runBranch` for an audit fix), and in `pr` mode `<defaultBranch>`. In `stack` mode it already holds the milestone's earlier slices, so `git diff --name-only <baseBranch>...HEAD` lists only what this slice changed — diffing against `<defaultBranch>` would also list every earlier slice of the milestone and charge them to this one's evidence.
+   - `<baseBranch>` is what this command prints: `python3 "<skill>/state-write.py" base-branch --repo . --slice <id>`. Run it and use the `branch` it returns. It is read-only, so it is safe to run at any point. In `stack` mode the base already holds the milestone's earlier slices, so `git diff --name-only <baseBranch>...HEAD` lists only what this slice changed — diffing against `<defaultBranch>` would also list every earlier slice of the milestone and charge them to this one's evidence.
    - Set each requirement of the slice to `status: done`, with `evidence.files` (from `git diff --name-only <baseBranch>...HEAD`), `evidence.tests` (from tests.md plus the `test` of every passing final-round case in `verification/r<last>/*.json`), and `evidence.commit: "pending"`.
    - Copy into each requirement's `adrs` the id of every ADR whose `Affects` line names the requirement or this slice.
    - If failures.md or any ADR says an external system was replaced by a local fake, add the `external-stub` flag.
@@ -27,11 +27,9 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
      3. Delete branch `sdlc/<id>`.
      4. Return `{state: "merged", commit}`.
    - **`mr` mode:** do `direct` steps 1 to 3. Then publish the working branch to the run's merge request as `<prompts>/run-request.md` says ("Publish"). Return `{state: "merged", commit, pr: <the run request's url>, notes}`, with any publishing problem in `notes`. A publishing problem never makes the result `failed`.
-   - **`pr` mode and `stack` mode.** In both, the slice's pull request is created against `<baseBranch>` and merged by hand-free automation once it is green. `<baseBranch>` is the branch `sdlc/<id>` was cut from, and it has exactly two values:
-     1. in `stack` mode the slice's milestone branch `sdlc/M-<n>` — or `runBranch` for an audit fix that belongs to no milestone;
-     2. in `pr` mode `<defaultBranch>`.
+   - **`pr` mode and `stack` mode.** In both, the slice's pull request is created against `<baseBranch>` and merged by hand-free automation once it is green. `<baseBranch>` is the branch `sdlc/<id>` was cut from, and step 2's `base-branch` command is what tells you: run it and use what it prints.
 
-     Do not rediscover it with a git command. The usual ways of asking git which branch this came from are recent, behave differently across versions, and fail outright on a shallow clone, so an agent that goes looking can end up with no base at all. Read `gitMode` from `.sdlc/config.json` and take case 1 or case 2 above.
+     Do not work the base out yourself — not from `gitMode`, and not with a git command. The usual ways of asking git which branch this came from are recent, behave differently across versions, and fail outright on a shallow clone, so an agent that goes looking can end up with no base at all. `gitMode` alone is not enough either: it does not say which milestone owns the slice, whether that milestone has already shipped, or whether a dependency is still awaiting merge, and each of those changes the answer. If the command exits non-zero it printed why and named no branch; report that and stop rather than picking a branch yourself.
 
      The two modes differ only in what `<baseBranch>` is; every command below is otherwise identical.
      1. If a PR with head `sdlc/<id>` is already open (`gh pr list --head sdlc/<id> --state open`), reuse it and skip step 2. If the remote branch exists but is stale from an earlier attempt, `git push --force-with-lease origin sdlc/<id>`; force-push only ever `sdlc/<id>`. Otherwise `git push -u origin sdlc/<id>`.
@@ -50,7 +48,7 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
 3. Never delete a branch of a slice that is not finished, and never any other branch. A failed deletion goes into `notes`; it never changes the result.
 
 ## mode: retry-merge
-Check `gh pr view <slice.pr> --json state,mergeable,reviewDecision,statusCheckRollup`. This mode exists in `pr` and `stack` mode, so `<baseBranch>` is the same two-case value ship step 6 defines.
+Check `gh pr view <slice.pr> --json state,mergeable,reviewDecision,statusCheckRollup`. This mode exists in `pr` and `stack` mode, so `<baseBranch>` is the same value ship step 6 defines — the one `base-branch` prints.
 - If its `state` is `MERGED` (a human merged it), do ship step 6's **After merging** step only, then **Clean up**.
 - If it is mergeable, approved (or no review is required) and green, do ship step 6 from `gh pr merge --squash --delete-branch` onward, then **Clean up**.
 - If not, return `{state: "awaiting-merge", pr}`.
