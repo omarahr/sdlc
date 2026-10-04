@@ -1002,6 +1002,7 @@ const INTERNALS = {
   dismissalClass, milestonePlan, scenarioPlan, milestoneAction,
   audit, livelock,
   barRaiserRound,
+  GIT_MODES,
 }
 
 async function main() {
