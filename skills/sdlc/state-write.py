@@ -156,7 +156,47 @@ def branch_exists(repo, name):
     return git(repo, "rev-parse", "--verify", "--quiet", f"refs/heads/{name}", check=False).returncode == 0
 
 
-def ensure_slice_branch(repo, config, slices, slice_id):
+def milestone_of(milestones, slice_id):
+    """The milestone a slice belongs to, or None: listed, a split child of a listed one, or a milestone fix slice."""
+    for m in milestones or []:
+        if slice_id in (m.get("slices") or []) or slice_id in (m.get("fixSlices") or []):
+            return m.get("id") or None
+    parent = re.sub(r"[a-z]$", "", slice_id)
+    for m in milestones or []:
+        # S-013a belongs to the milestone that lists its parent S-013
+        if parent != slice_id and parent in (m.get("slices") or []):
+            return m.get("id") or None
+    for m in milestones or []:
+        mid = m.get("id") or ""
+        if mid and slice_id.startswith(f"S-fix-{mid}-"):
+            return mid
+    return None
+
+
+def ensure_milestone_branch(repo, config, milestones):
+    """sdlc/M-<n> for the first milestone that is not verified, created from the run branch and pushed. None when there is none."""
+    run = config.get("runBranch") or ""
+    for m in milestones or []:
+        if m.get("status") == "verified" or not m.get("id"):
+            continue
+        want = f"sdlc/{m['id']}"
+        if not branch_exists(repo, want):
+            if not run or not branch_exists(repo, run):
+                raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
+            # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
+            # neither the local default branch nor origin/<defaultBranch> has to be here: a --single-branch clone may
+            # lack both, and the run branch is a sound base on its own, so a failed merge is tolerated, not fatal
+            git(repo, "checkout", "-q", run)
+            upstream = f"origin/{config.get('defaultBranch') or 'main'}"
+            if git(repo, "merge", "-q", "--ff-only", upstream, check=False).returncode != 0:
+                git(repo, "merge", "-q", "--no-edit", upstream, check=False)
+            git(repo, "checkout", "-q", "-b", want)
+            git(repo, "push", "-q", "-u", "origin", want, check=False)
+        return want
+    return None
+
+
+def ensure_slice_branch(repo, config, slices, milestones, slice_id):
     """Be on sdlc/<id>, creating it as commit-state.md says when it does not exist yet."""
     want = f"sdlc/{slice_id}"
     if git(repo, "branch", "--show-current").stdout.strip() == want:
@@ -172,7 +212,13 @@ def ensure_slice_branch(repo, config, slices, slice_id):
             base = f"sdlc/{dep}"
             break
     else:
-        if config.get("gitMode") == "pr":
+        if config.get("gitMode") == "stack":
+            # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
+            mid = milestone_of(milestones, slice_id)
+            base = f"sdlc/{mid}" if mid else (config.get("runBranch") or base)
+            if mid:
+                ensure_milestone_branch(repo, config, milestones)
+        elif config.get("gitMode") == "pr":
             # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
             if git(repo, "checkout", "-q", base, check=False).returncode == 0:
                 git(repo, "pull", "-q", "--ff-only", check=False)
@@ -185,7 +231,8 @@ def patch_slice(repo, slice_id, patch):
         raise Fail("the patch must be a JSON object")
     s = os.path.join(repo, ".sdlc")
     config = read_json(os.path.join(s, "config.json"))
-    branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))), slice_id)
+    branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))),
+                                 read_json(os.path.join(s, "milestones.json"), []), slice_id)
     # read again: the branch just checked out holds this slice's state
     raw = read_json(os.path.join(s, "slices.json"))
     me = next((x for x in slices_of(raw) if x.get("id") == slice_id), None)

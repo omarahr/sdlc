@@ -17,7 +17,7 @@ const json = (repo, name) => JSON.parse(readFileSync(join(repo, '.sdlc', name), 
 const req = (id, status = 'todo', extra = {}) => ({ id, specRef: '§1', quote: `quote ${id}`, acceptance: `check ${id}`, status, flags: [], ...extra })
 const slice = (id, extra = {}) => ({ id, title: `Slice ${id}`, requirements: [], dependsOn: [], kind: 'spec', status: 'todo', phase: 'plan', counters: { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0 }, ...extra })
 
-function fixture({ config = {}, reqs = [], slices = [] } = {}) {
+function fixture({ config = {}, reqs = [], slices = [], milestones = [] } = {}) {
   const repo = mkdtempSync(join(tmpdir(), 'sdlc-scripts-'))
   git(repo, 'init', '-q', '-b', 'main')
   git(repo, 'config', 'user.email', 'test@example.com')
@@ -30,7 +30,7 @@ function fixture({ config = {}, reqs = [], slices = [] } = {}) {
     'config.json': { specPath: 'spec.md', gitMode: 'direct', defaultBranch: 'main', commitFormat: '', ...config },
     'requirements.json': reqs,
     'slices.json': slices,
-    'milestones.json': [],
+    'milestones.json': milestones,
   }
   for (const [name, value] of Object.entries(files)) writeFileSync(join(repo, '.sdlc', name), JSON.stringify(value, null, 2))
   writeFileSync(join(repo, '.sdlc', 'log.jsonl'), '{"ts":"2026-01-12T10:00:00Z","type":"bootstrap","detail":"ledger"}\n')
@@ -182,4 +182,65 @@ test('a failed or partial receipt never stands in for the final check', opts, ()
   assert.match(call(RECEIPT, repo, ['check', '--slice', 'S-001']).out.reason, /did not cover: lint, typecheck/)
   call(RECEIPT, repo, ['write', '--slice', 'S-001', '--ref', 'HEAD', '--seconds', '100', '--result', 'pass'])
   assert.equal(call(RECEIPT, repo, ['check', '--slice', 'S-001', '--ref', 'no-such-ref']).code, 2)
+})
+
+test('stack mode cuts a slice branch from its milestone branch, creating and pushing that branch when it is absent', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-014', { requirements: [] })],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' })
+  assert.equal(r.code, 0)
+  // the milestone branch was created from the run branch...
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), 'sdlc/M-2')
+  // ...and the slice was cut from the milestone branch, not from main or the run branch
+  assert.equal(git(repo, 'merge-base', '--is-ancestor', 'sdlc/M-2', 'sdlc/S-014'), '')
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-2'), git(repo, 'rev-parse', 'sdlc/S-014^'))
+})
+
+test('stack mode cuts an audit fix slice from the run branch, since it belongs to no milestone', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-fix-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Done', status: 'verified', slices: [], fixSlices: [] }],
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-fix-1'], { status: 'in_progress' })
+  assert.equal(r.code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'sdlc/S-fix-1^'))
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '')
+})
+
+test('stack mode uses a milestone fix slice as an ordinary milestone slice', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-fix-M-2-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'fixing', slices: [], fixSlices: ['S-fix-M-2-1'] }],
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-fix-M-2-1'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-2'), git(repo, 'rev-parse', 'sdlc/S-fix-M-2-1^'))
+})
+
+test('stack mode bases the slice on a dependency awaiting merge, as pr mode does', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-014'), slice('S-015', { dependsOn: ['S-014'], status: 'awaiting-merge', pr: 'u' })],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014', 'S-015'], fixSlices: [] }],
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  git(repo, 'branch', 'sdlc/M-2')
+  git(repo, 'branch', 'sdlc/S-014', 'sdlc/M-2')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-015'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-014'), git(repo, 'rev-parse', 'sdlc/S-015^'))
+})
+
+test('pr, direct and mr mode are untouched by the stack arm', opts, () => {
+  for (const mode of ['pr', 'direct', 'mr']) {
+    const repo = fixture({ config: { gitMode: mode, defaultBranch: 'main', runBranch: '' }, slices: [slice('S-001')] })
+    assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' }).code, 0)
+    assert.equal(git(repo, 'rev-parse', 'main'), git(repo, 'rev-parse', 'sdlc/S-001^'), `${mode} mode changed its base`)
+  }
 })
