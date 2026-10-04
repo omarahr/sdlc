@@ -68,11 +68,14 @@ test('critic that never goes dry is capped and the cap is logged', async () => {
 })
 
 // each doc states the mode list in its own shape; [name, path, pattern, extractor] reads that list
-// back out so it can be compared with the script's enum rather than merely searched for
+// back out so it can be compared with the script's enum rather than merely searched for.
+// The patterns must stay unambiguous: a doc states its list exactly once, and a second mention is
+// itself the failure — otherwise an earlier decoy shadows the authoritative line and the guard
+// reports green while checking prose. Assert the single occurrence rather than taking the first.
 const MODE_DOCS = [
-  ['SKILL.md', 'SKILL.md', /--git ([a-z|]+)\]/, s => s.split('|').map(m => m.trim())],
-  ['state-schema.md', 'prompts/state-schema.md', /`gitMode` is ([^\n]+)/, s => [...s.matchAll(/`([a-z]+)`/g)].map(m => m[1])],
-  ['env-detector.md', 'prompts/env-detector.md', /`gitMode` \(([^)]*)\)/, s => [...s.matchAll(/`([a-z]+)`/g)].map(m => m[1])],
+  ['SKILL.md', 'SKILL.md', /--git ([a-z|]+)\]/g, s => s.split('|').map(m => m.trim())],
+  ['state-schema.md', 'prompts/state-schema.md', /`gitMode` is ([^\n]+)/g, s => [...s.matchAll(/`([a-z]+)`/g)].map(m => m[1])],
+  ['env-detector.md', 'prompts/env-detector.md', /`gitMode` \(([^)]*)\)/g, s => [...s.matchAll(/`([a-z]+)`/g)].map(m => m[1])],
 ]
 
 test('the documented git modes and the workflow script agree', async () => {
@@ -80,9 +83,9 @@ test('the documented git modes and the workflow script agree', async () => {
   assert.deepEqual(I.GIT_MODES, ['pr', 'direct', 'mr', 'stack'])
   for (const [name, path, pattern, extract] of MODE_DOCS) {
     const text = readFileSync(join(SKILL_DIR, path), 'utf8')
-    const listed = text.match(pattern)
-    assert.ok(listed, `${name} no longer states the git mode list this test reads`)
-    const documented = [...extract(listed[1])].sort()
+    const hits = [...text.matchAll(pattern)]
+    assert.equal(hits.length, 1, `${name} states its git mode list ${hits.length} times; it must be stated exactly once, unambiguously`)
+    const documented = [...extract(hits[0][1])].sort()
     assert.deepEqual(documented, [...I.GIT_MODES].sort(), `${name} documents modes the script does not allow, or omits modes it does`)
   }
 })
