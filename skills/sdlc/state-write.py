@@ -191,12 +191,16 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
     if not run or not branch_exists(repo, run):
         raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
     # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
-    # neither the local default branch nor origin/<defaultBranch> has to be here: a --single-branch clone may
-    # lack both, and the run branch is a sound base on its own, so a failed merge is tolerated, not fatal
     git(repo, "checkout", "-q", run)
     upstream = f"origin/{config.get('defaultBranch') or 'main'}"
     if git(repo, "merge", "-q", "--ff-only", upstream, check=False).returncode != 0:
-        git(repo, "merge", "-q", "--no-edit", upstream, check=False)
+        if git(repo, "merge", "-q", "--no-edit", upstream, check=False).returncode != 0:
+            # both merges failed. A missing ref is tolerable — a --single-branch clone may have no
+            # origin/<defaultBranch>, and the run branch is a sound base on its own — but a conflict is not:
+            # it leaves the index unmerged, and the run branch must never be left mid-merge.
+            if git(repo, "rev-parse", "-q", "--verify", "MERGE_HEAD", check=False).returncode == 0:
+                git(repo, "merge", "--abort", check=False)
+                raise Fail(f"{upstream} conflicts with {run}: resolve it there, then cut the milestone branch again")
     git(repo, "checkout", "-q", "-b", want)
     git(repo, "push", "-q", "-u", "origin", want, check=False)
     return want
@@ -222,7 +226,11 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
             # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
             mid = milestone_of(milestones, slice_id)
             created = ensure_milestone_branch(repo, config, milestones, mid) if mid else None
-            base = created or config.get("runBranch") or base
+            # a slice must never be cut from the default branch in stack mode, so an absent run
+            # branch is an error rather than a silent fall-through to main
+            base = created or config.get("runBranch") or ""
+            if not base:
+                raise Fail("stack mode needs config.runBranch: a slice builds on its milestone branch, never on the default branch")
         elif config.get("gitMode") == "pr":
             # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
             if git(repo, "checkout", "-q", base, check=False).returncode == 0:
