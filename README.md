@@ -99,18 +99,21 @@ Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many a
 
 | Command | What it does |
 |---|---|
-| `/sdlc <spec> [--git pr\|direct\|mr] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
+| `/sdlc <spec> [--git pr\|direct\|mr\|stack] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
 | `/sdlc status` | Print the dashboard (`.sdlc/STATUS.md`) |
 | `/sdlc stop` | Finish the current step, then exit. Run `/sdlc <spec>` to resume |
 
 - `--git pr` (default when the repo has a GitHub remote): one branch and one PR per slice. It merges only once CI passes.
 - `--git mr` (default when the remote is a GitLab that `glab` is signed in to): commits every slice to the branch you started on, pushes it, and keeps **one** merge request for the whole run open against the remote's default branch. After each slice it waits for the pipeline and fixes CI-only failures. When the run is done it marks the merge request ready; you review and merge it. Start from a feature branch. It also works on GitHub, as one pull request for the run.
+- `--git stack`: the milestone is the unit you review and merge. The tool creates `sdlc/run-<n>` from your default branch and pushes it, cuts a `sdlc/M-<n>` branch per milestone from it, and cuts each slice branch from its milestone branch with a pull request targeting that milestone — so you keep per-slice CI and can still merge a slice on its own. When a milestone's behavior campaign verifies, its branch opens a pull request against your default branch; after you merge that, the run branch fast-forwards to your default branch and the next milestone branches from there. A milestone pull request that is blocked by a required review holds the run rather than stacking work on code you have not accepted. GitHub only.
 - `--git direct`: commits to the branch you are on and pushes nothing. This is the default when there is no GitHub remote and no signed-in GitLab.
 - `--commit-format "<format>"`: the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`. For example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one (a GitLab push rule, commitlint or a commit-msg hook).
 - `--bar-raiser N`: allow up to N polish rounds after the spec is complete. The default is 0.
 - `--max-iterations N`: a smoke run that stops after N iterations.
 
 In every mode, when a slice ships the integrator deletes the branches of its earlier failed attempts (`sdlc/<id>-attempt-<n>`, locally and on the remote), and those of the slice it was split from once all of that slice's parts are done. The write-ups stay in `.sdlc/slices/<id>/`.
+
+In `stack` mode there are no `sdlc/state-*` pull requests: `.sdlc/` state commits ride on the current milestone's branch, or on the run branch before the first milestone branch exists, and land with the milestone.
 
 Live progress shows in `/workflows`.
 
