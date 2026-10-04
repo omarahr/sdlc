@@ -8,6 +8,9 @@ import { SKILL_DIR } from './harness.mjs'
 
 const STATE = join(SKILL_DIR, 'state-write.py')
 const RECEIPT = join(SKILL_DIR, 'suite-receipt.py')
+// the modes the script accepts, from the one file that names them, so this test cannot assert a list
+// that has quietly stopped being the script's own
+const GIT_MODES = JSON.parse(readFileSync(join(SKILL_DIR, 'git-modes.json'), 'utf8')).gitModes
 let python = true
 try { execFileSync('python3', ['--version']) } catch { python = false }
 const opts = { skip: !python && 'python3 not installed' }
@@ -548,23 +551,25 @@ test('stack mode names the missing run branch rather than letting git fail', opt
 })
 
 test('an unknown gitMode fails loudly instead of committing the slice to the default branch', opts, () => {
-  // config.json is written by an agent, so nothing but this check constrains gitMode to the four modes.
-  // An unrecognised one reaches no arm of ensure_slice_branch and behaves like direct: a slice committed to
-  // the default branch, with no pull request and no push — the one thing stack mode exists to prevent.
+  // config.json is written by an agent, so nothing but this check constrains gitMode to the modes named in
+  // git-modes.json. An unrecognised one reaches no arm of ensure_slice_branch and behaves like direct: a
+  // slice committed to the default branch, with no pull request and no push — the one thing stack mode
+  // exists to prevent. The expected list is read from that file, not spelled out here, so that adding a
+  // mode does not mean editing this test and drifting from the script it checks.
   for (const mode of ['stak', 'STACK', 'PullRequest']) {
     const repo = fixture({ config: { gitMode: mode, defaultBranch: 'main', runBranch: 'sdlc/run-1' }, slices: [slice('S-014')], milestones: [{ id: 'M-2', status: 'pending', slices: ['S-014'], fixSlices: [] }] })
     const r = call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' })
     assert.equal(r.code, 2, `${mode} must not be silently accepted`)
     assert.match(r.out.error, new RegExp(mode))
-    assert.match(r.out.error, /pr, direct, mr, stack/)
+    assert.match(r.out.error, new RegExp(GIT_MODES.join(', ')))
     // nothing was committed and no slice branch was cut, so the slice cannot have landed on main
     assert.equal(git(repo, 'branch', '--list', 'sdlc/S-014').trim(), '')
     assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), '')
     assert.equal(json(repo, 'slices.json')[0].status, 'todo')
     assert.equal(git(repo, 'rev-parse', 'main'), git(repo, 'rev-parse', 'HEAD'))
   }
-  // the four known modes are still accepted
-  for (const mode of ['pr', 'direct', 'mr', 'stack']) {
+  // every known mode is still accepted
+  for (const mode of GIT_MODES) {
     const repo = fixture({ config: { gitMode: mode, defaultBranch: 'main', runBranch: 'sdlc/run-1' }, slices: [slice('S-014')] })
     git(repo, 'branch', 'sdlc/run-1')
     assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' }).code, 0, `${mode} mode was rejected`)
