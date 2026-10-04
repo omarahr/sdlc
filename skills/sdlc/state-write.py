@@ -226,11 +226,16 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
             # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
             mid = milestone_of(milestones, slice_id)
             created = ensure_milestone_branch(repo, config, milestones, mid) if mid else None
-            # a slice must never be cut from the default branch in stack mode, so an absent run
-            # branch is an error rather than a silent fall-through to main
-            base = created or config.get("runBranch") or ""
+            # a slice must never be cut from the default branch in stack mode, so a run branch that is
+            # unset or does not exist is an error here rather than a fall-through to main or a raw git failure
+            base = created or ""
             if not base:
-                raise Fail("stack mode needs config.runBranch: a slice builds on its milestone branch, never on the default branch")
+                run = config.get("runBranch") or ""
+                if not run:
+                    raise Fail("stack mode needs config.runBranch: a slice builds on its milestone branch, never on the default branch")
+                if not branch_exists(repo, run):
+                    raise Fail(f"stack mode needs the run branch {run}, which does not exist")
+                base = run
         elif config.get("gitMode") == "pr":
             # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
             if git(repo, "checkout", "-q", base, check=False).returncode == 0:

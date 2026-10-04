@@ -430,3 +430,66 @@ test('pr, direct and mr mode are untouched by the stack arm', opts, () => {
     assert.equal(git(repo, 'rev-parse', 'main'), git(repo, 'rev-parse', 'sdlc/S-001^'), `${mode} mode changed its base`)
   }
 })
+
+test('direct and mr mode never pull the default branch, unlike pr mode', opts, () => {
+  for (const mode of ['direct', 'mr']) {
+    // the pr arm checks out the default branch and pulls it; direct and mr must not, or a slice would
+    // silently be built on a default branch that moved without the run saying so
+    const repo = fixture({
+      config: { gitMode: mode, defaultBranch: 'main', runBranch: '' },
+      slices: [slice('S-001')],
+      remote: true,
+    })
+    const local = git(repo, 'rev-parse', 'main')
+    const pub = publisher(remotes.get(repo))
+    pushFile(pub, 'src/app.txt', 'v2\n', 'main moved')
+    assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' }).code, 0)
+    // the local default branch is left exactly where it was, and the slice starts from that tip
+    assert.equal(git(repo, 'rev-parse', 'main'), local, `${mode} mode moved the local default branch`)
+    assert.equal(git(repo, 'rev-parse', 'sdlc/S-001^'), local, `${mode} mode cut the slice from a pulled default branch`)
+  }
+})
+
+test('a dependency whose branch exists but which is not awaiting merge is not used as a base', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    // S-014 is done and S-020 is in progress: both have branches, but neither is awaiting a merge,
+    // so neither may become the base of S-015
+    slices: [
+      slice('S-014', { status: 'done' }), slice('S-020', { status: 'in_progress' }),
+      slice('S-015', { dependsOn: ['S-014', 'S-020'] }),
+    ],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014', 'S-015', 'S-020'], fixSlices: [] }],
+  })
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-2')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/S-014')
+  writeFileSync(join(repo, 'src', 'app.txt'), 'fourteen\n')
+  git(repo, 'commit', '-q', '-am', 'fourteen')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/S-020', 'sdlc/S-014')
+  writeFileSync(join(repo, 'src', 'app.txt'), 'twenty\n')
+  git(repo, 'commit', '-q', '-am', 'twenty')
+  git(repo, 'checkout', '-q', 'sdlc/run-1')
+  const milestone = git(repo, 'rev-parse', 'sdlc/M-2')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-015'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-015^'), milestone)
+  assert.notEqual(milestone, git(repo, 'rev-parse', 'sdlc/S-014'))
+  assert.notEqual(milestone, git(repo, 'rev-parse', 'sdlc/S-020'))
+})
+
+test('stack mode names the missing run branch rather than letting git fail', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-7' },
+    slices: [slice('S-fix-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Done', status: 'verified', slices: [], fixSlices: [] }],
+  })
+  // sdlc/run-7 is configured but does not exist, and the slice owns no milestone, so nothing
+  // checks the run branch before the base is used
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-fix-1'], { status: 'in_progress' })
+  assert.equal(r.code, 2)
+  assert.match(r.out.error, /run branch/)
+  assert.match(r.out.error, /sdlc\/run-7/)
+  assert.doesNotMatch(r.out.error, /fatal:/)
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-fix-1').trim(), '')
+  assert.equal(json(repo, 'slices.json')[0].status, 'todo')
+})
