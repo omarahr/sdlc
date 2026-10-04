@@ -110,20 +110,30 @@ test('the integrator deletes archived attempt branches once a slice ships', () =
   assert.match(integrator, /Never delete a branch of a slice that is not finished/)
 })
 
-test('the integrator ships a stack slice into its milestone branch, not the default branch', () => {
+test('the integrator asks the code for the slice base branch instead of naming it in prose', () => {
   const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
   assert.match(i, /`stack` mode/)
-  // the pull request targets the slice's base branch, which is its milestone branch
+  // the pull request targets the slice's base branch
   assert.match(i, /--base <baseBranch>/)
   // and the evidence diff uses that same base, not the default branch
   assert.match(i, /git diff --name-only <baseBranch>\.\.\.HEAD/)
   assert.match(i, /--ref sdlc\/<id>/)
-  // both cases named outright: an agent must not be sent to rediscover the base with a git command
-  // that behaves differently across versions and fails outright on a shallow clone
-  assert.match(i, /in `stack` mode the slice's milestone branch `sdlc\/M-<n>`/)
-  assert.match(i, /in `pr` mode `<defaultBranch>`/)
-  // and the prohibition is what pins it: swapping the names back for a rediscovery command must fail
-  assert.match(i, /Do not rediscover it with a git command/)
+  // The base is now the answer `base-branch` prints, and the prompt says so where it is defined —
+  // both in the evidence step and in the ship step, since each is read on its own.
+  assert.match(i, /state-write\.py" base-branch --repo \. --slice <id>/)
+  assert.match(i, /Use what it prints|use the `branch` it returns/)
+  // The two-case prose rule is gone, and these are what pin that: an integrator told the rule in
+  // words is an integrator re-deriving it, which is how commit-state.md picked the wrong branch. Both
+  // the names and the mode-based deduction must be absent, not merely accompanied by a mention.
+  assert.doesNotMatch(i, /milestone branch `sdlc\/M-<n>`/)
+  assert.doesNotMatch(i, /in `pr` mode `<defaultBranch>`/)
+  assert.doesNotMatch(i, /Read `gitMode` from/)
+  // and the prohibition stays, now against both routes back to deducing it: gitMode alone cannot say
+  // which milestone owns the slice, and a git command fails outright on a shallow clone
+  assert.match(i, /Do not work the base out yourself/)
+  assert.match(i, /not from `gitMode`, and not with a git command/)
+  // a failed run names no branch, so the prompt must tell the agent to stop rather than pick one
+  assert.match(i, /exits non-zero it printed why and named no branch/)
   assert.doesNotMatch(i, /merge-base/)
 })
 
@@ -191,32 +201,40 @@ test('the stack commit rule names the branch instead of guessing it from a miles
   }
 })
 
-test('the escalator and force-park commit to the branch the run lives on, not the default branch', () => {
+test('the escalator and force-park ask for the branch rather than naming it, and never the default branch', () => {
   const e = readFileSync(join(SKILL_DIR, 'prompts', 'escalator.md'), 'utf8')
-  // Each stack arm must name BOTH branches, as two separate assertions. A single /M-<n>|runBranch/ test is
-  // satisfied by either one, so it passes a file that has lost the milestone branch entirely. The count is
-  // exact so deleting a whole clause cannot shrink the set and pass; adding an arm later is then a
-  // deliberate edit here rather than silent drift.
-  const stackLines = e.split('\n').filter(l => l.includes('`stack` mode'))
-  assert.equal(stackLines.length, 4, `expected 4 stack arms in escalator.md, found ${stackLines.length}`)
-  for (const line of stackLines) {
-    assert.match(line, /sdlc\/M-<n>/, `a stack arm does not name the milestone branch: ${line.trim()}`)
-    assert.match(line, /runBranch/, `a stack arm does not name runBranch: ${line.trim()}`)
-  }
-  // the archive checkout must name the stack target, and the copy must follow it
-  assert.match(e, /In `stack` mode that is the slice's milestone branch `sdlc\/M-<n>`/)
-  assert.match(e, /after\*\* the checkout in step 2/)
-  // replan and spike must not cut from the default branch in stack mode
+  // One owner for the base-branch rule: the command defines `<baseBranch>` once, and every site that
+  // used to spell out `sdlc/M-<n>`-or-runBranch now refers to it. Asserting the *absence* of the prose
+  // rule is what makes this a real test — a prompt that still names the branch is a second owner, which
+  // is how the wrong branch reached a commit in the first place.
+  assert.match(e, /state-write\.py" base-branch --repo \. --slice <sliceId>/)
+  assert.match(e, /Use the `branch` it prints/)
+  assert.doesNotMatch(e, /sdlc\/M-<n>/, 'escalator.md must not name the milestone branch: the command owns that')
+  assert.doesNotMatch(e, /runBranch when the slice belongs to no milestone/, 'escalator.md must not restate the no-milestone case')
+  // each of the three sites still reaches the same `<baseBranch>`, so none quietly reverted to a literal
+  assert.match(e, /`git checkout <baseBranch>`/)
+  assert.match(e, /Every \*\*default-branch commit\*\* below lands on `<baseBranch>`/)
+  assert.match(e, /Create a fresh `sdlc\/<id>` from `<baseBranch>`/)
+  assert.match(e, /from `<baseBranch>`, the same base as the slice itself/)
+  // and the prohibition that survives the rewrite: the default branch is never a stack target
+  assert.match(e, /In `stack` mode the default branch is never committed to/)
   assert.match(e, /Never cut it from `<defaultBranch>` in `stack` mode/)
   assert.doesNotMatch(e, /On a scratch branch `sdlc\/<id>-spike` from the default branch/)
+  // the copy of the write-up still has to follow the checkout
+  assert.match(e, /after\*\* the checkout in step 2/)
 
   const w = readFileSync(join(SKILL_DIR, 'prompts', 'state-writer.md'), 'utf8')
+  // bootstrap and the audit keep naming runBranch: neither has a slice to ask about — they run before
+  // any milestone exists, and the audit's own commit belongs to no milestone — so a command call would
+  // be ceremony around a constant. Their tests below still pin the reason they land there.
   assert.match(w, /bootstrap belongs to no milestone/)
   assert.match(w, /the audit belongs to no milestone/)
-  // force-park: a wrong branch here silently strands the slice's write-up, so name both branches
+  // force-park is the opposite case: it parks a named slice, so its branch varies and is asked for.
+  // A wrong branch here silently strands the slice's write-up where nothing will read it.
   const park = w.split('\n').find(l => l.includes('force-park <id>'))
   assert.ok(park, 'the force-park commit line is missing')
-  assert.match(park, /`sdlc\/M-<n>`/)
-  assert.match(park, /runBranch/)
+  assert.match(park, /on that branch/)
+  assert.match(w, /state-write\.py" base-branch --repo \. --slice <sliceId>/)
+  assert.match(w, /In `stack` mode the default branch is never committed to/)
   assert.match(w, /after\*\* renaming, and after checking the branch out/)
 })

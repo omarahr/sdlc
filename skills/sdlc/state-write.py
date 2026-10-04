@@ -4,11 +4,13 @@
 Usage:
   state-write.py patch-slice --repo DIR --slice ID   (the patch, a JSON object, on stdin)
   state-write.py status --repo DIR
+  state-write.py base-branch --repo DIR --slice ID
   state-write.py add-requirements --repo DIR [--lens NAME] [--distinct]   (a JSON array on stdin)
 
 patch-slice merges the patch into the slice, regenerates STATUS.md and commits on the slice branch.
-status only regenerates STATUS.md. add-requirements appends ledger entries under a lock, so several
-critics can add at the same time; it never commits.
+status only regenerates STATUS.md. base-branch prints the branch a slice is cut from and changes
+nothing at all, so a prompt asks it instead of re-deriving the rule. add-requirements appends ledger
+entries under a lock, so several critics can add at the same time; it never commits.
 
 Every command prints one JSON object. A non-zero exit means nothing was committed and the message
 says why, and the caller then does the operation by hand. Python 3 standard library only.
@@ -439,7 +441,7 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
     # to merge (milestone-writer ships only `verified`), so a fix slice cut for it gets a milestone branch
     # the loop will not deliver. Left as-is on purpose: the alternative — basing it on the run branch — puts
     # the fix outside the milestone it answers, and the audit that follows ships that fix on its own PR.
-    if next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified":
+    if milestone_shipped(milestones, milestone_id):
         return None
     run = config.get("runBranch") or ""
     prune_stale_milestone_branches(repo, config, want)
@@ -460,6 +462,66 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
     return want
 
 
+def milestone_shipped(milestones, milestone_id):
+    """True when a milestone's pull request merged, so its branch is gone.
+
+    The one owner of the verified rule, which decides whether a slice belonging to this milestone builds on
+    the milestone branch or on the run branch. No status value routes every caller correctly — the
+    milestone-writer sets `verified` before it commits its own state — so the callers share this function
+    rather than each reading the status for itself.
+    """
+    return next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified"
+
+
+def awaiting_merge_base(repo, slices, slice_id):
+    """sdlc/<dep> when a dependency is awaiting merge and still has its branch, else None.
+
+    The dependency's pull request is open, so its work is on no other branch: a slice cut from anywhere
+    else would not contain it. Shared by the cut and the base-branch answer so the two cannot disagree
+    about which slice that is.
+    """
+    me = next((x for x in slices if x.get("id") == slice_id), {})
+    for dep in me.get("dependsOn") or []:
+        d = next((x for x in slices if x.get("id") == dep), None)
+        if d and d.get("status") == "awaiting-merge" and branch_exists(repo, f"sdlc/{dep}"):
+            return f"sdlc/{dep}"
+    return None
+
+
+def slice_base(repo, config, slices, milestones, slice_id):
+    """The branch sdlc/<id> is cut from, decided without touching the repository.
+
+    Read-only, and the answer every caller should ask for rather than re-derive. Six prompt files used to
+    spell this rule out in prose, and two of them got it wrong in ways nothing caught: commit-state.md
+    picked the branch from a milestone's `status`, which is `verified` by the time the milestone-writer
+    commits, so that commit went to the wrong branch. A prompt cannot be made to fail a test when the rule
+    is prose, and an agent reading prose has to re-derive the rule correctly every time.
+
+    Deliberately side-effect free, unlike ensure_slice_branch: it creates no branch, checks nothing out
+    and advances nothing. It names the milestone branch even where that branch does not exist yet —
+    ensure_milestone_branch creates it when the slice is cut — and it never falls back to the default
+    branch in stack mode, so an unanswerable case is an error rather than a plausible name.
+    """
+    if not any(x.get("id") == slice_id for x in slices):
+        raise Fail(f"no slice {slice_id} in slices.json")
+    base = awaiting_merge_base(repo, slices, slice_id)
+    if base:
+        return base
+    if config.get("gitMode") != "stack":
+        return config.get("defaultBranch") or "main"
+    mid = milestone_of(milestones, slice_id)
+    if mid and not milestone_shipped(milestones, mid):
+        return f"sdlc/{mid}"
+    # the slice belongs to no milestone, or to one that shipped: the run branch is its base, and it has to
+    # exist, because a slice must never land on the default branch in stack mode
+    run = config.get("runBranch") or ""
+    if not run:
+        raise Fail("stack mode needs config.runBranch: a slice builds on its milestone branch, never on the default branch")
+    if not branch_exists(repo, run):
+        raise Fail(f"stack mode needs the run branch {run}, which does not exist")
+    return run
+
+
 def ensure_slice_branch(repo, config, slices, milestones, slice_id):
     """Be on sdlc/<id>, creating it as commit-state.md says when it does not exist yet."""
     want = f"sdlc/{slice_id}"
@@ -468,14 +530,10 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
     if branch_exists(repo, want):
         git(repo, "checkout", "-q", want)
         return want
-    me = next((x for x in slices if x.get("id") == slice_id), {})
-    base = config.get("defaultBranch") or "main"
-    for dep in me.get("dependsOn") or []:
-        d = next((x for x in slices if x.get("id") == dep), None)
-        if d and d.get("status") == "awaiting-merge" and branch_exists(repo, f"sdlc/{dep}"):
-            base = f"sdlc/{dep}"
-            break
-    else:
+    # the same answer slice_base gives, so the branch a prompt is told to use is the branch cut here
+    base = awaiting_merge_base(repo, slices, slice_id)
+    if not base:
+        base = config.get("defaultBranch") or "main"
         if config.get("gitMode") == "stack":
             # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
             mid = milestone_of(milestones, slice_id)
@@ -591,6 +649,9 @@ def main():
     p.add_argument("--slice", required=True)
     p = sub.add_parser("status")
     p.add_argument("--repo", default=".")
+    p = sub.add_parser("base-branch", help="print the branch a slice is cut from, and change nothing")
+    p.add_argument("--repo", default=".")
+    p.add_argument("--slice", required=True)
     p = sub.add_parser("add-requirements")
     p.add_argument("--repo", default=".")
     p.add_argument("--lens", default="")
@@ -605,6 +666,15 @@ def main():
         if a.cmd == "status":
             write_status(repo)
             out = {"ok": True}
+        elif a.cmd == "base-branch":
+            # read-only: no branch created, none checked out, nothing committed, so a prompt can ask
+            # mid-task without disturbing the working tree it is in the middle of
+            state = os.path.join(repo, ".sdlc")
+            cfg = read_json(os.path.join(state, "config.json"))
+            require_known_mode(cfg)
+            branch = slice_base(repo, cfg, slices_of(read_json(os.path.join(state, "slices.json"), [])),
+                                read_json(os.path.join(state, "milestones.json"), []), a.slice)
+            out = {"ok": True, "slice": a.slice, "branch": branch}
         else:
             try:
                 data = json.load(sys.stdin)
