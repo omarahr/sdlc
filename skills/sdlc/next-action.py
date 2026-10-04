@@ -11,7 +11,7 @@ It prints one JSON object:
 
 Checks run in this order, and the first that matches wins:
   A  stop or bootstrap     STOP file; a state PR that is not ready; no config, changed spec, new override
-  B  finish work in flight a PR that can merge or was merged by a human; a slice in progress
+  B  finish work in flight a PR that can merge or was merged by a human; a slice in progress; a milestone holding the run
   C  milestones            no milestones.json; a milestone whose slices are finished
   D  start new work        the next todo slice with its dependencies met; a parked slice with retries left
   E  nothing can start     only PRs awaiting review; todo slices that nothing can unblock
@@ -213,15 +213,21 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         base = wt
     config = base.json(f"{sdlc}/config.json")
     mode = (config or {}).get("gitMode")
+    stack = mode == "stack"
 
-    # sync and the state-PR wait (pr mode only: direct and mr mode have no pull requests for slices or state)
+    # sync and the state-PR wait (pr mode only: direct and mr mode have no pull requests for slices or state.
+    # stack mode has pull requests for slices and milestones, but none for state, so it skips the state-PR arm)
     open_prs, merged_prs = [], []
-    if config and mode == "pr":
+    if config and mode in ("pr", "stack"):
         if not prs_file:
             run(repo, "git", "fetch", "-q", "origin")
         open_prs, merged_prs = load_prs(repo, prs_file)
-        state_prs = [p for p in open_prs if p.get("headRefName", "").startswith("sdlc/state-")]
-        e2e_prs = [p for p in open_prs if re.fullmatch(r"sdlc/M-.*-e2e", p.get("headRefName", ""))]
+        # both of these arms are pr mode's. In stack mode there are no sdlc/state-* pull requests at all, and
+        # the e2e suite merges into the milestone branch locally rather than as a pull request, so an
+        # sdlc/M-*-e2e pull request found here is stale and merging it would land e2e code straight on the
+        # default branch, bypassing the milestone it belongs to.
+        state_prs = [p for p in open_prs if mode == "pr" and p.get("headRefName", "").startswith("sdlc/state-")]
+        e2e_prs = [p for p in open_prs if mode == "pr" and re.fullmatch(r"sdlc/M-.*-e2e", p.get("headRefName", ""))]
         ready = [p for p in state_prs + e2e_prs if pr_ready(p)]
         sync = [f"gh pr merge {p['number']} --squash --delete-branch" for p in ready]
         behind = False
@@ -280,6 +286,22 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
             by_id[sid]["pr"] = p.get("url") or by_id[sid].get("pr", "")
             pr_of[sid] = p
 
+    # stack mode: an open milestone pull request holds the run. The next milestone branches from the default
+    # branch, so starting it before this one lands would build on code nobody has reviewed.
+    milestone_hold = None
+    if stack:
+        known = {m.get("id") for m in as_list(src.json(".sdlc/milestones.json") or [], "milestones")}
+        for p in open_prs:
+            head = p.get("headRefName", "")
+            if not re.fullmatch(r"sdlc/M-.+", head):
+                continue
+            mid = head[len("sdlc/"):]
+            # sdlc/M-1-e2e is merged locally in stack mode and never has a pull request, but a stale one
+            # from a run that changed mode must not hold this one
+            if mid in known and not pr_ready(p):
+                milestone_hold = (mid, p.get("url") or p["number"])
+                break
+
     def out(action, reason, s=None, **extra):
         nxt = {"action": action, "reason": reason, **extra}
         if s is not None:
@@ -298,6 +320,15 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
     for s in slices:
         if s.get("status") == "in_progress":
             return out("slice", f"B: {s['id']} is in progress at phase {s.get('phase', 'plan')}", s)
+
+    # stack mode: an open milestone pull request holds the run, and it outranks section C. The milestone's
+    # own state lives on the milestone branch, so the default branch still records the milestone as unverified
+    # with every slice finished — without this check C would hand the milestone straight back to the
+    # milestone-writer, which would re-ship it and loop until a human merged. The next milestone branches from
+    # the default branch, so starting it before this one lands would build on code nobody has reviewed.
+    if milestone_hold:
+        mid, url = milestone_hold
+        return out("wait", f"B: milestone {mid} is not merged yet ({url}); the next milestone branches from the default branch, so the run holds until a human merges it")
 
     # C. milestones
     raw_milestones = src.json(f"{sdlc}/milestones.json")

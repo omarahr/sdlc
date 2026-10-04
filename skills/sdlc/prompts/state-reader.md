@@ -21,11 +21,11 @@ Return `{"action": "error", "reason": "<what failed, with the command's error te
 Never work the decision out yourself from the state files. If the script's answer looks wrong to you, return it anyway and add your doubt at the end of `reason`.
 
 ## What the script checks (for reference; the script is the source of truth)
-It reads the state from the slice branch that is in progress when there is one, and from the default branch otherwise. In `direct` and `mr` mode it makes no forge calls. In `pr` mode it lists pull requests, asks you to merge ready `sdlc/state-*` and `sdlc/M-*-e2e` pull requests, and treats a slice whose open pull request branch records `awaiting-merge` as awaiting merge.
+It reads the state from the slice branch that is in progress when there is one, and from the default branch otherwise. In `direct` and `mr` mode it makes no forge calls. In `pr` mode it lists pull requests, asks you to merge ready `sdlc/state-*` and `sdlc/M-*-e2e` pull requests, and treats a slice whose open pull request branch records `awaiting-merge` as awaiting merge. In `stack` mode it lists pull requests too, but there are no state pull requests: it waits while a milestone's pull request into the default branch is open, because the next milestone branches from the default branch.
 
 The first check that matches wins:
 - **A. Stop or bootstrap:** a `.sdlc/STOP` file; a state pull request that is not ready (wait); no config, a changed spec, or a new `Status: OVERRIDE` entry.
-- **B. Finish work in flight:** a slice whose pull request can merge, or was merged by a human; a slice in progress.
+- **B. Finish work in flight:** a slice whose pull request can merge, or was merged by a human; a slice in progress; a milestone pull request that is not merged yet (wait).
 - **C. Milestones:** no milestones.json; a milestone whose slices are all finished (it runs before later slices start, so bugs surface while the code is fresh).
 - **D. Start new work:** the next todo slice with its dependencies met (a parked dependency does not block its dependents); a parked slice with retries left.
 - **E. Nothing can start:** only pull requests awaiting review (wait); todo slices that nothing can unblock (livelock).
