@@ -57,6 +57,16 @@ test('the common rules scope the relayed user request to the driver', () => {
   assert.match(common, /do not create or switch branches/)
 })
 
+test('the env-detector creates and pushes the run branch, and refuses stack without a github remote', () => {
+  const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
+  assert.match(env, /git checkout -b sdlc\/run-<n> <defaultBranch>/)
+  assert.match(env, /git push -u origin sdlc\/run-<n>/)
+  // n is 1 + the highest existing, so a second run cannot clobber a live one
+  assert.match(env, /refs\/heads\/sdlc\/run-\*/)
+  assert.match(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
+  assert.match(env, /cannot work[\s\S]{0,200}use `direct`/)
+})
+
 test('the integrator deletes archived attempt branches once a slice ships', () => {
   const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
   assert.match(integrator, /\*\*Clean up\*\*/)
