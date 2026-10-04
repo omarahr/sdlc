@@ -48,7 +48,7 @@ test('the skill documents the stack flag, its remote requirement and its resume 
 test('config.json documents runBranch, and milestones document their pr field', () => {
   const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
   assert.match(schema, /"runBranch": ""/)
-  assert.match(schema, /"pr": ""[\s\S]{0,400}milestone/)
+  assert.match(schema, /"fixSlices": \[\],\n\s*"pr": ""/)
 })
 
 test('the common rules scope the relayed user request to the driver', () => {

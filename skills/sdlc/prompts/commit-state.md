@@ -5,7 +5,7 @@ Read `gitMode`, `defaultBranch`, `commitFormat` and, in `stack` mode, `runBranch
 **Stack mode branches.** `sdlc/run-<n>` is the run branch: the tool creates it at bootstrap and pushes it, and it never carries product code. `sdlc/M-<n>` is a milestone branch, cut from `runBranch` when that milestone's first slice starts; slices are cut from it and their pull requests target it. The milestone's own pull request targets `defaultBranch`, and once it merges `runBranch` is fast-forwarded to `defaultBranch` so the next milestone branches from shipped code. `sdlc/<milestoneId>-e2e` is cut from the milestone branch. Audit fix slices (`S-fix-<n>`, which belong to no milestone) are cut from `runBranch` and their pull requests target `defaultBranch`.
 
 **Slice commit** (your inputs name a slice and your role file says "slice commit"):
-1. Be on branch `sdlc/<sliceId>`. If it does not exist, create it as the stack mode branches above say: in `stack` mode from the slice's milestone branch (or `runBranch` for an audit fix), otherwise as below.
+1. Be on branch `sdlc/<sliceId>`. If it does not exist, create it: in `stack` mode from the slice's milestone branch (or `runBranch` for an audit fix), otherwise from the up-to-date default branch — or, when the slice's `dependsOn` includes a slice in `awaiting-merge`, from that slice's branch instead.
 2. `git add .sdlc .gitignore && git commit -m "chore(sdlc): <what> [<sliceId>]"`. Do not push; the integrator ships it with the slice.
 
 **Default-branch commit** (your role file says "default-branch commit"):

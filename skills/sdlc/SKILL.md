@@ -30,12 +30,14 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - **Git mode:**
      - Use the `--git` flag if given.
      - Otherwise use `config.json`'s `gitMode`.
-     - Otherwise use `pr` when `git -C "$REPO" remote -v` shows github.com. Add `stack` before `pr`: when the user gave `--git stack`, or when `config.json` has `gitMode: stack`, keep `stack`.
+     - Otherwise use `stack` before `pr`: when the user gave `--git stack`, or when `config.json` has `gitMode: stack`, keep `stack`.
+     - Otherwise use `pr` when `git -C "$REPO" remote -v` shows github.com.
      - Otherwise use `mr` when `glab auth status --hostname <the remote's host>` succeeds and the current branch is not the remote's default branch.
      - Otherwise use `direct`.
 
      In `pr` mode, `gh auth status` must succeed. In `mr` mode, the forge's CLI must be signed in (`glab auth status --hostname <host>`, or `gh auth status` for GitHub), and the current branch must not be the remote's default branch: tell the user to start from a feature branch. On GitLab, also read the push rule (`glab api "projects/:fullpath/push_rule"`): if it has a `branch_name_regex` that the current branch does not match, the push would be rejected, so report the pattern, ask the user to rename the branch, and end. A project with no push rule (an error or an empty answer) passes this check.
-     - In `stack` mode `gh auth status` must succeed, and `git -C "$REPO" remote -v` must show github.com. Without one, report why and end rather than falling back: stack mode's contract is that a milestone is reviewed and merged by you. On resume, `git -C "$REPO" checkout <config.runBranch>` first — the run branch is authoritative, not the current branch.
+
+     In `stack` mode `gh auth status` must succeed, and `git -C "$REPO" remote -v` must show github.com. Without one, report why and end rather than falling back: stack mode's contract is that a milestone is reviewed and merged by you. On resume, `git -C "$REPO" checkout <config.runBranch>` first — the run branch is authoritative, not the current branch.
    - **Branch name (first run only):** if `$REPO/.sdlc/config.json` does not exist and the current branch name starts with `sdlc/`, report that the workflow keeps that prefix for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end. This check is first run only: on a resume the current branch is normally `runBranch`, which starts with `sdlc/` and is correct. When `config.json` exists, trust `config.runBranch`.
    - `rm -f "$REPO/.sdlc/STOP"`.
 2. **Launch.**

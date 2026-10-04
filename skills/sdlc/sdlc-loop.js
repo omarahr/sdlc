@@ -306,6 +306,7 @@ function pause(reason, history) {
 
 // bootstrap
 const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str }, required: ['added'] }
+// the modes a run may be in. It cannot be exported: the test harness compiles this file as a function body, so Task 7 reads it from INTERNALS.
 const GIT_MODES = ['pr', 'direct', 'mr', 'stack']
 const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: GIT_MODES }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
 // the critics of one round look at the same ledger from different angles, in parallel; they add through a script
