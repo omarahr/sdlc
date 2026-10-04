@@ -25,7 +25,7 @@ test('script avoids APIs the workflow runtime forbids', () => {
 })
 
 test('every prompt that branches on the git mode says what mr mode does', () => {
-  for (const f of ['integrator', 'commit-state', 'milestone-writer', 'env-detector', 'state-schema', 'state-reader', 'e2e-harness']) {
+  for (const f of ['integrator', 'commit-state', 'milestone-writer', 'env-detector', 'state-schema', 'state-reader', 'e2e-harness', 'implementer']) {
     assert.match(readFileSync(join(SKILL_DIR, 'prompts', `${f}.md`), 'utf8'), /`mr`/, `${f}.md does not mention mr mode`)
   }
 })
@@ -108,4 +108,41 @@ test('the integrator deletes archived attempt branches once a slice ships', () =
   assert.match(integrator, /sdlc\/<id>-attempt-\*/)
   assert.match(integrator, /splitInto/)
   assert.match(integrator, /Never delete a branch of a slice that is not finished/)
+})
+
+test('the integrator ships a stack slice into its milestone branch, not the default branch', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  assert.match(i, /`stack` mode/)
+  // the pull request targets the slice's base branch, which is its milestone branch
+  assert.match(i, /--base <baseBranch>/)
+  // and the evidence diff uses that same base, not the default branch
+  assert.match(i, /git diff --name-only <baseBranch>\.\.\.HEAD/)
+  assert.match(i, /--ref sdlc\/<id>/)
+  // both cases named outright: an agent must not be sent to rediscover the base with a git command
+  // that behaves differently across versions and fails outright on a shallow clone
+  assert.match(i, /in `stack` mode the slice's milestone branch `sdlc\/M-<n>`/)
+  assert.match(i, /in `pr` mode `<defaultBranch>`/)
+})
+
+test('the milestone-writer opens the milestone pull request and retargets the e2e merge', () => {
+  const m = readFileSync(join(SKILL_DIR, 'prompts', 'milestone-writer.md'), 'utf8')
+  assert.match(m, /## Ship the milestone/)
+  assert.match(m, /--base <defaultBranch>/)
+  assert.match(m, /"pr": "<url>"/)
+  assert.match(m, /sdlc\/run-<n>/)
+  // the e2e suite merges into the milestone branch, not the default branch
+  assert.match(m, /`stack` mode[\s\S]{0,300}sdlc\/M-<n>/)
+})
+
+test('the milestone-writer defers the milestone branch to its owner rather than creating it', () => {
+  const m = readFileSync(join(SKILL_DIR, 'prompts', 'milestone-writer.md'), 'utf8')
+  // ensure_milestone_branch is the only owner of sdlc/M-<n>; a second recipe here is the duplicate-owner defect
+  assert.match(m, /if it is missing, stop and report it rather than creating it/)
+  assert.doesNotMatch(m, /create `sdlc\/M-<n>`/)
+})
+
+test('the implementer times the suite against the slice base branch in stack mode', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'implementer.md'), 'utf8')
+  assert.match(i, /`stack` mode/)
+  assert.match(i, /base branch/)
 })
