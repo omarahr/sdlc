@@ -493,3 +493,142 @@ test('stack mode names the missing run branch rather than letting git fail', opt
   assert.equal(git(repo, 'branch', '--list', 'sdlc/S-fix-1').trim(), '')
   assert.equal(json(repo, 'slices.json')[0].status, 'todo')
 })
+
+test('an unknown gitMode fails loudly instead of committing the slice to the default branch', opts, () => {
+  // config.json is written by an agent, so nothing but this check constrains gitMode to the four modes.
+  // An unrecognised one reaches no arm of ensure_slice_branch and behaves like direct: a slice committed to
+  // the default branch, with no pull request and no push — the one thing stack mode exists to prevent.
+  for (const mode of ['stak', 'STACK', 'PullRequest']) {
+    const repo = fixture({ config: { gitMode: mode, defaultBranch: 'main', runBranch: 'sdlc/run-1' }, slices: [slice('S-014')], milestones: [{ id: 'M-2', status: 'pending', slices: ['S-014'], fixSlices: [] }] })
+    const r = call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' })
+    assert.equal(r.code, 2, `${mode} must not be silently accepted`)
+    assert.match(r.out.error, new RegExp(mode))
+    assert.match(r.out.error, /pr, direct, mr, stack/)
+    // nothing was committed and no slice branch was cut, so the slice cannot have landed on main
+    assert.equal(git(repo, 'branch', '--list', 'sdlc/S-014').trim(), '')
+    assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), '')
+    assert.equal(json(repo, 'slices.json')[0].status, 'todo')
+    assert.equal(git(repo, 'rev-parse', 'main'), git(repo, 'rev-parse', 'HEAD'))
+  }
+  // the four known modes are still accepted
+  for (const mode of ['pr', 'direct', 'mr', 'stack']) {
+    const repo = fixture({ config: { gitMode: mode, defaultBranch: 'main', runBranch: 'sdlc/run-1' }, slices: [slice('S-014')] })
+    git(repo, 'branch', 'sdlc/run-1')
+    assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' }).code, 0, `${mode} mode was rejected`)
+  }
+  // and an absent gitMode is pre-existing behaviour, unchanged
+  const unset = fixture({ config: { gitMode: '' }, slices: [slice('S-014')] })
+  assert.equal(call(STATE, unset, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' }).code, 0)
+})
+
+test('after a milestone PR merges, the run branch carries it before the next branch is cut from it', opts, () => {
+  // The state nothing on this branch covered, and the gap both of these defects lived in. A merged
+  // milestone's branch is deleted, so the next base is the run branch — and milestone-writer.md owned the
+  // run branch's advance in prose, in a step that only runs while a milestone is due. A merged milestone
+  // is verified everywhere and due never again, so the run branch stayed on the code from before the last
+  // milestone shipped. The audit fix slice below belongs to no milestone, so its base is the run branch
+  // alone: cut from a stale one it would miss every shipped milestone.
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-fix-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Shipped', status: 'verified', slices: [], fixSlices: [] }],
+    remote: true,
+  })
+  // the run branch, pushed at bootstrap, carrying no product code
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  // M-1 ships: work lands on main through the milestone branch, which is then deleted
+  const pub = publisher(remotes.get(repo))
+  pushFile(pub, 'src/shipped.txt', 'M-1 shipped\n', 'feat(M-1): milestone work')
+  git(repo, 'fetch', '-q', 'origin')
+  const stale = git(repo, 'rev-parse', 'sdlc/run-1')
+  assert.notEqual(git(repo, 'rev-parse', 'origin/main'), stale, 'the run branch is stale before the fix, so this test can fail')
+
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-fix-1'], { status: 'in_progress' })
+  assert.equal(r.code, 0, r.out.error)
+  // the slice is based on the run branch, which now carries the shipped milestone
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'sdlc/S-fix-1^'))
+  assert.equal(readFileSync(join(repo, 'src', 'shipped.txt'), 'utf8'), 'M-1 shipped\n', 'the slice was cut from a run branch missing the shipped milestone')
+  // ...and it was pushed, so origin/sdlc/run-1 is not left behind a local-only advance
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'origin/sdlc/run-1'))
+  assert.equal(git(repo, 'status', '--porcelain'), '')
+})
+
+test('the run branch is advanced onto the default branch when a milestone branch is cut too', opts, () => {
+  // The same transition on the milestone path, which is the one every ordinary slice takes. The run branch
+  // has to reach shipped code here as well, or the second milestone's branch — and every slice under it —
+  // builds on code from before the first milestone landed.
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-020')],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  const pub = publisher(remotes.get(repo))
+  pushFile(pub, 'src/shipped.txt', 'M-1 shipped\n', 'feat(M-1): milestone work')
+  git(repo, 'fetch', '-q', 'origin')
+  assert.notEqual(git(repo, 'rev-parse', 'origin/main'), git(repo, 'rev-parse', 'sdlc/run-1'))
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'merge-base', '--is-ancestor', 'origin/main', 'sdlc/run-1'), '')
+  assert.equal(git(repo, 'merge-base', '--is-ancestor', 'origin/main', 'sdlc/M-2'), '')
+  assert.equal(readFileSync(join(repo, 'src', 'shipped.txt'), 'utf8'), 'M-1 shipped\n')
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'origin/sdlc/run-1'))
+})
+
+test('advancing the run branch merges rather than rebasing, and never force-pushes it', opts, () => {
+  // The run branch is published and other people may have read it, so the advance is a merge or a
+  // fast-forward and never a rebase or a force. A run branch that moved and then was rebased would make
+  // every branch already cut from it unreadable to anyone who fetched it, and a force-push would do the
+  // same to the milestone branches cut from it.
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-fix-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Shipped', status: 'verified', slices: [], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  writeFileSync(join(repo, 'src', 'run.txt'), 'run work\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'run work')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  const published = git(repo, 'rev-parse', 'origin/sdlc/run-1')
+  // the default branch moves on a different file, so the advance cannot fast-forward
+  const pub = publisher(remotes.get(repo))
+  pushFile(pub, 'src/app.txt', 'v2\n', 'main moved')
+  git(repo, 'fetch', '-q', 'origin')
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-fix-1'], { status: 'in_progress' }).code, 0)
+  // the published run-branch commit is still an ancestor: a merge keeps history, a rebase would not
+  assert.equal(git(repo, 'merge-base', '--is-ancestor', published, 'sdlc/run-1'), '')
+  assert.notEqual(git(repo, 'rev-parse', 'sdlc/run-1'), published, 'the run branch did not advance, so nothing was proven')
+  // and the push was accepted as a fast-forward, not forced over anything
+  assert.equal(git(repo, 'merge-base', '--is-ancestor', published, 'origin/sdlc/run-1'), '')
+  assert.equal(git(repo, 'status', '--porcelain'), '')
+})
+
+test('a milestone branch left behind by an earlier attempt does not win over the verified rule', opts, () => {
+  // The deletion of a merged milestone's branch is a step in milestone-writer that, like the run branch's
+  // advance, nothing ran. Until the branch is gone the branch-exists check answered first, so a slice for a
+  // shipped milestone built on that stale branch — which no milestone PR will ever ship, because a verified
+  // milestone is due never again. The verified rule is checked first so the stale branch cannot win.
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-fix-M-1-1', { kind: 'fix' })],
+    milestones: [{ id: 'M-1', title: 'Shipped', status: 'verified', slices: [], fixSlices: ['S-fix-M-1-1'] }],
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  // M-1's branch is still around, holding work the loop will never ship
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  writeFileSync(join(repo, 'src', 'app.txt'), 'unshipped milestone work\n')
+  git(repo, 'commit', '-q', '-am', 'M-1 leftover')
+  const stale = git(repo, 'rev-parse', 'sdlc/M-1')
+  git(repo, 'checkout', '-q', 'sdlc/run-1')
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-fix-M-1-1'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-fix-M-1-1^'), git(repo, 'rev-parse', 'sdlc/run-1'), 'the slice was cut from the stale milestone branch')
+  assert.notEqual(git(repo, 'rev-parse', 'sdlc/S-fix-M-1-1^'), stale)
+  assert.equal(readFileSync(join(repo, 'src', 'app.txt'), 'utf8'), 'v1\n', "the stale branch's unshipped work leaked into the slice")
+})

@@ -27,6 +27,19 @@ class Fail(Exception):
     pass
 
 
+# config.json is written by an agent, not by this script, so nothing else constrains gitMode to these four.
+# An unrecognised one falls through every arm of ensure_slice_branch and behaves like direct: a slice
+# committed to the default branch with no pull request and no push. That fails the stack guarantee silently,
+# so name the mode and stop.
+GIT_MODES = ("pr", "direct", "mr", "stack")
+
+
+def require_known_mode(config):
+    mode = config.get("gitMode")
+    if mode and mode not in GIT_MODES:
+        raise Fail(f"config.json has gitMode {mode!r}, which is not one of {', '.join(GIT_MODES)}: fix config.json rather than let the run deliver the wrong way")
+
+
 def git(repo, *args, check=True):
     r = subprocess.run(["git", "-C", repo, *args], capture_output=True, text=True)
     if check and r.returncode != 0:
@@ -173,26 +186,18 @@ def milestone_of(milestones, slice_id):
     return None
 
 
-def ensure_milestone_branch(repo, config, milestones, milestone_id):
-    """sdlc/M-<id>, created from the run branch and pushed when it does not exist yet.
+def advance_run_branch(repo, config, run):
+    """Bring the run branch onto origin/<defaultBranch>, and push it when that moved it.
 
-    A milestone that is already verified has had its branch deleted after its pull request
-    merged, so a slice belonging to it builds on the run branch — that milestone shipped, and
-    the run branch has been fast-forwarded to what it shipped.
+    This is the only owner of that transition. milestone-writer.md used to describe the same step in
+    prose, but nothing ran it: the milestone-writer only runs while a milestone is due, and a merged
+    milestone is verified everywhere and due never again. Two owners, one of them unreachable, is how
+    the run branch stayed on the code from before the last milestone shipped.
     """
-    if not milestone_id:
-        return None
-    want = f"sdlc/{milestone_id}"
-    if branch_exists(repo, want):
-        return want
-    if next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified":
-        return None
-    run = config.get("runBranch") or ""
-    if not run or not branch_exists(repo, run):
-        raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
-    # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
     git(repo, "checkout", "-q", run)
+    before = git(repo, "rev-parse", run).stdout.strip()
     upstream = f"origin/{config.get('defaultBranch') or 'main'}"
+    # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
     if git(repo, "merge", "-q", "--ff-only", upstream, check=False).returncode != 0:
         if git(repo, "merge", "-q", "--no-edit", upstream, check=False).returncode != 0:
             # both merges failed. A missing ref is tolerable — a --single-branch clone may have no
@@ -200,7 +205,38 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
             # it leaves the index unmerged, and the run branch must never be left mid-merge.
             if git(repo, "rev-parse", "-q", "--verify", "MERGE_HEAD", check=False).returncode == 0:
                 git(repo, "merge", "--abort", check=False)
-                raise Fail(f"{upstream} conflicts with {run}: resolve it there, then cut the milestone branch again")
+                raise Fail(f"{upstream} conflicts with {run}: resolve it there, then cut the branch again")
+    # a plain push, never --force: the run branch is published, so a rejection is reported by the remote
+    if git(repo, "rev-parse", run).stdout.strip() != before:
+        git(repo, "push", "-q", "origin", run, check=False)
+    return run
+
+
+def ensure_milestone_branch(repo, config, milestones, milestone_id):
+    """sdlc/M-<id>, created from the run branch and pushed when it does not exist yet.
+
+    A milestone that is already verified has had its branch deleted after its pull request
+    merged, so a slice belonging to it builds on the run branch — that milestone shipped, and
+    the run branch has been advanced onto what it shipped.
+    """
+    if not milestone_id:
+        return None
+    want = f"sdlc/{milestone_id}"
+    # the verified rule first: a milestone branch left behind by an earlier attempt must not win over
+    # the fact that the milestone shipped, or a fix for it would build on a branch the loop will never ship
+    #
+    # `exhausted` is deliberately NOT covered here. A milestone that ran out of attempts has no pull request
+    # to merge (milestone-writer ships only `verified`), so a fix slice cut for it gets a milestone branch
+    # the loop will not deliver. Left as-is on purpose: the alternative — basing it on the run branch — puts
+    # the fix outside the milestone it answers, and the audit that follows ships that fix on its own PR.
+    if next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified":
+        return None
+    if branch_exists(repo, want):
+        return want
+    run = config.get("runBranch") or ""
+    if not run or not branch_exists(repo, run):
+        raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
+    advance_run_branch(repo, config, run)
     git(repo, "checkout", "-q", "-b", want)
     git(repo, "push", "-q", "-u", "origin", want, check=False)
     return want
@@ -235,6 +271,9 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
                     raise Fail("stack mode needs config.runBranch: a slice builds on its milestone branch, never on the default branch")
                 if not branch_exists(repo, run):
                     raise Fail(f"stack mode needs the run branch {run}, which does not exist")
+                # an audit fix slice belongs to no milestone, so the run branch is its base and has to
+                # carry every shipped milestone: nothing else moves it, and the audit runs after they merged
+                advance_run_branch(repo, config, run)
                 base = run
         elif config.get("gitMode") == "pr":
             # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
@@ -249,6 +288,7 @@ def patch_slice(repo, slice_id, patch):
         raise Fail("the patch must be a JSON object")
     s = os.path.join(repo, ".sdlc")
     config = read_json(os.path.join(s, "config.json"))
+    require_known_mode(config)
     branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))),
                                  read_json(os.path.join(s, "milestones.json"), []), slice_id)
     # read again: the branch just checked out holds this slice's state

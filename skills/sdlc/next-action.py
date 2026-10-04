@@ -32,6 +32,10 @@ FINISHED = ("done", "parked")
 SATISFIED = ("done", "awaiting-merge", "parked")
 PARK_CYCLE_LIMIT = 3
 MILESTONE_ATTEMPT_LIMIT = 3
+# config.json is written by an agent, not by this script, so nothing else constrains gitMode to these four.
+# An unrecognised one falls through every arm below and behaves like direct: slices committed to the default
+# branch with no pull request and no push. That fails a stack run's central guarantee silently, so name it.
+GIT_MODES = ("pr", "direct", "mr", "stack")
 PR_FIELDS = "number,headRefName,url,mergeable,reviewDecision,statusCheckRollup"
 
 
@@ -213,6 +217,8 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         base = wt
     config = base.json(f"{sdlc}/config.json")
     mode = (config or {}).get("gitMode")
+    if mode and mode not in GIT_MODES:
+        raise StateError(f"config.json has gitMode {mode!r}, which is not one of {', '.join(GIT_MODES)}: fix config.json rather than let the run deliver the wrong way")
     stack = mode == "stack"
 
     # sync and the state-PR wait (pr mode only: direct and mr mode have no pull requests for slices or state.
@@ -295,10 +301,17 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         for p in open_prs:
             head = p.get("headRefName", "")
             # the -e2e suffix is excluded explicitly, not by the pattern below: sdlc/M-1-e2e matches
-            # `sdlc/M-.+` exactly as a milestone branch does. Stack mode merges the e2e suite locally and
+            # `sdlc/M-[^/]+` exactly as a milestone branch does. Stack mode merges the e2e suite locally and
             # has no arm that would merge such a pull request, so holding on a stale one — left by a run
             # that changed mode — would livelock the run forever.
-            if re.fullmatch(r"sdlc/M-[^/]+(?<!-e2e)", head) and not pr_ready(p):
+            #
+            # Readiness is deliberately NOT part of this test. A milestone pull request holds the run while
+            # it is open, because the next milestone cuts its branch from runBranch, which only moves onto
+            # shipped code once this merges. On a repository with no required reviews — the common case — a
+            # green milestone pull request is pr_ready, so holding only on a blocked one let control reach
+            # C, which handed an already-verified milestone straight back to the milestone-writer to re-run
+            # its whole behavior campaign against an open pull request.
+            if re.fullmatch(r"sdlc/M-[^/]+", head) and not head.endswith("-e2e"):
                 milestone_hold = (head[len("sdlc/"):], p.get("url") or p["number"])
                 break
 

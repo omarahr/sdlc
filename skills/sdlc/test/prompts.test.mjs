@@ -144,6 +144,21 @@ test('the milestone-writer defers the milestone branch to its owner rather than 
   assert.doesNotMatch(m, /create `sdlc\/M-<n>`/)
 })
 
+test('the milestone-writer leaves the run branch to the code and deletes the milestone branch safely', () => {
+  const m = readFileSync(join(SKILL_DIR, 'prompts', 'milestone-writer.md'), 'utf8')
+  const merged = m.slice(m.indexOf('6. **Merged:**'))
+  assert.ok(merged.length, 'the Merged step is gone')
+  // the run branch's advance belongs to advance_run_branch in state-write.py. Describing it here as well is
+  // the duplicate owner that left it stale: the writer only runs while a milestone is due, so its Merged step
+  // is unreachable for a milestone that already merged, and nothing ran the transition it described.
+  assert.doesNotMatch(merged, /merge --ff-only/, 'the Merged step must not merge anything into the run branch')
+  assert.match(merged, /advance_run_branch/)
+  assert.match(merged, /origin\/sdlc\/M-<n>|--delete sdlc\/M-<n>/)
+  // -d, not -D: a branch that is not merged is a fact worth stopping on, not a stale branch worth forcing away
+  assert.match(merged, /git branch -d sdlc\/M-<n>/)
+  assert.doesNotMatch(merged, /git branch -D/)
+})
+
 test('the implementer times the suite against the slice base branch in stack mode', () => {
   const i = readFileSync(join(SKILL_DIR, 'prompts', 'implementer.md'), 'utf8')
   assert.match(i, /`stack` mode/)
