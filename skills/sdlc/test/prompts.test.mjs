@@ -144,19 +144,32 @@ test('the milestone-writer defers the milestone branch to its owner rather than 
   assert.doesNotMatch(m, /create `sdlc\/M-<n>`/)
 })
 
-test('the milestone-writer leaves the run branch to the code and deletes the milestone branch safely', () => {
+test('the milestone-writer leaves both branch transitions to the code', () => {
   const m = readFileSync(join(SKILL_DIR, 'prompts', 'milestone-writer.md'), 'utf8')
   const merged = m.slice(m.indexOf('6. **Merged:**'))
   assert.ok(merged.length, 'the Merged step is gone')
-  // the run branch's advance belongs to advance_run_branch in state-write.py. Describing it here as well is
-  // the duplicate owner that left it stale: the writer only runs while a milestone is due, so its Merged step
-  // is unreachable for a milestone that already merged, and nothing ran the transition it described.
+  // Both transitions belong to state-write.py. Describing either here is the duplicate owner that left the
+  // run branch stale and the milestone branches behind: the writer only runs while a milestone is due, so its
+  // Merged step is unreachable for a milestone that already merged, and nothing ran what it described.
   assert.doesNotMatch(merged, /merge --ff-only/, 'the Merged step must not merge anything into the run branch')
   assert.match(merged, /advance_run_branch/)
-  assert.match(merged, /origin\/sdlc\/M-<n>|--delete sdlc\/M-<n>/)
-  // -d, not -D: a branch that is not merged is a fact worth stopping on, not a stale branch worth forcing away
-  assert.match(merged, /git branch -d sdlc\/M-<n>/)
-  assert.doesNotMatch(merged, /git branch -D/)
+  assert.match(merged, /prune_stale_milestone_branches/)
+  // and the deletion it used to spell out is gone rather than re-described. `-d` was wrong twice over: after
+  // a squash merge git refuses a branch whose work did ship, and the step told the agent to stop on a
+  // milestone that merged perfectly.
+  assert.doesNotMatch(merged, /git branch -[dD]/)
+  assert.doesNotMatch(merged, /push origin --delete/)
+  assert.doesNotMatch(m, /git branch -[dD]/, 'no step may spell out a branch deletion the code owns')
+  assert.doesNotMatch(m, /branch -D/, 'a milestone branch is never forced away')
+})
+
+test('the stack commit rule states when the run branch is actually pushed', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  // advance_run_branch pushes only when the merge moved the branch, so a commit made while the run branch is
+  // already level with origin/<defaultBranch> stays local. Saying it is pushed "at the moment it advances"
+  // implies a push on every cut, and the reviewer verified the advance is a no-op in exactly that case.
+  assert.match(c, /only by an advance that actually moves it/)
+  assert.match(c, /no-op and pushes nothing/)
 })
 
 test('the implementer times the suite against the slice base branch in stack mode', () => {

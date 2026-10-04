@@ -33,6 +33,10 @@ class Fail(Exception):
 # so name the mode and stop.
 GIT_MODES = ("pr", "direct", "mr", "stack")
 
+# a milestone branch is exactly sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack
+# mode merges locally and never opens a pull request for, so it is not a milestone branch here
+MILESTONE_BRANCH = re.compile(r"^sdlc/M-\d+$")
+
 
 def require_known_mode(config):
     mode = config.get("gitMode")
@@ -212,6 +216,93 @@ def advance_run_branch(repo, config, run):
     return run
 
 
+def branch_run(repo, branch):
+    """The run branch named by the .sdlc/config.json committed ON <branch>, or "" when it names none.
+
+    This is what makes a milestone branch name run-scoped. Milestone ids restart at M-1 on every run while
+    sdlc/run-<n> keeps counting, so run 2's first milestone branch carries exactly the name run 1's first
+    milestone branch carried. Without this, a branch an earlier run left behind answers the exists check for
+    this run's milestone: run 1's code becomes the base of run 2's first slice, and run 2's sdlc/M-1 pull
+    request carries it to the default branch. The run that wrote a branch onto it is recorded in it.
+    """
+    r = git(repo, "show", f"{branch}:.sdlc/config.json", check=False)
+    try:
+        return (json.loads(r.stdout) or {}).get("runBranch") or ""
+    except ValueError:  # absent or unreadable: the branch claims no run, so it is claimed as nobody's
+        return ""
+
+
+def shipped_into(repo, branch, default):
+    """True when every path <branch> changed since it forked is byte-identical on <default>.
+
+    `git branch -d` cannot answer this for the merge stack mode actually uses. GitHub squash-merges by
+    default, so the branch's commits are never ancestors of the default branch and `-d` refuses a branch whose
+    every byte is already shipped. What the caller needs to know is whether the branch still holds work no
+    human has accepted, so compare content against origin/<defaultBranch> — named explicitly, never left to
+    git's fallback to HEAD, which after a squash merge does not contain the branch either.
+    """
+    forked = git(repo, "merge-base", default, branch, check=False)
+    if forked.returncode != 0:
+        return False
+    changed = git(repo, "diff", "--name-only", forked.stdout.strip(), branch, check=False)
+    if changed.returncode != 0:
+        return False
+    for path in (p for p in changed.stdout.split("\n") if p.strip()):
+        here = git(repo, "rev-parse", f"{branch}:{path}", check=False)
+        there = git(repo, "rev-parse", f"{default}:{path}", check=False)
+        # a path one side has and the other does not is unshipped work; both missing is a deletion both made
+        if here.returncode != there.returncode:
+            return False
+        if here.returncode == 0 and here.stdout.strip() != there.stdout.strip():
+            return False
+    return True
+
+
+def prune_stale_milestone_branches(repo, config, keep):
+    """Delete the sdlc/M-<n> branches whose milestone has shipped, and return the ones deleted.
+
+    The other half of advance_run_branch's move out of milestone-writer.md: the branch deletion lived in that
+    file's "Merged" step, which never runs for a milestone that merged, so the branches accumulated. Three
+    gates, and each one is a way this has to be wrong:
+
+      - name: only sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack mode merges
+        locally and never opens a pull request for.
+      - shipped: only a branch whose every change since it forked is already on origin/<defaultBranch>. That
+        is what an in-flight milestone fails: an open milestone pull request is by definition not on the
+        default branch yet, so its branch survives and the slices cut from it are not stranded.
+      - the caller's own: `keep` is the branch this call is about to cut. When this run owns it, slices may
+        already be cut from it, so it is never deleted here.
+
+    Never `-D` and never a force-push: `-d` first, and only where git's ancestry check cannot see through a
+    squash merge does the compare-and-swap below stand in for it — `update-ref -d <ref> <sha>` deletes only if
+    the ref is still at the sha just proved shipped, which `-D`, which checks nothing, does not do.
+    """
+    run = config.get("runBranch") or ""
+    upstream = f"origin/{config.get('defaultBranch') or 'main'}"
+    # GitHub's "delete branch on merge" removes the remote-tracking ref, so fetch rather than read a stale
+    # origin/<defaultBranch>; a fetch that cannot reach the remote leaves the previous one, which still compares.
+    git(repo, "fetch", "-q", "origin", check=False)
+    if git(repo, "rev-parse", "-q", "--verify", upstream, check=False).returncode != 0:
+        return []  # a --single-branch clone has no origin/<defaultBranch>: prove nothing, delete nothing
+    current = git(repo, "branch", "--show-current").stdout.strip()
+    listing = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads/sdlc", check=False)
+    gone = []
+    for branch in listing.stdout.split("\n"):
+        branch = branch.strip()
+        if not MILESTONE_BRANCH.match(branch) or branch == current:
+            continue
+        if branch == keep and branch_run(repo, branch) == run:
+            continue  # the branch this call is cutting, and this run's own: slices are already cut from it
+        sha = git(repo, "rev-parse", branch, check=False).stdout.strip()
+        if not sha or not shipped_into(repo, branch, upstream):
+            continue
+        if git(repo, "branch", "-d", branch, check=False).returncode != 0:
+            git(repo, "update-ref", "-d", f"refs/heads/{branch}", sha)
+        git(repo, "push", "-q", "origin", "--delete", branch, check=False)
+        gone.append(branch)
+    return gone
+
+
 def ensure_milestone_branch(repo, config, milestones, milestone_id):
     """sdlc/M-<id>, created from the run branch and pushed when it does not exist yet.
 
@@ -231,9 +322,17 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
     # the fix outside the milestone it answers, and the audit that follows ships that fix on its own PR.
     if next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified":
         return None
-    if branch_exists(repo, want):
-        return want
     run = config.get("runBranch") or ""
+    prune_stale_milestone_branches(repo, config, want)
+    if branch_exists(repo, want):
+        # a branch under this milestone's name that names an EARLIER run is a leftover this run cannot build
+        # on. Reaching here means it held unshipped work, so it was kept rather than deleted; building on it
+        # would put the earlier run's code in this run's milestone pull request, so stop instead.
+        other = branch_run(repo, want)
+        if other and other != run:
+            raise Fail(f"{want} belongs to run {other}, not to {run or '(unset)'}, and its work is not on "
+                       f"origin/{config.get('defaultBranch') or 'main'}: merge or drop it by hand, then cut again")
+        return want
     if not run or not branch_exists(repo, run):
         raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
     advance_run_branch(repo, config, run)

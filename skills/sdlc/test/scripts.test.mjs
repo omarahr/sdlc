@@ -13,6 +13,10 @@ try { execFileSync('python3', ['--version']) } catch { python = false }
 const opts = { skip: !python && 'python3 not installed' }
 
 const git = (repo, ...args) => execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8' }).trim()
+// `git merge-base --is-ancestor` exits non-zero rather than answering, so the negative case needs catching
+const notAncestor = (repo, ...refs) => {
+  try { git(repo, 'merge-base', '--is-ancestor', ...refs); return false } catch { return true }
+}
 const json = (repo, name) => JSON.parse(readFileSync(join(repo, '.sdlc', name), 'utf8'))
 const req = (id, status = 'todo', extra = {}) => ({ id, specRef: '§1', quote: `quote ${id}`, acceptance: `check ${id}`, status, flags: [], ...extra })
 const slice = (id, extra = {}) => ({ id, title: `Slice ${id}`, requirements: [], dependsOn: [], kind: 'spec', status: 'todo', phase: 'plan', counters: { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0 }, ...extra })
@@ -64,6 +68,27 @@ const pushFile = (dir, file, text, message) => {
   git(dir, 'add', '-A')
   git(dir, 'commit', '-q', '-m', message)
   git(dir, 'push', '-q', 'origin', 'HEAD')
+}
+
+// .sdlc state written and committed the way a bootstrap or a state commit writes it
+const commitState = (repo, files, message) => {
+  for (const [name, value] of Object.entries(files)) writeFileSync(join(repo, '.sdlc', name), JSON.stringify(value, null, 2))
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '--allow-empty', '-m', message)
+}
+
+const stackConfig = run => ({ specPath: 'spec.md', gitMode: 'stack', defaultBranch: 'main', commitFormat: '', runBranch: `sdlc/run-${run}` })
+
+// the human half of a milestone, as GitHub does it by default: squash-merge the branch into the default
+// branch and delete the branch. The squash is load-bearing — the branch's commits are never ancestors of
+// main, so `git branch -d` refuses the branch forever — and the deletion is what removes the remote-tracking
+// ref, which is the state a later run inherits.
+function mergeOnMain(pub, branch, message) {
+  git(pub, 'fetch', '-q', 'origin')
+  git(pub, 'merge', '-q', '--squash', `origin/${branch}`)
+  git(pub, 'commit', '-q', '-m', message)
+  git(pub, 'push', '-q', 'origin', 'HEAD:main')
+  git(pub, 'push', '-q', 'origin', '--delete', branch)
 }
 
 function call(script, repo, args, input) {
@@ -631,4 +656,174 @@ test('a milestone branch left behind by an earlier attempt does not win over the
   assert.equal(git(repo, 'rev-parse', 'sdlc/S-fix-M-1-1^'), git(repo, 'rev-parse', 'sdlc/run-1'), 'the slice was cut from the stale milestone branch')
   assert.notEqual(git(repo, 'rev-parse', 'sdlc/S-fix-M-1-1^'), stale)
   assert.equal(readFileSync(join(repo, 'src', 'app.txt'), 'utf8'), 'v1\n', "the stale branch's unshipped work leaked into the slice")
+})
+
+test("a second run cuts its own M-1 instead of building on the first run's leftover milestone branch", opts, () => {
+  // The topology no test on this branch had, and the one the whole-branch review reproduced. Milestone ids
+  // restart at M-1 on every run while sdlc/run-<n> counts up, so run 2's first milestone branch carries the
+  // exact name run 1's did. Nothing deleted run 1's branch — milestone-writer's Merged step never runs for a
+  // milestone that merged — so run 2's branch-exists check answered with run 1's branch, run 2's first slice
+  // was cut from it, and run 2's sdlc/M-1 pull request carried run 1's code to main. Two real runs against
+  // one bare remote, so the second genuinely collides with the first rather than with a fixture.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  const pub = publisher(remotes.get(repo))
+
+  // run 1: bootstrap on sdlc/run-1, one milestone, a human merges it and GitHub deletes the branch
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  commitState(repo, { 'milestones.json': [{ id: 'M-1', title: 'Run 1', status: 'pending', slices: [], fixSlices: [] }] }, 'run 1 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  writeFileSync(join(repo, 'src', 'run1.txt'), 'run 1 shipped work\n')
+  commitState(repo, { 'milestones.json': [{ id: 'M-1', title: 'Run 1', status: 'verified', attempts: 1, slices: [], fixSlices: [], pr: 'https://example.test/pr/run-1-M-1' }] }, 'M-1 verified')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-1')
+  const run1Milestone = git(repo, 'rev-parse', 'sdlc/M-1')
+  mergeOnMain(pub, 'sdlc/M-1', 'M-1: run 1 (#1)')
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  // the state the fix has to survive: the work shipped, the remote-tracking ref is gone, and `git branch -d`
+  // still refuses the local branch because a squash commit is not an ancestor of it
+  assert.equal(git(repo, 'ls-remote', '--heads', 'origin', 'sdlc/M-1'), '', 'the merge should have deleted the remote branch')
+  assert.ok(notAncestor(repo, 'sdlc/M-1', 'origin/main'), 'a squash merge leaves the branch unmerged by ancestry')
+
+  // run 2: bootstrap on sdlc/run-2, whose own M-1 collides with what run 1 left behind
+  git(repo, 'checkout', '-q', 'main')
+  git(repo, 'merge', '-q', '--ff-only', 'origin/main')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-2')
+  commitState(repo, {
+    'config.json': stackConfig(2),
+    'slices.json': [slice('S-001')],
+    'milestones.json': [{ id: 'M-1', title: 'Run 2', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+  }, 'run 2 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-2')
+
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' })
+  assert.equal(r.code, 0, r.out.error)
+
+  // run 1's milestone branch is gone: the name now belongs to a branch cut from this run's run branch, at a
+  // different commit, so it cannot be the leftover repointed
+  const freshMilestone = git(repo, 'rev-parse', 'sdlc/M-1')
+  assert.notEqual(freshMilestone, run1Milestone, "run 1's leftover milestone branch survived")
+  assert.match(git(repo, 'ls-remote', '--heads', 'origin', 'sdlc/M-1'), new RegExp(`^${freshMilestone}`))
+  // and the slice is cut from this run's run branch — the reviewer's own reproduction, `sdlc/S-001^ == sdlc/M-1`,
+  // asserted the other way round
+  assert.notEqual(git(repo, 'rev-parse', 'sdlc/S-001^'), run1Milestone, "run 2's slice was built on run 1's stale milestone branch")
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-001^'), git(repo, 'rev-parse', 'sdlc/run-2'))
+  // run 2's slice carries run 2's ledger, not run 1's: the config on its base names this run's run branch,
+  // and the milestone record run 1 shipped — with its pull request url — is not what it was built on
+  assert.equal(JSON.parse(git(repo, 'show', 'sdlc/S-001^:.sdlc/config.json')).runBranch, 'sdlc/run-2')
+  const onBase = JSON.parse(git(repo, 'show', 'sdlc/S-001^:.sdlc/milestones.json'))
+  assert.deepEqual(onBase.map(m => [m.id, m.status, m.slices]), [['M-1', 'pending', ['S-001']]], "run 2 built on run 1's milestone record")
+  assert.doesNotMatch(git(repo, 'show', 'sdlc/S-001^:.sdlc/milestones.json'), /run-1-M-1/)
+  // run 1's product code did ship, so it belongs on run 2's base: its absence would be a different bug
+  assert.equal(readFileSync(join(repo, 'src', 'run1.txt'), 'utf8'), 'run 1 shipped work\n')
+  // the replacement milestone branch is this run's own, cut from this run's run branch and pushed for its PR
+  assert.equal(freshMilestone, git(repo, 'rev-parse', 'sdlc/S-001^'))
+  assert.equal(git(repo, 'status', '--porcelain'), '')
+})
+
+test('pruning deletes a shipped milestone branch and nothing else', opts, () => {
+  // Each gate needs a case only IT can pass. Without the name filter, run 1's e2e suite — shipped, so
+  // content-merged, and left behind — would be deleted. Without the exemption for the branch being cut, this
+  // run's own sdlc/M-3 would be deleted between the slice being cut from it and its push request opening.
+  // Without the shipped test, the sibling test below shows what would be lost.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  const pub = publisher(remotes.get(repo))
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  commitState(repo, {}, 'run 1 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+
+  // run 1's milestone branch and its e2e suite, both merged by a human and both left behind
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  writeFileSync(join(repo, 'src', 'run1.txt'), 'run 1\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'M-1 work')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-1')
+  mergeOnMain(pub, 'sdlc/M-1', 'M-1 (#1)')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1-e2e')
+  mkdirSync(join(repo, 'e2e'))
+  writeFileSync(join(repo, 'e2e', 'suite.txt'), 'run 1 suite\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'e2e suite')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-1-e2e')
+  mergeOnMain(pub, 'sdlc/M-1-e2e', 'e2e suite (#2)')
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+
+  // run 2: a shipped milestone branch of its own, and the milestone branch this call is about to cut
+  git(repo, 'checkout', '-q', 'main')
+  git(repo, 'merge', '-q', '--ff-only', 'origin/main')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-2')
+  commitState(repo, {
+    'config.json': stackConfig(2),
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-3', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  }, 'run 2 bootstrap')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-2')
+  writeFileSync(join(repo, 'src', 'app.txt'), 'milestone work\n')
+  git(repo, 'commit', '-q', '-am', 'M-2 work')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-2')
+  mergeOnMain(pub, 'sdlc/M-2', 'M-2 (#3)')
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  // and the branch the slice below is about to be cut into: this run's own, so it must survive even though
+  // its work has shipped — the milestone is still being worked on, so swapping the branch out is what
+  // strands the slices already cut from it
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-3')
+  writeFileSync(join(repo, 'src', 'tags.txt'), 'tag work\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'M-3 work')
+  const cutting = git(repo, 'rev-parse', 'sdlc/M-3')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-3')
+  mergeOnMain(pub, 'sdlc/M-3', 'M-3 (#4)')
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  git(repo, 'checkout', '-q', 'sdlc/run-2')
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '', "the earlier run's shipped milestone branch was not deleted")
+  assert.equal(git(repo, 'ls-remote', '--heads', 'origin', 'sdlc/M-1'), '')
+  assert.match(git(repo, 'rev-parse', 'sdlc/M-1-e2e'), /^[0-9a-f]{40}$/, 'the e2e suite is not a milestone branch and must survive')
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), '', "this run's own shipped milestone branch was not deleted either")
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-3'), cutting, 'the branch being cut was deleted out from under the milestone')
+  // and it is still the base, so pruning cannot strand the slice mid-milestone
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-020^'), cutting)
+})
+
+test("an earlier run's milestone branch holding unshipped work is kept, and never built on", opts, () => {
+  // Deleting it would lose work nobody accepted, so it stays — and building on it is the leak this change
+  // exists to stop, so the run stops instead. Failing loudly beats committing run 1's code onto run 2's
+  // milestone branch, which is how run 1's code reached main the first time.
+  const repo = fixture({
+    config: stackConfig(1),
+    slices: [slice('S-001')],
+    milestones: [{ id: 'M-1', title: 'Run 2', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  commitState(repo, {}, 'run 1 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  commitState(repo, { 'milestones.json': [{ id: 'M-1', status: 'pending', slices: [], fixSlices: [] }] }, 'M-1 started')
+  writeFileSync(join(repo, 'src', 'unshipped.txt'), 'run 1 work nobody accepted\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'M-1 work')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-1')
+  const unshipped = git(repo, 'rev-parse', 'sdlc/M-1')
+  git(repo, 'fetch', '-q', 'origin')
+  assert.ok(notAncestor(repo, 'sdlc/M-1', 'origin/main'), 'the fixture must not be already merged')
+
+  // run 2, which wants that very name for its own first milestone
+  git(repo, 'checkout', '-q', 'sdlc/run-1')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-2')
+  commitState(repo, { 'config.json': stackConfig(2) }, 'run 2 bootstrap')
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' })
+  assert.equal(r.code, 2)
+  assert.match(r.out.error, /sdlc\/M-1/)
+  assert.match(r.out.error, /sdlc\/run-1/)
+  assert.match(r.out.error, /sdlc\/run-2/)
+  assert.doesNotMatch(r.out.error, /fatal:/)
+  // the unshipped branch is intact, and nothing was cut from it, committed, or pushed
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-1'), unshipped)
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001').trim(), '')
+  assert.equal(git(repo, 'branch', '--show-current'), 'sdlc/run-2')
+  assert.equal(git(repo, 'rev-list', '--count', 'origin/sdlc/run-1..sdlc/run-2'), '1', 'run 2 committed nothing on top')
+  assert.equal(json(repo, 'slices.json')[0].status, 'todo')
+  assert.equal(git(repo, 'show', 'sdlc/M-1:src/unshipped.txt'), 'run 1 work nobody accepted')
+  assert.notEqual(existsSync(join(repo, 'src', 'unshipped.txt')), true, "run 1's unshipped work is on run 2's run branch")
 })
