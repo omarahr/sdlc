@@ -248,21 +248,87 @@ def shipped_into(repo, branch, default):
     if changed.returncode != 0:
         return False
     for path in (p for p in changed.stdout.split("\n") if p.strip()):
-        here = git(repo, "rev-parse", f"{branch}:{path}", check=False)
-        there = git(repo, "rev-parse", f"{default}:{path}", check=False)
-        # a path one side has and the other does not is unshipped work; both missing is a deletion both made
-        if here.returncode != there.returncode:
+        # `git ls-tree` and not `git rev-parse <rev>:<path>`: that answers the blob sha alone, so a chmod +x
+        # leaves the two sides looking identical — the blobs match — while the tree entries differ
+        # (100755 against 100644), and the branch is deleted with the mode change unmerged. The tree entry
+        # carries the mode and the type with the content, which is what "the same file" has to mean here.
+        here = git(repo, "ls-tree", branch, "--", path, check=False)
+        there = git(repo, "ls-tree", default, "--", path, check=False)
+        if here.returncode != 0 or there.returncode != 0:
             return False
-        if here.returncode == 0 and here.stdout.strip() != there.stdout.strip():
+        # a path one side has and the other does not is unshipped work; both missing is a deletion both made
+        if here.stdout.strip() != there.stdout.strip():
             return False
     return True
+
+
+def worktree_branches(repo):
+    """The branches any worktree of this repo has checked out, current one included.
+
+    `git branch -d` refuses a branch another worktree is sitting on, and says so; the compare-and-swap in
+    prune_stale_milestone_branches does not, and deletes it anyway — leaving that worktree on a dangling
+    HEAD. So the set is read from git here rather than left to a guard the fallback has already stepped over.
+    """
+    listing = git(repo, "worktree", "list", "--porcelain", check=False)
+    names = set()
+    for line in listing.stdout.splitlines():
+        if line.startswith("branch "):
+            names.add(line[len("branch refs/heads/"):].strip())
+    # --show-current knows this worktree only; it is kept as a floor for the case where `worktree list`
+    # answered nothing at all, so a branch checked out here is never a candidate either way.
+    names.add(git(repo, "branch", "--show-current", check=False).stdout.strip())
+    return names
+
+
+def milestone_branches_with_open_slice_pr(repo):
+    """The sdlc/M-<n> branches a slice pull request is still open against, from the run's own ledger.
+
+    GitHub closes a pull request whose base branch is deleted, so a milestone branch with an open slice pull
+    request into it takes that pull request down with it, and the run's awaiting-merge bookkeeping is left
+    pointing at a closed one. A slice sits at awaiting-merge for exactly as long as its pull request is open,
+    and in stack mode that pull request's base is the slice's milestone branch — which is what makes this a
+    local answer at all.
+
+    Stated rather than papered over: a pull request the ledger does not know about — one a human opened, or
+    one whose slice has already moved on — is invisible here. `gh pr list --base` would see those, and that
+    is a network call and a forge dependency this script does not otherwise have, so it is not taken.
+    """
+    state = os.path.join(repo, ".sdlc")
+    milestones = read_json(os.path.join(state, "milestones.json"), [])
+    out = set()
+    for x in slices_of(read_json(os.path.join(state, "slices.json"), [])):
+        if x.get("status") != "awaiting-merge" or not x.get("id"):
+            continue
+        mid = milestone_of(milestones, x["id"])
+        if mid:
+            out.add(f"sdlc/{mid}")
+    return out
+
+
+def remote_sha_to_lease(repo, branch, upstream):
+    """The sha to lease a remote delete of <branch> on, or "" when there is nothing to delete there.
+
+    `git push --delete <branch>` removes whatever the remote points at, which is not what the local proof
+    covered: the local branch can be behind the remote, so a human who pushed straight to the remote branch
+    after this run proved its own tip shipped has a commit that no local check has seen. So the remote branch
+    is proved on its own, against its own remote-tracking ref, and the delete carries that ref's sha, which
+    turns the push into a compare-and-swap: a push landing between the fetch and the delete is rejected
+    rather than deleted. A remote branch that is not there needs no lease — there is nothing on it to lose.
+    """
+    r = git(repo, "rev-parse", "-q", "--verify", f"refs/remotes/origin/{branch}", check=False)
+    if r.returncode != 0:
+        return ""
+    sha = r.stdout.strip()
+    if not sha or not shipped_into(repo, f"origin/{branch}", upstream):
+        return ""
+    return sha
 
 
 def prune_stale_milestone_branches(repo, config, keep):
     """Delete the sdlc/M-<n> branches whose milestone has shipped, and return the ones deleted.
 
     The other half of advance_run_branch's move out of milestone-writer.md: the branch deletion lived in that
-    file's "Merged" step, which never runs for a milestone that merged, so the branches accumulated. Three
+    file's "Merged" step, which never runs for a milestone that merged, so the branches accumulated. Five
     gates, and each one is a way this has to be wrong:
 
       - name: only sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack mode merges
@@ -272,6 +338,17 @@ def prune_stale_milestone_branches(repo, config, keep):
         default branch yet, so its branch survives and the slices cut from it are not stranded.
       - the caller's own: `keep` is the branch this call is about to cut. When this run owns it, slices may
         already be cut from it, so it is never deleted here.
+      - held: not checked out in any worktree, because the compare-and-swap below deletes a branch
+        `git branch -d` would have refused, and a worktree left on a deleted branch is a dangling HEAD.
+      - in use: no slice pull request is still open against it, because GitHub closes those on the spot when
+        their base branch goes (see milestone_branches_with_open_slice_pr for what this can and cannot see).
+
+    The remote delete is proved separately from the local one. `git push --delete <branch>` removes whatever
+    the remote points at, and the local proof covers only this clone's view of the branch: a human who pushed
+    straight to origin/<branch> after this run proved its local tip shipped has work on the remote that no
+    local check has seen, and an ungated delete takes that commit with it. So the remote branch is proved on
+    its own and the delete carries a lease, and a branch whose remote side cannot be proved is kept — the
+    local delete still stands, since it was proved on its own evidence.
 
     Never `-D` and never a force-push: `-d` first, and only where git's ancestry check cannot see through a
     squash merge does the compare-and-swap below stand in for it — `update-ref -d <ref> <sha>` deletes only if
@@ -279,26 +356,40 @@ def prune_stale_milestone_branches(repo, config, keep):
     """
     run = config.get("runBranch") or ""
     upstream = f"origin/{config.get('defaultBranch') or 'main'}"
-    # GitHub's "delete branch on merge" removes the remote-tracking ref, so fetch rather than read a stale
+    # GitHub's "delete branch on merge" removes the remote branch, so fetch rather than read a stale
     # origin/<defaultBranch>; a fetch that cannot reach the remote leaves the previous one, which still compares.
-    git(repo, "fetch", "-q", "origin", check=False)
+    # --prune because the lease below reads origin/<branch>: without it a branch the remote already dropped
+    # still looks present, and the leased delete then fails on "remote ref does not exist" — harmless, but it
+    # answers a question about a branch that is not there.
+    git(repo, "fetch", "-q", "--prune", "origin", check=False)
     if git(repo, "rev-parse", "-q", "--verify", upstream, check=False).returncode != 0:
         return []  # a --single-branch clone has no origin/<defaultBranch>: prove nothing, delete nothing
-    current = git(repo, "branch", "--show-current").stdout.strip()
+    held = worktree_branches(repo)
+    in_use = milestone_branches_with_open_slice_pr(repo)
     listing = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads/sdlc", check=False)
     gone = []
     for branch in listing.stdout.split("\n"):
         branch = branch.strip()
-        if not MILESTONE_BRANCH.match(branch) or branch == current:
+        if not MILESTONE_BRANCH.match(branch) or branch in held or branch in in_use:
             continue
         if branch == keep and branch_run(repo, branch) == run:
             continue  # the branch this call is cutting, and this run's own: slices are already cut from it
         sha = git(repo, "rev-parse", branch, check=False).stdout.strip()
         if not sha or not shipped_into(repo, branch, upstream):
             continue
+        # the lease is taken before the local delete, while the remote-tracking ref still holds what the fetch
+        # proved. Deleting the local branch does not touch it, so the sha is the same either side of this line.
+        lease = remote_sha_to_lease(repo, branch, upstream)
         if git(repo, "branch", "-d", branch, check=False).returncode != 0:
-            git(repo, "update-ref", "-d", f"refs/heads/{branch}", sha)
-        git(repo, "push", "-q", "origin", "--delete", branch, check=False)
+            # git's own refusal is the guard; the compare-and-swap is what stands in for it where a squash
+            # merge defeats its ancestry check, and it is also a guard: it deletes only if the ref is still at
+            # the sha just proved shipped. A branch that moved in between is left alone rather than deleted, and
+            # losing that race is not a reason to fail the run — the next prune re-examines it, and by then the
+            # work that moved onto it is unshipped, so the shipped check will keep it on its own evidence.
+            if git(repo, "update-ref", "-d", f"refs/heads/{branch}", sha, check=False).returncode != 0:
+                continue
+        if lease:
+            git(repo, "push", "-q", "origin", f"--force-with-lease=refs/heads/{branch}:{lease}", f":{branch}", check=False)
         gone.append(branch)
     return gone
 

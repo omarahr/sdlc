@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync, spawn } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
@@ -82,13 +82,41 @@ const stackConfig = run => ({ specPath: 'spec.md', gitMode: 'stack', defaultBran
 // the human half of a milestone, as GitHub does it by default: squash-merge the branch into the default
 // branch and delete the branch. The squash is load-bearing — the branch's commits are never ancestors of
 // main, so `git branch -d` refuses the branch forever — and the deletion is what removes the remote-tracking
-// ref, which is the state a later run inherits.
-function mergeOnMain(pub, branch, message) {
+// ref, which is the state a later run inherits. `keep` leaves the remote branch standing, which is the state
+// a repo with delete-branch-on-merge turned off is in, and the only state with a remote branch left to delete.
+function mergeOnMain(pub, branch, message, { keep = false } = {}) {
   git(pub, 'fetch', '-q', 'origin')
   git(pub, 'merge', '-q', '--squash', `origin/${branch}`)
   git(pub, 'commit', '-q', '-m', message)
   git(pub, 'push', '-q', 'origin', 'HEAD:main')
-  git(pub, 'push', '-q', 'origin', '--delete', branch)
+  if (!keep) git(pub, 'push', '-q', 'origin', '--delete', branch)
+}
+
+// one shipped milestone and the next run's bootstrap on top of it, which is the state every prune test
+// starts from: run 1 shipped M-1, a human squash-merged it, and run 2 wants to cut a branch of its own.
+// Deliberately does not fetch — the repo under test's origin/<defaultBranch> is the caller's business,
+// since what the prune fetches for itself is one of the things under test.
+function shippedM1(repo, { keep = false } = {}) {
+  const pub = publisher(remotes.get(repo))
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  commitState(repo, {}, 'run 1 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  writeFileSync(join(repo, 'src', 'run1.txt'), 'run 1 shipped work\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'M-1 work')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-1')
+  const tip = git(repo, 'rev-parse', 'sdlc/M-1')
+  mergeOnMain(pub, 'sdlc/M-1', 'M-1 (#1)', { keep })
+  return { pub, tip }
+}
+
+// run 2's bootstrap: the next run's run branch, carrying its own ledger
+function run2(repo, files) {
+  git(repo, 'checkout', '-q', 'main')
+  git(repo, 'merge', '-q', '--ff-only', 'origin/main')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-2')
+  commitState(repo, { 'config.json': stackConfig(2), ...files }, 'run 2 bootstrap')
 }
 
 function call(script, repo, args, input) {
@@ -783,6 +811,304 @@ test('pruning deletes a shipped milestone branch and nothing else', opts, () => 
   assert.equal(git(repo, 'rev-parse', 'sdlc/M-3'), cutting, 'the branch being cut was deleted out from under the milestone')
   // and it is still the base, so pruning cannot strand the slice mid-milestone
   assert.equal(git(repo, 'rev-parse', 'sdlc/S-020^'), cutting)
+})
+
+test('the prune does not delete a remote milestone branch that is ahead of the local one', opts, () => {
+  // The destruction the review reproduced, and the one thing this branch's own tests never set up: a
+  // remote branch ahead of the local branch. Run 1's M-1 ships and a human squash-merges it; the human then
+  // pushes an unreviewed commit straight to origin/sdlc/M-1, which leaves the local branch behind the remote.
+  // shipped_into() answers correctly — the LOCAL branch's content is on origin/main, so it is that branch's
+  // work that shipped — and `git push origin --delete` then removes whatever the remote points at, taking the
+  // human's unmerged commit with it. Nothing on the local side could ever have caught it, which is the point:
+  // the two proofs are about two different refs and only one of them was being run.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  const { pub } = shippedM1(repo, { keep: true })
+  // the human pushes to the remote branch without the loop's knowing
+  git(pub, 'fetch', '-q', 'origin')
+  git(pub, 'checkout', '-q', '-B', 'sdlc/M-1', 'origin/sdlc/M-1')
+  writeFileSync(join(pub, 'src', 'human.txt'), 'unreviewed work a human pushed\n')
+  git(pub, 'add', '-A')
+  git(pub, 'commit', '-q', '-m', 'human push straight to the milestone branch')
+  git(pub, 'push', '-q', 'origin', 'sdlc/M-1')
+  const humanSha = git(pub, 'rev-parse', 'sdlc/M-1')
+  git(repo, 'fetch', '-q', 'origin')
+  // the precondition, stated so the test cannot pass for the wrong reason: the remote IS ahead, and the
+  // local branch's own work IS shipped
+  assert.notEqual(git(repo, 'rev-parse', 'origin/sdlc/M-1'), git(repo, 'rev-parse', 'sdlc/M-1'), 'the remote is not ahead of the local branch')
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  // the remote branch survives, with the human's commit still on it
+  assert.match(git(repo, 'ls-remote', '--heads', 'origin', 'sdlc/M-1'), new RegExp(`^${humanSha}`), 'the remote branch was deleted along with the human\'s commit')
+  assert.equal(git(repo, 'show', 'origin/sdlc/M-1:src/human.txt'), 'unreviewed work a human pushed')
+  // the local delete is proved on its own evidence and still stands: run 1's branch is gone, which is what
+  // stops run 2's M-1 from colliding with it
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '', "the local branch was not deleted, so the two runs still collide")
+  // and the branch run 2 cut for itself is a different commit, not the leftover repointed
+  assert.notEqual(git(repo, 'rev-parse', 'sdlc/M-2'), git(repo, 'rev-parse', 'origin/sdlc/M-1'))
+})
+
+test('the prune deletes the remote milestone branch only while the remote still holds what it proved', opts, () => {
+  // The lease half of the same gate. The remote branch's content is proved shipped, and then a push lands
+  // on it before the delete does. Reading origin/<branch> once cannot see that — the ref is already stale
+  // by the time the delete runs — so the delete names the sha it proved and git rejects it instead. Without
+  // the lease this is the same loss as the test above, one step later and therefore invisible to it.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  shippedM1(repo, { keep: true })
+  git(repo, 'fetch', '-q', 'origin')
+  const proved = git(repo, 'rev-parse', 'origin/sdlc/M-1')
+  // the remote branch really is provably shipped, so nothing but the lease can be holding this delete back
+  assert.equal(git(repo, 'ls-remote', '--heads', 'origin', 'sdlc/M-1').split('\t')[0], proved)
+
+  // A second clone, standing in for anything else pushing to the remote branch — the loop itself, a
+  // teammate, CI. It is not run yet: the hook below runs it at the interception point, which is the whole
+  // point. Run here instead, it would push before the prune started, and the prune would simply see a
+  // branch that was never shipped and skip it — which is what the previous test covers.
+  const late = publisher(remotes.get(repo))
+  const real = execFileSync('sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
+  const shim = mkdtempSync(join(tmpdir(), 'sdlc-shim-'))
+  // the late push, as a script: run when the prune asks to delete the branch, not before
+  writeFileSync(join(shim, 'late.sh'), `#!/bin/sh
+${JSON.stringify(real)} -C "$1" fetch -q origin
+${JSON.stringify(real)} -C "$1" checkout -q -B sdlc/M-1 "$2"
+printf 'landed after the proof\\n' > "$1/src/late.txt"
+${JSON.stringify(real)} -C "$1" add -A
+${JSON.stringify(real)} -C "$1" commit -q -m 'a push that lands mid-prune'
+${JSON.stringify(real)} -C "$1" push -q origin sdlc/M-1
+`)
+  // the interception: a git wrapper that fires the late push the moment the delete refspec `:sdlc/M-1`
+  // appears, which is the only argument in any push this script makes that says "delete this branch"
+  writeFileSync(join(shim, 'git'), `#!/bin/sh
+for a in "$@"; do
+  case "$a" in
+    :sdlc/M-1)
+      if [ ! -e "$MARK" ]; then : > "$MARK"; sh "$HOOK" "$REPO" "$PROVED" >/dev/null 2>&1; fi
+      ;;
+  esac
+done
+exec ${JSON.stringify(real)} "$@"
+`)
+  chmodSync(join(shim, 'git'), 0o755)
+  chmodSync(join(shim, 'late.sh'), 0o755)
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+
+  const r = spawnSync('python3', [STATE, 'patch-slice', '--repo', repo, '--slice', 'S-020'], {
+    input: JSON.stringify({ status: 'in_progress' }),
+    encoding: 'utf8',
+    env: {
+      ...process.env, PATH: `${shim}:${process.env.PATH}`,
+      MARK: join(shim, 'fired'), HOOK: join(shim, 'late.sh'), REPO: late, PROVED: proved,
+    },
+  })
+  assert.equal(r.status, 0, r.stdout + r.stderr)
+  // the push landed mid-prune and the remote branch kept its commit: the leased delete was rejected
+  assert.ok(existsSync(join(shim, 'fired')), 'the push never landed mid-prune, so nothing was proved')
+  assert.match(git(repo, 'ls-remote', '--heads', 'origin', 'sdlc/M-1'), /^(\w+)\trefs\/heads\/sdlc\/M-1$/, 'the leased delete removed a branch that had moved')
+  git(repo, 'fetch', '-q', 'origin')
+  assert.equal(git(repo, 'show', 'origin/sdlc/M-1:src/late.txt'), 'landed after the proof', 'the push that landed mid-prune was deleted')
+})
+
+test('a milestone branch whose only unshipped change is a file mode is kept', opts, () => {
+  // `git rev-parse <rev>:<path>` answers the blob sha, so a chmod +x leaves the two sides byte-identical
+  // and shipped_into said yes. The tree entries differ — 100755 on the branch, 100644 on the default
+  // branch — and the branch was deleted with the mode change unmerged. ls-tree carries the mode with the
+  // content, which is what makes "the same file" mean the same thing to git and to this check.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  // the mode is changed in the INDEX only, so the worktree never differs from it and no checkout trips over
+  // an unstaged mode change; fileMode off says so explicitly rather than relying on the platform's
+  mkdirSync(join(repo, 'scripts'))
+  git(repo, 'config', 'core.fileMode', 'false')
+  writeFileSync(join(repo, 'scripts', 'tool.sh'), '#!/bin/sh\necho tool\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'a script')
+  git(repo, 'push', '-q', 'origin', 'main')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/run-1')
+  // the milestone flips the mode and changes nothing else, so the two sides hold the same blob
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  git(repo, 'update-index', '--chmod=+x', 'scripts/tool.sh')
+  git(repo, 'commit', '-q', '-m', 'make the script executable')
+  git(repo, 'push', '-q', '-u', 'origin', 'sdlc/M-1')
+  git(repo, 'checkout', '-q', 'sdlc/run-1')
+  git(repo, 'fetch', '-q', 'origin')
+  // the precondition: identical blobs, different tree entries, and the mode is the ONLY difference
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-1:scripts/tool.sh'), git(repo, 'rev-parse', 'origin/main:scripts/tool.sh'), 'the blobs differ, so this is not the mode-only case')
+  assert.match(git(repo, 'ls-tree', 'sdlc/M-1', '--', 'scripts/tool.sh'), /^100755 blob \w+\sscripts\/tool\.sh$/)
+  assert.match(git(repo, 'ls-tree', 'origin/main', '--', 'scripts/tool.sh'), /^100644 blob \w+\sscripts\/tool\.sh$/)
+  assert.deepEqual(git(repo, 'diff', '--name-only', 'origin/main', 'sdlc/M-1').split('\n').filter(Boolean), ['scripts/tool.sh'])
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  // the mode change is unmerged work nobody accepted, so the branch holding it survives
+  assert.match(git(repo, 'rev-parse', 'sdlc/M-1'), /^[0-9a-f]{40}$/, 'the branch was deleted with its file mode unmerged')
+  assert.match(git(repo, 'ls-tree', 'sdlc/M-1', '--', 'scripts/tool.sh'), /^100755 /)
+  assert.match(git(repo, 'ls-tree', 'origin/main', '--', 'scripts/tool.sh'), /^100644 /, 'the mode change reached the default branch after all')
+})
+
+test('a milestone branch checked out in another worktree is not deleted', opts, () => {
+  // `git branch -d` refuses a branch another worktree is sitting on and says so; the compare-and-swap that
+  // stands in for it after a squash merge does not, and deleted it anyway — leaving that worktree on a
+  // dangling HEAD with its files still staged. The guard the first path gets for free is not a guard the
+  // second path has, so the set of checked-out branches is read from git rather than assumed to be this one.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  shippedM1(repo)
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+  // run 1's shipped milestone branch, checked out in a worktree of its own
+  const wt = mkdtempSync(join(tmpdir(), 'sdlc-wt-'))
+  git(repo, 'worktree', 'add', '-q', wt, 'sdlc/M-1')
+  const tip = git(repo, 'rev-parse', 'sdlc/M-1')
+  // the precondition: git's own refusal is real here, so the fallback is the path under test
+  assert.throws(() => git(repo, 'branch', '-d', 'sdlc/M-1'), /used by worktree/, 'git -d did not refuse, so the fallback is not what this exercises')
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-1'), tip, 'the branch was deleted out from under the worktree')
+  // and that worktree is not left on a dangling HEAD, which is what the deletion costs it
+  assert.equal(git(wt, 'rev-parse', '--abbrev-ref', 'HEAD'), 'sdlc/M-1')
+  assert.equal(git(wt, 'status', '--porcelain'), '')
+  // the branch the call was about to cut is untouched by any of this
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-020^'), git(repo, 'rev-parse', 'sdlc/M-2'))
+})
+
+test('a milestone branch with a slice pull request still open against it is not deleted', opts, () => {
+  // GitHub closes a pull request whose base branch is deleted. milestone-writer step 5 leaves a slice pull
+  // request open while the milestone pull request cycles CI, so this is reachable in ordinary operation and
+  // the slice head surviving does not help: the run's awaiting-merge bookkeeping is left pointing at a
+  // closed pull request, and nothing in the ledger distinguishes "waiting" from "closed" afterwards.
+  //
+  // A slice sits at awaiting-merge for exactly as long as its pull request is open, and in stack mode that
+  // pull request's base is its milestone branch, so the ledger answers this locally. What it cannot see is
+  // a pull request the run did not open or record — a human's — which is why the code says so in the
+  // comment rather than implying the check is complete.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  shippedM1(repo)
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  const tip = git(repo, 'rev-parse', 'sdlc/M-1')
+  run2(repo, {
+    'slices.json': [slice('S-014', { status: 'awaiting-merge', pr: 'https://example.test/pr/14' }), slice('S-020')],
+    'milestones.json': [
+      { id: 'M-1', title: 'Run 1', status: 'verified', slices: ['S-014'], fixSlices: [] },
+      { id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] },
+    ],
+  })
+  // the precondition: shipped, so every other gate passes, and the pull request is the only thing left
+  assert.ok(notAncestor(repo, 'sdlc/M-1', 'origin/main'), 'the branch is merged by ancestry, so -d would not fall through')
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-1'), tip, 'the branch was deleted while a slice pull request was open against it')
+  // the slice still awaiting merge is what held it, and it is the run's own record that says so
+  assert.equal(json(repo, 'slices.json').find(x => x.id === 'S-014').pr, 'https://example.test/pr/14')
+
+  // a slice that is no longer awaiting merge stops holding it: the gate is the ledger, not a permanent veto.
+  // The next cut is for a new milestone, which is what runs the prune again.
+  git(repo, 'checkout', '-q', 'sdlc/run-2')
+  commitState(repo, {
+    'slices.json': [slice('S-014', { status: 'done', pr: 'https://example.test/pr/14' }), slice('S-021')],
+    'milestones.json': [
+      { id: 'M-1', title: 'Run 1', status: 'verified', slices: ['S-014'], fixSlices: [] },
+      { id: 'M-3', title: 'Sharing', status: 'pending', slices: ['S-021'], fixSlices: [] },
+    ],
+  }, 'S-014 merged')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-021'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '', 'a merged slice still holds its milestone branch forever')
+})
+
+test('a milestone branch that moved between the proof and the delete survives the delete', opts, () => {
+  // The compare-and-swap's sha is the whole of its safety. `git update-ref -d <ref>` with no expected value
+  // deletes whatever is at the ref, so a branch that moved in the window between the proof and the delete is
+  // destroyed — and nothing upstream re-checks, because the proof already said yes about a different commit.
+  // Every prune in this file that reaches the fallback exercises the delete; this is the only one that
+  // moves the branch underneath it, which is why the sha survived mutation removal until now.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  shippedM1(repo)
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+  const tip = git(repo, 'rev-parse', 'sdlc/M-1')
+  // a commit that will land on the branch mid-prune: new work, unmerged. It is built on a side branch
+  // named `landed`, which is not a milestone branch name, so the prune never considers it on its own —
+  // only as the thing sdlc/M-1 gets repointed at underneath the delete.
+  git(repo, 'checkout', '-q', '-b', 'landed', 'sdlc/M-1')
+  writeFileSync(join(repo, 'src', 'landed.txt'), 'work that landed mid-prune\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'a commit that lands mid-prune')
+  const landed = git(repo, 'rev-parse', 'landed')
+  assert.notEqual(landed, tip, 'the side branch is not ahead, so the move proves nothing')
+  git(repo, 'checkout', '-q', 'sdlc/run-2')
+  // sdlc/M-1 is left where the prune will prove it shipped; the move happens at the interception point
+
+  // the same interleaving as the lease test, on the local side: a git wrapper that moves the branch the
+  // moment the prune asks to delete it. `git update-ref -d <ref> <sha>` is the call under test — the
+  // wrapper moves the ref and then runs that command verbatim, so with the sha dropped the very next git
+  // call deletes the moved branch and the test sees a lost commit.
+  const shim = mkdtempSync(join(tmpdir(), 'sdlc-shim-'))
+  const real = execFileSync('sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
+  writeFileSync(join(shim, 'git'), `#!/bin/sh
+prev=
+for a in "$@"; do
+  case "$a" in
+    refs/heads/sdlc/M-1)
+      if [ "$prev" = "-d" ] && [ ! -e "$MARK" ]; then
+        : > "$MARK"
+        ${JSON.stringify(real)} -C "$REPO" update-ref refs/heads/sdlc/M-1 "$LANDED"
+      fi
+      ;;
+  esac
+  prev="$a"
+done
+exec ${JSON.stringify(real)} "$@"
+`)
+  chmodSync(join(shim, 'git'), 0o755)
+
+  const r = spawnSync('python3', [STATE, 'patch-slice', '--repo', repo, '--slice', 'S-020'], {
+    input: JSON.stringify({ status: 'in_progress' }),
+    encoding: 'utf8',
+    env: { ...process.env, PATH: `${shim}:${process.env.PATH}`, MARK: join(shim, 'fired'), REPO: repo, LANDED: landed },
+  })
+  assert.equal(r.status, 0, r.stdout + r.stderr)
+  assert.ok(existsSync(join(shim, 'fired')), 'the branch never moved mid-prune, so nothing was proved')
+  // the branch moved, so the delete's expected sha no longer matches and git refuses it
+  assert.equal(git(repo, 'rev-parse', 'sdlc/M-1'), landed, 'a branch that moved between the proof and the delete was destroyed')
+  assert.notEqual(landed, tip)
+  assert.equal(git(repo, 'show', 'sdlc/M-1:src/landed.txt'), 'work that landed mid-prune')
+})
+
+test('the prune fetches the default branch before deciding, so a shipped milestone is not left behind', opts, () => {
+  // Without the fetch, origin/<defaultBranch> is whatever this clone last saw. GitHub's delete-branch-on-merge
+  // removes the remote branch, so the state a later run inherits is exactly "shipped, and this clone has not
+  // looked". A stale origin/main reads as not shipped, the prune under-deletes, and milestone branches
+  // accumulate — the defect the prune was added for, returning by the same door. Under-deleting is the safe
+  // direction, which is why this one is silent: nothing anywhere reports it.
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  shippedM1(repo)
+  // deliberately NOT fetched: the milestone is shipped on the remote and this clone has not seen it
+  const stale = git(repo, 'rev-parse', 'origin/main')
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+  assert.equal(git(repo, 'rev-parse', 'origin/main'), stale, 'the fixture fetched, so there is no staleness to prove anything against')
+  assert.notEqual(git(repo, 'ls-remote', '--heads', 'origin', 'main').split('\t')[0], stale, "the remote's main did not move, so a fetch cannot change the answer")
+
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  // the fetch the prune does for itself has landed
+  assert.notEqual(git(repo, 'rev-parse', 'origin/main'), stale, 'the prune did not fetch')
+  // and run 1's shipped milestone branch is gone, which is the whole point of the prune
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '', 'the shipped milestone branch was left behind because the default branch was read stale')
 })
 
 test("an earlier run's milestone branch holding unshipped work is kept, and never built on", opts, () => {
