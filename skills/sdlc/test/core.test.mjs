@@ -46,6 +46,67 @@ test('low remaining budget stops before the next iteration', async () => {
   assert.match(rt.result.reason, /agent cap|budget/)
 })
 
+// ---------- per-milestone agent cap ----------
+// The cap is an allowance per milestone: it holds inside one milestone and comes back whole when a new one
+// begins. The run's own agent total never resets. One campaign over CAMPAIGN_AREAS areas costs
+// CAMPAIGN_AREAS + 6 agents (planner, three coverage critics, harness, one runner per area, writer), plus the
+// state-reader that asks for it. The milestone action is costed at 90 by the headroom check, so a cap below 91
+// never lets a campaign start at all.
+const CAMPAIGN_AREAS = 40 // 47 agents a campaign, which is what makes a 100-agent cap bite
+function milestoneNext(id, status = 'pending') {
+  return { action: 'milestone', milestoneId: id, milestone: { id, status }, reason: 'every slice is finished' }
+}
+function campaignScript(milestones, overrides = {}) {
+  return scripted({
+    'state-reader': [...milestones, { action: 'stop', reason: 'test end' }],
+    'scenario-planner': () => ({ ok: true, areas: Array.from({ length: CAMPAIGN_AREAS }, (_, i) => ({ id: `a${i}`, scenarioIds: [`SC-${i}`] })) }),
+    'coverage-critic': () => ({ refuted: false, evidence: 'checked, holds' }),
+    'e2e-harness': () => ({ ok: true, channels: ['api'] }),
+    'scenario-runner': c => ({ results: c.inputs.scenarioIds.map(scenarioId => ({ scenarioId, status: 'pass', evidence: 'as expected' })) }),
+    'milestone-writer': c => ({ ok: true, status: c.inputs.outcome, attempt: 1, fixSlices: [] }),
+    ...overrides,
+  })
+}
+
+test('the agent cap holds inside one milestone: a fixing round of the same milestone gets no headroom', async () => {
+  const rt = await runMain(campaignScript([milestoneNext('M-1'), milestoneNext('M-1', 'fixing')]), { runAgentCap: 100 })
+  assert.equal(rt.result.state, 'continue')
+  // only the first campaign ran: the second round of the same milestone is over the cap
+  assert.equal(rt.calls.filter(c => c.role === 'milestone-writer').length, 1)
+  assert.match(rt.result.reason, /47\/100 agents spent since milestone M-1 began \(48 in this run\)/)
+})
+
+test('crossing a milestone boundary restores the cap: the next milestone gets a whole allowance', async () => {
+  const rt = await runMain(campaignScript([milestoneNext('M-1'), milestoneNext('M-2')]), { runAgentCap: 100 })
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'stopped')
+  const writers = rt.calls.filter(c => c.role === 'milestone-writer')
+  assert.deepEqual(writers.map(c => c.inputs.milestoneId), ['M-1', 'M-2'])
+})
+
+test('the run total is not reset at a milestone boundary, and the pause message says which number it means', async () => {
+  // M-1's campaign puts 48 agents on the milestone clock; M-2's boundary resets that clock, its own campaign
+  // puts 47 back on it, and 47 + a slice's 60 is over the cap while the run total is nowhere near it
+  const rt = await runMain(campaignScript([milestoneNext('M-1'), milestoneNext('M-2'), { action: 'slice', sliceId: 'S-9', reason: 'next' }]), { runAgentCap: 100 })
+  assert.equal(rt.result.state, 'continue')
+  assert.match(rt.result.reason, /47\/100 agents spent since milestone M-2 began \(95 in this run\), slice needs ~60/)
+  // the run's own total is the whole run, boundary or not
+  assert.equal(rt.result.agentsSpent, 95)
+  assert.equal(rt.result.agentsSpent, rt.calls.length)
+})
+
+test('the money brake still stops a run whose milestone allowance was just made whole', async () => {
+  // the budget runs out only once M-2's boundary has just reset the cap, so the run stops with 100 of its
+  // 100 agents unspent: the money brake is run-wide and the reset does not, and must not, clear it
+  let left = Infinity
+  const rt = await runMain(campaignScript([milestoneNext('M-1'), milestoneNext('M-2')], {
+    'state-reader': c => (c.inputs.iteration === 1 ? (left = 10000, milestoneNext('M-2')) : milestoneNext('M-1')),
+  }), { runAgentCap: 100 }, () => left)
+  assert.equal(rt.result.state, 'continue')
+  assert.match(rt.result.reason, /0\/100 agents spent since milestone M-2 began \(48 in this run\)/)
+  assert.equal(rt.calls.filter(c => c.role === 'milestone-writer').length, 1)
+})
+
 test('unknown action in a run that did nothing returns stalled', async () => {
   const rt = await runMain(scripted({ 'state-reader': [{ action: 'bogus', reason: 'x' }] }))
   assert.equal(rt.result.state, 'stalled')

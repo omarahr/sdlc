@@ -25,6 +25,8 @@ export function parseInputs(prompt) {
   return i < 0 ? null : JSON.parse(prompt.slice(i + marker.length))
 }
 
+// `budgetTotal` is a remaining-dollar figure, or null for an unlimited budget. Pass a function to change it
+// mid-run, which is how a test makes the money brake bite at a particular point rather than from the start.
 export function fakeRuntime(responder, args = {}, budgetTotal = null) {
   const calls = [], logs = [], phases = [], errors = []
   const agent = async (prompt, opts = {}) => {
@@ -46,10 +48,11 @@ export function fakeRuntime(responder, args = {}, budgetTotal = null) {
     }
     return v
   }))
+  const remaining = () => (typeof budgetTotal === 'function' ? budgetTotal() : budgetTotal)
   const budget = {
     total: budgetTotal,
     spent: () => 0,
-    remaining: () => (budgetTotal === null ? Infinity : budgetTotal),
+    remaining: () => (remaining() === null ? Infinity : remaining()),
   }
   const workflow = async () => { throw new Error('workflow() is not supported in tests') }
   const rt = {

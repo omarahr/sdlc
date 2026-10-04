@@ -95,7 +95,7 @@ Run it from inside a git repo with a clean working tree:
 /loop /sdlc docs/superpowers/specs/2026-01-15-my-app-design.md
 ```
 
-Wrapping it in `/loop` is recommended. Each workflow run has a cap on how many agents it can use (850 by default), and the loop relaunches the run whenever it hits that cap or a usage limit. It checks back every 30 minutes until the spec is done. If 24 runs in a row make no progress (about 12 hours), the loop stops and reports why; run `/sdlc <spec>` to start it again.
+Wrapping it in `/loop` is recommended. Each milestone has an allowance of how many agents it can use (850 by default, reset at every milestone), and the loop relaunches the run whenever it hits that allowance or a usage limit. The usage limit is separate and still spans the whole run, so a run that runs out of budget stops wherever it is. It checks back every 30 minutes until the spec is done. If 24 runs in a row make no progress (about 12 hours), the loop stops and reports why; run `/sdlc <spec>` to start it again.
 
 | Command | What it does |
 |---|---|
