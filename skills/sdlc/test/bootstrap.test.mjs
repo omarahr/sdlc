@@ -49,7 +49,7 @@ test('bootstrap passes mr mode and the commit format to the env-detector, whose 
   }), { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
   const env = rt.calls.find(c => c.role === 'env-detector')
   assert.deepEqual(env.inputs, { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
-  assert.deepEqual(env.opts.schema.properties.gitMode.enum, ['pr', 'direct', 'mr'])
+  assert.deepEqual(env.opts.schema.properties.gitMode.enum, ['pr', 'direct', 'mr', 'stack'])
 })
 
 test('critic that never goes dry is capped and the cap is logged', async () => {

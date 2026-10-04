@@ -1,12 +1,15 @@
 # Committing `.sdlc/` state
 
-Read `gitMode` and `defaultBranch` from `.sdlc/config.json`.
+Read `gitMode`, `defaultBranch`, `commitFormat` and, in `stack` mode, `runBranch` from `.sdlc/config.json`.
+
+**Stack mode branches.** `sdlc/run-<n>` is the run branch: the tool creates it at bootstrap and pushes it, and it never carries product code. `sdlc/M-<n>` is a milestone branch, cut from `runBranch` when that milestone's first slice starts; slices are cut from it and their pull requests target it. The milestone's own pull request targets `defaultBranch`, and once it merges `runBranch` is fast-forwarded to `defaultBranch` so the next milestone branches from shipped code. `sdlc/<milestoneId>-e2e` is cut from the milestone branch. Audit fix slices (`S-fix-<n>`, which belong to no milestone) are cut from `runBranch` and their pull requests target `defaultBranch`.
 
 **Slice commit** (your inputs name a slice and your role file says "slice commit"):
-1. Be on branch `sdlc/<sliceId>`. If it does not exist, create it from the up-to-date default branch. If the slice's `dependsOn` includes a slice in `awaiting-merge`, create it from that slice's branch instead.
+1. Be on branch `sdlc/<sliceId>`. If it does not exist, create it as the stack mode branches above say: in `stack` mode from the slice's milestone branch (or `runBranch` for an audit fix), otherwise as below.
 2. `git add .sdlc .gitignore && git commit -m "chore(sdlc): <what> [<sliceId>]"`. Do not push; the integrator ships it with the slice.
 
 **Default-branch commit** (your role file says "default-branch commit"):
+- `stack` mode: commit on the current milestone's branch when one exists (`sdlc/M-<n>` for the first milestone in `milestones.json` whose status is not `verified`, and whose branch exists), and on `runBranch` otherwise. Then `git add .sdlc .gitignore` and commit `chore(sdlc): <what>`. Do not push: the milestone pull request carries this state, and `runBranch` is pushed when the next milestone branch is cut. There are no `sdlc/state-*` pull requests in stack mode.
 - `direct` or `mr` mode: `git checkout <defaultBranch>`, `git add .sdlc .gitignore`, `git commit -m "chore(sdlc): <what>"`. Do not push: in `mr` mode the integrator and the driver push the working branch.
 - `pr` mode:
   1. `git checkout <defaultBranch> && git pull --ff-only`

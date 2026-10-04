@@ -9,8 +9,9 @@ Invoking this skill is the user's explicit opt-in to running the `sdlc-loop` Wor
 
 ## Commands
 
-- `/sdlc <spec-path> [--git pr|direct|mr] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]`: start or resume.
+- `/sdlc <spec-path> [--git pr|direct|mr|stack] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]`: start or resume.
   - `--git mr` commits the slices to the branch you are on and keeps one merge request for the whole run open against the remote's default branch (GitLab with `glab`, or GitHub with `gh`).
+  - `--git stack` builds the run on a branch of its own: the tool creates `sdlc/run-<n>` from the default branch and pushes it, cuts a `sdlc/M-<n>` branch per milestone from it, and cuts each slice branch from its milestone branch with a pull request targeting that milestone. When a milestone's behavior campaign verifies, its branch opens a pull request against the default branch; that is the unit you review and merge. GitHub only.
   - `--commit-format` sets the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`, for example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one.
   - `--bar-raiser N` allows up to N quality-polish rounds **in total** after the spec is complete and audited. Default 0: the run ends at spec-complete. To polish a finished project later, re-run with a higher N than the rounds already done (see `rounds` in `.sdlc/barraiser.json`).
 - `/sdlc status`: print `.sdlc/STATUS.md` from the repo root. If it is missing, say "No SDLC run in this repo."
@@ -29,12 +30,13 @@ For heartbeat protection on long runs, recommend starting it as `/loop /sdlc <sp
    - **Git mode:**
      - Use the `--git` flag if given.
      - Otherwise use `config.json`'s `gitMode`.
-     - Otherwise use `pr` when `git -C "$REPO" remote -v` shows github.com.
+     - Otherwise use `pr` when `git -C "$REPO" remote -v` shows github.com. Add `stack` before `pr`: when the user gave `--git stack`, or when `config.json` has `gitMode: stack`, keep `stack`.
      - Otherwise use `mr` when `glab auth status --hostname <the remote's host>` succeeds and the current branch is not the remote's default branch.
      - Otherwise use `direct`.
 
      In `pr` mode, `gh auth status` must succeed. In `mr` mode, the forge's CLI must be signed in (`glab auth status --hostname <host>`, or `gh auth status` for GitHub), and the current branch must not be the remote's default branch: tell the user to start from a feature branch. On GitLab, also read the push rule (`glab api "projects/:fullpath/push_rule"`): if it has a `branch_name_regex` that the current branch does not match, the push would be rejected, so report the pattern, ask the user to rename the branch, and end. A project with no push rule (an error or an empty answer) passes this check.
-   - **Branch name (first run only):** if `$REPO/.sdlc/config.json` does not exist and the current branch name starts with `sdlc/`, report that the workflow keeps that prefix for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end.
+     - In `stack` mode `gh auth status` must succeed, and `git -C "$REPO" remote -v` must show github.com. Without one, report why and end rather than falling back: stack mode's contract is that a milestone is reviewed and merged by you. On resume, `git -C "$REPO" checkout <config.runBranch>` first — the run branch is authoritative, not the current branch.
+   - **Branch name (first run only):** if `$REPO/.sdlc/config.json` does not exist and the current branch name starts with `sdlc/`, report that the workflow keeps that prefix for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end. This check is first run only: on a resume the current branch is normally `runBranch`, which starts with `sdlc/` and is correct. When `config.json` exists, trust `config.runBranch`.
    - `rm -f "$REPO/.sdlc/STOP"`.
 2. **Launch.**
    - **Other instructions first.** The workflow relays the user message that triggered the launch to every agent in the run, word for word. If that message asks for anything besides running `/sdlc` (a new branch, a commit, a config change), do it yourself now, before launching, and tell the user that a plain `/sdlc <spec>` is the cleanest way to start or resume a run.

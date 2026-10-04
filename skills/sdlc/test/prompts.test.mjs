@@ -30,6 +30,27 @@ test('every prompt that branches on the git mode says what mr mode does', () => 
   }
 })
 
+test('the mode-agnostic prompts cover stack mode', () => {
+  for (const f of ['commit-state', 'state-schema']) {
+    const text = readFileSync(join(SKILL_DIR, 'prompts', `${f}.md`), 'utf8')
+    assert.match(text, /`stack`/, `${f}.md does not mention stack mode`)
+  }
+})
+
+test('the skill documents the stack flag, its remote requirement and its resume path', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.match(skill, /--git pr\|direct\|mr\|stack/)
+  assert.match(skill, /`sdlc\/run-<n>`/)
+  // the "rename your branch" check must not fire on a resume, where the current branch IS the run branch
+  assert.match(skill, /first run only[\s\S]{0,400}runBranch/)
+})
+
+test('config.json documents runBranch, and milestones document their pr field', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  assert.match(schema, /"runBranch": ""/)
+  assert.match(schema, /"pr": ""[\s\S]{0,400}milestone/)
+})
+
 test('the common rules scope the relayed user request to the driver', () => {
   const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
   assert.match(common, /relayed user request/)

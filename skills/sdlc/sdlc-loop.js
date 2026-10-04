@@ -306,7 +306,8 @@ function pause(reason, history) {
 
 // bootstrap
 const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str }, required: ['added'] }
-const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: ['pr', 'direct', 'mr'] }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
+const GIT_MODES = ['pr', 'direct', 'mr', 'stack']
+const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: GIT_MODES }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
 // the critics of one round look at the same ledger from different angles, in parallel; they add through a script
 // that takes a lock and refuses a quote already in the ledger, so their additions do not collide
 const CRITIC_LENSES = ['statements', 'structures', 'cross-cutting']
