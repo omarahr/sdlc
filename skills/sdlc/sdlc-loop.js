@@ -306,7 +306,10 @@ function pause(reason, history) {
 
 // bootstrap
 const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str }, required: ['added'] }
-const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: ['pr', 'direct', 'mr'] }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
+// the modes a run may be in. It is not an `export` because this file is compiled as the body of a single
+// async function by the test harness, where `export` is a syntax error; tests read it from INTERNALS instead.
+const GIT_MODES = ['pr', 'direct', 'mr', 'stack']
+const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: GIT_MODES }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
 // the critics of one round look at the same ledger from different angles, in parallel; they add through a script
 // that takes a lock and refuses a quote already in the ledger, so their additions do not collide
 const CRITIC_LENSES = ['statements', 'structures', 'cross-cutting']
@@ -1000,6 +1003,7 @@ const INTERNALS = {
   dismissalClass, milestonePlan, scenarioPlan, milestoneAction,
   audit, livelock,
   barRaiserRound,
+  GIT_MODES,
 }
 
 async function main() {

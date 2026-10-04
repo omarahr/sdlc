@@ -19,7 +19,7 @@ It switches to the slice branch (creating it if needed), merges the patch, regen
 ## op: bootstrap-complete
 1. Set `config.specHash` to the current spec hash, and `config.overridesSeen` to the current count of `^- Status: OVERRIDE` lines.
 2. Append a `bootstrap` log line with the requirement and slice counts.
-3. Do a **default-branch commit**: "bootstrap ledger".
+3. Do a **default-branch commit**: "bootstrap ledger". In `stack` mode a bootstrap belongs to no milestone, so commit-state.md puts it on `runBranch`.
 
 ## op: unpark
 Inputs: `{sliceId}`.
@@ -32,8 +32,9 @@ Inputs: `{sliceId}`.
 Inputs: `{sliceId, kind, reason}`. If `kind` is `improvement`, do not park: apply the escalator's **revert-reject** action instead (improvements are reverted, never parked).
 1. Set the slice to `status: parked` and increment `counters.parkCycles`. Set its requirements to `parked`.
 2. Append the reason to `slices/<id>/failures.md` under "## Force-parked (no progress)".
-3. If branch `sdlc/<id>` exists, commit any work on it as "wip before force-park", then rename it `sdlc/<id>-attempt-<n>`, where n is the next free number, and copy `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md` from it onto the default branch before committing.
-4. Do a **default-branch commit**: "force-park <id>".
+3. If branch `sdlc/<id>` exists, commit any work on it as "wip before force-park", then rename it `sdlc/<id>-attempt-<n>`, where n is the next free number.
+4. Copy the archived attempt's records onto the branch the run lives on: `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md`. Read them from `sdlc/<id>-attempt-<n>` **after** renaming, and after checking the branch out — in `stack` mode that branch is the slice's milestone branch (`sdlc/M-<n>`), or `runBranch` for a slice belonging to no milestone, and the default branch is never committed to in this mode.
+5. Do a **default-branch commit**: "force-park <id>". In `stack` mode this is the slice's milestone branch `sdlc/M-<n>`, or `runBranch` when the slice belongs to no milestone.
 
 ## op: audit-result
 Inputs: `{auditedIds, refuted: [{id, reasons}]}`.
@@ -43,4 +44,4 @@ Inputs: `{auditedIds, refuted: [{id, reasons}]}`.
   2. Insert at the **front** of slices.json a new slice. Its id is `S-fix-<n>` (n = 1 + the number of existing `S-fix-` slices), with `kind: fix`, the refuted ids as requirements, `dependsOn: []`, `status: todo`, `phase: plan`, zeroed counters, and `notes` holding the reasons.
   3. Write audit.json as `{passed: false, ledgerHash: "", auditedIds}`.
 - Append an `audit` log line.
-- Do a **default-branch commit**: "audit result".
+- Do a **default-branch commit**: "audit result". In `stack` mode the audit belongs to no milestone, so commit-state.md puts it on `runBranch`.

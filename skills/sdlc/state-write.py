@@ -27,6 +27,23 @@ class Fail(Exception):
     pass
 
 
+# config.json is written by an agent, not by this script, so nothing else constrains gitMode to these four.
+# An unrecognised one falls through every arm of ensure_slice_branch and behaves like direct: a slice
+# committed to the default branch with no pull request and no push. That fails the stack guarantee silently,
+# so name the mode and stop.
+GIT_MODES = ("pr", "direct", "mr", "stack")
+
+# a milestone branch is exactly sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack
+# mode merges locally and never opens a pull request for, so it is not a milestone branch here
+MILESTONE_BRANCH = re.compile(r"^sdlc/M-\d+$")
+
+
+def require_known_mode(config):
+    mode = config.get("gitMode")
+    if mode and mode not in GIT_MODES:
+        raise Fail(f"config.json has gitMode {mode!r}, which is not one of {', '.join(GIT_MODES)}: fix config.json rather than let the run deliver the wrong way")
+
+
 def git(repo, *args, check=True):
     r = subprocess.run(["git", "-C", repo, *args], capture_output=True, text=True)
     if check and r.returncode != 0:
@@ -156,7 +173,266 @@ def branch_exists(repo, name):
     return git(repo, "rev-parse", "--verify", "--quiet", f"refs/heads/{name}", check=False).returncode == 0
 
 
-def ensure_slice_branch(repo, config, slices, slice_id):
+def milestone_of(milestones, slice_id):
+    """The milestone a slice belongs to, or None: listed, a split child of a listed one, or a milestone fix slice."""
+    for m in milestones or []:
+        if slice_id in (m.get("slices") or []) or slice_id in (m.get("fixSlices") or []):
+            return m.get("id") or None
+    parent = re.sub(r"[a-z]$", "", slice_id)
+    for m in milestones or []:
+        # S-013a belongs to the milestone that lists its parent S-013
+        if parent != slice_id and parent in (m.get("slices") or []):
+            return m.get("id") or None
+    for m in milestones or []:
+        mid = m.get("id") or ""
+        if mid and slice_id.startswith(f"S-fix-{mid}-"):
+            return mid
+    return None
+
+
+def advance_run_branch(repo, config, run):
+    """Bring the run branch onto origin/<defaultBranch>, and push it when that moved it.
+
+    This is the only owner of that transition. milestone-writer.md used to describe the same step in
+    prose, but nothing ran it: the milestone-writer only runs while a milestone is due, and a merged
+    milestone is verified everywhere and due never again. Two owners, one of them unreachable, is how
+    the run branch stayed on the code from before the last milestone shipped.
+    """
+    git(repo, "checkout", "-q", run)
+    before = git(repo, "rev-parse", run).stdout.strip()
+    upstream = f"origin/{config.get('defaultBranch') or 'main'}"
+    # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
+    if git(repo, "merge", "-q", "--ff-only", upstream, check=False).returncode != 0:
+        if git(repo, "merge", "-q", "--no-edit", upstream, check=False).returncode != 0:
+            # both merges failed. A missing ref is tolerable — a --single-branch clone may have no
+            # origin/<defaultBranch>, and the run branch is a sound base on its own — but a conflict is not:
+            # it leaves the index unmerged, and the run branch must never be left mid-merge.
+            if git(repo, "rev-parse", "-q", "--verify", "MERGE_HEAD", check=False).returncode == 0:
+                git(repo, "merge", "--abort", check=False)
+                raise Fail(f"{upstream} conflicts with {run}: resolve it there, then cut the branch again")
+    # a plain push, never --force: the run branch is published, so a rejection is reported by the remote
+    if git(repo, "rev-parse", run).stdout.strip() != before:
+        git(repo, "push", "-q", "origin", run, check=False)
+    return run
+
+
+def branch_run(repo, branch):
+    """The run branch named by the .sdlc/config.json committed ON <branch>, or "" when it names none.
+
+    This is what makes a milestone branch name run-scoped. Milestone ids restart at M-1 on every run while
+    sdlc/run-<n> keeps counting, so run 2's first milestone branch carries exactly the name run 1's first
+    milestone branch carried. Without this, a branch an earlier run left behind answers the exists check for
+    this run's milestone: run 1's code becomes the base of run 2's first slice, and run 2's sdlc/M-1 pull
+    request carries it to the default branch. The run that wrote a branch onto it is recorded in it.
+    """
+    r = git(repo, "show", f"{branch}:.sdlc/config.json", check=False)
+    try:
+        return (json.loads(r.stdout) or {}).get("runBranch") or ""
+    except ValueError:  # absent or unreadable: the branch claims no run, so it is claimed as nobody's
+        return ""
+
+
+def shipped_into(repo, branch, default):
+    """True when every path <branch> changed since it forked is byte-identical on <default>.
+
+    `git branch -d` cannot answer this for the merge stack mode actually uses. GitHub squash-merges by
+    default, so the branch's commits are never ancestors of the default branch and `-d` refuses a branch whose
+    every byte is already shipped. What the caller needs to know is whether the branch still holds work no
+    human has accepted, so compare content against origin/<defaultBranch> — named explicitly, never left to
+    git's fallback to HEAD, which after a squash merge does not contain the branch either.
+    """
+    forked = git(repo, "merge-base", default, branch, check=False)
+    if forked.returncode != 0:
+        return False
+    changed = git(repo, "diff", "--name-only", forked.stdout.strip(), branch, check=False)
+    if changed.returncode != 0:
+        return False
+    for path in (p for p in changed.stdout.split("\n") if p.strip()):
+        # `git ls-tree` and not `git rev-parse <rev>:<path>`: that answers the blob sha alone, so a chmod +x
+        # leaves the two sides looking identical — the blobs match — while the tree entries differ
+        # (100755 against 100644), and the branch is deleted with the mode change unmerged. The tree entry
+        # carries the mode and the type with the content, which is what "the same file" has to mean here.
+        here = git(repo, "ls-tree", branch, "--", path, check=False)
+        there = git(repo, "ls-tree", default, "--", path, check=False)
+        if here.returncode != 0 or there.returncode != 0:
+            return False
+        # a path one side has and the other does not is unshipped work; both missing is a deletion both made
+        if here.stdout.strip() != there.stdout.strip():
+            return False
+    return True
+
+
+def worktree_branches(repo):
+    """The branches any worktree of this repo has checked out, current one included.
+
+    `git branch -d` refuses a branch another worktree is sitting on, and says so; the compare-and-swap in
+    prune_stale_milestone_branches does not, and deletes it anyway — leaving that worktree on a dangling
+    HEAD. So the set is read from git here rather than left to a guard the fallback has already stepped over.
+    """
+    listing = git(repo, "worktree", "list", "--porcelain", check=False)
+    names = set()
+    for line in listing.stdout.splitlines():
+        if line.startswith("branch "):
+            names.add(line[len("branch refs/heads/"):].strip())
+    # --show-current knows this worktree only; it is kept as a floor for the case where `worktree list`
+    # answered nothing at all, so a branch checked out here is never a candidate either way.
+    names.add(git(repo, "branch", "--show-current", check=False).stdout.strip())
+    return names
+
+
+def milestone_branches_with_open_slice_pr(repo):
+    """The sdlc/M-<n> branches a slice pull request is still open against, from the run's own ledger.
+
+    GitHub closes a pull request whose base branch is deleted, so a milestone branch with an open slice pull
+    request into it takes that pull request down with it, and the run's awaiting-merge bookkeeping is left
+    pointing at a closed one. A slice sits at awaiting-merge for exactly as long as its pull request is open,
+    and in stack mode that pull request's base is the slice's milestone branch — which is what makes this a
+    local answer at all.
+
+    Stated rather than papered over: a pull request the ledger does not know about — one a human opened, or
+    one whose slice has already moved on — is invisible here. `gh pr list --base` would see those, and that
+    is a network call and a forge dependency this script does not otherwise have, so it is not taken.
+    """
+    state = os.path.join(repo, ".sdlc")
+    milestones = read_json(os.path.join(state, "milestones.json"), [])
+    out = set()
+    for x in slices_of(read_json(os.path.join(state, "slices.json"), [])):
+        if x.get("status") != "awaiting-merge" or not x.get("id"):
+            continue
+        mid = milestone_of(milestones, x["id"])
+        if mid:
+            out.add(f"sdlc/{mid}")
+    return out
+
+
+def remote_sha_to_lease(repo, branch, upstream):
+    """The sha to lease a remote delete of <branch> on, or "" when there is nothing to delete there.
+
+    `git push --delete <branch>` removes whatever the remote points at, which is not what the local proof
+    covered: the local branch can be behind the remote, so a human who pushed straight to the remote branch
+    after this run proved its own tip shipped has a commit that no local check has seen. So the remote branch
+    is proved on its own, against its own remote-tracking ref, and the delete carries that ref's sha, which
+    turns the push into a compare-and-swap: a push landing between the fetch and the delete is rejected
+    rather than deleted. A remote branch that is not there needs no lease — there is nothing on it to lose.
+    """
+    r = git(repo, "rev-parse", "-q", "--verify", f"refs/remotes/origin/{branch}", check=False)
+    if r.returncode != 0:
+        return ""
+    sha = r.stdout.strip()
+    if not sha or not shipped_into(repo, f"origin/{branch}", upstream):
+        return ""
+    return sha
+
+
+def prune_stale_milestone_branches(repo, config, keep):
+    """Delete the sdlc/M-<n> branches whose milestone has shipped, and return the ones deleted.
+
+    The other half of advance_run_branch's move out of milestone-writer.md: the branch deletion lived in that
+    file's "Merged" step, which never runs for a milestone that merged, so the branches accumulated. Five
+    gates, and each one is a way this has to be wrong:
+
+      - name: only sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack mode merges
+        locally and never opens a pull request for.
+      - shipped: only a branch whose every change since it forked is already on origin/<defaultBranch>. That
+        is what an in-flight milestone fails: an open milestone pull request is by definition not on the
+        default branch yet, so its branch survives and the slices cut from it are not stranded.
+      - the caller's own: `keep` is the branch this call is about to cut. When this run owns it, slices may
+        already be cut from it, so it is never deleted here.
+      - held: not checked out in any worktree, because the compare-and-swap below deletes a branch
+        `git branch -d` would have refused, and a worktree left on a deleted branch is a dangling HEAD.
+      - in use: no slice pull request is still open against it, because GitHub closes those on the spot when
+        their base branch goes (see milestone_branches_with_open_slice_pr for what this can and cannot see).
+
+    The remote delete is proved separately from the local one. `git push --delete <branch>` removes whatever
+    the remote points at, and the local proof covers only this clone's view of the branch: a human who pushed
+    straight to origin/<branch> after this run proved its local tip shipped has work on the remote that no
+    local check has seen, and an ungated delete takes that commit with it. So the remote branch is proved on
+    its own and the delete carries a lease, and a branch whose remote side cannot be proved is kept — the
+    local delete still stands, since it was proved on its own evidence.
+
+    Never `-D` and never a force-push: `-d` first, and only where git's ancestry check cannot see through a
+    squash merge does the compare-and-swap below stand in for it — `update-ref -d <ref> <sha>` deletes only if
+    the ref is still at the sha just proved shipped, which `-D`, which checks nothing, does not do.
+    """
+    run = config.get("runBranch") or ""
+    upstream = f"origin/{config.get('defaultBranch') or 'main'}"
+    # GitHub's "delete branch on merge" removes the remote branch, so fetch rather than read a stale
+    # origin/<defaultBranch>; a fetch that cannot reach the remote leaves the previous one, which still compares.
+    # --prune because the lease below reads origin/<branch>: without it a branch the remote already dropped
+    # still looks present, and the leased delete then fails on "remote ref does not exist" — harmless, but it
+    # answers a question about a branch that is not there.
+    git(repo, "fetch", "-q", "--prune", "origin", check=False)
+    if git(repo, "rev-parse", "-q", "--verify", upstream, check=False).returncode != 0:
+        return []  # a --single-branch clone has no origin/<defaultBranch>: prove nothing, delete nothing
+    held = worktree_branches(repo)
+    in_use = milestone_branches_with_open_slice_pr(repo)
+    listing = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads/sdlc", check=False)
+    gone = []
+    for branch in listing.stdout.split("\n"):
+        branch = branch.strip()
+        if not MILESTONE_BRANCH.match(branch) or branch in held or branch in in_use:
+            continue
+        if branch == keep and branch_run(repo, branch) == run:
+            continue  # the branch this call is cutting, and this run's own: slices are already cut from it
+        sha = git(repo, "rev-parse", branch, check=False).stdout.strip()
+        if not sha or not shipped_into(repo, branch, upstream):
+            continue
+        # the lease is taken before the local delete, while the remote-tracking ref still holds what the fetch
+        # proved. Deleting the local branch does not touch it, so the sha is the same either side of this line.
+        lease = remote_sha_to_lease(repo, branch, upstream)
+        if git(repo, "branch", "-d", branch, check=False).returncode != 0:
+            # git's own refusal is the guard; the compare-and-swap is what stands in for it where a squash
+            # merge defeats its ancestry check, and it is also a guard: it deletes only if the ref is still at
+            # the sha just proved shipped. A branch that moved in between is left alone rather than deleted, and
+            # losing that race is not a reason to fail the run — the next prune re-examines it, and by then the
+            # work that moved onto it is unshipped, so the shipped check will keep it on its own evidence.
+            if git(repo, "update-ref", "-d", f"refs/heads/{branch}", sha, check=False).returncode != 0:
+                continue
+        if lease:
+            git(repo, "push", "-q", "origin", f"--force-with-lease=refs/heads/{branch}:{lease}", f":{branch}", check=False)
+        gone.append(branch)
+    return gone
+
+
+def ensure_milestone_branch(repo, config, milestones, milestone_id):
+    """sdlc/M-<id>, created from the run branch and pushed when it does not exist yet.
+
+    A milestone that is already verified has had its branch deleted after its pull request
+    merged, so a slice belonging to it builds on the run branch — that milestone shipped, and
+    the run branch has been advanced onto what it shipped.
+    """
+    if not milestone_id:
+        return None
+    want = f"sdlc/{milestone_id}"
+    # the verified rule first: a milestone branch left behind by an earlier attempt must not win over
+    # the fact that the milestone shipped, or a fix for it would build on a branch the loop will never ship
+    #
+    # `exhausted` is deliberately NOT covered here. A milestone that ran out of attempts has no pull request
+    # to merge (milestone-writer ships only `verified`), so a fix slice cut for it gets a milestone branch
+    # the loop will not deliver. Left as-is on purpose: the alternative — basing it on the run branch — puts
+    # the fix outside the milestone it answers, and the audit that follows ships that fix on its own PR.
+    if next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified":
+        return None
+    run = config.get("runBranch") or ""
+    prune_stale_milestone_branches(repo, config, want)
+    if branch_exists(repo, want):
+        # a branch under this milestone's name that names an EARLIER run is a leftover this run cannot build
+        # on. Reaching here means it held unshipped work, so it was kept rather than deleted; building on it
+        # would put the earlier run's code in this run's milestone pull request, so stop instead.
+        other = branch_run(repo, want)
+        if other and other != run:
+            raise Fail(f"{want} belongs to run {other}, not to {run or '(unset)'}, and its work is not on "
+                       f"origin/{config.get('defaultBranch') or 'main'}: merge or drop it by hand, then cut again")
+        return want
+    if not run or not branch_exists(repo, run):
+        raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
+    advance_run_branch(repo, config, run)
+    git(repo, "checkout", "-q", "-b", want)
+    git(repo, "push", "-q", "-u", "origin", want, check=False)
+    return want
+
+
+def ensure_slice_branch(repo, config, slices, milestones, slice_id):
     """Be on sdlc/<id>, creating it as commit-state.md says when it does not exist yet."""
     want = f"sdlc/{slice_id}"
     if git(repo, "branch", "--show-current").stdout.strip() == want:
@@ -172,7 +448,24 @@ def ensure_slice_branch(repo, config, slices, slice_id):
             base = f"sdlc/{dep}"
             break
     else:
-        if config.get("gitMode") == "pr":
+        if config.get("gitMode") == "stack":
+            # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
+            mid = milestone_of(milestones, slice_id)
+            created = ensure_milestone_branch(repo, config, milestones, mid) if mid else None
+            # a slice must never be cut from the default branch in stack mode, so a run branch that is
+            # unset or does not exist is an error here rather than a fall-through to main or a raw git failure
+            base = created or ""
+            if not base:
+                run = config.get("runBranch") or ""
+                if not run:
+                    raise Fail("stack mode needs config.runBranch: a slice builds on its milestone branch, never on the default branch")
+                if not branch_exists(repo, run):
+                    raise Fail(f"stack mode needs the run branch {run}, which does not exist")
+                # an audit fix slice belongs to no milestone, so the run branch is its base and has to
+                # carry every shipped milestone: nothing else moves it, and the audit runs after they merged
+                advance_run_branch(repo, config, run)
+                base = run
+        elif config.get("gitMode") == "pr":
             # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
             if git(repo, "checkout", "-q", base, check=False).returncode == 0:
                 git(repo, "pull", "-q", "--ff-only", check=False)
@@ -185,7 +478,9 @@ def patch_slice(repo, slice_id, patch):
         raise Fail("the patch must be a JSON object")
     s = os.path.join(repo, ".sdlc")
     config = read_json(os.path.join(s, "config.json"))
-    branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))), slice_id)
+    require_known_mode(config)
+    branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))),
+                                 read_json(os.path.join(s, "milestones.json"), []), slice_id)
     # read again: the branch just checked out holds this slice's state
     raw = read_json(os.path.join(s, "slices.json"))
     me = next((x for x in slices_of(raw) if x.get("id") == slice_id), None)

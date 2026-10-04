@@ -14,6 +14,6 @@ Inputs: `verdicts: [{idea, verdict}]`, `deferred: [idea]`, `dry`.
 
    Write `slices/<id>/idea.md` holding the ideas' full details and the judges' notes.
 4. **Update barraiser.json:** set `seeds` to `deferred`, which replaces the consumed seeds. Increment `rounds`. Set `dryRounds` to `dryRounds + 1` if `dry`, else `0`.
-5. Append a `bar-raiser` log line, regenerate STATUS.md, and do a **default-branch commit** (commit-state.md) with "bar raiser round <rounds>".
+5. Append a `bar-raiser` log line, regenerate STATUS.md, and do a **default-branch commit** (commit-state.md) with "bar raiser round <rounds>". In `stack` mode the bar raiser belongs to no milestone, so this lands on `runBranch`.
 
 Return `{ok: true}`.

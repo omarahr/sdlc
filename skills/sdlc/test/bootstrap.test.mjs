@@ -1,6 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { runMain, scripted, ok } from './harness.mjs'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { runMain, scripted, ok, loadInternals, SKILL_DIR } from './harness.mjs'
 
 const reader = () => [{ action: 'bootstrap', reason: 'no config' }, { action: 'stop', reason: 'test end' }]
 
@@ -49,7 +51,7 @@ test('bootstrap passes mr mode and the commit format to the env-detector, whose 
   }), { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
   const env = rt.calls.find(c => c.role === 'env-detector')
   assert.deepEqual(env.inputs, { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
-  assert.deepEqual(env.opts.schema.properties.gitMode.enum, ['pr', 'direct', 'mr'])
+  assert.deepEqual(env.opts.schema.properties.gitMode.enum, ['pr', 'direct', 'mr', 'stack'])
 })
 
 test('critic that never goes dry is capped and the cap is logged', async () => {
@@ -63,6 +65,29 @@ test('critic that never goes dry is capped and the cap is logged', async () => {
   }))
   assert.equal(rt.roles().filter(r => r === 'completeness-critic').length, 9)
   assert.ok(rt.logs.some(l => /3-round limit/.test(l)))
+})
+
+// each doc states the mode list in its own shape; [name, path, pattern, extractor] reads that list
+// back out so it can be compared with the script's enum rather than merely searched for.
+// The patterns must stay unambiguous: a doc states its list exactly once, and a second mention is
+// itself the failure — otherwise an earlier decoy shadows the authoritative line and the guard
+// reports green while checking prose. Assert the single occurrence rather than taking the first.
+const MODE_DOCS = [
+  ['SKILL.md', 'SKILL.md', /--git ([a-z|]+)\]/g, s => s.split('|').map(m => m.trim())],
+  ['state-schema.md', 'prompts/state-schema.md', /`gitMode` is ([^\n]+)/g, s => [...s.matchAll(/`([a-z]+)`/g)].map(m => m[1])],
+  ['env-detector.md', 'prompts/env-detector.md', /`gitMode` \(([^)]*)\)/g, s => [...s.matchAll(/`([a-z]+)`/g)].map(m => m[1])],
+]
+
+test('the documented git modes and the workflow script agree', async () => {
+  const { I } = await loadInternals()
+  assert.deepEqual(I.GIT_MODES, ['pr', 'direct', 'mr', 'stack'])
+  for (const [name, path, pattern, extract] of MODE_DOCS) {
+    const text = readFileSync(join(SKILL_DIR, path), 'utf8')
+    const hits = [...text.matchAll(pattern)]
+    assert.equal(hits.length, 1, `${name} states its git mode list ${hits.length} times; it must be stated exactly once, unambiguously`)
+    const documented = [...extract(hits[0][1])].sort()
+    assert.deepEqual(documented, [...I.GIT_MODES].sort(), `${name} documents modes the script does not allow, or omits modes it does`)
+  }
 })
 
 test('bootstrap aborts without committing when the extractor fails', async () => {

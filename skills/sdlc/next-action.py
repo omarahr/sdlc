@@ -11,7 +11,7 @@ It prints one JSON object:
 
 Checks run in this order, and the first that matches wins:
   A  stop or bootstrap     STOP file; a state PR that is not ready; no config, changed spec, new override
-  B  finish work in flight a PR that can merge or was merged by a human; a slice in progress
+  B  finish work in flight a PR that can merge or was merged by a human; a slice in progress; a milestone holding the run
   C  milestones            no milestones.json; a milestone whose slices are finished
   D  start new work        the next todo slice with its dependencies met; a parked slice with retries left
   E  nothing can start     only PRs awaiting review; todo slices that nothing can unblock
@@ -32,6 +32,10 @@ FINISHED = ("done", "parked")
 SATISFIED = ("done", "awaiting-merge", "parked")
 PARK_CYCLE_LIMIT = 3
 MILESTONE_ATTEMPT_LIMIT = 3
+# config.json is written by an agent, not by this script, so nothing else constrains gitMode to these four.
+# An unrecognised one falls through every arm below and behaves like direct: slices committed to the default
+# branch with no pull request and no push. That fails a stack run's central guarantee silently, so name it.
+GIT_MODES = ("pr", "direct", "mr", "stack")
 PR_FIELDS = "number,headRefName,url,mergeable,reviewDecision,statusCheckRollup"
 
 
@@ -213,15 +217,23 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         base = wt
     config = base.json(f"{sdlc}/config.json")
     mode = (config or {}).get("gitMode")
+    if mode and mode not in GIT_MODES:
+        raise StateError(f"config.json has gitMode {mode!r}, which is not one of {', '.join(GIT_MODES)}: fix config.json rather than let the run deliver the wrong way")
+    stack = mode == "stack"
 
-    # sync and the state-PR wait (pr mode only: direct and mr mode have no pull requests for slices or state)
+    # sync and the state-PR wait (pr mode only: direct and mr mode have no pull requests for slices or state.
+    # stack mode has pull requests for slices and milestones, but none for state, so it skips the state-PR arm)
     open_prs, merged_prs = [], []
-    if config and mode == "pr":
+    if config and mode in ("pr", "stack"):
         if not prs_file:
             run(repo, "git", "fetch", "-q", "origin")
         open_prs, merged_prs = load_prs(repo, prs_file)
-        state_prs = [p for p in open_prs if p.get("headRefName", "").startswith("sdlc/state-")]
-        e2e_prs = [p for p in open_prs if re.fullmatch(r"sdlc/M-.*-e2e", p.get("headRefName", ""))]
+        # both of these arms are pr mode's. In stack mode there are no sdlc/state-* pull requests at all, and
+        # the e2e suite merges into the milestone branch locally rather than as a pull request, so an
+        # sdlc/M-*-e2e pull request found here is stale and merging it would land e2e code straight on the
+        # default branch, bypassing the milestone it belongs to.
+        state_prs = [p for p in open_prs if mode == "pr" and p.get("headRefName", "").startswith("sdlc/state-")]
+        e2e_prs = [p for p in open_prs if mode == "pr" and re.fullmatch(r"sdlc/M-.*-e2e", p.get("headRefName", ""))]
         ready = [p for p in state_prs + e2e_prs if pr_ready(p)]
         sync = [f"gh pr merge {p['number']} --squash --delete-branch" for p in ready]
         behind = False
@@ -280,6 +292,29 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
             by_id[sid]["pr"] = p.get("url") or by_id[sid].get("pr", "")
             pr_of[sid] = p
 
+    # stack mode: an open milestone pull request holds the run. Keyed on the pull request's head alone,
+    # never on milestones.json: the milestone's own record is committed on sdlc/M-<n> and only reaches the
+    # branch this decision reads from when the pull request merges, so consulting it here would skip the
+    # hold for exactly the milestone that needs it.
+    milestone_hold = None
+    if stack:
+        for p in open_prs:
+            head = p.get("headRefName", "")
+            # the -e2e suffix is excluded explicitly, not by the pattern below: sdlc/M-1-e2e matches
+            # `sdlc/M-[^/]+` exactly as a milestone branch does. Stack mode merges the e2e suite locally and
+            # has no arm that would merge such a pull request, so holding on a stale one — left by a run
+            # that changed mode — would livelock the run forever.
+            #
+            # Readiness is deliberately NOT part of this test. A milestone pull request holds the run while
+            # it is open, because the next milestone cuts its branch from runBranch, which only moves onto
+            # shipped code once this merges. On a repository with no required reviews — the common case — a
+            # green milestone pull request is pr_ready, so holding only on a blocked one let control reach
+            # C, which handed an already-verified milestone straight back to the milestone-writer to re-run
+            # its whole behavior campaign against an open pull request.
+            if re.fullmatch(r"sdlc/M-[^/]+", head) and not head.endswith("-e2e"):
+                milestone_hold = (head[len("sdlc/"):], p.get("url") or p["number"])
+                break
+
     def out(action, reason, s=None, **extra):
         nxt = {"action": action, "reason": reason, **extra}
         if s is not None:
@@ -298,6 +333,16 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
     for s in slices:
         if s.get("status") == "in_progress":
             return out("slice", f"B: {s['id']} is in progress at phase {s.get('phase', 'plan')}", s)
+
+    # The hold sits here, ahead of C, for two separate reasons. Ahead of C: a milestone's own state is committed
+    # on its milestone branch, so the branch this decision reads from does not yet carry it and section C
+    # still sees the milestone as due — it would hand the milestone straight back to the milestone-writer,
+    # which would re-ship it and loop until a human merged. Ahead of D: the next milestone cuts its branch
+    # from runBranch, which only moves onto shipped code once this pull request merges, so starting new work
+    # now would build on unshipped ground.
+    if milestone_hold:
+        mid, url = milestone_hold
+        return out("wait", f"B: milestone {mid} is not merged yet ({url}); the next milestone branches from runBranch, which only moves once this pull request merges, so the run holds until a human merges it")
 
     # C. milestones
     raw_milestones = src.json(f"{sdlc}/milestones.json")

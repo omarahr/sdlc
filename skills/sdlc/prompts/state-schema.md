@@ -15,6 +15,7 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
   "gitMode": "pr",
   "forge": "github",
   "defaultBranch": "main",
+  "runBranch": "",
   "targetBranch": "",
   "commitFormat": "",
   "runRequest": null,
@@ -25,11 +26,14 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
 - `specPath` is repo-relative.
 - `specHash` is written only by the state-writer `bootstrap-complete` op.
 - `overridesSeen` counts the lines matching `^- Status: OVERRIDE` in DECISIONS.md.
-- `gitMode` is `pr`, `direct` or `mr`.
+- `gitMode` is `pr`, `direct`, `mr` or `stack`.
   - `pr`: one branch and one pull request per slice (GitHub only).
   - `direct`: slices are committed to `defaultBranch`, and nothing is pushed.
   - `mr`: as `direct`, and the integrator also pushes `defaultBranch` and keeps one merge request for the whole run open against `targetBranch` (run-request.md). Wherever a prompt names only `pr` and `direct`, `mr` behaves as `direct`.
+  - `stack`: one branch per slice inside one branch per milestone, on a run branch of their own. Slice pull requests target their milestone branch; the milestone pull request targets `defaultBranch`. GitHub only.
 - `forge` is `github`, `gitlab` or `""`.
+- `defaultBranch` is the remote's default branch in `pr` and `stack` mode. In `direct` and `mr` mode it is the working branch the slices are committed to. In `stack` mode nothing is ever committed to it directly; the working branch is `runBranch`.
+- `runBranch` is `""` outside `stack` mode. In `stack` mode it is the branch the whole run builds on, `sdlc/run-<n>`.
 - `targetBranch` is set only in `mr` mode: the branch the run's merge request targets.
 - `commitFormat` is `""` (use the subjects the role files give) or a format for every commit subject and merge-request title (see _common.md).
 - `runRequest` is `null` or `{"url", "number"}`: the run's merge request, written by the integrator in `mr` mode.
@@ -101,11 +105,13 @@ Created by the milestone-planner. The slicer appends slices to it, and the miles
     "attempts": 0,
     "lastRun": "",
     "fixSlices": [],
+    "pr": "",
     "gaps": []
   }
 ]
 ```
 - `status` is `pending`, `fixing`, `verified` or `exhausted`. `exhausted` means 3 campaigns ran without verifying, and `gaps` says what still fails, for a human.
+- `pr` is `""` or the milestone pull request's url, set by the milestone-writer in `stack` mode.
 - Members are the listed slices, their split children (the listed id followed by a letter) and `fixSlices`.
 
 ## milestones/<id>/

@@ -196,6 +196,29 @@ test('F: the bar raiser runs only while rounds are left and it has not gone dry 
   assert.equal(next(fixture({ ...files, 'barraiser.json': { dryRounds: 2, rounds: 1 } }), { rounds: 5 }).action, 'done')
 })
 
+test('a gitMode this script does not know is an error, not a mode it falls through', opts, () => {
+  // config.json is written by an agent, so nothing but this check constrains gitMode. A typo falls through
+  // every arm and behaves like direct: slices committed to the default branch, no pull request, no push —
+  // which in stack mode is the one thing the mode exists to prevent. Failing loudly costs a rerun; falling
+  // through costs the guarantee, silently.
+  for (const mode of ['stak', 'STACK', 'PullRequest', '']) {
+    const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: mode })
+    const n = next(repo)
+    if (mode === '') {
+      assert.notEqual(n.action, 'error', 'an unset gitMode is pre-existing behaviour and must not change')
+      continue
+    }
+    assert.equal(n.action, 'error', `${mode} must not be silently accepted`)
+    assert.match(n.reason, new RegExp(mode))
+    assert.match(n.reason, /pr, direct, mr, stack/)
+  }
+  // the four known modes are still accepted (the pr-shaped ones are given a prs file so they need no gh)
+  for (const mode of ['pr', 'direct', 'mr', 'stack']) {
+    const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: mode })
+    assert.notEqual(next(repo, { prs: {} }).action, 'error', `${mode} mode was rejected`)
+  }
+})
+
 test('a state file that is not valid JSON is an error; a wrapped slices list is read', opts, () => {
   const e = next(fixture({ 'slices.json': '<<<<<<< HEAD\n[]' }))
   assert.equal(e.action, 'error')
@@ -248,4 +271,155 @@ test('an open PR left by an attempt that was replanned does not hold the slice',
   assert.equal(n.action, 'slice')
   assert.equal(n.sliceId, 'S-1')
   assert.equal(n.slice.status, 'in_progress')
+})
+
+test('stack mode waits while a milestone pull request is open', opts, () => {
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { mergeable: 'CONFLICTING', reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait')
+  assert.match(d.next?.reason ?? '', /M-2/)
+})
+
+test('stack mode waits on a milestone pull request that is green but unreviewed', opts, () => {
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait')
+})
+
+test('stack mode does not wait once the milestone pull request has merged', opts, () => {
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  const d = decide(repo, { prs: { merged: [pr('sdlc/M-2')] } })
+  assert.notEqual(d.next?.action, 'wait')
+})
+
+test('stack mode ignores an sdlc/M-1-e2e pull request when deciding whether to wait', opts, () => {
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'todo')],
+    'milestones.json': [{ id: 'M-1', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-1-e2e')] } })
+  assert.notEqual(d.next?.action, 'wait', 'the e2e branch is merged locally in stack mode, never as a pull request')
+})
+
+test('stack mode does not hold on an unreviewed e2e pull request left by a run that changed mode', opts, () => {
+  // Stack mode has no e2e-pull-request arm, so nothing would ever merge one of these: holding on it would
+  // livelock the run forever. The head matches a milestone-branch shape, so the exclusion has to be the
+  // e2e suffix itself and cannot be left to the pattern that decides "this is a milestone branch" —
+  // `sdlc/M-1-e2e` matches `sdlc/M-[^/]+` exactly as `sdlc/M-1` does. Every head shape is checked, because
+  // an exclusion written as a pattern suffix or a lookbehind is easy to get right for one and wrong for another.
+  for (const head of ['sdlc/M-1-e2e', 'sdlc/M-10-e2e', 'sdlc/M-0-e2e']) {
+    const repo = fixture({
+      'slices.json': [slice('S-014', 'todo')],
+      'milestones.json': [{ id: 'M-1', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+    }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+    const d = decide(repo, { prs: { open: [pr(head, { reviewDecision: 'REVIEW_REQUIRED' })] } })
+    assert.notEqual(d.next?.action, 'wait', `a stale ${head} pull request must never hold the run`)
+  }
+})
+
+test('pr mode still merges a ready e2e pull request itself', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-014', 'todo')] }, { gitMode: 'pr' })
+  const r = decide(repo, { prs: { open: [pr('sdlc/M-1-e2e')] } })
+  assert.ok(r.sync.some(c => /gh pr merge/.test(c)))
+})
+
+test('stack mode holds on a milestone pull request before the milestone is recorded as verified', opts, () => {
+  // The milestone's own state is committed on sdlc/M-<n>, so the default branch still records the
+  // milestone as unverified with every slice finished. That is exactly section C's trigger, so a hold
+  // placed any later would re-hand the milestone to the milestone-writer and loop until a human merged.
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-2', status: 'fixing', attempts: 1, slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait', 'the milestone must not be handed back to the milestone-writer')
+  assert.match(d.next?.reason ?? '', /M-2/)
+})
+
+test('stack mode holds on a milestone pull request that is green and ready to merge', opts, () => {
+  // The topology an OPEN, ready milestone pull request actually leaves. The milestone's own record is
+  // committed on sdlc/M-1 and reaches the default branch only when the pull request merges, so main still
+  // reads M-1 as pending with its only slice finished — section C's exact trigger, which hands the
+  // milestone back to the milestone-writer to re-run the whole behavior campaign. On a repository with no
+  // required reviews a green pull request is `pr_ready`, so a hold that skipped ready pull requests never
+  // fired here and the loop spun. Built with a real git repo because the record's branch is the whole point.
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-1', status: 'pending', attempts: 0, slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-1')
+  writeFileSync(join(repo, '.sdlc', 'milestones.json'), JSON.stringify([
+    { id: 'M-1', status: 'verified', attempts: 1, slices: ['S-014'], fixSlices: [], pr: 'https://example.test/pr/sdlc/M-1' },
+  ]))
+  git(repo, 'commit', '-q', '-am', 'milestone M-1 verified')
+  git(repo, 'checkout', '-q', 'main')
+  // main genuinely still reads the milestone as pending with everything finished
+  const onMain = JSON.parse(git(repo, 'show', 'main:.sdlc/milestones.json'))
+  assert.deepEqual([onMain[0].status, onMain[0].slices], ['pending', ['S-014']])
+  // ready: mergeable, no review required, no failing check
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-1')] } })
+  assert.equal(d.next?.action, 'wait', 'an open milestone PR holds the run whether or not it is ready to merge')
+  assert.match(d.next?.reason ?? '', /M-1/)
+})
+
+test('stack mode holds on a milestone pull request whose milestone is not on the default branch yet', opts, () => {
+  // The topology the other stack tests cannot see: M-2's record is committed on sdlc/M-2 only and reaches
+  // the default branch when its pull request merges. Deciding from the default branch, milestones.json
+  // holds M-1 and never mentions M-2 — so a hold keyed on milestones.json never fires, and the mode's
+  // central guarantee silently does not hold. Built with a real git repo for exactly that reason.
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-1', status: 'verified', attempts: 1, slices: [], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  // the milestone branch carries the record the default branch does not have yet
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-2')
+  writeFileSync(join(repo, '.sdlc', 'milestones.json'), JSON.stringify([
+    { id: 'M-1', status: 'verified', attempts: 1, slices: [], fixSlices: [] },
+    { id: 'M-2', status: 'verified', attempts: 1, slices: ['S-014'], fixSlices: [], pr: 'https://example.test/pr/sdlc/M-2' },
+  ]))
+  git(repo, 'commit', '-q', '-am', 'milestone M-2 verified')
+  git(repo, 'checkout', '-q', 'main')
+  // the default branch really does not know about M-2
+  assert.doesNotMatch(JSON.stringify(JSON.parse(git(repo, 'show', 'main:.sdlc/milestones.json'))), /M-2/)
+  // decide(), not next(): a mutated script that answers with a sync list has no .next, and next() would
+  // die on a null deref that names neither the test nor the cause
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait', 'an open milestone PR must hold the run even before its record reaches the default branch')
+  assert.match(d.next?.reason ?? '', /M-2/)
+})
+
+test('stack mode stops holding once the milestone pull request is merged into the default branch', opts, () => {
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-1', status: 'verified', attempts: 1, slices: [], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/M-2')
+  writeFileSync(join(repo, '.sdlc', 'milestones.json'), JSON.stringify([
+    { id: 'M-1', status: 'verified', attempts: 1, slices: [], fixSlices: [] },
+    { id: 'M-2', status: 'verified', attempts: 1, slices: ['S-014'], fixSlices: [], pr: 'https://example.test/pr/sdlc/M-2' },
+  ]))
+  git(repo, 'commit', '-q', '-am', 'milestone M-2 verified')
+  // merged: the record is now on the default branch too, and the pull request is closed
+  git(repo, 'checkout', '-q', 'main')
+  git(repo, 'merge', '-q', '--no-edit', 'sdlc/M-2')
+  const d = decide(repo, { prs: { merged: [pr('sdlc/M-2')] } })
+  assert.notEqual(d.next?.action, 'wait', 'a merged milestone PR must not hold the run')
 })

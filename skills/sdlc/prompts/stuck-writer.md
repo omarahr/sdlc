@@ -9,4 +9,4 @@ For each parked slice, include:
 - your best hypotheses about why it cannot be done as specified;
 - the smallest human decision that would unblock it: a spec change, a credential, or an environment.
 
-Then regenerate STATUS.md, append a `note` log line "livelock", and do a **default-branch commit** (commit-state.md) with "livelock report". Return `{ok: true}`.
+Then regenerate STATUS.md, append a `note` log line "livelock", and do a **default-branch commit** (commit-state.md) with "livelock report". In `stack` mode a livelock report belongs to no milestone, so this lands on `runBranch`. Return `{ok: true}`.

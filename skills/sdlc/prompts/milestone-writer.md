@@ -8,7 +8,7 @@ Inputs: `milestoneId`, `outcome` (`verified`, `partial`, `bugs` or `blocked`), `
    1. Merge every `sdlc/<id>-e2e-<area>` branch into `sdlc/<id>-e2e`, then delete them.
    2. Add every `confirmed` and `unjudged` scenario id to `e2e/pending.json`, mapped to its fix slice (step 3).
    3. Run `config.commands.e2e`. Anything else that fails is a regression: add it to `unjudged` and to the pending list, and say so in the report.
-   4. Merge `sdlc/<id>-e2e` into the default branch the way the integrator does for the git mode (`direct` or `mr`: squash-merge; pr: open a PR and let the state-reader merge it when green). Delete the branch when merged.
+   4. Merge `sdlc/<id>-e2e` into the branch the rest of the milestone is on. In `stack` mode that is the milestone branch `sdlc/M-<n>`, which this milestone's first slice already created: `git checkout sdlc/M-<n> && git merge --squash sdlc/<id>-e2e && git commit -m "test(e2e): harness for <milestoneId>"`. Assert it exists first (`git rev-parse --verify sdlc/M-<n>`); if it is missing, stop and report it rather than creating it — `ensure_milestone_branch` in state-write.py is the only owner of that branch, and a second recipe here is how a run ends up with two of them. In `direct` or `mr` mode, squash-merge into the default branch. In `pr` mode, open a PR and let the state-reader merge it when green. Delete the branch when merged.
 2. **Report** `.sdlc/milestones/<id>/report.md`:
    - the summary;
    - a table of every scenario with its status, requirement and one-line observed behavior (from the runners' `run-*.md`);
@@ -29,6 +29,20 @@ Inputs: `milestoneId`, `outcome` (`verified`, `partial`, `bugs` or `blocked`), `
    - `blocked` by the environment: keep `pending`;
    - any case with `attempts >= 3` that is not `verified`: set `exhausted`, and list what is still failing in `gaps` for a human.
 6. **Leftovers:** dismissed `out-of-scope` failures go to `barraiser.json` `seeds`. `spec-gap` proposals are already in SPEC-PROPOSALS.md.
-7. Append `{"type":"milestone","detail":"<id> <status>: <summary>"}` to log.jsonl. Regenerate STATUS.md. Do a **default-branch commit**: "milestone <id> <status>".
+7. Append `{"type":"milestone","detail":"<id> <status>: <summary>"}` to log.jsonl. Regenerate STATUS.md. Then do a **default-branch commit** (commit-state.md): "milestone <id> <status>". This milestone's state belongs to this milestone, so in `stack` mode it lands on `sdlc/M-<n>`; do not push, step 8 pushes it.
+
+## Ship the milestone (stack mode only)
+This is the one place `stack` mode waits for a person. The next milestone branches from `runBranch`, which only reaches shipped code once this pull request merges, so everything below happens before the loop may start new work. Skip this whole section in `direct`, `mr` and `pr` mode.
+
+Only ship when `status` is `verified`. `bugs`, `fixing` and `partial`-with-open-gaps leave the milestone to its fix slices, which land on the milestone branch first; shipping one of those would open a pull request for work that is not finished.
+
+1. `git checkout sdlc/M-<n> && git pull -q --ff-only`.
+2. Push the state commit from step 7 with it: `git push -u origin sdlc/M-<n>`. If a PR with head `sdlc/M-<n>` is already open, reuse it and skip step 3. If the branch is stale from an earlier attempt, `git push --force-with-lease origin sdlc/M-<n>`; never force-push `sdlc/run-<n>` or `<defaultBranch>`.
+3. `gh pr create --base <defaultBranch> --title "<milestone id>: <milestone title>" --body "<what a person can do once this milestone is merged, the scenario table, the confirmed bugs and dismissed failures>` followed by a blank line and `🤖 Generated with [Claude Code](https://claude.com/claude-code)"`. The base is `<defaultBranch>` even though the work was done on `sdlc/M-<n>`: this is the one pull request a person reads to accept the whole milestone. The `M-0` baseline milestone's pull request carries only the e2e suite and this report; that is expected, not a mistake.
+4. Record the pull request on the milestone so the state says where it shipped: set `"pr": "<url>"` on this milestone in `milestones.json`, then `git add .sdlc && git commit -m "chore(sdlc): milestone <id> pull request"` and `git push origin sdlc/M-<n>`. Do this now, not after the merge — once the milestone branch is deleted the record goes with it.
+5. `gh pr checks --watch`. On failure, read the log with `gh run view --log-failed`, fix on the milestone branch (you may edit product code for CI-only failures), commit, push, and watch again, for up to 3 cycles. If there are no checks, append a `note` log line "no CI checks on <pr>". A job that passes on one `gh run rerun --failed` counts as flaky: add a seed.
+6. **Merged:** nothing to do here, and that is deliberate. This step used to advance `runBranch` and delete `sdlc/M-<n>`, and it never ran for a milestone that merged: the writer only runs while a milestone is due, and a merged one is `verified` everywhere and due never again. Both transitions live in `state-write.py` now — `advance_run_branch` brings `runBranch` onto `defaultBranch` the next time a branch is cut from it, and `prune_stale_milestone_branches` deletes this `sdlc/M-<n>`, its work having shipped, the next time a milestone branch is cut. Leave the branches alone: a second owner for one transition is how the run branch went stale in the first place, and a forced branch deletion loses work that may not have landed.
+7. **Blocked by required review or branch protection:** leave the pull request open — it is already recorded as `"pr"` on the milestone — and return as you are. Do not create the next milestone branch: the next milestone branches from `runBranch`, which has not moved onto this milestone, and building on a milestone you have not landed would stack work on unshipped ground. `next-action.py` reports the run as waiting and `/loop` retries.
+8. Never `gh pr merge --admin`.
 
 Return `{ok: true, status, attempt, fixSlices: [ids created now], notes}`.
