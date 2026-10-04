@@ -31,7 +31,7 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
      1. in `stack` mode the slice's milestone branch `sdlc/M-<n>` — or `runBranch` for an audit fix that belongs to no milestone;
      2. in `pr` mode `<defaultBranch>`.
 
-     Do not rediscover it with a git command. `git merge-base --fork-point` is recent, behaves differently across versions, and fails outright on a shallow clone, so an agent that goes looking can end up with no base at all. Read `gitMode` from `.sdlc/config.json` and take case 1 or case 2 above.
+     Do not rediscover it with a git command. The usual ways of asking git which branch this came from are recent, behave differently across versions, and fail outright on a shallow clone, so an agent that goes looking can end up with no base at all. Read `gitMode` from `.sdlc/config.json` and take case 1 or case 2 above.
 
      The two modes differ only in what `<baseBranch>` is; every command below is otherwise identical.
      1. If a PR with head `sdlc/<id>` is already open (`gh pr list --head sdlc/<id> --state open`), reuse it and skip step 2. If the remote branch exists but is stale from an earlier attempt, `git push --force-with-lease origin sdlc/<id>`; force-push only ever `sdlc/<id>`. Otherwise `git push -u origin sdlc/<id>`.

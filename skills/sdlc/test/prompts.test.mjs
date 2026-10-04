@@ -122,6 +122,9 @@ test('the integrator ships a stack slice into its milestone branch, not the defa
   // that behaves differently across versions and fails outright on a shallow clone
   assert.match(i, /in `stack` mode the slice's milestone branch `sdlc\/M-<n>`/)
   assert.match(i, /in `pr` mode `<defaultBranch>`/)
+  // and the prohibition is what pins it: swapping the names back for a rediscovery command must fail
+  assert.match(i, /Do not rediscover it with a git command/)
+  assert.doesNotMatch(i, /merge-base/)
 })
 
 test('the milestone-writer opens the milestone pull request and retargets the e2e merge', () => {
@@ -145,4 +148,32 @@ test('the implementer times the suite against the slice base branch in stack mod
   const i = readFileSync(join(SKILL_DIR, 'prompts', 'implementer.md'), 'utf8')
   assert.match(i, /`stack` mode/)
   assert.match(i, /base branch/)
+})
+
+test('the stack commit rule names the branch instead of guessing it from a milestone status', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  // the status heuristic misrouted eight callers: a milestone is `verified` by the time its writer commits
+  assert.doesNotMatch(c, /whose status is not `verified`/)
+  assert.match(c, /commit on the milestone branch the slice or milestone in this commit belongs to/)
+  assert.match(c, /`runBranch` when it belongs to no milestone/)
+  // every caller that says "default-branch commit" has to say where that is in stack mode
+  for (const f of ['stuck-writer', 'barraiser-writer', 'milestone-planner', 'state-writer', 'escalator']) {
+    const text = readFileSync(join(SKILL_DIR, 'prompts', `${f}.md`), 'utf8')
+    assert.match(text, /`stack` mode/, `${f}.md says "default-branch commit" but never mentions stack mode`)
+  }
+})
+
+test('the escalator and force-park commit to the branch the run lives on, not the default branch', () => {
+  const e = readFileSync(join(SKILL_DIR, 'prompts', 'escalator.md'), 'utf8')
+  // the archive checkout must name the stack target, and the copy must follow it
+  assert.match(e, /In `stack` mode that is the slice's milestone branch `sdlc\/M-<n>`/)
+  assert.match(e, /after\*\* the checkout in step 2/)
+  // replan and spike must not cut from the default branch in stack mode
+  assert.match(e, /Never cut it from `<defaultBranch>` in `stack` mode/)
+  assert.doesNotMatch(e, /On a scratch branch `sdlc\/<id>-spike` from the default branch/)
+
+  const w = readFileSync(join(SKILL_DIR, 'prompts', 'state-writer.md'), 'utf8')
+  assert.match(w, /bootstrap belongs to no milestone/)
+  assert.match(w, /the audit belongs to no milestone/)
+  assert.match(w, /after\*\* renaming, and after checking the branch out/)
 })

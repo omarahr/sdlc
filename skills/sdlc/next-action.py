@@ -286,20 +286,17 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
             by_id[sid]["pr"] = p.get("url") or by_id[sid].get("pr", "")
             pr_of[sid] = p
 
-    # stack mode: an open milestone pull request holds the run. The next milestone branches from the default
-    # branch, so starting it before this one lands would build on code nobody has reviewed.
+    # stack mode: an open milestone pull request holds the run. Keyed on the pull request's head alone,
+    # never on milestones.json: the milestone's own record is committed on sdlc/M-<n> and only reaches the
+    # branch this decision reads from when the pull request merges, so consulting it here would skip the
+    # hold for exactly the milestone that needs it.
     milestone_hold = None
     if stack:
-        known = {m.get("id") for m in as_list(src.json(".sdlc/milestones.json") or [], "milestones")}
         for p in open_prs:
             head = p.get("headRefName", "")
-            if not re.fullmatch(r"sdlc/M-.+", head):
-                continue
-            mid = head[len("sdlc/"):]
-            # sdlc/M-1-e2e is merged locally in stack mode and never has a pull request, but a stale one
-            # from a run that changed mode must not hold this one
-            if mid in known and not pr_ready(p):
-                milestone_hold = (mid, p.get("url") or p["number"])
+            # the trailing anchor is what excludes sdlc/M-1-e2e, which is merged locally in stack mode
+            if re.fullmatch(r"sdlc/M-.+", head) and not pr_ready(p):
+                milestone_hold = (head[len("sdlc/"):], p.get("url") or p["number"])
                 break
 
     def out(action, reason, s=None, **extra):
@@ -321,14 +318,11 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         if s.get("status") == "in_progress":
             return out("slice", f"B: {s['id']} is in progress at phase {s.get('phase', 'plan')}", s)
 
-    # stack mode: an open milestone pull request holds the run, and it outranks section C. The milestone's
-    # own state lives on the milestone branch, so the default branch still records the milestone as unverified
-    # with every slice finished — without this check C would hand the milestone straight back to the
-    # milestone-writer, which would re-ship it and loop until a human merged. The next milestone branches from
-    # the default branch, so starting it before this one lands would build on code nobody has reviewed.
+    # the hold outranks C and D: the next milestone cuts its branch from runBranch, which is only fast-forwarded
+    # to shipped code once this pull request merges, so starting it now would build on unshipped ground
     if milestone_hold:
         mid, url = milestone_hold
-        return out("wait", f"B: milestone {mid} is not merged yet ({url}); the next milestone branches from the default branch, so the run holds until a human merges it")
+        return out("wait", f"B: milestone {mid} is not merged yet ({url}); the next milestone branches from runBranch, which only moves once this pull request merges, so the run holds until a human merges it")
 
     # C. milestones
     raw_milestones = src.json(f"{sdlc}/milestones.json")
