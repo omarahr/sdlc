@@ -25,6 +25,8 @@ export const meta = {
 const A = args || {}
 const SKILL_DIR = A.skillDir || '~/.claude/skills/sdlc'
 const REPO = A.repoRoot || '.'
+// the cap is an allowance per milestone, not per run: it resets when the loop moves to a new milestone, so a
+// spec with N milestones may spend up to N × CAP agents in one run where a single run used to be bounded by CAP
 const CAP = A.runAgentCap || 850
 const MAX_ITER = A.maxIterations === undefined || A.maxIterations === null ? Infinity : A.maxIterations
 // bar raiser is opt-in: 0 (default) means stop at spec-complete; N allows up to N polish rounds in total
@@ -218,14 +220,22 @@ function chunk(arr, size) {
 }
 
 // ---------- core ----------
+// `spent` is the run's cumulative total and never resets: finish() reports it, the tracker counts the same
+// agents out of the journal, and STATUS.md reports run totals. The cap is not measured against it.
 let spent = 0
+// the cap's comparison basis: what has been spent since the milestone the loop is working on began. It resets
+// when the milestone changes, so one milestone's campaigns and fix rounds share one allowance and the next
+// milestone starts a new one. The money brake below is deliberately NOT reset with it: that one is a run-wide
+// ceiling on real spend, and a run out of budget stops wherever it is in its milestones.
+let milestoneSpent = 0
+let milestoneId = ''
 // consecutive failures per named model; one that reaches the limit is skipped for the rest of the run, so a
 // model this account cannot use does not cost every review agent a failed call
 const modelFails = new Map()
 const MODEL_FAIL_LIMIT = 2
 
 function hasHeadroom(action) {
-  if (spent + (COST[action] || 60) > CAP) return false
+  if (milestoneSpent + (COST[action] || 60) > CAP) return false
   if (budget && budget.total && budget.remaining() < 50000) return false
   return true
 }
@@ -248,6 +258,7 @@ async function run(role, vars, opts = {}) {
     const m = chain[c]
     for (let attempt = 0; attempt < (m ? 1 : 2); attempt++) {
       spent++
+      milestoneSpent++
       let out = null
       let err = ''
       try {
@@ -679,7 +690,7 @@ async function buildLoop(id, counters) {
   // set when a review finding sends the slice back to the implementer, until the next verification has run
   let reviewFix = false
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
-    if (spent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
+    if (milestoneSpent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
     phase('Implement')
     let impl = await run('implementer', { sliceId: id, fixRound: round, evidence }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}` })
@@ -993,7 +1004,7 @@ async function barRaiserRound() {
 const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milestonePlan, milestone: milestoneAction, audit, livelock, barRaiserRound }
 
 const INTERNALS = {
-  run, persist, hasHeadroom, spent: () => spent,
+  run, persist, hasHeadroom, spent: () => spent, milestoneSpent: () => milestoneSpent, milestoneId: () => milestoneId,
   tallyVerify, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
   PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
@@ -1023,8 +1034,15 @@ async function main() {
     if (next.action === 'barRaiserRound' && !BAR_RAISER_ROUNDS) {
       return finish('done', `spec complete; bar raiser off (run /sdlc with --bar-raiser N to polish). ${next.reason}`, history)
     }
+    // the milestone boundary: a new milestone's work starts with the cap's allowance whole again. A milestone
+    // that goes fixing runs several campaigns before it verifies, and those rounds are attempts at the one
+    // behavior that milestone promises, so they share its single allowance rather than each getting a new one.
+    if (next.action === 'milestone' && next.milestoneId !== milestoneId) {
+      milestoneId = next.milestoneId
+      milestoneSpent = 0
+    }
     if (!hasHeadroom(next.action)) {
-      return pause(`agent cap or budget: ${spent}/${CAP} agents spent, ${next.action} needs ~${COST[next.action] || 60}`, history)
+      return pause(`agent cap or budget: ${milestoneSpent}/${CAP} agents spent since ${milestoneId ? `milestone ${milestoneId} began` : 'the run began'} (${spent} in this run), ${next.action} needs ~${COST[next.action] || 60}`, history)
     }
     const act = ACTIONS[next.action]
     if (!act) return pause(`unknown action: ${next.action}`, history)
