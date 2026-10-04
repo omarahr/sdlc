@@ -224,6 +224,27 @@ test('stack mode uses a milestone fix slice as an ordinary milestone slice', opt
   assert.equal(git(repo, 'rev-parse', 'sdlc/M-2'), git(repo, 'rev-parse', 'sdlc/S-fix-M-2-1^'))
 })
 
+test('stack mode cuts a fix slice whose milestone is already verified from the run branch, and creates no milestone branch', opts, () => {
+  const repo = fixture({
+    config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
+    slices: [slice('S-fix-M-1-1', { kind: 'fix' })],
+    milestones: [
+      { id: 'M-1', title: 'Shipped', status: 'verified', slices: [], fixSlices: ['S-fix-M-1-1'] },
+      { id: 'M-2', title: 'Sessions', status: 'pending', slices: [], fixSlices: [] },
+    ],
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  // M-1 shipped: its branch was deleted after its pull request merged
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-fix-M-1-1'], { status: 'in_progress' })
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/run-1'), git(repo, 'rev-parse', 'sdlc/S-fix-M-1-1^'))
+  // the owning milestone decides the base, so no other milestone's branch is conjured up
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '')
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/M-2').trim(), '')
+  assert.equal(git(repo, 'branch', '--show-current'), 'sdlc/S-fix-M-1-1')
+  assert.equal(git(repo, 'status', '--porcelain'), '')
+})
+
 test('stack mode bases the slice on a dependency awaiting merge, as pr mode does', opts, () => {
   const repo = fixture({
     config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },

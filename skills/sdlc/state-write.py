@@ -173,27 +173,33 @@ def milestone_of(milestones, slice_id):
     return None
 
 
-def ensure_milestone_branch(repo, config, milestones):
-    """sdlc/M-<n> for the first milestone that is not verified, created from the run branch and pushed. None when there is none."""
-    run = config.get("runBranch") or ""
-    for m in milestones or []:
-        if m.get("status") == "verified" or not m.get("id"):
-            continue
-        want = f"sdlc/{m['id']}"
-        if not branch_exists(repo, want):
-            if not run or not branch_exists(repo, run):
-                raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
-            # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
-            # neither the local default branch nor origin/<defaultBranch> has to be here: a --single-branch clone may
-            # lack both, and the run branch is a sound base on its own, so a failed merge is tolerated, not fatal
-            git(repo, "checkout", "-q", run)
-            upstream = f"origin/{config.get('defaultBranch') or 'main'}"
-            if git(repo, "merge", "-q", "--ff-only", upstream, check=False).returncode != 0:
-                git(repo, "merge", "-q", "--no-edit", upstream, check=False)
-            git(repo, "checkout", "-q", "-b", want)
-            git(repo, "push", "-q", "-u", "origin", want, check=False)
+def ensure_milestone_branch(repo, config, milestones, milestone_id):
+    """sdlc/M-<id>, created from the run branch and pushed when it does not exist yet.
+
+    A milestone that is already verified has had its branch deleted after its pull request
+    merged, so a slice belonging to it builds on the run branch — that milestone shipped, and
+    the run branch has been fast-forwarded to what it shipped.
+    """
+    if not milestone_id:
+        return None
+    want = f"sdlc/{milestone_id}"
+    if branch_exists(repo, want):
         return want
-    return None
+    if next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified":
+        return None
+    run = config.get("runBranch") or ""
+    if not run or not branch_exists(repo, run):
+        raise Fail(f"stack mode needs the run branch {run or '(unset)'}, which does not exist")
+    # a default branch that moved under the run cannot fast-forward; merge it in rather than rebase or force
+    # neither the local default branch nor origin/<defaultBranch> has to be here: a --single-branch clone may
+    # lack both, and the run branch is a sound base on its own, so a failed merge is tolerated, not fatal
+    git(repo, "checkout", "-q", run)
+    upstream = f"origin/{config.get('defaultBranch') or 'main'}"
+    if git(repo, "merge", "-q", "--ff-only", upstream, check=False).returncode != 0:
+        git(repo, "merge", "-q", "--no-edit", upstream, check=False)
+    git(repo, "checkout", "-q", "-b", want)
+    git(repo, "push", "-q", "-u", "origin", want, check=False)
+    return want
 
 
 def ensure_slice_branch(repo, config, slices, milestones, slice_id):
@@ -215,9 +221,8 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
         if config.get("gitMode") == "stack":
             # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
             mid = milestone_of(milestones, slice_id)
-            base = f"sdlc/{mid}" if mid else (config.get("runBranch") or base)
-            if mid:
-                ensure_milestone_branch(repo, config, milestones)
+            created = ensure_milestone_branch(repo, config, milestones, mid) if mid else None
+            base = created or config.get("runBranch") or base
         elif config.get("gitMode") == "pr":
             # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
             if git(repo, "checkout", "-q", base, check=False).returncode == 0:
