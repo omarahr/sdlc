@@ -52,10 +52,14 @@ def load_git_modes(path=GIT_MODES_PATH):
     return tuple(modes)
 
 
+# every other failure in this script prints {"ok": false, "error": ...} and exits 2, so a caller parsing stdout
+# never has to special-case this one. GIT_MODES is needed at import time, so this cannot raise Fail normally.
+GIT_MODES = ()
+GIT_MODES_ERROR = ""
 try:
     GIT_MODES = load_git_modes()
 except Fail as e:
-    sys.exit(f"state-write.py: {e}")
+    GIT_MODES_ERROR = str(e)
 
 # a milestone branch is exactly sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack
 # mode merges locally and never opens a pull request for, so it is not a milestone branch here
@@ -596,6 +600,8 @@ def main():
     try:
         if not os.path.isdir(os.path.join(repo, ".sdlc")):
             raise Fail(f"no .sdlc/ in {repo}")
+        if GIT_MODES_ERROR:
+            raise Fail(GIT_MODES_ERROR)
         if a.cmd == "status":
             write_status(repo)
             out = {"ok": True}

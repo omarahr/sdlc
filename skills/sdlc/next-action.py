@@ -64,10 +64,15 @@ def load_git_modes(path=GIT_MODES_PATH):
     return tuple(modes)
 
 
+# every other StateError reaches the workflow as {"next": {"action": "error", ...}} on stdout, so the state-reader
+# never sees silence. GIT_MODES is needed at import time, so it cannot raise the usual way; a bad file becomes a
+# recorded error instead, which the state-reader relays like any other.
+GIT_MODES = ()
+GIT_MODES_ERROR = ""
 try:
     GIT_MODES = load_git_modes()
 except StateError as e:
-    sys.exit(f"next-action.py: {e}")
+    GIT_MODES_ERROR = str(e)
 
 
 def run(repo, *cmd):
@@ -461,6 +466,8 @@ def main():
     ap.add_argument("--prs", default=None)
     a = ap.parse_args()
     try:
+        if GIT_MODES_ERROR:
+            raise StateError(GIT_MODES_ERROR)
         result = decide(os.path.abspath(a.repo), a.spec, a.bar_raiser_rounds, a.prs)
     except StateError as e:
         result = {"next": {"action": "error", "reason": str(e)}}

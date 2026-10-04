@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
-import { copyFileSync, mkdtempSync, writeFileSync } from 'node:fs'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { copyFileSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR, loadInternals } from './harness.mjs'
@@ -71,12 +71,43 @@ test('a missing or malformed git-modes.json stops the scripts instead of falling
       const copy = join(dir, name)
       copyFileSync(path, copy)
       if (contents !== null) writeFileSync(join(dir, 'git-modes.json'), contents)
-      const r = (() => {
+      // a bad file must stop the script, and stop it the way a caller of that script expects: importing
+      // the module must not print a mode list the file does not hold, and running a command must report
+      // the failure in the envelope that script already uses for everything else.
+      const imported = (() => {
         try { return { code: 0, out: probeModes(copy) } } catch (e) { return { code: e.status, out: `${e.stderr}${e.stdout}` } }
       })()
-      assert.notEqual(r.code, 0, `${name} accepted a git-modes.json that is ${label}`)
-      assert.match(r.out, /git-modes\.json/, `${name} did not name git-modes.json when it was ${label}`)
-      assert.doesNotMatch(r.out, /\bpr, direct\b/, `${name} fell back to a hardcoded list when the file was ${label}`)
+      if (imported.code === 0) {
+        // importing does not stop the script (the list is validated when a command needs it), so the only
+        // acceptable outcome is an empty list — never a hardcoded one
+        assert.equal(imported.out, '', `${name} reported modes from a git-modes.json that was ${label}`)
+      } else {
+        assert.match(imported.out, /git-modes\.json/, `${name} did not name git-modes.json when it was ${label}`)
+      }
+
+      const repo = join(dir, 'repo')
+      mkdirSync(join(repo, '.sdlc'), { recursive: true })
+      writeFileSync(join(repo, '.sdlc', 'config.json'), JSON.stringify({ gitMode: 'pr', defaultBranch: 'main', specPath: 'spec.md', specHash: '' }))
+      writeFileSync(join(repo, '.sdlc', 'slices.json'), '[]')
+      writeFileSync(join(repo, 'spec.md'), '# spec\n')
+      // the two scripts have different CLIs: state-write takes a subcommand, next-action takes none
+      const args = name === 'state-write.py' ? [copy, 'patch-slice', '--repo', repo, '--slice', 'S-014'] : [copy, '--repo', repo]
+      const run1 = spawnSync('python3', args, { input: '{"status":"in_progress"}', encoding: 'utf8' })
+      // the failure arrives on stdout in the envelope that script already uses for everything else, so a
+      // caller that parses stdout never has to special-case a missing modes file. The two scripts signal it
+      // differently on purpose: state-write exits non-zero, next-action exits 0 because the error IS its answer.
+      let envelope = null
+      try { envelope = JSON.parse(run1.stdout.trim()) } catch { /* reported below */ }
+      if (name === 'state-write.py') {
+        assert.notEqual(run1.status, 0, `${name} ran a command with a git-modes.json that was ${label}`)
+        assert.ok(envelope && envelope.ok === false, `${name} did not report a bad git-modes.json as {"ok": false} on stdout, got: ${run1.stdout.trim() || run1.stderr.trim()}`)
+      } else {
+        assert.ok(envelope && envelope.next, `${name} did not answer on stdout at all, got: ${run1.stdout.trim() || run1.stderr.trim()}`)
+        assert.equal(envelope.next.action, 'error', `${name} did not turn a bad git-modes.json into the error action`)
+      }
+      const said = envelope && (envelope.error || (envelope.next && envelope.next.reason))
+      assert.match(said, /git-modes\.json/, `${name} did not name git-modes.json in its error when the file was ${label}`)
+      assert.doesNotMatch(said, /\bpr, direct\b/, `${name} fell back to a hardcoded list when the file was ${label}`)
     }
   }
 })
