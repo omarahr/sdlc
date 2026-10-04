@@ -268,7 +268,8 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--journal", help="the running Workflow's journal.jsonl, for agent counts and the live phase")
     ap.add_argument("--run-label")
-    ap.add_argument("--run-cap", type=int, default=850)
+    # the workflow's agent allowance, which sdlc-loop.js resets at every milestone — not a whole-run bound
+    ap.add_argument("--run-cap", type=int, default=850, metavar="N", help="the agent cap sdlc-loop.js compares against; an allowance per milestone, not a limit on the run")
     ap.add_argument("--watch", type=int, default=0, metavar="SECONDS", help="keep rebuilding at this interval until the run folder goes quiet or a newer watcher starts")
     ap.add_argument("--serve", nargs="?", type=int, const=8787, metavar="PORT", help="serve the tracker over http (implies --watch); takes the next free port if this one is busy")
     ap.add_argument("--host", default="127.0.0.1", help="address --serve binds; 0.0.0.0 puts the tracker on the network, where anyone can read this repo's spec and decisions")
