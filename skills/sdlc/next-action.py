@@ -32,15 +32,47 @@ FINISHED = ("done", "parked")
 SATISFIED = ("done", "awaiting-merge", "parked")
 PARK_CYCLE_LIMIT = 3
 MILESTONE_ATTEMPT_LIMIT = 3
-# config.json is written by an agent, not by this script, so nothing else constrains gitMode to these four.
-# An unrecognised one falls through every arm below and behaves like direct: slices committed to the default
-# branch with no pull request and no push. That fails a stack run's central guarantee silently, so name it.
-GIT_MODES = ("pr", "direct", "mr", "stack")
 PR_FIELDS = "number,headRefName,url,mergeable,reviewDecision,statusCheckRollup"
 
 
 class StateError(Exception):
     """The state cannot be read or explained. Becomes the action "error"."""
+
+
+# The valid git modes, read from the file beside this script rather than written here. state-write.py reads
+# the same file; sdlc-loop.js cannot read a file at all, so it keeps its own literal and
+# test/git-modes.test.mjs fails if the two disagree. config.json is written by an agent, so nothing else
+# constrains gitMode to these four: an unrecognised one falls through every arm below and behaves like
+# direct — slices committed to the default branch with no pull request and no push — which fails a stack
+# run's central guarantee silently, so name it. A missing or malformed file stops the run here for the
+# same reason: there is deliberately no fallback list, because a silent fallback is the drift this removes.
+GIT_MODES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "git-modes.json")
+
+
+def load_git_modes(path=GIT_MODES_PATH):
+    try:
+        with open(path) as f:
+            modes = json.load(f)["gitModes"]
+    except FileNotFoundError:
+        raise StateError(f"{path} is missing, so no gitMode can be trusted: restore it from git")
+    except ValueError as e:
+        raise StateError(f"{path} is not valid JSON: {e}")
+    except (KeyError, TypeError):
+        raise StateError(f'{path} has no "gitModes" list')
+    if not isinstance(modes, list) or not modes or not all(isinstance(m, str) and m for m in modes):
+        raise StateError(f'{path} must hold {{"gitModes": ["<mode>", ...]}} naming at least one mode')
+    return tuple(modes)
+
+
+# every other StateError reaches the workflow as {"next": {"action": "error", ...}} on stdout, so the state-reader
+# never sees silence. GIT_MODES is needed at import time, so it cannot raise the usual way; a bad file becomes a
+# recorded error instead, which the state-reader relays like any other.
+GIT_MODES = ()
+GIT_MODES_ERROR = ""
+try:
+    GIT_MODES = load_git_modes()
+except StateError as e:
+    GIT_MODES_ERROR = str(e)
 
 
 def run(repo, *cmd):
@@ -434,6 +466,8 @@ def main():
     ap.add_argument("--prs", default=None)
     a = ap.parse_args()
     try:
+        if GIT_MODES_ERROR:
+            raise StateError(GIT_MODES_ERROR)
         result = decide(os.path.abspath(a.repo), a.spec, a.bar_raiser_rounds, a.prs)
     except StateError as e:
         result = {"next": {"action": "error", "reason": str(e)}}

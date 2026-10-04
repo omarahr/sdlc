@@ -27,11 +27,39 @@ class Fail(Exception):
     pass
 
 
-# config.json is written by an agent, not by this script, so nothing else constrains gitMode to these four.
-# An unrecognised one falls through every arm of ensure_slice_branch and behaves like direct: a slice
-# committed to the default branch with no pull request and no push. That fails the stack guarantee silently,
-# so name the mode and stop.
-GIT_MODES = ("pr", "direct", "mr", "stack")
+# The valid git modes, read from the file beside this script rather than written here. next-action.py reads
+# the same file; sdlc-loop.js cannot read a file at all, so it keeps its own literal and
+# test/git-modes.test.mjs fails if the two disagree. config.json is written by an agent, so nothing else
+# constrains gitMode to these four: an unrecognised one falls through every arm of ensure_slice_branch and
+# behaves like direct — a slice committed to the default branch with no pull request and no push — which
+# fails the stack guarantee silently, so name the mode and stop. A missing or malformed file stops the run
+# here for the same reason: there is deliberately no fallback list, because that is the drift this removes.
+GIT_MODES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "git-modes.json")
+
+
+def load_git_modes(path=GIT_MODES_PATH):
+    try:
+        with open(path) as f:
+            modes = json.load(f)["gitModes"]
+    except FileNotFoundError:
+        raise Fail(f"{path} is missing, so no gitMode can be trusted: restore it from git")
+    except ValueError as e:
+        raise Fail(f"{path} is not valid JSON: {e}")
+    except (KeyError, TypeError):
+        raise Fail(f'{path} has no "gitModes" list')
+    if not isinstance(modes, list) or not modes or not all(isinstance(m, str) and m for m in modes):
+        raise Fail(f'{path} must hold {{"gitModes": ["<mode>", ...]}} naming at least one mode')
+    return tuple(modes)
+
+
+# every other failure in this script prints {"ok": false, "error": ...} and exits 2, so a caller parsing stdout
+# never has to special-case this one. GIT_MODES is needed at import time, so this cannot raise Fail normally.
+GIT_MODES = ()
+GIT_MODES_ERROR = ""
+try:
+    GIT_MODES = load_git_modes()
+except Fail as e:
+    GIT_MODES_ERROR = str(e)
 
 # a milestone branch is exactly sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack
 # mode merges locally and never opens a pull request for, so it is not a milestone branch here
@@ -572,6 +600,8 @@ def main():
     try:
         if not os.path.isdir(os.path.join(repo, ".sdlc")):
             raise Fail(f"no .sdlc/ in {repo}")
+        if GIT_MODES_ERROR:
+            raise Fail(GIT_MODES_ERROR)
         if a.cmd == "status":
             write_status(repo)
             out = {"ok": True}

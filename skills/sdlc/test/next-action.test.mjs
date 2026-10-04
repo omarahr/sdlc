@@ -2,12 +2,15 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
 
 const SCRIPT = join(SKILL_DIR, 'next-action.py')
+// the modes the script accepts, from the one file that names them, so this test cannot assert a list
+// that has quietly stopped being the script's own
+const GIT_MODES = JSON.parse(readFileSync(join(SKILL_DIR, 'git-modes.json'), 'utf8')).gitModes
 let python = true
 try { execFileSync('python3', ['--version']) } catch { python = false }
 const opts = { skip: !python && 'python3 not installed' }
@@ -197,10 +200,11 @@ test('F: the bar raiser runs only while rounds are left and it has not gone dry 
 })
 
 test('a gitMode this script does not know is an error, not a mode it falls through', opts, () => {
-  // config.json is written by an agent, so nothing but this check constrains gitMode. A typo falls through
-  // every arm and behaves like direct: slices committed to the default branch, no pull request, no push —
-  // which in stack mode is the one thing the mode exists to prevent. Failing loudly costs a rerun; falling
-  // through costs the guarantee, silently.
+  // config.json is written by an agent, so nothing but this check constrains gitMode to the modes named in
+  // git-modes.json. A typo falls through every arm and behaves like direct: slices committed to the default
+  // branch, no pull request, no push — which in stack mode is the one thing the mode exists to prevent.
+  // Failing loudly costs a rerun; falling through costs the guarantee, silently. The expected list is read
+  // from that file rather than spelled out here, so it cannot drift from the script it checks.
   for (const mode of ['stak', 'STACK', 'PullRequest', '']) {
     const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: mode })
     const n = next(repo)
@@ -210,10 +214,10 @@ test('a gitMode this script does not know is an error, not a mode it falls throu
     }
     assert.equal(n.action, 'error', `${mode} must not be silently accepted`)
     assert.match(n.reason, new RegExp(mode))
-    assert.match(n.reason, /pr, direct, mr, stack/)
+    assert.match(n.reason, new RegExp(GIT_MODES.join(', ')))
   }
-  // the four known modes are still accepted (the pr-shaped ones are given a prs file so they need no gh)
-  for (const mode of ['pr', 'direct', 'mr', 'stack']) {
+  // every known mode is still accepted (the pr-shaped ones are given a prs file so they need no gh)
+  for (const mode of GIT_MODES) {
     const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: mode })
     assert.notEqual(next(repo, { prs: {} }).action, 'error', `${mode} mode was rejected`)
   }
