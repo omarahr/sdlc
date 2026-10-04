@@ -220,14 +220,19 @@ Both rewritten tests were verified to fail against the restored prose (table abo
 - **The working tree was not clean when this started, and the work in it was not mine.** At session start
   HEAD was `c8ec1d5`; it was `6f59a78` ("refactor(stack): one source of truth for the git mode list")
   by the time I began, with uncommitted edits to `next-action.py`, `state-write.py` and
-  `git-modes.test.mjs` on top. That uncommitted work **fails `npm test`** at the commit
-  (`a missing or malformed git-modes.json stops the scripts instead of falling back to a list`); it passes
-  at `6f59a78`, so the failure is introduced by the uncommitted edits, not by this branch. Because I had to
-  edit `state-write.py` and commit cleanly, I did all of this in a separate worktree
-  (`/tmp/sdlc-base-branch`, branch `refactor/base-branch`) and left the main working copy untouched. The
-  two changes both touch `state-write.py`, so **this branch will need a rebase onto whatever that
-  work-in-progress becomes** — the `base-branch` command and the `GIT_MODES_ERROR` envelope both land in
-  `main()`.
+  `git-modes.test.mjs` on top. That uncommitted work **failed `npm test`** at the commit
+  (`a missing or malformed git-modes.json stops the scripts instead of falling back to a list`); it passed
+  at `6f59a78`, so the failure came from the uncommitted edits, not from this change. A parallel session was
+  actively working in the same checkout while I worked.
+
+  Because I had to edit `state-write.py` and commit cleanly, I did all of this in a separate worktree
+  (`/tmp/sdlc-base-branch`, branch `refactor/base-branch-command`) and left the main working copy
+  untouched throughout — no `git stash`, no writes to `/Users/omar/projects/sdlc`. The parallel session
+  finished and squash-merged its work as `ecd1398` (#24) while I was writing the report, and the branch was
+  rebased onto that (`git rebase --onto main 6f59a78`, replaying only this commit, no conflicts). Both
+  changes touch `main()` in `state-write.py`, so this was a real rebase rather than a formality; the full
+  suite was re-run afterwards and `base-branch` re-verified by hand. **313 tests, 313 pass on top of
+  `ecd1398`.**
 - **`commit-state.md` still states the rule in prose.** Per instruction I did not churn it, and its
   case-based wording is not the defect that was fixed. But it is the one remaining place where an agent
   reads the rule rather than asking for it, so the "exactly one owner" goal is not fully met while it
@@ -242,3 +247,6 @@ Both rewritten tests were verified to fail against the restored prose (table abo
   the run branch advances as a side effect of cutting a branch rather than on its own terms. That is
   pre-existing and deliberate (the comment says so), but it means the run branch's freshness still depends
   on a branch being cut somewhere.
+- **Not done, deliberately:** `README.md` line 371 lists `state-write.py`'s commands in one line
+  ("slice patches, STATUS.md, ledger additions") and does not mention `base-branch`. Left alone as
+  documentation outside the stated scope; worth a one-line follow-up.
