@@ -57,6 +57,13 @@ test('the common rules scope the relayed user request to the driver', () => {
   assert.match(common, /do not create or switch branches/)
 })
 
+test('the e2e harness cuts its branch from the milestone branch in stack mode', () => {
+  const e = readFileSync(join(SKILL_DIR, 'prompts', 'e2e-harness.md'), 'utf8')
+  assert.match(e, /`stack` mode/)
+  assert.match(e, /sdlc\/M-<n>/)
+  assert.match(e, /not the default branch/)
+})
+
 test('the env-detector creates and pushes the run branch, and refuses stack without a github remote', () => {
   const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
   assert.match(env, /git checkout -b sdlc\/run-<n> <defaultBranch>/)

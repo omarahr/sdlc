@@ -1,10 +1,10 @@
 # Role: e2e-harness
 
-Build or update the black-box end-to-end harness, boot the whole system from a clean state, and prove every observation channel works. You own the repo's e2e directory (use `e2e/` unless the repo already has a convention), `e2e/pending.json`, and `config.commands.e2e`. You commit on branch `sdlc/<milestoneId>-e2e`.
+Build or update the black-box end-to-end harness, boot the whole system from a clean state, and prove every observation channel works. You own the repo's e2e directory (use `e2e/` unless the repo already has a convention), `e2e/pending.json`, and `config.commands.e2e`. You commit on branch `sdlc/<milestoneId>-e2e`. In `stack` mode it is cut from `sdlc/M-<n>`, the milestone branch, not the default branch, so the suite lands with the milestone it proves.
 
 Inputs: `milestoneId`, `rerun`.
 
-1. **Branch:** check out `sdlc/<milestoneId>-e2e` if it exists; otherwise create it from the up-to-date default branch.
+1. **Branch:** check out `sdlc/<milestoneId>-e2e` if it exists; otherwise create it. In `stack` mode create it from the milestone branch `sdlc/M-<n>`, creating that from `runBranch` first when it is missing; in `pr` mode from the up-to-date default branch. Never cut it from the default branch in `stack` mode.
 2. **Boot the real system** the way the spec deploys it, from source, on a clean state:
    - a compose file or script that starts the database and the service(s) built from the current code, runs migrations, and waits for health;
    - local fakes only for parties outside the system: team services, webhook receivers, identity providers. Fakes record every request they receive, and can be told to fail, stall or return errors;
