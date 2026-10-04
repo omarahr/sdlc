@@ -165,13 +165,15 @@ test('the stack commit rule names the branch instead of guessing it from a miles
 
 test('the escalator and force-park commit to the branch the run lives on, not the default branch', () => {
   const e = readFileSync(join(SKILL_DIR, 'prompts', 'escalator.md'), 'utf8')
-  // Each of these arms must name BOTH branches. A check that only asserts "`stack` mode" catches a deleted
-  // clause but not a wrong branch: swapping the milestone branch for a nonsense name elsewhere in the file
-  // leaves the file matching. Anchored per line so the substitution has nowhere to hide.
-  const lines = e.split('\n').filter(l => l.includes('`stack` mode'))
-  assert.ok(lines.length >= 3, `expected the stack arms to be spread over several lines, found ${lines.length}`)
-  for (const line of lines) {
-    assert.match(line, /sdlc\/M-<n>|runBranch/, `a stack arm names neither branch: ${line.trim()}`)
+  // Each stack arm must name BOTH branches, as two separate assertions. A single /M-<n>|runBranch/ test is
+  // satisfied by either one, so it passes a file that has lost the milestone branch entirely. The count is
+  // exact so deleting a whole clause cannot shrink the set and pass; adding an arm later is then a
+  // deliberate edit here rather than silent drift.
+  const stackLines = e.split('\n').filter(l => l.includes('`stack` mode'))
+  assert.equal(stackLines.length, 4, `expected 4 stack arms in escalator.md, found ${stackLines.length}`)
+  for (const line of stackLines) {
+    assert.match(line, /sdlc\/M-<n>/, `a stack arm does not name the milestone branch: ${line.trim()}`)
+    assert.match(line, /runBranch/, `a stack arm does not name runBranch: ${line.trim()}`)
   }
   // the archive checkout must name the stack target, and the copy must follow it
   assert.match(e, /In `stack` mode that is the slice's milestone branch `sdlc\/M-<n>`/)
