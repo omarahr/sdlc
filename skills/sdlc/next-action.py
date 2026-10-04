@@ -294,8 +294,11 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
     if stack:
         for p in open_prs:
             head = p.get("headRefName", "")
-            # the trailing anchor is what excludes sdlc/M-1-e2e, which is merged locally in stack mode
-            if re.fullmatch(r"sdlc/M-.+", head) and not pr_ready(p):
+            # the -e2e suffix is excluded explicitly, not by the pattern below: sdlc/M-1-e2e matches
+            # `sdlc/M-.+` exactly as a milestone branch does. Stack mode merges the e2e suite locally and
+            # has no arm that would merge such a pull request, so holding on a stale one — left by a run
+            # that changed mode — would livelock the run forever.
+            if re.fullmatch(r"sdlc/M-[^/]+(?<!-e2e)", head) and not pr_ready(p):
                 milestone_hold = (head[len("sdlc/"):], p.get("url") or p["number"])
                 break
 
@@ -318,8 +321,12 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         if s.get("status") == "in_progress":
             return out("slice", f"B: {s['id']} is in progress at phase {s.get('phase', 'plan')}", s)
 
-    # the hold outranks C and D: the next milestone cuts its branch from runBranch, which is only fast-forwarded
-    # to shipped code once this pull request merges, so starting it now would build on unshipped ground
+    # The hold sits here, ahead of C, for two separate reasons. Ahead of C: a milestone's own state is committed
+    # on its milestone branch, so the branch this decision reads from does not yet carry it and section C
+    # still sees the milestone as due — it would hand the milestone straight back to the milestone-writer,
+    # which would re-ship it and loop until a human merged. Ahead of D: the next milestone cuts its branch
+    # from runBranch, which only moves onto shipped code once this pull request merges, so starting new work
+    # now would build on unshipped ground.
     if milestone_hold:
         mid, url = milestone_hold
         return out("wait", f"B: milestone {mid} is not merged yet ({url}); the next milestone branches from runBranch, which only moves once this pull request merges, so the run holds until a human merges it")

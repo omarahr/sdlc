@@ -34,7 +34,7 @@ Inputs: `{sliceId, kind, reason}`. If `kind` is `improvement`, do not park: appl
 2. Append the reason to `slices/<id>/failures.md` under "## Force-parked (no progress)".
 3. If branch `sdlc/<id>` exists, commit any work on it as "wip before force-park", then rename it `sdlc/<id>-attempt-<n>`, where n is the next free number.
 4. Copy the archived attempt's records onto the branch the run lives on: `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md`. Read them from `sdlc/<id>-attempt-<n>` **after** renaming, and after checking the branch out — in `stack` mode that branch is the slice's milestone branch (`sdlc/M-<n>`), or `runBranch` for a slice belonging to no milestone, and the default branch is never committed to in this mode.
-5. Do a **default-branch commit**: "force-park <id>". In `stack` mode this is the slice's milestone branch, or `runBranch` when the slice belongs to no milestone.
+5. Do a **default-branch commit**: "force-park <id>". In `stack` mode this is the slice's milestone branch `sdlc/M-<n>`, or `runBranch` when the slice belongs to no milestone.
 
 ## op: audit-result
 Inputs: `{auditedIds, refuted: [{id, reasons}]}`.

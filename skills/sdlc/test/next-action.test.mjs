@@ -255,9 +255,9 @@ test('stack mode waits while a milestone pull request is open', opts, () => {
     'slices.json': [slice('S-014', 'done')],
     'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
   }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
-  const n = next(repo, { prs: { open: [pr('sdlc/M-2', { mergeable: 'CONFLICTING', reviewDecision: 'REVIEW_REQUIRED' })] } })
-  assert.equal(n.action, 'wait')
-  assert.match(n.reason, /M-2/)
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { mergeable: 'CONFLICTING', reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait')
+  assert.match(d.next?.reason ?? '', /M-2/)
 })
 
 test('stack mode waits on a milestone pull request that is green but unreviewed', opts, () => {
@@ -265,8 +265,8 @@ test('stack mode waits on a milestone pull request that is green but unreviewed'
     'slices.json': [slice('S-014', 'done')],
     'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
   }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
-  const n = next(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
-  assert.equal(n.action, 'wait')
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait')
 })
 
 test('stack mode does not wait once the milestone pull request has merged', opts, () => {
@@ -274,8 +274,8 @@ test('stack mode does not wait once the milestone pull request has merged', opts
     'slices.json': [slice('S-014', 'done')],
     'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
   }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
-  const n = next(repo, { prs: { merged: [pr('sdlc/M-2')] } })
-  assert.notEqual(n.action, 'wait')
+  const d = decide(repo, { prs: { merged: [pr('sdlc/M-2')] } })
+  assert.notEqual(d.next?.action, 'wait')
 })
 
 test('stack mode ignores an sdlc/M-1-e2e pull request when deciding whether to wait', opts, () => {
@@ -283,8 +283,20 @@ test('stack mode ignores an sdlc/M-1-e2e pull request when deciding whether to w
     'slices.json': [slice('S-014', 'todo')],
     'milestones.json': [{ id: 'M-1', status: 'pending', slices: ['S-014'], fixSlices: [] }],
   }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
-  const n = next(repo, { prs: { open: [pr('sdlc/M-1-e2e')] } })
-  assert.notEqual(n.action, 'wait', 'the e2e branch is merged locally in stack mode, never as a pull request')
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-1-e2e')] } })
+  assert.notEqual(d.next?.action, 'wait', 'the e2e branch is merged locally in stack mode, never as a pull request')
+})
+
+test('stack mode does not hold on an unreviewed sdlc/M-1-e2e pull request left by a run that changed mode', opts, () => {
+  // Stack mode has no e2e-pull-request arm, so nothing would ever merge this one: holding on it would
+  // livelock the run forever. The head matches a milestone-branch shape, so the exclusion has to be the
+  // e2e suffix itself and cannot be left to the pattern that decides "this is a milestone branch".
+  const repo = fixture({
+    'slices.json': [slice('S-014', 'todo')],
+    'milestones.json': [{ id: 'M-1', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-1-e2e', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.notEqual(d.next?.action, 'wait', 'a stale e2e pull request must never hold the run')
 })
 
 test('pr mode still merges a ready e2e pull request itself', opts, () => {
@@ -301,9 +313,9 @@ test('stack mode holds on a milestone pull request before the milestone is recor
     'slices.json': [slice('S-014', 'done')],
     'milestones.json': [{ id: 'M-2', status: 'fixing', attempts: 1, slices: ['S-014'], fixSlices: [] }],
   }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
-  const n = next(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
-  assert.equal(n.action, 'wait', 'the milestone must not be handed back to the milestone-writer')
-  assert.match(n.reason, /M-2/)
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(d.next?.action, 'wait', 'the milestone must not be handed back to the milestone-writer')
+  assert.match(d.next?.reason ?? '', /M-2/)
 })
 
 test('stack mode does not hold on a milestone pull request that is ready to merge', opts, () => {
@@ -311,8 +323,8 @@ test('stack mode does not hold on a milestone pull request that is ready to merg
     'slices.json': [slice('S-014', 'todo')],
     'milestones.json': [{ id: 'M-2', status: 'verified', slices: ['S-014'], fixSlices: [] }],
   }, { gitMode: 'stack', config: { runBranch: 'sdlc/run-1' } })
-  const n = next(repo, { prs: { open: [pr('sdlc/M-2')] } })
-  assert.notEqual(n.action, 'wait')
+  const d = decide(repo, { prs: { open: [pr('sdlc/M-2')] } })
+  assert.notEqual(d.next?.action, 'wait')
 })
 
 test('stack mode holds on a milestone pull request whose milestone is not on the default branch yet', opts, () => {
