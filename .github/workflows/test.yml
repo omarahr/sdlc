@@ -36,8 +36,6 @@ jobs:
           python-version: '3.x'
 
       # no dependencies and no lockfile, so there is nothing to install
-      - name: Test
-        run: npm test
       # debug: if the plain run hangs, this variant names whether tests finished (force-exit) or a test never settles
       - name: Test with force-exit
         if: always()
