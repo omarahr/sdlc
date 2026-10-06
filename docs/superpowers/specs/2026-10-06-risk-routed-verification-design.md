@@ -50,7 +50,7 @@ In `sdlc-loop.js`'s `buildLoop`, when the slice's `risk` is `"low"` and no verif
 
 The reviewer prompt (`reviewer.md`, all three lenses) gains an instruction: when the code under review is riskier than the slice's `low` rating — crosses an I/O boundary the label missed, touches a path whose failure is loud — set `needsVerify: true` on the report with the reason. `FINDINGS` schema gains the optional boolean.
 
-`reviewPhase` ORs the lenses' flags into `needsVerify`. When set, `buildLoop` records `counters.verifyDemanded = true` (persisted via the existing `persist`, so a resume keeps it) and the **next and later rounds run the full `verifyPhase`**: verify-planner plans the slice and rates it for real, and the round proceeds exactly as a rated slice's would. A demanded verification is never un-demanded.
+`reviewPhase` ORs the lenses' flags into `needsVerify`. When set, `buildLoop` records `counters.verifyDemanded = true` (persisted via the existing `persist`, so a resume keeps it) and the full `verifyPhase` runs **from that round on**: immediately when the demanding review was clean (the review in hand is reused, not re-run), or from the next round when findings blocked (the fix comes first). The demanded slice's verify-planner plans and rates it for real. A demanded verification is never un-demanded.
 
 ### 4. The integrator's fallback covers the missing receipt
 
