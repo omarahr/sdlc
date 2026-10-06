@@ -17,6 +17,7 @@ import socketserver
 import sys
 import time
 import urllib.parse
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed plugin
@@ -64,7 +65,7 @@ def find_entry(rid):
 
 
 def read_entries(now):
-    """The registered runs as (live, stale); files quiet for a day are pruned instead."""
+    """The registered runs as [(live, stale, age)]; files quiet for a day are pruned instead."""
     live, stale = [], []
     try:
         names = sorted(os.listdir(runs_dir()))
@@ -89,48 +90,171 @@ def read_entries(now):
         # valid JSON but not a registration (no id, out dir or pid): skipped like a corrupt one
         if not isinstance(entry, dict) or not entry.get("id") or not entry.get("out") or not entry.get("pid"):
             continue
-        (live if age < LIVE_SECONDS and pid_alive(entry.get("pid")) else stale).append(entry)
+        bucket = live if age < LIVE_SECONDS and pid_alive(entry.get("pid")) else stale
+        bucket.append((entry, age))
     return live, stale
 
 
-def title_of(entry):
+def rel(seconds):
+    """A span as a human would say it: just now, 5 min, 2 h 3 min, 2 days."""
+    s = max(0, int(seconds))
+    if s < 60:
+        return "just now"
+    if s < 3600:
+        return f"{s // 60} min"
+    if s < 24 * 3600:
+        h, m = s // 3600, (s % 3600) // 60
+        return f"{h} h {m} min" if m else f"{h} h"
+    return f"{s // (24 * 3600)} days"
+
+
+def ago(seconds):
+    r = rel(seconds)
+    return r if r == "just now" else r + " ago"
+
+
+def started_ago(entry, now):
+    """How long ago the run started, from the registration's startedAt; None when unreadable."""
+    try:
+        d = datetime.fromisoformat(str(entry.get("startedAt")).replace("Z", "+00:00"))
+    except (ValueError, TypeError, AttributeError):
+        return None
+    if d.tzinfo is None:
+        d = d.replace(tzinfo=timezone.utc)  # a naive stamp came from us: it is UTC
+    return (datetime.fromtimestamp(now, timezone.utc) - d).total_seconds()
+
+
+def run_state(entry, now):
+    """What the index shows about a run, from its tracker's status.json; every field falls back."""
+    state = {"title": str(entry["id"]), "repo": str(entry.get("repo") or ""),
+             "chip": "", "now": "", "counts": None}
     try:
         with open(os.path.join(entry["out"], "status.json")) as f:
             status = json.load(f)
     except (OSError, ValueError):
-        return entry["id"]
+        return state
     if not isinstance(status, dict):
-        return entry["id"]  # a status.json that is not an object has no title
+        return state  # a status.json that is not an object has no title either
     title = status.get("title")
-    # a title that is not a non-empty string (null, a number, "") falls back to the run id
-    return title if isinstance(title, str) and title else entry["id"]
+    if isinstance(title, str) and title:
+        state["title"] = title
+    activity = status.get("activity")
+    if isinstance(activity, dict) and isinstance(activity.get("role"), str) and activity["role"]:
+        state["chip"] = activity["role"]
+    current = status.get("current")
+    if isinstance(current, dict) and isinstance(current.get("id"), str) and current["id"]:
+        line = "slice " + current["id"]
+        if isinstance(current.get("title"), str) and current["title"]:
+            line += ": " + current["title"]
+        state["now"] = line
+    slices = status.get("slices")
+    if isinstance(slices, list) and slices and all(isinstance(s, dict) for s in slices):
+        state["counts"] = (sum(1 for s in slices if s.get("status") == "done"), len(slices))
+    return state
+
+
+def run_card(entry, age, now, stale):
+    """One run as a status card: beacon, title link, phase chip, progress; odd fields fall back."""
+    st = run_state(entry, now)
+    rid = str(entry["id"])
+    href = urllib.parse.quote(rid)
+    cls = "run stale" if stale else "run live"
+    # a run that just went stale has been quiet for seconds: "quiet just now" reads wrong, so it stays "updated"
+    when = f"updated {ago(age)}" if rel(age) == "just now" or not stale else f"quiet {rel(age)}"
+    chip = f'<span class="chip">{html.escape(st["chip"])}</span>' if st["chip"] and not stale else ""
+    parts = [html.escape(st["repo"]), f'<span class="mono">{html.escape(rid)}</span>']
+    began = started_ago(entry, now)
+    if began is not None:
+        parts.append(f"started {ago(began)}")
+    meta = " · ".join(p for p in parts if p)
+    now_line = f'<p class="now">{html.escape(st["now"])}</p>' if st["now"] and not stale else ""
+    bar = ""
+    if st["counts"]:
+        done, total = st["counts"]
+        bar = (f'<div class="pbar"><div class="bar"><i style="width:{round(100 * done / total)}%'
+               f'"></i></div><p class="n">{done}/{total} slices done</p></div>')
+    return (f'<article class="{cls}">'
+            f'<header><span class="beacon{" off" if stale else " on"}"></span>'
+            f'<a href="/r/{href}/">{html.escape(st["title"])}</a>{chip}'
+            f'<span class="when">{when}</span></header>'
+            f'<p class="meta">{meta}</p>{now_line}{bar}</article>')
 
 
 INDEX = """<!doctype html>
-<html><head><meta charset="utf-8"><title>sdlc runs on this machine</title>
+<html lang="en"><head><meta charset="utf-8"><title>sdlc runs on this machine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="refresh" content="30">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5' fill='%230b6fd4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-body {{ font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 52rem; padding: 0 1rem; }}
-li {{ margin: .6rem 0; }} .stale a {{ color: #888; }}
-.meta {{ color: #888; font-size: .85em; }}
+:root {
+  --ground: #e6e8ec; --surface: #f7f8fa; --sunk: #edeff3; --ink: #0d1117; --muted: #59616f;
+  --faint: #858d9b; --rule: #c6ccd5; --rule-soft: #dee2e9; --live: #0b6fd4; --live-soft: #e2ecfa;
+  --held: #0f7a52; --hold: #a35c00;
+  --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ground: #0b0e12; --surface: #13171d; --sunk: #191e25; --ink: #e7ebf1; --muted: #9aa3b1;
+    --faint: #6b7482; --rule: #2b323c; --rule-soft: #222831; --live: #58a2f8; --live-soft: #16233a;
+    --held: #46b581; --hold: #d99a3a;
+  }
+}
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 13px; line-height: 1.45; margin: 2rem auto; max-width: 46rem; padding: 0 1rem; -webkit-font-smoothing: antialiased; }
+h1 { margin: 0 0 2px; font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+.sub { color: var(--muted); font-size: 12.5px; margin: 0 0 16px; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+a { color: var(--live); }
+/* the count band: how many runs are on the machine right now */
+.board { display: flex; gap: 28px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--rule); margin-bottom: 10px; }
+.board .stat { color: var(--muted); font-size: 12px; }
+.board .stat b { font-family: var(--mono); font-size: 22px; font-weight: 500; letter-spacing: -.02em; color: var(--ink); margin-right: 5px; font-variant-numeric: tabular-nums; }
+.board .stat.on b { color: var(--live); }
+/* one card per run, live first */
+.run { background: var(--surface); border: 1px solid var(--rule); padding: 13px 16px; margin-bottom: 10px; min-width: 0; }
+.run header { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.beacon { width: 8px; height: 8px; border-radius: 50%; background: var(--live); display: inline-block; flex: none; align-self: center; }
+.beacon.on { animation: pulse 2.2s ease-in-out infinite; }
+.beacon.off { background: var(--rule); }
+@keyframes pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .beacon.on { animation: none; } }
+.run header a { font-size: 14.5px; font-weight: 600; }
+.chip { font-size: 10.5px; padding: 1px 7px; background: var(--live-soft); color: var(--live); border: 1px solid var(--live); white-space: nowrap; }
+.when { margin-left: auto; color: var(--faint); font-size: 11.5px; white-space: nowrap; }
+.meta { color: var(--muted); font-size: 12px; margin: 4px 0 0; overflow-wrap: anywhere; }
+.now { color: var(--live); font-size: 12px; margin: 5px 0 0; }
+.pbar { margin-top: 9px; }
+.pbar .bar { height: 3px; background: var(--rule-soft); border-radius: 2px; overflow: hidden; }
+.pbar .bar i { display: block; height: 100%; background: var(--held); }
+.pbar .n { color: var(--faint); font-size: 11px; margin: 4px 0 0; }
+.run.stale { opacity: .8; }
+.run.stale header a { color: var(--muted); }
+.run.stale .when { color: var(--hold); font-weight: 500; }
+.empty { background: var(--surface); border: 1px solid var(--rule); color: var(--muted); padding: 24px 16px; text-align: center; }
+@media (max-width: 560px) { .board { gap: 20px; } .when { margin-left: 0; width: 100%; } }
 </style></head>
-<body><h1>sdlc runs on this machine</h1><ul>
+<body><h1>sdlc runs on this machine</h1><p class="sub">Every /sdlc run this hub serves, live ones first.</p>
 {items}
-</ul></body></html>"""
+</body></html>"""
 
 
 def index_page(now):
     live, stale = read_entries(now)
-    items = []
-    for cls, entries in (("live", live), ("stale", stale)):
-        for e in entries:
-            # a viewer wrote these fields: coerce everything so one odd entry never 500s the index
-            rid, repo, started = str(e["id"]), str(e.get("repo") or ""), str(e.get("startedAt") or "?")
-            items.append(
-                '<li class="%s"><a href="/r/%s/">%s</a> <span class="meta">%s · %s · started %s · %s</span></li>'
-                % (cls, urllib.parse.quote(rid), html.escape(str(title_of(e))), html.escape(rid),
-                   html.escape(repo), html.escape(started), cls))
-    return INDEX.format(items="\n".join(items) or '<li class="meta">No sdlc run is registered on this machine yet.</li>')
+    cards = []
+    for entries, is_stale in ((live, False), (stale, True)):
+        for entry, age in entries:
+            # a viewer wrote these fields: run_card coerces everything so one odd entry never 500s the index
+            cards.append(run_card(entry, age, now, is_stale))
+    if not cards:
+        return INDEX.replace("{items}", '<div class="empty">No sdlc run is registered on this machine yet.</div>')
+    board = ('<div class="board"><span class="stat on"><b>%d</b> live</span><span class="stat"><b>%d</b> stale</span></div>'
+             % (len(live), len(stale)))
+    return INDEX.replace("{items}", board + "\n".join(cards))
 
 
 class Handler(BaseHTTPRequestHandler):
