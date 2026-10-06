@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { execFileSync, spawn } from 'node:child_process'
-import { mkdirSync, mkdtempSync, writeFileSync, existsSync, utimesSync } from 'node:fs'
+import { execFileSync, spawn, spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync, existsSync, utimesSync } from 'node:fs'
 import { createServer, createConnection } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -149,4 +149,64 @@ test('an entry quiet for a day is pruned from the registry and the index', { ski
     assert.doesNotMatch(index.body, /ancient-run/)
     assert.equal(existsSync(file), false, 'and the file is gone')
   } finally { await hub.stop() }
+})
+
+// python with the tracker dir importable and the registry pointed at a scratch dir
+function collectPy(dir, code) {
+  return spawnSync('python3', ['-c', `
+import os, sys
+os.environ["SDLC_HUB_DIR"] = ${JSON.stringify(dir)}
+sys.path.insert(0, ${JSON.stringify(join(SKILL_DIR, 'tracker'))})
+import collect
+` + code], { encoding: 'utf8' })
+}
+
+test('run_id slugs the repo dir and the spec path, and a same-named repo elsewhere gets a hash suffix', { skip: !python && 'python3 not installed' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
+  const base = mkdtempSync(join(tmpdir(), 'sdlc-hub-repos-'))
+  const repoA = join(base, 'one', 'myapp')
+  const repoB = join(base, 'two', 'myapp')
+  for (const r of [repoA, repoB]) {
+    mkdirSync(join(r, '.sdlc'), { recursive: true })
+    writeFileSync(join(r, '.sdlc', 'config.json'), JSON.stringify({ specPath: 'specs/Bookmarks Service.md' }))
+  }
+  const r = collectPy(dir, `
+print(collect.run_id(${JSON.stringify(repoA)}))
+collect.register(${JSON.stringify(repoA)}, ${JSON.stringify(join(repoA, '.sdlc', 'tracker'))}, collect.run_id(${JSON.stringify(repoA)}))
+print(collect.run_id(${JSON.stringify(repoB)}))
+`)
+  assert.equal(r.status, 0, r.stderr)
+  const [first, second] = r.stdout.trim().split('\n')
+  assert.equal(first, 'myapp-bookmarks-service')
+  assert.match(second, /^myapp-bookmarks-service-[0-9a-f]{6}$/)
+})
+
+test('register writes the registration atomically, and heartbeat refreshes its mtime', { skip: !python && 'python3 not installed' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
+  const r = collectPy(dir, `
+import json, os, time
+collect.register("/repo", "/out", "rid-1")
+path = os.path.join(${JSON.stringify(dir)}, "runs", "rid-1.json")
+before = os.path.getmtime(path)
+entry = json.load(open(path))
+print(entry["id"], entry["repo"], entry["out"], entry["pid"] == os.getpid(), bool(entry["startedAt"]))
+time.sleep(0.05)
+collect.heartbeat("rid-1")
+print(os.path.getmtime(path) > before)
+print(sorted(os.listdir(os.path.join(${JSON.stringify(dir)}, "runs"))))
+`)
+  assert.equal(r.status, 0, r.stderr)
+  const lines = r.stdout.trim().split('\n')
+  assert.equal(lines[0], 'rid-1 /repo /out True True')
+  assert.equal(lines[1], 'True', 'the heartbeat moved the mtime')
+  assert.equal(lines[2], "['rid-1.json']", 'no temp file is left behind')
+})
+
+test('an unwritable registry warns and carries on', { skip: !python && 'python3 not installed' }, () => {
+  const bad = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-bad-')), 'a-file')
+  writeFileSync(bad, 'not a directory')
+  const r = collectPy(bad, `collect.register("/repo", "/out", "rid-1")\nprint("survived")`)
+  assert.equal(r.status, 0, r.stderr)
+  assert.match(r.stderr, /hub registration failed/)
+  assert.match(r.stdout, /survived/)
 })

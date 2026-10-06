@@ -15,6 +15,7 @@ takes the next free port if that one is busy. Python 3 standard library only.
 """
 import argparse
 import functools
+import hashlib
 import http.server
 import json
 import os
@@ -27,6 +28,7 @@ from datetime import datetime, timezone
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed plugin
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import hub  # noqa: E402
 import reports  # noqa: E402
 import workflow  # noqa: E402
 
@@ -50,6 +52,44 @@ def read_json(path, default):
             return json.load(f)
     except (OSError, ValueError):
         return default
+
+
+def spec_slug(repo):
+    """The run id's second half, from the spec path recorded at pre-flight."""
+    cfg = read_json(os.path.join(repo, ".sdlc", "config.json"), {}) or {}
+    base = os.path.splitext(os.path.basename(cfg.get("specPath") or "run"))[0]
+    slug = re.sub(r"[^a-z0-9]+", "-", base.lower()).strip("-")
+    return slug or "run"
+
+
+def run_id(repo):
+    """<repo dir>-<spec slug>, stable across restarts; a same-named repo elsewhere gets a hash suffix."""
+    rid = f"{os.path.basename(repo)}-{spec_slug(repo)}"
+    other = read_json(os.path.join(hub.runs_dir(), rid + ".json"), None)
+    if other and other.get("repo") != repo:
+        rid = f"{rid}-{hashlib.sha1(repo.encode()).hexdigest()[:6]}"
+    return rid
+
+
+def register(repo, out, rid):
+    """Announce this run to the hub; rewriting the file refreshes the heartbeat that is its mtime."""
+    try:
+        os.makedirs(hub.runs_dir(), exist_ok=True)
+        tmp = os.path.join(hub.runs_dir(), f".{rid}.{os.getpid()}.tmp")
+        with open(tmp, "w") as f:
+            json.dump({"id": rid, "repo": repo, "out": out, "pid": os.getpid(),
+                       "startedAt": datetime.now(timezone.utc).isoformat(timespec="seconds")}, f)
+        # the rename means the hub never reads half a registration
+        os.replace(tmp, os.path.join(hub.runs_dir(), rid + ".json"))
+    except OSError as e:
+        print(f"hub registration failed (the page is still built): {e}", file=sys.stderr)
+
+
+def heartbeat(rid):
+    try:
+        os.utime(os.path.join(hub.runs_dir(), rid + ".json"))
+    except OSError:
+        pass
 
 
 def read_log(sdlc):
