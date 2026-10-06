@@ -210,7 +210,7 @@ function tallyAudit(ids, results) {
 }
 
 function normalizeCounters(c) {
-  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, ...(c || {}) }
+  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, ...(c || {}) }
 }
 
 function chunk(arr, size) {
@@ -476,7 +476,7 @@ async function sliceAction(next) {
   }
   let seeds = s.seeds || []
   if (at === 2) {
-    const b = await buildLoop(id, counters)
+    const b = await buildLoop(id, counters, s)
     if (b.paused) return `${id} paused: agent cap`
     if (!b.ok) return escalate(id, s, counters, `fix rounds exhausted: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
     seeds = b.seeds
@@ -495,6 +495,8 @@ const FINDINGS = {
       type: 'array',
       items: { type: 'object', properties: { title: str, detail: str, file: str, blocking: { type: 'boolean' } }, required: ['title', 'detail', 'blocking'] },
     },
+    // a reviewer sets this when the code is riskier than the slice's low rating; the loop runs the battery
+    needsVerify: { type: 'boolean' },
   },
   required: ['findings'],
 }
@@ -532,7 +534,7 @@ async function reviewPhase(id, round) {
     }))
     held = judged.filter(Boolean)
   }
-  return { blocking: [...missing, ...held], seeds }
+  return { blocking: [...missing, ...held], seeds, needsVerify: reports.some(r => r && r.needsVerify) }
 }
 
 // verify one round: plan scenarios and their profiles, build missing tools, then the spec-fidelity lens and the
@@ -681,7 +683,7 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
 
 const reviewEvidence = f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`
 
-async function buildLoop(id, counters) {
+async function buildLoop(id, counters, s = {}) {
   let evidence = []
   // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
   const verifySeeds = []
@@ -704,9 +706,31 @@ async function buildLoop(id, counters) {
         ? `implementer could not get green${impl.inconclusive ? ' (a required command still did not finish)' : ''}: ${impl.notes || ''}`
         : 'implementer failed to report']
     } else {
-      const { votes, lenses, next, review: early } = await verifyPhase(id, round, prevVerify, reviewFix, () => reviewPhase(id, round))
+      // a low-risk slice skips the battery until a reviewer demands it; the review runs first,
+      // so its verdict can switch the battery on for this same round
+      let early = null
+      if (!(s.risk !== 'low' || counters.verifyDemanded)) {
+        early = await reviewPhase(id, round)
+        log(`${id} review r${round}: ${early.blocking.length} blocking, ${early.seeds.length} seed(s); low-risk, no verify battery`)
+        if (early.needsVerify) {
+          counters.verifyDemanded = true
+          log(`${id} review r${round}: a reviewer demanded verification; the battery runs now and from here on`)
+        }
+        if (early.blocking.length) {
+          // fix first; the demanded battery judges the fix from the next round
+          evidence = early.blocking.map(reviewEvidence)
+          reviewFix = true
+          counters.fixRounds++
+          await persist(id, { counters })
+          continue
+        }
+        if (!early.needsVerify) return { ok: true, seeds: [...early.seeds, ...verifySeeds], lastEvidence: [] }
+      }
+      const { votes, lenses, next, review: earlyReview } = await verifyPhase(id, round, prevVerify, reviewFix, early ? () => early : () => reviewPhase(id, round))
       prevVerify = next
       reviewFix = false
+      // the review that demanded this battery is already in hand; verifyPhase may not have run it alongside
+      const review0 = earlyReview || early
       const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
       log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
@@ -714,14 +738,14 @@ async function buildLoop(id, counters) {
         evidence = votes.map((x, i) => (x
           ? `[${lenses[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
           : `[${lenses[i]}] verifier failed to report`))
-        if (early && early.blocking.length) {
+        if (review0 && review0.blocking.length) {
           // the review ran next to a regression run that failed: the implementer fixes both in one round
-          log(`${id} review r${round}: ${early.blocking.length} blocking, sent back with the failed verification`)
-          evidence.push(...early.blocking.map(reviewEvidence))
+          log(`${id} review r${round}: ${review0.blocking.length} blocking, sent back with the failed verification`)
+          evidence.push(...review0.blocking.map(reviewEvidence))
           reviewFix = true
         }
       } else {
-        const review = early || await reviewPhase(id, round)
+        const review = review0 || await reviewPhase(id, round)
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
         if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
         evidence = review.blocking.map(reviewEvidence)

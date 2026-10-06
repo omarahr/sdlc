@@ -4,6 +4,15 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { scriptSource, SKILL_DIR } from './harness.mjs'
 
+test('the reviewer can demand the verification battery for a mis-rated slice, and the schema passes the flag', () => {
+  const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
+  assert.match(reviewer, /needsVerify/)
+  assert.match(reviewer, /riskier than (that|the) (label|rating)|mis-rated/)
+  const loop = readFileSync(join(SKILL_DIR, 'sdlc-loop.js'), 'utf8')
+  const findings = loop.match(/const FINDINGS = \{[\s\S]*?\n\}/)[0]
+  assert.match(findings, /needsVerify/, 'a flag the schema strips never reaches the loop')
+})
+
 test('every agent role used by the script has a prompt file', () => {
   const roles = [...new Set([...scriptSource().matchAll(/run\('([a-z-]+)'/g)].map(m => m[1]))]
   assert.ok(roles.length > 0)
