@@ -1,10 +1,9 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync, spawn } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync } from 'node:fs'
-import { tmpdir } from 'node:os'
+import { mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync } from 'node:fs'
 import { join } from 'node:path'
-import { SKILL_DIR } from './harness.mjs'
+import { SKILL_DIR, scratch } from './harness.mjs'
 
 const STATE = join(SKILL_DIR, 'state-write.py')
 const RECEIPT = join(SKILL_DIR, 'suite-receipt.py')
@@ -28,7 +27,7 @@ const slice = (id, extra = {}) => ({ id, title: `Slice ${id}`, requirements: [],
 const remotes = new Map()
 
 function fixture({ config = {}, reqs = [], slices = [], milestones = [], remote = false } = {}) {
-  const repo = mkdtempSync(join(tmpdir(), 'sdlc-scripts-'))
+  const repo = scratch('sdlc-scripts-')
   git(repo, 'init', '-q', '-b', 'main')
   git(repo, 'config', 'user.email', 'test@example.com')
   git(repo, 'config', 'user.name', 'Test')
@@ -48,7 +47,7 @@ function fixture({ config = {}, reqs = [], slices = [], milestones = [], remote 
   git(repo, 'add', '-A')
   git(repo, 'commit', '-q', '-m', 'init')
   if (remote) {
-    const bare = mkdtempSync(join(tmpdir(), 'sdlc-remote-'))
+    const bare = scratch('sdlc-remote-')
     git(bare, 'init', '-q', '--bare', '-b', 'main', bare)
     git(repo, 'remote', 'add', 'origin', bare)
     git(repo, 'push', '-q', '-u', 'origin', 'main')
@@ -59,7 +58,7 @@ function fixture({ config = {}, reqs = [], slices = [], milestones = [], remote 
 
 // a second clone of the remote, so a test can move origin/main without touching the repo under test
 function publisher(bare) {
-  const pub = mkdtempSync(join(tmpdir(), 'sdlc-pub-'))
+  const pub = scratch('sdlc-pub-')
   execFileSync('git', ['clone', '-q', bare, pub], { encoding: 'utf8' })
   git(pub, 'config', 'user.email', 'test@example.com')
   git(pub, 'config', 'user.name', 'Test')
@@ -882,7 +881,7 @@ test('the prune deletes the remote milestone branch only while the remote still 
   // branch that was never shipped and skip it — which is what the previous test covers.
   const late = publisher(remotes.get(repo))
   const real = execFileSync('sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
-  const shim = mkdtempSync(join(tmpdir(), 'sdlc-shim-'))
+  const shim = scratch('sdlc-shim-')
   // the late push, as a script: run when the prune asks to delete the branch, not before
   writeFileSync(join(shim, 'late.sh'), `#!/bin/sh
 ${JSON.stringify(real)} -C "$1" fetch -q origin
@@ -980,7 +979,7 @@ test('a milestone branch checked out in another worktree is not deleted', opts, 
     'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
   })
   // run 1's shipped milestone branch, checked out in a worktree of its own
-  const wt = mkdtempSync(join(tmpdir(), 'sdlc-wt-'))
+  const wt = scratch('sdlc-wt-')
   git(repo, 'worktree', 'add', '-q', wt, 'sdlc/M-1')
   const tip = git(repo, 'rev-parse', 'sdlc/M-1')
   // the precondition: git's own refusal is real here, so the fallback is the path under test
@@ -1068,7 +1067,7 @@ test('a milestone branch that moved between the proof and the delete survives th
   // moment the prune asks to delete it. `git update-ref -d <ref> <sha>` is the call under test — the
   // wrapper moves the ref and then runs that command verbatim, so with the sha dropped the very next git
   // call deletes the moved branch and the test sees a lost commit.
-  const shim = mkdtempSync(join(tmpdir(), 'sdlc-shim-'))
+  const shim = scratch('sdlc-shim-')
   const real = execFileSync('sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
   writeFileSync(join(shim, 'git'), `#!/bin/sh
 prev=

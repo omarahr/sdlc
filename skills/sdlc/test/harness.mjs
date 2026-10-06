@@ -1,9 +1,21 @@
-import { readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 export const SKILL_DIR = join(dirname(fileURLToPath(import.meta.url)), '..')
 export const SCRIPT_PATH = join(SKILL_DIR, 'sdlc-loop.js')
+
+// node --test runs each test file in its own process: one scratch root per file, removed when it exits,
+// so fixture repos, worktrees and hub dirs never pile up in the system temp folder
+let scratchRoot
+export function scratch(prefix) {
+  if (!scratchRoot) {
+    scratchRoot = mkdtempSync(join(tmpdir(), 'sdlc-test-'))
+    process.on('exit', () => rmSync(scratchRoot, { recursive: true, force: true }))
+  }
+  return mkdtempSync(join(scratchRoot, prefix))
+}
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
 const PARAMS = ['agent', 'parallel', 'pipeline', 'phase', 'log', 'args', 'budget', 'workflow']
 const ENTRY = /^return await main\(\) \/\/ @entry\s*$/m

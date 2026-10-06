@@ -1,10 +1,10 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { SKILL_DIR } from './harness.mjs'
+import { SKILL_DIR, scratch } from './harness.mjs'
 
 const ROOT = join(SKILL_DIR, '..', '..')
 const POKE = join(ROOT, 'hooks', 'live-poke.py')
@@ -15,7 +15,7 @@ const opts = { skip: !python && 'python3 not installed' }
 const run = (input, cwd) => spawnSync('python3', [POKE], { input, cwd, encoding: 'utf8' })
 
 function project({ watching }) {
-  const repo = mkdtempSync(join(tmpdir(), 'sdlc-hook-'))
+  const repo = scratch('sdlc-hook-')
   const tracker = join(repo, '.sdlc', 'tracker')
   mkdirSync(tracker, { recursive: true })
   mkdirSync(join(repo, 'src', 'deep'), { recursive: true })

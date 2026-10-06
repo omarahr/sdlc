@@ -1,18 +1,17 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
 import vm from 'node:vm'
-import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { SKILL_DIR } from './harness.mjs'
+import { SKILL_DIR, scratch } from './harness.mjs'
 
 const COLLECT = join(SKILL_DIR, 'tracker', 'collect.py')
 let python = true
 try { execFileSync('python3', ['--version']) } catch { python = false }
 
 function fixtureRepo() {
-  const repo = mkdtempSync(join(tmpdir(), 'sdlc-tracker-'))
+  const repo = scratch('sdlc-tracker-')
   const s = join(repo, '.sdlc')
   mkdirSync(s)
   writeFileSync(join(repo, 'spec.md'), '# Bookmarks </script> Service\n')
@@ -58,7 +57,7 @@ test('collector turns .sdlc state into a self-contained tracker page', { skip: !
 })
 
 test('collector refuses a repo without .sdlc', { skip: !python && 'python3 not installed' }, () => {
-  const repo = mkdtempSync(join(tmpdir(), 'sdlc-tracker-empty-'))
+  const repo = scratch('sdlc-tracker-empty-')
   assert.throws(() => execFileSync('python3', [COLLECT, '--repo', repo], { stdio: 'pipe' }))
   assert.equal(existsSync(join(repo, '.sdlc')), false)
 })
