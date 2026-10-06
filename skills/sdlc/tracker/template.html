@@ -524,6 +524,8 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     const auto = busy.length ? busy[busy.length - 1].phase : agents.length ? agents[agents.length - 1].phase : names[0];
     let sel = pinned(run.id);
     if (!sel || !by[sel] || !by[sel].length) sel = auto;
+    // the tail only snaps the box while the live phase is the one on show; a pinned phase is left alone
+    card.dataset.liveTail = sel === auto ? "1" : "";
 
     const body = el("div", "wf-body");
     const left = el("div", "wf-phases");
@@ -542,7 +544,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
         b.dataset.phase = n;
         b.append(mk, el("span", "", n), el("span", "cnt", list.length ? done + "/" + list.length : ""));
         b.title = !list.length ? "Not started in this run" : running ? "Running" : bad ? "Finished; some agents failed and were retried" : "Finished";
-        if (list.length) b.addEventListener("click", () => { sel = n; pinned(run.id, n === auto ? "" : n); draw(); reveal(); });
+        if (list.length) b.addEventListener("click", () => { sel = n; pinned(run.id, n === auto ? "" : n); tailing = n === auto; draw(); if (tailing) snapToTail(); else reveal(); });
         left.append(b);
       });
       right.replaceChildren();
@@ -567,7 +569,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
         const f = el("button", "", "Follow the live phase");
         f.type = "button";
         f.dataset.follow = "1";
-        f.addEventListener("click", () => { sel = auto; pinned(run.id, ""); draw(); reveal(); });
+        f.addEventListener("click", () => { sel = auto; pinned(run.id, ""); tailing = true; draw(); snapToTail(); });
         foot.append(f);
       }
     };
@@ -593,8 +595,12 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
   // wfScroll is the slot's own scroll box and is the node whose children the redraw replaces, so
   // where the person has scrolled to survives it.
   let wfSlot = null, wfScroll = null;
+  // while the live phase is on show the box tails it: every rebuild keeps the newest agent in view.
+  // scrolling up pauses the tail; the bottom of the box, or the follow button, resumes it.
+  let tailing = true;
   // picking a phase swaps the list under the heading, so the box goes back to the top of the card
   function revealWorkflow() { if (wfScroll) wfScroll.scrollTop = 0; }
+  function snapToTail() { if (wfScroll) wfScroll.scrollTop = wfScroll.scrollHeight; }
   function drawWorkflow(wf, paused) {
     if (!wfSlot || !wf || !wf.run) { if (wfSlot) wfSlot.hidden = true; return; }
     // drawn from Claude Code's own run files; if their shape changes, the last card stays
@@ -602,7 +608,8 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       // a rebuild must not take keyboard focus away from the phase or follow button the person is on
       const at = document.activeElement;
       const had = at && wfSlot.contains(at) ? (at.dataset.follow ? { follow: true } : at.dataset.phase ? { phase: at.dataset.phase } : null) : null;
-      wfScroll.replaceChildren(workflowCard(wf, paused, revealWorkflow));
+      const card = workflowCard(wf, paused, revealWorkflow);
+      wfScroll.replaceChildren(card);
       wfSlot.hidden = false;
       if (had) {
         const btns = Array.from(wfSlot.querySelectorAll("button"));
@@ -611,6 +618,8 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
         // or the list the person may be reading
         if (next) next.focus({ preventScroll: true });
       }
+      // a followed phase keeps the newest agent in view; a scrolled-up or pinned one stays put
+      if (tailing && card.dataset.liveTail) snapToTail();
     } catch (err) { /* no workflow view */ }
   }
   // running agents' clocks tick between redraws
@@ -758,6 +767,10 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
 
     const wfCol = panel("Agents in this run", "every agent the loop has spent on");
     wfScroll = el("div", "wf-scroll");
+    // near the bottom of the box the tail is on; a scroll away from it pauses the tail
+    wfScroll.addEventListener("scroll", () => {
+      tailing = wfScroll.scrollTop >= wfScroll.scrollHeight - wfScroll.clientHeight - 24;
+    });
     wfCol.body.append(wfScroll);
     wfSlot = wfCol.root;
     app.append(wfSlot);
