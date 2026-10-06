@@ -227,10 +227,14 @@ def settled(sid, by_id, ok_statuses, seen=()):
 
 def slim_slice(s):
     # the workflow script uses only these fields; the agents read the rest from slices.json
-    return {
+    out = {
         "id": s["id"], "kind": s.get("kind", "spec"), "status": s.get("status", "todo"), "phase": s.get("phase", "plan"),
         "counters": counters(s), "seeds": s.get("seeds") or [], "pr": s.get("pr", ""),
     }
+    # absent, not null: an unrated slice must route to the full battery, and only absence says so
+    if s.get("risk"):
+        out["risk"] = s["risk"]
+    return out
 
 
 def decide(repo, spec_arg, bar_rounds, prs_file):

@@ -79,6 +79,8 @@ Array order is execution order, and a human may reorder it.
     "phase": "plan",
     "branch": "sdlc/S-001",
     "pr": "",
+    "risk": "",
+    "riskReason": "",
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
@@ -87,6 +89,7 @@ Array order is execution order, and a human may reorder it.
 ]
 ```
 - `kind` is `spec`, `improvement` or `fix`. Fix slices come from the audit (`S-fix-<n>`) or from a milestone's behavior campaign (`S-fix-<milestone>-<n>`).
+- `risk` is `low`, `medium` or `high`, assigned by the slicer. A `low` slice skips the per-slice verification battery (the milestone's behavior campaign still covers it, and a reviewer can demand the battery back). A slice with no `risk` — written before this field existed, or a fix slice — is unrated and always gets the full battery.
 - `status` is `todo`, `in_progress`, `awaiting-merge`, `done`, `parked` or `rejected`.
 - `phase` is `plan`, `tests`, `implement` or `integrate`.
 - A slice that was split is `rejected` and lists the slices it became in `splitInto` (for example `["S-013a", "S-013b"]`). It counts as finished, or as a met dependency, once every one of those does.

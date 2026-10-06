@@ -8,6 +8,7 @@ Inputs: `milestoneId`, `revision`, `rerun`, `critiques` (coverage gaps you must 
 
 1. **Read:**
    - the milestone in milestones.json and every member slice (listed ids, their split children, its `fixSlices`);
+   - each member slice's `risk` in slices.json: a slice rated `low` skipped its verification battery, so its corners have had no adversarial look yet;
    - each member slice's requirements: `quote`, `acceptance`, `adrs`, `notes`;
    - the spec sections those requirements cite, the spec's error-handling and limits sections, and `DECISIONS.md`;
    - earlier milestones' `scenarios.json` and `report.md`, and the code's public surface (routes, CLI, UI screens) to learn how it is reached.
@@ -24,6 +25,7 @@ Inputs: `milestoneId`, `revision`, `rerun`, `critiques` (coverage gaps you must 
      - `metrics`: counter or gauge deltas, only if the system exposes metrics;
      - `ui`: visible state, text in the right locale, `dir` for RTL, focus and error placement.
 3. **Cover, for every requirement:** a happy path; each error code or status the spec defines for it; every stated limit at the limit and one past it; authz (anonymous, wrong tenant, expired or forged token) wherever access is controlled; retries and duplicates wherever idempotency is required; concurrency wherever the spec defines the outcome of a race; the dependency failures from the spec's error-handling table; and RTL/locale behavior wherever text is shown.
+   For each member slice rated `low`, treat its corners as mandatory: its code was never verified at its boundaries, so the campaign is the only adversarial look it gets before the audit. Hunt its failure modes with the same rigor as a `high`-rated slice's.
 4. **Regression smoke:** add one or two critical happy paths from each earlier verified milestone (category `happy`, area `regression`).
 5. **Areas:** group scenarios into at most 6 areas of at most about 15 scenarios, by shared setup. Put scenarios that restart or break shared infrastructure (`failure-injection` of the database or the service itself) in an area named `faults`.
 6. Write `scenarios.json` (array of the scenario objects) and `scenarios.md` (a readable table: id, category, requirement, one-line intent, source). Address every critique; say how under `## Critique responses` in scenarios.md.

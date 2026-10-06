@@ -4,6 +4,15 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { scriptSource, SKILL_DIR } from './harness.mjs'
 
+test('the reviewer can demand the verification battery for a mis-rated slice, and the schema passes the flag', () => {
+  const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
+  assert.match(reviewer, /needsVerify/)
+  assert.match(reviewer, /riskier than (that|the) (label|rating)|mis-rated/)
+  const loop = readFileSync(join(SKILL_DIR, 'sdlc-loop.js'), 'utf8')
+  const findings = loop.match(/const FINDINGS = \{[\s\S]*?\n\}/)[0]
+  assert.match(findings, /needsVerify/, 'a flag the schema strips never reaches the loop')
+})
+
 test('every agent role used by the script has a prompt file', () => {
   const roles = [...new Set([...scriptSource().matchAll(/run\('([a-z-]+)'/g)].map(m => m[1]))]
   assert.ok(roles.length > 0)
@@ -22,6 +31,17 @@ test('script avoids APIs the workflow runtime forbids', () => {
   assert.doesNotMatch(src, /^\s*import\s/m)
   assert.doesNotMatch(src, /require\(/)
   assert.match(src, /^export const meta = \{/m)
+})
+
+test('the slicer rates each slice\'s verification risk, low only for harmless changes', () => {
+  const slicer = readFileSync(join(SKILL_DIR, 'prompts', 'slicer.md'), 'utf8')
+  assert.match(slicer, /`risk` is `low`, `medium` or `high`/)
+  assert.match(slicer, /riskReason/)
+  assert.match(slicer, /[Ww]hen in doubt, (rate )?`medium`/)
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  assert.match(schema, /"risk": ""/)
+  assert.match(schema, /"riskReason": ""/)
+  assert.match(schema, /no `risk`[\s\S]{0,200}full (verification )?battery|unrated[\s\S]{0,200}full (verification )?battery/i)
 })
 
 test('every prompt that branches on the git mode says what mr mode does', () => {
@@ -237,4 +257,15 @@ test('the escalator and force-park ask for the branch rather than naming it, and
   assert.match(w, /state-write\.py" base-branch --repo \. --slice <sliceId>/)
   assert.match(w, /In `stack` mode the default branch is never committed to/)
   assert.match(w, /after\*\* renaming, and after checking the branch out/)
+})
+
+test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
+  const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
+  assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')
+  assert.match(planner, /skipped (its|the per-slice) verification battery/)
+  const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  assert.match(integrator, /low-risk/)
+  assert.match(integrator, /never (carries|carry) a receipt|no receipt[\s\S]{0,80}expected/)
+  // the note must not weaken the receipt rule for rated slices
+  assert.match(integrator, /suite-receipt\.py" check/)
 })
