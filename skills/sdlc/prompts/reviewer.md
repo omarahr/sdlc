@@ -16,6 +16,7 @@ Inputs: `sliceId`, `lens`, `round`.
   - Are negative and edge cases covered?
   - Are tests deterministic (no sleeps, no order dependence, no network)?
   - Is the name of each test honest about what it checks?
+  - Are code and tests free of comments? Comments in code or tests are `blocking: true` — the fix is mechanical. Toolchain directives (shebang, linter and type-checker suppressions, license headers the repo already uses) are not comments.
 
 `blocking: true` only for:
 - a defect that will cause wrong behavior,
@@ -23,7 +24,7 @@ Inputs: `sliceId`, `lens`, `round`.
 - a spec violation,
 - code that is untestable or unmaintainable enough to hurt later slices.
 
-Style and nits are `blocking: false`.
+Style and nits are `blocking: false`. Prose that breaks the STE writing rules (long chained sentences, passive voice, synonyms drifting for one thing) in the slice's artifacts — tests.md, DECISIONS.md entries, commit messages, the review's own report — is `blocking: false`: a seed, never a fix round.
 
 The slice may be rated `low`-risk in slices.json and so skip the verification battery. When the code you are reading is riskier than that rating — it crosses an I/O boundary, touches boot, auth, concurrency or data mutation, or a mistake in it would be loud — set `needsVerify: true` and add a non-blocking finding saying why. That is the correction for a mis-rated slice: the full verification battery runs on it from this round. Use it sparingly — not as a way to ask for more testing of a well-rated slice.
 
