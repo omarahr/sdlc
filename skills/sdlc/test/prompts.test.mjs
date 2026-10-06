@@ -238,3 +238,22 @@ test('the escalator and force-park ask for the branch rather than naming it, and
   assert.match(w, /In `stack` mode the default branch is never committed to/)
   assert.match(w, /after\*\* renaming, and after checking the branch out/)
 })
+
+test('every agent writes comment-free code in the target repo, and its prose in STE', () => {
+  const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
+  assert.match(common, /[Nn]o comments in (the )?(code|target)/, 'the no-comments rule')
+  assert.match(common, /line comments/, 'line comments are named')
+  assert.match(common, /block comments/, 'block comments are named')
+  assert.match(common, /doc comments/, 'doc comments are named')
+  assert.match(common, /noqa/, 'toolchain directives are the named exception')
+  assert.match(common, /license headers/, 'repo-convention license headers are the named exception')
+  assert.match(common, /ASD-STE100/, 'the prose rule names the standard')
+  assert.match(common, /active voice/)
+  assert.match(common, /imperative/)
+  assert.match(common, /one word, one meaning/)
+  // the reviewer enforces: comments in code block; STE prose slips never do
+  const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
+  assert.match(reviewer, /[Cc]omments in (the )?(code|slice)/)
+  assert.match(reviewer, /comments[\s\S]{0,240}blocking: true/, 'a comment in code is worth a fix round')
+  assert.match(reviewer, /STE[\s\S]{0,240}blocking: false/, 'a prose slip is a seed, never a fix round')
+})
