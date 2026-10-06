@@ -258,3 +258,14 @@ test('the escalator and force-park ask for the branch rather than naming it, and
   assert.match(w, /In `stack` mode the default branch is never committed to/)
   assert.match(w, /after\*\* renaming, and after checking the branch out/)
 })
+
+test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
+  const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
+  assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')
+  assert.match(planner, /skipped (its|the per-slice) verification battery/)
+  const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  assert.match(integrator, /low-risk/)
+  assert.match(integrator, /never (carries|carry) a receipt|no receipt[\s\S]{0,80}expected/)
+  // the note must not weaken the receipt rule for rated slices
+  assert.match(integrator, /suite-receipt\.py" check/)
+})
