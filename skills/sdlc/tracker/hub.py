@@ -100,7 +100,9 @@ def title_of(entry):
         return entry["id"]
     if not isinstance(status, dict):
         return entry["id"]  # a status.json that is not an object has no title
-    return status.get("title") or entry["id"]
+    title = status.get("title")
+    # a title that is not a non-empty string (null, a number, "") falls back to the run id
+    return title if isinstance(title, str) and title else entry["id"]
 
 
 INDEX = """<!doctype html>
@@ -121,10 +123,12 @@ def index_page(now):
     items = []
     for cls, entries in (("live", live), ("stale", stale)):
         for e in entries:
+            # a viewer wrote these fields: coerce everything so one odd entry never 500s the index
+            rid, repo, started = str(e["id"]), str(e.get("repo") or ""), str(e.get("startedAt") or "?")
             items.append(
                 '<li class="%s"><a href="/r/%s/">%s</a> <span class="meta">%s · %s · started %s · %s</span></li>'
-                % (cls, urllib.parse.quote(e["id"]), html.escape(title_of(e)), html.escape(e["id"]),
-                   html.escape(e.get("repo", "")), html.escape(e.get("startedAt", "?")), cls))
+                % (cls, urllib.parse.quote(rid), html.escape(str(title_of(e))), html.escape(rid),
+                   html.escape(repo), html.escape(started), cls))
     return INDEX.format(items="\n".join(items) or '<li class="meta">No sdlc run is registered on this machine yet.</li>')
 
 
@@ -136,6 +140,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
+        # the tracker page loads live.js same-origin; CORP keeps other sites from including it
+        self.send_header("Cross-Origin-Resource-Policy", "same-origin")
         self.end_headers()
         self.wfile.write(body)
 
@@ -170,7 +176,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             with open(target, "rb") as f:
                 body = f.read()
-        except OSError:
+        except (OSError, ValueError):  # ValueError: an embedded null byte (%00) reaches open()
             self.send_body(404, b"not found\n", "text/plain")
             return
         self.send_body(200, body, mimetypes.guess_type(target)[0] or "application/octet-stream")

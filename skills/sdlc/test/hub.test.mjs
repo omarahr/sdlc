@@ -27,8 +27,8 @@ const until = async (cond, ms = 10000) => {
 const get = async (port, path) => {
   try {
     const r = await fetch(`http://127.0.0.1:${port}${path}`)
-    return { status: r.status, body: await r.text() }
-  } catch { return { status: 0, body: '' } }
+    return { status: r.status, body: await r.text(), headers: r.headers }
+  } catch { return { status: 0, body: '', headers: new Headers() } }
 }
 // WHATWG URL parsing normalizes %2e%2e away before sending, so traversal tests go over a raw socket
 const rawGet = (port, path) => new Promise((res, rej) => {
@@ -86,6 +86,7 @@ test('the index lists live runs and greys stale ones, and serves each run page f
     const page = await get(hub.port, '/r/myapp-bookmarks/')
     assert.equal(page.status, 200)
     assert.match(page.body, /SDLC_STATUS/)
+    assert.equal(page.headers.get('cross-origin-resource-policy'), 'same-origin', 'run files are same-origin only')
     assert.equal((await get(hub.port, '/r/myapp-bookmarks/index.html?x=1')).status, 200, 'query strings are ignored')
   } finally { await hub.stop() }
 })
@@ -141,6 +142,32 @@ test('a registration with the wrong shape is skipped, and its run page 404s', { 
   } finally { await hub.stop() }
 })
 
+test('an embedded null byte in a run path is a 404, never a traceback', { skip: !python && 'python3 not installed' }, async () => {
+  const hub = await runningHub()
+  try {
+    const out = join(hub.dir, 'out')
+    mkdirSync(out, { recursive: true })
+    writeFileSync(join(out, 'index.html'), 'ok')
+    register(hub.dir, 'myapp-bookmarks')
+    const res = await rawGet(hub.port, '/r/myapp-bookmarks/%00')
+    assert.match(res, /^HTTP\/1\.[01] 404/, 'open() sees a null byte as a ValueError, handled like any miss')
+  } finally { await hub.stop() }
+})
+
+test('an entry with a null repo or a non-string status title never 500s the index', { skip: !python && 'python3 not installed' }, async () => {
+  const hub = await runningHub()
+  try {
+    const out = join(hub.dir, 'out')
+    mkdirSync(out, { recursive: true })
+    writeFileSync(join(out, 'status.json'), JSON.stringify({ title: 42 }))
+    register(hub.dir, 'odd-entry', { repo: null })
+    const index = await get(hub.port, '/')
+    assert.equal(index.status, 200)
+    assert.match(index.body, /<a href="\/r\/odd-entry\/">odd-entry<\/a>/, 'a non-string title falls back to the run id')
+    assert.doesNotMatch(index.body, /null/, 'a null repo is not interpolated as-is')
+  } finally { await hub.stop() }
+})
+
 test('an entry quiet for a day is pruned from the registry and the index', { skip: !python && 'python3 not installed' }, async () => {
   const hub = await runningHub()
   try {
@@ -182,11 +209,21 @@ print(collect.run_id(${JSON.stringify(repoB)}))
   assert.match(second, /^myapp-bookmarks-service-[0-9a-f]{6}$/)
 })
 
+test('run_id slugs a repo dir whose name is outside the hub id alphabet', { skip: !python && 'python3 not installed' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
+  const repo = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-repos-')), 'my app')
+  mkdirSync(join(repo, '.sdlc'), { recursive: true })
+  writeFileSync(join(repo, '.sdlc', 'config.json'), JSON.stringify({ specPath: 'spec.md' }))
+  const r = collectPy(dir, `print(collect.run_id(${JSON.stringify(repo)}))`)
+  assert.equal(r.status, 0, r.stderr)
+  assert.equal(r.stdout.trim(), 'my-app-spec')
+})
+
 test('register writes the registration atomically, and heartbeat refreshes its mtime', { skip: !python && 'python3 not installed' }, () => {
   const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
   const r = collectPy(dir, `
 import json, os, time
-collect.register("/repo", "/out", "rid-1")
+print(collect.register("/repo", "/out", "rid-1"))
 path = os.path.join(${JSON.stringify(dir)}, "runs", "rid-1.json")
 before = os.path.getmtime(path)
 entry = json.load(open(path))
@@ -198,18 +235,38 @@ print(sorted(os.listdir(os.path.join(${JSON.stringify(dir)}, "runs"))))
 `)
   assert.equal(r.status, 0, r.stderr)
   const lines = r.stdout.trim().split('\n')
-  assert.equal(lines[0], 'rid-1 /repo /out True True')
-  assert.equal(lines[1], 'True', 'the heartbeat moved the mtime')
-  assert.equal(lines[2], "['rid-1.json']", 'no temp file is left behind')
+  assert.equal(lines[0], 'True', 'a landed registration reports success')
+  assert.equal(lines[1], 'rid-1 /repo /out True True')
+  assert.equal(lines[2], 'True', 'the heartbeat moved the mtime')
+  assert.equal(lines[3], "['rid-1.json']", 'no temp file is left behind')
 })
 
-test('an unwritable registry warns and carries on', { skip: !python && 'python3 not installed' }, () => {
+test('an unwritable registry warns and carries on, reporting failure', { skip: !python && 'python3 not installed' }, () => {
   const bad = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-bad-')), 'a-file')
   writeFileSync(bad, 'not a directory')
-  const r = collectPy(bad, `collect.register("/repo", "/out", "rid-1")\nprint("survived")`)
+  const r = collectPy(bad, `print(collect.register("/repo", "/out", "rid-1"))\nprint("survived")`)
   assert.equal(r.status, 0, r.stderr)
   assert.match(r.stderr, /hub registration failed/)
-  assert.match(r.stdout, /survived/)
+  const lines = r.stdout.trim().split('\n')
+  assert.equal(lines[0], 'False', 'the caller is told the registration did not land (and must not publish a url)')
+  assert.equal(lines[1], 'survived')
+})
+
+test('the hub contract: port 8787 and ~/.sdlc/hub when the test overrides are absent', { skip: !python && 'python3 not installed' }, () => {
+  const env = { ...process.env }
+  delete env.SDLC_HUB_PORT
+  delete env.SDLC_HUB_DIR
+  const r = spawnSync('python3', ['-c', `
+import sys
+sys.path.insert(0, ${JSON.stringify(join(SKILL_DIR, 'tracker'))})
+import hub
+print(hub.hub_port())
+print(hub.hub_dir())
+`], { encoding: 'utf8', env })
+  assert.equal(r.status, 0, r.stderr)
+  const [port, dir] = r.stdout.trim().split('\n')
+  assert.equal(port, '8787', 'the fixed port is 8787')
+  assert.match(dir, /\.sdlc\/hub$/, 'the hub dir is ~/.sdlc/hub')
 })
 
 const COLLECT = join(SKILL_DIR, 'tracker', 'collect.py')
@@ -298,6 +355,95 @@ test('a foreign process on the hub port is an error, never a silent move to anot
     try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
     await done
     foreign.close()
+  }
+})
+
+test('a foreign 200 with the wrong body is still a foreign server, never a doomed hub spawn', { skip: !python && 'python3 not installed' }, async () => {
+  const port = await freePort()
+  const foreign = httpServer((req, res) => { res.writeHead(200, { 'Content-Type': 'text/plain' }); res.end('not the hub') })
+  await new Promise(r => foreign.listen(port, '127.0.0.1', r))
+  const repo = fixtureRepo()
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
+  let stderr = ''
+  const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { env })
+  proc.stderr.on('data', d => { stderr += d })
+  const done = exited(proc)
+  try {
+    const out = join(repo, '.sdlc', 'tracker')
+    assert.ok(await until(() => existsSync(join(out, 'index.html')), FIRST_BUILD_MS), 'the page is still built')
+    assert.ok(await until(() => stderr.includes('lsof'), 5000), 'a wrong-body 200 gets the squatter error, not a spawn')
+    // give the watcher a beat to prove it never publishes
+    await new Promise(r => setTimeout(r, 1500))
+    assert.equal(existsSync(join(out, 'url')), false, 'no url is written')
+    assert.equal(readdirSync(dir).includes('hub.pid'), false, 'and no hub was spawned over the foreign one')
+  } finally {
+    try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
+    await done
+    foreign.close()
+  }
+})
+
+test('a hub dir blocked by a plain file warns, and the watcher carries on unpublished', { skip: !python && 'python3 not installed' }, async () => {
+  const port = await freePort()
+  const repo = fixtureRepo()
+  const dir = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-bad-')), 'a-file')
+  writeFileSync(dir, 'not a directory')
+  const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
+  let stderr = ''
+  const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { env })
+  proc.stderr.on('data', d => { stderr += d })
+  const done = exited(proc)
+  try {
+    const out = join(repo, '.sdlc', 'tracker')
+    assert.ok(await until(() => existsSync(join(out, 'index.html')), FIRST_BUILD_MS), 'the page is still built')
+    assert.ok(await until(() => stderr.includes('could not be started'), 5000), 'warned instead of dying with a traceback')
+    assert.doesNotMatch(stderr, /Traceback/, 'a hub failure never crashes the loop')
+    assert.equal(proc.exitCode, null, 'the watcher is still running')
+    assert.equal(existsSync(join(out, 'url')), false, 'no url is written')
+  } finally {
+    try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
+    await done
+  }
+})
+
+test('a watcher that started behind a squatter publishes once a real hub appears', { skip: !python && 'python3 not installed' }, async () => {
+  const port = await freePort()
+  const squatter = httpServer((req, res) => { res.writeHead(404, { Connection: 'close' }); res.end() })
+  await new Promise(r => squatter.listen(port, '127.0.0.1', r))
+  const repo = fixtureRepo()
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  // an explicit --watch 1 overrides the 60 s --publish implies; the journal keeps the watcher from idling out
+  const journal = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-journal-')), 'journal.jsonl')
+  writeFileSync(journal, '')
+  const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
+  const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish', '--watch', '1', '--journal', journal], { stdio: 'ignore', env })
+  const done = exited(proc)
+  const out = join(repo, '.sdlc', 'tracker')
+  const urlFile = join(out, 'url')
+  try {
+    assert.ok(await until(() => existsSync(join(out, 'index.html')), FIRST_BUILD_MS), 'the first build landed')
+    assert.equal(existsSync(urlFile), false, 'unpublished while the port is squatted')
+    // freeze the watcher so it cannot observe the handover gap (a free port) and spawn a hub itself
+    proc.kill('SIGSTOP')
+    await new Promise(r => { squatter.close(r); squatter.closeAllConnections() })
+    // the squatter is gone and another run's hub takes the port
+    const hubProc = spawn('python3', [HUB], { env: { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }, stdio: 'ignore' })
+    const hubDone = exited(hubProc)
+    try {
+      assert.ok(await until(async () => (await get(port, '/health')).body === 'sdlc-hub', 5000), 'the real hub is up')
+      proc.kill('SIGCONT')
+      assert.ok(await until(() => existsSync(urlFile), 15000), 'the next build re-ensured and published')
+      const id = readFileSync(urlFile, 'utf8').trim().split('/r/')[1].replace(/\/$/, '')
+      const page = await get(port, `/r/${id}/index.html`)
+      assert.equal(page.status, 200)
+      assert.match(page.body, /SDLC_STATUS/, 'the hub serves the run page')
+    } finally { hubProc.kill(); await hubDone }
+  } finally {
+    proc.kill('SIGCONT') // a stopped process never notices the pid file going away
+    try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
+    await done
+    squatter.close()
   }
 })
 

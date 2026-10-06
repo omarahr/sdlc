@@ -64,7 +64,9 @@ def spec_slug(repo):
 
 def run_id(repo):
     """<repo dir>-<spec slug>, stable across restarts; a same-named repo elsewhere gets a hash suffix."""
-    rid = f"{os.path.basename(repo)}-{spec_slug(repo)}"
+    # the repo dir is slugged like the spec path, so the id always passes the hub's ID_CHARS gate
+    base = re.sub(r"[^a-z0-9]+", "-", os.path.basename(repo).lower()).strip("-") or "repo"
+    rid = f"{base}-{spec_slug(repo)}"
     other = read_json(os.path.join(hub.runs_dir(), rid + ".json"), None)
     if other and other.get("repo") != repo:
         rid = f"{rid}-{hashlib.sha1(repo.encode()).hexdigest()[:6]}"
@@ -72,7 +74,8 @@ def run_id(repo):
 
 
 def register(repo, out, rid):
-    """Announce this run to the hub; rewriting the file refreshes the heartbeat that is its mtime."""
+    """Announce this run to the hub; rewriting the file refreshes the heartbeat that is its mtime.
+    True when the registration landed, False when it failed (the page is still built either way)."""
     try:
         os.makedirs(hub.runs_dir(), exist_ok=True)
         tmp = os.path.join(hub.runs_dir(), f".{rid}.{os.getpid()}.tmp")
@@ -81,8 +84,10 @@ def register(repo, out, rid):
                        "startedAt": datetime.now(timezone.utc).isoformat(timespec="seconds")}, f)
         # the rename means the hub never reads half a registration
         os.replace(tmp, os.path.join(hub.runs_dir(), rid + ".json"))
+        return True
     except OSError as e:
         print(f"hub registration failed (the page is still built): {e}", file=sys.stderr)
+        return False
 
 
 def heartbeat(rid):
@@ -96,7 +101,8 @@ def hub_answers():
     """True for our hub, "foreign" for another server, False for nothing listening."""
     try:
         with urllib.request.urlopen(f"http://127.0.0.1:{hub.hub_port()}/health", timeout=1) as res:
-            return res.read() == hub.HEALTH_BODY
+            # a 200 with the wrong body is a foreign server, same as any other non-marker answer
+            return True if res.read() == hub.HEALTH_BODY else "foreign"
     except urllib.error.HTTPError:
         return "foreign"  # a server answered, but it is not ours
     except (urllib.error.URLError, OSError):
@@ -112,10 +118,18 @@ def ensure_hub():
         print(f"port {hub.hub_port()} is taken by something that is not the sdlc hub "
               f"(find it with: lsof -i :{hub.hub_port()}); the page is built but not served", file=sys.stderr)
         return False
-    os.makedirs(hub.hub_dir(), exist_ok=True)
-    log = open(os.path.join(hub.hub_dir(), "hub.log"), "ab")
-    subprocess.Popen([sys.executable, os.path.join(HERE, "hub.py")],
-                     stdout=log, stderr=log, stdin=subprocess.DEVNULL, start_new_session=True)
+    # a hub dir that cannot be created or written never stops the watcher: warn and stay unpublished
+    log = None
+    try:
+        os.makedirs(hub.hub_dir(), exist_ok=True)
+        log = open(os.path.join(hub.hub_dir(), "hub.log"), "ab")
+        subprocess.Popen([sys.executable, os.path.join(HERE, "hub.py")],
+                         stdout=log, stderr=log, stdin=subprocess.DEVNULL, start_new_session=True)
+    except OSError as e:
+        if log is not None:
+            log.close()
+        print(f"the sdlc hub could not be started ({e}); the page is built but not served", file=sys.stderr)
+        return False
     for _ in range(20):
         if hub_answers() is True:
             return True
@@ -387,16 +401,17 @@ def main():
                         workflow.mark_ended(data["workflow"]["run"])
                     page = render(data, out)
                     write_live(out, data.get("workflow"))
-                    if a.publish and hub_answers() is not True:
-                        # the hub died mid-run; respawn it (or report a squatter) at the minute tick
+                    if a.publish and (not published or hub_answers() is not True):
+                        # unpublished yet (a squatter was here at startup), or the hub died
+                        # mid-run: respawn it (or report the squatter) at the minute tick
                         published = ensure_hub()
                         rid = run_id(repo) if published else None
                     if published:
                         # registered only now, so a url that exists always has a page behind it;
                         # rewriting the file is also the heartbeat, so this runs on every build
-                        register(repo, out, rid)
-                        with open(url_file, "w") as f:
-                            f.write(f"http://127.0.0.1:{hub.hub_port()}/r/{rid}/\n")
+                        if register(repo, out, rid):
+                            with open(url_file, "w") as f:
+                                f.write(f"http://127.0.0.1:{hub.hub_port()}/r/{rid}/\n")
                     if not a.watch:
                         print(page)
                         return

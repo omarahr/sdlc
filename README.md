@@ -133,7 +133,7 @@ The workflow view is read from Claude Code's own run files, whose format is not 
 
 See the [live example page](https://htmlpreview.github.io/?https://github.com/omarahr/sdlc/blob/main/docs/example-tracker.html) (made-up data, source in [`docs/example-tracker.html`](docs/example-tracker.html)).
 
-To serve it outside Claude Code, from a clone of this repo:
+To publish it outside Claude Code, from a clone of this repo:
 ```
 python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project --publish
 ```
