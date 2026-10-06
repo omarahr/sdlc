@@ -322,3 +322,16 @@ test('two runs publish side by side through the one hub', { skip: !python && 'py
     a.killHub()
   }
 })
+
+test('the docs speak of the hub and the fixed port, never of per-run serving', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  const readme = readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
+  const collect = readFileSync(join(SKILL_DIR, 'tracker', 'collect.py'), 'utf8')
+  for (const [name, text] of [['SKILL.md', skill], ['README.md', readme], ['collect.py', collect]]) {
+    assert.doesNotMatch(text, /--serve\b/, `${name} no longer mentions --serve`)
+    assert.doesNotMatch(text, /--host\b/, `${name} no longer mentions --host`)
+    assert.doesNotMatch(text, /next free port/, `${name} no longer drifts ports`)
+  }
+  assert.match(skill, /--publish/)
+  assert.match(readme, /--publish/)
+})
