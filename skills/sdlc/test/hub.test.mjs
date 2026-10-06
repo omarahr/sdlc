@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync, existsSync, utimesSync } from 'node:fs'
 import { createServer, createConnection } from 'node:net'
+import { createServer as httpServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR } from './harness.mjs'
@@ -209,4 +210,115 @@ test('an unwritable registry warns and carries on', { skip: !python && 'python3 
   assert.equal(r.status, 0, r.stderr)
   assert.match(r.stderr, /hub registration failed/)
   assert.match(r.stdout, /survived/)
+})
+
+const COLLECT = join(SKILL_DIR, 'tracker', 'collect.py')
+// the first build also collects the machine readings, which on macOS reads the whole power log
+const FIRST_BUILD_MS = 45000
+
+// the smallest repo collect.py will build a page from (mirrors tracker.test.mjs's fixtureRepo)
+function fixtureRepo() {
+  const repo = mkdtempSync(join(tmpdir(), 'sdlc-hub-run-'))
+  const s = join(repo, '.sdlc')
+  mkdirSync(s)
+  writeFileSync(join(repo, 'spec.md'), '# Bookmarks Service\n')
+  writeFileSync(join(s, 'config.json'), JSON.stringify({ specPath: 'spec.md' }))
+  writeFileSync(join(s, 'requirements.json'), '[]')
+  writeFileSync(join(s, 'slices.json'), '[]')
+  writeFileSync(join(s, 'milestones.json'), '[]')
+  writeFileSync(join(s, 'log.jsonl'), '')
+  writeFileSync(join(s, 'DECISIONS.md'), '# Decisions\n')
+  return repo
+}
+
+// a run publishing through a hub on a scratch port and registry; the hub itself is spawned by collect
+async function publishing() {
+  const repo = fixtureRepo()
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const port = await freePort()
+  const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
+  const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { stdio: 'ignore', env })
+  const done = exited(proc)
+  const stop = async () => {
+    try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
+    await done
+  }
+  // the hub lingers by design; the test kills it by its pid file, but only once it is done
+  // reading the index off it (a dead hub answers nothing, so this is the last step, never part of stop)
+  const killHub = () => {
+    try { process.kill(Number(readFileSync(join(dir, 'hub.pid'), 'utf8')), 'SIGTERM') } catch {}
+  }
+  return { repo, dir, port, out: join(repo, '.sdlc', 'tracker'), urlFile: join(repo, '.sdlc', 'tracker', 'url'), stop, killHub }
+}
+
+test('--publish registers the run and the hub serves its page at the fixed url', { skip: !python && 'python3 not installed' }, async () => {
+  const run = await publishing()
+  try {
+    assert.ok(await until(() => existsSync(run.urlFile), FIRST_BUILD_MS), 'published a url')
+    const ids = readdirSync(join(run.dir, 'runs')).filter(f => f.endsWith('.json'))
+    assert.equal(ids.length, 1, 'one registration')
+    const id = ids[0].replace(/\.json$/, '')
+    assert.match(id, /-spec$/, 'the fixture spec is spec.md')
+    // the url appears only once there is a page behind it, so opening it never lands on a blank page
+    assert.ok(existsSync(join(run.out, 'index.html')), 'the page was built before the url was published')
+    assert.equal(readFileSync(run.urlFile, 'utf8').trim(), `http://127.0.0.1:${run.port}/r/${id}/`)
+    const page = await get(run.port, `/r/${id}/index.html`)
+    assert.equal(page.status, 200)
+    assert.match(page.body, /SDLC_STATUS/)
+    assert.equal((await get(run.port, `/r/${id}/live.js`)).status, 200)
+    assert.match((await get(run.port, '/')).body, new RegExp(`class="live"><a href="/r/${id}/"`), 'the index lists the run as live')
+  } finally { await run.stop() }
+  try {
+    assert.equal(existsSync(run.urlFile), false, 'the url is withdrawn when the watcher stops')
+    const index = await get(run.port, '/')
+    assert.match(index.body, /class="stale"/, 'the finished run greys but stays browsable')
+  } finally { run.killHub() }
+})
+
+test('a foreign process on the hub port is an error, never a silent move to another port', { skip: !python && 'python3 not installed' }, async () => {
+  const port = await freePort()
+  const foreign = httpServer((req, res) => { res.writeHead(404); res.end() })
+  await new Promise(r => foreign.listen(port, '127.0.0.1', r))
+  const repo = fixtureRepo()
+  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
+  let stderr = ''
+  const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { env })
+  proc.stderr.on('data', d => { stderr += d })
+  const done = exited(proc)
+  try {
+    const out = join(repo, '.sdlc', 'tracker')
+    assert.ok(await until(() => existsSync(join(out, 'index.html')), FIRST_BUILD_MS), 'the page is still built')
+    assert.ok(await until(() => stderr.includes('lsof'), 5000), 'the error names how to find the squatter')
+    // give the watcher a beat to prove it never publishes
+    await new Promise(r => setTimeout(r, 1500))
+    assert.equal(existsSync(join(out, 'url')), false, 'no url is written')
+    assert.equal(readdirSync(dir).includes('hub.pid'), false, 'and no hub was spawned over the foreign one')
+  } finally {
+    try { execFileSync('python3', [COLLECT, '--repo', repo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
+    await done
+    foreign.close()
+  }
+})
+
+test('two runs publish side by side through the one hub', { skip: !python && 'python3 not installed' }, async () => {
+  const a = await publishing()
+  const bDir = { port: a.port, dir: a.dir } // same hub, another repo
+  const bRepo = fixtureRepo()
+  const env = { ...process.env, SDLC_HUB_PORT: String(bDir.port), SDLC_HUB_DIR: bDir.dir }
+  const bProc = spawn('python3', [COLLECT, '--repo', bRepo, '--publish'], { stdio: 'ignore', env })
+  const bDone = exited(bProc)
+  const bUrl = join(bRepo, '.sdlc', 'tracker', 'url')
+  try {
+    assert.ok(await until(() => existsSync(a.urlFile), FIRST_BUILD_MS), 'the first run published')
+    assert.ok(await until(() => existsSync(bUrl), FIRST_BUILD_MS), 'the second run published')
+    assert.notEqual(readFileSync(a.urlFile, 'utf8'), readFileSync(bUrl, 'utf8'), 'distinct run urls')
+    const index = (await get(a.port, '/')).body
+    assert.equal((index.match(/class="live"/g) || []).length, 2, 'both runs on the one index')
+  } finally {
+    await a.stop()
+    try { execFileSync('python3', [COLLECT, '--repo', bRepo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
+    await bDone
+    a.killHub()
+  }
 })
