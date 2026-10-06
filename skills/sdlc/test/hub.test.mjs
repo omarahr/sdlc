@@ -83,13 +83,53 @@ test('the index lists live runs and greys stale ones, and serves each run page f
     register(hub.dir, 'oldrun-spec', {}, 10 * 60)
     const index = await get(hub.port, '/')
     assert.equal(index.status, 200)
-    assert.match(index.body, /<li class="live"><a href="\/r\/myapp-bookmarks\/">Bookmarks Service<\/a>/)
-    assert.match(index.body, /<li class="stale"><a href="\/r\/oldrun-spec\/">/, 'still browsable, but greyed')
+    assert.match(index.body, /class="run live"/, 'the live run on the status board')
+    assert.match(index.body, /<a href="\/r\/myapp-bookmarks\/">Bookmarks Service<\/a>/)
+    assert.match(index.body, /class="run stale"/, 'still browsable, but greyed')
+    assert.match(index.body, /<a href="\/r\/oldrun-spec\/">/)
     const page = await get(hub.port, '/r/myapp-bookmarks/')
     assert.equal(page.status, 200)
     assert.match(page.body, /SDLC_STATUS/)
     assert.equal(page.headers.get('cross-origin-resource-policy'), 'same-origin', 'run files are same-origin only')
     assert.equal((await get(hub.port, '/r/myapp-bookmarks/index.html?x=1')).status, 200, 'query strings are ignored')
+  } finally { await hub.stop() }
+})
+
+test('the index is a status board: counts band, phase chip, slice progress and relative times', { skip: !python && 'python3 not installed' }, async () => {
+  const hub = await runningHub()
+  try {
+    const out = join(hub.dir, 'out')
+    mkdirSync(out, { recursive: true })
+    writeFileSync(join(out, 'index.html'), 'ok')
+    const slices = Array.from({ length: 40 }, (_, i) => ({ status: i < 12 ? 'done' : 'in_progress' }))
+    writeFileSync(join(out, 'status.json'), JSON.stringify({
+      title: 'Bookmarks Service',
+      updatedAt: new Date().toISOString(),
+      current: { id: 'auth-r', title: 'Add refresh tokens', phase: 'implementer' },
+      activity: { role: 'test-writer', target: 'auth-r' },
+      slices,
+    }))
+    register(hub.dir, 'myapp-bookmarks', { repo: '/Users/me/myapp', startedAt: new Date(Date.now() - 60 * 1000).toISOString() })
+    // a live pid but a heartbeat two hours old: stale, and the card says for how long it has been quiet
+    register(hub.dir, 'oldrun-spec', { repo: '/Users/me/oldrun', startedAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString() }, 2 * 3600)
+    const index = await get(hub.port, '/')
+    assert.equal(index.status, 200)
+    assert.match(index.body, /class="board"/, 'a summary band opens the page')
+    assert.match(index.body, /<b>1<\/b> live/)
+    assert.match(index.body, /<b>1<\/b> stale/)
+    assert.match(index.body, /class="chip">test-writer</, 'the phase the run is in, as a chip')
+    assert.match(index.body, /slice auth-r: Add refresh tokens/, 'what the run is on right now')
+    assert.match(index.body, /12\/40 slices done/, 'slice progress off status.json')
+    assert.match(index.body, /started 1 min ago/, 'relative, not an ISO timestamp')
+    assert.match(index.body, /class="run stale"/, 'the stale run keeps its hook class')
+    assert.match(index.body, /quiet 2 h/, 'stale says for how long')
+    const staleCard = index.body.split('class="run stale"')[1] || ''
+    assert.ok(!staleCard.includes('class="chip"'), '…but shows no phase chip once stale')
+    // a run whose heartbeat is fresh but whose pid just died: "quiet just now" reads wrong, so it stays "updated"
+    register(hub.dir, 'fresh-dead', { pid: 2147483647 })
+    const body = (await get(hub.port, '/')).body
+    const deadCard = body.split('<a href="/r/fresh-dead/">')[1] || ''
+    assert.match(deadCard, /updated just now/, 'a just-dead run does not say "quiet just now"')
   } finally { await hub.stop() }
 })
 
@@ -325,12 +365,12 @@ test('--publish registers the run and the hub serves its page at the fixed url',
     assert.equal(page.status, 200)
     assert.match(page.body, /SDLC_STATUS/)
     assert.equal((await get(run.port, `/r/${id}/live.js`)).status, 200)
-    assert.match((await get(run.port, '/')).body, new RegExp(`class="live"><a href="/r/${id}/"`), 'the index lists the run as live')
+    assert.match((await get(run.port, '/')).body, new RegExp(`class="run live"[^]*href="/r/${id}/"`), 'the index lists the run as live')
   } finally { await run.stop() }
   try {
     assert.equal(existsSync(run.urlFile), false, 'the url is withdrawn when the watcher stops')
     const index = await get(run.port, '/')
-    assert.match(index.body, /class="stale"/, 'the finished run greys but stays browsable')
+    assert.match(index.body, /class="run stale"/, 'the finished run greys but stays browsable')
   } finally { run.killHub() }
 })
 
@@ -462,7 +502,7 @@ test('two runs publish side by side through the one hub', { skip: !python && 'py
     assert.ok(await until(() => existsSync(bUrl), FIRST_BUILD_MS), 'the second run published')
     assert.notEqual(readFileSync(a.urlFile, 'utf8'), readFileSync(bUrl, 'utf8'), 'distinct run urls')
     const index = (await get(a.port, '/')).body
-    assert.equal((index.match(/class="live"/g) || []).length, 2, 'both runs on the one index')
+    assert.equal((index.match(/class="run live"/g) || []).length, 2, 'both runs on the one index')
   } finally {
     await a.stop()
     try { execFileSync('python3', [COLLECT, '--repo', bRepo, '--stop-watch'], { stdio: 'ignore', env }) } catch {}
