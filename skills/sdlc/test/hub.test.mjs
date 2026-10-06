@@ -44,7 +44,10 @@ async function runningHub() {
   const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
   const proc = spawn('python3', [HUB], { env: { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }, stdio: 'ignore' })
   const done = exited(proc)
-  assert.ok(await until(async () => (await get(port, '/health')).body === 'sdlc-hub', 5000), 'the hub came up')
+  const up = await until(async () => (await get(port, '/health')).body === 'sdlc-hub', 5000)
+  // a hub that never came up still holds the event loop open, so kill it before failing the test
+  if (!up) { proc.kill(); await done }
+  assert.ok(up, 'the hub came up')
   return { port, dir, stop: async () => { proc.kill(); await done } }
 }
 
