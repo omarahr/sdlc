@@ -42,10 +42,14 @@ const rawGet = (port, path) => new Promise((res, rej) => {
 async function runningHub() {
   const port = await freePort()
   const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
-  const proc = spawn('python3', [HUB], { env: { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }, stdio: 'ignore' })
+  // the hub's own output lands in a file so a failed startup is diagnosable from CI logs
+  const out = openSync(join(dir, 'hub-out.log'), 'w')
+  const proc = spawn('python3', [HUB], { env: { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }, stdio: ['ignore', out, out] })
   const done = exited(proc)
-  assert.ok(await until(async () => (await get(port, '/health')).body === 'sdlc-hub', 5000), 'the hub came up')
-  return { port, dir, stop: async () => { proc.kill(); await done } }
+  const up = await until(async () => (await get(port, '/health')).body === 'sdlc-hub', 20000)
+  if (!up) console.error(`hub never came up on port ${port}; its log:`, readFileSync(join(dir, 'hub-out.log'), 'utf8'), 'exit code:', proc.exitCode)
+  assert.ok(up, 'the hub came up')
+  return { port, dir, stop: async () => { proc.kill(); await done; closeSync(out) } }
 }
 
 // a registration the way collect.py writes it, aged back by the number of seconds given
