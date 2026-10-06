@@ -13,6 +13,7 @@ import json
 import mimetypes
 import os
 import re
+import socketserver
 import sys
 import time
 import urllib.parse
@@ -182,10 +183,18 @@ class Handler(BaseHTTPRequestHandler):
         self.send_body(200, body, mimetypes.guess_type(target)[0] or "application/octet-stream")
 
 
+class HubServer(ThreadingHTTPServer):
+    def server_bind(self):
+        # HTTPServer.server_bind resolves getfqdn(host), a reverse DNS lookup that can stall for
+        # minutes (GitHub's macOS runners); the hub only ever binds 127.0.0.1 and never uses the name
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
+
+
 def main():
     os.makedirs(runs_dir(), exist_ok=True)
     try:
-        httpd = ThreadingHTTPServer(("127.0.0.1", hub_port()), Handler)
+        httpd = HubServer(("127.0.0.1", hub_port()), Handler)
     except OSError:
         # two runs raced to spawn the hub; the winner is already serving
         raise SystemExit(f"port {hub_port()} is already taken; the other hub serves the runs")
