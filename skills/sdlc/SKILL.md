@@ -80,15 +80,15 @@ python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.json
 
 It writes `.sdlc/tracker/index.html` and `status.json` (gitignored). With a journal, the page leads with the run: its elapsed time, the agents going now, and a rail of every phase sized by the agent time spent in it. The full agent list is under "Agents in this run". Without a journal the numbers lead instead.
 
-**While a run is active,** keep the page live with a watcher that also serves it over http, so the user opens a url rather than a file. `--serve` implies `--watch 60`; run it detached so it does not block you and does not notify you when it exits:
+**While a run is active,** keep the page live with a watcher that also publishes it through the machine's sdlc hub, so the user opens a url rather than a file. `--publish` implies `--watch 60`; run it detached so it does not block you and does not notify you when it exits:
 
 ```
-nohup python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl>" --run-label "Run <n>" --serve >/dev/null 2>&1 &
+nohup python3 "<SKILL_DIR>/tracker/collect.py" --repo "$REPO" --journal "<journal.jsonl>" --run-label "Run <n>" --publish >/dev/null 2>&1 &
 ```
 
-It serves on port 8787, or the next free port up if that one is busy, and writes the url it took to `.sdlc/tracker/url` once there is a page behind it. Read that file and give the user the url. To reach it from another machine, pass `--host 0.0.0.0`; the page carries this repo's spec and decisions, so only do that when the user asks.
+The hub is one fixed address on the machine — `http://localhost:8787` — shared by every project: its index lists all running (and recently finished) workflows, and each run's page lives at `http://localhost:8787/r/<run-id>/`. The watcher spawns the hub if it is absent, registers the run, and writes the run's url to `.sdlc/tracker/url` once there is a page behind it. Read that file and give the user the url, along with the index url. If 8787 is held by something that is not the hub, the watcher says so and builds the page without serving it — it never moves to another port.
 
-Start the watcher after every launch and on every heartbeat. A new watcher replaces the old one, and a watcher exits by itself once the run folder has been quiet for 45 minutes, taking its url with it. **Whenever the loop ends** (the same cases as for deleting the driver file), run the command once with `--stop-watch` instead of `--serve`: it stops the watcher, withdraws the url, and builds the final page.
+Start the watcher after every launch and on every heartbeat. A new watcher replaces the old one, and a watcher exits by itself once the run folder has been quiet for 45 minutes, taking its url with it; its entry on the hub's index greys and is pruned a day later. **Whenever the loop ends** (the same cases as for deleting the driver file), run the command once with `--stop-watch` instead of `--publish`: it stops the watcher, withdraws the url, and builds the final page.
 
 The watcher rebuilds the whole page every minute, and the page reloads itself every minute. In between, it rewrites `.sdlc/tracker/live.js` (the workflow view alone) within a second of a poke, and every 5 s without one. The open page reads that file every 2 s and redraws only its workflow card. The plugin's hook (`hooks/hooks.json`) pokes the watcher by touching `.sdlc/tracker/poke` when an agent starts or stops, and only while `watch.pid` exists, so you never run it yourself. To share the page, give the user the url, or point them at the file. A tracker failure never stops the loop: report it once and carry on.
 

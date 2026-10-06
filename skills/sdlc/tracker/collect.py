@@ -3,30 +3,32 @@
 
 Usage:
   collect.py [--repo DIR] [--out DIR] [--journal FILE] [--run-label TEXT] [--run-cap N]
-             [--watch SECONDS] [--serve [PORT]] [--host ADDR]
+             [--watch SECONDS] [--publish]
 
 Writes <out>/status.json, <out>/index.html, <out>/live.js and the verifier test reports under
 <out>/reports/ (default out: <repo>/.sdlc/tracker).
 Open index.html in a browser; it reloads itself every minute, and redraws its workflow card from
 live.js every 2 s. With --watch SECONDS it rebuilds the page at that interval until the run goes
 quiet, and rebuilds live.js within a second of a hook's poke (.sdlc/tracker/poke), or every 5 s
-without one. With --serve it also serves the page over http, writes the url to <out>/url, and
-takes the next free port if that one is busy. Python 3 standard library only.
+without one. With --publish it announces the run to the machine's sdlc hub (hub.py, on 127.0.0.1:8787),
+which serves the page at a fixed url written to <out>/url once there is a page behind it.
+Python 3 standard library only.
 """
 import argparse
-import functools
-import http.server
+import hashlib
 import json
 import os
 import re
 import subprocess
 import sys
-import threading
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed plugin
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import hub  # noqa: E402
 import reports  # noqa: E402
 import workflow  # noqa: E402
 
@@ -50,6 +52,90 @@ def read_json(path, default):
             return json.load(f)
     except (OSError, ValueError):
         return default
+
+
+def spec_slug(repo):
+    """The run id's second half, from the spec path recorded at pre-flight."""
+    cfg = read_json(os.path.join(repo, ".sdlc", "config.json"), {}) or {}
+    base = os.path.splitext(os.path.basename(cfg.get("specPath") or "run"))[0]
+    slug = re.sub(r"[^a-z0-9]+", "-", base.lower()).strip("-")
+    return slug or "run"
+
+
+def run_id(repo):
+    """<repo dir>-<spec slug>, stable across restarts; a same-named repo elsewhere gets a hash suffix."""
+    # the repo dir is slugged like the spec path, so the id always passes the hub's ID_CHARS gate
+    base = re.sub(r"[^a-z0-9]+", "-", os.path.basename(repo).lower()).strip("-") or "repo"
+    rid = f"{base}-{spec_slug(repo)}"
+    other = read_json(os.path.join(hub.runs_dir(), rid + ".json"), None)
+    if other and other.get("repo") != repo:
+        rid = f"{rid}-{hashlib.sha1(repo.encode()).hexdigest()[:6]}"
+    return rid
+
+
+def register(repo, out, rid):
+    """Announce this run to the hub; rewriting the file refreshes the heartbeat that is its mtime.
+    True when the registration landed, False when it failed (the page is still built either way)."""
+    try:
+        os.makedirs(hub.runs_dir(), exist_ok=True)
+        tmp = os.path.join(hub.runs_dir(), f".{rid}.{os.getpid()}.tmp")
+        with open(tmp, "w") as f:
+            json.dump({"id": rid, "repo": repo, "out": out, "pid": os.getpid(),
+                       "startedAt": datetime.now(timezone.utc).isoformat(timespec="seconds")}, f)
+        # the rename means the hub never reads half a registration
+        os.replace(tmp, os.path.join(hub.runs_dir(), rid + ".json"))
+        return True
+    except OSError as e:
+        print(f"hub registration failed (the page is still built): {e}", file=sys.stderr)
+        return False
+
+
+def heartbeat(rid):
+    try:
+        os.utime(os.path.join(hub.runs_dir(), rid + ".json"))
+    except OSError:
+        pass
+
+
+def hub_answers():
+    """True for our hub, "foreign" for another server, False for nothing listening."""
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{hub.hub_port()}/health", timeout=1) as res:
+            # a 200 with the wrong body is a foreign server, same as any other non-marker answer
+            return True if res.read() == hub.HEALTH_BODY else "foreign"
+    except urllib.error.HTTPError:
+        return "foreign"  # a server answered, but it is not ours
+    except (urllib.error.URLError, OSError):
+        return False
+
+
+def ensure_hub():
+    """Reuse the hub on the fixed port, spawn it if absent, and refuse a foreign one."""
+    state = hub_answers()
+    if state is True:
+        return True
+    if state == "foreign":
+        print(f"port {hub.hub_port()} is taken by something that is not the sdlc hub "
+              f"(find it with: lsof -i :{hub.hub_port()}); the page is built but not served", file=sys.stderr)
+        return False
+    # a hub dir that cannot be created or written never stops the watcher: warn and stay unpublished
+    log = None
+    try:
+        os.makedirs(hub.hub_dir(), exist_ok=True)
+        log = open(os.path.join(hub.hub_dir(), "hub.log"), "ab")
+        subprocess.Popen([sys.executable, os.path.join(HERE, "hub.py")],
+                         stdout=log, stderr=log, stdin=subprocess.DEVNULL, start_new_session=True)
+    except OSError as e:
+        if log is not None:
+            log.close()
+        print(f"the sdlc hub could not be started ({e}); the page is built but not served", file=sys.stderr)
+        return False
+    for _ in range(20):
+        if hub_answers() is True:
+            return True
+        time.sleep(0.1)
+    print("the sdlc hub did not come up; the page is built but not served", file=sys.stderr)
+    return False
 
 
 def read_log(sdlc):
@@ -235,33 +321,6 @@ def mtime(path):
         return 0
 
 
-class QuietHandler(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, *args):
-        pass  # the watcher's own output is the log; a request line per browser poll is noise
-
-
-def serve(out_dir, host, port, tries=20):
-    """Serve the tracker over http so it opens at a url rather than a file path.
-
-    A port already in use is not an error: the next free one is taken, so a second
-    tracker never refuses to start. Returns the server and the url to publish; the
-    caller publishes it only once there is a page to open.
-    """
-    handler = functools.partial(QuietHandler, directory=out_dir)
-    httpd = None
-    for candidate in range(port, port + tries):
-        try:
-            httpd = http.server.ThreadingHTTPServer((host, candidate), handler)
-            break
-        except OSError:
-            continue
-    if httpd is None:
-        raise SystemExit(f"no free port in {port}-{port + tries - 1}")
-    threading.Thread(target=httpd.serve_forever, daemon=True).start()
-    shown = "localhost" if host in ("127.0.0.1", "localhost", "::1") else host
-    return httpd, f"http://{shown}:{httpd.server_address[1]}/\n"
-
-
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--repo", default=".")
@@ -271,8 +330,7 @@ def main():
     # the workflow's agent allowance, which sdlc-loop.js resets at every milestone — not a whole-run bound
     ap.add_argument("--run-cap", type=int, default=850, metavar="N", help="the agent cap sdlc-loop.js compares against; an allowance per milestone, not a limit on the run")
     ap.add_argument("--watch", type=int, default=0, metavar="SECONDS", help="keep rebuilding at this interval until the run folder goes quiet or a newer watcher starts")
-    ap.add_argument("--serve", nargs="?", type=int, const=8787, metavar="PORT", help="serve the tracker over http (implies --watch); takes the next free port if this one is busy")
-    ap.add_argument("--host", default="127.0.0.1", help="address --serve binds; 0.0.0.0 puts the tracker on the network, where anyone can read this repo's spec and decisions")
+    ap.add_argument("--publish", action="store_true", help="publish the page through the machine's sdlc hub (implies --watch); the hub serves it at a fixed url on 127.0.0.1:8787")
     ap.add_argument("--stop-watch", action="store_true", help="stop a running watcher (the loop has ended), then build once")
     ap.add_argument("--data", help="render this status.json instead of reading .sdlc/ (for examples)")
     a = ap.parse_args()
@@ -294,7 +352,7 @@ def main():
     poke = os.path.join(out, "poke")
     full_at = live_at = 0
     poked = mtime(poke)
-    if a.serve is not None:
+    if a.publish:
         # a url only means something if the page keeps rebuilding behind it
         a.watch = a.watch or 60
     if a.watch:
@@ -303,7 +361,8 @@ def main():
         with open(pid_file, "w") as f:
             f.write(me)
     url_file = os.path.join(out, "url")
-    server, url = serve(out, a.host, a.serve) if a.serve is not None else (None, None)
+    published = ensure_hub() if a.publish else False
+    rid = run_id(repo) if published else None
     try:
         while True:
             now = time.time()
@@ -342,11 +401,17 @@ def main():
                         workflow.mark_ended(data["workflow"]["run"])
                     page = render(data, out)
                     write_live(out, data.get("workflow"))
-                    if url:
-                        # published only now, so a url that exists always has a page behind it
-                        with open(url_file, "w") as f:
-                            f.write(url)
-                        url = None
+                    if a.publish and (not published or hub_answers() is not True):
+                        # unpublished yet (a squatter was here at startup), or the hub died
+                        # mid-run: respawn it (or report the squatter) at the minute tick
+                        published = ensure_hub()
+                        rid = run_id(repo) if published else None
+                    if published:
+                        # registered only now, so a url that exists always has a page behind it;
+                        # rewriting the file is also the heartbeat, so this runs on every build
+                        if register(repo, out, rid):
+                            with open(url_file, "w") as f:
+                                f.write(f"http://127.0.0.1:{hub.hub_port()}/r/{rid}/\n")
                     if not a.watch:
                         print(page)
                         return
@@ -361,6 +426,8 @@ def main():
                 live_at, poked = now, mtime(poke)
                 try:
                     write_live(out, workflow.build(a.journal, SCRIPT, cache))
+                    if published:
+                        heartbeat(rid)
                 except Exception as e:  # leave the last live.js; the page shows "paused" if this keeps failing
                     print(f"live view not rebuilt: {e}", file=sys.stderr)
             time.sleep(TICK_SECONDS)
@@ -372,8 +439,6 @@ def main():
                 return
     finally:
         # the url is withdrawn with the watcher, so a stale one is never left to be opened
-        if server:
-            server.shutdown()
         try:
             os.remove(url_file)
         except OSError:

@@ -119,7 +119,7 @@ Live progress shows in `/workflows`.
 
 ## Track progress in the browser
 
-`/sdlc` serves a progress tracker on `http://localhost:8787` and prints the url. Open it and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The hook fires for the loop's workflow agents, so the card follows each agent within a couple of seconds. The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` rebuilds it on demand. One screen answers the three questions that matter:
+`/sdlc` publishes its progress tracker to the sdlc hub on `http://localhost:8787` — one fixed address per machine, whose index lists every project's run — and prints the run's url. Open it and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The hook fires for the loop's workflow agents, so the card follows each agent within a couple of seconds. The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` rebuilds it on demand. One screen answers the three questions that matter:
 
 - **is it working** — the run's elapsed time, the agents going right now, and a rail of all fifteen phases sized by the agent time spent in each. The phase running pulses; phases not yet reached are greyed;
 - **how far along** — slices and requirements done, milestones verified, and a sparkline of the pace;
@@ -133,12 +133,12 @@ The workflow view is read from Claude Code's own run files, whose format is not 
 
 See the [live example page](https://htmlpreview.github.io/?https://github.com/omarahr/sdlc/blob/main/docs/example-tracker.html) (made-up data, source in [`docs/example-tracker.html`](docs/example-tracker.html)).
 
-To serve it outside Claude Code, from a clone of this repo:
+To publish it outside Claude Code, from a clone of this repo:
 ```
-python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project --serve
+python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project --publish
 ```
 
-It binds `127.0.0.1` only. Pass `--host 0.0.0.0` to reach it from another machine on your network; the page carries this repo's spec and decisions, so do that only when you mean it. If 8787 is busy it takes the next free port and writes the url it used to `.sdlc/tracker/url`. Drop `--serve` to build the file without serving it.
+The hub binds `127.0.0.1` only — the page carries this repo's spec and decisions, so it stays on the machine. Every run on the machine is listed at `http://localhost:8787`; this run's page is at the url written to `.sdlc/tracker/url` once there is a page behind it. If 8787 is held by something that is not the hub, the run says so and builds the page without serving it. Drop `--publish` to build the file without serving it.
 It also has a **Test reports** section linking to `.sdlc/tracker/reports/`, with one page per slice. When a slice merges (or is parked), a **test-reporter** writes its test completion report, `.sdlc/slices/<id>/REPORT.md`. It contains:
 - a summary;
 - traceability from each spec line to the cases that prove it;
