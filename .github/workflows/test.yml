@@ -14,6 +14,9 @@ jobs:
   test:
     # the plugin drives git, python and local builds, so the suite runs against both platforms it supports
     runs-on: ${{ matrix.os }}
+    # a wedged run must fail fast and free the runner: the suite takes about a minute, and the default
+    # 6 h timeout let one hang squat the account's macOS slots for hours (2026-10-06)
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
