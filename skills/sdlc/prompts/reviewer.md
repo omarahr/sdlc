@@ -26,4 +26,6 @@ Inputs: `sliceId`, `lens`, `round`.
 
 Style and nits are `blocking: false`. Prose that breaks the STE writing rules (long chained sentences, passive voice, synonyms drifting for one thing) in the slice's artifacts — tests.md, DECISIONS.md entries, commit messages, the review's own report — is `blocking: false`: a seed, never a fix round.
 
-Return `{findings: [{title, detail, file, blocking}]}`. `detail` states the concrete problem and the fix. Return `[]` when clean.
+The slice may be rated `low`-risk in slices.json and so skip the verification battery. When the code you are reading is riskier than that rating — it crosses an I/O boundary, touches boot, auth, concurrency or data mutation, or a mistake in it would be loud — set `needsVerify: true` and add a non-blocking finding saying why. That is the correction for a mis-rated slice: the full verification battery runs on it from this round. Use it sparingly — not as a way to ask for more testing of a well-rated slice.
+
+Return `{findings: [{title, detail, file, blocking}], needsVerify}`. `detail` states the concrete problem and the fix. Return an empty `findings` array when clean; `needsVerify` defaults to false.

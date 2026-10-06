@@ -223,6 +223,17 @@ test('a gitMode this script does not know is an error, not a mode it falls throu
   }
 })
 
+test('slim_slice passes a slice\'s risk through to the loop, and old slices stay unrated', opts, () => {
+  const low = fixture({ 'slices.json': [slice('S-1', 'todo', { risk: 'low', riskReason: 'pure deletion' })] })
+  const n1 = next(low)
+  assert.equal(n1.action, 'slice')
+  assert.equal(n1.slice.risk, 'low', 'the loop routes on this')
+  const old = fixture({ 'slices.json': [slice('S-1', 'todo')] })
+  const n2 = next(old)
+  assert.equal(n2.action, 'slice')
+  assert.equal('risk' in n2.slice, false, 'no risk key at all: an unrated slice is explicit')
+})
+
 test('a state file that is not valid JSON is an error; a wrapped slices list is read', opts, () => {
   const e = next(fixture({ 'slices.json': '<<<<<<< HEAD\n[]' }))
   assert.equal(e.action, 'error')

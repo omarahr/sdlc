@@ -205,7 +205,7 @@ test('parkedRetry unparks then runs the slice from plan with reset counters', as
   assert.equal(rt.calls[1].inputs.op, 'unpark')
   assert.equal(rt.calls[2].role, 'planner')
   const patch = rt.calls.find(c => c.role === 'state-writer' && c.inputs.op === 'patch-slice').inputs.patch
-  assert.deepEqual(patch.counters, { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 1 })
+  assert.deepEqual(patch.counters, { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 1, verifyDemanded: false })
 })
 
 test('retryMerge calls the integrator in retry-merge mode', async () => {
@@ -215,6 +215,69 @@ test('retryMerge calls the integrator in retry-merge mode', async () => {
   }))
   assert.equal(rt.calls[1].inputs.mode, 'retry-merge')
   assert.match(rt.result.iterations[0].outcome, /S-1 merged #12/)
+})
+
+test('a low-risk slice skips the verify battery and ships on a clean review', async () => {
+  const rt = await runMain(happy({
+    'state-reader': [sliceNext('plan', { risk: 'low' }), { action: 'stop', reason: 'test end' }],
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.roles().some(r => r.startsWith('verify-')), false, 'no planner, profiles or collector')
+  assert.equal(rt.roles().includes('verifier'), false, 'no spec-fidelity or regression lens')
+  assert.equal(rt.calls.filter(c => c.role === 'reviewer').length, 3, 'the three review lenses still run')
+  assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.sliceId, 'S-1', 'a clean review ships it')
+})
+
+test('a low-risk slice resumed at implement still skips the battery', async () => {
+  const rt = await runMain(happy({
+    'state-reader': [sliceNext('implement', { risk: 'low' }), { action: 'stop', reason: 'test end' }],
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.roles().some(r => r === 'verifier' || r.startsWith('verify-')), false)
+  assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.sliceId, 'S-1')
+})
+
+test('a reviewer demanding verification turns the battery on for the same round', async () => {
+  const rt = await runMain(happy({
+    'state-reader': [sliceNext('plan', { risk: 'low' }), { action: 'stop', reason: 'test end' }],
+    reviewer: () => ({ findings: [], needsVerify: true }),
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.deepEqual(rt.roles().filter(r => r.startsWith('verify-')), ['verify-planner', 'verify-http-api', 'verify-security', 'verify-collector'])
+  assert.deepEqual(rt.calls.filter(c => c.role === 'verifier').map(c => c.inputs.lens).sort(), ['regression', 'spec-fidelity'])
+  assert.equal(rt.calls.filter(c => c.role === 'reviewer').length, 3, 'the demanding review is reused, not re-run')
+  const patches = rt.calls.filter(c => c.role === 'state-writer').map(c => c.inputs.patch)
+  assert.ok(patches.some(p => p.counters && p.counters.verifyDemanded === true), 'the demand is persisted with the counters')
+  assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.sliceId, 'S-1', 'a clear battery still ships the slice')
+})
+
+test('a demanding review with blocking findings fixes first; the battery judges the fix', async () => {
+  let n = 0
+  const rt = await runMain(happy({
+    'state-reader': [sliceNext('plan', { risk: 'low' }), { action: 'stop', reason: 'test end' }],
+    reviewer: () => (n++ === 0
+      ? { findings: [{ title: 'boundary bug', detail: 'crosses I/O', blocking: true }], needsVerify: true }
+      : { findings: [] }),
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.roles().filter(r => r === 'verify-planner').length, 1, 'the battery ran once')
+  assert.equal(rt.calls.find(c => c.role === 'verify-planner').inputs.round, 1, 'on the round after the fix, not before it')
+  assert.deepEqual(rt.calls.filter(c => c.role === 'implementer').map(c => c.inputs.fixRound), [0, 1])
+  assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.sliceId, 'S-1')
+})
+
+test('a demanded battery that refutes sends the slice into a fix round with the verify evidence', async () => {
+  const rt = await runMain(happy({
+    'state-reader': [sliceNext('plan', { risk: 'low' }), { action: 'stop', reason: 'test end' }],
+    reviewer: (c, calls) => (calls.filter(x => x.role === 'reviewer').length <= 3 ? { findings: [], needsVerify: true } : { findings: [] }),
+    // refute only in the round the demand created; the fix round must verify clean
+    'verify-http-api': (c) => (c.inputs.round === 0 ? { refuted: true, evidence: 'GET /x 500s' } : clear()),
+  }))
+  assert.deepEqual(rt.errors, [])
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 2, 'the refutation cost a fix round')
+  assert.ok(impls[1].inputs.evidence.some(e => /GET \/x 500s/.test(e)), 'the implementer gets the verify evidence')
+  assert.equal(rt.calls.find(c => c.role === 'integrator').inputs.sliceId, 'S-1', 'the second round verifies clean and ships')
 })
 
 test('no-progress guard force-parks a slice after three identical outcomes', async () => {

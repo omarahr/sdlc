@@ -67,8 +67,8 @@ test('tallyAudit treats a failed auditor as refuting every id in its chunk', () 
 })
 
 test('normalizeCounters fills missing counters with zero and keeps given ones', () => {
-  assert.deepEqual(I.normalizeCounters({ fixRounds: 2 }), { planRevisions: 0, fixRounds: 2, ladderStep: 0, parkCycles: 0 })
-  assert.deepEqual(I.normalizeCounters(undefined), { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0 })
+  assert.deepEqual(I.normalizeCounters({ fixRounds: 2 }), { planRevisions: 0, fixRounds: 2, ladderStep: 0, parkCycles: 0, verifyDemanded: false })
+  assert.deepEqual(I.normalizeCounters(undefined), { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false })
 })
 
 test('chunk splits into fixed-size groups', () => {
