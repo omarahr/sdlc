@@ -38,3 +38,8 @@ jobs:
       # no dependencies and no lockfile, so there is nothing to install
       - name: Test
         run: npm test
+      # debug: if the plain run hangs, this variant names whether tests finished (force-exit) or a test never settles
+      - name: Test with force-exit
+        if: always()
+        run: node --test --test-force-exit skills/sdlc/test/*.test.mjs
+        timeout-minutes: 6
