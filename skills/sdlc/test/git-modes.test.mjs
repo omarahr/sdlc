@@ -1,10 +1,9 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
+import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { SKILL_DIR, loadInternals } from './harness.mjs'
+import { SKILL_DIR, loadInternals, scratch } from './harness.mjs'
 
 const MODES_PATH = join(SKILL_DIR, 'git-modes.json')
 // the two scripts that decide whether a gitMode is legal, and must both read the same file
@@ -47,7 +46,7 @@ test('the workflow script mode list is the one in git-modes.json', async () => {
 
 test('each python script resolves its modes from the file beside it, not from a literal', opts, () => {
   for (const { name, path } of SCRIPTS) {
-    const dir = mkdtempSync(join(tmpdir(), 'sdlc-modes-'))
+    const dir = scratch('sdlc-modes-')
     const copy = join(dir, name)
     copyFileSync(path, copy)
     // a list nothing in the repo uses: a script still resolving the shipped four is reading a literal
@@ -67,7 +66,7 @@ test('a missing or malformed git-modes.json stops the scripts instead of falling
   ]
   for (const [label, contents] of bad) {
     for (const { name, path } of SCRIPTS) {
-      const dir = mkdtempSync(join(tmpdir(), 'sdlc-modes-'))
+      const dir = scratch('sdlc-modes-')
       const copy = join(dir, name)
       copyFileSync(path, copy)
       if (contents !== null) writeFileSync(join(dir, 'git-modes.json'), contents)

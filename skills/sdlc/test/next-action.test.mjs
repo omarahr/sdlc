@@ -2,10 +2,9 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { SKILL_DIR } from './harness.mjs'
+import { SKILL_DIR, scratch } from './harness.mjs'
 
 const SCRIPT = join(SKILL_DIR, 'next-action.py')
 // the modes the script accepts, from the one file that names them, so this test cannot assert a list
@@ -23,7 +22,7 @@ const req = (id, status = 'done', extra = {}) => ({ id, status, flags: [], ...ex
 
 // files: name → value under .sdlc/ (objects are written as JSON, null skips the file)
 function fixture(files = {}, { gitMode = 'direct', config = {} } = {}) {
-  const repo = mkdtempSync(join(tmpdir(), 'sdlc-next-'))
+  const repo = scratch('sdlc-next-')
   const s = join(repo, '.sdlc')
   mkdirSync(s)
   writeFileSync(join(repo, 'spec.md'), SPEC)

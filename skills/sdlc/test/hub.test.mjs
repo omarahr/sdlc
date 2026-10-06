@@ -1,12 +1,11 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync, existsSync, utimesSync } from 'node:fs'
+import { mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync, utimesSync } from 'node:fs'
 import { createServer, createConnection } from 'node:net'
 import { createServer as httpServer } from 'node:http'
-import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { SKILL_DIR } from './harness.mjs'
+import { SKILL_DIR, scratch } from './harness.mjs'
 
 const HUB = join(SKILL_DIR, 'tracker', 'hub.py')
 let python = true
@@ -41,7 +40,7 @@ const rawGet = (port, path) => new Promise((res, rej) => {
 
 async function runningHub() {
   const port = await freePort()
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const dir = scratch('sdlc-hub-')
   const proc = spawn('python3', [HUB], { env: { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }, stdio: 'ignore' })
   const done = exited(proc)
   const up = await until(async () => (await get(port, '/health')).body === 'sdlc-hub', 5000)
@@ -193,8 +192,8 @@ import collect
 }
 
 test('run_id slugs the repo dir and the spec path, and a same-named repo elsewhere gets a hash suffix', { skip: !python && 'python3 not installed' }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
-  const base = mkdtempSync(join(tmpdir(), 'sdlc-hub-repos-'))
+  const dir = scratch('sdlc-hub-reg-')
+  const base = scratch('sdlc-hub-repos-')
   const repoA = join(base, 'one', 'myapp')
   const repoB = join(base, 'two', 'myapp')
   for (const r of [repoA, repoB]) {
@@ -213,8 +212,8 @@ print(collect.run_id(${JSON.stringify(repoB)}))
 })
 
 test('run_id slugs a repo dir whose name is outside the hub id alphabet', { skip: !python && 'python3 not installed' }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
-  const repo = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-repos-')), 'my app')
+  const dir = scratch('sdlc-hub-reg-')
+  const repo = join(scratch('sdlc-hub-repos-'), 'my app')
   mkdirSync(join(repo, '.sdlc'), { recursive: true })
   writeFileSync(join(repo, '.sdlc', 'config.json'), JSON.stringify({ specPath: 'spec.md' }))
   const r = collectPy(dir, `print(collect.run_id(${JSON.stringify(repo)}))`)
@@ -223,7 +222,7 @@ test('run_id slugs a repo dir whose name is outside the hub id alphabet', { skip
 })
 
 test('register writes the registration atomically, and heartbeat refreshes its mtime', { skip: !python && 'python3 not installed' }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-reg-'))
+  const dir = scratch('sdlc-hub-reg-')
   const r = collectPy(dir, `
 import json, os, time
 print(collect.register("/repo", "/out", "rid-1"))
@@ -245,7 +244,7 @@ print(sorted(os.listdir(os.path.join(${JSON.stringify(dir)}, "runs"))))
 })
 
 test('an unwritable registry warns and carries on, reporting failure', { skip: !python && 'python3 not installed' }, () => {
-  const bad = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-bad-')), 'a-file')
+  const bad = join(scratch('sdlc-hub-bad-'), 'a-file')
   writeFileSync(bad, 'not a directory')
   const r = collectPy(bad, `print(collect.register("/repo", "/out", "rid-1"))\nprint("survived")`)
   assert.equal(r.status, 0, r.stderr)
@@ -278,7 +277,7 @@ const FIRST_BUILD_MS = 45000
 
 // the smallest repo collect.py will build a page from (mirrors tracker.test.mjs's fixtureRepo)
 function fixtureRepo() {
-  const repo = mkdtempSync(join(tmpdir(), 'sdlc-hub-run-'))
+  const repo = scratch('sdlc-hub-run-')
   const s = join(repo, '.sdlc')
   mkdirSync(s)
   writeFileSync(join(repo, 'spec.md'), '# Bookmarks Service\n')
@@ -294,7 +293,7 @@ function fixtureRepo() {
 // a run publishing through a hub on a scratch port and registry; the hub itself is spawned by collect
 async function publishing() {
   const repo = fixtureRepo()
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const dir = scratch('sdlc-hub-')
   const port = await freePort()
   const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
   const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { stdio: 'ignore', env })
@@ -340,7 +339,7 @@ test('a foreign process on the hub port is an error, never a silent move to anot
   const foreign = httpServer((req, res) => { res.writeHead(404); res.end() })
   await new Promise(r => foreign.listen(port, '127.0.0.1', r))
   const repo = fixtureRepo()
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const dir = scratch('sdlc-hub-')
   const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
   let stderr = ''
   const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { env })
@@ -366,7 +365,7 @@ test('a foreign 200 with the wrong body is still a foreign server, never a doome
   const foreign = httpServer((req, res) => { res.writeHead(200, { 'Content-Type': 'text/plain' }); res.end('not the hub') })
   await new Promise(r => foreign.listen(port, '127.0.0.1', r))
   const repo = fixtureRepo()
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const dir = scratch('sdlc-hub-')
   const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
   let stderr = ''
   const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish'], { env })
@@ -390,7 +389,7 @@ test('a foreign 200 with the wrong body is still a foreign server, never a doome
 test('a hub dir blocked by a plain file warns, and the watcher carries on unpublished', { skip: !python && 'python3 not installed' }, async () => {
   const port = await freePort()
   const repo = fixtureRepo()
-  const dir = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-bad-')), 'a-file')
+  const dir = join(scratch('sdlc-hub-bad-'), 'a-file')
   writeFileSync(dir, 'not a directory')
   const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
   let stderr = ''
@@ -415,9 +414,9 @@ test('a watcher that started behind a squatter publishes once a real hub appears
   const squatter = httpServer((req, res) => { res.writeHead(404, { Connection: 'close' }); res.end() })
   await new Promise(r => squatter.listen(port, '127.0.0.1', r))
   const repo = fixtureRepo()
-  const dir = mkdtempSync(join(tmpdir(), 'sdlc-hub-'))
+  const dir = scratch('sdlc-hub-')
   // an explicit --watch 1 overrides the 60 s --publish implies; the journal keeps the watcher from idling out
-  const journal = join(mkdtempSync(join(tmpdir(), 'sdlc-hub-journal-')), 'journal.jsonl')
+  const journal = join(scratch('sdlc-hub-journal-'), 'journal.jsonl')
   writeFileSync(journal, '')
   const env = { ...process.env, SDLC_HUB_PORT: String(port), SDLC_HUB_DIR: dir }
   const proc = spawn('python3', [COLLECT, '--repo', repo, '--publish', '--watch', '1', '--journal', journal], { stdio: 'ignore', env })
