@@ -24,6 +24,17 @@ test('script avoids APIs the workflow runtime forbids', () => {
   assert.match(src, /^export const meta = \{/m)
 })
 
+test('the slicer rates each slice\'s verification risk, low only for harmless changes', () => {
+  const slicer = readFileSync(join(SKILL_DIR, 'prompts', 'slicer.md'), 'utf8')
+  assert.match(slicer, /`risk` is `low`, `medium` or `high`/)
+  assert.match(slicer, /riskReason/)
+  assert.match(slicer, /[Ww]hen in doubt, (rate )?`medium`/)
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  assert.match(schema, /"risk": ""/)
+  assert.match(schema, /"riskReason": ""/)
+  assert.match(schema, /no `risk`[\s\S]{0,200}full (verification )?battery|unrated[\s\S]{0,200}full (verification )?battery/i)
+})
+
 test('every prompt that branches on the git mode says what mr mode does', () => {
   for (const f of ['integrator', 'commit-state', 'milestone-writer', 'env-detector', 'state-schema', 'state-reader', 'e2e-harness', 'implementer']) {
     assert.match(readFileSync(join(SKILL_DIR, 'prompts', `${f}.md`), 'utf8'), /`mr`/, `${f}.md does not mention mr mode`)
