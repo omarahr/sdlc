@@ -278,6 +278,28 @@ test('every agent writes comment-free code in the target repo, and its prose in 
   assert.match(reviewer, /STE[\s\S]{0,240}blocking: false/, 'a prose slip is a seed, never a fix round')
 })
 
+test('the regression lens is slice-scoped during build rounds and full only at the gate', () => {
+  const v = readFileSync(join(SKILL_DIR, 'prompts', 'verifier.md'), 'utf8')
+  // the lens section only, so a mention elsewhere cannot satisfy the scope rules
+  const lens = v.slice(v.indexOf('- **Lens `regression`'), v.indexOf('## Report file'))
+  assert.ok(lens.length > 0, 'the regression lens section is missing')
+  assert.match(lens, /impact\.py/, 'the slice scope maps the diff with impact.py')
+  assert.match(lens, /scope from your inputs/)
+  assert.match(lens, /`slice` scope/)
+  assert.match(lens, /`full` scope/)
+  // every line that mentions the budget marks it full-scope-only: a slice-scoped run never pays it
+  const budgetLines = lens.split('\n').filter(l => /[Bb]udget/.test(l))
+  assert.ok(budgetLines.length > 0, 'the test-time budget rule is missing')
+  for (const l of budgetLines) assert.match(l, /full scope only/, `a budget rule outside the full-scope scope: ${l}`)
+  // the receipt and the classification are full-scope era rules the gate follows verbatim
+  assert.match(lens, /\*\*Receipt \(full scope only\)/)
+  assert.match(lens, /outcome: "infra"/)
+  assert.equal((lens.match(/Classify the run:/g) || []).length, 1, 'the outcome classification rule appears exactly once')
+  // profile verifier tests are no longer folded into the branch, so the known-failing carve-out is gone
+  assert.doesNotMatch(v, /Known failing verification tests/)
+  assert.match(v, /Return `\{refuted, evidence, failingTest, seeds, outcome\}`/)
+})
+
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
   const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
   assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')

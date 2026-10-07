@@ -202,6 +202,8 @@ Owned by the barraiser-writer; the integrator appends `seeds`; the escalator mar
 | `spike.md` | escalator |
 | `evidence.md` | integrator |
 
+- The verifier's `scope` input is `slice` during build rounds — the regression lens maps the diff with `impact.py` — and `full` at the gate, where the full battery and the suite receipt run.
+
 ## test-baseline.json
 Written by the regression verifier through `suite-receipt.py baseline-write`: the test command's wall time on the default branch, `{commit, code, seconds, at}`, for the test-time budget. It is only measured when no slice's receipt covers the default branch's code.
 
