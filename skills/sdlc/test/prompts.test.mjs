@@ -484,6 +484,38 @@ test('the state schema documents the verify economy the loop implements', () => 
   assert.doesNotMatch(schema, /slices\/<id>\/REPORT\.md/)
 })
 
+test('the driver ensures the run worktree before launching, and points the loop at it', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // pre-flight: the folder is git-ignored first, the worktree is created or reused, never reset
+  assert.match(skill, /git-ignored[\s\S]{0,200}\.claude\/worktrees\//, '.claude/worktrees/ is ignored before use')
+  assert.match(skill, /worktree add .*\.claude\/worktrees\/sdlc-run -b sdlc\/run-<n>/)
+  assert.match(skill, /\(count of `sdlc\/run-\*` branches\) \+ 1/, 'n comes from the existing run branches')
+  assert.match(skill, /merge --ff-only origin\/<defaultBranch>/, 'a relaunch reuses and fast-forwards the worktree')
+  assert.match(skill, /[Dd]irty[\s\S]{0,120}report and end[\s\S]{0,120}owner/, 'a dirty worktree is the owner\'s, never reset')
+  // the launch hands the loop the worktree as its repo, and the stop probe the owner's checkout
+  assert.match(skill, /repoRoot: "<worktree path>", mainRoot: REPO/)
+})
+
+test('the stop wording promises a pause, and the paused bullet keeps the worktree', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.match(skill, /the current agent finishes first, then the run pauses, and that `\/sdlc <spec>` resumes it/)
+  const paused = skill.split('\n').find(l => l.includes('**`paused`'))
+  assert.ok(paused, 'the paused bullet is missing')
+  assert.match(paused, /keep the worktree/)
+  assert.match(paused, /`\/sdlc <spec>` resumes/)
+  assert.match(paused, /ScheduleWakeup\(\{stop: true\}\)/)
+})
+
+test('the loop-end cleanup removes the worktree and the run branch, and reports a refusal', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  const whenever = skill.split('\n').find(l => l.includes('Whenever the loop ends'))
+  assert.ok(whenever, 'the whenever-the-loop-ends bullet is missing')
+  assert.match(whenever, /worktree remove .*\.claude\/worktrees\/sdlc-run/)
+  assert.match(whenever, /branch -D sdlc\/run-<n>/)
+  assert.match(whenever, /slice state is committed to `<defaultBranch>`/)
+  assert.match(whenever, /[Rr]efusal[\s\S]{0,120}unmerged[\s\S]{0,120}keep both, end/)
+})
+
 test('the schema pins the merge prune and the run request names the moved reports', () => {
   const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
   // the receipt's keep-in-place-and-copy rule: suite-receipt.py reads only the in-place path
