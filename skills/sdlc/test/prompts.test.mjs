@@ -733,3 +733,18 @@ test('the README documents the run worktree, the step-boundary pause and the STE
   assert.match(readme, /ste-check\.py/, 'the linter is missing')
   assert.match(readme, /prompts.{0,40}log lines.{0,60}tracker/, 'the STE scope (prompts, logs, tracker) is missing')
 })
+
+test('the README worktree claims hold for direct mode, the driver counters, and the STE scope', () => {
+  const readme = readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
+  // the checkout guarantee is qualified for direct mode, which commits to the branch you are on
+  assert.match(readme, /except in `direct` mode, where the run commits to the branch you are on/,
+    'the direct-mode exception to the checkout guarantee is missing')
+  // the run progress lives in the worktree, but the relaunch counters stay on the owner's checkout
+  assert.match(readme, /relaunch counters stay in your checkout/, 'the driver-counter exception is missing')
+  // the end-state list of the removal sentence matches the driver flowchart's (includes stopped)
+  assert.match(readme, /ends rather than pauses \(done, stopped, stuck, livelocked/,
+    'the end-state enumeration is missing stopped')
+  // the STE note covers the fixed text, not "every word"
+  assert.match(readme, /fixed text the agents read/, 'the STE note must scope to the fixed text')
+  assert.doesNotMatch(readme, /Every word the agents read/, 'the STE note must not claim every word')
+})

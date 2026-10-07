@@ -44,7 +44,7 @@ When a milestone's slices are done, a **behavior campaign** checks what the runn
 
 When every slice is done, a final audit checks the whole spec. Optional **bar-raiser** rounds then polish quality past what the spec asks for.
 
-All progress lives in `.sdlc/` in a run worktree of your repo (see [the run worktree](#the-run-worktree)), so a run can be paused, run into usage limits, or crash, and pick up where it left off.
+Run progress lives in `.sdlc/` in the run worktree (see [the run worktree](#the-run-worktree)), while the relaunch counters stay in your checkout, so a run can be paused, run into usage limits, or crash, and pick up where it left off.
 
 ## Install
 
@@ -117,9 +117,9 @@ In `stack` mode there are no `sdlc/state-*` pull requests: `.sdlc/` state commit
 
 ### The run worktree
 
-The loop never works in your checkout. A run works in a git worktree at `.claude/worktrees/sdlc-run`, on a branch named `sdlc/run-<n>`, and the run state (`.sdlc/`) lives there too — so `/sdlc status` reads the worktree's dashboard while a run exists. Your checkout only ever sees the branches and pull requests the run pushes.
+The loop never works in your checkout. A run works in a git worktree at `.claude/worktrees/sdlc-run`, on a branch named `sdlc/run-<n>`, and the run state (`.sdlc/`) lives there too — so `/sdlc status` reads the worktree's dashboard while a run exists. Your checkout only ever sees the branches and pull requests the run pushes — except in `direct` mode, where the run commits to the branch you are on.
 
-`/sdlc stop` pauses the run: it writes `.sdlc/STOP` in your checkout, the agent in flight finishes, and no new agent starts. Run `/sdlc <spec>` to resume from where it paused. A paused run keeps its worktree; when the run ends rather than pauses (done, stuck, livelocked, or a `--max-iterations` smoke run), the driver removes the worktree and deletes the run branch — safe, because by then every slice is committed to the branch the run builds on.
+`/sdlc stop` pauses the run: it writes `.sdlc/STOP` in your checkout, the agent in flight finishes, and no new agent starts. Run `/sdlc <spec>` to resume from where it paused. A paused run keeps its worktree; when the run ends rather than pauses (done, stopped, stuck, livelocked, or a `--max-iterations` smoke run), the driver removes the worktree and deletes the run branch — safe, because by then every slice is committed to the branch the run builds on.
 
 Live progress shows in `/workflows`.
 
@@ -386,7 +386,7 @@ skills/sdlc/
   fixtures/       # tiny specs for end-to-end checks
 ```
 
-Every word the agents read — the prompts in `prompts/`, the loop's log lines, and the labels the tracker renders — follows the ASD-STE100 simplified-English style rules (the rule set, not the licensed word list), and `ste-check.py` enforces them in the test suite. Docs like this README are ordinary English.
+The fixed text the agents read — the prompts in `prompts/`, the loop's log lines, the tracker's labels, `.sdlc/STATUS.md` and the reports the agents write — follows the ASD-STE100 simplified-English style rules (the rule set, not the licensed word list), and `ste-check.py` enforces them in the test suite. Docs like this README are ordinary English.
 
 Run the tests with `npm test` (Node 20+ and Python 3). CI runs the same suite on Linux and macOS, on Node 20 and 24.
 
