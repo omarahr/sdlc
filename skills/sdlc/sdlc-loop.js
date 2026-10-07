@@ -270,6 +270,9 @@ async function run(role, vars, opts = {}) {
     `Read ${SKILL_DIR}/prompts/_common.md, then ${SKILL_DIR}/prompts/${role}.md, and follow them exactly.`,
     `Prompts directory: ${SKILL_DIR}/prompts (every prompt file named in these instructions is there).`,
     `Target repo: ${REPO}`,
+    // the agent-carried stop probe (2026-10-07 run-runtime spec, Section 2, check point 2): a workflow
+    // script cannot read the filesystem, so every agent carries the check and the loop reads the flag
+    `Stop check: before you start work, check whether ${A.mainRoot || A.repoRoot || '.'}/.sdlc/STOP exists. If it exists, do nothing and return your normal result shape with stopRequested: true.`,
     'Inputs (JSON):',
     JSON.stringify(vars || {}, null, 2),
   ].join('\n')

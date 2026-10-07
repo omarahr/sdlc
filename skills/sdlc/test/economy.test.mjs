@@ -411,6 +411,15 @@ test('a stopRequested state-reader pauses instead of stalling into the relaunch 
   assert.deepEqual(rt.result.iterations, [])
 })
 
+test('every dispatched prompt carries the stop check, resolved at the main root', async () => {
+  const rt = await runMain(happy(), { mainRoot: '/owner/checkout' })
+  assert.ok(rt.calls.length > 1, 'the run dispatched nothing')
+  for (const c of rt.calls) {
+    assert.match(c.prompt, /\/owner\/checkout\/\.sdlc\/STOP/, `${c.role} prompt lacks the stop-file path`)
+    assert.match(c.prompt, /stopRequested: true/, `${c.role} prompt lacks the no-op answer`)
+  }
+})
+
 // ---------- lifecycle: the whole slice, plan through integrate ----------
 
 test('lifecycle: a profile refutation promotes into the fix round, the gate commits, the integrator merges', async () => {

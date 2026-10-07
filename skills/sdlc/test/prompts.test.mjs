@@ -565,6 +565,20 @@ test('the state-reader passes the main root to the stop probe', () => {
   assert.match(reader, /--main-root "<mainRoot>"/)
 })
 
+test('every agent is told to check the stop file before it starts and to no-op into stopRequested', () => {
+  // the agent-carried stop probe (2026-10-07 run-runtime spec, Section 2): a workflow script cannot read
+  // the filesystem, so run()'s preamble and _common.md carry the check, and the loop reads the flag back
+  const src = scriptSource()
+  const runFn = src.slice(src.indexOf('async function run('), src.indexOf('function reviewOpts('))
+  assert.ok(runFn.length > 0, 'the run() preamble block is missing')
+  assert.match(runFn, /\.sdlc\/STOP/, 'the preamble never names the stop file')
+  assert.match(runFn, /stopRequested: true/, 'the preamble never names the no-op answer')
+  assert.match(runFn, /mainRoot/, 'the preamble must resolve the stop file at the main root, not the worktree')
+  const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
+  assert.match(common, /Before you start work, check whether that file is there/)
+  assert.match(common, /Return your normal result shape with `stopRequested: true`/)
+})
+
 test('the state schema documents the verify economy the loop implements', () => {
   const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
   // the slice lifecycle runs through the gate: the phase enum names all five in order
