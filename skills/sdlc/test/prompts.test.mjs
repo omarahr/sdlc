@@ -126,7 +126,7 @@ test('the env-detector resolves stack from the input or an existing config, and 
   assert.match(env, /the `gitMode` input;[\s\S]{0,200}an existing `config\.gitMode`[\s\S]{0,200}otherwise detect one/)
   assert.match(env, /`stack` is never detected/)
   // symbolic-ref without --short prints refs/remotes/origin/main; every later consumer wants main
-  assert.match(env, /`defaultBranch`: from `git symbolic-ref --short refs\/remotes\/origin\/HEAD`/)
+  assert.match(env, /`defaultBranch`: the `defaultBranch` input when it is non-empty/)
   assert.match(env, /always a bare branch name/)
 })
 
@@ -155,6 +155,17 @@ test('the default-branch state commit runs from the worktree and pushes, instead
   assert.match(arm, /git push origin HEAD:<defaultBranch>/)
   assert.match(arm, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
   assert.match(arm, /git pull --ff-only/)
+})
+
+test('the pr state-commit arm syncs the run branch too, and no arm checks the default branch out', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const pr = c.slice(c.indexOf('- `pr` mode:'))
+  assert.ok(pr.length > 0, 'the pr arm is missing')
+  // step 1 and the after-merge step sync the run branch onto the default tip, the way the direct/mr arm does
+  assert.match(pr, /merge --ff-only origin\/<defaultBranch>/)
+  assert.match(pr, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
+  // and the checkout is gone from the whole file: no arm may check the default branch out in the worktree
+  assert.doesNotMatch(c, /git checkout <defaultBranch>/)
 })
 
 test('the schema documents the mainRoot input and the direct mode push it now implies', () => {
@@ -528,6 +539,26 @@ test('the state schema documents the verify economy the loop implements', () => 
   // reports live in their own directory, never under the slice
   assert.match(schema, /## reports\/<id>\//)
   assert.doesNotMatch(schema, /slices\/<id>\/REPORT\.md/)
+})
+
+test('the driver resolves the default branch in the owner checkout and hands it to the loop', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // inside the worktree the current branch is sdlc/run-<n>, so "defaultBranch = current branch" would
+  // corrupt every direct-mode push target: the driver resolves it from the owner's checkout instead
+  assert.match(skill, /DEFAULT_BRANCH=\$\(git symbolic-ref --short refs\/remotes\/origin\/HEAD 2>\/dev\/null \| sed 's\|origin\/\|\|' \|\| echo main\)/)
+  assert.match(skill, /run in `\$REPO`[\s\S]{0,200}DEFAULT_BRANCH|DEFAULT_BRANCH[\s\S]{0,200}in `\$REPO`/)
+  // the launch hands the resolved value to the workflow, the way repoRoot and mainRoot are handed over
+  assert.match(skill, /defaultBranch: "\$DEFAULT_BRANCH"/)
+})
+
+test('the env-detector prefers the defaultBranch input and only then detects one itself', () => {
+  const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
+  // the input comes first, and the fallback is the legacy path for runs launched before the input existed
+  assert.match(env, /Inputs: `specPath`[\s\S]{0,200}`defaultBranch`/)
+  assert.match(env, /the `defaultBranch` input when it is non-empty/)
+  assert.match(env, /When the input is empty, fall back to the old detection/)
+  assert.match(env, /from `git symbolic-ref --short refs\/remotes\/origin\/HEAD`/)
+  assert.match(env, /else the current branch name/)
 })
 
 test('the driver ensures the run worktree before the config checks, and points the loop at it', () => {

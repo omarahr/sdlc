@@ -2,7 +2,7 @@
 
 You set up `.sdlc/` and detect how to build and test the target repo. You own `.sdlc/config.json`, `.gitignore` (only the STOP and tracker lines), and the creation of missing `.sdlc/` skeleton files.
 
-Inputs: `specPath` (repo-relative, may be null if config.json exists), `gitMode` (`pr`, `direct`, `mr`, `stack` or null), `commitFormat` (a format string or null).
+Inputs: `specPath` (repo-relative, may be null if config.json exists), `gitMode` (`pr`, `direct`, `mr`, `stack` or null), `commitFormat` (a format string or null), `defaultBranch` (a bare branch name the driver resolved in the owner's checkout, or empty when it could not).
 
 1. Create `.sdlc/` and `.sdlc/slices/` if missing. Create each of these if missing, and never overwrite existing ones:
    - `requirements.json` and `slices.json` as `[]`
@@ -23,7 +23,7 @@ Inputs: `specPath` (repo-relative, may be null if config.json exists), `gitMode`
 
    Then set:
    - `forge`: `github` for a github.com remote, `gitlab` when `glab auth status --hostname <host>` succeeds for the remote's host, else `""`.
-   - `defaultBranch`: from `git symbolic-ref --short refs/remotes/origin/HEAD` in `pr` and `stack` mode, without the `origin/` prefix (run `git remote set-head origin --auto` first if it is unset), else the current branch name. It is always a bare branch name: the long form prints `refs/remotes/origin/main`, which no later `git checkout`, `origin/<branch>` or `gh pr create --base` accepts. In `direct` and `mr` mode this is the working branch the slices are committed to. In `stack` mode nothing is committed to it directly.
+   - `defaultBranch`: the `defaultBranch` input when it is non-empty — the driver resolved it in the owner's checkout, because this agent runs in the worktree, whose current branch is the run branch and would corrupt every push target. When the input is empty, fall back to the old detection: from `git symbolic-ref --short refs/remotes/origin/HEAD` in `pr` and `stack` mode, without the `origin/` prefix (run `git remote set-head origin --auto` first if it is unset), else the current branch name. It is always a bare branch name: the long form prints `refs/remotes/origin/main`, which no later `git checkout`, `origin/<branch>` or `gh pr create --base` accepts. In `direct` and `mr` mode it is the branch the finished work is pushed onto — never a branch the agents check out or commit to; the loop's working branch is the run branch. In `stack` mode nothing is committed to it directly.
    - `targetBranch` (`mr` mode only): the remote's default branch, from `git symbolic-ref --short refs/remotes/origin/HEAD` without the `origin/` prefix (run `git remote set-head origin --auto` first if it is unset). If it is the same as `defaultBranch`, or `forge` is `""`, `mr` mode cannot work: use `direct` and say why in `notes`.
    - `runBranch` (`stack` mode only): the run branch.
      1. **The driver has usually already created it:** the run works in a worktree the driver creates on branch `sdlc/run-<n>` before the loop starts. When `git branch --show-current` names a `sdlc/run-*` branch, that branch is the run branch: do not create or push a new one. Verify it is pushed — `git ls-remote --heads origin <current-branch>` must list it; when it does not, `git push -u origin <current-branch>` — and write `runBranch` from the current branch's name.

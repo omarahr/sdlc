@@ -360,7 +360,9 @@ const CRITIC_ROUND_LIMIT = 3
 async function bootstrap(next) {
   const P = 'Bootstrap'
   phase(P)
-  const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null, commitFormat: A.commitFormat || null }, { schema: ENV, phase: P })
+  // defaultBranch is the driver's owner-checkout resolution: the worktree's current branch is the run
+  // branch, so the detector must never take its branch name from where it runs
+  const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null, commitFormat: A.commitFormat || null, defaultBranch: A.defaultBranch || '' }, { schema: ENV, phase: P })
   checkStop()
   if (!env) return 'bootstrap aborted: env-detector failed'
   const ext = await run('requirements-extractor', { reason: next.reason }, { schema: COUNT, phase: P })
