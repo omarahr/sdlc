@@ -91,7 +91,11 @@ test('the e2e harness cuts its branch from the milestone branch in stack mode, a
   assert.match(step1[0], /In `stack` mode cut it from the milestone branch `sdlc\/M-<n>`/)
   assert.match(step1[0], /[Ii]f it is missing, stop and say so rather than creating it/)
   // the other three modes keep a base of their own, so direct and mr agents are not left without one
-  assert.match(step1[0], /In `pr` mode cut it from the up-to-date `<defaultBranch>` ref/)
+  // Ruling A: in pr mode the default branch's tip lives on origin/<defaultBranch>; the local ref is the
+  // owner's and a run never advances it
+  assert.match(step1[0], /In `pr` mode cut it from the default branch's fetched tip/)
+  assert.match(step1[0], /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b sdlc\/<milestoneId>-e2e --no-track origin\/<defaultBranch>/)
+  assert.match(step1[0], /With no remote, cut it from the local `<defaultBranch>` ref instead/)
   assert.match(step1[0], /In `direct` and `mr` mode cut it from the run branch/)
   // branching from a ref is always allowed; only checking a branch out is blocked by another worktree
   assert.match(step1[0], /git refuses only \*checking out\* a branch another worktree holds/)
@@ -168,8 +172,13 @@ test('the default-branch state commit runs from the worktree and pushes, instead
 test('slice creation cuts from refs, and no prompt presents the default branch as a place to be', () => {
   const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
   const sliceStep = c.slice(c.indexOf('**Slice commit**'), c.indexOf('**Default-branch commit**'))
-  assert.match(sliceStep, /cut it from the up-to-date `<defaultBranch>` ref/)
+  // Ruling A: with a remote the cut is from origin/<defaultBranch>, fetched without a refspec; the local
+  // ref is the owner's and stays put. The no-remote fallback keeps the local-ref cut.
+  assert.match(sliceStep, /cut it from the default branch's fetched tip/)
+  assert.match(sliceStep, /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b sdlc\/<id> --no-track origin\/<defaultBranch>/)
+  assert.match(sliceStep, /When the repo has no remote, cut it from the local `<defaultBranch>` ref instead/)
   assert.match(sliceStep, /git refuses only \*checking out\* a branch another worktree holds/)
+  assert.match(sliceStep, /never advances it/)
   const rr = readFileSync(join(SKILL_DIR, 'prompts', 'run-request.md'), 'utf8')
   // mr's working branch is the run branch: the sentence may not name config.defaultBranch as the place
   assert.doesNotMatch(rr, /committed to the working branch \(`config\.defaultBranch`\)/)
@@ -240,6 +249,10 @@ test('the integrator asks the code for the slice base branch instead of naming i
   // and the evidence diff uses that same base, not the default branch
   assert.match(i, /git diff --name-only <baseBranch>\.\.\.HEAD/)
   assert.match(i, /--ref sdlc\/<id>/)
+  // Ruling A: in pr and direct mode the run reads the default branch's tip at origin/<baseBranch>, so the
+  // evidence diff does too; the local ref is the owner's and goes stale after the first merge
+  assert.match(i, /diff against `origin\/<baseBranch>`/)
+  assert.match(i, /When it does not, diff against `<baseBranch>`/)
   // The base is now the answer `base-branch` prints, and the prompt says so where it is defined —
   // both in the evidence step and in the ship step, since each is read on its own.
   assert.match(i, /state-write\.py" base-branch --repo \. --slice <id>/)

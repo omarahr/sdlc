@@ -252,6 +252,16 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
     config = wt.json(f"{sdlc}/config.json")
     default = (config or {}).get("defaultBranch") or current
     base = wt if (not current or current == default) else Source(repo, default)
+    if base.branch and current != default and (config or {}).get("gitMode") in ("pr", "direct"):
+        # Ruling A: with a remote, the default branch's tip lives on origin/<defaultBranch> and the local
+        # ref belongs to the owner's checkout — the run never advances it, so it goes stale mid-run and the
+        # state the run pushed is read from the tracking ref instead. Stack mode stays on the local ref:
+        # its state rides the milestone branches, and when the default branch cannot answer for the run the
+        # decision falls back to the worktree, which a tracking ref holding an older run's state would cut
+        # off. `mr` stays too: its defaultBranch is the run's own working branch.
+        tracked, _ = run(repo, "git", "rev-parse", "-q", "--verify", f"refs/remotes/origin/{default}")
+        if tracked:
+            base = Source(repo, f"origin/{default}")
     if base.branch and base.read(f"{sdlc}/config.json") is None:
         base = wt
     config = base.json(f"{sdlc}/config.json")
@@ -276,14 +286,23 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
         ready = [p for p in state_prs + e2e_prs if pr_ready(p)]
         sync = [f"gh pr merge {p['number']} --squash --delete-branch" for p in ready]
         behind = False
-        if not prs_file:
+        if not prs_file and current == default:
+            # The behind round asks whether the local default branch can fast-forward to its remote tip, and
+            # answers by pulling. That is only sound where this checkout holds the branch: in a run worktree
+            # the current branch is the run branch, the local ref belongs to the owner's checkout, and a
+            # fetch can never move it — the refspec fetch that used to close this gap is refused there, and
+            # an always-true behind would loop to the error. The worktree world reads origin/<defaultBranch>
+            # directly (the base resolution above), so it needs no behind round; the plain fetch in the sync
+            # list below is what brings a merged pull request into that read.
             ok_l, local = run(repo, "git", "rev-parse", default)
             ok_r, remote = run(repo, "git", "rev-parse", f"origin/{default}")
             if ok_l and ok_r and local.strip() != remote.strip():
                 behind = run(repo, "git", "merge-base", "--is-ancestor", default, f"origin/{default}")[0]
         if sync or behind:
-            # fast-forward the default branch without leaving a slice branch that is checked out
-            sync.append(f"git pull --ff-only origin {default}" if current == default else f"git fetch origin {default}:{default}")
+            # the plain fetch, with no refspec: it updates the origin/<defaultBranch> tracking ref the
+            # decision reads. The old `fetch origin <d>:<d>` form advances the local branch, which is
+            # refused in a run worktree because the owner's checkout holds that branch.
+            sync.append(f"git pull --ff-only origin {default}" if current == default else f"git fetch origin {default}")
             return {"sync": sync}
         blocked = [p for p in state_prs if not pr_ready(p)]
         if blocked:
