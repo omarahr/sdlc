@@ -148,7 +148,7 @@ test('direct mode ships from the run worktree: sync, squash, push to the default
   assert.match(direct, /your checkout is behind the moved branch/)
   assert.match(direct, /git reset --hard <defaultBranch>/)
   // a failed evidence-sha push is retried once, then reported: the next slice's sync must not be left wedged
-  assert.match(direct, /On a failed push, retry once/)
+  assert.match(direct, /On a failed evidence-sha push, retry once/)
   assert.match(direct, /state: "failed"/)
 })
 
