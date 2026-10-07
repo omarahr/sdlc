@@ -32,7 +32,7 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
   - `mr`: as `direct`, and the integrator also pushes `defaultBranch` and keeps one merge request for the whole run open against `targetBranch` (run-request.md). Wherever a prompt names only `pr` and `direct`, `mr` behaves as `direct`.
   - `stack`: one branch per slice inside one branch per milestone, on a run branch of their own. Slice pull requests target their milestone branch; the milestone pull request targets `defaultBranch`. GitHub only.
 - `forge` is `github`, `gitlab` or `""`.
-- `defaultBranch` is the remote's default branch in `pr` and `stack` mode. In `direct` and `mr` mode it is the branch the finished work is pushed onto — never a branch the agents check out or commit to, the loop's working branch is the run branch. In `stack` mode nothing is ever committed to it directly; the working branch is `runBranch`.
+- `defaultBranch` is per mode, as env-detector.md applies it: in `direct` mode the branch the finished work is pushed onto — never a branch the agents check out or commit to; in `stack` mode the remote's default branch, which nothing is ever committed to directly (the working branch is `runBranch`); in `pr` mode the branch the owner's checkout is on — the branch the run builds on, normally the remote's default branch; in `mr` mode the working branch itself (the run branch, per run-request.md).
 - `runBranch` is `""` outside `stack` mode. In `stack` mode it is the branch the whole run builds on, `sdlc/run-<n>`.
 - `targetBranch` is set only in `mr` mode: the branch the run's merge request targets.
 - `commitFormat` is `""` (use the subjects the role files give) or a format for every commit subject and merge-request title (see _common.md).

@@ -195,6 +195,32 @@ test('the schema documents the mainRoot input and the direct mode push it now im
   const direct = schema.split('\n').find(l => l.includes('`direct`:'))
   assert.ok(direct, 'the direct bullet is missing')
   assert.doesNotMatch(direct, /nothing is pushed/)
+  // the defaultBranch description matches env-detector's per-mode rules: pr takes the owner's
+  // branch, and mr's IS the working branch
+  const db = schema.split('\n').find(l => l.startsWith('- `defaultBranch` is per mode'))
+  assert.ok(db, 'the per-mode defaultBranch line is missing')
+  assert.match(db, /in `pr` mode the branch the owner's checkout is on/)
+  assert.match(db, /in `mr` mode the working branch itself/)
+})
+
+test('the pr after-merge step syncs the run branch onto the base and pushes, and no held branch is ever checked out', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  const after = i.slice(i.indexOf('**After merging:**'))
+  assert.ok(after.length > 0, 'the after-merge step is missing')
+  // the base branch may be held by the owner's checkout (pr mode), so the sync is commit-state's shape
+  assert.match(after, /git fetch origin <baseBranch>/)
+  assert.match(after, /git merge --ff-only FETCH_HEAD/)
+  assert.match(after, /state: "inconclusive"/)
+  assert.match(after, /never rebase/)
+  assert.match(after, /git push origin HEAD:<baseBranch>/)
+  assert.match(after, /git update-ref refs\/heads\/<baseBranch> HEAD/)
+  assert.match(after, /commit-state\.md's reworked flow/)
+  // stack keeps its carve-out: the milestone branch is never held elsewhere, and its PR carries the state
+  assert.match(after, /per commit-state\.md's stack arm/)
+  // no step may check the base or default branch out anywhere in the file; slice-branch checkouts
+  // (git checkout sdlc/<id>) stay — those branches are never held elsewhere
+  assert.doesNotMatch(i, /git checkout <baseBranch>/)
+  assert.doesNotMatch(i, /git checkout <defaultBranch>/)
 })
 
 test('the integrator deletes archived attempt branches once a slice ships', () => {
