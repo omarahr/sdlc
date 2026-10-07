@@ -360,7 +360,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
   let NOW = () => Date.now();
   function ago(d) {
     const m = Math.round((NOW() - d.getTime()) / 60000);
-    if (m < 1) return "just now";
+    if (m < 1) return "now";
     if (m < 60) return m + " min ago";
     return Math.floor(m / 60) + " h " + (m % 60) + " min ago";
   }
@@ -720,7 +720,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       if (e.perRound != null) {
         const p = e.perRound;
         row.append(stat0(Number.isInteger(p) ? p : Math.round(p * 10) / 10, "run agents per verify round",
-          "run-wide: every agent the run spent, divided by the verify rounds the ledger records — not the battery alone"));
+          "run-wide: every agent the run spent, divided by the verify rounds in the ledger — not the battery alone"));
       }
     }
     return row;

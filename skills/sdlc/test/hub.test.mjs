@@ -125,11 +125,11 @@ test('the index is a status board: counts band, phase chip, slice progress and r
     assert.match(index.body, /quiet 2 h/, 'stale says for how long')
     const staleCard = index.body.split('class="run stale"')[1] || ''
     assert.ok(!staleCard.includes('class="chip"'), '…but shows no phase chip once stale')
-    // a run whose heartbeat is fresh but whose pid just died: "quiet just now" reads wrong, so it stays "updated"
+    // a run whose heartbeat is fresh but whose pid just died: "quiet now" reads wrong, so it stays "updated"
     register(hub.dir, 'fresh-dead', { pid: 2147483647 })
     const body = (await get(hub.port, '/')).body
     const deadCard = body.split('<a href="/r/fresh-dead/">')[1] || ''
-    assert.match(deadCard, /updated just now/, 'a just-dead run does not say "quiet just now"')
+    assert.match(deadCard, /updated now/, 'a just-dead run does not say "quiet now"')
   } finally { await hub.stop() }
 })
 
@@ -562,4 +562,39 @@ test('the docs speak of the hub and the fixed port, never of per-run serving', (
   }
   assert.match(skill, /--publish/)
   assert.match(readme, /--publish/)
+})
+
+// the hub's rendered labels and sentences follow the same STE rules the prompt files follow
+// (prompts/ste-style.md). Rendering whole HTML through ste-check is vacuous — the linter skips
+// tag-opening lines — so the test lints hub.py's string constants instead: docstrings, the page
+// template (CSS, inside braces) and regular expressions are code, and HTML tags are stripped, so
+// what remains is the text a reader sees.
+test("the hub's rendered strings follow the STE rules", { skip: !python && 'python3 not installed' }, () => {
+  const file = join(scratch('sdlc-hub-ste-'), 'hub.md')
+  const extract = spawnSync('python3', ['-c', `
+import ast, re
+tree = ast.parse(open(${JSON.stringify(join(SKILL_DIR, 'tracker', 'hub.py'))}, encoding="utf-8").read())
+docstrings = set()
+for node in ast.walk(tree):
+    if isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.body:
+        first = node.body[0]
+        if isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant) and isinstance(first.value.value, str):
+            docstrings.add(id(first.value))
+lines = []
+for node in ast.walk(tree):
+    if not (isinstance(node, ast.Constant) and isinstance(node.value, str)) or id(node) in docstrings:
+        continue
+    s = node.value
+    if "{" in s or chr(92) in s or not re.search("[a-z]", s):
+        continue
+    s = " ".join(re.sub("<[^>]*>", " ", s).split())
+    if s and " " in s:
+        lines.append(s)
+open(${JSON.stringify(file)}, "w", encoding="utf-8").write("\\n".join(lines) + "\\n")
+print(len(lines))
+`], { encoding: 'utf8' })
+  assert.equal(extract.status, 0, extract.stderr)
+  assert.ok(Number(extract.stdout.trim()) >= 10, `extracted ${extract.stdout.trim()} rendered strings`)
+  const lint = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), file], { encoding: 'utf8' })
+  assert.equal(lint.status, 0, `ste-check flagged hub strings:\n${lint.stdout}`)
 })

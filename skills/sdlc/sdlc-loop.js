@@ -534,7 +534,7 @@ async function sliceAction(next, gateEvidence = []) {
     checkStop()
     if (b.paused) return `${id} paused: agent cap`
     if (b.infraDebt) return `${id} parked with infra debt: ${b.lastEvidence.join(' | ').slice(0, 200)}`
-    if (!b.ok) return escalate(id, s, counters, `fix rounds exhausted: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
+    if (!b.ok) return escalate(id, s, counters, `fix rounds: no fix passed: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
     seeds = b.seeds
     await persist(id, { phase: 'gate', counters, seeds, ledger })
     at = 3
@@ -547,7 +547,7 @@ async function sliceAction(next, gateEvidence = []) {
       // a real failing test at the gate costs a fix round, like any refutation
       counters.fixRounds++
       await persist(id, { phase: 'implement', counters, ledger })
-      log(`${id} gate failed: back to the build loop`)
+      log(`${id} gate failed: the build loop resumes`)
       return sliceAction({ ...next, slice: { ...s, phase: 'implement', counters, ledger } }, [`[gate] failing test: ${gate.failingTest}`])
     }
     await persist(id, { phase: 'integrate', counters })

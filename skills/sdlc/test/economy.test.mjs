@@ -1,9 +1,13 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync } from 'node:fs'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { runMain, loadInternals, clear as clearVote, scripted, ok, SKILL_DIR } from './harness.mjs'
+import { runMain, loadInternals, clear as clearVote, scripted, ok, scriptSource, scratch, SKILL_DIR } from './harness.mjs'
 import { happy, sliceNext } from './slice.test.mjs'
+
+let python = true
+try { execFileSync('python3', ['--version']) } catch { python = false }
 
 const clear = { refuted: false, evidence: 'holds' }
 
@@ -452,4 +456,34 @@ test('lifecycle: a profile refutation promotes into the fix round, the gate comm
   const integrator = rt.calls.find(c => c.role === 'integrator')
   assert.equal(integrator.inputs.mode, 'ship')
   assert.match(rt.result.iterations[0].outcome, /S-1 merged abc123/)
+})
+
+// ---------- the loop's own narration follows the STE rules (prompts/ste-style.md) ----------
+
+// log() strings are the run's narration: the tracker and the driver show them, so they follow the
+// same STE rules the prompt files follow. ste-check.py lints the literal text around the
+// interpolations (each one counts as one placeholder word), so a future log line that breaks a
+// rule fails here, next to the tests that pin the wording.
+test('every log string in sdlc-loop.js follows the STE rules', { skip: !python && 'python3 not installed' }, () => {
+  const src = scriptSource()
+  const lines = []
+  const re = /log\((`(?:[^`\\]|\\[\s\S])*`|'(?:[^'\\]|\\[\s\S])*')\)/g
+  let m
+  while ((m = re.exec(src))) {
+    let s = m[1].slice(1, -1)
+    let out = '', i = 0
+    while (i < s.length) {
+      if (s[i] === '$' && s[i + 1] === '{') {
+        let depth = 1, j = i + 2
+        while (j < s.length && depth) { if (s[j] === '{') depth++; else if (s[j] === '}') depth--; j++ }
+        out += 'X'; i = j
+      } else out += s[i++]
+    }
+    lines.push(out)
+  }
+  assert.ok(lines.length > 30, `the extraction found the log strings (${lines.length})`)
+  const file = join(scratch('sdlc-ste-'), 'logs.md')
+  writeFileSync(file, lines.join('\n') + '\n')
+  const lint = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), file], { encoding: 'utf8' })
+  assert.equal(lint.status, 0, `ste-check flagged log strings:\n${lint.stdout}`)
 })

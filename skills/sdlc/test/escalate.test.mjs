@@ -6,9 +6,9 @@ const base = { escalator: () => ok(), 'test-reporter': () => ok() }
 
 test('first escalation is replan', async () => {
   const rt = await loadInternals(scripted(base))
-  const out = await rt.I.escalate('S-1', { kind: 'spec' }, rt.I.normalizeCounters({}), 'fix rounds exhausted')
+  const out = await rt.I.escalate('S-1', { kind: 'spec' }, rt.I.normalizeCounters({}), 'fix rounds: no fix passed')
   assert.match(out, /escalated to replan/)
-  assert.deepEqual(rt.calls[0].inputs, { sliceId: 'S-1', step: 1, action: 'replan', why: 'fix rounds exhausted', adr: null })
+  assert.deepEqual(rt.calls[0].inputs, { sliceId: 'S-1', step: 1, action: 'replan', why: 'fix rounds: no fix passed', adr: null })
 })
 
 test('step 4 runs a three-angle decision panel and passes the ADR to the escalator', async () => {

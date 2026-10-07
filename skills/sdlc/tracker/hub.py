@@ -96,10 +96,10 @@ def read_entries(now):
 
 
 def rel(seconds):
-    """A span as a human would say it: just now, 5 min, 2 h 3 min, 2 days."""
+    """A span as a human would say it: now, 5 min, 2 h 3 min, 2 days."""
     s = max(0, int(seconds))
     if s < 60:
-        return "just now"
+        return "now"
     if s < 3600:
         return f"{s // 60} min"
     if s < 24 * 3600:
@@ -110,7 +110,7 @@ def rel(seconds):
 
 def ago(seconds):
     r = rel(seconds)
-    return r if r == "just now" else r + " ago"
+    return r if r == "now" else r + " ago"
 
 
 def started_ago(entry, now):
@@ -198,7 +198,7 @@ def econ_html(e):
     if e["perRound"] is not None:
         p = e["perRound"]
         p = int(p) if p == int(p) else round(p, 1)
-        parts.append('<span title="run-wide: every agent this run spent, divided by the verify rounds the ledger records — not the battery alone">'
+        parts.append('<span title="run-wide: every agent this run spent, divided by the verify rounds in the ledger — not the battery alone">'
                      f'<b>{p}</b> run agents/verify round</span>')
     if not parts:
         return ""
@@ -242,8 +242,8 @@ def run_card(entry, age, now, stale):
     rid = str(entry["id"])
     href = urllib.parse.quote(rid)
     cls = "run stale" if stale else "run live"
-    # a run that just went stale has been quiet for seconds: "quiet just now" reads wrong, so it stays "updated"
-    when = f"updated {ago(age)}" if rel(age) == "just now" or not stale else f"quiet {rel(age)}"
+    # a run that just went stale has been quiet for seconds: "quiet now" reads wrong, so it stays "updated"
+    when = f"updated {ago(age)}" if rel(age) == "now" or not stale else f"quiet {rel(age)}"
     chip = f'<span class="chip">{html.escape(st["chip"])}</span>' if st["chip"] and not stale else ""
     parts = [html.escape(st["repo"]), f'<span class="mono">{html.escape(rid)}</span>']
     began = started_ago(entry, now)
