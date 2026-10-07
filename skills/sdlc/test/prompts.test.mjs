@@ -803,9 +803,13 @@ test('the README documents the run worktree, the step-boundary pause and the STE
 
 test('the README worktree claims hold for direct mode, the driver counters, and the STE scope', () => {
   const readme = readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
-  // the checkout guarantee is qualified for direct mode, which commits to the branch you are on
-  assert.match(readme, /except in `direct` mode, where the run commits to the branch you are on/,
+  // the checkout guarantee is qualified for direct mode, and only for the no-remote case: with a remote,
+  // direct mode pushes origin HEAD:<defaultBranch> twice per slice and never touches the owner's checkout
+  assert.match(readme, /except in `direct` mode with no remote, where the run commits to the branch you are on/,
     'the direct-mode exception to the checkout guarantee is missing')
+  assert.match(readme, /With a remote, it never touches your checkout/,
+    'the direct bullet must name the push-based flow the remote case actually runs')
+  assert.match(readme, /pushes each slice to the remote's default branch/, 'the remote direct-mode flow is missing')
   // the run progress lives in the worktree, but the relaunch counters stay on the owner's checkout
   assert.match(readme, /relaunch counters stay in your checkout/, 'the driver-counter exception is missing')
   // the end-state list of the removal sentence matches the driver flowchart's (includes stopped)
