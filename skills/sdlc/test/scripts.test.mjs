@@ -1387,3 +1387,94 @@ test('base-branch fails loudly rather than printing a plausible branch', opts, (
   assert.match(bad.out.error, /stak/)
   assert.equal(bad.out.branch, undefined)
 })
+
+// ---------- impact ----------
+// The diff-to-tests map the verify loop consults instead of running the whole suite. These fixtures are
+// plain repos with no .sdlc state, since impact reads only git and the package manifests it finds.
+const IMPACT = join(SKILL_DIR, 'impact.py')
+const runImpact = (repo, base, head) =>
+  spawnSync('python3', [IMPACT, '--repo', repo, '--base', base, '--head', head], { encoding: 'utf8' })
+
+const initRepo = () => {
+  const repo = scratch('sdlc-impact-')
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'config', 'user.email', 'test@example.com')
+  git(repo, 'config', 'user.name', 'Test')
+  return repo
+}
+
+test('impact maps a changed source file to its package tests and reverse-dependency packages', opts, () => {
+  const repo = initRepo()
+  const pkg = (dir, name, deps = {}) => {
+    mkdirSync(join(repo, dir, 'src'), { recursive: true })
+    mkdirSync(join(repo, dir, 'test'), { recursive: true })
+    writeFileSync(join(repo, dir, 'package.json'), JSON.stringify({ name, dependencies: deps }))
+  }
+  pkg('packages/a', '@f/a')
+  writeFileSync(join(repo, 'packages/a/src/x.ts'), 'export const x = 1\n')
+  writeFileSync(join(repo, 'packages/a/test/x.test.ts'), 'a test of a\n')
+  pkg('packages/b', '@f/b', { '@f/a': 'workspace:*' })
+  writeFileSync(join(repo, 'packages/b/src/y.ts'), 'export const y = 1\n')
+  writeFileSync(join(repo, 'pnpm-workspace.yaml'), 'packages:\n  - packages/*\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'init')
+  git(repo, 'checkout', '-q', '-b', 'feat')
+  writeFileSync(join(repo, 'packages/a/src/x.ts'), 'export const x = 2\n')
+  git(repo, 'commit', '-q', '-am', 'change')
+
+  const r = runImpact(repo, 'main', 'feat')
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.changed, ['packages/a/src/x.ts'])
+  // a's own test file, and b's package because its dependencies name @f/a — not b's sources, which are unaffected
+  assert.deepEqual(out.testFiles, ['packages/a/test/x.test.ts'])
+  assert.deepEqual(out.packages, ['packages/a', 'packages/b'])
+  assert.equal(r.stderr, '', 'a graph that was built has nothing to note')
+})
+
+test('impact follows Go imports to reverse-dependent packages when a go.mod exists', opts, () => {
+  const repo = initRepo()
+  writeFileSync(join(repo, 'go.mod'), 'module example.com/m\n\ngo 1.21\n')
+  mkdirSync(join(repo, 'pkg/alpha'), { recursive: true })
+  mkdirSync(join(repo, 'pkg/beta'), { recursive: true })
+  writeFileSync(join(repo, 'pkg/alpha/alpha.go'), 'package alpha\n\nconst A = 1\n')
+  writeFileSync(join(repo, 'pkg/alpha/alpha_test.go'), 'package alpha\n')
+  writeFileSync(join(repo, 'pkg/beta/beta.go'), 'package beta\n\nimport "example.com/m/pkg/alpha"\n\nvar B = alpha.A\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'init')
+  git(repo, 'checkout', '-q', '-b', 'feat')
+  writeFileSync(join(repo, 'pkg/alpha/alpha.go'), 'package alpha\n\nconst A = 2\n')
+  git(repo, 'commit', '-q', '-am', 'change')
+
+  const r = runImpact(repo, 'main', 'feat')
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  // beta imports alpha, so it is affected even though nothing under it changed
+  assert.deepEqual(out.packages, ['pkg/alpha', 'pkg/beta'])
+  assert.deepEqual(out.testFiles, ['pkg/alpha/alpha_test.go'])
+  assert.equal(r.stderr, '', 'a graph that was built has nothing to note')
+})
+
+test('impact falls back to the test files in the changed paths when no package graph exists', opts, () => {
+  const repo = initRepo()
+  mkdirSync(join(repo, 'src'))
+  writeFileSync(join(repo, 'src/lib.ts'), 'v1\n')
+  writeFileSync(join(repo, 'src/lib.test.ts'), 'v1\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'init')
+  git(repo, 'checkout', '-q', '-b', 'feat')
+  writeFileSync(join(repo, 'src/lib.ts'), 'v2\n')
+  writeFileSync(join(repo, 'src/lib.test.ts'), 'v2\n')
+  git(repo, 'commit', '-q', '-am', 'change')
+
+  const r = runImpact(repo, 'main', 'feat')
+  // the fallback is still a usable answer, so the caller gets one rather than a failure
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual([...out.changed].sort(), ['src/lib.test.ts', 'src/lib.ts'])
+  assert.deepEqual(out.packages, [])
+  assert.deepEqual(out.testFiles, ['src/lib.test.ts'])
+  // and stderr carries a one-line note saying the graph was not built
+  assert.match(r.stderr, /\S/)
+  assert.equal(r.stderr.trim().split('\n').length, 1)
+})
