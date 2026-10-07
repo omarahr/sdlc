@@ -10,6 +10,6 @@ Input: `sliceId`.
    - A test that fails for a reason other than the one in tests.md (syntax error, import of a wrong path, env failure, timeout) is a problem.
    - A characterization test that fails is a problem.
    - A requirement in plan.md `## Tests` with no test in tests.md is a problem.
-- A promoted verifier test that asserts suite inventory (suite-count: `**/*.test.*` counts, file listings) or wall-clock behavior is a problem.
+   - A promoted verifier test that asserts suite inventory (suite-count: `**/*.test.*` counts, file listings) or wall-clock behavior is a problem.
 
 Return `{allFailCorrectly: <true only if there are no problems>, problems: [<test id: what is wrong>]}`.

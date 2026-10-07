@@ -17,12 +17,13 @@ Inputs: `sliceId`, `lens`, `round`.
   - Are tests deterministic (no sleeps, no order dependence, no network)?
   - Is the name of each test honest about what it checks?
   - Are code and tests free of comments? Comments in code or tests are `blocking: true` — the fix is mechanical. Toolchain directives (shebang, linter and type-checker suppressions, license headers the repo already uses) are not comments.
-- A committed test is `blocking: true` when it invokes the repo's test command from inside a test (a nested suite run), asserts on timing without being a timing test — the serial-pass admission: a file joins the serial pass only when it genuinely asserts durations or races, not when it merely logs `Date.now()` — duplicates coverage an existing test already pins, or was committed from verifier evidence (`.sdlc/slices/<id>/verification/`) without a promotion record in tests.md.
+  - A committed test is `blocking: true` when it invokes the repo's test command from inside a test (a nested suite run), asserts on timing without being a timing test, duplicates coverage an existing test already pins, or was committed from verifier evidence (`.sdlc/slices/<id>/verification/`) without a promotion record in tests.md. The serial-pass admission is the timing bar: a file joins the serial pass (the repo's timing-sensitive test pass — a file belongs there only if it asserts durations or races) only when it genuinely asserts durations or races, not when it merely logs `Date.now()`.
 
 `blocking: true` only for:
 - a defect that will cause wrong behavior,
 - a security vulnerability,
 - a spec violation,
+- duplicate coverage an existing test already pins,
 - code that is untestable or unmaintainable enough to hurt later slices.
 
 Style and nits are `blocking: false`. Prose that breaks the STE writing rules (long chained sentences, passive voice, synonyms drifting for one thing) in the slice's artifacts — tests.md, DECISIONS.md entries, commit messages, the review's own report — is `blocking: false`: a seed, never a fix round.
