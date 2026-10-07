@@ -121,7 +121,7 @@ Live progress shows in `/workflows`.
 
 `/sdlc` publishes its progress tracker to the sdlc hub on `http://localhost:8787` — one fixed address per machine, whose index lists every project's run — and prints the run's url. Open it and leave it open. While a run is active, the workflow view updates live: the plugin's hook nudges the tracker each time an agent starts or finishes, and the card redraws within a few seconds without reloading the page (within about 7 s if the hook does not fire). The hook fires for the loop's workflow agents, so the card follows each agent within a couple of seconds. The rest of the page is rebuilt and reloaded every minute. `/sdlc tracker` rebuilds it on demand. One screen answers the three questions that matter:
 
-- **is it working** — the run's elapsed time, the agents going right now, and a rail of all fifteen phases sized by the agent time spent in each. The phase running pulses; phases not yet reached are greyed;
+- **is it working** — the run's elapsed time, the agents going right now, and a rail of all sixteen phases sized by the agent time spent in each. The phase running pulses; phases not yet reached are greyed;
 - **how far along** — slices and requirements done, milestones verified, and a sparkline of the pace;
 - **does it need me** — parked slices, autonomous decisions and spec proposals.
 
@@ -139,7 +139,7 @@ python3 skills/sdlc/tracker/collect.py --repo /path/to/your/project --publish
 ```
 
 The hub binds `127.0.0.1` only — the page carries this repo's spec and decisions, so it stays on the machine. Every run on the machine is listed at `http://localhost:8787`; this run's page is at the url written to `.sdlc/tracker/url` once there is a page behind it. If 8787 is held by something that is not the hub, the run says so and builds the page without serving it. Drop `--publish` to build the file without serving it.
-It also has a **Test reports** section linking to `.sdlc/tracker/reports/`, with one page per slice. When a slice merges (or is parked), a **test-reporter** writes its test completion report, `.sdlc/slices/<id>/REPORT.md`. It contains:
+It also has a **Test reports** section linking to `.sdlc/tracker/reports/`, with one page per slice. When a slice merges (or is parked), a **test-reporter** writes its test completion report, `.sdlc/reports/<id>/REPORT.md`. It contains:
 - a summary;
 - traceability from each spec line to the cases that prove it;
 - every scenario and case, in Given / When / Then form, with its evidence (HTTP exchanges, database diffs, attempt timelines, screenshots, transcripts, property runs);
@@ -156,7 +156,7 @@ The collector needs Python 3 and nothing else. To share the page, send someone t
 | File | Contents |
 |---|---|
 | `.sdlc/tracker/index.html` | The browser tracker (generated, gitignored) |
-| `.sdlc/slices/<id>/REPORT.md` | The slice's test completion report, for you to read |
+| `.sdlc/reports/<id>/REPORT.md` | The slice's test completion report, for you to read |
 | `.sdlc/slices/<id>/verification/` | Each round's scenario plan and the profile verifiers' cases, evidence, logs and screenshots |
 | `.sdlc/testkit.json` | The verification tools in the repo's testkit, and how to use them |
 | `.sdlc/STATUS.md` | Dashboard: requirements and slices done, the current slice, recent events |

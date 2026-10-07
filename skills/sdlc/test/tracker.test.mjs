@@ -105,13 +105,17 @@ test('verifier test reports render as pages with the referenced test source', { 
 test('a slice test report leads the page, with the verification rounds as an appendix and screenshots inline', { skip: !python && 'python3 not installed' }, () => {
   const repo = fixtureRepo()
   const d = join(repo, '.sdlc', 'slices', 'S-001')
+  // the report lives in its own directory now, with its screenshots beside it
+  const rd = join(repo, '.sdlc', 'reports', 'S-001')
+  mkdirSync(join(rd, 'assets'), { recursive: true })
   mkdirSync(join(d, 'verification', 'r0', 'assets', 'ui-0'), { recursive: true })
+  writeFileSync(join(rd, 'assets', 'error.png'), 'png')
   writeFileSync(join(d, 'verification', 'r0', 'assets', 'ui-0', 'error.png'), 'png')
   writeFileSync(join(d, 'verification', 'plan-r0.md'), '# Plan\n| VS | Title |\n|---|---|\n| VS-1 | submit |\n')
   writeFileSync(join(d, 'verification', 'r0', 'ui-0.md'), '# ui r0\nVerdict: HELD\n![error state](assets/ui-0/error.png)\n')
   writeFileSync(join(d, 'verification', 'r0', 'http-api-1.md'), 'Verdict: REFUTED\n')
   writeFileSync(join(d, 'verify-spec-fidelity-r0.md'), 'Verdict: NOT refuted\n')
-  writeFileSync(join(d, 'REPORT.md'), '# S-001 · Scaffold\nVerdict: RELEASED\n\n## Traceability\n| Requirement | Result |\n|---|---|\n| R-1 | pass |\n\n![error state](verification/r0/assets/ui-0/error.png)\n\n<details>\n<summary>Case detail (1 case) <script>x</script></summary>\n\n#### TC-ui-1 · PASS\n- **Given** a form\n\n</details>\n')
+  writeFileSync(join(rd, 'REPORT.md'), '# S-001 · Scaffold\nVerdict: RELEASED\n\n## Traceability\n| Requirement | Result |\n|---|---|\n| R-1 | pass |\n\n![error state](assets/error.png)\n\n<details>\n<summary>Case detail (1 case) <script>x</script></summary>\n\n#### TC-ui-1 · PASS\n- **Given** a form\n\n</details>\n')
   execFileSync('python3', [COLLECT, '--repo', repo])
   const out = join(repo, '.sdlc', 'tracker')
   const r = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).reports.find(x => x.id === 'S-001')
@@ -120,11 +124,22 @@ test('a slice test report leads the page, with the verification rounds as an app
   assert.deepEqual(r.lenses, { 'spec-fidelity': { round: 0, verdict: 'held' }, 'http-api#1': { round: 0, verdict: 'refuted' }, ui: { round: 0, verdict: 'held' } })
   const page = readFileSync(join(out, 'reports', 'S-001.html'), 'utf8')
   assert.ok(page.indexOf('Test completion report') < page.indexOf('Verification rounds'))
-  assert.match(page, /<img alt="error state" src="\.\.\/\.\.\/slices\/S-001\/verification\/r0\/assets\/ui-0\/error\.png"/)
+  assert.match(page, /<img alt="error state" src="\.\.\/\.\.\/reports\/S-001\/assets\/error\.png"/)
   assert.match(page, /verification plan/)
   assert.match(page, /tag released/)
   assert.match(page, /<details class="rec">\s*<summary>Case detail \(1 case\) &lt;script&gt;/)
   assert.match(page, /<h5>TC-ui-1 · PASS<\/h5>[\s\S]*<\/details>/)
+})
+
+test('a pre-existing slice keeps its report at the old location under the slice', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const d = join(repo, '.sdlc', 'slices', 'S-001')
+  mkdirSync(d, { recursive: true })
+  writeFileSync(join(d, 'REPORT.md'), '# S-001 · Scaffold\nVerdict: RELEASED\n')
+  execFileSync('python3', [COLLECT, '--repo', repo])
+  const r = JSON.parse(readFileSync(join(repo, '.sdlc', 'tracker', 'status.json'), 'utf8')).reports.find(x => x.id === 'S-001')
+  assert.equal(r.hasReport, true, 'the old location must still be read')
+  assert.equal(r.verdict, 'released')
 })
 
 // a Workflow run folder as Claude Code writes it: a journal plus one transcript per agent

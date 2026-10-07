@@ -23,7 +23,7 @@ It switches to the slice branch (creating it if needed), merges the patch, regen
 
 ## op: unpark
 Inputs: `{sliceId}`.
-1. Set the slice to `status: in_progress`, `phase: plan`, and `counters` to `{planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: <unchanged>}`.
+1. Set the slice to `status: in_progress`. A slice that carries `infraDebt` keeps its `phase` and `counters` as they are — the loop re-persists them. Every other park resets `phase` to `plan` and `counters` to `{planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: <unchanged>}`.
 2. Set its `parked` requirements back to `in_progress`.
 3. Append to `slices/<id>/failures.md` "## Retry after park cycle <parkCycles>".
 4. Do a **slice commit**: "unpark".

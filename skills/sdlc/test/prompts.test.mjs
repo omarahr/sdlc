@@ -430,3 +430,48 @@ test('the integrator trusts the gate receipt, regates after a product-code CI fi
   // and the commit stages the assets too, so the images ship with the slice's PR
   assert.match(reporter, /git add \.sdlc\/reports\/<id>\/REPORT\.md \.sdlc\/reports\/<id>\/assets/)
 })
+
+test('the state schema documents the verify economy the loop implements', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  // the slice lifecycle runs through the gate: the phase enum names all five in order
+  assert.match(schema, /`phase` is `plan`, `tests`, `implement`, `gate` or `integrate`/)
+  // the counters the loop seeds and resets, in the json an agent copies — every field, not a sample
+  const counters = schema.match(/"counters": \{[^}]*\}/)[0]
+  assert.ok(counters, 'the counters json is missing')
+  assert.match(counters, /"planRevisions": 0/)
+  assert.match(counters, /"fixRounds": 0/)
+  assert.match(counters, /"ladderStep": 0/)
+  assert.match(counters, /"parkCycles": 0/)
+  assert.match(counters, /"verifyDemanded": false/, 'a reviewer\'s battery demand has nowhere to persist')
+  assert.match(counters, /"infraRetries": 0/)
+  assert.match(counters, /"gateCommit": ""/)
+  // three consecutive infra rounds park the slice with infra debt, and resuming is not re-planning
+  assert.match(schema, /three in a row parks the slice with `infraDebt`/)
+  assert.match(schema, /resuming it keeps the slice's phase and counters instead of re-planning/)
+  // the ledger row's shape, and the rule that keeps refutation outcomes out of the stored state
+  assert.match(schema, /"kind": "verify" \| "gate", "round": <n>, "outcome": "verified" \| "refuted" \| "infra"/)
+  assert.match(schema, /the tracker derives it from consecutive rounds/)
+  // a review-blocked round on a low slice stores its blocking findings as the row's refutations
+  assert.match(schema, /review-blocked round on a `low` slice carries the blocking findings' count in `refutations`/)
+  // the profile agents' unpromoted tests are evidence files the schema lists where they are written
+  assert.match(schema, /verification\/r<round>\/tests\//)
+  // reports live in their own directory, never under the slice
+  assert.match(schema, /## reports\/<id>\//)
+  assert.doesNotMatch(schema, /slices\/<id>\/REPORT\.md/)
+})
+
+test('the schema pins the merge prune and the run request names the moved reports', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  // the receipt's keep-in-place-and-copy rule: suite-receipt.py reads only the in-place path
+  assert.match(schema, /except `verification\/suite-receipt\.json`/)
+  assert.match(schema, /\.sdlc\/reports\/<id>\/suite-receipt\.json/)
+  assert.match(schema, /suite-receipt\.py[\s\S]{0,60}(check|read)[\s\S]{0,120}only/)
+  // gate-r0.md and the regression logs' final copies move to the reports dir, not stay behind
+  assert.match(schema, /`gate-r0\.md`[\s\S]{0,200}\.sdlc\/reports\/<id>\//)
+  // the keep list and its opt-out
+  assert.match(schema, /keepEvidence/)
+  assert.match(schema, /`verify-\*\.md` and `review-\*\.md`/)
+  const rr = readFileSync(join(SKILL_DIR, 'prompts', 'run-request.md'), 'utf8')
+  assert.match(rr, /\.sdlc\/reports\/<id>\/REPORT\.md/)
+  assert.doesNotMatch(rr, /\.sdlc\/slices\/<id>\/REPORT\.md/)
+})

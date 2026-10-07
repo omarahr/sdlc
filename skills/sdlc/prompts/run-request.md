@@ -25,7 +25,7 @@ Flags differ between CLI versions. If one is refused, read the command's `--help
 2. **Find or create the request.**
    - If `runRequest.url` is set, or an open request for the branch exists, use it. Otherwise create it as a draft.
    - The title names the spec (its first heading), in `commitFormat` when that is set.
-   - The description is written to a temp file and regenerated every time: the spec path, requirements done and total, one line per finished slice (id, title, commit), parked slices with the reason, the count of ADRs in DECISIONS.md, and where the slice reports are (`.sdlc/slices/<id>/REPORT.md`). End it with a blank line and `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
+   - The description is written to a temp file and regenerated every time: the spec path, requirements done and total, one line per finished slice (id, title, commit), parked slices with the reason, the count of ADRs in DECISIONS.md, and where the slice reports are (`.sdlc/reports/<id>/REPORT.md`). End it with a blank line and `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
    - When you created it, set `runRequest: {"url": "<url>", "number": <n>}` in config.json, do a default-branch commit (commit-state.md) with "run merge request", and push.
 3. **Pipeline:** wait for the pipeline of the commit you pushed, in the background as "Long commands" in _common.md says.
    - No pipeline: note "no pipeline on the run MR" once, and continue.
