@@ -306,7 +306,31 @@ test('the campaign covers slices that skipped verification, and the integrator r
   assert.match(planner, /skipped (its|the per-slice) verification battery/)
   const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
   assert.match(integrator, /low-risk/)
-  assert.match(integrator, /never (carries|carry) a receipt|no receipt[\s\S]{0,80}expected/)
+  assert.match(integrator, /never (carries|carry|carried) a receipt|no receipt[\s\S]{0,80}expected/)
   // the note must not weaken the receipt rule for rated slices
   assert.match(integrator, /suite-receipt\.py" check/)
+})
+
+test('the integrator trusts the gate receipt, regates after a product-code CI fix, and prunes bulk at merge', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  // the receipt is the merge authority, and a code change after the gate is a regate, not a self-run
+  assert.match(i, /state: "regate"/)
+  assert.match(i, /code changed after the passed gate/)
+  // the low-risk cheap gate keeps its self-run clause
+  assert.match(i, /counters\.gateCommit/)
+  assert.match(i, /impact\.py/)
+  // reports move to .sdlc/reports/<id>/ at the prune
+  assert.match(i, /\.sdlc\/reports\/<id>\//)
+  // the retention prune and its opt-out
+  assert.match(i, /delete `verification\/`/)
+  assert.match(i, /keepEvidence/)
+  // the stale-branch sweep covers the versioned and attempt branches
+  assert.match(i, /sdlc\/<id>-v\*/)
+  // the old self-run fallback for battery slices is gone; the low-risk clause
+  // ("run build and typecheck plus the impact-mapped slice tests yourself") stays
+  assert.ok(!i.includes('run the full `config.commands` test, lint, typecheck and build yourself'),
+    'the integrator must not run the full battery itself when the receipt is valid')
+  const reporter = readFileSync(join(SKILL_DIR, 'prompts', 'test-reporter.md'), 'utf8')
+  assert.match(reporter, /\.sdlc\/reports\/<id>\/REPORT\.md/)
+  assert.doesNotMatch(reporter, /\.sdlc\/slices\/<id>\/REPORT\.md/)
 })
