@@ -67,8 +67,8 @@ test('tallyAudit treats a failed auditor as refuting every id in its chunk', () 
 })
 
 test('normalizeCounters fills missing counters with zero and keeps given ones', () => {
-  assert.deepEqual(I.normalizeCounters({ fixRounds: 2 }), { planRevisions: 0, fixRounds: 2, ladderStep: 0, parkCycles: 0, verifyDemanded: false })
-  assert.deepEqual(I.normalizeCounters(undefined), { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false })
+  assert.deepEqual(I.normalizeCounters({ fixRounds: 2 }), { planRevisions: 0, fixRounds: 2, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0 })
+  assert.deepEqual(I.normalizeCounters(undefined), { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0 })
 })
 
 test('chunk splits into fixed-size groups', () => {
@@ -98,19 +98,28 @@ test('groupScenarios gives each profile its scenarios, splitting only past the a
   assert.deepEqual(I.groupScenarios([]), [])
 })
 
-test('profileVote refutes on a failing test, a blocked scenario or a silent agent, and keeps seeds', async () => {
+test('profileVote refutes on a failing test and folds blocked scenarios and silent agents into infra', async () => {
   const { I } = await loadInternals()
   const groups = [{ profile: 'http-api', part: 0, scenarioIds: ['VS-1'] }, { profile: 'ui', part: 1, scenarioIds: ['VS-2', 'VS-3'] }]
   const clean = I.profileVote([{ refuted: false, evidence: 'ok', seeds: [{ title: 's1', detail: 'd' }] }, { refuted: false, evidence: 'ok' }], groups)
   assert.equal(clean.refuted, false)
+  assert.equal(clean.outcome, 'verified')
   assert.deepEqual(clean.seeds.map(s => s.title), ['s1'])
   const failing = I.profileVote([{ refuted: true, evidence: 'bad', failingTest: 't1 — go test — R-1' }, { refuted: false, evidence: 'ok' }], groups)
   assert.equal(failing.refuted, true)
+  assert.equal(failing.outcome, 'refuted')
   assert.match(failing.failingTest, /\[http-api\] t1/)
-  const blocked = I.profileVote([{ refuted: false, evidence: 'ok' }, { refuted: true, evidence: 'no browser', blocked: [{ scenarioId: 'VS-2', reason: 'chromium did not start' }] }], groups)
+  const blocked = I.profileVote([{ refuted: false, evidence: 'ok' }, { refuted: false, evidence: 'no browser', blocked: [{ scenarioId: 'VS-2', reason: 'chromium did not start' }] }], groups)
+  assert.equal(blocked.refuted, false)
+  assert.equal(blocked.outcome, 'infra')
   assert.match(blocked.failingTest, /blocked: \[ui#1\] VS-2: chromium did not start/)
   const silent = I.profileVote([{ refuted: false, evidence: 'ok' }, null], groups)
-  assert.equal(silent.refuted, true)
+  assert.equal(silent.refuted, false)
+  assert.equal(silent.outcome, 'infra')
   assert.match(silent.failingTest, /VS-3: profile verifier failed to report/)
+  // a refuting vote wins over blocked scenarios: infra must not mask a real bug
+  const both = I.profileVote([{ refuted: true, evidence: 'bad', failingTest: 't1 — go test — R-1' }, { refuted: false, evidence: 'no browser', blocked: [{ scenarioId: 'VS-2', reason: 'chromium did not start' }] }], groups)
+  assert.equal(both.refuted, true)
+  assert.equal(both.outcome, 'refuted')
   assert.equal(I.profileVote([], []).refuted, false)
 })

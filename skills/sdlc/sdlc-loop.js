@@ -59,7 +59,7 @@ const NEXT = {
 const SEED = { type: 'object', properties: { title: str, detail: str, file: str }, required: ['title', 'detail'] }
 const VOTE = {
   type: 'object',
-  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, seeds: { type: 'array', items: SEED } },
+  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, outcome: { type: 'string', enum: ['verified', 'refuted', 'infra'] }, seeds: { type: 'array', items: SEED } },
   required: ['refuted', 'evidence'],
 }
 
@@ -68,15 +68,22 @@ function isRefuting(v) {
   return !v || v.refuted !== false
 }
 
+// an infra outcome proves nothing about the slice: timeouts, saturation, silent agents. It is retried
+// outside the round economy and never refutes (2026-10-07 verify-economy spec, Section 2)
+function isInfra(v) {
+  return !!v && v.outcome === 'infra'
+}
+
 function tallyVerify(votes, lenses = []) {
   const failingTests = votes.filter(v => v && v.failingTest).map(v => v.failingTest)
   votes.forEach((v, i) => {
-    if (lenses[i] === 'regression' && isRefuting(v) && !(v && v.failingTest)) failingTests.push(`regression: ${v ? v.evidence : 'verifier failed to report'}`)
+    if (lenses[i] === 'regression' && isRefuting(v) && !isInfra(v) && !(v && v.failingTest)) failingTests.push(`regression: ${v ? v.evidence : 'verifier failed to report'}`)
   })
-  const refutations = votes.filter(isRefuting).length
+  const refutations = votes.filter(v => isRefuting(v) && !isInfra(v)).length
+  const infra = !refutations && failingTests.length === 0 && votes.some(isInfra)
   // each vote looks at something the others do not, so one refutation is enough: the spec-fidelity verifier
   // often has no failing test to name, and a majority rule would let the other two outvote it
-  return { pass: failingTests.length === 0 && refutations === 0, refutations, failingTests }
+  return { pass: failingTests.length === 0 && refutations === 0 && !infra, refutations, failingTests, infra }
 }
 
 // the verifier group: one agent per verification profile, each covering the scenarios tagged with it
@@ -142,28 +149,31 @@ function groupScenarios(scenarios, max = PROFILE_AGENT_LIMIT) {
   return profiles.flatMap(p => chunk(by.get(p), size).map((ids, part) => ({ profile: p, part, scenarioIds: ids })))
 }
 
-// folds the profile agents into one vote: any in-scope failing test or blocked scenario refutes it
+// folds the profile agents into one vote: a failing test or refuting evidence refutes it; blocked
+// scenarios and silent agents are infra
 function profileVote(votes, groups) {
   const failing = []
-  const blocked = []
+  const infra = []
   const refuters = []
   votes.forEach((v, i) => {
     const g = groups[i]
     const tag = `[${g.profile}${g.part ? `#${g.part}` : ''}]`
     if (!v) {
-      blocked.push(...g.scenarioIds.map(id => `${tag} ${id}: profile verifier failed to report`))
+      infra.push(...g.scenarioIds.map(id => `${tag} ${id}: profile verifier failed to report`))
       return
     }
     if (v.failingTest) failing.push(`${tag} ${v.failingTest}`)
-    for (const b of v.blocked || []) blocked.push(`${tag} ${b.scenarioId}: ${b.reason}`)
-    if (isRefuting(v)) refuters.push(`${tag} ${v.evidence}`)
+    for (const b of v.blocked || []) infra.push(`${tag} ${b.scenarioId}: ${b.reason}`)
+    if (isRefuting(v) && !isInfra(v)) refuters.push(`${tag} ${v.evidence}`)
   })
-  const failingTest = [...failing, ...blocked.map(b => `blocked: ${b}`)].join(' | ')
+  const failingTest = [...failing, ...infra.map(b => `blocked: ${b}`)].join(' | ')
+  const refuted = failing.length > 0 || refuters.length > 0
   const evidence = groups.length
     ? votes.map((v, i) => `[${groups[i].profile}${groups[i].part ? `#${groups[i].part}` : ''}] ${v ? `${v.refuted ? 'REFUTED' : 'ok'}: ${v.evidence}` : 'failed to report'}`).join(' ; ')
     : 'no scenarios to verify'
   const seeds = votes.filter(Boolean).flatMap(v => v.seeds || [])
-  return { refuted: failing.length > 0 || blocked.length > 0 || refuters.length > 0, evidence, failingTest, seeds }
+  const outcome = refuted ? 'refuted' : infra.length || votes.some(isInfra) ? 'infra' : 'verified'
+  return { refuted, outcome, evidence, failingTest, seeds }
 }
 
 function allClear(votes) {
@@ -210,7 +220,7 @@ function tallyAudit(ids, results) {
 }
 
 function normalizeCounters(c) {
-  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, ...(c || {}) }
+  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, ...(c || {}) }
 }
 
 function chunk(arr, size) {
@@ -579,6 +589,7 @@ const PVOTE = {
     refuted: { type: 'boolean' },
     evidence: str,
     failingTest: str,
+    outcome: { type: 'string', enum: ['verified', 'refuted', 'infra'] },
     seeds: { type: 'array', items: SEED },
     blocked: { type: 'array', items: { type: 'object', properties: { scenarioId: str, reason: str }, required: ['scenarioId', 'reason'] } },
     failedScenarios: { type: 'array', items: str },
@@ -733,7 +744,20 @@ async function buildLoop(id, counters, s = {}) {
       const review0 = earlyReview || early
       const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
-      log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
+      log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)${v.infra ? ', infra retry' : ''}`)
+      if (v.infra && !v.refutations) {
+        // an inconclusive round proves nothing, so it is replayed at the same fix round; the counter is
+        // reset by any round with a verdict. Three consecutive infra failures park the slice as infra debt.
+        counters.infraRetries++
+        if (counters.infraRetries >= 3) {
+          log(`${id}: ${counters.infraRetries} consecutive infra failures; parking with infra debt`)
+          await persist(id, { status: 'parked', infraDebt: true, counters })
+          return { ok: false, infraDebt: true, seeds: [], lastEvidence: evidence }
+        }
+        await persist(id, { counters })
+        continue
+      }
+      counters.infraRetries = 0
       if (!v.pass) {
         evidence = votes.map((x, i) => (x
           ? `[${lenses[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
@@ -1029,7 +1053,7 @@ const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milest
 
 const INTERNALS = {
   run, persist, hasHeadroom, spent: () => spent, milestoneSpent: () => milestoneSpent, milestoneId: () => milestoneId,
-  tallyVerify, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
+  tallyVerify, isInfra, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
   PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
   decisionPanel, escalate,

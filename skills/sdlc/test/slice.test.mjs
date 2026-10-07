@@ -205,7 +205,7 @@ test('parkedRetry unparks then runs the slice from plan with reset counters', as
   assert.equal(rt.calls[1].inputs.op, 'unpark')
   assert.equal(rt.calls[2].role, 'planner')
   const patch = rt.calls.find(c => c.role === 'state-writer' && c.inputs.op === 'patch-slice').inputs.patch
-  assert.deepEqual(patch.counters, { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 1, verifyDemanded: false })
+  assert.deepEqual(patch.counters, { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 1, verifyDemanded: false, infraRetries: 0 })
 })
 
 test('retryMerge calls the integrator in retry-merge mode', async () => {

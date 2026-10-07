@@ -10,7 +10,7 @@ test('the profile group gets its scenarios, branch and unavailable tools; the to
     'verify-planner': plan(['ui', 'i18n'], [{ id: 'ui-harness', profile: 'ui', purpose: 'playwright', exists: false }, { id: 'stub-server', profile: 'http-api', purpose: 'x', exists: true }]),
     'verify-toolsmith': () => ({ ok: true, built: [], failed: [{ id: 'ui-harness', reason: 'chromium failed to launch' }] }),
     verifier: () => clear(),
-    'verify-ui': () => ({ refuted: true, evidence: 'blocked', blocked: [{ scenarioId: 'VS-1', reason: 'ui-harness unavailable' }] }),
+    'verify-ui': () => ({ refuted: false, evidence: 'blocked', blocked: [{ scenarioId: 'VS-1', reason: 'ui-harness unavailable' }] }),
     'verify-i18n': () => clear(),
     'verify-collector': () => ok(),
   }))
@@ -20,7 +20,9 @@ test('the profile group gets its scenarios, branch and unavailable tools; the to
   const ui = rt.calls.find(c => c.role === 'verify-ui').inputs
   assert.deepEqual(ui, { sliceId: 'S-1', round: 2, planRound: 2, part: 0, scenarioIds: ['VS-1'], branch: 'sdlc/S-1-v2-ui-0', unavailableTools: [{ id: 'ui-harness', reason: 'chromium failed to launch' }] })
   assert.deepEqual(rt.calls.find(c => c.role === 'verify-collector').inputs.branches, ['sdlc/S-1-v2-ui-0', 'sdlc/S-1-v2-i18n-0'])
-  assert.equal(votes[1].refuted, true)
+  // a blocked scenario proves nothing about the slice: it is infra, retried outside the fix-round economy
+  assert.equal(votes[1].outcome, 'infra')
+  assert.equal(votes[1].refuted, false)
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, false)
 })
 
