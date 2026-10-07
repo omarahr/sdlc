@@ -421,14 +421,14 @@ test('profile agents write their tests as evidence in the main tree, and the col
   const collector = readFileSync(join(SKILL_DIR, 'prompts', 'verify-collector.md'), 'utf8')
   assert.match(collector, /You fold nothing into the slice branch/)
   assert.match(collector, /verification\/r<round>\/tests\/<profile>-<part>\//)
-  assert.match(collector, /copy them unmodified/)
+  assert.match(collector, /copy them unmodified/i)
   assert.match(collector, /git branch -D/)
   assert.doesNotMatch(collector, /cherry-pick/)
   assert.doesNotMatch(collector, /checkout sdlc\/<id>/)
   assert.doesNotMatch(collector, /[Rr]un the newly added verification test files/)
   // the agents write into the main tree, so the move from the worktree is the fallback, not the routine
   assert.match(collector, /file the test files its agent wrote under/)
-  assert.match(collector, /move them in from its worktree only when it left them there instead/)
+  assert.match(collector, /move them in from its worktree only when it left them there instead/i)
   // the ui profile boots the app in a browser inside its test fixture, so the fast-test rule carves it out
   assert.match(common, /The ui profile's browser fixture is the exception/)
   // a security attack is evidence under tests/, promoted later only if the finding holds — never a commit
@@ -474,14 +474,16 @@ test('the regression lens holds the suite slot in full scope, and the slice scop
   assert.match(fullLine, /an orphaned holder \(a slot process that outlived its run\)/)
   assert.match(fullLine, /slot-release` once to recover/)
   assert.match(fullLine, /never re-enter during a handover/)
-  assert.match(fullLine, /do not retry aggressively/)
+  assert.match(fullLine, /do not retry aggressively/i)
   // the mapping is best effort: a failed impact.py never refutes the slice on its own
   assert.match(sliceLine, /best effort/)
   assert.match(sliceLine, /a mapping failure alone never refutes the slice/)
   // the static Inputs line names scope, so the agent reads its scope from its inputs
   assert.match(v, /Inputs: `sliceId`, `lens`, `round`, `scope`\./)
-  // the spec-fidelity note matches the lens's actual scoping
-  assert.match(v, /The regression lens tests the suite at the slice scope during build rounds and in full at the gate, so do not run it here\./)
+  // the spec-fidelity note matches the lens's actual scoping (now split into STE sentences)
+  assert.match(v, /The regression lens tests the suite at the slice scope during build rounds\./)
+  assert.match(v, /It runs in full at the gate\./)
+  assert.match(v, /Do not run it here\./)
   assert.doesNotMatch(v, /The regression lens runs the full suite, so do not run it here\./)
   // SKILL.md's phase list places the Gate between the verify group and Integrate
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')

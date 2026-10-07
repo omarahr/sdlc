@@ -54,6 +54,10 @@ PLACEHOLDERS = frozenset({
 ALLOWED_ALL_CAPS = frozenset({
     "STE", "ADR", "SDLC", "EOF", "TMPDIR", "HEAD", "URL", "SHA", "CI", "PR", "MR", "API",
     "JSON", "YAML", "CLI", "UI", "ID", "TODO",
+    # Technical-name acronyms the verify-family prompts use in prose: web protocols and interfaces,
+    # security terms, web-vitals metrics, hardware and format units, and tool names.
+    "RTL", "HTTP", "SSRF", "MCP", "CDP", "SDK", "JWT", "BMP", "DNS", "SIGINT", "SQL",
+    "LCP", "CLS", "INP", "CPU", "PNG", "KB", "MB",
 })
 
 # Padding and softening idioms. Word boundaries apply, so `adjust` never trips `just`.
