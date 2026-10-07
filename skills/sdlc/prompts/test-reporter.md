@@ -74,7 +74,7 @@ One line each: the verification toolkit tools used (with paths); links to each r
 - `timeline`: a table with columns `attempt | clock time | outcome | state`.
 - `interleaving`: the forced schedule as a numbered list, plus the iteration count.
 - `schema-diff`: a `diff` code block.
-- `screenshot`: `![<state>](verification/r<n>/assets/<file>.png)`, one per state, captioned.
+- `screenshot`: copy the file into the report's own `assets/` folder (create it) and link it relative: `![<state>](assets/<file>.png)`, one per state, captioned.
 - `a11y`: a table with columns `rule | impact | count | element`.
 - `trace`: the summary numbers (LCP, CLS, INP, long tasks) in a table, and the file link.
 - `measurement`: a table with columns `number (source) | runs | median | p95 | worst | environment`.

@@ -324,8 +324,14 @@ test('the integrator trusts the gate receipt, regates after a product-code CI fi
   // the retention prune and its opt-out
   assert.match(i, /delete `verification\/`/)
   assert.match(i, /keepEvidence/)
+  // the receipt is the one exception: it stays readable where suite-receipt.py reads it,
+  // and a copy lands in the reports dir
+  assert.match(i, /except `verification\/suite-receipt\.json`/)
+  assert.match(i, /\.sdlc\/reports\/<id>\/suite-receipt\.json/)
   // the stale-branch sweep covers the versioned and attempt branches
   assert.match(i, /sdlc\/<id>-v\*/)
+  // a crashed receipt check is infra: inconclusive, never a self-run of the suite
+  assert.match(i, /cannot run[\s\S]{0,120}inconclusive/)
   // the old self-run fallback for battery slices is gone; the low-risk clause
   // ("run build and typecheck plus the impact-mapped slice tests yourself") stays
   assert.ok(!i.includes('run the full `config.commands` test, lint, typecheck and build yourself'),
@@ -333,4 +339,7 @@ test('the integrator trusts the gate receipt, regates after a product-code CI fi
   const reporter = readFileSync(join(SKILL_DIR, 'prompts', 'test-reporter.md'), 'utf8')
   assert.match(reporter, /\.sdlc\/reports\/<id>\/REPORT\.md/)
   assert.doesNotMatch(reporter, /\.sdlc\/slices\/<id>\/REPORT\.md/)
+  // screenshots are embedded from the report's own assets folder, so the links survive the prune
+  assert.match(reporter, /!\[<state>\]\(assets\/<file>\.png\)/)
+  assert.doesNotMatch(reporter, /verification\/r<n>\/assets/)
 })
