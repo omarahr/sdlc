@@ -1265,8 +1265,8 @@ async function main() {
     if (next.action === 'stop') {
       // a stop-file stop pauses: the driver keeps the worktree for a paused run and never runs
       // cleanup against it, so the promise the stop wording makes holds at the iteration top too.
-      // Any other stop reason (spec changed, pr not ready) ends the run, which removes it.
-      if (next.reason && next.reason.includes('STOP')) return finish('paused', 'stop requested', history)
+      // The match is the exact file path — a coincidental 'STOP' substring is some other stop.
+      if (next.reason && next.reason.includes('.sdlc/STOP')) return finish('paused', 'stop requested', history)
       return finish('stopped', next.reason, history)
     }
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)

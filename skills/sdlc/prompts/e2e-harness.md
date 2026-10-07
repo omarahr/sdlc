@@ -4,7 +4,7 @@ Build or update the black-box end-to-end harness, boot the whole system from a c
 
 Inputs: `milestoneId`, `rerun`.
 
-1. **Branch:** check out `sdlc/<milestoneId>-e2e` if it exists; otherwise create it. In `stack` mode cut it from the milestone branch `sdlc/M-<n>`, which already exists because the milestone's first slice created it — if it is missing, stop and say so rather than creating it. In `pr` mode cut it from the up-to-date default branch. In `direct` and `mr` mode cut it from the working branch (`config.defaultBranch`). Never cut it from the default branch in `stack` mode.
+1. **Branch:** check out `sdlc/<milestoneId>-e2e` if it exists; otherwise create it. In `stack` mode cut it from the milestone branch `sdlc/M-<n>`, which already exists because the milestone's first slice created it — if it is missing, stop and say so rather than creating it. In `pr` mode cut it from the up-to-date `<defaultBranch>` ref. In `direct` and `mr` mode cut it from the run branch — the loop's working branch, which in `mr` mode is also `config.defaultBranch`. Branching from a ref is always allowed: git refuses only *checking out* a branch another worktree holds, never branching from it. Never cut it from the default branch in `stack` mode.
 2. **Boot the real system** the way the spec deploys it, from source, on a clean state:
    - a compose file or script that starts the database and the service(s) built from the current code, runs migrations, and waits for health;
    - local fakes only for parties outside the system: team services, webhook receivers, identity providers. Fakes record every request they receive, and can be told to fail, stall or return errors;

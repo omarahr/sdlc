@@ -1,6 +1,6 @@
 # The run's merge request (`mr` mode)
 
-In `mr` mode the slices are committed to the working branch (`config.defaultBranch`) exactly as in `direct` mode, and the whole run is delivered as **one** merge request (or pull request) from that branch into `config.targetBranch`. A human reviews and merges it; you never merge it.
+In `mr` mode the slices are committed to the working branch (the run branch, which `config.defaultBranch` names) exactly as in `direct` mode, and the whole run is delivered as **one** merge request (or pull request) from that branch into `config.targetBranch`. A human reviews and merges it; you never merge it.
 
 Read `forge`, `defaultBranch`, `targetBranch`, `runRequest` and `commitFormat` from `.sdlc/config.json`.
 

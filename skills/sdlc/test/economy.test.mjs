@@ -390,6 +390,9 @@ test('a stop-file stop at the iteration top pauses, and any other stop reason st
   const other = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'spec changed' }] }))
   assert.equal(other.result.state, 'stopped')
   assert.equal(other.result.reason, 'spec changed')
+  // 'STOP' alone is never enough: the match is the exact file path, so a coincidental substring stops
+  const coincidental = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'STOPPED: the spec was replaced' }] }))
+  assert.equal(coincidental.result.state, 'stopped')
 })
 
 test('a stopRequested state-reader pauses instead of stalling into the relaunch loop', async () => {
