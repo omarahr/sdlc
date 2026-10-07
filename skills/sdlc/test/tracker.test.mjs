@@ -660,6 +660,41 @@ test('the agents, milestones and pace chart are plain open regions, so a reload 
   assert.match(row.querySelector('.ms-eta span').textContent, / – /, 'with the range under it')
 })
 
+test('the stats row carries the verify economics next to the existing counts', () => {
+  const st = trackerStatus(longRun())
+  st.run = { label: 'Run 1', agents: 12, cap: 850 }
+  st.slices = [
+    { id: 'S-001', title: 'Store', status: 'done', ledger: [
+      { kind: 'verify', round: 0, outcome: 'refuted', refutations: 2, failingTests: 1 },
+      { kind: 'verify', round: 1, outcome: 'verified', refutations: 0, failingTests: 0 },
+    ] },
+    { id: 'S-002', title: 'List', status: 'in_progress', ledger: [
+      { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+      { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    ] },
+    { id: 'S-003', title: 'Search', status: 'todo' },
+  ]
+  const page = loadPage(st)
+  const stats = page.document.querySelectorAll('.stat').map((s) => s.textContent)
+  assert.ok(stats.some((t) => t.startsWith('1 / 1') && t.includes('refutations fixed')), 'refutation→fix rate off the ledgers')
+  assert.ok(stats.some((t) => t.startsWith('2') && t.includes('infra retries')))
+  assert.ok(stats.some((t) => t.startsWith('1') && t.includes('max fix round') && t.includes('r0×1 · r1×1')), 'the fix-round distribution')
+  assert.ok(stats.some((t) => t.startsWith('3') && t.includes('agents per verify round')), '12 journal agents over 4 verify rounds')
+  // a run whose slices have no ledger rows shows no economics at all
+  const plain = loadPage(trackerStatus(longRun()))
+  assert.equal(plain.document.querySelectorAll('.stat .l').filter((l) => l.textContent.includes('verify round')).length, 0)
+  // a lone gate row (a slice parked at phase gate on pre-ledger state) has no verify-kind rows: the
+  // economics wake up, but with an empty distribution — and never a "-Infinity" stat
+  const gateOnly = trackerStatus(longRun())
+  gateOnly.slices = [{ id: 'S-001', title: 'Store', status: 'in_progress', ledger: [
+    { kind: 'gate', round: 0, outcome: 'verified', refutations: 0, failingTests: 0 },
+  ] }]
+  const gatePage = loadPage(gateOnly)
+  const gateStats = gatePage.document.querySelectorAll('.stat').map((s) => s.textContent)
+  assert.ok(gateStats.every((t) => !t.includes('max fix round')), 'no distribution stat off an empty dist')
+  assert.ok(gateStats.every((t) => !t.includes('-Infinity')), 'and no -Infinity anywhere')
+})
+
 test('the scroll box is capped and scrolls, and only the slot ever builds it', () => {
   const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
   const rule = cssRule(src, '.wf-scroll')

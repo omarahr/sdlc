@@ -133,6 +133,44 @@ test('the index is a status board: counts band, phase chip, slice progress and r
   } finally { await hub.stop() }
 })
 
+test("the index shows each run's verify economics from its slices' ledger rows", { skip: !python && 'python3 not installed' }, async () => {
+  const hub = await runningHub()
+  try {
+    const out = join(hub.dir, 'out')
+    mkdirSync(out, { recursive: true })
+    writeFileSync(join(out, 'index.html'), 'ok')
+    writeFileSync(join(out, 'status.json'), JSON.stringify({
+      title: 'Bookmarks Service',
+      run: { label: 'Current run', agents: 12, cap: 850 },
+      slices: [
+        { id: 'S-1', title: 'Store', status: 'done', ledger: [
+          { kind: 'verify', round: 0, outcome: 'refuted', refutations: 2, failingTests: 1 },
+          { kind: 'verify', round: 1, outcome: 'verified', refutations: 0, failingTests: 0 },
+        ] },
+        { id: 'S-2', title: 'List', status: 'in_progress', ledger: [
+          { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+          { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+        ] },
+      ],
+    }))
+    register(hub.dir, 'myapp-bookmarks')
+    // a run whose slices carry no ledger rows yet shows no economics band
+    const plain = join(hub.dir, 'plain')
+    mkdirSync(plain, { recursive: true })
+    writeFileSync(join(plain, 'index.html'), 'ok')
+    writeFileSync(join(plain, 'status.json'), JSON.stringify({ title: 'Plain run' }))
+    register(hub.dir, 'plain-run', { out: plain })
+    const index = await get(hub.port, '/')
+    assert.equal(index.status, 200)
+    assert.equal((index.body.match(/class="econ"/g) || []).length, 1, 'only the run with ledger rows carries the band')
+    assert.match(index.body, /1\/1<\/b> refuted fixed/, 'one refuted slice, fixed by the later verified round')
+    assert.match(index.body, /<b>2<\/b> infra retries/)
+    assert.match(index.body, /max fix round <b>1<\/b>/)
+    assert.match(index.body, /r0×1 · r1×1/, 'the fix-round distribution: one slice at round 0, one at round 1')
+    assert.match(index.body, /<b>3<\/b> agents\/verify round/, '12 journal agents over 4 verify rounds')
+  } finally { await hub.stop() }
+})
+
 test('a run page never serves a file outside its tracker directory', { skip: !python && 'python3 not installed' }, async () => {
   const hub = await runningHub()
   try {

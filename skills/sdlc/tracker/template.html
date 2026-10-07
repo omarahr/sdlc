@@ -664,13 +664,63 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     w.append(num, el("div", "l", label));
     return w;
   }
+  function stat0(n, label) {
+    const w = el("div", "stat");
+    w.append(el("div", "n", String(n)), el("div", "l", label));
+    return w;
+  }
 
-  function statsRow(c, slices, req, ms) {
+  // verify economics, from the slices' ledger rows: the refutation→fix rate (a refuted row for a slice
+  // followed by a verified row at a higher round), the infra retries, the fix-round distribution (the
+  // highest verify round each slice reached) and the agents per verify round. The hub's journal count
+  // arrives in status.json's run.agents; the page never reads the journal itself. Null while no slice
+  // has recorded a round.
+  function economics(slices, run) {
+    let refuted = 0, fixed = 0, infra = 0, rounds = 0, seen = false;
+    const dist = {};
+    (slices || []).forEach((s) => {
+      if (!s || !Array.isArray(s.ledger) || !s.ledger.length) return;
+      seen = true;
+      let sliceRefuted = false, sliceFixed = false, refRound = null, maxRound = -1;
+      s.ledger.forEach((r) => {
+        if (!r) return;
+        const rnd = Number.isFinite(r.round) ? r.round : 0;
+        if (r.outcome === "infra") infra++;
+        if (r.kind === "verify") { rounds++; maxRound = Math.max(maxRound, rnd); }
+        if (r.outcome === "refuted") { sliceRefuted = true; refRound = refRound === null ? rnd : Math.min(refRound, rnd); }
+        else if (r.outcome === "verified" && refRound !== null && rnd > refRound) sliceFixed = true;
+      });
+      if (sliceRefuted) refuted++;
+      if (sliceFixed) fixed++;
+      if (maxRound >= 0) dist[maxRound] = (dist[maxRound] || 0) + 1;
+    });
+    if (!seen) return null;
+    let perRound = null;
+    const agents = run && typeof run.agents === "number" ? run.agents : null;
+    if (rounds && agents !== null && agents >= 0) perRound = agents / rounds;
+    return { refuted, fixed, infra, dist, rounds, perRound };
+  }
+
+  function statsRow(c, slices, req, ms, run) {
     const row = el("div", "stats");
     row.append(stat(c.done, slices.length, "slices done" + (c.parked ? ", " + c.parked + " parked" : "")));
     row.append(stat(req.done, req.total, "requirements · " + Math.round(100 * req.done / Math.max(1, req.total)) + "%"));
     const real = ms.filter((m) => !m.final && m.status !== null);
     if (real.length) row.append(stat(real.filter((m) => m.status === "verified").length, real.length, "milestones verified"));
+    const e = economics(slices, run);
+    if (e) {
+      if (e.refuted) row.append(stat(e.fixed, e.refuted, "refutations fixed"));
+      if (e.infra) row.append(stat0(e.infra, "infra retries"));
+      // a ledger can hold no verify-kind rows (a lone gate row from pre-ledger state): no distribution
+      if (Object.keys(e.dist).length) {
+        const line = Object.keys(e.dist).sort((a, b) => a - b).map((r) => "r" + r + "×" + e.dist[r]).join(" · ");
+        row.append(stat0(Math.max(...Object.keys(e.dist).map(Number)), "max fix round · " + line));
+      }
+      if (e.perRound != null) {
+        const p = e.perRound;
+        row.append(stat0(Number.isInteger(p) ? p : Math.round(p * 10) / 10, "agents per verify round"));
+      }
+    }
     return row;
   }
 
@@ -702,7 +752,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     const band = el("section", "band");
     const wf = data.workflow;
     if (!(wf && wf.run)) {
-      band.append(statsRow(c, slices, req, ms));
+      band.append(statsRow(c, slices, req, ms, data.run));
       return band;
     }
     const run = wf.run, agents = run.agents || [];
@@ -723,7 +773,7 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     ].filter(Boolean).join(" · ")));
     const busy = agents.filter((a) => a.status === "running");
     if (busy.length) left.append(el("div", "run-now", busy.map((a) => a.label).join(", ")));
-    top.append(left, statsRow(c, slices, req, ms));
+    top.append(left, statsRow(c, slices, req, ms, data.run));
     band.append(top, phaseRail(wf));
     return band;
   }

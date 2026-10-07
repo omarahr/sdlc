@@ -468,6 +468,9 @@ async function sliceAction(next, gateEvidence = []) {
   const id = next.sliceId
   const s = next.slice || {}
   const counters = normalizeCounters(s.counters)
+  // the verify-economy ledger as this action's accumulator: `s` goes stale once rows are persisted, so the
+  // array is threaded into buildLoop and the gate, and the recursion below re-seeds it from the local
+  const ledger = [...(s.ledger || [])]
   let at = Math.max(0, PHASE_ORDER.indexOf(s.phase || 'plan'))
   if (at === 0) {
     const planned = await planPhase(id, counters)
@@ -487,24 +490,24 @@ async function sliceAction(next, gateEvidence = []) {
   }
   let seeds = s.seeds || []
   if (at === 2) {
-    const b = await buildLoop(id, counters, s, gateEvidence)
+    const b = await buildLoop(id, counters, s, gateEvidence, ledger)
     if (b.paused) return `${id} paused: agent cap`
     if (b.infraDebt) return `${id} parked with infra debt: ${b.lastEvidence.join(' | ').slice(0, 200)}`
     if (!b.ok) return escalate(id, s, counters, `fix rounds exhausted: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
     seeds = b.seeds
-    await persist(id, { phase: 'gate', counters, seeds })
+    await persist(id, { phase: 'gate', counters, seeds, ledger })
     at = 3
   }
   if (at === 3) {
-    const gate = await gatePhase(id, counters)
+    const gate = await gatePhase(id, counters, ledger)
     if (gate.verdict === 'infra') return `${id} gate inconclusive (infra): the run retries it on the next iteration`
     if (gate.verdict === 'infra-debt') return `${id} parked with infra debt at the gate`
     if (gate.verdict === 'fail') {
       // a real failing test at the gate costs a fix round, like any refutation
       counters.fixRounds++
-      await persist(id, { phase: 'implement', counters })
+      await persist(id, { phase: 'implement', counters, ledger })
       log(`${id} gate failed: back to the build loop`)
-      return sliceAction({ ...next, slice: { ...s, phase: 'implement', counters } }, [`[gate] failing test: ${gate.failingTest}`])
+      return sliceAction({ ...next, slice: { ...s, phase: 'implement', counters, ledger } }, [`[gate] failing test: ${gate.failingTest}`])
     }
     await persist(id, { phase: 'integrate', counters })
     at = 4
@@ -707,7 +710,11 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
 
 const reviewEvidence = f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`
 
-async function buildLoop(id, counters, s = {}, initialEvidence = []) {
+// one verify-economy ledger row: appended per verify round (and once at the gate) and persisted with the
+// round's counters in the same state-write, so the tracker can price verification without extra patches
+const ledgerRow = (kind, round, outcome, refutations, failingTests) => ({ kind, round, outcome, refutations, failingTests })
+
+async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []) {
   // a gate fail re-enters the loop with the gate's evidence; a fresh build starts with none
   let evidence = [...initialEvidence]
   // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
@@ -716,10 +723,15 @@ async function buildLoop(id, counters, s = {}, initialEvidence = []) {
   let prevVerify = null
   // set when a review finding sends the slice back to the implementer, until the next verification has run
   let reviewFix = false
+  // `ledger` is the action's accumulator, seeded by the caller from the slice and threaded on: `s.ledger`
+  // goes stale within one sliceAction, so every patch below carries the full array grown so far
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
     if (milestoneSpent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
     phase('Implement')
+    // the row this round appends unless it ends in the infra-retry path; a round the implementer could
+    // not finish proves nothing and is recorded as refuted with no refutations
+    let row = ledgerRow('verify', round, 'refuted', 0, 0)
     let impl = await run('implementer', { sliceId: id, fixRound: round, evidence }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}` })
     if (impl && !impl.green && impl.inconclusive) {
       // a command that never finished proves nothing, so it must not spend a fix round
@@ -746,7 +758,8 @@ async function buildLoop(id, counters, s = {}, initialEvidence = []) {
           evidence = early.blocking.map(reviewEvidence)
           reviewFix = true
           counters.fixRounds++
-          await persist(id, { counters })
+          ledger.push(ledgerRow('verify', round, 'refuted', early.blocking.length, 0))
+          await persist(id, { counters, ledger })
           continue
         }
         if (!early.needsVerify) return { ok: true, seeds: [...early.seeds, ...verifySeeds], lastEvidence: [] }
@@ -763,15 +776,19 @@ async function buildLoop(id, counters, s = {}, initialEvidence = []) {
         // an inconclusive round proves nothing, so it is replayed at the same fix round; the counter is
         // reset by any round with a verdict. Three consecutive infra failures park the slice as infra debt.
         counters.infraRetries++
+        const infraRow = ledgerRow('verify', round, 'infra', v.refutations, v.failingTests.length)
         if (counters.infraRetries >= 3) {
           log(`${id}: ${counters.infraRetries} consecutive infra failures; parking with infra debt`)
-          await persist(id, { status: 'parked', infraDebt: true, counters })
+          ledger.push(infraRow)
+          await persist(id, { status: 'parked', infraDebt: true, counters, ledger })
           return { ok: false, infraDebt: true, seeds: [], lastEvidence: evidence }
         }
-        await persist(id, { counters })
+        ledger.push(infraRow)
+        await persist(id, { counters, ledger })
         continue
       }
       counters.infraRetries = 0
+      row = ledgerRow('verify', round, v.pass ? 'verified' : 'refuted', v.refutations, v.failingTests.length)
       if (!v.pass) {
         evidence = votes.map((x, i) => (x
           ? `[${lenses[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
@@ -785,13 +802,18 @@ async function buildLoop(id, counters, s = {}, initialEvidence = []) {
       } else {
         const review = review0 || await reviewPhase(id, round)
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
-        if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
+        if (!review.blocking.length) {
+          // the slice is done: the row rides the gate transition persist in sliceAction
+          ledger.push(row)
+          return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
+        }
         evidence = review.blocking.map(reviewEvidence)
         reviewFix = true
       }
     }
     counters.fixRounds++
-    await persist(id, { counters })
+    ledger.push(row)
+    await persist(id, { counters, ledger })
   }
   return { ok: false, seeds: [], lastEvidence: evidence }
 }
@@ -805,27 +827,33 @@ const GATE = {
 // the gate: the full-repo regression lens runs once, here, on the exact final commit, and the receipt it
 // writes is the only merge authority. A commit after a passed gate invalidates it (the integrator asks for
 // a regate); a real failing test sends the slice back to the build loop; infra retries outside the economy.
-async function gatePhase(id, counters) {
+async function gatePhase(id, counters, ledger = []) {
   phase('Gate')
   let g = await run('gate', { sliceId: id }, { schema: GATE, phase: 'Gate', label: id })
   if (!g) g = { state: 'infra', notes: 'gate agent failed to report' }
+  // the gate's own ledger row: a fail carries the real failing test it found
+  const pushRow = outcome => ledger.push(ledgerRow('gate', 0, outcome, outcome === 'refuted' ? 1 : 0, outcome === 'refuted' ? 1 : 0))
   // the return is {verdict, failingTest} so sliceAction can hand the gate's failing test to the build loop
   if (g.state === 'pass') {
     counters.gateCommit = g.commit || ''
     counters.infraRetries = 0
-    await persist(id, { counters })
+    pushRow('verified')
+    await persist(id, { counters, ledger })
     return { verdict: 'pass', failingTest: '' }
   }
   if (g.state === 'infra') {
     counters.infraRetries++
-    await persist(id, { counters })
+    pushRow('infra')
+    await persist(id, { counters, ledger })
     if (counters.infraRetries >= 3) {
       log(`${id}: ${counters.infraRetries} consecutive infra failures at the gate; parking with infra debt`)
-      await persist(id, { status: 'parked', infraDebt: true, counters })
+      await persist(id, { status: 'parked', infraDebt: true, counters, ledger })
       return { verdict: 'infra-debt', failingTest: '' }
     }
     return { verdict: 'infra', failingTest: '' }
   }
+  // the fail branch persists nothing here: sliceAction's back-to-the-build-loop write carries the row
+  pushRow('refuted')
   return { verdict: 'fail', failingTest: g.failingTest || '' }
 }
 
