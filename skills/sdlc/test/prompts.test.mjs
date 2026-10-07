@@ -148,7 +148,7 @@ test('direct mode ships from the run worktree: sync, squash, push to the default
   assert.match(direct, /your checkout is behind the moved branch/)
   assert.match(direct, /git reset --hard <defaultBranch>/)
   // a failed evidence-sha push is retried once, then reported: the next slice's sync must not be left wedged
-  assert.match(direct, /retry (it|the push) once/)
+  assert.match(direct, /On a failed push, retry once/)
   assert.match(direct, /state: "failed"/)
 })
 
@@ -583,7 +583,7 @@ test('the state schema documents the verify economy the loop implements', () => 
   assert.match(schema, /resuming it keeps the slice's phase and counters instead of re-planning/)
   // the ledger row's shape, and the rule that keeps refutation outcomes out of the stored state
   assert.match(schema, /"kind": "verify" \| "gate", "round": <n>, "outcome": "verified" \| "refuted" \| "infra"/)
-  assert.match(schema, /the tracker derives it from consecutive rounds/)
+  assert.match(schema, /[Tt]he tracker derives it from consecutive rounds/)
   // a review-blocked round on a low slice stores its blocking findings as the row's refutations
   assert.match(schema, /review-blocked round on a `low` slice carries the blocking findings' count in `refutations`/)
   // the profile agents' unpromoted tests are evidence files the schema lists where they are written

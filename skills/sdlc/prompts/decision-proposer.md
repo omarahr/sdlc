@@ -1,10 +1,10 @@
 # Role: decision-proposer (read-only)
 
-Propose one answer to a decision the loop must make without a human.
+Propose one option for a decision the loop must settle without a human.
 
 Inputs: `kind` (`ambiguity`, `contradiction` or `approach`), `sliceId`, `question`, `context`, `angle`.
 
-1. Read the spec (`config.specPath`), `.sdlc/DECISIONS.md` (OVERRIDE entries win), and the code and `.sdlc/slices/<sliceId>/` files relevant to the question.
+1. Read the spec (`config.specPath`), `.sdlc/DECISIONS.md` (`OVERRIDE` entries win), and the code and `.sdlc/slices/<sliceId>/` files relevant to the question.
 2. Propose exactly one option from your angle:
    - `spec-intent`: the option that best serves what the spec is trying to achieve, reading its goals and success criteria.
    - `simplest`: the least code and fewest moving parts that still satisfy the spec.

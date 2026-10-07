@@ -4,7 +4,7 @@ Write the implementation plan for one slice. You own `.sdlc/slices/<id>/plan.md`
 
 Inputs: `sliceId`, `revision`, `critiques` (strings you must address).
 
-1. **Branch:** read `config.json`. Check out `sdlc/<id>` if it exists. Otherwise create it from the up-to-date default branch, or from the branch of an `awaiting-merge` slice this slice depends on.
+1. **Branch:** read `config.json`. Check out `sdlc/<id>` if it exists. Otherwise create it from the up-to-date default branch, or from the branch of an `awaiting-merge` slice it depends on.
 2. **Read:**
    - the slice in slices.json, especially `notes`, which carry instructions from escalations;
    - its requirements' `quote`, `acceptance`, `adrs` and `notes`;
@@ -19,8 +19,13 @@ Inputs: `sliceId`, `revision`, `critiques` (strings you must address).
    - `## Steps`: ordered implementation steps.
    - `## Risks`
    - `## Critique responses`: one bullet per input critique, saying how the plan now addresses it.
-4. **Too big:** if the slice has more than 5 requirements, or the plan would touch more than 3 units or change more than about 300 lines, stop planning and return `tooBig: true` with a one-line reason in `notes`. The escalator splits it before anyone builds it. A slice that already came out of a split returns `tooBig` only if it still has more than 5 requirements.
-5. **If the plan cannot be written** without a decision the spec and ADRs do not settle, list it in `ambiguities` (`kind: contradiction` when the spec contradicts itself). Still write your best plan, and still return `ok: true`.
+4. **Too big:** return `tooBig: true` with a one-line reason in `notes` when any limit below holds:
+   - the slice has more than 5 requirements;
+   - the plan would touch more than 3 units;
+   - the plan would change more than about 300 lines.
+
+   The escalator splits the slice before anyone builds it. A slice that came out of a split returns `tooBig` only if it still has more than 5 requirements.
+5. **Ambiguities:** list in `ambiguities` every decision the spec and ADRs do not settle (`kind: contradiction` when the spec contradicts itself). Write your best plan anyway. Return `ok: true`.
 6. **Scaffolding:** if `config.commands` are empty and this slice scaffolds the project, the plan must include filling them.
 
 Do not commit. Return `{ok, ambiguities, tooBig, notes}`.

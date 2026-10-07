@@ -28,18 +28,18 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
 - `overridesSeen` counts the lines matching `^- Status: OVERRIDE` in DECISIONS.md.
 - `gitMode` is `pr`, `direct`, `mr` or `stack`.
   - `pr`: one branch and one pull request per slice (GitHub only).
-  - `direct`: the loop works on its run branch (`sdlc/run-<n>` in the run worktree), and the integrator pushes finished work onto `defaultBranch` (`git push origin HEAD:<defaultBranch>`); `defaultBranch` itself is never checked out or committed to.
-  - `mr`: as `direct`, and the integrator also pushes `defaultBranch` and keeps one merge request for the whole run open against `targetBranch` (run-request.md). Wherever a prompt names only `pr` and `direct`, `mr` behaves as `direct`.
+  - `direct`: the loop works on its own branch in the run worktree (`sdlc/run-<n>`). The integrator pushes finished work onto `defaultBranch` (`git push origin HEAD:<defaultBranch>`); `defaultBranch` itself is never checked out or committed to.
+  - `mr`: as `direct`, and the integrator also pushes `defaultBranch`. It keeps one merge request against `targetBranch` (run-request.md). The request is open for the whole run. Wherever a prompt names only `pr` and `direct`, `mr` behaves as `direct`.
   - `stack`: one branch per slice inside one branch per milestone, on a run branch of their own. Slice pull requests target their milestone branch; the milestone pull request targets `defaultBranch`. GitHub only.
 - `forge` is `github`, `gitlab` or `""`.
 - `defaultBranch` is per mode, as env-detector.md applies it: in `direct` mode the branch the finished work is pushed onto — never a branch the agents check out or commit to; in `stack` mode the remote's default branch, which nothing is ever committed to directly (the working branch is `runBranch`); in `pr` mode the branch the owner's checkout is on — the branch the run builds on, normally the remote's default branch; in `mr` mode the working branch itself (the run branch, per run-request.md).
 - `runBranch` is `""` outside `stack` mode. In `stack` mode it is the branch the whole run builds on, `sdlc/run-<n>`.
 - `targetBranch` is set only in `mr` mode: the branch the run's merge request targets.
-- `commitFormat` is `""` (use the subjects the role files give) or a format for every commit subject and merge-request title (see _common.md).
+- `commitFormat` is `""` or a format for every commit subject and merge-request title (see _common.md). When it is `""`, the subjects the role files give apply.
 - `runRequest` is `null` or `{"url", "number"}`: the run's merge request, written by the integrator in `mr` mode.
 - A command that does not apply is `""`.
 - `environment` lists the install and service commands the env-fixer ran.
-- An optional `keepEvidence: true` makes the integrator skip the retention prune of `.sdlc/slices/<id>/verification/` (see `slices/<id>/`).
+- An optional `keepEvidence: true` makes the integrator skip the retention prune of `.sdlc/slices/<id>/verification/`.
 - An optional `janitorDays` sets the scratch age in days at which `janitor.py` reaps the `sdlc-` directories under the OS temp dir (default 7).
 - `commands.e2e` is set by the e2e-harness: one command that boots the whole system, runs every e2e test except the ids in `e2e/pending.json`, and tears it down.
 
@@ -91,14 +91,14 @@ Array order is execution order, and a human may reorder it.
 ]
 ```
 - `kind` is `spec`, `improvement` or `fix`. Fix slices come from the audit (`S-fix-<n>`) or from a milestone's behavior campaign (`S-fix-<milestone>-<n>`).
-- `risk` is `low`, `medium` or `high`, assigned by the slicer. A `low` slice skips the per-slice verification battery (the milestone's behavior campaign still covers it, and a reviewer can demand the battery back). A slice with no `risk` — written before this field existed, or a fix slice — is unrated and always gets the full battery.
+- `risk` is `low`, `medium` or `high`, assigned by the slicer. A `low` slice skips the per-slice verification battery. The milestone's behavior campaign still covers it, and a reviewer can demand the battery again. A slice with no `risk` is unrated, and it always gets the full battery. This covers slices written before the field existed, and fix slices.
 - `status` is `todo`, `in_progress`, `awaiting-merge`, `done`, `parked` or `rejected`.
 - `phase` is `plan`, `tests`, `implement`, `gate` or `integrate`.
 - `counters.verifyDemanded` is `true` once a reviewer's `needsVerify` verdict demanded the verification battery for a `low` slice; the battery then runs for it from that round on.
-- `counters.infraRetries` counts consecutive inconclusive (infra) rounds. An inconclusive round proves nothing, so it is replayed at the same fix round; the next build round with a verdict resets the count to 0 — a gate round and a review-blocked round do not — and three in a row parks the slice with `infraDebt`.
-- `counters.gateCommit` is the commit the gate receipt covers (`""` until the gate passes); a code change after the passed gate invalidates it and forces a regate.
+- `counters.infraRetries` counts consecutive inconclusive (infra) rounds. An inconclusive round proves nothing, so it is replayed at the same fix round. The next build round with a verdict resets `counters.infraRetries` to 0; a gate round and a review-blocked round do not, and three in a row parks the slice with `infraDebt`.
+- `counters.gateCommit` is the commit the gate receipt covers. The value is `""` until the gate passes. A code change after the passed gate invalidates it and forces a regate.
 - `infraDebt` (boolean, optional) marks a slice parked after three consecutive infra failures; resuming it keeps the slice's phase and counters instead of re-planning.
-- `ledger` (array, optional) records the slice's verification rounds and their outcomes. Each row is `{ "kind": "verify" | "gate", "round": <n>, "outcome": "verified" | "refuted" | "infra", "refutations": <n>, "failingTests": <n> }` (the numbers are counts). The loop appends one row per verify round — `verified` passed every lens, `refuted` failed with evidence (a round the implementer could not get green counts as `refuted` with zero refutations, and a review-blocked round on a `low` slice carries the blocking findings' count in `refutations`), `infra` was inconclusive — a cut-off run, a blocked scenario, or a verifier that failed to report — and replayed outside the fix-round economy — and one `gate` row (`round: 0`) per gate verdict. Every state-write that ends a round carries the full array, so the last row of any `ledger` patch is that round's outcome. Whether a refutation was fixed, dismissed by the refuters, or raised as a seed is not stored: the tracker derives it from consecutive rounds (a `refuted` row followed by a `verified` row at a higher round is a fix).
+- `ledger` (array, optional) records the slice's verification rounds and their outcomes. Each row is `{ "kind": "verify" | "gate", "round": <n>, "outcome": "verified" | "refuted" | "infra", "refutations": <n>, "failingTests": <n> }` (the numbers are counts). The loop appends one row per verification round. It appends one `gate` row (`round: 0`) per gate verdict. A `verified` row says the round passed every lens. A `refuted` row says the round failed with evidence. A round the implementer could not get green counts as `refuted` with zero refutations. A review-blocked round on a `low` slice carries the blocking findings' count in `refutations`. An `infra` row says the round was inconclusive: a cut-off run, a blocked scenario, or a verifier that failed to report. An `infra` round is replayed outside the fix-round economy. Every state-write that ends a round carries the full array. The last row of any `ledger` patch is that round's outcome. Whether a refutation was fixed, dismissed by the refuters, or raised as a seed is not stored. The tracker derives it from consecutive rounds: a `refuted` row followed by a `verified` row at a higher round is a fix.
 - A slice that was split is `rejected` and lists the slices it became in `splitInto` (for example `["S-013a", "S-013b"]`). It counts as finished, or as a met dependency, once every one of those does.
 
 ## milestones.json
@@ -134,7 +134,7 @@ Created by the milestone-planner. The slicer appends slices to it, and the miles
 | `report.md` | milestone-writer |
 
 ## e2e/pending.json
-Maps a scenario id to the fix slice that owns it: `{"SC-M-1-004": "S-fix-M-1-1"}`. The e2e command skips these tests. The milestone-writer adds entries, and the fix slice's test-writer removes them.
+Maps a scenario id to the fix slice that owns it: `{"SC-M-1-004": "S-fix-M-1-1"}`. The e2e command skips these tests. The milestone-writer adds entries. The fix slice's test-writer removes them.
 
 ## DECISIONS.md (append-only)
 ```
@@ -210,8 +210,8 @@ Owned by the barraiser-writer; the integrator appends `seeds`; the escalator mar
 | `spike.md` | escalator |
 | `evidence.md` | integrator |
 
-- The verifier's `scope` input is `slice` during build rounds — the regression lens maps the diff with `impact.py` — and `full` at the gate, where the full battery and the suite receipt run.
-- When the slice merges, the integrator prunes `.sdlc/slices/<id>/verification/`: the per-round parts, `logs/`, `assets/` and unpromoted `tests/` are deleted, except `verification/suite-receipt.json` — `suite-receipt.py` `check` and `baseline` read only that path — and a copy of the receipt lands in `.sdlc/reports/<id>/suite-receipt.json`. `gate-r0.md` and the regression logs' final copies move to `.sdlc/reports/<id>/`. `plan.md`, `tests.md`, `failures.md`, `evidence.md`, every `verify-*.md` and `review-*.md`, ADRs and the ledger are kept. `keepEvidence: true` in config.json skips the prune.
+- The verifier's `scope` input is `slice` during build rounds. The regression lens maps the diff with `impact.py`. The input is `full` at the gate, where the full battery and the suite receipt run.
+- When the slice merges, the integrator prunes `.sdlc/slices/<id>/verification/`. The per-round parts, `logs/`, `assets/` and unpromoted `tests/` are deleted, except `verification/suite-receipt.json`. `suite-receipt.py` `check` and `baseline` read only that path. A copy of the receipt lands in `.sdlc/reports/<id>/suite-receipt.json`. `gate-r0.md` and the regression logs' final copies move to `.sdlc/reports/<id>/`. `plan.md`, `tests.md`, `failures.md`, `evidence.md`, every `verify-*.md` and `review-*.md`, ADRs and the ledger are kept. `keepEvidence: true` in config.json skips the prune.
 
 ## reports/<id>/
 The slice's human-facing record, a sibling of the slice directory. The test-reporter creates it and commits its contents on `sdlc/<id>`; the integrator fills the rest at the retention prune.
@@ -231,7 +231,7 @@ Owned by the verify-toolsmith: the registry of verification tools in the repo's 
 ```
 
 ## STOP
-`.sdlc/STOP` is a sentinel created by `/sdlc stop`. It is gitignored. The stop probe reads it from `mainRoot` — the checkout that owns the run, which the driver passes to the state-reader — because the run worktree never holds it.
+`.sdlc/STOP` is a sentinel created by `/sdlc stop`. It is gitignored. The stop probe reads it from `mainRoot`, the owner's checkout. The driver passes `mainRoot` to the state-reader. The run worktree never holds it.
 
 ## tracker/
 `.sdlc/tracker/index.html`, `status.json` and `reports/` (the slice test reports as HTML) are generated by `tracker/collect.py` from the files above. They are gitignored, and no agent writes them.

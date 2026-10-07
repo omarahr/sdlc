@@ -58,6 +58,8 @@ ALLOWED_ALL_CAPS = frozenset({
     # security terms, web-vitals metrics, hardware and format units, and tool names.
     "RTL", "HTTP", "SSRF", "MCP", "CDP", "SDK", "JWT", "BMP", "DNS", "SIGINT", "SQL",
     "LCP", "CLS", "INP", "CPU", "PNG", "KB", "MB",
+    # Technical-name acronyms the build/state family uses in prose: security terms and format names.
+    "XSS", "OS", "HTML",
 })
 
 # Padding and softening idioms. Word boundaries apply, so `adjust` never trips `just`.
