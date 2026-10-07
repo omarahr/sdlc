@@ -1,6 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { runMain, loadInternals, clear as clearVote } from './harness.mjs'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
+import { runMain, loadInternals, clear as clearVote, scripted, ok, SKILL_DIR } from './harness.mjs'
 import { happy, sliceNext } from './slice.test.mjs'
 
 const clear = { refuted: false, evidence: 'holds' }
@@ -117,6 +119,11 @@ test('a gate fail appends its row and the retry carries the ledger through the r
   assert.deepEqual(arrays[1].at(-1), { kind: 'gate', round: 0, outcome: 'refuted', refutations: 1, failingTests: 1 })
   assert.deepEqual(arrays[2].at(-1), { kind: 'verify', round: 1, outcome: 'verified', refutations: 0, failingTests: 0 })
   assert.deepEqual(arrays[3].at(-1), { kind: 'gate', round: 0, outcome: 'verified', refutations: 0, failingTests: 0 })
+  // the gate's failing test reaches the next implementer as evidence, so the fix round knows what to fix
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 2)
+  assert.ok(impls[1].inputs.evidence.includes('[gate] failing test: e2e — SC-9 — R-2'))
+  assert.equal(impls[1].inputs.fixRound, 1)
 })
 
 test('a round the implementer could not finish still appends its refuted row', async () => {
@@ -142,4 +149,159 @@ test('the integrator sending regate re-runs the gate', async () => {
   }, 'gate'))
   assert.equal(rt.calls.filter(c => c.role === 'gate').length, 2)
   assert.equal(rt.calls.filter(c => c.role === 'integrator').length, 2)
+})
+
+// ---------- deferred controller rulings (Tasks 1 and 4 reviews) ----------
+
+// loop-level infra economy: infra rounds replay at the same fix round, and three in a row park the slice
+test('three consecutive infra rounds park the slice with infra debt, without escalating', async () => {
+  const rt = await runMain(happy({
+    verifier: () => ({ refuted: false, evidence: 'suite cut off', outcome: 'infra' }),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  // every infra round replays the same fix round: no fixRounds++ is spent on an inconclusive round
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 3)
+  assert.ok(impls.every(c => c.inputs.fixRound === 0), 'infra rounds replay at the same fix round')
+  const parked = rt.calls.filter(c => c.role === 'state-writer' && c.inputs.patch && c.inputs.patch.status === 'parked')
+  assert.equal(parked.length, 1)
+  assert.equal(parked[0].inputs.patch.infraDebt, true)
+  assert.equal(parked[0].inputs.patch.counters.infraRetries, 3)
+  // one infra row per replayed round, all at the same fix round
+  assert.deepEqual(parked[0].inputs.patch.ledger, [
+    { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+  ])
+  assert.equal(rt.roles().includes('escalator'), false, 'infra debt parks; it does not escalate')
+  assert.match(rt.result.iterations[0].outcome, /parked with infra debt/)
+})
+
+// gate-infra transitions: a gate agent that fails to report is infra, retried outside the economy
+test('gatePhase returns an infra verdict on a silent gate agent, and parks on the third', async () => {
+  const rt = await loadInternals(scripted({
+    gate: () => null,
+    'state-writer': () => ok(),
+  }))
+  const counters = { fixRounds: 0, gateCommit: '', infraRetries: 0 }
+  const ledger = []
+  const first = await rt.I.gatePhase('S-1', counters, ledger)
+  assert.deepEqual(first, { verdict: 'infra', failingTest: '' })
+  assert.equal(counters.infraRetries, 1)
+  const second = await rt.I.gatePhase('S-1', counters, ledger)
+  assert.equal(second.verdict, 'infra')
+  assert.equal(counters.infraRetries, 2)
+  const third = await rt.I.gatePhase('S-1', counters, ledger)
+  assert.deepEqual(third, { verdict: 'infra-debt', failingTest: '' })
+  assert.equal(counters.infraRetries, 3)
+  assert.deepEqual(ledger.at(-1), { kind: 'gate', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 })
+})
+
+test('three consecutive gate infra failures park the slice without escalating', async () => {
+  let reads = 0
+  const written = []
+  const rt = await runMain(scripted({
+    // production relay: the state-reader hands back what the loop actually persisted — the last
+    // state-writer patch is the slice the next iteration sees — so every gate persist is pinned by
+    // construction: deleting one breaks the relay and the test
+    'state-reader': () => {
+      const n = reads++
+      if (n >= 3) return { action: 'stop', reason: 'end' }
+      const last = written.at(-1)
+      return sliceNext('gate', last
+        ? { counters: last.inputs.patch.counters, ledger: last.inputs.patch.ledger }
+        : { counters: { fixRounds: 0, gateCommit: '', infraRetries: 0 } })
+    },
+    gate: () => null,
+    'state-writer': call => { written.push(call); return ok() },
+    // escalator deliberately unscripted: an escalation would show up as an error and a role
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.calls.filter(c => c.role === 'gate').length, 6, 'two dispatch attempts per silent gate round; this count tracks run() retry policy')
+  assert.equal(rt.roles().includes('escalator'), false)
+  // each round's own persist carries the incremented infra streak and the cumulative gate ledger row
+  const infraPersists = written.filter(c => !c.inputs.patch.status)
+  assert.deepEqual(infraPersists.map(c => c.inputs.patch.counters.infraRetries), [1, 2, 3])
+  assert.deepEqual(infraPersists.map(c => c.inputs.patch.ledger.length), [1, 2, 3])
+  // the park carries the full three-row gate ledger, all infra, none of them a verdict
+  const parked = written.filter(c => c.inputs.patch.status === 'parked')
+  assert.equal(parked.length, 1)
+  assert.equal(parked[0].inputs.patch.infraDebt, true)
+  assert.equal(parked[0].inputs.patch.counters.infraRetries, 3)
+  assert.deepEqual(parked[0].inputs.patch.ledger, [
+    { kind: 'gate', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    { kind: 'gate', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    { kind: 'gate', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+  ])
+  assert.match(rt.result.iterations[2].outcome, /parked with infra debt at the gate/)
+})
+
+test('a parked-at-gate slice resumed via parkedRetry re-runs the gate, not the build loop', async () => {
+  const rt = await runMain(happy({
+    'state-reader': [
+      { action: 'parkedRetry', sliceId: 'S-1', slice: { id: 'S-1', kind: 'spec', phase: 'gate', infraDebt: true, counters: { fixRounds: 1, gateCommit: '', infraRetries: 3 } }, reason: 'retry' },
+      { action: 'stop', reason: 'end' },
+    ],
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.calls[1].role, 'state-writer')
+  assert.equal(rt.calls[1].inputs.op, 'unpark')
+  assert.equal(rt.roles().includes('planner'), false)
+  assert.equal(rt.calls.filter(c => c.role === 'implementer').length, 0)
+  assert.equal(rt.calls.filter(c => c.role === 'verifier').length, 0)
+  assert.equal(rt.calls.filter(c => c.role === 'gate').length, 1)
+  assert.ok(rt.roles().includes('integrator'))
+  // counters survive the park intact...
+  const counters = rt.calls.filter(c => c.role === 'state-writer' && c.inputs.patch && c.inputs.patch.counters).map(c => c.inputs.patch.counters)
+  assert.ok(counters.every(c => c.fixRounds === 1), 'the resumed gate keeps its counters')
+  // ...and the gate pass persists the commit it gated on
+  const last = rt.calls.filter(c => c.role === 'state-writer' && c.inputs.patch && c.inputs.patch.counters && c.inputs.patch.counters.gateCommit).at(-1)
+  assert.equal(last.inputs.patch.counters.gateCommit, 'c2')
+})
+
+// ---------- lifecycle: the whole slice, plan through integrate ----------
+
+test('lifecycle: a profile refutation promotes into the fix round, the gate commits, the integrator merges', async () => {
+  const failingTest = '.sdlc/slices/S-1/verification/r0/tests/http-api-0/replay.test.ts — x — R-1'
+  const rt = await runMain(happy({
+    'verify-http-api': () => ({ refuted: true, evidence: 'replay drops the dead letter', failingTest }),
+  }))
+  assert.deepEqual(rt.errors, [])
+  const roles = rt.roles()
+  // the gate runs after the last review and before the integrator
+  const lastReview = roles.lastIndexOf('reviewer')
+  const gateAt = roles.indexOf('gate')
+  assert.ok(lastReview >= 0 && lastReview < gateAt, 'the gate runs after the last review')
+  assert.ok(gateAt < roles.indexOf('integrator'), 'the gate runs before the integrator')
+  // the promotion duty trigger: the fix-round implementer receives the profile verifier's failing test
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 2)
+  assert.ok(impls[1].inputs.evidence.join('\n').includes(failingTest), 'the fix round carries the failing test')
+  assert.equal(impls[1].inputs.fixRound, 1)
+  // as designed: a failingTest-only refutation promotes the test into the suite, where the regression
+  // lens judges it — it does not re-run the profile agent
+  assert.equal(rt.calls.filter(c => c.role === 'verify-http-api').length, 1, 'a failingTest-only refutation promotes the test; it does not re-run the profile')
+  // the verify-economy ledger rows ride the round-ending persists
+  const arrays = ledgerArrays(rt)
+  assert.deepEqual(arrays.map(a => a.length), [1, 2, 3])
+  assert.deepEqual(arrays[0].at(-1), { kind: 'verify', round: 0, outcome: 'refuted', refutations: 1, failingTests: 1 })
+  assert.deepEqual(arrays[1].at(-1), { kind: 'verify', round: 1, outcome: 'verified', refutations: 0, failingTests: 0 })
+  assert.deepEqual(arrays[2].at(-1), { kind: 'gate', round: 0, outcome: 'verified', refutations: 0, failingTests: 0 })
+  // the gate pass persists the commit it gated on
+  const gc = rt.calls.filter(c => c.role === 'state-writer' && c.inputs.patch && c.inputs.patch.counters && c.inputs.patch.counters.gateCommit).at(-1)
+  assert.equal(gc.inputs.patch.counters.gateCommit, 'c2')
+  // no cherry-pick role exists anywhere, and the collector prompt is still what the loop dispatches
+  assert.ok(roles.every(r => !/cherry/i.test(r)))
+  assert.ok(rt.calls.every(c => !/cherry/i.test(c.prompt)))
+  assert.ok(existsSync(join(SKILL_DIR, 'prompts', 'verify-collector.md')))
+  // the loop hands the collector branch names, and only branch names
+  const collectors = rt.calls.filter(c => c.role === 'verify-collector')
+  assert.equal(collectors.length, 1)
+  assert.deepEqual(collectors[0].inputs.branches, ['sdlc/S-1-v0-http-api-0', 'sdlc/S-1-v0-security-0'])
+  assert.ok(collectors[0].prompt.includes('sdlc/S-1-v0-http-api-0'))
+  assert.ok(collectors[0].prompt.includes('sdlc/S-1-v0-security-0'))
+  // the integrator merged in ship mode
+  const integrator = rt.calls.find(c => c.role === 'integrator')
+  assert.equal(integrator.inputs.mode, 'ship')
+  assert.match(rt.result.iterations[0].outcome, /S-1 merged abc123/)
 })
