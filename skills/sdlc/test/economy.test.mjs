@@ -420,6 +420,26 @@ test('every dispatched prompt carries the stop check, resolved at the main root'
   }
 })
 
+test('a stopRequested state-writer mid-buildLoop stops the run before the next agent dispatches', async () => {
+  // Ruling C: every persist site checks the flag immediately, so a state-writer that no-ops with
+  // stopRequested cannot let the flow dispatch the next agent (up to 2-3 no-op agents per pause before)
+  const rt = await runMain(happy({
+    'verify-http-api': c => (c.inputs.round === 0 ? { refuted: true, evidence: 'empty input crashes', failingTest: 'edge — a — R-1' } : clearVote()),
+    'state-writer': () => ({ stopRequested: true, ok: true }),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  assert.match(rt.result.reason, /stop requested/)
+  // the state-writer that answered stopRequested is the last agent: no round-1 implementer, no verifier
+  const after = rt.calls.slice(rt.calls.findIndex(c => c.role === 'state-writer') + 1)
+  assert.deepEqual(after.map(c => c.role), [])
+  // the no-op agent count is at most the one that returned the flag
+  assert.equal(rt.calls.filter(c => c.role === 'state-writer').length, 1)
+  assert.equal(rt.calls.filter(c => c.role === 'implementer').length, 1)
+  // the action never completed, so the pause is not a counted iteration
+  assert.deepEqual(rt.result.iterations, [])
+})
+
 // ---------- lifecycle: the whole slice, plan through integrate ----------
 
 test('lifecycle: a profile refutation promotes into the fix round, the gate commits, the integrator merges', async () => {

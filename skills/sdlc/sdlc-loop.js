@@ -522,6 +522,7 @@ async function sliceAction(next, gateEvidence = []) {
     }
     if (!planned) return escalate(id, s, counters, 'plan refuted 3 times')
     await persist(id, { status: 'in_progress', phase: 'tests', counters })
+    checkStop()
     at = 1
   }
   if (at === 1) {
@@ -529,6 +530,7 @@ async function sliceAction(next, gateEvidence = []) {
     checkStop()
     if (!tested) return escalate(id, s, counters, 'tests could not be made to fail for the right reason')
     await persist(id, { phase: 'implement', counters })
+    checkStop()
     at = 2
   }
   let seeds = s.seeds || []
@@ -540,6 +542,7 @@ async function sliceAction(next, gateEvidence = []) {
     if (!b.ok) return escalate(id, s, counters, `fix rounds: no fix passed: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
     seeds = b.seeds
     await persist(id, { phase: 'gate', counters, seeds, ledger })
+    checkStop()
     at = 3
   }
   if (at === 3) {
@@ -550,10 +553,12 @@ async function sliceAction(next, gateEvidence = []) {
       // a real failing test at the gate costs a fix round, like any refutation
       counters.fixRounds++
       await persist(id, { phase: 'implement', counters, ledger })
+      checkStop()
       log(`${id} gate failed: the build loop resumes`)
       return sliceAction({ ...next, slice: { ...s, phase: 'implement', counters, ledger } }, [`[gate] failing test: ${gate.failingTest}`])
     }
     await persist(id, { phase: 'integrate', counters })
+    checkStop()
     at = 4
   }
   return integrate(id, s, counters, seeds)
@@ -827,6 +832,7 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
           counters.fixRounds++
           ledger.push(ledgerRow('verify', round, 'refuted', early.blocking.length, 0))
           await persist(id, { counters, ledger })
+          checkStop()
           continue
         }
         if (!early.needsVerify) return { ok: true, seeds: [...early.seeds, ...verifySeeds], lastEvidence: [] }
@@ -849,10 +855,12 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
           log(`${id}: ${counters.infraRetries} consecutive infra failures; parking with infra debt`)
           ledger.push(infraRow)
           await persist(id, { status: 'parked', infraDebt: true, counters, ledger })
+          checkStop()
           return { ok: false, infraDebt: true, seeds: [], lastEvidence: evidence }
         }
         ledger.push(infraRow)
         await persist(id, { counters, ledger })
+        checkStop()
         continue
       }
       counters.infraRetries = 0
@@ -883,6 +891,7 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
     counters.fixRounds++
     ledger.push(row)
     await persist(id, { counters, ledger })
+    checkStop()
   }
   return { ok: false, seeds: [], lastEvidence: evidence }
 }
@@ -911,15 +920,18 @@ async function gatePhase(id, counters, ledger = []) {
     counters.infraRetries = 0
     pushRow('verified')
     await persist(id, { counters, ledger })
+    checkStop()
     return { verdict: 'pass', failingTest: '' }
   }
   if (g.state === 'infra') {
     counters.infraRetries++
     pushRow('infra')
     await persist(id, { counters, ledger })
+    checkStop()
     if (counters.infraRetries >= 3) {
       log(`${id}: ${counters.infraRetries} consecutive infra failures at the gate; parking with infra debt`)
       await persist(id, { status: 'parked', infraDebt: true, counters, ledger })
+      checkStop()
       return { verdict: 'infra-debt', failingTest: '' }
     }
     return { verdict: 'infra', failingTest: '' }
@@ -943,6 +955,7 @@ async function integrate(id, s, counters, seeds, mode = 'ship') {
   }
   if (r && r.state === 'regate') {
     await persist(id, { phase: 'gate' })
+    checkStop()
     return `${id} must re-gate: code changed after the passed gate (${r.notes || ''})`
   }
   if (!r || r.state === 'failed') return escalate(id, s, counters, `integration failed: ${r ? r.notes || '' : 'integrator did not report'}`)
