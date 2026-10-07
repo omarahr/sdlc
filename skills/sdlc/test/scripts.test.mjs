@@ -1478,3 +1478,15 @@ test('impact falls back to the test files in the changed paths when no package g
   assert.match(r.stderr, /\S/)
   assert.equal(r.stderr.trim().split('\n').length, 1)
 })
+
+test('impact answers exit 0 with a note when the repo or git itself is unusable', opts, () => {
+  // --repo at a path that does not exist: the mapping is best effort, so a traceback and exit 1 would
+  // break every caller that treats the answer as optional — the fallback contract holds even here
+  const gone = join(scratch('sdlc-impact-'), 'nope')
+  const r = runImpact(gone, 'main', 'feat')
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual([out.changed, out.testFiles, out.packages], [[], [], []])
+  assert.match(r.stderr, /\S/)
+  assert.equal(r.stderr.trim().split('\n').length, 1)
+})

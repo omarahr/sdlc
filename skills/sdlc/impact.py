@@ -30,7 +30,11 @@ def run(args, cwd):
 
 
 def git_lines(args, repo):
-    r = run(["git"] + args, repo)
+    try:
+        r = run(["git"] + args, repo)
+    except OSError:
+        # no git on PATH, or --repo is not a readable directory: the caller reads this as failure
+        return None
     return r.stdout.splitlines() if r.returncode == 0 else None
 
 
@@ -220,7 +224,11 @@ def main():
         notes.append("git diff failed; no changed files were read")
         changed = []
     changed = [c.replace(os.sep, "/") for c in changed if c.strip()]
-    tracked = {t.replace(os.sep, "/") for t in (git_lines(["ls-files"], repo) or [])}
+    tracked = git_lines(["ls-files"], repo)
+    if tracked is None:
+        notes.append("git ls-files failed; generated and untracked test files cannot be excluded")
+        tracked = set()
+    tracked = {t.replace(os.sep, "/") for t in tracked}
 
     packages, test_files = [], []
     try:
