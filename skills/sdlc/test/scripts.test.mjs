@@ -13,6 +13,10 @@ const GIT_MODES = JSON.parse(readFileSync(join(SKILL_DIR, 'git-modes.json'), 'ut
 let python = true
 try { execFileSync('python3', ['--version']) } catch { python = false }
 const opts = { skip: !python && 'python3 not installed' }
+// the Go-mapping test needs the go toolchain; not every runner image ships one
+let goToolchain = true
+try { execFileSync('go', ['version']) } catch { goToolchain = false }
+const goOpts = { skip: !goToolchain && 'go not installed' }
 
 const git = (repo, ...args) => execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8' }).trim()
 // `git merge-base --is-ancestor` exits non-zero rather than answering, so the negative case needs catching
@@ -1499,7 +1503,7 @@ test('impact maps a changed source file to its package tests and reverse-depende
   assert.equal(r.stderr, '', 'a graph that was built has nothing to note')
 })
 
-test('impact follows Go imports to reverse-dependent packages when a go.mod exists', opts, () => {
+test('impact follows Go imports to reverse-dependent packages when a go.mod exists', goOpts, () => {
   const repo = initRepo()
   writeFileSync(join(repo, 'go.mod'), 'module example.com/m\n\ngo 1.21\n')
   mkdirSync(join(repo, 'pkg/alpha'), { recursive: true })
