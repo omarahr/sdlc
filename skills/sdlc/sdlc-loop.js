@@ -1159,7 +1159,7 @@ async function main() {
     if (iteration >= MAX_ITER) return finish('continue', `max iterations (${MAX_ITER}) reached`, history)
     phase('Read state')
     // the decision is computed by next-action.py; the state-reader agent syncs the repo, runs it and relays its answer
-    const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS, script: `${SKILL_DIR}/next-action.py` }, { schema: NEXT, effort: 'low', phase: 'Read state' })
+    const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS, mainRoot: A.mainRoot || A.repoRoot || '.', script: `${SKILL_DIR}/next-action.py` }, { schema: NEXT, effort: 'low', phase: 'Read state' })
     if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)

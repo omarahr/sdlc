@@ -2,11 +2,11 @@
 
 Report the single next action for the workflow. You do not decide it: the script `next-action.py` does, from the `.sdlc/` state, and you relay its answer. Do not modify any file. The only git and forge commands you may run are the ones the script hands you.
 
-Inputs: `iteration`, `specPath` (the spec path from the driver; it may be null when config.json exists), `barRaiserRounds` (the total bar-raiser rounds allowed; 0 means the bar raiser is off), `script` (the absolute path of `next-action.py`).
+Inputs: `iteration`, `specPath` (the spec path from the driver; it may be null when config.json exists), `barRaiserRounds` (the total bar-raiser rounds allowed; 0 means the bar raiser is off), `mainRoot` (the checkout that owns the run; the stop probe reads its `.sdlc/STOP`), `script` (the absolute path of `next-action.py`).
 
 ## Steps
 1. From the target repo, run:
-   `python3 "<script>" --repo "<repo>" --bar-raiser-rounds <barRaiserRounds>`, adding `--spec "<specPath>"` when `specPath` is not null.
+   `python3 "<script>" --repo "<repo>" --main-root "<mainRoot>" --bar-raiser-rounds <barRaiserRounds>`, adding `--spec "<specPath>"` when `specPath` is not null.
 2. It prints one JSON object.
    - **`{"sync": [...]}`:** the repo is behind its pull requests. Run each command in order, from the target repo, then go back to step 1. Do this at most 3 times.
    - **`{"next": {...}, "checkout": ...}`:** this is the decision.

@@ -450,6 +450,11 @@ test('the state-reader runs the janitor once per run without letting it block th
   assert.match(reader, /no change to `action`[\s\S]{0,200}janitor[\s\S]{0,120}`reason`/)
 })
 
+test('the state-reader passes the main root to the stop probe', () => {
+  const reader = readFileSync(join(SKILL_DIR, 'prompts', 'state-reader.md'), 'utf8')
+  assert.match(reader, /--main-root "<mainRoot>"/)
+})
+
 test('the state schema documents the verify economy the loop implements', () => {
   const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
   // the slice lifecycle runs through the gate: the phase enum names all five in order

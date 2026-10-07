@@ -3,7 +3,7 @@
 
 The state-reader agent runs this and returns its answer unchanged. Python 3, standard library only.
 
-    python3 next-action.py --repo <repo> [--spec <path>] [--bar-raiser-rounds N] [--prs <file>]
+    python3 next-action.py --repo <repo> [--main-root <dir>] [--spec <path>] [--bar-raiser-rounds N] [--prs <file>]
 
 It prints one JSON object:
   {"sync": ["<shell command>", ...]}       run these in the repo, then run this script again
@@ -19,6 +19,8 @@ Checks run in this order, and the first that matches wins:
 Anything the state cannot explain is the action "error", which the workflow treats as a run without progress.
 
 --prs takes {"open": [...], "merged": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).
+--main-root names the checkout that owns the run: the stop check reads <main-root>/.sdlc/STOP, so a run
+in a worktree stops on the owner's stop file. Without it, the stop check reads <repo>/.sdlc/STOP.
 """
 import argparse
 import hashlib
@@ -237,12 +239,13 @@ def slim_slice(s):
     return out
 
 
-def decide(repo, spec_arg, bar_rounds, prs_file):
+def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
     wt = Source(repo)
     sdlc = ".sdlc"
 
     # A. stop
-    if os.path.exists(os.path.join(repo, sdlc, "STOP")):
+    repo_for_stop = main_root or repo
+    if os.path.exists(os.path.join(repo_for_stop, sdlc, "STOP")):
         return {"next": {"action": "stop", "reason": "A: .sdlc/STOP exists"}}
 
     current = current_branch(repo)
@@ -465,6 +468,7 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
 def main():
     ap = argparse.ArgumentParser(description="Decide the next sdlc-loop action from .sdlc/ state")
     ap.add_argument("--repo", required=True)
+    ap.add_argument("--main-root", default=None)
     ap.add_argument("--spec", default=None)
     ap.add_argument("--bar-raiser-rounds", type=int, default=0)
     ap.add_argument("--prs", default=None)
@@ -472,7 +476,13 @@ def main():
     try:
         if GIT_MODES_ERROR:
             raise StateError(GIT_MODES_ERROR)
-        result = decide(os.path.abspath(a.repo), a.spec, a.bar_raiser_rounds, a.prs)
+        result = decide(
+            os.path.abspath(a.repo),
+            a.spec,
+            a.bar_raiser_rounds,
+            a.prs,
+            os.path.abspath(a.main_root) if a.main_root else None,
+        )
     except StateError as e:
         result = {"next": {"action": "error", "reason": str(e)}}
     except Exception as e:  # a crash must reach the workflow as an answer, never as silence

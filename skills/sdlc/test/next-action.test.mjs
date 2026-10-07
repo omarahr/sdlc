@@ -41,8 +41,9 @@ function fixture(files = {}, { gitMode = 'direct', config = {} } = {}) {
   return repo
 }
 
-function decide(repo, { rounds = 0, prs = null } = {}) {
+function decide(repo, { rounds = 0, prs = null, mainRoot = null } = {}) {
   const args = [SCRIPT, '--repo', repo, '--bar-raiser-rounds', String(rounds)]
+  if (mainRoot) args.push('--main-root', mainRoot)
   if (prs) {
     const f = join(repo, 'prs.json')
     writeFileSync(f, JSON.stringify({ open: [], merged: [], ...prs }))
@@ -57,6 +58,15 @@ const passedAudit = reqs => ({ passed: true, ledgerHash: ledger(reqs), auditedId
 test('A: a STOP file wins over everything, even a missing config', opts, () => {
   const repo = fixture({ 'config.json': null, STOP: '' })
   assert.equal(next(repo).action, 'stop')
+})
+
+test('A: the stop probe resolves at the main root when --main-root is given, at the repo otherwise', opts, () => {
+  // a run in a second checkout (a worktree): the owner's .sdlc/STOP stops it, its own does not
+  const main = fixture({ STOP: '' })
+  const wt = fixture({})
+  assert.equal(next(wt, { mainRoot: main }).action, 'stop')
+  // without the flag, behavior is exactly as it was: the repo's own .sdlc decides, and it has no STOP
+  assert.notEqual(next(wt).action, 'stop')
 })
 
 test('A: bootstrap when the config is missing, the spec changed, or an override was added', opts, () => {
