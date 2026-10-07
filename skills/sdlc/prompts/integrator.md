@@ -21,12 +21,13 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
 4. **Bookkeeping:** for `spec` and `fix` slices only, append `seeds` to `barraiser.json` `seeds` (improvement slices drop their review nits, or the bar raiser feeds itself); set the slice to `status: done`, `phase: integrate`; append a `slice-merged` log line; regenerate STATUS.md (state-schema.md says how).
 5. Commit on the slice branch: `chore(sdlc): record evidence [<id>]`.
 6. **Ship:**
-   - **`direct` mode:**
-     1. `git checkout <defaultBranch> && git merge --squash sdlc/<id> && git commit -m "<feat|fix|perf|refactor>(<id>): <slice title>"`
-     2. Replace `"pending"` with the new commit sha in requirements.json, then commit `chore(sdlc): commit sha [<id>]`.
-     3. Delete branch `sdlc/<id>`.
-     4. Return `{state: "merged", commit}`.
-   - **`mr` mode:** do `direct` steps 1 to 3. Then publish the working branch to the run's merge request as `<prompts>/run-request.md` says ("Publish"). Return `{state: "merged", commit, pr: <the run request's url>, notes}`, with any publishing problem in `notes`. A publishing problem never makes the result `failed`.
+   - **`direct` mode:** the run works in the run worktree on branch `sdlc/run-<n>`, and the owner's checkout holds `<defaultBranch>` — git forbids checking out a branch another worktree holds, so that branch is never checked out here; push to it instead.
+     1. Sync the run branch onto the default branch's tip: `git fetch origin <defaultBranch>` then `git merge --ff-only origin/<defaultBranch>`. With no remote there is nothing to sync from: skip this step. When the fetch or the merge fails, return `{state: "inconclusive", notes: "<why>"}` — nothing has changed.
+     2. `git merge --squash sdlc/<id> && git commit -m "<feat|fix|perf|refactor>(<id>): <slice title>"`, then `git push origin HEAD:<defaultBranch>`. With no remote, the worktree shares its refs with the owner's checkout: `git update-ref refs/heads/<defaultBranch> HEAD` moves their branch onto the new commit instead, and append a `note` log line "your checkout must run git pull --ff-only" to log.jsonl. The owner's checkout fast-forwards on its next pull.
+     3. Replace `"pending"` with the new commit sha in requirements.json, then commit `chore(sdlc): commit sha [<id>]`, and put it on the default branch the same way (`git push origin HEAD:<defaultBranch>`; with no remote, `git update-ref refs/heads/<defaultBranch> HEAD` again — the note is already logged).
+     4. Delete branch `sdlc/<id>`.
+     5. Return `{state: "merged", commit}`.
+   - **`mr` mode:** do `direct` steps 1 to 4. Then publish the working branch to the run's merge request as `<prompts>/run-request.md` says ("Publish"). Return `{state: "merged", commit, pr: <the run request's url>, notes}`, with any publishing problem in `notes`. A publishing problem never makes the result `failed`.
    - **`pr` mode and `stack` mode.** In both, the slice's pull request is created against `<baseBranch>` and merged by hand-free automation once it is green. `<baseBranch>` is the branch `sdlc/<id>` was cut from, and step 2's `base-branch` command is what tells you: run it and use what it prints.
 
      Do not work the base out yourself — not from `gitMode`, and not with a git command. The usual ways of asking git which branch this came from are recent, behave differently across versions, and fail outright on a shallow clone, so an agent that goes looking can end up with no base at all. `gitMode` alone is not enough either: it does not say which milestone owns the slice, whether that milestone has already shipped, or whether a dependency is still awaiting merge, and each of those changes the answer. If the command exits non-zero it printed why and named no branch; report that and stop rather than picking a branch yourself.

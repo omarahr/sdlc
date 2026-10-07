@@ -95,14 +95,22 @@ test('the e2e harness cuts its branch from the milestone branch in stack mode, a
   assert.match(step1[0], /Never cut it from the default branch in `stack` mode/)
 })
 
-test('the env-detector creates and pushes the run branch, and refuses stack without a github remote', () => {
+test('the env-detector adopts the driver-created run branch, and numbers a fresh one the way the driver does', () => {
   const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
+  // the driver pre-creates the worktree on `sdlc/run-<n>`: adopt it, verify the push, never create a second
+  assert.match(env, /git branch --show-current/)
+  assert.match(env, /sdlc\/run-\*/)
+  assert.match(env, /do not create( or push)? (a|another) (new one|run branch)|do not create or push/)
+  assert.match(env, /git ls-remote --heads origin <current-branch>/)
+  assert.match(env, /git push -u origin <current-branch>/)
+  // the create path survives for a run the driver did not set up, numbered by the driver's own rule:
+  // (count of local `sdlc/run-*` branches) + 1 — remote-tracking refs no longer feed the number
   assert.match(env, /git checkout -b sdlc\/run-<n> <defaultBranch>/)
   assert.match(env, /git push -u origin sdlc\/run-<n>/)
-  // n is 1 + the highest existing, so a second run cannot clobber a live one — local and remote alike
+  assert.match(env, /count of `sdlc\/run-\*` branches\) \+ 1/)
   assert.match(env, /refs\/heads\/sdlc\/run-\*/)
-  assert.match(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
-  assert.match(env, /drop the `origin\/` prefix before reading `<n>`/)
+  assert.doesNotMatch(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
+  assert.doesNotMatch(env, /drop the `origin\/` prefix before reading `<n>`/)
   // anchored on the stack sentence: a bare /cannot work/ also matches the pre-existing mr bullet,
   // which would let the stack refusal be deleted without this test noticing
   assert.match(env, /`stack` mode cannot work without a github\.com remote and a signed-in `gh`/)
@@ -120,6 +128,44 @@ test('the env-detector resolves stack from the input or an existing config, and 
   // symbolic-ref without --short prints refs/remotes/origin/main; every later consumer wants main
   assert.match(env, /`defaultBranch`: from `git symbolic-ref --short refs\/remotes\/origin\/HEAD`/)
   assert.match(env, /always a bare branch name/)
+})
+
+test('direct mode ships from the run worktree: sync, squash, push to the default branch', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  // scope to the direct block: pr/mr/stack still name the default branch in their own, legitimate ways
+  const direct = i.slice(i.indexOf('**`direct` mode:**'), i.indexOf('**`mr` mode:**'))
+  assert.ok(direct.length > 0, 'the direct block is missing')
+  // the owner's checkout holds the default branch, so the worktree can never check it out: push to it instead
+  assert.doesNotMatch(direct, /git checkout <defaultBranch>/)
+  // the ff-only sync comes first, so the squash lands on the default branch's tip; a failed sync changes nothing
+  assert.match(direct, /merge --ff-only origin\/<defaultBranch>/)
+  assert.match(direct, /state: "inconclusive"/)
+  assert.match(direct, /git push origin HEAD:<defaultBranch>/)
+  // no-remote fallback: the shared refs move the owner's branch, and a note tells them to pull
+  assert.match(direct, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
+  assert.match(direct, /git pull --ff-only/)
+})
+
+test('the default-branch state commit runs from the worktree and pushes, instead of checking the branch out', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const arm = c.slice(c.indexOf('- `direct` or `mr` mode:'), c.indexOf('- `pr` mode:'))
+  assert.ok(arm.length > 0, 'the direct/mr arm is missing')
+  assert.doesNotMatch(arm, /git checkout <defaultBranch>/)
+  assert.match(arm, /merge --ff-only origin\/<defaultBranch>/)
+  assert.match(arm, /git push origin HEAD:<defaultBranch>/)
+  assert.match(arm, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
+  assert.match(arm, /git pull --ff-only/)
+})
+
+test('the schema documents the mainRoot input and the direct mode push it now implies', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  // the stop probe reads the owner's checkout, not the worktree: mainRoot is where that is written down
+  assert.match(schema, /`mainRoot`/)
+  assert.match(schema, /mainRoot[\s\S]{0,200}\.sdlc\/STOP|\.sdlc\/STOP[\s\S]{0,200}mainRoot/)
+  // direct mode now pushes: the stale "nothing is pushed" must go
+  const direct = schema.split('\n').find(l => l.includes('`direct`:'))
+  assert.ok(direct, 'the direct bullet is missing')
+  assert.doesNotMatch(direct, /nothing is pushed/)
 })
 
 test('the integrator deletes archived attempt branches once a slice ships', () => {
