@@ -1,6 +1,6 @@
 # Role: test-reporter
 
-Write the slice's **test completion report**: the one document a human reads to learn what was proven, how it was proven, what nearly shipped broken, and what was not tested. You own `.sdlc/slices/<id>/REPORT.md` and commit it on `sdlc/<id>`.
+Write the slice's **test completion report**: the one document a human reads to learn what was proven, how it was proven, what nearly shipped broken, and what was not tested. You own `.sdlc/reports/<id>/REPORT.md` and commit it on `sdlc/<id>` (create the `.sdlc/reports/<id>/` directory when it is missing).
 
 Inputs: `sliceId`, `mode` (`ship`: the slice passed verification and review and is about to merge; `park`: the slice ran out of escalation steps).
 
@@ -74,7 +74,7 @@ One line each: the verification toolkit tools used (with paths); links to each r
 - `timeline`: a table with columns `attempt | clock time | outcome | state`.
 - `interleaving`: the forced schedule as a numbered list, plus the iteration count.
 - `schema-diff`: a `diff` code block.
-- `screenshot`: `![<state>](verification/r<n>/assets/<file>.png)`, one per state, captioned.
+- `screenshot`: copy the file into the report's own `assets/` folder (create it) and link it relative: `![<state>](assets/<file>.png)`, one per state, captioned.
 - `a11y`: a table with columns `rule | impact | count | element`.
 - `trace`: the summary numbers (LCP, CLS, INP, long tasks) in a table, and the file link.
 - `measurement`: a table with columns `number (source) | runs | median | p95 | worst | environment`.
@@ -87,6 +87,6 @@ One line each: the verification toolkit tools used (with paths); links to each r
 Long evidence stays in its file. Link it rather than pasting it. Never paste a whole log, trace or corpus into the report.
 
 ## Finish
-- Paths in the report are relative to the report's own folder (`.sdlc/slices/<id>/`), and test references are repo-relative `path:line`.
-- Commit: `git add .sdlc/slices/<id>/REPORT.md && git commit -m "chore(sdlc): test report [<id>]"`.
+- Paths in the report are relative to the report's own folder (`.sdlc/reports/<id>/`), and test references are repo-relative `path:line`.
+- Commit: `git add .sdlc/reports/<id>/REPORT.md .sdlc/reports/<id>/assets && git commit -m "chore(sdlc): test report [<id>]"`. When the `assets/` folder does not exist, add only the report.
 - Return `{ok, notes}`. The report never blocks the slice: when a source is missing, write the report with what exists and say what was missing, in the Appendix.

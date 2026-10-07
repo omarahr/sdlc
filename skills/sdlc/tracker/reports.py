@@ -316,7 +316,7 @@ PLAN_FILE = re.compile(r"^plan-r(?P<round>\d+)\.md$")
 def collect(repo):
     """[{id, title, status, report, reports: [{lens, round, kind, path, verdict}]}] for slices with any verification record.
 
-    `report` is the slice's REPORT.md (the test completion report) when the test-reporter wrote one. `reports` are
+    `report` is the slice's test completion report — `.sdlc/reports/<id>/REPORT.md`, or `.sdlc/slices/<id>/REPORT.md` for a pre-existing slice — when the test-reporter wrote one. `reports` are
     the per-round records: verification plans, profile evidence, the core verifiers' summaries, and older full reports.
     """
     sdlc = os.path.join(repo, ".sdlc")
@@ -351,7 +351,11 @@ def collect(repo):
                 part = int(m.group("part"))
                 lens = m.group("lens") + ("#%d" % part if part else "")
                 reps.append({"lens": lens, "round": int(rd.group(1)), "kind": "profile", "path": p})
-        report = os.path.join(d, "REPORT.md")
+        # the test-reporter writes .sdlc/reports/<id>/REPORT.md; a pre-existing slice may still have it
+        # under the slice directory, so the old location stays readable
+        report = os.path.join(sdlc, "reports", sid, "REPORT.md")
+        if not os.path.isfile(report):
+            report = os.path.join(d, "REPORT.md")
         report = report if os.path.isfile(report) else None
         if not reps and not report:
             continue

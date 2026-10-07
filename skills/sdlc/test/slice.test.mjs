@@ -3,7 +3,9 @@ import assert from 'node:assert/strict'
 import { runMain, scripted, ok, clear } from './harness.mjs'
 
 export function sliceNext(phase = 'plan', extra = {}) {
-  return { action: 'slice', sliceId: 'S-1', slice: { id: 'S-1', kind: 'spec', phase, counters: {}, ...extra }, reason: 'next' }
+  // a slice the gate is about to re-run carries the gate counters it was persisted with
+  const counters = phase === 'gate' ? { fixRounds: 0, gateCommit: '' } : {}
+  return { action: 'slice', sliceId: 'S-1', slice: { id: 'S-1', kind: 'spec', phase, counters, ...extra }, reason: 'next' }
 }
 
 export function happy(overrides = {}, phase = 'plan') {
@@ -22,6 +24,7 @@ export function happy(overrides = {}, phase = 'plan') {
     'test-reporter': () => ok(),
     reviewer: () => ({ findings: [] }),
     'finding-refuter': () => clear(),
+    gate: () => ({ state: 'pass', commit: 'c2' }),
     integrator: () => ({ state: 'merged', commit: 'abc123' }),
     'state-writer': () => ok(),
     escalator: () => ok(),
@@ -205,7 +208,7 @@ test('parkedRetry unparks then runs the slice from plan with reset counters', as
   assert.equal(rt.calls[1].inputs.op, 'unpark')
   assert.equal(rt.calls[2].role, 'planner')
   const patch = rt.calls.find(c => c.role === 'state-writer' && c.inputs.op === 'patch-slice').inputs.patch
-  assert.deepEqual(patch.counters, { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 1, verifyDemanded: false })
+  assert.deepEqual(patch.counters, { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 1, verifyDemanded: false, infraRetries: 0, gateCommit: '' })
 })
 
 test('retryMerge calls the integrator in retry-merge mode', async () => {

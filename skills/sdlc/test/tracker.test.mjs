@@ -105,13 +105,17 @@ test('verifier test reports render as pages with the referenced test source', { 
 test('a slice test report leads the page, with the verification rounds as an appendix and screenshots inline', { skip: !python && 'python3 not installed' }, () => {
   const repo = fixtureRepo()
   const d = join(repo, '.sdlc', 'slices', 'S-001')
+  // the report lives in its own directory now, with its screenshots beside it
+  const rd = join(repo, '.sdlc', 'reports', 'S-001')
+  mkdirSync(join(rd, 'assets'), { recursive: true })
   mkdirSync(join(d, 'verification', 'r0', 'assets', 'ui-0'), { recursive: true })
+  writeFileSync(join(rd, 'assets', 'error.png'), 'png')
   writeFileSync(join(d, 'verification', 'r0', 'assets', 'ui-0', 'error.png'), 'png')
   writeFileSync(join(d, 'verification', 'plan-r0.md'), '# Plan\n| VS | Title |\n|---|---|\n| VS-1 | submit |\n')
   writeFileSync(join(d, 'verification', 'r0', 'ui-0.md'), '# ui r0\nVerdict: HELD\n![error state](assets/ui-0/error.png)\n')
   writeFileSync(join(d, 'verification', 'r0', 'http-api-1.md'), 'Verdict: REFUTED\n')
   writeFileSync(join(d, 'verify-spec-fidelity-r0.md'), 'Verdict: NOT refuted\n')
-  writeFileSync(join(d, 'REPORT.md'), '# S-001 · Scaffold\nVerdict: RELEASED\n\n## Traceability\n| Requirement | Result |\n|---|---|\n| R-1 | pass |\n\n![error state](verification/r0/assets/ui-0/error.png)\n\n<details>\n<summary>Case detail (1 case) <script>x</script></summary>\n\n#### TC-ui-1 · PASS\n- **Given** a form\n\n</details>\n')
+  writeFileSync(join(rd, 'REPORT.md'), '# S-001 · Scaffold\nVerdict: RELEASED\n\n## Traceability\n| Requirement | Result |\n|---|---|\n| R-1 | pass |\n\n![error state](assets/error.png)\n\n<details>\n<summary>Case detail (1 case) <script>x</script></summary>\n\n#### TC-ui-1 · PASS\n- **Given** a form\n\n</details>\n')
   execFileSync('python3', [COLLECT, '--repo', repo])
   const out = join(repo, '.sdlc', 'tracker')
   const r = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).reports.find(x => x.id === 'S-001')
@@ -120,11 +124,22 @@ test('a slice test report leads the page, with the verification rounds as an app
   assert.deepEqual(r.lenses, { 'spec-fidelity': { round: 0, verdict: 'held' }, 'http-api#1': { round: 0, verdict: 'refuted' }, ui: { round: 0, verdict: 'held' } })
   const page = readFileSync(join(out, 'reports', 'S-001.html'), 'utf8')
   assert.ok(page.indexOf('Test completion report') < page.indexOf('Verification rounds'))
-  assert.match(page, /<img alt="error state" src="\.\.\/\.\.\/slices\/S-001\/verification\/r0\/assets\/ui-0\/error\.png"/)
+  assert.match(page, /<img alt="error state" src="\.\.\/\.\.\/reports\/S-001\/assets\/error\.png"/)
   assert.match(page, /verification plan/)
   assert.match(page, /tag released/)
   assert.match(page, /<details class="rec">\s*<summary>Case detail \(1 case\) &lt;script&gt;/)
   assert.match(page, /<h5>TC-ui-1 · PASS<\/h5>[\s\S]*<\/details>/)
+})
+
+test('a pre-existing slice keeps its report at the old location under the slice', { skip: !python && 'python3 not installed' }, () => {
+  const repo = fixtureRepo()
+  const d = join(repo, '.sdlc', 'slices', 'S-001')
+  mkdirSync(d, { recursive: true })
+  writeFileSync(join(d, 'REPORT.md'), '# S-001 · Scaffold\nVerdict: RELEASED\n')
+  execFileSync('python3', [COLLECT, '--repo', repo])
+  const r = JSON.parse(readFileSync(join(repo, '.sdlc', 'tracker', 'status.json'), 'utf8')).reports.find(x => x.id === 'S-001')
+  assert.equal(r.hasReport, true, 'the old location must still be read')
+  assert.equal(r.verdict, 'released')
 })
 
 // a Workflow run folder as Claude Code writes it: a journal plus one transcript per agent
@@ -164,7 +179,7 @@ test('collector adds the workflow view: phases, agents with status, model, token
   const wf = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow
   assert.equal(wf.name, 'sdlc-loop')
   assert.deepEqual(wf.phases.slice(0, 3), ['Read state', 'Bootstrap', 'Plan'])
-  assert.equal(wf.phases.length, 15)
+  assert.equal(wf.phases.length, 16)
   assert.equal(wf.run.id, 'wf_new')
   assert.equal(wf.run.live, true)
   assert.equal(wf.run.startedAt, '2026-01-12T09:00:00Z')
@@ -658,6 +673,44 @@ test('the agents, milestones and pace chart are plain open regions, so a reload 
   assert.equal(row.querySelector('.cnt').textContent, '1/4 done · 1 parked')
   assert.ok(row.querySelector('.ms-eta b').textContent, 'the likely finish is the bold line')
   assert.match(row.querySelector('.ms-eta span').textContent, / – /, 'with the range under it')
+})
+
+test('the stats row carries the verify economics next to the existing counts', () => {
+  const st = trackerStatus(longRun())
+  st.run = { label: 'Run 1', agents: 12, cap: 850 }
+  st.slices = [
+    { id: 'S-001', title: 'Store', status: 'done', ledger: [
+      { kind: 'verify', round: 0, outcome: 'refuted', refutations: 2, failingTests: 1 },
+      { kind: 'verify', round: 1, outcome: 'verified', refutations: 0, failingTests: 0 },
+    ] },
+    { id: 'S-002', title: 'List', status: 'in_progress', ledger: [
+      { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+      { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    ] },
+    { id: 'S-003', title: 'Search', status: 'todo' },
+  ]
+  const page = loadPage(st)
+  const stats = page.document.querySelectorAll('.stat').map((s) => s.textContent)
+  assert.ok(stats.some((t) => t.startsWith('1 / 1') && t.includes('refutations fixed')), 'refutation→fix rate off the ledgers')
+  assert.ok(stats.some((t) => t.startsWith('2') && t.includes('infra retries')))
+  assert.ok(stats.some((t) => t.startsWith('1') && t.includes('max fix round') && t.includes('r0×1 · r1×1')), 'the fix-round distribution')
+  assert.ok(stats.some((t) => t.startsWith('3') && t.includes('run agents per verify round')), '12 journal agents over 4 verify rounds')
+  // the label says "run agents": the numerator is run-wide, not the battery alone
+  const per = [...page.document.querySelectorAll('.stat')].find((s) => s.textContent.includes('run agents per verify round'))
+  assert.match(per.title, /run-wide/)
+  // a run whose slices have no ledger rows shows no economics at all
+  const plain = loadPage(trackerStatus(longRun()))
+  assert.equal(plain.document.querySelectorAll('.stat .l').filter((l) => l.textContent.includes('verify round')).length, 0)
+  // a lone gate row (a slice parked at phase gate on pre-ledger state) has no verify-kind rows: the
+  // economics wake up, but with an empty distribution — and never a "-Infinity" stat
+  const gateOnly = trackerStatus(longRun())
+  gateOnly.slices = [{ id: 'S-001', title: 'Store', status: 'in_progress', ledger: [
+    { kind: 'gate', round: 0, outcome: 'verified', refutations: 0, failingTests: 0 },
+  ] }]
+  const gatePage = loadPage(gateOnly)
+  const gateStats = gatePage.document.querySelectorAll('.stat').map((s) => s.textContent)
+  assert.ok(gateStats.every((t) => !t.includes('max fix round')), 'no distribution stat off an empty dist')
+  assert.ok(gateStats.every((t) => !t.includes('-Infinity')), 'and no -Infinity anywhere')
 })
 
 test('the scroll box is capped and scrolls, and only the slot ever builds it', () => {

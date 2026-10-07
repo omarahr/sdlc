@@ -10,7 +10,7 @@ test('the profile group gets its scenarios, branch and unavailable tools; the to
     'verify-planner': plan(['ui', 'i18n'], [{ id: 'ui-harness', profile: 'ui', purpose: 'playwright', exists: false }, { id: 'stub-server', profile: 'http-api', purpose: 'x', exists: true }]),
     'verify-toolsmith': () => ({ ok: true, built: [], failed: [{ id: 'ui-harness', reason: 'chromium failed to launch' }] }),
     verifier: () => clear(),
-    'verify-ui': () => ({ refuted: true, evidence: 'blocked', blocked: [{ scenarioId: 'VS-1', reason: 'ui-harness unavailable' }] }),
+    'verify-ui': () => ({ refuted: false, evidence: 'blocked', blocked: [{ scenarioId: 'VS-1', reason: 'ui-harness unavailable' }] }),
     'verify-i18n': () => clear(),
     'verify-collector': () => ok(),
   }))
@@ -20,7 +20,9 @@ test('the profile group gets its scenarios, branch and unavailable tools; the to
   const ui = rt.calls.find(c => c.role === 'verify-ui').inputs
   assert.deepEqual(ui, { sliceId: 'S-1', round: 2, planRound: 2, part: 0, scenarioIds: ['VS-1'], branch: 'sdlc/S-1-v2-ui-0', unavailableTools: [{ id: 'ui-harness', reason: 'chromium failed to launch' }] })
   assert.deepEqual(rt.calls.find(c => c.role === 'verify-collector').inputs.branches, ['sdlc/S-1-v2-ui-0', 'sdlc/S-1-v2-i18n-0'])
-  assert.equal(votes[1].refuted, true)
+  // a blocked scenario proves nothing about the slice: it is infra, retried outside the fix-round economy
+  assert.equal(votes[1].outcome, 'infra')
+  assert.equal(votes[1].refuted, false)
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, false)
 })
 
@@ -36,16 +38,17 @@ test('no missing tools means no toolsmith, and a clean group passes', async () =
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
 })
 
-test('a collector that cannot fold the profile branches refutes the round', async () => {
+test('a collector that fails only logs; the round still fails or passes on the verifiers alone', async () => {
   const rt = await loadInternals(scripted({
     'verify-planner': plan(['http-api']),
     verifier: () => clear(),
     'verify-http-api': () => clear(),
-    'verify-collector': () => ({ ok: false, notes: 'conflict in go.sum' }),
+    'verify-collector': () => ({ ok: false, notes: 'worktree busy' }),
   }))
-  const { votes } = await rt.I.verifyPhase('S-1', 0)
-  assert.equal(votes[1].refuted, true)
-  assert.match(votes[1].evidence, /conflict in go\.sum/)
+  const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
+  assert.equal(votes[1].refuted, false)
+  assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+  assert.ok(rt.logs.some(l => /verify-collector/.test(l)))
 })
 
 test('a planner that fails to report refutes the profiles vote without running any profile agent', async () => {
@@ -320,6 +323,9 @@ test('the regression verifier runs after the collector, and alongside spec-fidel
   }))
   const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+  // the regression lens is slice-scoped during build rounds: the scope comes from the inputs, not the prompt
+  const reg = rt.calls.find(c => c.role === 'verifier' && c.inputs.lens === 'regression')
+  assert.equal(reg.inputs.scope, 'slice')
   const order = rt.calls.map(c => (c.role === 'verifier' ? c.inputs.lens : c.role))
   assert.ok(order.indexOf('spec-fidelity') < order.indexOf('verify-collector'))
   assert.equal(order.indexOf('regression'), order.length - 1)
@@ -341,7 +347,8 @@ test('a failed collector still gets a regression run', async () => {
   const { votes } = await rt.I.verifyPhase('S-1', 0)
   assert.equal(rt.calls.filter(c => c.role === 'verifier' && c.inputs.lens === 'regression').length, 1)
   assert.equal(votes[2].refuted, false)
-  assert.equal(votes[1].refuted, true)
+  // a collector failure is cleanup infra: it never refutes the profiles vote
+  assert.equal(votes[1].refuted, false)
 })
 
 test('the review runs next to the regression verifier when everything before it held, and only once', async () => {
@@ -360,7 +367,6 @@ test('no review is started when a profile verifier or the spec-fidelity verifier
   for (const overrides of [
     { 'verify-security': () => ({ refuted: true, evidence: 'IDOR', failingTest: 't1', failedScenarios: ['VS-1'] }) },
     { verifier: c => (c.inputs.lens === 'spec-fidelity' ? { refuted: true, evidence: 'R-1 half done' } : clear()) },
-    { 'verify-collector': () => ({ ok: false, notes: 'conflict' }) },
   ]) {
     const rt = await loadInternals(happy(overrides))
     let reviews = 0

@@ -1,7 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync, spawn } from 'node:child_process'
-import { mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync, mkdtempSync, utimesSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR, scratch } from './harness.mjs'
 
@@ -13,6 +14,10 @@ const GIT_MODES = JSON.parse(readFileSync(join(SKILL_DIR, 'git-modes.json'), 'ut
 let python = true
 try { execFileSync('python3', ['--version']) } catch { python = false }
 const opts = { skip: !python && 'python3 not installed' }
+// the Go-mapping test needs the go toolchain; not every runner image ships one
+let goToolchain = true
+try { execFileSync('go', ['version']) } catch { goToolchain = false }
+const goOpts = { skip: !goToolchain && 'go not installed' }
 
 const git = (repo, ...args) => execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8' }).trim()
 // `git merge-base --is-ancestor` exits non-zero rather than answering, so the negative case needs catching
@@ -418,6 +423,73 @@ test('stack mode finds the milestone that owns the slice, not the first one', op
   assert.equal(base('S-fix-M-3-1'), git(repo, 'rev-parse', 'sdlc/M-3'))
   // the first milestone owns none of these, so it never becomes a base
   assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '')
+})
+
+// ---------- suite slot ----------
+// The gate holds the suite slot for the whole of a full-suite run, so two agents on one repo never
+// interleave two full suites. The holder here is a real background process the way the gate's is, and
+// the probe (--timeout 0) is the non-blocking way everything else asks about the slot.
+const slotProbe = (repo, ...args) => spawnSync('python3', [RECEIPT, 'slot', '--repo', repo, ...args], { encoding: 'utf8' })
+// the holder prints one line the moment it has the slot, so the test waits for that rather than sleeping.
+// The backstop kills a holder that never acquires, so a blocked acquire path cannot hang the suite
+const holdSlot = repo => new Promise((resolve, reject) => {
+  const p = spawn('python3', [RECEIPT, 'slot', '--repo', repo], { stdio: ['ignore', 'pipe', 'pipe'] })
+  const backstop = setTimeout(() => p.kill('SIGKILL'), 5000)
+  let out = '', err = ''
+  p.stdout.on('data', c => { out += c; if (out.includes('\n')) { clearTimeout(backstop); resolve({ p, line: out.split('\n')[0] }) } })
+  p.stderr.on('data', c => { err += c })
+  p.on('exit', () => { clearTimeout(backstop); reject(new Error(`the slot holder exited before it held the slot: ${out}${err}`)) })
+})
+// the holder's exit, with a kill so a holder that never notices its release cannot hang the suite
+const holderExit = p => new Promise(resolve => {
+  const t = setTimeout(() => p.kill('SIGKILL'), 5000)
+  p.once('exit', code => { clearTimeout(t); resolve(code) })
+})
+
+test('the suite slot is exclusive, and slot-release frees it from another process', opts, async () => {
+  const repo = fixture({ slices: [slice('S-001')] })
+  const { p: holder, line } = await holdSlot(repo)
+  try {
+    assert.deepEqual(JSON.parse(line), { ok: true, held: true })
+    assert.equal(existsSync(join(repo, '.sdlc', 'suite.lock')), true)
+
+    // while it is held: the probe exits 1, and its JSON names no lock file
+    const busy = slotProbe(repo, '--timeout', '0')
+    assert.equal(busy.status, 1)
+    assert.deepEqual(JSON.parse(busy.stdout.trim()), { ok: false, busy: true })
+    assert.doesNotMatch(busy.stdout, /suite\.lock/)
+    // and a bounded wait gives up within its budget rather than hanging behind the holder
+    const t0 = Date.now()
+    const timed = slotProbe(repo, '--timeout', '0.2')
+    assert.equal(timed.status, 1)
+    assert.ok(Date.now() - t0 >= 50, 'the bounded wait did not wait at all')
+    assert.ok(Date.now() - t0 < 2000, 'the bounded wait outlived its timeout')
+
+    // slot-release, run from this process rather than the holder's, frees the slot
+    const rel = call(RECEIPT, repo, ['slot-release'])
+    assert.equal(rel.code, 0)
+    assert.deepEqual([rel.out.ok, rel.out.released], [true, true])
+    const free = slotProbe(repo, '--timeout', '0')
+    assert.equal(free.status, 0, free.stderr)
+    assert.deepEqual(JSON.parse(free.stdout.trim()), { ok: true, busy: false })
+
+    // and the holder noticed the release and exited on its own, so nothing is left holding
+    assert.equal(await holderExit(holder), 0)
+  } finally {
+    holder.kill()
+  }
+})
+
+test('the suite slot is self-healing: it works without .sdlc and after a killed holder', opts, async () => {
+  const repo = scratch('sdlc-slot-')
+  // releasing a slot nobody ever took answers rather than failing
+  assert.deepEqual(call(RECEIPT, repo, ['slot-release']).out, { ok: true, released: false })
+  const { p: holder } = await holdSlot(repo)
+  assert.equal(existsSync(join(repo, '.sdlc', 'suite.lock')), true, 'slot did not create .sdlc/')
+  holder.kill('SIGKILL')
+  await holderExit(holder)
+  // the killed holder's lock died with it, so the slot is free again despite the leftover file
+  assert.equal(slotProbe(repo, '--timeout', '0').status, 0)
 })
 
 test('stack mode aborts a conflicting merge of the default branch into the run branch', opts, () => {
@@ -1386,4 +1458,237 @@ test('base-branch fails loudly rather than printing a plausible branch', opts, (
   assert.equal(bad.code, 2)
   assert.match(bad.out.error, /stak/)
   assert.equal(bad.out.branch, undefined)
+})
+
+// ---------- impact ----------
+// The diff-to-tests map the verify loop consults instead of running the whole suite. These fixtures are
+// plain repos with no .sdlc state, since impact reads only git and the package manifests it finds.
+const IMPACT = join(SKILL_DIR, 'impact.py')
+const runImpact = (repo, base, head) =>
+  spawnSync('python3', [IMPACT, '--repo', repo, '--base', base, '--head', head], { encoding: 'utf8' })
+
+const initRepo = () => {
+  const repo = scratch('sdlc-impact-')
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'config', 'user.email', 'test@example.com')
+  git(repo, 'config', 'user.name', 'Test')
+  return repo
+}
+
+test('impact maps a changed source file to its package tests and reverse-dependency packages', opts, () => {
+  const repo = initRepo()
+  const pkg = (dir, name, deps = {}) => {
+    mkdirSync(join(repo, dir, 'src'), { recursive: true })
+    mkdirSync(join(repo, dir, 'test'), { recursive: true })
+    writeFileSync(join(repo, dir, 'package.json'), JSON.stringify({ name, dependencies: deps }))
+  }
+  pkg('packages/a', '@f/a')
+  writeFileSync(join(repo, 'packages/a/src/x.ts'), 'export const x = 1\n')
+  writeFileSync(join(repo, 'packages/a/test/x.test.ts'), 'a test of a\n')
+  pkg('packages/b', '@f/b', { '@f/a': 'workspace:*' })
+  writeFileSync(join(repo, 'packages/b/src/y.ts'), 'export const y = 1\n')
+  writeFileSync(join(repo, 'pnpm-workspace.yaml'), 'packages:\n  - packages/*\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'init')
+  git(repo, 'checkout', '-q', '-b', 'feat')
+  writeFileSync(join(repo, 'packages/a/src/x.ts'), 'export const x = 2\n')
+  git(repo, 'commit', '-q', '-am', 'change')
+
+  const r = runImpact(repo, 'main', 'feat')
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.changed, ['packages/a/src/x.ts'])
+  // a's own test file, and b's package because its dependencies name @f/a — not b's sources, which are unaffected
+  assert.deepEqual(out.testFiles, ['packages/a/test/x.test.ts'])
+  assert.deepEqual(out.packages, ['packages/a', 'packages/b'])
+  assert.equal(r.stderr, '', 'a graph that was built has nothing to note')
+})
+
+test('impact follows Go imports to reverse-dependent packages when a go.mod exists', goOpts, () => {
+  const repo = initRepo()
+  writeFileSync(join(repo, 'go.mod'), 'module example.com/m\n\ngo 1.21\n')
+  mkdirSync(join(repo, 'pkg/alpha'), { recursive: true })
+  mkdirSync(join(repo, 'pkg/beta'), { recursive: true })
+  writeFileSync(join(repo, 'pkg/alpha/alpha.go'), 'package alpha\n\nconst A = 1\n')
+  writeFileSync(join(repo, 'pkg/alpha/alpha_test.go'), 'package alpha\n')
+  writeFileSync(join(repo, 'pkg/beta/beta.go'), 'package beta\n\nimport "example.com/m/pkg/alpha"\n\nvar B = alpha.A\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'init')
+  git(repo, 'checkout', '-q', '-b', 'feat')
+  writeFileSync(join(repo, 'pkg/alpha/alpha.go'), 'package alpha\n\nconst A = 2\n')
+  git(repo, 'commit', '-q', '-am', 'change')
+
+  const r = runImpact(repo, 'main', 'feat')
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  // beta imports alpha, so it is affected even though nothing under it changed
+  assert.deepEqual(out.packages, ['pkg/alpha', 'pkg/beta'])
+  assert.deepEqual(out.testFiles, ['pkg/alpha/alpha_test.go'])
+  assert.equal(r.stderr, '', 'a graph that was built has nothing to note')
+})
+
+test('impact falls back to the test files in the changed paths when no package graph exists', opts, () => {
+  const repo = initRepo()
+  mkdirSync(join(repo, 'src'))
+  writeFileSync(join(repo, 'src/lib.ts'), 'v1\n')
+  writeFileSync(join(repo, 'src/lib.test.ts'), 'v1\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'init')
+  git(repo, 'checkout', '-q', '-b', 'feat')
+  writeFileSync(join(repo, 'src/lib.ts'), 'v2\n')
+  writeFileSync(join(repo, 'src/lib.test.ts'), 'v2\n')
+  git(repo, 'commit', '-q', '-am', 'change')
+
+  const r = runImpact(repo, 'main', 'feat')
+  // the fallback is still a usable answer, so the caller gets one rather than a failure
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual([...out.changed].sort(), ['src/lib.test.ts', 'src/lib.ts'])
+  assert.deepEqual(out.packages, [])
+  assert.deepEqual(out.testFiles, ['src/lib.test.ts'])
+  // and stderr carries a one-line note saying the graph was not built
+  assert.match(r.stderr, /\S/)
+  assert.equal(r.stderr.trim().split('\n').length, 1)
+})
+
+test('impact answers exit 0 with a note when the repo or git itself is unusable', opts, () => {
+  // --repo at a path that does not exist: the mapping is best effort, so a traceback and exit 1 would
+  // break every caller that treats the answer as optional — the fallback contract holds even here
+  const gone = join(scratch('sdlc-impact-'), 'nope')
+  const r = runImpact(gone, 'main', 'feat')
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual([out.changed, out.testFiles, out.packages], [[], [], []])
+  assert.match(r.stderr, /\S/)
+  assert.equal(r.stderr.trim().split('\n').length, 1)
+})
+
+// ---------- janitor ----------
+// The reaper the state-reader runs once per run. Scratch reaping happens in the REAL temp dir — the
+// harness scratch root is itself an `sdlc-` dir under it, so directing the janitor there would delete
+// every other test's fixtures — which is why these tests make their own dirs, age them by mtime, and
+// clean up whatever survives.
+const JANITOR = join(SKILL_DIR, 'janitor.py')
+const runJanitor = (repo, ...args) =>
+  spawnSync('python3', [JANITOR, '--repo', repo, ...args], { encoding: 'utf8' })
+const agedDir = (name, litter = false) => {
+  const dir = mkdtempSync(join(tmpdir(), name))
+  if (litter) writeFileSync(join(dir, 'litter.txt'), 'stale scratch\n')
+  // aging last: writing into the dir bumps its mtime, so the age is set after the contents
+  const aged = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000)
+  utimesSync(dir, aged, aged)
+  return dir
+}
+
+test('the janitor reaps an old sdlc- scratch dir in the real temp dir and keeps a fresh one', opts, () => {
+  const old = agedDir('sdlc-janitor-old-', true)
+  const fresh = mkdtempSync(join(tmpdir(), 'sdlc-janitor-fresh-'))
+  try {
+    const r = runJanitor(fresh)
+    assert.equal(r.status, 0, r.stderr)
+    const out = JSON.parse(r.stdout)
+    assert.deepEqual(Object.keys(out).sort(), ['notes', 'removedBranches', 'removedDirs'])
+    assert.equal(typeof out.removedDirs, 'number')
+    assert.ok(Array.isArray(out.removedBranches), 'removedBranches is a list')
+    assert.ok(Array.isArray(out.notes), 'notes is a list')
+    assert.ok(out.removedDirs >= 1, 'nothing was reaped')
+    assert.equal(existsSync(old), false, 'the old scratch dir survived')
+    assert.equal(existsSync(fresh), true, 'the fresh scratch dir was reaped')
+
+    // --days raises the age bar: the 8-day-old dir below is within the window and the fresh one is
+// not, so survival is compared relative to the dirs themselves rather than to a count that
+// real-temp litter from other tests could upset
+    const aged = agedDir('sdlc-janitor-dated-')
+    try {
+      const wider = runJanitor(fresh, '--days', '30')
+      assert.equal(wider.status, 0, wider.stderr)
+      assert.equal(existsSync(aged), true, 'a dir within the --days window was reaped')
+      assert.equal(existsSync(fresh), true, 'the fresh dir was reaped by the wider window')
+    } finally {
+      rmSync(aged, { recursive: true, force: true })
+    }
+  } finally {
+    rmSync(fresh, { recursive: true, force: true })
+    rmSync(old, { recursive: true, force: true })
+  }
+})
+
+test('the janitor reaps by janitorDays from config.json when --days is not given', opts, () => {
+  const repo = fixture({ config: { janitorDays: 30 } })
+  const aged = agedDir('sdlc-janitor-cfg-')
+  const fresh = mkdtempSync(join(tmpdir(), 'sdlc-janitor-cfgfresh-'))
+  try {
+    // config.json says 30 days, so the 8-day-old dir survives where the default would reap it;
+    // survival is asserted on the dirs themselves, not on a count real-temp litter could upset
+    const r = runJanitor(repo)
+    assert.equal(r.status, 0, r.stderr)
+    assert.equal(existsSync(aged), true, 'config janitorDays was ignored')
+    assert.equal(existsSync(fresh), true, 'a fresh dir was reaped')
+  } finally {
+    rmSync(aged, { recursive: true, force: true })
+    rmSync(fresh, { recursive: true, force: true })
+  }
+})
+
+test('the janitor deletes v-branches of finished and unknown slices and keeps live ones', opts, () => {
+  const repo = fixture({
+    slices: [
+      slice('S-001', { status: 'done' }),
+      slice('S-002', { status: 'in_progress' }),
+      slice('S-003', { status: 'rejected' }),
+      slice('S-004'),
+      // a known slice whose row carries no status field is still known, so its branch is kept
+      slice('S-005', { status: undefined }),
+    ],
+  })
+  for (const b of ['sdlc/S-001-v1', 'sdlc/S-002-v1', 'sdlc/S-003-v1', 'sdlc/S-004-v1', 'sdlc/S-005-v1', 'sdlc/S-999-v1', 'sdlc/S-004-attempt-1-v1', 'sdlc/S-004', 'sdlc/run-1', 'sdlc/-v1', 'sdlc/S-001-vextra/nested']) {
+    git(repo, 'branch', b)
+  }
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.removedBranches.sort(), ['sdlc/S-001-v1', 'sdlc/S-003-v1', 'sdlc/S-999-v1'])
+  assert.deepEqual(out.notes, [])
+  const left = git(repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads').split('\n').sort()
+  // sdlc/-v1 has an empty id (the old crash shape) and the nested name is a foreign branch, not a
+  // v-branch: neither is a ledger row, so neither is ever swept
+  assert.deepEqual(left, ['main', 'sdlc/-v1', 'sdlc/S-001-vextra/nested', 'sdlc/S-002-v1', 'sdlc/S-004', 'sdlc/S-004-attempt-1-v1', 'sdlc/S-004-v1', 'sdlc/S-005-v1', 'sdlc/run-1'])
+})
+
+test('the janitor prunes a stale worktree registration before sweeping, so the branch is not pinned forever', opts, () => {
+  // `git branch -D` refuses a branch whose worktree is registered, and a worktree deleted without
+  // `git worktree remove` leaves that registration behind forever — the janitor would fail on the
+  // same branch every round until a human pruned. The prune before the sweep is the self-heal.
+  const repo = fixture({ slices: [slice('S-001', { status: 'done' })] })
+  git(repo, 'branch', 'sdlc/S-001-v1')
+  const wt = scratch('sdlc-wt-')
+  git(repo, 'worktree', 'add', '-q', wt, 'sdlc/S-001-v1')
+  rmSync(wt, { recursive: true, force: true })
+  // the precondition: the stale registration is what blocks the delete, so the prune is what unblocks it
+  assert.throws(() => git(repo, 'branch', '-D', 'sdlc/S-001-v1'), /used by worktree/)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(JSON.parse(r.stdout).removedBranches, ['sdlc/S-001-v1'])
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), '')
+})
+
+test('the janitor notes missing or unreadable state instead of deleting, and still runs', opts, () => {
+  // no .sdlc/ at all: the reaping is best effort, so exit 0 with a note
+  const bare = initRepo()
+  const r = runJanitor(bare)
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.removedBranches, [])
+  assert.equal(typeof out.removedDirs, 'number')
+  assert.match(out.notes.join(' '), /slices\.json/)
+
+  // an unparseable ledger deletes nothing
+  const repo = fixture({ slices: [slice('S-001', { status: 'done' })] })
+  writeFileSync(join(repo, '.sdlc', 'slices.json'), '{not json')
+  git(repo, 'branch', 'sdlc/S-001-v1')
+  const r2 = runJanitor(repo)
+  assert.equal(r2.status, 0, r2.stderr)
+  const out2 = JSON.parse(r2.stdout)
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), 'sdlc/S-001-v1', 'an unparseable ledger deleted a branch')
+  assert.match(out2.notes.join(' '), /slices\.json/)
 })

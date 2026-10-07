@@ -235,11 +235,15 @@ def build(repo, journal=None, run_label=None, run_cap=None, cache=None, box=None
         if e.get("type") == "slice-merged" and e.get("slice"):
             done_at[e["slice"]] = e.get("ts")
 
-    out_slices = [
-        {"id": s["id"], "title": s.get("title", ""), "status": s.get("status", "todo"), "doneAt": done_at.get(s["id"])}
-        for s in slices
-        if s.get("status") != "rejected"
-    ]
+    out_slices = []
+    for s in slices:
+        if s.get("status") == "rejected":
+            continue
+        row = {"id": s["id"], "title": s.get("title", ""), "status": s.get("status", "todo"), "doneAt": done_at.get(s["id"])}
+        # the verify-economy ledger rides along so the hub's index and the page can price verification
+        if isinstance(s.get("ledger"), list) and s["ledger"]:
+            row["ledger"] = s["ledger"]
+        out_slices.append(row)
 
     rs = [r.get("status") for r in reqs if "obsolete" not in (r.get("flags") or [])]
     requirements = {"done": rs.count("done"), "total": len(rs), "parked": rs.count("parked")}

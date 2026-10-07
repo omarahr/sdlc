@@ -11,7 +11,8 @@ Inputs: `iteration`, `specPath` (the spec path from the driver; it may be null w
    - **`{"sync": [...]}`:** the repo is behind its pull requests. Run each command in order, from the target repo, then go back to step 1. Do this at most 3 times.
    - **`{"next": {...}, "checkout": ...}`:** this is the decision.
      - If `checkout` names a branch and `git status --porcelain -- . ':!.sdlc'` is empty, `git checkout <branch>`: it is the slice in progress.
-     - Return the `next` object exactly as printed: every field, with no change to `action`, `reason`, `sliceId`, `slice`, `milestoneId`, `milestone` or `summary`.
+     - Before relaying, run `python3 "<skill>/janitor.py" --repo .` once. Its output is informational: never block the decision on it, never retry it, and mention its failures at the end of `reason`.
+     - Return the `next` object exactly as printed: every field, with no change to `action`, `reason`, `sliceId`, `slice`, `milestoneId`, `milestone` or `summary` — the one exception being the janitor's failures, which the step above appends to `reason`.
 
 ## When something fails
 Return `{"action": "error", "reason": "<what failed, with the command's error text>"}` when:

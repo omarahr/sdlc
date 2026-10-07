@@ -202,3 +202,15 @@ test('every phase title used in the script is declared in meta.phases', async ()
   ]
   assert.deepEqual(used.filter(t => !declared.has(t)), [])
 })
+
+test('the Gate phase is declared after the verify group and before Integrate', async () => {
+  const rt = await loadInternals()
+  const titles = rt.meta.phases.map(p => p.title)
+  const gate = titles.indexOf('Gate')
+  assert.ok(gate >= 0, 'Gate is missing from meta.phases')
+  const verify = titles.indexOf('Verify')
+  const implement = titles.indexOf('Implement')
+  const integrate = titles.indexOf('Integrate')
+  assert.ok(gate > verify && gate > implement, 'Gate must follow the Implement/Verify group')
+  assert.ok(gate < integrate, 'Gate must precede Integrate')
+})

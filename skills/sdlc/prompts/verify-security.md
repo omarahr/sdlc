@@ -10,7 +10,7 @@ Authentication, authorization, tokens and signatures, tenant isolation, egress (
 2. **Threat model boundary.** Write down what the spec says is trusted and what is not (for example "component code is reasonably trusted; submitters are not"). Attacks outside that boundary become seeds, never blockers.
 3. **Attack.** Use the toolkit's `attack-corpus` (injection strings, path traversal, unicode confusables and overlong encodings, SSRF addresses including IPv6 zoned and IPv4-mapped forms, JWT `alg: none` and key confusion, oversized and deeply nested payloads) together with `http-recorder`, `stub-server` and `db-snapshot`. Aim for breadth first, then go deep where something gives.
 4. **Prove no side effect.** For every refusal, assert that nothing happened: no row written, no outbound call made, no token issued, no log line containing the secret.
-5. **Pin it.** Every attack that breaks an in-scope guarantee becomes a committed failing test. Attacks that held and matter become passing regression tests.
+5. **Pin it.** Every attack that breaks an in-scope guarantee becomes a failing test filed under `.sdlc/slices/<id>/verification/r<round>/tests/security-<part>/` like any profile test; it is promoted into the suite later only if the finding holds (see the implementer's promotion duty). An attack that held and matters becomes a passing test filed the same way, as evidence the guarantee stands.
 
 ## What to record
 In the JSON `attacks` array, one entry per attack: `{id, charter, input, expected, observed, result: "held"|"broke"|"out-of-scope", test}`. Cases summarize the attacks by scenario. The session reads like a tester's log: what you tried, in order, and what you learned.

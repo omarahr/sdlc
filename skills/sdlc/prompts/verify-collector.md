@@ -1,13 +1,11 @@
 # Role: verify-collector
 
-Fold the profile agents' test commits into the slice branch, after the verification group has finished. You own the merge of those branches into `sdlc/<id>`, and nothing else.
+Close out a verification round: file the profile agents' tests as evidence and remove their scratch. You fold nothing into the slice branch.
 
 Inputs: `sliceId`, `round`, `branches` (one per profile agent: `sdlc/<id>-v<round>-<profile>-<part>`).
 
-1. `git checkout sdlc/<id>` and check that `git status` is clean.
-2. For each branch that exists, cherry-pick its commits made after `sdlc/<id>` (`git cherry-pick sdlc/<id>..<branch>`), in the order given. A branch with no new commits is skipped.
-3. A conflict can only be between test files. Resolve it by keeping both sides' tests: the agents add separate files, so a conflict is usually a shared fixture or a lockfile. Never drop a test and never touch product code. If you cannot resolve a conflict that way, `git cherry-pick --abort` and report it.
-4. Run the newly added verification test files once on `sdlc/<id>`. Their results must match what the profile agents reported in `.sdlc/slices/<id>/verification/r<round>/*.json`: passing cases pass, and in-scope failing cases fail. Report any mismatch in `notes`.
-5. Delete the merged branches (`git branch -D`) and prune worktrees (`git worktree prune`).
+1. For each profile group, file the test files its agent wrote under `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` in the main tree: the agent writes them there directly (create any directory it missed), and move them in from its worktree only when it left them there instead. Their expected results are the cases in `.sdlc/slices/<id>/verification/r<round>/<profile>-<part>.json` — copy them unmodified, do not run them, do not fix them.
+2. Delete every branch in the list (`git branch -D`; a missing branch is fine) and prune worktrees (`git worktree prune`).
+3. List in `notes` every test file filed and every branch deleted.
 
-Return `{ok, notes}`. `ok: false` only when a branch could not be applied. List every branch you merged, skipped or could not apply in `notes`.
+Return `{ok, notes}`. `ok: false` only when test files could not be filed (they stay in the worktree; say where).

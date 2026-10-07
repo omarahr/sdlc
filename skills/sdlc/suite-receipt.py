@@ -9,21 +9,40 @@ receipt covers the code they are about to test:
 "The same code" means the same tree outside .sdlc/: state commits do not invalidate a receipt, and
 a receipt stays valid after its slice branch is merged and deleted.
 
+The suite slot serializes full-suite runs on one repo, so two agents never run two suites there at
+once. `slot` takes an exclusive flock on .sdlc/suite.lock. With no --timeout it blocks until the
+slot is free and then holds it: the process stays alive keeping the flock, and exits 0 when the
+hold ends. --timeout 0 only probes: exit 1 when the slot is busy, 0 when it is free (the probe
+gives the slot up when it exits). --timeout N waits at most N seconds and exits 1 if it never got
+the slot. `slot-release` ends the hold, and it runs in a different process than the holder — which
+an flock cannot serve, because a flock belongs to the open file description that took it and no
+other description can unlock it. So a hold ends when the lock file is gone, which is what
+slot-release does: it removes .sdlc/suite.lock, the holder sees the path change under it and exits,
+giving the flock up with it. Removing the file strands a waiter that is blocked on the old inode —
+which is why nothing here ever blocks on one: every attempt reopens the path, and the holder
+watches the path rather than sleeping blindly, so no one is left holding or waiting on the inode
+that was removed.
+
 Usage:
   suite-receipt.py write --repo DIR --slice ID --ref REF --seconds N --result pass|fail [--commands a,b]
   suite-receipt.py check --repo DIR --slice ID [--ref REF] [--need a,b]
   suite-receipt.py baseline --repo DIR --ref REF
   suite-receipt.py baseline-write --repo DIR --ref REF --seconds N
+  suite-receipt.py slot --repo DIR [--timeout N]
+  suite-receipt.py slot-release --repo DIR
 
-Every command prints one JSON object. Python 3 standard library only.
+Every command prints one JSON object. Python 3 standard library only. The slot's holder prints its
+one object when it takes the slot and prints nothing more when the release ends its hold.
 """
 import argparse
+import fcntl
 import glob
 import hashlib
 import json
 import os
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 
 COMMANDS = "test,lint,typecheck,build"
@@ -65,6 +84,59 @@ def now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def lock_path(repo):
+    return os.path.join(repo, ".sdlc", "suite.lock")
+
+
+def slot(repo, timeout):
+    """Take the suite slot. Prints its answer and exits, so it never returns; see the docstring."""
+    path = lock_path(repo)
+    deadline = None if timeout is None else time.monotonic() + timeout
+    while True:
+        os.makedirs(os.path.join(repo, ".sdlc"), exist_ok=True)
+        fd = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            break
+        except OSError:
+            os.close(fd)
+        if deadline is not None and time.monotonic() >= deadline:
+            print(json.dumps({"ok": False, "busy": True}))
+            sys.exit(1)
+        time.sleep(0.2)
+    if timeout == 0:
+        # a probe only answers; it gives the slot up when it exits
+        os.close(fd)
+        print(json.dumps({"ok": True, "busy": False}))
+        sys.exit(0)
+    # the pid is for whoever debugs a stuck slot; state, not part of the answer
+    os.ftruncate(fd, 0)
+    os.write(fd, f"{os.getpid()}\n".encode())
+    print(json.dumps({"ok": True, "held": True}))
+    sys.stdout.flush()
+    # hold: stay alive keeping the flock until the lock file is gone or swapped, then exit 0 and
+    # give the flock up with the process. Polling rather than a blocking flock keeps no one waiting
+    # on an inode that slot-release may have removed.
+    mine = os.fstat(fd).st_ino
+    while True:
+        try:
+            if os.stat(path).st_ino != mine:
+                sys.exit(0)
+        except FileNotFoundError:
+            sys.exit(0)
+        time.sleep(0.2)
+
+
+def slot_release(repo):
+    path = lock_path(repo)
+    try:
+        os.unlink(path)
+        released = True
+    except FileNotFoundError:
+        released = False
+    return {"ok": True, "released": released}
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -83,6 +155,9 @@ def main():
     p = sub.add_parser("baseline-write")
     p.add_argument("--ref", required=True)
     p.add_argument("--seconds", type=float, required=True)
+    p = sub.add_parser("slot")
+    p.add_argument("--timeout", type=float, default=None, help="0 probes; N waits at most N seconds; omit to block and hold")
+    p = sub.add_parser("slot-release")
     for q in sub.choices.values():
         q.add_argument("--repo", default=".")
     a = ap.parse_args()
@@ -124,6 +199,12 @@ def main():
                 found = {"valid": True, "seconds": rec["seconds"], "source": os.path.relpath(path, repo)}
                 break
         out = found or {"valid": False, "reason": f"no recorded run of the code at {a.ref}"}
+    elif a.cmd == "slot":
+        # slot prints and exits itself: the holder keeps its one line from taking the slot, and the
+        # release ends its hold without a second one
+        slot(repo, a.timeout)
+    elif a.cmd == "slot-release":
+        out = slot_release(repo)
     else:
         rec = {"commit": git(repo, "rev-parse", a.ref).strip(), "code": code_id(repo, a.ref), "seconds": round(a.seconds), "at": now()}
         write_json(os.path.join(repo, ".sdlc", "test-baseline.json"), rec)

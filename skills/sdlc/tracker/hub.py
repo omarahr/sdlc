@@ -124,10 +124,91 @@ def started_ago(entry, now):
     return (datetime.fromtimestamp(now, timezone.utc) - d).total_seconds()
 
 
+def economics(slices, status):
+    """Verify economics over the slices' ledger rows, for the run card: the refutation→fix rate (a
+    refuted row for a slice followed by a verified row at a higher round), the infra retries, the
+    fix-round distribution (the highest verify round each slice reached) and the run agents per
+    verify round (run-wide, not battery-only). The hub never reads the journal: collect.py already
+    counted it into status.json's run.agents — every agent the run spent, build and review and gate
+    included — and that count is divided by the verify rounds the ledger records. None while no
+    slice has recorded a round."""
+    refuted = fixed = infra = verify_rounds = 0
+    dist = {}
+    seen = False
+    for s in slices or []:
+        if not isinstance(s, dict):
+            continue
+        rows = s.get("ledger")
+        if not isinstance(rows, list):
+            continue
+        seen = seen or bool(rows)
+        slice_refuted = slice_fixed = False
+        ref_round = None
+        max_round = -1
+        for r in rows:
+            if not isinstance(r, dict):
+                continue
+            try:
+                rnd = int(r.get("round"))
+            except (TypeError, ValueError):
+                rnd = 0
+            outcome = r.get("outcome")
+            if outcome == "infra":
+                infra += 1
+            if r.get("kind") == "verify":
+                verify_rounds += 1
+                max_round = max(max_round, rnd)
+            if outcome == "refuted":
+                slice_refuted = True
+                ref_round = rnd if ref_round is None else min(ref_round, rnd)
+            elif outcome == "verified" and ref_round is not None and rnd > ref_round:
+                slice_fixed = True
+        if slice_refuted:
+            refuted += 1
+        if slice_fixed:
+            fixed += 1
+        if max_round >= 0:
+            dist[max_round] = dist.get(max_round, 0) + 1
+    if not seen:
+        return None
+    per_round = None
+    run = status.get("run")
+    if verify_rounds and isinstance(run, dict):
+        try:
+            agents = int(run.get("agents"))
+            if agents >= 0:
+                per_round = agents / verify_rounds
+        except (TypeError, ValueError):
+            pass
+    return {"refuted": refuted, "fixed": fixed, "infra": infra, "dist": dist, "rounds": verify_rounds, "perRound": per_round}
+
+
+def econ_html(e):
+    """The run card's economics line: one muted row of mono numbers."""
+    if not e:
+        return ""
+    parts = []
+    if e["refuted"]:
+        parts.append(f'<b>{e["fixed"]}/{e["refuted"]}</b> refuted fixed')
+    if e["infra"]:
+        parts.append(f'<b>{e["infra"]}</b> infra retries')
+    if e["dist"]:
+        line = " · ".join(f"r{r}×{n}" for r, n in sorted(e["dist"].items()))
+        parts.append(f'max fix round <b>{max(e["dist"])}</b> <i>{html.escape(line)}</i>')
+    if e["perRound"] is not None:
+        p = e["perRound"]
+        p = int(p) if p == int(p) else round(p, 1)
+        parts.append('<span title="run-wide: every agent this run spent, divided by the verify rounds the ledger records — not the battery alone">'
+                     f'<b>{p}</b> run agents/verify round</span>')
+    if not parts:
+        return ""
+    return f'<p class="econ">{" · ".join(parts)}</p>'
+
+
 def run_state(entry, now):
     """What the index shows about a run, from its tracker's status.json; every field falls back."""
     state = {"title": str(entry["id"]), "repo": str(entry.get("repo") or ""),
-             "chip": "", "now": "", "counts": None}
+             "chip": "", "now": "", "counts": None, "econ": None}
     try:
         with open(os.path.join(entry["out"], "status.json")) as f:
             status = json.load(f)
@@ -150,6 +231,8 @@ def run_state(entry, now):
     slices = status.get("slices")
     if isinstance(slices, list) and slices and all(isinstance(s, dict) for s in slices):
         state["counts"] = (sum(1 for s in slices if s.get("status") == "done"), len(slices))
+    # economics reads the ledger rows defensively itself, so odd slices cost the counts, not the band
+    state["econ"] = economics(slices if isinstance(slices, list) else [], status)
     return state
 
 
@@ -173,11 +256,12 @@ def run_card(entry, age, now, stale):
         done, total = st["counts"]
         bar = (f'<div class="pbar"><div class="bar"><i style="width:{round(100 * done / total)}%'
                f'"></i></div><p class="n">{done}/{total} slices done</p></div>')
+    econ = econ_html(st["econ"])
     return (f'<article class="{cls}">'
             f'<header><span class="beacon{" off" if stale else " on"}"></span>'
             f'<a href="/r/{href}/">{html.escape(st["title"])}</a>{chip}'
             f'<span class="when">{when}</span></header>'
-            f'<p class="meta">{meta}</p>{now_line}{bar}</article>')
+            f'<p class="meta">{meta}</p>{now_line}{bar}{econ}</article>')
 
 
 INDEX = """<!doctype html>
@@ -232,6 +316,10 @@ a { color: var(--live); }
 .pbar .bar { height: 3px; background: var(--rule-soft); border-radius: 2px; overflow: hidden; }
 .pbar .bar i { display: block; height: 100%; background: var(--held); }
 .pbar .n { color: var(--faint); font-size: 11px; margin: 4px 0 0; }
+/* the run's verify economics, off its slices' ledger rows */
+.econ { margin: 8px 0 0; color: var(--muted); font-size: 11.5px; overflow-wrap: anywhere; }
+.econ b { font-family: var(--mono); font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+.econ i { font-style: normal; color: var(--faint); }
 .run.stale { opacity: .8; }
 .run.stale header a { color: var(--muted); }
 .run.stale .when { color: var(--hold); font-weight: 500; }

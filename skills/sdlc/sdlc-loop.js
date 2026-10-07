@@ -10,6 +10,7 @@ export const meta = {
     { title: 'Implement' },
     { title: 'Verify' },
     { title: 'Review' },
+    { title: 'Gate' },
     { title: 'Report' },
     { title: 'Integrate' },
     { title: 'Escalate' },
@@ -59,7 +60,7 @@ const NEXT = {
 const SEED = { type: 'object', properties: { title: str, detail: str, file: str }, required: ['title', 'detail'] }
 const VOTE = {
   type: 'object',
-  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, seeds: { type: 'array', items: SEED } },
+  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, outcome: { type: 'string', enum: ['verified', 'refuted', 'infra'] }, seeds: { type: 'array', items: SEED } },
   required: ['refuted', 'evidence'],
 }
 
@@ -68,15 +69,24 @@ function isRefuting(v) {
   return !v || v.refuted !== false
 }
 
+// an infra outcome proves nothing about the slice: timeouts, saturation, silent agents. It is retried
+// outside the round economy and never refutes (2026-10-07 verify-economy spec, Section 2)
+function isInfra(v) {
+  return !!v && v.outcome === 'infra'
+}
+
 function tallyVerify(votes, lenses = []) {
   const failingTests = votes.filter(v => v && v.failingTest).map(v => v.failingTest)
   votes.forEach((v, i) => {
-    if (lenses[i] === 'regression' && isRefuting(v) && !(v && v.failingTest)) failingTests.push(`regression: ${v ? v.evidence : 'verifier failed to report'}`)
+    // a real refutation without a failing test still fails the round; a silent verifier never does —
+    // it is infra below, and "verifier failed to report" is not evidence against the slice
+    if (lenses[i] === 'regression' && v && isRefuting(v) && !isInfra(v) && !v.failingTest) failingTests.push(`regression: ${v.evidence}`)
   })
-  const refutations = votes.filter(isRefuting).length
+  const refutations = votes.filter(v => v && isRefuting(v) && !isInfra(v)).length
+  const infra = !refutations && failingTests.length === 0 && (votes.some(isInfra) || votes.some(v => !v))
   // each vote looks at something the others do not, so one refutation is enough: the spec-fidelity verifier
   // often has no failing test to name, and a majority rule would let the other two outvote it
-  return { pass: failingTests.length === 0 && refutations === 0, refutations, failingTests }
+  return { pass: failingTests.length === 0 && refutations === 0 && !infra, refutations, failingTests, infra }
 }
 
 // the verifier group: one agent per verification profile, each covering the scenarios tagged with it
@@ -142,28 +152,29 @@ function groupScenarios(scenarios, max = PROFILE_AGENT_LIMIT) {
   return profiles.flatMap(p => chunk(by.get(p), size).map((ids, part) => ({ profile: p, part, scenarioIds: ids })))
 }
 
-// folds the profile agents into one vote: any in-scope failing test or blocked scenario refutes it
+// folds the profile agents into one vote: a failing test or refuting evidence refutes it; blocked
+// scenarios and silent agents are infra. Their detail rides in the evidence, never in the failing test:
+// an infra-only round must never hand the implementer a failing test to chase (and burn a fix round on)
 function profileVote(votes, groups) {
   const failing = []
-  const blocked = []
+  const infra = []
   const refuters = []
   votes.forEach((v, i) => {
     const g = groups[i]
     const tag = `[${g.profile}${g.part ? `#${g.part}` : ''}]`
-    if (!v) {
-      blocked.push(...g.scenarioIds.map(id => `${tag} ${id}: profile verifier failed to report`))
-      return
-    }
+    if (!v) return // a silent agent is infra (outcome below); its scenarios re-run via pendingPairs
     if (v.failingTest) failing.push(`${tag} ${v.failingTest}`)
-    for (const b of v.blocked || []) blocked.push(`${tag} ${b.scenarioId}: ${b.reason}`)
-    if (isRefuting(v)) refuters.push(`${tag} ${v.evidence}`)
+    for (const b of v.blocked || []) infra.push(`${tag} ${b.scenarioId}: ${b.reason}`)
+    if (isRefuting(v) && !isInfra(v)) refuters.push(`${tag} ${v.evidence}`)
   })
-  const failingTest = [...failing, ...blocked.map(b => `blocked: ${b}`)].join(' | ')
+  const failingTest = failing.join(' | ')
+  const refuted = failing.length > 0 || refuters.length > 0
   const evidence = groups.length
-    ? votes.map((v, i) => `[${groups[i].profile}${groups[i].part ? `#${groups[i].part}` : ''}] ${v ? `${v.refuted ? 'REFUTED' : 'ok'}: ${v.evidence}` : 'failed to report'}`).join(' ; ')
+    ? [...votes.map((v, i) => `[${groups[i].profile}${groups[i].part ? `#${groups[i].part}` : ''}] ${v ? `${v.refuted ? 'REFUTED' : 'ok'}: ${v.evidence}` : 'failed to report'}`), ...infra].join(' ; ')
     : 'no scenarios to verify'
   const seeds = votes.filter(Boolean).flatMap(v => v.seeds || [])
-  return { refuted: failing.length > 0 || blocked.length > 0 || refuters.length > 0, evidence, failingTest, seeds }
+  const outcome = refuted ? 'refuted' : infra.length || votes.some(isInfra) || votes.some(v => !v) ? 'infra' : 'verified'
+  return { refuted, outcome, evidence, failingTest, seeds }
 }
 
 function allClear(votes) {
@@ -210,7 +221,7 @@ function tallyAudit(ids, results) {
 }
 
 function normalizeCounters(c) {
-  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, ...(c || {}) }
+  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, gateCommit: '', ...(c || {}) }
 }
 
 function chunk(arr, size) {
@@ -399,7 +410,7 @@ const PLAN = {
   required: ['ok'],
 }
 const TESTCHECK = { type: 'object', properties: { allFailCorrectly: { type: 'boolean' }, problems: { type: 'array', items: str } }, required: ['allFailCorrectly'] }
-const PHASE_ORDER = ['plan', 'tests', 'implement', 'integrate']
+const PHASE_ORDER = ['plan', 'tests', 'implement', 'gate', 'integrate']
 const PLAN_LENSES = ['spec-fidelity', 'architecture']
 const AMBIGUITY_ROUND_LIMIT = 3
 
@@ -453,10 +464,13 @@ async function testsPhase(id) {
   return false
 }
 
-async function sliceAction(next) {
+async function sliceAction(next, gateEvidence = []) {
   const id = next.sliceId
   const s = next.slice || {}
   const counters = normalizeCounters(s.counters)
+  // the verify-economy ledger as this action's accumulator: `s` goes stale once rows are persisted, so the
+  // array is threaded into buildLoop and the gate, and the recursion below re-seeds it from the local
+  const ledger = [...(s.ledger || [])]
   let at = Math.max(0, PHASE_ORDER.indexOf(s.phase || 'plan'))
   if (at === 0) {
     const planned = await planPhase(id, counters)
@@ -476,11 +490,27 @@ async function sliceAction(next) {
   }
   let seeds = s.seeds || []
   if (at === 2) {
-    const b = await buildLoop(id, counters, s)
+    const b = await buildLoop(id, counters, s, gateEvidence, ledger)
     if (b.paused) return `${id} paused: agent cap`
+    if (b.infraDebt) return `${id} parked with infra debt: ${b.lastEvidence.join(' | ').slice(0, 200)}`
     if (!b.ok) return escalate(id, s, counters, `fix rounds exhausted: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
     seeds = b.seeds
-    await persist(id, { phase: 'integrate', counters, seeds })
+    await persist(id, { phase: 'gate', counters, seeds, ledger })
+    at = 3
+  }
+  if (at === 3) {
+    const gate = await gatePhase(id, counters, ledger)
+    if (gate.verdict === 'infra') return `${id} gate inconclusive (infra): the run retries it on the next iteration`
+    if (gate.verdict === 'infra-debt') return `${id} parked with infra debt at the gate`
+    if (gate.verdict === 'fail') {
+      // a real failing test at the gate costs a fix round, like any refutation
+      counters.fixRounds++
+      await persist(id, { phase: 'implement', counters, ledger })
+      log(`${id} gate failed: back to the build loop`)
+      return sliceAction({ ...next, slice: { ...s, phase: 'implement', counters, ledger } }, [`[gate] failing test: ${gate.failingTest}`])
+    }
+    await persist(id, { phase: 'integrate', counters })
+    at = 4
   }
   return integrate(id, s, counters, seeds)
 }
@@ -502,7 +532,7 @@ const FINDINGS = {
 }
 const INTEGRATE = {
   type: 'object',
-  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive'] }, commit: str, pr: str, notes: str },
+  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive', 'regate'] }, commit: str, pr: str, notes: str },
   required: ['state'],
 }
 const REVIEW_LENSES = ['security', 'architecture', 'test-quality']
@@ -538,8 +568,8 @@ async function reviewPhase(id, round) {
 }
 
 // verify one round: plan scenarios and their profiles, build missing tools, then the spec-fidelity lens and the
-// profile group in parallel, then fold the profile agents' test commits into the slice branch, then the regression
-// lens (with `alongside`, the review, next to it when everything before it held)
+// profile group in parallel, then the collector files the profile agents' tests and removes their branches, then
+// the regression lens (with `alongside`, the review, next to it when everything before it held)
 const VPLAN = {
   type: 'object',
   properties: {
@@ -579,6 +609,7 @@ const PVOTE = {
     refuted: { type: 'boolean' },
     evidence: str,
     failingTest: str,
+    outcome: { type: 'string', enum: ['verified', 'refuted', 'infra'] },
     seeds: { type: 'array', items: SEED },
     blocked: { type: 'array', items: { type: 'object', properties: { scenarioId: str, reason: str }, required: ['scenarioId', 'reason'] } },
     failedScenarios: { type: 'array', items: str },
@@ -638,10 +669,10 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
     { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })
   const coreRun = lens => () => {
     const opts = { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` }
-    return run('verifier', { sliceId: id, lens, round }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
+    return run('verifier', { sliceId: id, lens, round, scope: 'slice' }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
   }
-  // with profile tests to fold in, the regression verifier waits for the collector: it then runs the full suite once,
-  // on the commit that holds those tests, and times it on a machine the profile agents have left
+  // with profile tests to run, the regression verifier waits for the profile agents: their test files land
+  // in the main tree as they work, and the slice-scoped regression lens runs once they have left
   const early = groups.length ? ['spec-fidelity'] : ['spec-fidelity', 'regression']
   const all = await parallel([
     ...early.map(coreRun),
@@ -656,18 +687,15 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
   let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
-    if (!c || !c.ok) {
-      // the tests never reached the slice branch, so the next round runs this round's pairs again
-      pending = groups.flatMap(g => g.scenarioIds.map(scenarioId => ({ profile: g.profile, scenarioId })))
-      profiles.push({ refuted: true, evidence: `verify-collector could not fold the profile tests into sdlc/${id}: ${c ? c.notes || '' : 'no report'}` })
-      groups.push({ profile: 'collector', part: 0, scenarioIds: [] })
-    }
+    // cleanup is infra, not evidence: a collector failure never refutes; the integrator's cleanup
+    // sweeps any branches a finished slice left behind
+    if (!c || !c.ok) log(`${id} verify r${round}: verify-collector did not finish cleanup (${c ? c.notes || '' : 'no report'})`)
   }
   const pv = plan
     ? profileVote(profiles, groups)
     : { refuted: true, evidence: 'verify-planner failed to report; no scenario was verified at its boundary', failingTest: '' }
   // the regression run is the long tail of a round. When everything before it held, the review (read-only, and now
-  // looking at the branch with the profile tests in it) runs next to it instead of after it. A review is then only
+  // looking at the tree with the profile tests in it) runs next to it instead of after it. A review is then only
   // wasted when the regression run alone fails, and in that case its findings reach the implementer in the same round.
   const heldSoFar = !!fidelity && !fidelity.refuted && !pv.refuted
   let regression = all[1]
@@ -683,18 +711,28 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
 
 const reviewEvidence = f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`
 
-async function buildLoop(id, counters, s = {}) {
-  let evidence = []
+// one verify-economy ledger row: appended per verify round (and once at the gate) and persisted with the
+// round's counters in the same state-write, so the tracker can price verification without extra patches
+const ledgerRow = (kind, round, outcome, refutations, failingTests) => ({ kind, round, outcome, refutations, failingTests })
+
+async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []) {
+  // a gate fail re-enters the loop with the gate's evidence; a fresh build starts with none
+  let evidence = [...initialEvidence]
   // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
   const verifySeeds = []
   // the round-0 plan carries into fix rounds within this run; a resumed run plans again
   let prevVerify = null
   // set when a review finding sends the slice back to the implementer, until the next verification has run
   let reviewFix = false
+  // `ledger` is the action's accumulator, seeded by the caller from the slice and threaded on: `s.ledger`
+  // goes stale within one sliceAction, so every patch below carries the full array grown so far
   while (counters.fixRounds < FIX_ROUND_LIMIT) {
     if (milestoneSpent + ROUND_COST > CAP) return { ok: false, paused: true, seeds: [], lastEvidence: evidence }
     const round = counters.fixRounds
     phase('Implement')
+    // the row this round appends unless it ends in the infra-retry path; a round the implementer could
+    // not finish proves nothing and is recorded as refuted with no refutations
+    let row = ledgerRow('verify', round, 'refuted', 0, 0)
     let impl = await run('implementer', { sliceId: id, fixRound: round, evidence }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}` })
     if (impl && !impl.green && impl.inconclusive) {
       // a command that never finished proves nothing, so it must not spend a fix round
@@ -721,7 +759,8 @@ async function buildLoop(id, counters, s = {}) {
           evidence = early.blocking.map(reviewEvidence)
           reviewFix = true
           counters.fixRounds++
-          await persist(id, { counters })
+          ledger.push(ledgerRow('verify', round, 'refuted', early.blocking.length, 0))
+          await persist(id, { counters, ledger })
           continue
         }
         if (!early.needsVerify) return { ok: true, seeds: [...early.seeds, ...verifySeeds], lastEvidence: [] }
@@ -733,7 +772,24 @@ async function buildLoop(id, counters, s = {}) {
       const review0 = earlyReview || early
       const v = tallyVerify(votes, lenses)
       verifySeeds.push(...votes.filter(Boolean).flatMap(x => x.seeds || []))
-      log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)`)
+      log(`${id} verify r${round}: ${v.refutations}/${votes.length} refuted, ${v.failingTests.length} failing test(s)${v.infra ? ', infra retry' : ''}`)
+      if (v.infra && !v.refutations) {
+        // an inconclusive round proves nothing, so it is replayed at the same fix round; the counter is
+        // reset by any round with a verdict. Three consecutive infra failures park the slice as infra debt.
+        counters.infraRetries++
+        const infraRow = ledgerRow('verify', round, 'infra', v.refutations, v.failingTests.length)
+        if (counters.infraRetries >= 3) {
+          log(`${id}: ${counters.infraRetries} consecutive infra failures; parking with infra debt`)
+          ledger.push(infraRow)
+          await persist(id, { status: 'parked', infraDebt: true, counters, ledger })
+          return { ok: false, infraDebt: true, seeds: [], lastEvidence: evidence }
+        }
+        ledger.push(infraRow)
+        await persist(id, { counters, ledger })
+        continue
+      }
+      counters.infraRetries = 0
+      row = ledgerRow('verify', round, v.pass ? 'verified' : 'refuted', v.refutations, v.failingTests.length)
       if (!v.pass) {
         evidence = votes.map((x, i) => (x
           ? `[${lenses[i]}] ${x.refuted ? 'REFUTED' : 'ok'}: ${x.evidence}${x.failingTest ? ` failing test: ${x.failingTest}` : ''}`
@@ -747,15 +803,61 @@ async function buildLoop(id, counters, s = {}) {
       } else {
         const review = review0 || await reviewPhase(id, round)
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
-        if (!review.blocking.length) return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
+        if (!review.blocking.length) {
+          // the slice is done: the row rides the gate transition persist in sliceAction
+          ledger.push(row)
+          return { ok: true, seeds: [...review.seeds, ...verifySeeds], lastEvidence: [] }
+        }
         evidence = review.blocking.map(reviewEvidence)
         reviewFix = true
       }
     }
     counters.fixRounds++
-    await persist(id, { counters })
+    ledger.push(row)
+    await persist(id, { counters, ledger })
   }
   return { ok: false, seeds: [], lastEvidence: evidence }
+}
+
+const GATE = {
+  type: 'object',
+  properties: { state: { type: 'string', enum: ['pass', 'fail', 'infra'] }, failingTest: str, commit: str, seconds: { type: 'number' }, notes: str },
+  required: ['state'],
+}
+
+// the gate: the full-repo regression lens runs once, here, on the exact final commit, and the receipt it
+// writes is the only merge authority. A commit after a passed gate invalidates it (the integrator asks for
+// a regate); a real failing test sends the slice back to the build loop; infra retries outside the economy.
+async function gatePhase(id, counters, ledger = []) {
+  phase('Gate')
+  let g = await run('gate', { sliceId: id }, { schema: GATE, phase: 'Gate', label: id })
+  if (!g) g = { state: 'infra', notes: 'gate agent failed to report' }
+  // the gate's own ledger row: a fail carries the real failing test it found (0 when it names none)
+  const pushRow = outcome => ledger.push(ledgerRow('gate', 0, outcome,
+    outcome === 'refuted' && g.failingTest ? 1 : 0,
+    outcome === 'refuted' && g.failingTest ? 1 : 0))
+  // the return is {verdict, failingTest} so sliceAction can hand the gate's failing test to the build loop
+  if (g.state === 'pass') {
+    counters.gateCommit = g.commit || ''
+    counters.infraRetries = 0
+    pushRow('verified')
+    await persist(id, { counters, ledger })
+    return { verdict: 'pass', failingTest: '' }
+  }
+  if (g.state === 'infra') {
+    counters.infraRetries++
+    pushRow('infra')
+    await persist(id, { counters, ledger })
+    if (counters.infraRetries >= 3) {
+      log(`${id}: ${counters.infraRetries} consecutive infra failures at the gate; parking with infra debt`)
+      await persist(id, { status: 'parked', infraDebt: true, counters, ledger })
+      return { verdict: 'infra-debt', failingTest: '' }
+    }
+    return { verdict: 'infra', failingTest: '' }
+  }
+  // the fail branch persists nothing here: sliceAction's back-to-the-build-loop write carries the row
+  pushRow('refuted')
+  return { verdict: 'fail', failingTest: g.failingTest || '' }
 }
 
 async function integrate(id, s, counters, seeds, mode = 'ship') {
@@ -767,6 +869,10 @@ async function integrate(id, s, counters, seeds, mode = 'ship') {
     r = await run('integrator', { sliceId: id, mode, seeds, rerun: 'inconclusive' }, { schema: INTEGRATE, phase: 'Integrate', label: `${id}:rerun` })
     // still unfinished: stay in integrate for the next iteration instead of spending a ladder step on an unknown result
     if (r && r.state === 'inconclusive') return `${id} integrate inconclusive: ${r.notes || 'final check did not finish'}`
+  }
+  if (r && r.state === 'regate') {
+    await persist(id, { phase: 'gate' })
+    return `${id} must re-gate: code changed after the passed gate (${r.notes || ''})`
   }
   if (!r || r.state === 'failed') return escalate(id, s, counters, `integration failed: ${r ? r.notes || '' : 'integrator did not report'}`)
   return `${id} ${r.state}${r.pr ? ' ' + r.pr : ''}${r.commit ? ' ' + r.commit : ''}`
@@ -781,6 +887,12 @@ async function testReport(id, mode) {
 
 async function parkedRetry(next) {
   const s = next.slice || {}
+  // an infra-debt park is a pause, not a verdict: the slice resumes where it was, counters intact
+  if (s.infraDebt) {
+    const counters = normalizeCounters(s.counters)
+    await run('state-writer', { op: 'unpark', sliceId: next.sliceId }, { schema: OK, effort: 'low', label: next.sliceId })
+    return sliceAction({ ...next, slice: { ...s, status: 'in_progress', counters } })
+  }
   const counters = { ...normalizeCounters(s.counters), planRevisions: 0, fixRounds: 0, ladderStep: 0 }
   await run('state-writer', { op: 'unpark', sliceId: next.sliceId }, { schema: OK, effort: 'low', label: next.sliceId })
   return sliceAction({ ...next, slice: { ...s, status: 'in_progress', phase: 'plan', counters } })
@@ -1029,11 +1141,11 @@ const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milest
 
 const INTERNALS = {
   run, persist, hasHeadroom, spent: () => spent, milestoneSpent: () => milestoneSpent, milestoneId: () => milestoneId,
-  tallyVerify, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
+  tallyVerify, isInfra, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
   PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
   decisionPanel, escalate,
-  planPhase, testsPhase, sliceAction,
+  planPhase, testsPhase, sliceAction, gatePhase, GATE,
   reviewPhase, verifyPhase, buildLoop, integrate, testReport, parkedRetry, retryMerge,
   dismissalClass, milestonePlan, scenarioPlan, milestoneAction,
   audit, livelock,

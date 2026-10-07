@@ -278,13 +278,219 @@ test('every agent writes comment-free code in the target repo, and its prose in 
   assert.match(reviewer, /STE[\s\S]{0,240}blocking: false/, 'a prose slip is a seed, never a fix round')
 })
 
+test('the regression lens is slice-scoped during build rounds and full only at the gate', () => {
+  const v = readFileSync(join(SKILL_DIR, 'prompts', 'verifier.md'), 'utf8')
+  // the lens section only, so a mention elsewhere cannot satisfy the scope rules
+  const lens = v.slice(v.indexOf('- **Lens `regression`'), v.indexOf('## Report file'))
+  assert.ok(lens.length > 0, 'the regression lens section is missing')
+  assert.match(lens, /impact\.py/, 'the slice scope maps the diff with impact.py')
+  assert.match(lens, /scope from your inputs/)
+  assert.match(lens, /`slice` scope/)
+  assert.match(lens, /`full` scope/)
+  // every line that mentions the budget marks it full-scope-only: a slice-scoped run never pays it
+  const budgetLines = lens.split('\n').filter(l => /[Bb]udget/.test(l))
+  assert.ok(budgetLines.length > 0, 'the test-time budget rule is missing')
+  for (const l of budgetLines) assert.match(l, /full scope only/, `a budget rule outside the full-scope scope: ${l}`)
+  // the receipt and the classification are full-scope era rules the gate follows verbatim
+  assert.match(lens, /\*\*Receipt \(full scope only\)/)
+  assert.match(lens, /outcome: "infra"/)
+  assert.equal((lens.match(/Classify the run:/g) || []).length, 1, 'the outcome classification rule appears exactly once')
+  // profile verifier tests are no longer folded into the branch, so the known-failing carve-out is gone
+  assert.doesNotMatch(v, /Known failing verification tests/)
+  assert.match(v, /Return `\{refuted, evidence, failingTest, seeds, outcome\}`/)
+})
+
+test('profile agents write their tests as evidence in the main tree, and the collector only files and cleans', () => {
+  const common = readFileSync(join(SKILL_DIR, 'prompts', 'verify-profile-common.md'), 'utf8')
+  assert.match(common, /verification\/r<round>\/tests\/<profile>-<part>\//)
+  assert.match(common, /never committed to `sdlc\/<id>`/)
+  assert.match(common, /commit nothing to your branch/)
+  assert.match(common, /A verification test runs in milliseconds-to-seconds\./)
+  assert.match(common, /never invoke the repo's test command from a test/)
+  assert.match(common, /The verify-collector deletes it/)
+  // the old fold-into-the-branch mechanics are gone, not merely accompanied by the new rule
+  assert.doesNotMatch(common, /join the slice's test suite/)
+  assert.doesNotMatch(common, /cherry-pick/)
+  const collector = readFileSync(join(SKILL_DIR, 'prompts', 'verify-collector.md'), 'utf8')
+  assert.match(collector, /You fold nothing into the slice branch/)
+  assert.match(collector, /verification\/r<round>\/tests\/<profile>-<part>\//)
+  assert.match(collector, /copy them unmodified/)
+  assert.match(collector, /git branch -D/)
+  assert.doesNotMatch(collector, /cherry-pick/)
+  assert.doesNotMatch(collector, /checkout sdlc\/<id>/)
+  assert.doesNotMatch(collector, /[Rr]un the newly added verification test files/)
+  // the agents write into the main tree, so the move from the worktree is the fallback, not the routine
+  assert.match(collector, /file the test files its agent wrote under/)
+  assert.match(collector, /move them in from its worktree only when it left them there instead/)
+  // the ui profile boots the app in a browser inside its test fixture, so the fast-test rule carves it out
+  assert.match(common, /The ui profile's browser fixture is the exception/)
+  // a security attack is evidence under tests/, promoted later only if the finding holds — never a commit
+  const security = readFileSync(join(SKILL_DIR, 'prompts', 'verify-security.md'), 'utf8')
+  assert.match(security, /tests\/security-<part>\/` like any profile test/)
+  assert.match(security, /promoted into the suite later only if the finding holds/)
+  assert.doesNotMatch(security, /committed failing test|passing regression tests/)
+})
+
+test('verifier tests promote into the suite only with a demonstrated catch, under a quality bar', () => {
+  const impl = readFileSync(join(SKILL_DIR, 'prompts', 'implementer.md'), 'utf8')
+  assert.match(impl, /## Promotion/, 'the implementer owns the promotion duty for evidence-dir tests')
+  assert.match(impl, /verification\/r<round>\/tests\//)
+  assert.match(impl, /Record promoted files in tests\.md/)
+  // door 2: a reviewer's keep-worthy finding promotes a verifier test too, not only a demonstrated catch
+  assert.match(impl, /review finding names a verifier test/)
+  const checker = readFileSync(join(SKILL_DIR, 'prompts', 'test-checker.md'), 'utf8')
+  assert.match(checker, /suite-count/)
+  const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
+  const quality = reviewer.slice(reviewer.indexOf('- **Lens `test-quality`'), reviewer.indexOf('`blocking: true` only for'))
+  assert.ok(quality.length > 0, 'the test-quality lens section is missing')
+  assert.match(quality, /serial-pass/)
+  assert.match(quality, /nested/)
+  // the reviewer reports a keep-worthy verifier test as blocking, naming its path under verification/
+  assert.match(quality, /keep-worthy/)
+  assert.match(quality, /verification\//)
+})
+
+test('the regression lens holds the suite slot in full scope, and the slice scope survives an impact.py failure', () => {
+  const v = readFileSync(join(SKILL_DIR, 'prompts', 'verifier.md'), 'utf8')
+  // the scope bullets are single lines, so a full-scope rule cannot leak into the slice scope
+  const sliceLine = v.split('\n').find(l => l.startsWith('  - **`slice` scope:**'))
+  const fullLine = v.split('\n').find(l => l.startsWith('  - **`full` scope:**'))
+  assert.ok(sliceLine && fullLine, 'the regression scope bullets are missing')
+  // the full scope holds the suite slot before running the suite, and releases it in every exit path
+  assert.match(fullLine, /Hold the suite slot first: `python3 "<skill>\/suite-receipt\.py" slot --repo \.`/)
+  assert.match(fullLine, /blocks until free/)
+  assert.match(fullLine, /elease it with `slot-release` in every exit path/)
+  // the holder is a background process: it keeps holding the slot until slot-release ends it
+  assert.match(fullLine, /[Rr]un it in the background/)
+  // a busy slot across attempts means a live orphaned holder, not a crashed one (a crashed holder's
+  // flock dies with the process): one slot-release recovers, and a handover is never re-entered
+  assert.match(fullLine, /an orphaned holder \(a slot process that outlived its run\)/)
+  assert.match(fullLine, /slot-release` once to recover/)
+  assert.match(fullLine, /never re-enter during a handover/)
+  assert.match(fullLine, /do not retry aggressively/)
+  // the mapping is best effort: a failed impact.py never refutes the slice on its own
+  assert.match(sliceLine, /best effort/)
+  assert.match(sliceLine, /a mapping failure alone never refutes the slice/)
+  // the static Inputs line names scope, so the agent reads its scope from its inputs
+  assert.match(v, /Inputs: `sliceId`, `lens`, `round`, `scope`\./)
+  // the spec-fidelity note matches the lens's actual scoping
+  assert.match(v, /The regression lens tests the suite at the slice scope during build rounds and in full at the gate, so do not run it here\./)
+  assert.doesNotMatch(v, /The regression lens runs the full suite, so do not run it here\./)
+  // SKILL.md's phase list places the Gate between the verify group and Integrate
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.match(skill, /full-suite Gate, integrate/)
+  // the gate holds the slot itself, so it skips the lens's slot step rather than re-holding, and an
+  // orphaned holder never stalls it: it releases once and holds again
+  const gate = readFileSync(join(SKILL_DIR, 'prompts', 'gate.md'), 'utf8')
+  const gateStep2 = gate.split('\n').find(l => l.startsWith('2. Hold the suite slot'))
+  const gateStep3 = gate.split('\n').find(l => l.startsWith('3. Run the **full** regression lens'))
+  assert.ok(gateStep2 && gateStep3, 'the gate steps are missing')
+  assert.match(gateStep2, /a previous holder was orphaned/)
+  assert.match(gateStep2, /[Rr]un it in the background/)
+  assert.match(gateStep2, /suite-receipt\.py" slot-release --repo \.` once and hold again/)
+  assert.match(gateStep3, /skipping its slot step/)
+  assert.match(gateStep3, /every other rule there verbatim/)
+  assert.doesNotMatch(gateStep3, /Follow every rule there verbatim/)
+  assert.ok(gate.endsWith('\n'), 'gate.md ends with a newline')
+})
+
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
   const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
   assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')
   assert.match(planner, /skipped (its|the per-slice) verification battery/)
   const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
   assert.match(integrator, /low-risk/)
-  assert.match(integrator, /never (carries|carry) a receipt|no receipt[\s\S]{0,80}expected/)
+  assert.match(integrator, /never (carries|carry|carried) a receipt|no receipt[\s\S]{0,80}expected/)
   // the note must not weaken the receipt rule for rated slices
   assert.match(integrator, /suite-receipt\.py" check/)
+})
+
+test('the integrator trusts the gate receipt, regates after a product-code CI fix, and prunes bulk at merge', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  // the receipt is the merge authority, and a code change after the gate is a regate, not a self-run
+  assert.match(i, /state: "regate"/)
+  assert.match(i, /code changed after the passed gate/)
+  // the low-risk cheap gate keeps its self-run clause
+  assert.match(i, /counters\.gateCommit/)
+  assert.match(i, /impact\.py/)
+  // reports move to .sdlc/reports/<id>/ at the prune
+  assert.match(i, /\.sdlc\/reports\/<id>\//)
+  // the retention prune and its opt-out
+  assert.match(i, /delete `verification\/`/)
+  assert.match(i, /keepEvidence/)
+  // the receipt is the one exception: it stays readable where suite-receipt.py reads it,
+  // and a copy lands in the reports dir
+  assert.match(i, /except `verification\/suite-receipt\.json`/)
+  assert.match(i, /\.sdlc\/reports\/<id>\/suite-receipt\.json/)
+  // the stale-branch sweep covers the versioned and attempt branches
+  assert.match(i, /sdlc\/<id>-v\*/)
+  // a crashed receipt check is infra: inconclusive, never a self-run of the suite
+  assert.match(i, /cannot run[\s\S]{0,120}inconclusive/)
+  // the old self-run fallback for battery slices is gone; the low-risk clause
+  // ("run build and typecheck plus the impact-mapped slice tests yourself") stays
+  assert.ok(!i.includes('run the full `config.commands` test, lint, typecheck and build yourself'),
+    'the integrator must not run the full battery itself when the receipt is valid')
+  const reporter = readFileSync(join(SKILL_DIR, 'prompts', 'test-reporter.md'), 'utf8')
+  assert.match(reporter, /\.sdlc\/reports\/<id>\/REPORT\.md/)
+  assert.doesNotMatch(reporter, /\.sdlc\/slices\/<id>\/REPORT\.md/)
+  // screenshots are embedded from the report's own assets folder, so the links survive the prune
+  assert.match(reporter, /!\[<state>\]\(assets\/<file>\.png\)/)
+  assert.doesNotMatch(reporter, /verification\/r<n>\/assets/)
+  // and the commit stages the assets too, so the images ship with the slice's PR — but only
+  // when the folder exists: a screenshot-free report must not fail its git add on a missing pathspec
+  assert.match(reporter, /git add \.sdlc\/reports\/<id>\/REPORT\.md \.sdlc\/reports\/<id>\/assets/)
+  assert.match(reporter, /assets\/` folder does not exist/)
+})
+
+test('the state-reader runs the janitor once per run without letting it block the decision', () => {
+  const reader = readFileSync(join(SKILL_DIR, 'prompts', 'state-reader.md'), 'utf8')
+  assert.match(reader, /janitor\.py/)
+  assert.match(reader, /never block the decision on it/)
+  // the "return exactly as printed" rule carves out the one exception, or the two lines contradict
+  assert.match(reader, /no change to `action`[\s\S]{0,200}janitor[\s\S]{0,120}`reason`/)
+})
+
+test('the state schema documents the verify economy the loop implements', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  // the slice lifecycle runs through the gate: the phase enum names all five in order
+  assert.match(schema, /`phase` is `plan`, `tests`, `implement`, `gate` or `integrate`/)
+  // the counters the loop seeds and resets, in the json an agent copies — every field, not a sample
+  const counters = schema.match(/"counters": \{[^}]*\}/)[0]
+  assert.ok(counters, 'the counters json is missing')
+  assert.match(counters, /"planRevisions": 0/)
+  assert.match(counters, /"fixRounds": 0/)
+  assert.match(counters, /"ladderStep": 0/)
+  assert.match(counters, /"parkCycles": 0/)
+  assert.match(counters, /"verifyDemanded": false/, 'a reviewer\'s battery demand has nowhere to persist')
+  assert.match(counters, /"infraRetries": 0/)
+  assert.match(counters, /"gateCommit": ""/)
+  // three consecutive infra rounds park the slice with infra debt, and resuming is not re-planning
+  assert.match(schema, /three in a row parks the slice with `infraDebt`/)
+  assert.match(schema, /resuming it keeps the slice's phase and counters instead of re-planning/)
+  // the ledger row's shape, and the rule that keeps refutation outcomes out of the stored state
+  assert.match(schema, /"kind": "verify" \| "gate", "round": <n>, "outcome": "verified" \| "refuted" \| "infra"/)
+  assert.match(schema, /the tracker derives it from consecutive rounds/)
+  // a review-blocked round on a low slice stores its blocking findings as the row's refutations
+  assert.match(schema, /review-blocked round on a `low` slice carries the blocking findings' count in `refutations`/)
+  // the profile agents' unpromoted tests are evidence files the schema lists where they are written
+  assert.match(schema, /verification\/r<round>\/tests\//)
+  // reports live in their own directory, never under the slice
+  assert.match(schema, /## reports\/<id>\//)
+  assert.doesNotMatch(schema, /slices\/<id>\/REPORT\.md/)
+})
+
+test('the schema pins the merge prune and the run request names the moved reports', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  // the receipt's keep-in-place-and-copy rule: suite-receipt.py reads only the in-place path
+  assert.match(schema, /except `verification\/suite-receipt\.json`/)
+  assert.match(schema, /\.sdlc\/reports\/<id>\/suite-receipt\.json/)
+  assert.match(schema, /suite-receipt\.py[\s\S]{0,60}(check|read)[\s\S]{0,120}only/)
+  // gate-r0.md and the regression logs' final copies move to the reports dir, not stay behind
+  assert.match(schema, /`gate-r0\.md`[\s\S]{0,200}\.sdlc\/reports\/<id>\//)
+  // the keep list and its opt-out
+  assert.match(schema, /keepEvidence/)
+  assert.match(schema, /`verify-\*\.md` and `review-\*\.md`/)
+  const rr = readFileSync(join(SKILL_DIR, 'prompts', 'run-request.md'), 'utf8')
+  assert.match(rr, /\.sdlc\/reports\/<id>\/REPORT\.md/)
+  assert.doesNotMatch(rr, /\.sdlc\/slices\/<id>\/REPORT\.md/)
 })
