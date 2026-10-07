@@ -19,7 +19,7 @@ Inputs: `sliceId`, `mode` (`ship` or `retry-merge`), `seeds`.
    - If failures.md or any ADR says an external system was replaced by a local fake, add the `external-stub` flag.
 3. Write `evidence.md`: the requirements with their tests, and for improvement slices, the before and after numbers of every benchmark.
 4. **Bookkeeping:** append `seeds` to `barraiser.json` `seeds` for `spec` and `fix` slices only. Improvement slices drop their nits, or the bar raiser feeds itself. Set the slice to `status: done`, `phase: integrate`. Append a `slice-merged` log line. Regenerate STATUS.md (state-schema.md says how).
-5. Commit on the slice branch: `chore(sdlc): record evidence [<id>]`.
+5. Commit on the slice branch: `chore(sdlc): record evidence [<id>]`. Then return the worktree's HEAD to the run branch: `git checkout sdlc/run-<n>`.
 6. **Ship:**
    - **`direct` mode:** the run works in the run worktree on branch `sdlc/run-<n>`. The owner's checkout holds `<defaultBranch>` — git forbids checking out a branch another worktree holds. That branch is never checked out here; push to it instead.
      1. Sync the run branch onto the default branch's tip: `git fetch origin <defaultBranch>` then `git merge --ff-only origin/<defaultBranch>`. With no remote there is nothing to sync from: skip this step. When the sync fails, return `{state: "inconclusive", notes: "<why>"}` — nothing has changed.

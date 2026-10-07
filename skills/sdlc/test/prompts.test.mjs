@@ -196,6 +196,46 @@ test('the pr state-commit arm syncs the run branch too, and no arm checks the de
   assert.doesNotMatch(c, /git checkout <defaultBranch>/)
 })
 
+test('the worktree returns to the run branch before every run-branch operation (ruling B)', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  // between ship steps 5 and 6: the ship steps squash onto and delete from the run branch, and a worktree
+  // still on sdlc/<id> made `merge --squash` a no-op and the branch deletion a refusal
+  const step5 = i.split('\n').find(l => l.startsWith('5. Commit on the slice branch'))
+  assert.ok(step5, 'ship step 5 is missing')
+  assert.match(step5, /git checkout sdlc\/run-<n>/)
+
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  // the direct/mr arm commits and syncs on the run branch
+  const arm = c.slice(c.indexOf('- `direct` or `mr` mode:'), c.indexOf('- `pr` mode:'))
+  assert.match(arm, /Return to the run branch: `git checkout sdlc\/run-<n>`/)
+  // the pr arm syncs the run branch before the state branch is cut and again after the merge
+  const pr = c.slice(c.indexOf('- `pr` mode:'))
+  assert.match(pr, /Return to the run branch: `git checkout sdlc\/run-<n>`/)
+  assert.match(pr, /return to the run branch: `git checkout sdlc\/run-<n>`[\s\S]{0,200}[Ss]ync the run branch onto the default branch's tip again/)
+  // the stack arm commits on a branch that varies: the checkout is named, not improvised
+  const stack = c.slice(c.indexOf('- `stack` mode:'), c.indexOf('- `direct` or `mr` mode:'))
+  assert.match(stack, /Check the branch out first/)
+  assert.match(stack, /[Nn]o branch this arm names is held by another worktree/)
+
+  // the relaunch ff-only merge hits a mid-slice branch after a pause unless HEAD goes back first
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  const wt = skill.split('\n').find(l => l.includes('**Run worktree:**'))
+  assert.ok(wt, 'the run worktree step is missing')
+  assert.match(wt, /put its HEAD back on the run branch[\s\S]{0,200}git -C "\$WT" checkout sdlc\/run-<n>/)
+  assert.match(wt, /merge --ff-only origin\/<defaultBranch>/)
+})
+
+test('the pr blocked-merge fallback writes in the run worktree and never returns to the default branch', () => {
+  // the owner's checkout holds the default branch, so "Return to the default branch" was both a
+  // run-state-ownership violation and a git refusal; the log line belongs to the worktree's ledger
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const pr = c.slice(c.indexOf('- `pr` mode:'))
+  assert.match(pr, /state-pr-blocked/)
+  assert.match(pr, /log\.jsonl in the run worktree/)
+  assert.match(pr, /Commit it on the PR branch and push/, 'an uncommitted append would block the next checkout: log.jsonl differs between the branches')
+  assert.doesNotMatch(pr, /Return to the default branch/)
+})
+
 test('the schema documents the mainRoot input and the direct mode push it now implies', () => {
   const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
   // the stop probe reads the owner's checkout, not the worktree: mainRoot is where that is written down
