@@ -26,7 +26,7 @@ A defect blocks the slice only when the expected behavior is required by a requi
 - Write tests only. Never change product code, and never change the toolkit. If a tool is missing or broken, write the smallest helper you need inside your own test file, and add a seed `{title: "testkit: <what is missing>", ...}`.
 - Name test files and tests so they can be found: include `verify` and your profile, following the repo's conventions. Examples: `replay.verify-http-api.test.ts`, `retry_verify_async_test.go`, `test('verify async: …')`, `func TestVerifyAsync_…`.
 - Write your test files **directly into the main tree** at `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` (create the directories). They are evidence: they are never committed to `sdlc/<id>`, and you commit nothing to your branch.
-- A verification test runs in milliseconds-to-seconds. Anything needing containers, servers or a browser belongs to the scenario, not the test file; never invoke the repo's test command from a test.
+- A verification test runs in milliseconds-to-seconds. Anything needing containers, servers or a browser belongs to the scenario, not the test file; never invoke the repo's test command from a test. The ui profile's browser fixture is the exception — a browser boot is its scenario vehicle; the rule bans nested suite runs and heavyweight CI dependencies, not the fixture.
 - When done, `git worktree remove --force` your worktree but **keep the branch**. The verify-collector deletes it.
 - Evidence files go in the **main** tree at the paths below, not in your worktree.
 

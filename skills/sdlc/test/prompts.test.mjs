@@ -319,6 +319,16 @@ test('profile agents write their tests as evidence in the main tree, and the col
   assert.doesNotMatch(collector, /cherry-pick/)
   assert.doesNotMatch(collector, /checkout sdlc\/<id>/)
   assert.doesNotMatch(collector, /[Rr]un the newly added verification test files/)
+  // the agents write into the main tree, so the move from the worktree is the fallback, not the routine
+  assert.match(collector, /file the test files its agent wrote under/)
+  assert.match(collector, /move them in from its worktree only when it left them there instead/)
+  // the ui profile boots the app in a browser inside its test fixture, so the fast-test rule carves it out
+  assert.match(common, /The ui profile's browser fixture is the exception/)
+  // a security attack is evidence under tests/, promoted later only if the finding holds — never a commit
+  const security = readFileSync(join(SKILL_DIR, 'prompts', 'verify-security.md'), 'utf8')
+  assert.match(security, /tests\/security-<part>\/` like any profile test/)
+  assert.match(security, /promoted into the suite later only if the finding holds/)
+  assert.doesNotMatch(security, /committed failing test|passing regression tests/)
 })
 
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
