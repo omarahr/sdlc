@@ -14,9 +14,9 @@ The requirement is about something rendered or interactive: the form renderer, t
 1. Drive the UI the way a user would: roles and labels (`getByRole`, `getByLabel`), not CSS selectors or test-only hooks, unless the spec defines them.
 2. For each case, capture a **screenshot of each state the spec defines**: initial, filled, validation error, server error, success. Take them at a fixed viewport (1280×800, plus 390×844 when the spec mentions mobile), with animations disabled.
 3. Run an axe scan on each distinct state and report the violations by rule and impact. Violations are blocking only when the spec requires accessibility (for example WCAG) for that screen; otherwise they are seeds.
-4. Walk the keyboard-only path through the flow when the spec or the platform's accessibility rules require it. Check the Tab order and the keys: Enter, Space, Escape, and visible focus.
+4. Walk the keyboard-only path through the flow when the spec or the platform's accessibility rules require it. Check the Tab order and the keys: Enter, Space, and Escape. Check visible focus.
 5. Assert outcomes, not pixels: the text shown, the fields enabled or disabled, the request sent to the backend, and what was stored. Intercept the request with `page.route`, or read it from the stub. Screenshots are evidence for the human, not the assertion.
-6. The spec covers ways for the backend to fail. Make it fail in those ways. Assert the UI's behavior. The team's `/validate` may return an error, time out, or be down.
+6. The spec covers ways for the backend to fail. Make the backend fail in those ways: the team's `/validate` may return an error, time out, or be down. Assert the UI's behavior.
 7. Capture console errors during each case and fail the case on any uncaught error.
 
 ## Corners

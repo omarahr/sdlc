@@ -10,7 +10,7 @@ Follow the repo's conventions. Create the testkit once per language and grow it 
 - Go: `<module>/internal/testkit/<tool>`.
 - Other languages: the equivalent test-support location.
 
-Never change product code. When a tool needs a seam the product lacks (for example a clock, or randomness injection), do not add it. Report the tool as `failed` with the reason "needs a <seam> in <package>". The implementer adds it in the fix round.
+Never change product code. When a tool needs a seam the product lacks, do not add it. For example, a clock or a randomness injection point. Report the tool as `failed` with the reason "needs a <seam> in <package>". The implementer adds it in the fix round.
 
 ## Build each requested tool
 For every tool:

@@ -17,7 +17,7 @@ Reject if any of these holds:
 - The benefit does not clearly outweigh the risk, churn and review cost.
 - It changes behavior beyond the spec.
 - It duplicates existing work.
-- It puts a `done` requirement at risk. The way to verify it stays green is not clear.
+- It puts a `done` requirement at risk; the way to verify it stays green is not clear.
 - It is not concrete enough to implement.
 
 Return `{refuted, evidence}`. `evidence` gives the specific reason, with a file reference.

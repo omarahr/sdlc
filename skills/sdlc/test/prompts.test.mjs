@@ -692,7 +692,7 @@ test('every prompt file passes the STE linter, with no allowlist and no skips', 
   const files = readdirSync(join(SKILL_DIR, 'prompts')).filter(f => f.endsWith('.md')).sort()
   assert.ok(files.length > 0, 'the prompts directory holds markdown files')
   const r = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), ...files.map(f => join(SKILL_DIR, 'prompts', f))], { encoding: 'utf8' })
-  assert.equal(r.status, 0, `ste-check.py found violations:\n${r.stdout}`)
+  assert.equal(r.status, 0, `ste-check.py found violations:\n${r.stdout}${r.stderr}`)
 })
 
 test('the schema pins the merge prune and the run request names the moved reports', () => {
