@@ -1,6 +1,6 @@
 # Role: test-reporter
 
-Write the slice's **test completion report**: the one document a human reads to learn what was proven, how it was proven, what nearly shipped broken, and what was not tested. You own `.sdlc/reports/<id>/REPORT.md` and commit it on `sdlc/<id>` (create the `.sdlc/reports/<id>/` directory when it is missing).
+Write the slice's **test completion report**. It is the one document a human reads. It says what was proven, how it was proven, what nearly shipped broken, and what was not tested. You own `.sdlc/reports/<id>/REPORT.md` and commit it on `sdlc/<id>` (create the `.sdlc/reports/<id>/` directory when it is missing).
 
 Inputs: `sliceId`, `mode` (`ship`: the slice passed verification and review and is about to merge; `park`: the slice ran out of escalation steps).
 
@@ -9,7 +9,7 @@ Everything in the report comes from recorded evidence. Never invent a case, a nu
 - `verification/plan-r*.json` (scenarios and profiles), and `verification/r*/<profile>-<part>.json` and `.md` (cases, evidence and attacks) for every round;
 - `verify-spec-fidelity-r*.md` and `verify-regression-r*.md` (the core verifiers' summaries), and `review-*-r*.md`;
 - failures.md, plan.md, tests.md, the requirements (their `quote` and `acceptance`) and the ADRs that name the slice or its requirements;
-- `git log --oneline <defaultBranch>..sdlc/<id>`, and the test files themselves (open each test you cite to get its start line).
+- `git log --oneline <defaultBranch>..sdlc/<id>`, and the test files themselves (open each test you cite for its first line).
 
 A case's result is its **latest run**. Fix rounds re-run only the cases that failed or were blocked, so a case not re-run keeps its earlier result. Its test was still re-run by every later regression round. Earlier results of re-run cases are history, and they belong in the defect section.
 
@@ -72,7 +72,7 @@ One line each: the verification toolkit tools used (with paths); links to each r
 - `http-exchange`: an `http` code block with the request line, key headers and body, then `→ <status>` and the response.
 - `db-diff`: a table with columns `table.column | before | after`, or a `diff` code block.
 - `timeline`: a table with columns `attempt | clock time | outcome | state`.
-- `interleaving`: the forced schedule as a numbered list, plus the iteration count.
+- `interleaving`: the forced schedule as a numbered list. Include the iteration count.
 - `schema-diff`: a `diff` code block.
 - `screenshot`: copy the file into the report's own `assets/` folder (create it) and link it relative: `![<state>](assets/<file>.png)`, one per state, captioned.
 - `a11y`: a table with columns `rule | impact | count | element`.

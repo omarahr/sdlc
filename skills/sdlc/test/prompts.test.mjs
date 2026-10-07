@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
 import { scriptSource, SKILL_DIR } from './harness.mjs'
 
@@ -82,13 +83,13 @@ test('the e2e harness cuts its branch from the milestone branch in stack mode, a
   // the ownership sentence sits mid-paragraph, so anchor on the sentence rather than the line start
   const owner = e.match(/You commit on branch `sdlc\/<milestoneId>-e2e`\.[^\n]*/)
   assert.ok(owner, 'the ownership sentence is missing')
-  assert.match(owner[0], /In `stack` mode it is cut from `sdlc\/M-<n>`, the milestone branch, not the default branch/)
+  assert.match(owner[0], /In `stack` mode the branch is cut from `sdlc\/M-<n>`, the milestone branch, not the default branch/)
   // anchored on step 1, so a stray mention elsewhere in the file cannot satisfy it
   const step1 = e.match(/^1\. \*\*Branch:\*\*.*$/m)
   assert.ok(step1, 'step 1 is missing')
   // stack mode bases the suite on the milestone branch, and defers to the slice that created it
   assert.match(step1[0], /In `stack` mode cut it from the milestone branch `sdlc\/M-<n>`/)
-  assert.match(step1[0], /if it is missing, stop and say so rather than creating it/)
+  assert.match(step1[0], /[Ii]f it is missing, stop and say so rather than creating it/)
   // the other three modes keep a base of their own, so direct and mr agents are not left without one
   assert.match(step1[0], /In `pr` mode cut it from the up-to-date `<defaultBranch>` ref/)
   assert.match(step1[0], /In `direct` and `mr` mode cut it from the run branch/)
@@ -685,6 +686,13 @@ test('the tracker reads run state from the worktree and writes to the owner\'s c
   assert.match(skill, /`rounds` in the run worktree's `\.sdlc\/barraiser\.json`/)
   // the driver file stays on the owner's checkout, never in the worktree
   assert.match(skill, /\$REPO\/\.sdlc\/tracker\/driver\.json/)
+})
+
+test('every prompt file passes the STE linter, with no allowlist and no skips', () => {
+  const files = readdirSync(join(SKILL_DIR, 'prompts')).filter(f => f.endsWith('.md')).sort()
+  assert.ok(files.length > 0, 'the prompts directory holds markdown files')
+  const r = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), ...files.map(f => join(SKILL_DIR, 'prompts', f))], { encoding: 'utf8' })
+  assert.equal(r.status, 0, `ste-check.py found violations:\n${r.stdout}`)
 })
 
 test('the schema pins the merge prune and the run request names the moved reports', () => {

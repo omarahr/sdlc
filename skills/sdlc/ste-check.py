@@ -60,6 +60,9 @@ ALLOWED_ALL_CAPS = frozenset({
     "LCP", "CLS", "INP", "CPU", "PNG", "KB", "MB",
     # Technical-name acronyms the build/state family uses in prose: security terms and format names.
     "XSS", "OS", "HTML",
+    # Technical-name acronyms the remaining prompt files use in prose: accessibility standards and
+    # web terms, file names, browser terms, and text-direction units.
+    "ARIA", "README", "CSS", "WCAG", "DOM", "LTR",
 })
 
 # Padding and softening idioms. Word boundaries apply, so `adjust` never trips `just`.
