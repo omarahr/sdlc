@@ -565,8 +565,8 @@ async function reviewPhase(id, round) {
 }
 
 // verify one round: plan scenarios and their profiles, build missing tools, then the spec-fidelity lens and the
-// profile group in parallel, then fold the profile agents' test commits into the slice branch, then the regression
-// lens (with `alongside`, the review, next to it when everything before it held)
+// profile group in parallel, then the collector files the profile agents' tests and removes their branches, then
+// the regression lens (with `alongside`, the review, next to it when everything before it held)
 const VPLAN = {
   type: 'object',
   properties: {
@@ -668,8 +668,8 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
     const opts = { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` }
     return run('verifier', { sliceId: id, lens, round }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
   }
-  // with profile tests to fold in, the regression verifier waits for the collector: it then runs the full suite once,
-  // on the commit that holds those tests, and times it on a machine the profile agents have left
+  // with profile tests to run, the regression verifier waits for the profile agents: their test files land in the
+  // main tree as they work, and it runs the full suite once on a machine they have left
   const early = groups.length ? ['spec-fidelity'] : ['spec-fidelity', 'regression']
   const all = await parallel([
     ...early.map(coreRun),
@@ -684,18 +684,14 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
   let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
-    if (!c || !c.ok) {
-      // the tests never reached the slice branch, so the next round runs this round's pairs again
-      pending = groups.flatMap(g => g.scenarioIds.map(scenarioId => ({ profile: g.profile, scenarioId })))
-      profiles.push({ refuted: true, evidence: `verify-collector could not fold the profile tests into sdlc/${id}: ${c ? c.notes || '' : 'no report'}` })
-      groups.push({ profile: 'collector', part: 0, scenarioIds: [] })
-    }
+    // cleanup is infra, not evidence: a collector failure never refutes; the branch sweep at the gate catches leftovers
+    if (!c || !c.ok) log(`${id} verify r${round}: verify-collector did not finish cleanup (${c ? c.notes || '' : 'no report'})`)
   }
   const pv = plan
     ? profileVote(profiles, groups)
     : { refuted: true, evidence: 'verify-planner failed to report; no scenario was verified at its boundary', failingTest: '' }
   // the regression run is the long tail of a round. When everything before it held, the review (read-only, and now
-  // looking at the branch with the profile tests in it) runs next to it instead of after it. A review is then only
+  // looking at the tree with the profile tests in it) runs next to it instead of after it. A review is then only
   // wasted when the regression run alone fails, and in that case its findings reach the implementer in the same round.
   const heldSoFar = !!fidelity && !fidelity.refuted && !pv.refuted
   let regression = all[1]

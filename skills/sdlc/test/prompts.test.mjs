@@ -300,6 +300,27 @@ test('the regression lens is slice-scoped during build rounds and full only at t
   assert.match(v, /Return `\{refuted, evidence, failingTest, seeds, outcome\}`/)
 })
 
+test('profile agents write their tests as evidence in the main tree, and the collector only files and cleans', () => {
+  const common = readFileSync(join(SKILL_DIR, 'prompts', 'verify-profile-common.md'), 'utf8')
+  assert.match(common, /verification\/r<round>\/tests\/<profile>-<part>\//)
+  assert.match(common, /never committed to `sdlc\/<id>`/)
+  assert.match(common, /commit nothing to your branch/)
+  assert.match(common, /A verification test runs in milliseconds-to-seconds\./)
+  assert.match(common, /never invoke the repo's test command from a test/)
+  assert.match(common, /The verify-collector deletes it/)
+  // the old fold-into-the-branch mechanics are gone, not merely accompanied by the new rule
+  assert.doesNotMatch(common, /join the slice's test suite/)
+  assert.doesNotMatch(common, /cherry-pick/)
+  const collector = readFileSync(join(SKILL_DIR, 'prompts', 'verify-collector.md'), 'utf8')
+  assert.match(collector, /You fold nothing into the slice branch/)
+  assert.match(collector, /verification\/r<round>\/tests\/<profile>-<part>\//)
+  assert.match(collector, /copy them unmodified/)
+  assert.match(collector, /git branch -D/)
+  assert.doesNotMatch(collector, /cherry-pick/)
+  assert.doesNotMatch(collector, /checkout sdlc\/<id>/)
+  assert.doesNotMatch(collector, /[Rr]un the newly added verification test files/)
+})
+
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
   const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
   assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')

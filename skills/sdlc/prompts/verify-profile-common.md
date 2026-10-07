@@ -16,7 +16,7 @@ In a fix round you are given only the scenarios that failed or were blocked for 
 - The diff: `git diff <defaultBranch>...sdlc/<id>`.
 
 ## Time limit
-Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover each scenario's notes and your profile's required corners first. Go further only when something gives: a surprising answer is worth depth, a clean pass is not. When the time is up, stop adding cases, then write and commit what you have.
+Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover each scenario's notes and your profile's required corners first. Go further only when something gives: a surprising answer is worth depth, a clean pass is not. When the time is up, stop adding cases, then write what you have.
 
 ## 2. Scope rule
 A defect blocks the slice only when the expected behavior is required by a requirement's `quote` or `acceptance`, an ADR, or a limit, error code or failure behavior the spec states. Cite that source on the case (`specSource`). Anything else goes to `seeds` as `[{title, detail, file}]`. The bar raiser weighs seeds later, and they never refute.
@@ -25,9 +25,9 @@ A defect blocks the slice only when the expected behavior is required by a requi
 - Work in your own worktree on your own branch: `git worktree add -b <branch> "$TMPDIR/<branch with / replaced by ->" sdlc/<id>`. Run everything there. If the branch already exists from a crashed run, delete it first (`git branch -D <branch>`).
 - Write tests only. Never change product code, and never change the toolkit. If a tool is missing or broken, write the smallest helper you need inside your own test file, and add a seed `{title: "testkit: <what is missing>", ...}`.
 - Name test files and tests so they can be found: include `verify` and your profile, following the repo's conventions. Examples: `replay.verify-http-api.test.ts`, `retry_verify_async_test.go`, `test('verify async: …')`, `func TestVerifyAsync_…`.
-- Your committed tests join the slice's test suite and run on every `config.commands.test`. Keep them cheap: share expensive setup (installs, builds, packing, containers, browser launches) across cases with one fixture per file, and keep each file to the cases that cover distinct behavior. The slice as a whole may add at most max(60 s, 20 %) to the test command's wall time, and the regression verifier measures it.
-- Commit the passing tests and the in-scope failing ones on your branch: `git add <files> && git commit -m "test(<id>): <profile> verification r<round>"`. Never commit tests for out-of-scope behavior.
-- When done, `git worktree remove --force` your worktree but **keep the branch**. The verify-collector merges it.
+- Write your test files **directly into the main tree** at `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` (create the directories). They are evidence: they are never committed to `sdlc/<id>`, and you commit nothing to your branch.
+- A verification test runs in milliseconds-to-seconds. Anything needing containers, servers or a browser belongs to the scenario, not the test file; never invoke the repo's test command from a test.
+- When done, `git worktree remove --force` your worktree but **keep the branch**. The verify-collector deletes it.
 - Evidence files go in the **main** tree at the paths below, not in your worktree.
 
 ## 4. Cases
@@ -35,7 +35,7 @@ Each check you make is a **case**. Before writing tests, write the cases down fo
 - can fail: it asserts an observable outcome, not that code ran;
 - names concrete inputs;
 - runs against the real boundary your profile file describes, with fakes only for parties outside the system;
-- is an automated test committed on your branch. Use a manual probe (a command you ran, with its output) only when a test is impossible, and mark it `manual: true`.
+- is an automated test you wrote under `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/`. Use a manual probe (a command you ran, with its output) only when a test is impossible, and mark it `manual: true`.
 
 Case ids are `TC-<profile>-<n>`, unique within the slice. A case re-run in a later round keeps its id.
 
@@ -52,7 +52,7 @@ Record evidence as you go, never from memory. Every case carries at least the ev
 In the main tree, at `.sdlc/slices/<id>/verification/r<round>/<profile>-<part>.json`:
 ```json
 {
-  "profile": "http-api", "part": 0, "round": 1, "commit": "<short sha of your last commit>",
+  "profile": "http-api", "part": 0, "round": 1, "commit": "<short sha of the slice commit you verified>",
   "environment": "Go 1.23, Postgres 16 (testcontainers), stub team backend on 127.0.0.1",
   "cases": [{
     "id": "TC-http-api-3", "scenarioId": "VS-2", "requirementIds": ["R-279"],

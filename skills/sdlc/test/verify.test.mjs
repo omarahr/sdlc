@@ -38,16 +38,17 @@ test('no missing tools means no toolsmith, and a clean group passes', async () =
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
 })
 
-test('a collector that cannot fold the profile branches refutes the round', async () => {
+test('a collector that fails only logs; the round still fails or passes on the verifiers alone', async () => {
   const rt = await loadInternals(scripted({
     'verify-planner': plan(['http-api']),
     verifier: () => clear(),
     'verify-http-api': () => clear(),
-    'verify-collector': () => ({ ok: false, notes: 'conflict in go.sum' }),
+    'verify-collector': () => ({ ok: false, notes: 'worktree busy' }),
   }))
-  const { votes } = await rt.I.verifyPhase('S-1', 0)
-  assert.equal(votes[1].refuted, true)
-  assert.match(votes[1].evidence, /conflict in go\.sum/)
+  const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
+  assert.equal(votes[1].refuted, false)
+  assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+  assert.ok(rt.logs.some(l => /verify-collector/.test(l)))
 })
 
 test('a planner that fails to report refutes the profiles vote without running any profile agent', async () => {
@@ -343,7 +344,8 @@ test('a failed collector still gets a regression run', async () => {
   const { votes } = await rt.I.verifyPhase('S-1', 0)
   assert.equal(rt.calls.filter(c => c.role === 'verifier' && c.inputs.lens === 'regression').length, 1)
   assert.equal(votes[2].refuted, false)
-  assert.equal(votes[1].refuted, true)
+  // a collector failure is cleanup infra: it never refutes the profiles vote
+  assert.equal(votes[1].refuted, false)
 })
 
 test('the review runs next to the regression verifier when everything before it held, and only once', async () => {
@@ -362,7 +364,6 @@ test('no review is started when a profile verifier or the spec-fidelity verifier
   for (const overrides of [
     { 'verify-security': () => ({ refuted: true, evidence: 'IDOR', failingTest: 't1', failedScenarios: ['VS-1'] }) },
     { verifier: c => (c.inputs.lens === 'spec-fidelity' ? { refuted: true, evidence: 'R-1 half done' } : clear()) },
-    { 'verify-collector': () => ({ ok: false, notes: 'conflict' }) },
   ]) {
     const rt = await loadInternals(happy(overrides))
     let reviews = 0
