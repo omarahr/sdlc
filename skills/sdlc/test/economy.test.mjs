@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { loadInternals } from './harness.mjs'
+import { runMain, loadInternals, clear as clearVote } from './harness.mjs'
+import { happy, sliceNext } from './slice.test.mjs'
 
 const clear = { refuted: false, evidence: 'holds' }
 
@@ -34,4 +35,40 @@ test('profileVote folds blocked scenarios and silent agents into infra, not refu
   const failing = rt.I.profileVote([{ refuted: true, evidence: 'bug', failingTest: 't — b — R-1', blocked: [{ scenarioId: 'VS-1', reason: 'also no chromium' }] }], groups)
   assert.equal(failing.refuted, true)
   assert.equal(failing.outcome, 'refuted')
+})
+
+test('a battery slice runs the gate before integrate, and a gate fail goes back to the build loop', async () => {
+  let gates = 0
+  const rt = await runMain(happy({
+    gate: () => (gates++ === 0 ? { state: 'fail', failingTest: 'e2e — SC-9 — R-2', commit: 'c1' } : { state: 'pass', commit: 'c2' }),
+    implementer: () => ({ green: true, notes: 'fixed for the gate' }),
+    verifier: () => clearVote(),
+    'verify-planner': () => ({ scenarios: [], tools: [], risk: 'high' }),
+  }, 'plan'))
+  // 'Read state' brackets every main-loop iteration, so it is filtered out: the assertion is the slice's lifecycle
+  assert.deepEqual(rt.phases.filter(p => p !== 'Read state'), ['Plan', 'Tests first', 'Implement', 'Verify', 'Review', 'Gate', 'Implement', 'Verify', 'Review', 'Gate', 'Report', 'Integrate'])
+  const gateCalls = rt.calls.filter(c => c.role === 'gate')
+  assert.equal(gateCalls.length, 2)
+  assert.ok(rt.roles().indexOf('gate') < rt.roles().indexOf('integrator'))
+})
+
+test('a slice already at phase gate resumes at the gate, not the build loop', async () => {
+  const rt = await runMain(happy({ gate: () => ({ state: 'pass', commit: 'c2' }) }, 'gate'))
+  assert.equal(rt.calls.filter(c => c.role === 'implementer').length, 0)
+  assert.equal(rt.calls.filter(c => c.role === 'gate').length, 1)
+  assert.ok(rt.roles().includes('integrator'))
+})
+
+test('the integrator sending regate re-runs the gate', async () => {
+  let n = 0
+  let reads = 0
+  const rt = await runMain(happy({
+    // production re-dispatch: the integrator's regate leaves the slice in_progress at phase gate, so the
+    // state-reader hands it back and the next iteration re-runs the gate before the integrator is asked again
+    'state-reader': () => (reads++ < 2 ? sliceNext('gate') : { action: 'stop', reason: 'test end' }),
+    gate: () => ({ state: 'pass', commit: 'c2' }),
+    integrator: () => (n++ === 0 ? { state: 'regate', notes: 'CI fix changed product code after the gate' } : { state: 'merged', commit: 'abc' }),
+  }, 'gate'))
+  assert.equal(rt.calls.filter(c => c.role === 'gate').length, 2)
+  assert.equal(rt.calls.filter(c => c.role === 'integrator').length, 2)
 })

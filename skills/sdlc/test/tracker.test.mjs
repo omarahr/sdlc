@@ -164,7 +164,7 @@ test('collector adds the workflow view: phases, agents with status, model, token
   const wf = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8')).workflow
   assert.equal(wf.name, 'sdlc-loop')
   assert.deepEqual(wf.phases.slice(0, 3), ['Read state', 'Bootstrap', 'Plan'])
-  assert.equal(wf.phases.length, 15)
+  assert.equal(wf.phases.length, 16)
   assert.equal(wf.run.id, 'wf_new')
   assert.equal(wf.run.live, true)
   assert.equal(wf.run.startedAt, '2026-01-12T09:00:00Z')

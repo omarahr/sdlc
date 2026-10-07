@@ -3,7 +3,9 @@ import assert from 'node:assert/strict'
 import { runMain, scripted, ok, clear } from './harness.mjs'
 
 export function sliceNext(phase = 'plan', extra = {}) {
-  return { action: 'slice', sliceId: 'S-1', slice: { id: 'S-1', kind: 'spec', phase, counters: {}, ...extra }, reason: 'next' }
+  // a slice the gate is about to re-run carries the gate counters it was persisted with
+  const counters = phase === 'gate' ? { fixRounds: 0, gateCommit: '' } : {}
+  return { action: 'slice', sliceId: 'S-1', slice: { id: 'S-1', kind: 'spec', phase, counters, ...extra }, reason: 'next' }
 }
 
 export function happy(overrides = {}, phase = 'plan') {
@@ -22,6 +24,7 @@ export function happy(overrides = {}, phase = 'plan') {
     'test-reporter': () => ok(),
     reviewer: () => ({ findings: [] }),
     'finding-refuter': () => clear(),
+    gate: () => ({ state: 'pass', commit: 'c2' }),
     integrator: () => ({ state: 'merged', commit: 'abc123' }),
     'state-writer': () => ok(),
     escalator: () => ok(),

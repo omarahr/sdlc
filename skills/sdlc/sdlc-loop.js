@@ -10,6 +10,7 @@ export const meta = {
     { title: 'Implement' },
     { title: 'Verify' },
     { title: 'Review' },
+    { title: 'Gate' },
     { title: 'Report' },
     { title: 'Integrate' },
     { title: 'Escalate' },
@@ -409,7 +410,7 @@ const PLAN = {
   required: ['ok'],
 }
 const TESTCHECK = { type: 'object', properties: { allFailCorrectly: { type: 'boolean' }, problems: { type: 'array', items: str } }, required: ['allFailCorrectly'] }
-const PHASE_ORDER = ['plan', 'tests', 'implement', 'integrate']
+const PHASE_ORDER = ['plan', 'tests', 'implement', 'gate', 'integrate']
 const PLAN_LENSES = ['spec-fidelity', 'architecture']
 const AMBIGUITY_ROUND_LIMIT = 3
 
@@ -463,7 +464,7 @@ async function testsPhase(id) {
   return false
 }
 
-async function sliceAction(next) {
+async function sliceAction(next, gateEvidence = []) {
   const id = next.sliceId
   const s = next.slice || {}
   const counters = normalizeCounters(s.counters)
@@ -486,11 +487,27 @@ async function sliceAction(next) {
   }
   let seeds = s.seeds || []
   if (at === 2) {
-    const b = await buildLoop(id, counters, s)
+    const b = await buildLoop(id, counters, s, gateEvidence)
     if (b.paused) return `${id} paused: agent cap`
+    if (b.infraDebt) return `${id} parked with infra debt: ${b.lastEvidence.join(' | ').slice(0, 200)}`
     if (!b.ok) return escalate(id, s, counters, `fix rounds exhausted: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
     seeds = b.seeds
-    await persist(id, { phase: 'integrate', counters, seeds })
+    await persist(id, { phase: 'gate', counters, seeds })
+    at = 3
+  }
+  if (at === 3) {
+    const gate = await gatePhase(id, counters)
+    if (gate.verdict === 'infra') return `${id} gate inconclusive (infra): the run retries it on the next iteration`
+    if (gate.verdict === 'infra-debt') return `${id} parked with infra debt at the gate`
+    if (gate.verdict === 'fail') {
+      // a real failing test at the gate costs a fix round, like any refutation
+      counters.fixRounds++
+      await persist(id, { phase: 'implement', counters })
+      log(`${id} gate failed: back to the build loop`)
+      return sliceAction({ ...next, slice: { ...s, phase: 'implement', counters } }, [`[gate] failing test: ${gate.failingTest}`])
+    }
+    await persist(id, { phase: 'integrate', counters })
+    at = 4
   }
   return integrate(id, s, counters, seeds)
 }
@@ -512,7 +529,7 @@ const FINDINGS = {
 }
 const INTEGRATE = {
   type: 'object',
-  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive'] }, commit: str, pr: str, notes: str },
+  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive', 'regate'] }, commit: str, pr: str, notes: str },
   required: ['state'],
 }
 const REVIEW_LENSES = ['security', 'architecture', 'test-quality']
@@ -694,8 +711,9 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
 
 const reviewEvidence = f => `[review] ${f.title}: ${f.detail}${f.file ? ` (${f.file})` : ''}`
 
-async function buildLoop(id, counters, s = {}) {
-  let evidence = []
+async function buildLoop(id, counters, s = {}, initialEvidence = []) {
+  // a gate fail re-enters the loop with the gate's evidence; a fresh build starts with none
+  let evidence = [...initialEvidence]
   // out-of-scope hardening ideas from verifiers never block; they ride along to the bar raiser
   const verifySeeds = []
   // the round-0 plan carries into fix rounds within this run; a resumed run plans again
@@ -782,6 +800,39 @@ async function buildLoop(id, counters, s = {}) {
   return { ok: false, seeds: [], lastEvidence: evidence }
 }
 
+const GATE = {
+  type: 'object',
+  properties: { state: { type: 'string', enum: ['pass', 'fail', 'infra'] }, failingTest: str, commit: str, seconds: { type: 'number' }, notes: str },
+  required: ['state'],
+}
+
+// the gate: the full-repo regression lens runs once, here, on the exact final commit, and the receipt it
+// writes is the only merge authority. A commit after a passed gate invalidates it (the integrator asks for
+// a regate); a real failing test sends the slice back to the build loop; infra retries outside the economy.
+async function gatePhase(id, counters) {
+  phase('Gate')
+  let g = await run('gate', { sliceId: id }, { schema: GATE, phase: 'Gate', label: id })
+  if (!g) g = { state: 'infra', notes: 'gate agent failed to report' }
+  // the return is {verdict, failingTest} so sliceAction can hand the gate's failing test to the build loop
+  if (g.state === 'pass') {
+    counters.gateCommit = g.commit || ''
+    counters.infraRetries = 0
+    await persist(id, { counters })
+    return { verdict: 'pass', failingTest: '' }
+  }
+  if (g.state === 'infra') {
+    counters.infraRetries++
+    await persist(id, { counters })
+    if (counters.infraRetries >= 3) {
+      log(`${id}: ${counters.infraRetries} consecutive infra failures at the gate; parking with infra debt`)
+      await persist(id, { status: 'parked', infraDebt: true, counters })
+      return { verdict: 'infra-debt', failingTest: '' }
+    }
+    return { verdict: 'infra', failingTest: '' }
+  }
+  return { verdict: 'fail', failingTest: g.failingTest || '' }
+}
+
 async function integrate(id, s, counters, seeds, mode = 'ship') {
   if (mode === 'ship') await testReport(id, 'ship')
   phase('Integrate')
@@ -791,6 +842,10 @@ async function integrate(id, s, counters, seeds, mode = 'ship') {
     r = await run('integrator', { sliceId: id, mode, seeds, rerun: 'inconclusive' }, { schema: INTEGRATE, phase: 'Integrate', label: `${id}:rerun` })
     // still unfinished: stay in integrate for the next iteration instead of spending a ladder step on an unknown result
     if (r && r.state === 'inconclusive') return `${id} integrate inconclusive: ${r.notes || 'final check did not finish'}`
+  }
+  if (r && r.state === 'regate') {
+    await persist(id, { phase: 'gate' })
+    return `${id} must re-gate: code changed after the passed gate (${r.notes || ''})`
   }
   if (!r || r.state === 'failed') return escalate(id, s, counters, `integration failed: ${r ? r.notes || '' : 'integrator did not report'}`)
   return `${id} ${r.state}${r.pr ? ' ' + r.pr : ''}${r.commit ? ' ' + r.commit : ''}`
@@ -805,6 +860,12 @@ async function testReport(id, mode) {
 
 async function parkedRetry(next) {
   const s = next.slice || {}
+  // an infra-debt park is a pause, not a verdict: the slice resumes where it was, counters intact
+  if (s.infraDebt) {
+    const counters = normalizeCounters(s.counters)
+    await run('state-writer', { op: 'unpark', sliceId: next.sliceId }, { schema: OK, effort: 'low', label: next.sliceId })
+    return sliceAction({ ...next, slice: { ...s, status: 'in_progress', counters } })
+  }
   const counters = { ...normalizeCounters(s.counters), planRevisions: 0, fixRounds: 0, ladderStep: 0 }
   await run('state-writer', { op: 'unpark', sliceId: next.sliceId }, { schema: OK, effort: 'low', label: next.sliceId })
   return sliceAction({ ...next, slice: { ...s, status: 'in_progress', phase: 'plan', counters } })
@@ -1057,7 +1118,7 @@ const INTERNALS = {
   PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
   decisionPanel, escalate,
-  planPhase, testsPhase, sliceAction,
+  planPhase, testsPhase, sliceAction, gatePhase, GATE,
   reviewPhase, verifyPhase, buildLoop, integrate, testReport, parkedRetry, retryMerge,
   dismissalClass, milestonePlan, scenarioPlan, milestoneAction,
   audit, livelock,
