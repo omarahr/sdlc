@@ -43,7 +43,11 @@ const COST = { bootstrap: 40, slice: 60, parkedRetry: 60, retryMerge: 5, milesto
 
 // ---------- shared schemas ----------
 const str = { type: 'string' }
-const OK = { type: 'object', properties: { ok: { type: 'boolean' }, notes: str }, required: ['ok'] }
+// every schema the loop reads from an agent carries the optional `stopRequested` boolean: an agent that
+// sees the stop file before starting work no-ops and returns its normal shape with stopRequested: true
+// (2026-10-07 run-runtime spec, Section 2). Never in `required` — only a stopping agent sets it.
+const STOP_REQ = { stopRequested: { type: 'boolean' } }
+const OK = { type: 'object', properties: { ok: { type: 'boolean' }, notes: str, ...STOP_REQ }, required: ['ok'] }
 const NEXT = {
   type: 'object',
   properties: {
@@ -54,13 +58,14 @@ const NEXT = {
     milestone: { type: 'object' },
     reason: str,
     summary: str,
+    ...STOP_REQ,
   },
   required: ['action', 'reason'],
 }
 const SEED = { type: 'object', properties: { title: str, detail: str, file: str }, required: ['title', 'detail'] }
 const VOTE = {
   type: 'object',
-  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, outcome: { type: 'string', enum: ['verified', 'refuted', 'infra'] }, seeds: { type: 'array', items: SEED } },
+  properties: { refuted: { type: 'boolean' }, evidence: str, failingTest: str, outcome: { type: 'string', enum: ['verified', 'refuted', 'infra'] }, seeds: { type: 'array', items: SEED }, ...STOP_REQ },
   required: ['refuted', 'evidence'],
 }
 
@@ -245,6 +250,14 @@ let milestoneId = ''
 const modelFails = new Map()
 const MODEL_FAIL_LIMIT = 2
 
+// the stop signal cannot be a throw crossing parallel(): parallel swallows thunk errors into null. The
+// flag carries it instead; every site that consumes agent results calls checkStop() before it counts
+// anything, so a pause never persists state and never spends a round (2026-10-07 run-runtime spec, §2)
+let stopHit = false
+function checkStop() {
+  if (stopHit) throw { stop: true }
+}
+
 function hasHeadroom(action) {
   if (milestoneSpent + (COST[action] || 60) > CAP) return false
   if (budget && budget.total && budget.remaining() < 50000) return false
@@ -279,6 +292,13 @@ async function run(role, vars, opts = {}) {
         err = e && e.message ? e.message : String(e)
       }
       if (out !== null && out !== undefined) {
+        // a stopRequested result is the agent's answer to the stop file, not real work: it must not reach
+        // any caller as a verdict. Set the flag and report failed-to-report; the next checkStop() on the
+        // consumer side unwinds the run before anything is counted or persisted
+        if (out && out.stopRequested === true) {
+          stopHit = true
+          return null
+        }
         if (m) modelFails.set(m, 0)
         return out
       }
@@ -327,11 +347,11 @@ function pause(reason, history) {
 // ---------- actions ----------
 
 // bootstrap
-const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str }, required: ['added'] }
+const COUNT = { type: 'object', properties: { added: { type: 'number' }, reopened: { type: 'number' }, notes: str, ...STOP_REQ }, required: ['added'] }
 // the modes a run may be in. It is not an `export` because this file is compiled as the body of a single
 // async function by the test harness, where `export` is a syntax error; tests read it from INTERNALS instead.
 const GIT_MODES = ['pr', 'direct', 'mr', 'stack']
-const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: GIT_MODES }, commands: { type: 'object' }, notes: str }, required: ['gitMode', 'commands'] }
+const ENV = { type: 'object', properties: { gitMode: { type: 'string', enum: GIT_MODES }, commands: { type: 'object' }, notes: str, ...STOP_REQ }, required: ['gitMode', 'commands'] }
 // the critics of one round look at the same ledger from different angles, in parallel; they add through a script
 // that takes a lock and refuses a quote already in the ledger, so their additions do not collide
 const CRITIC_LENSES = ['statements', 'structures', 'cross-cutting']
@@ -341,38 +361,45 @@ async function bootstrap(next) {
   const P = 'Bootstrap'
   phase(P)
   const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null, commitFormat: A.commitFormat || null }, { schema: ENV, phase: P })
+  checkStop()
   if (!env) return 'bootstrap aborted: env-detector failed'
   const ext = await run('requirements-extractor', { reason: next.reason }, { schema: COUNT, phase: P })
+  checkStop()
   if (!ext) return 'bootstrap aborted: requirements-extractor failed'
   let dry = false
   let round = 0
   while (!dry && round < CRITIC_ROUND_LIMIT) {
     const outs = await parallel(CRITIC_LENSES.map(lens => () =>
       run('completeness-critic', { round, lens }, { schema: COUNT, phase: P, label: `r${round}:${lens}` })))
+    checkStop()
     round++
     // a critic that failed to report proves nothing, so its round is not dry
     dry = outs.every(c => c && c.added === 0)
   }
   if (!dry) log(`completeness critics stopped at the ${CRITIC_ROUND_LIMIT}-round limit without a dry round`)
   const sl = await run('slicer', {}, { schema: COUNT, phase: P })
+  checkStop()
   if (!sl) return 'bootstrap aborted: slicer failed'
   await run('state-writer', { op: 'bootstrap-complete' }, { schema: OK, effort: 'low', phase: P })
+  checkStop()
   return `bootstrap: ${ext.added} extracted, ${ext.reopened || 0} reopened, ${round} critic rounds, ${sl.added} slices added`
 }
 
 // escalation
-const PROPOSAL = { type: 'object', properties: { option: str, rationale: str, reversibility: str }, required: ['option', 'rationale'] }
-const DECISION = { type: 'object', properties: { adrId: str, choice: str }, required: ['adrId', 'choice'] }
+const PROPOSAL = { type: 'object', properties: { option: str, rationale: str, reversibility: str, ...STOP_REQ }, required: ['option', 'rationale'] }
+const DECISION = { type: 'object', properties: { adrId: str, choice: str, ...STOP_REQ }, required: ['adrId', 'choice'] }
 const LADDER = ['none', 'replan', 'split', 'spike', 'alternative', 'park']
 const PANEL_ANGLES = ['spec-intent', 'simplest', 'most-reversible']
 
 async function decisionPanel(q) {
   const proposals = (await parallel(PANEL_ANGLES.map(angle => () =>
     run('decision-proposer', { ...q, angle }, { schema: PROPOSAL, phase: 'Escalate', label: `${q.sliceId || 'global'}:${angle}` })))).filter(Boolean)
+  checkStop()
   if (!proposals.length) {
     log(`decision panel for ${q.sliceId || 'global'} got no proposals: ${q.question}`)
     return null
   }
+  // bare site: the judge's result is this function's return value; the caller's checkStop covers it
   return run('decision-judge', { ...q, proposals }, { schema: DECISION, phase: 'Escalate', label: q.sliceId || 'global' })
 }
 
@@ -390,8 +417,10 @@ async function escalate(id, slice, counters, why) {
         context: `Read .sdlc/slices/${id}/failures.md and .sdlc/slices/${id}/spike.md first.`,
       })
     : null
+  checkStop()
   if (action === 'park') await testReport(id, 'park')
   const r = await run('escalator', { sliceId: id, step, action, why, adr }, { schema: OK, phase: 'Escalate', label: `${id}:${action}` })
+  checkStop()
   return `${id} escalated to ${action}${r && r.ok ? '' : ' (escalator did not confirm)'}`
 }
 
@@ -406,10 +435,11 @@ const PLAN = {
     },
     tooBig: { type: 'boolean' },
     notes: str,
+    ...STOP_REQ,
   },
   required: ['ok'],
 }
-const TESTCHECK = { type: 'object', properties: { allFailCorrectly: { type: 'boolean' }, problems: { type: 'array', items: str } }, required: ['allFailCorrectly'] }
+const TESTCHECK = { type: 'object', properties: { allFailCorrectly: { type: 'boolean' }, problems: { type: 'array', items: str }, ...STOP_REQ }, required: ['allFailCorrectly'] }
 const PHASE_ORDER = ['plan', 'tests', 'implement', 'gate', 'integrate']
 const PLAN_LENSES = ['spec-fidelity', 'architecture']
 const AMBIGUITY_ROUND_LIMIT = 3
@@ -420,6 +450,7 @@ async function planPhase(id, counters) {
   let ambiguityRounds = 0
   while (counters.planRevisions < 3) {
     const plan = await run('planner', { sliceId: id, revision: counters.planRevisions, critiques }, { schema: PLAN, phase: 'Plan', label: id })
+    checkStop()
     // an oversized slice is split before anyone reviews or builds it; critics and fix rounds on it are wasted work
     if (plan && plan.tooBig) return 'tooBig'
     const amb = (plan && plan.ambiguities) || []
@@ -429,6 +460,7 @@ async function planPhase(id, counters) {
       if (amb.length > asked.length) log(`${id}: resolving ${asked.length} of ${amb.length} ambiguities this round`)
       const adrs = await parallel(asked.map(a => () =>
         decisionPanel({ kind: a.kind || 'ambiguity', sliceId: id, question: a.question, context: a.context || '' })))
+      checkStop()
       critiques = adrs.map((d, i) => d
         ? `Resolved by ${d.adrId}: ${d.choice}`
         : `Unresolved: ${asked[i].question}. Choose the most spec-consistent, reversible option and record an ADR.`)
@@ -437,6 +469,7 @@ async function planPhase(id, counters) {
     if (plan && plan.ok) {
       const votes = await parallel(PLAN_LENSES.map(lens => () =>
         run('plan-critic', { sliceId: id, lens }, { schema: VOTE, phase: 'Plan', label: `${id}:${lens}` })))
+      checkStop()
       if (allClear(votes)) return true
       critiques = votes.map((v, i) => (v ? `[${PLAN_LENSES[i]}] ${v.evidence}` : `[${PLAN_LENSES[i]}] critic failed to report`))
     } else {
@@ -453,11 +486,13 @@ async function testsPhase(id) {
   let problems = []
   for (let attempt = 0; attempt < 3; attempt++) {
     const w = await run('test-writer', { sliceId: id, attempt, problems }, { schema: OK, phase: 'Tests first', label: id })
+    checkStop()
     if (!w || !w.ok) {
       problems = [w ? `test-writer reported not ok: ${w.notes || ''}` : 'test-writer failed to report']
       continue
     }
     const chk = await run('test-checker', { sliceId: id }, { schema: TESTCHECK, effort: 'low', phase: 'Tests first', label: id })
+    checkStop()
     if (chk && chk.allFailCorrectly) return true
     problems = chk ? chk.problems || ['test-checker gave no problems'] : ['test-checker failed to report']
   }
@@ -474,6 +509,7 @@ async function sliceAction(next, gateEvidence = []) {
   let at = Math.max(0, PHASE_ORDER.indexOf(s.phase || 'plan'))
   if (at === 0) {
     const planned = await planPhase(id, counters)
+    checkStop()
     if (planned === 'tooBig') {
       // jump straight to the split rung of the ladder
       counters.ladderStep = Math.max(counters.ladderStep, 1)
@@ -484,13 +520,16 @@ async function sliceAction(next, gateEvidence = []) {
     at = 1
   }
   if (at === 1) {
-    if (!(await testsPhase(id))) return escalate(id, s, counters, 'tests could not be made to fail for the right reason')
+    const tested = await testsPhase(id)
+    checkStop()
+    if (!tested) return escalate(id, s, counters, 'tests could not be made to fail for the right reason')
     await persist(id, { phase: 'implement', counters })
     at = 2
   }
   let seeds = s.seeds || []
   if (at === 2) {
     const b = await buildLoop(id, counters, s, gateEvidence, ledger)
+    checkStop()
     if (b.paused) return `${id} paused: agent cap`
     if (b.infraDebt) return `${id} parked with infra debt: ${b.lastEvidence.join(' | ').slice(0, 200)}`
     if (!b.ok) return escalate(id, s, counters, `fix rounds exhausted: ${b.lastEvidence.join(' | ').slice(0, 600)}`)
@@ -517,7 +556,7 @@ async function sliceAction(next, gateEvidence = []) {
 
 // slice: implement + verify + review + integrate
 // inconclusive: a required command could not run to completion (cut off or killed), which is not a failing result
-const IMPL = { type: 'object', properties: { green: { type: 'boolean' }, inconclusive: { type: 'boolean' }, notes: str }, required: ['green'] }
+const IMPL = { type: 'object', properties: { green: { type: 'boolean' }, inconclusive: { type: 'boolean' }, notes: str, ...STOP_REQ }, required: ['green'] }
 const FINDINGS = {
   type: 'object',
   properties: {
@@ -527,12 +566,13 @@ const FINDINGS = {
     },
     // a reviewer sets this when the code is riskier than the slice's low rating; the loop runs the battery
     needsVerify: { type: 'boolean' },
+    ...STOP_REQ,
   },
   required: ['findings'],
 }
 const INTEGRATE = {
   type: 'object',
-  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive', 'regate'] }, commit: str, pr: str, notes: str },
+  properties: { state: { type: 'string', enum: ['merged', 'awaiting-merge', 'failed', 'inconclusive', 'regate'] }, commit: str, pr: str, notes: str, ...STOP_REQ },
   required: ['state'],
 }
 const REVIEW_LENSES = ['security', 'architecture', 'test-quality']
@@ -545,6 +585,7 @@ async function reviewPhase(id, round) {
   phase('Review')
   const reports = await parallel(REVIEW_LENSES.map(lens => () =>
     run('reviewer', { sliceId: id, lens, round }, reviewOpts({ schema: FINDINGS, phase: 'Review', label: `${id}:${lens}` }))))
+  checkStop()
   const missing = REVIEW_LENSES
     .filter((lens, i) => !reports[i])
     .map(lens => ({ title: `reviewer ${lens} failed to report`, detail: 'Re-run review; no evidence the slice is clean for this lens.', blocking: true }))
@@ -558,10 +599,13 @@ async function reviewPhase(id, round) {
   let held = []
   for (let at = 0; at < blockingFound.length && !held.length; at += BLOCKING_JUDGE_LIMIT) {
     const judged = await parallel(blockingFound.slice(at, at + BLOCKING_JUDGE_LIMIT).map((f, i) => async () => {
+      // bare site: the inner votes only feed refutedByMajority inside this thunk; the batch-level
+      // checkStop below catches the flag before any held finding is counted
       const votes = await parallel([0, 1, 2].map(k => () =>
         run('finding-refuter', { sliceId: id, finding: f, voter: k }, { schema: VOTE, phase: 'Review', label: `${id}:f${at + i}v${k}` })))
       return refutedByMajority(votes) ? null : f
     }))
+    checkStop()
     held = judged.filter(Boolean)
   }
   return { blocking: [...missing, ...held], seeds, needsVerify: reports.some(r => r && r.needsVerify) }
@@ -590,6 +634,7 @@ const VPLAN = {
     // only on a plan made after a review fix: the ids of the scenarios it added for the fix
     added: { type: 'array', items: str },
     notes: str,
+    ...STOP_REQ,
   },
   required: ['scenarios', 'tools', 'risk'],
 }
@@ -600,6 +645,7 @@ const TOOLS = {
     built: { type: 'array', items: str },
     failed: { type: 'array', items: { type: 'object', properties: { id: str, reason: str }, required: ['id', 'reason'] } },
     notes: str,
+    ...STOP_REQ,
   },
   required: ['ok'],
 }
@@ -615,6 +661,7 @@ const PVOTE = {
     failedScenarios: { type: 'array', items: str },
     cases: { type: 'number' },
     passed: { type: 'number' },
+    ...STOP_REQ,
   },
   required: ['refuted', 'evidence'],
 }
@@ -632,6 +679,7 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
   const replan = plan && reviewFix
     ? await run('verify-planner', { sliceId: id, round, after: 'review-fix' }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
     : null
+  checkStop()
   if (plan && reviewFix && !replan) log(`${id} verify r${round}: verify-planner could not plan the review fix; keeping the plan from r${planRound}`)
   if (replan) {
     plan = replan
@@ -649,6 +697,7 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
     log(`${id} verify r${round}: re-running ${prev.pending.length} failed (scenario, profile) pair(s) from plan r${planRound}`)
   } else {
     plan = await run('verify-planner', { sliceId: id, round }, { schema: VPLAN, phase: 'Verify', label: `${id}:r${round}` })
+    checkStop()
     planRound = round
     if (plan) {
       const cap = RISK_AGENTS[plan.risk] || PROFILE_AGENT_LIMIT
@@ -661,6 +710,7 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
   let unavailable = []
   if (tools.length) {
     const t = await run('verify-toolsmith', { sliceId: id, round, tools }, { schema: TOOLS, phase: 'Verify', label: `${id}:r${round}` })
+    checkStop()
     unavailable = t ? t.failed || [] : tools.map(m => ({ id: m.id, reason: 'verify-toolsmith failed to report' }))
     if (unavailable.length) log(`${id} verify r${round}: ${unavailable.length} tool(s) unavailable: ${unavailable.map(u => u.id).join(', ')}`)
   }
@@ -678,15 +728,22 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
     ...early.map(coreRun),
     async () => {
       const out = []
-      for (const batch of chunk(groups, PROFILE_BATCH)) out.push(...(await parallel(batch.map(g => () => profileRun(g)))))
+      for (const batch of chunk(groups, PROFILE_BATCH)) {
+        out.push(...(await parallel(batch.map(g => () => profileRun(g)))))
+        // stops later batches from starting once a stopRequested vote landed in an earlier one; the
+        // throw is swallowed into a null by the wrapping parallel, and the check below still fires
+        checkStop()
+      }
       return out
     },
   ])
+  checkStop()
   const fidelity = all[0]
   const profiles = all[early.length] || groups.map(() => null)
   let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
+    checkStop()
     // cleanup is infra, not evidence: a collector failure never refutes; the integrator's cleanup
     // sweeps any branches a finished slice left behind
     if (!c || !c.ok) log(`${id} verify r${round}: verify-collector did not finish cleanup (${c ? c.notes || '' : 'no report'})`)
@@ -703,6 +760,7 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
   if (early.length === 1) {
     if (alongside && heldSoFar) [regression, review] = await parallel([coreRun('regression'), alongside])
     else regression = await coreRun('regression')()
+    checkStop()
   }
   if (plan && !groups.length && !prev) log(`${id} verify r${round}: planner tagged no scenario with a known profile`)
   const next = plan ? { plan, planRound, pending, unavailable, missing: tools.length ? tools : (prev && prev.missing) || [] } : null
@@ -734,10 +792,12 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
     // not finish proves nothing and is recorded as refuted with no refutations
     let row = ledgerRow('verify', round, 'refuted', 0, 0)
     let impl = await run('implementer', { sliceId: id, fixRound: round, evidence }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}` })
+    checkStop()
     if (impl && !impl.green && impl.inconclusive) {
       // a command that never finished proves nothing, so it must not spend a fix round
       log(`${id} r${round}: implementer could not finish a required command; re-running it (no fix round spent)`)
       impl = await run('implementer', { sliceId: id, fixRound: round, evidence, rerun: 'inconclusive' }, { schema: IMPL, phase: 'Implement', label: `${id}:r${round}:rerun` })
+      checkStop()
     }
     if (!impl || !impl.green) {
       evidence = [impl
@@ -749,6 +809,7 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
       let early = null
       if (!(s.risk !== 'low' || counters.verifyDemanded)) {
         early = await reviewPhase(id, round)
+        checkStop()
         log(`${id} review r${round}: ${early.blocking.length} blocking, ${early.seeds.length} seed(s); low-risk, no verify battery`)
         if (early.needsVerify) {
           counters.verifyDemanded = true
@@ -766,6 +827,7 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
         if (!early.needsVerify) return { ok: true, seeds: [...early.seeds, ...verifySeeds], lastEvidence: [] }
       }
       const { votes, lenses, next, review: earlyReview } = await verifyPhase(id, round, prevVerify, reviewFix, early ? () => early : () => reviewPhase(id, round))
+      checkStop()
       prevVerify = next
       reviewFix = false
       // the review that demanded this battery is already in hand; verifyPhase may not have run it alongside
@@ -802,6 +864,7 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
         }
       } else {
         const review = review0 || await reviewPhase(id, round)
+        checkStop()
         log(`${id} review r${round}: ${review.blocking.length} blocking, ${review.seeds.length} seed(s)`)
         if (!review.blocking.length) {
           // the slice is done: the row rides the gate transition persist in sliceAction
@@ -821,7 +884,7 @@ async function buildLoop(id, counters, s = {}, initialEvidence = [], ledger = []
 
 const GATE = {
   type: 'object',
-  properties: { state: { type: 'string', enum: ['pass', 'fail', 'infra'] }, failingTest: str, commit: str, seconds: { type: 'number' }, notes: str },
+  properties: { state: { type: 'string', enum: ['pass', 'fail', 'infra'] }, failingTest: str, commit: str, seconds: { type: 'number' }, notes: str, ...STOP_REQ },
   required: ['state'],
 }
 
@@ -831,6 +894,7 @@ const GATE = {
 async function gatePhase(id, counters, ledger = []) {
   phase('Gate')
   let g = await run('gate', { sliceId: id }, { schema: GATE, phase: 'Gate', label: id })
+  checkStop()
   if (!g) g = { state: 'infra', notes: 'gate agent failed to report' }
   // the gate's own ledger row: a fail carries the real failing test it found (0 when it names none)
   const pushRow = outcome => ledger.push(ledgerRow('gate', 0, outcome,
@@ -864,9 +928,11 @@ async function integrate(id, s, counters, seeds, mode = 'ship') {
   if (mode === 'ship') await testReport(id, 'ship')
   phase('Integrate')
   let r = await run('integrator', { sliceId: id, mode, seeds }, { schema: INTEGRATE, phase: 'Integrate', label: id })
+  checkStop()
   if (r && r.state === 'inconclusive') {
     log(`${id}: final check could not finish (${r.notes || 'no notes'}); re-running the integrator`)
     r = await run('integrator', { sliceId: id, mode, seeds, rerun: 'inconclusive' }, { schema: INTEGRATE, phase: 'Integrate', label: `${id}:rerun` })
+    checkStop()
     // still unfinished: stay in integrate for the next iteration instead of spending a ladder step on an unknown result
     if (r && r.state === 'inconclusive') return `${id} integrate inconclusive: ${r.notes || 'final check did not finish'}`
   }
@@ -882,6 +948,7 @@ async function integrate(id, s, counters, seeds, mode = 'ship') {
 async function testReport(id, mode) {
   phase('Report')
   const r = await run('test-reporter', { sliceId: id, mode }, { schema: OK, phase: 'Report', label: id })
+  checkStop()
   if (!r || !r.ok) log(`${id}: test-reporter did not write REPORT.md (${r ? r.notes || '' : 'no report'})`)
 }
 
@@ -891,10 +958,12 @@ async function parkedRetry(next) {
   if (s.infraDebt) {
     const counters = normalizeCounters(s.counters)
     await run('state-writer', { op: 'unpark', sliceId: next.sliceId }, { schema: OK, effort: 'low', label: next.sliceId })
+    checkStop()
     return sliceAction({ ...next, slice: { ...s, status: 'in_progress', counters } })
   }
   const counters = { ...normalizeCounters(s.counters), planRevisions: 0, fixRounds: 0, ladderStep: 0 }
   await run('state-writer', { op: 'unpark', sliceId: next.sliceId }, { schema: OK, effort: 'low', label: next.sliceId })
+  checkStop()
   return sliceAction({ ...next, slice: { ...s, status: 'in_progress', phase: 'plan', counters } })
 }
 
@@ -913,10 +982,11 @@ const SCENARIO_PLAN = {
     ok: { type: 'boolean' },
     areas: { type: 'array', items: { type: 'object', properties: { id: str, scenarioIds: { type: 'array', items: str } }, required: ['id', 'scenarioIds'] } },
     notes: str,
+    ...STOP_REQ,
   },
   required: ['ok', 'areas'],
 }
-const HARNESS = { type: 'object', properties: { ok: { type: 'boolean' }, channels: { type: 'array', items: str }, notes: str }, required: ['ok'] }
+const HARNESS = { type: 'object', properties: { ok: { type: 'boolean' }, channels: { type: 'array', items: str }, notes: str, ...STOP_REQ }, required: ['ok'] }
 const SCENARIO_RESULTS = {
   type: 'object',
   properties: {
@@ -937,6 +1007,7 @@ const SCENARIO_RESULTS = {
         required: ['scenarioId', 'status', 'evidence'],
       },
     },
+    ...STOP_REQ,
   },
   required: ['results'],
 }
@@ -946,10 +1017,11 @@ const JUDGED = {
     refuted: { type: 'boolean' },
     classification: { type: 'string', enum: ['product-bug', 'test-bug', 'spec-gap', 'out-of-scope', 'flaky'] },
     evidence: str,
+    ...STOP_REQ,
   },
   required: ['refuted', 'evidence'],
 }
-const MS_WRITE = { type: 'object', properties: { ok: { type: 'boolean' }, status: str, attempt: { type: 'number' }, fixSlices: { type: 'array', items: str }, notes: str }, required: ['ok'] }
+const MS_WRITE = { type: 'object', properties: { ok: { type: 'boolean' }, status: str, attempt: { type: 'number' }, fixSlices: { type: 'array', items: str }, notes: str, ...STOP_REQ }, required: ['ok'] }
 const COVERAGE_LENSES = ['spec-coverage', 'adversary', 'observability']
 const COVERAGE_ROUND_LIMIT = 3
 const RUNNER_BATCH = 3
@@ -966,6 +1038,7 @@ function dismissalClass(votes) {
 async function milestonePlan(next) {
   phase('Behavior plan')
   const r = await run('milestone-planner', { reason: next.reason }, { schema: COUNT, phase: 'Behavior plan' })
+  checkStop()
   if (!r) return 'milestone planning aborted: milestone-planner failed'
   return `milestones planned: ${r.added}${r.notes ? ` (${r.notes})` : ''}`
 }
@@ -976,6 +1049,7 @@ async function scenarioPlan(mid, rerun) {
   for (let rev = 0; rev <= COVERAGE_ROUND_LIMIT; rev++) {
     const p = await run('scenario-planner', { milestoneId: mid, revision: rev, rerun, critiques },
       { schema: SCENARIO_PLAN, effort: rerun ? 'low' : undefined, phase: 'Behavior plan', label: `${mid}:r${rev}` })
+    checkStop()
     if (!p || !p.ok || !(p.areas || []).length) {
       critiques = [p ? `scenario-planner reported not ok: ${p.notes || ''}` : 'scenario-planner failed to report']
       continue
@@ -985,6 +1059,7 @@ async function scenarioPlan(mid, rerun) {
     if (rerun || rev === COVERAGE_ROUND_LIMIT) return latest
     const votes = await parallel(COVERAGE_LENSES.map(lens => () =>
       run('coverage-critic', { milestoneId: mid, lens, revision: rev }, { schema: VOTE, phase: 'Behavior plan', label: `${mid}:${lens}` })))
+    checkStop()
     if (allClear(votes)) return latest
     critiques = votes
       .map((v, i) => (!isRefuting(v) ? null : v ? `[${COVERAGE_LENSES[i]}] ${v.evidence}` : `[${COVERAGE_LENSES[i]}] critic failed to report`))
@@ -996,6 +1071,7 @@ async function scenarioPlan(mid, rerun) {
 
 async function writeMilestone(mid, report) {
   const w = await run('milestone-writer', { milestoneId: mid, ...report }, { schema: MS_WRITE, phase: 'Behavior judge', label: mid })
+  checkStop()
   if (!w || !w.ok) return `${mid} ${report.outcome}; milestone-writer did not confirm`
   const fixes = (w.fixSlices || []).length ? `; fix slices ${w.fixSlices.join(', ')}` : ''
   return `${mid} ${w.status || report.outcome} (attempt ${w.attempt || '?'}): ${report.summary}${fixes}`
@@ -1010,6 +1086,7 @@ async function milestoneAction(next) {
   if (!plan) return writeMilestone(mid, { outcome: 'blocked', summary: 'scenario planning failed', results: [], confirmed: [], dismissed: [], unjudged: [], blocked: [] })
   phase('Behavior run')
   const h = await run('e2e-harness', { milestoneId: mid, rerun }, { schema: HARNESS, phase: 'Behavior run', label: mid })
+  checkStop()
   if (!h || !h.ok) {
     return writeMilestone(mid, { outcome: 'blocked', summary: `stack or harness not runnable: ${h ? h.notes || '' : 'e2e-harness failed to report'}`, results: [], confirmed: [], dismissed: [], unjudged: [], blocked: [] })
   }
@@ -1019,6 +1096,7 @@ async function milestoneAction(next) {
     const outs = await parallel(batch.map(a => () =>
       run('scenario-runner', { milestoneId: mid, areaId: a.id, scenarioIds: a.scenarioIds, channels: h.channels || [] },
         { schema: SCENARIO_RESULTS, phase: 'Behavior run', label: `${mid}:${a.id}` })))
+    checkStop()
     outs.forEach((o, i) => {
       if (o) results.push(...(o.results || []))
       else results.push(...batch[i].scenarioIds.map(scenarioId => ({ scenarioId, status: 'blocked', evidence: 'scenario-runner failed to report' })))
@@ -1030,6 +1108,8 @@ async function milestoneAction(next) {
   if (fails.length > FAIL_JUDGE_LIMIT) log(`${mid}: judging ${FAIL_JUDGE_LIMIT} of ${fails.length} failures; the rest carry to the re-run`)
   phase('Behavior judge')
   const judged = await parallel(fails.slice(0, FAIL_JUDGE_LIMIT).map((f, fi) => async () => {
+    // bare site: the inner votes only feed refutedByMajority inside this thunk; the checkStop after
+    // the outer parallel catches the flag before any verdict is counted
     const votes = await parallel([0, 1, 2].map(k => () =>
       run('behavior-judge', { milestoneId: mid, result: f, voter: k }, { schema: JUDGED, phase: 'Behavior judge', label: `${mid}:f${fi}v${k}` })))
     const notes = votes.filter(Boolean).map(v => v.evidence)
@@ -1038,6 +1118,7 @@ async function milestoneAction(next) {
       ? { ...f, verdict: dismissalClass(votes), judgeNotes: notes }
       : { ...f, verdict: 'product-bug', judgeNotes: notes }
   }))
+  checkStop()
   const confirmed = judged.filter(j => j.verdict === 'product-bug')
   const dismissed = judged.filter(j => j.verdict !== 'product-bug')
   const unjudged = fails.slice(FAIL_JUDGE_LIMIT)
@@ -1049,10 +1130,10 @@ async function milestoneAction(next) {
 }
 
 // final audit + livelock
-const AUDIT_PLAN = { type: 'object', properties: { chunks: { type: 'array', items: { type: 'array', items: str } } }, required: ['chunks'] }
+const AUDIT_PLAN = { type: 'object', properties: { chunks: { type: 'array', items: { type: 'array', items: str } }, ...STOP_REQ }, required: ['chunks'] }
 const AUDIT = {
   type: 'object',
-  properties: { refuted: { type: 'array', items: { type: 'object', properties: { id: str, reason: str }, required: ['id', 'reason'] } } },
+  properties: { refuted: { type: 'array', items: { type: 'object', properties: { id: str, reason: str }, required: ['id', 'reason'] } }, ...STOP_REQ },
   required: ['refuted'],
 }
 
@@ -1060,15 +1141,20 @@ async function audit() {
   const P = 'Audit'
   phase(P)
   const plan = await run('audit-planner', {}, { schema: AUDIT_PLAN, effort: 'low', phase: P })
+  checkStop()
   if (!plan) return 'audit aborted: audit-planner failed'
   const perChunk = await pipeline(
     plan.chunks,
+    // bare site: the chunks run concurrently inside the pipeline, so a per-chunk checkStop cannot stop
+    // the others; the one after the pipeline catches the flag before anything is filed
     (ids, _item, i) => parallel([0, 1, 2].map(k => () =>
       run('auditor', { requirementIds: ids, voter: k }, { schema: AUDIT, phase: P, label: `c${i}v${k}` }))),
     (results, ids) => tallyAudit(ids, results))
+  checkStop()
   const refuted = perChunk.filter(Boolean).flat()
   const auditedIds = plan.chunks.flat()
   await run('state-writer', { op: 'audit-result', auditedIds, refuted }, { schema: OK, effort: 'low', phase: P })
+  checkStop()
   return refuted.length
     ? `audit reopened ${refuted.map(r => r.id).join(', ')}`
     : `audit passed (${auditedIds.length} requirements)`
@@ -1076,13 +1162,14 @@ async function audit() {
 
 async function livelock(next) {
   await run('stuck-writer', { reason: next.reason }, { schema: OK, phase: 'Audit' })
+  checkStop()
   return next.summary || next.reason
 }
 
 // bar raiser
 const BR_STATE = {
   type: 'object',
-  properties: { seenKeys: { type: 'array', items: str }, seeds: { type: 'array', items: { type: 'object' } }, dryRounds: { type: 'number' }, rounds: { type: 'number' } },
+  properties: { seenKeys: { type: 'array', items: str }, seeds: { type: 'array', items: { type: 'object' } }, dryRounds: { type: 'number' }, rounds: { type: 'number' }, ...STOP_REQ },
   required: ['seenKeys', 'seeds', 'dryRounds'],
 }
 const IDEAS = {
@@ -1092,6 +1179,7 @@ const IDEAS = {
       type: 'array',
       items: { type: 'object', properties: { key: str, title: str, detail: str, lens: str, file: str, behaviorChange: { type: 'boolean' } }, required: ['key', 'title', 'detail', 'behaviorChange'] },
     },
+    ...STOP_REQ,
   },
   required: ['ideas'],
 }
@@ -1102,6 +1190,7 @@ async function barRaiserRound() {
   const P = 'Bar raiser'
   phase(P)
   const st = await run('barraiser-reader', {}, { schema: BR_STATE, effort: 'low', phase: P })
+  checkStop()
   if (!st) return 'bar raiser aborted: barraiser-reader failed'
   const round = (st.rounds || 0) + 1
   const backlog = st.seeds || []
@@ -1110,6 +1199,7 @@ async function barRaiserRound() {
     ? []
     : await parallel(BAR_LENSES.map(lens => () =>
         run('bar-finder', { lens, seenKeys: st.seenKeys }, { schema: IDEAS, phase: P, label: lens })))
+  checkStop()
   const finderFailed = reports.some(r => !r)
   if (finderFailed) log(`bar raiser: ${reports.filter(r => !r).length} finder(s) failed; this round cannot count as dry`)
   const found = reports.filter(Boolean).flatMap(r => r.ideas || [])
@@ -1120,18 +1210,22 @@ async function barRaiserRound() {
   if (deferred.length) log(`bar raiser: judging ${batch.length} of ${fresh.length} fresh ideas; ${deferred.length} deferred to the next round`)
   const judged = await parallel(batch.map((idea, i) => async () => {
     if (idea.behaviorChange) return { idea, verdict: 'proposal' }
+    // bare site: the inner votes only feed the verdict inside this thunk; the checkStop after the
+    // outer parallel catches the flag before any verdict is counted
     const votes = await parallel([0, 1, 2].map(k => () =>
       run('bar-judge', { idea, voter: k, round }, { schema: VOTE, phase: P, label: `i${i}v${k}` })))
     if (survives(votes)) return { idea, verdict: 'accepted' }
     if (refutedByMajority(votes)) return { idea, verdict: 'rejected' }
     return { idea, verdict: 'unjudged' }
   }))
+  checkStop()
   const verdicts = judged.filter(v => v.verdict !== 'unjudged')
   const unjudged = judged.filter(v => v.verdict === 'unjudged').map(v => v.idea)
   deferred.push(...unjudged)
   const accepted = verdicts.filter(v => v.verdict === 'accepted').length
   const dry = accepted === 0 && deferred.length === 0 && !finderFailed
   const w = await run('barraiser-writer', { verdicts, deferred, dry }, { schema: OK, phase: P })
+  checkStop()
   if (!w || !w.ok) return 'bar raiser: writer failed'
   return `bar raiser: ${found.length} found, ${fresh.length} fresh, ${accepted} accepted${dry ? ' (dry)' : ''}`
 }
@@ -1140,7 +1234,7 @@ async function barRaiserRound() {
 const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milestonePlan, milestone: milestoneAction, audit, livelock, barRaiserRound }
 
 const INTERNALS = {
-  run, persist, hasHeadroom, spent: () => spent, milestoneSpent: () => milestoneSpent, milestoneId: () => milestoneId,
+  run, persist, checkStop, hasHeadroom, spent: () => spent, milestoneSpent: () => milestoneSpent, milestoneId: () => milestoneId,
   tallyVerify, isInfra, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
   PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,
   bootstrap,
@@ -1160,6 +1254,10 @@ async function main() {
     phase('Read state')
     // the decision is computed by next-action.py; the state-reader agent syncs the repo, runs it and relays its answer
     const next = await run('state-reader', { iteration, specPath: A.specPath || null, barRaiserRounds: BAR_RAISER_ROUNDS, mainRoot: A.mainRoot || A.repoRoot || '.', script: `${SKILL_DIR}/next-action.py` }, { schema: NEXT, effort: 'low', phase: 'Read state' })
+    // the reader itself no-ops with stopRequested when it sees the stop file, and run() then reports it
+    // failed-to-report: without this check the run would take the state-reader-failed stall path, and the
+    // driver would keep relaunching into STOP until the stuck limit removed the worktree
+    if (stopHit) return finish('paused', 'stop requested; the last agent finished', history)
     if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
     if (next.action === 'stop') return finish('stopped', next.reason, history)
@@ -1182,7 +1280,15 @@ async function main() {
     }
     const act = ACTIONS[next.action]
     if (!act) return pause(`unknown action: ${next.action}`, history)
-    const outcome = await act(next)
+    // the stop sentinel rides checkStop()'s throw up from wherever the last running agent ended; the
+    // action's own bookkeeping never ran, so the history stays clean and the run resumes there
+    let outcome
+    try {
+      outcome = await act(next)
+    } catch (e) {
+      if (e && e.stop) return finish('paused', 'stop requested; the last agent finished', history)
+      throw e
+    }
     history.push({ action: next.action, sliceId: next.sliceId || null, outcome })
     if (next.action === 'livelock') return finish('livelock', outcome, history)
     const key = `${next.action}|${next.sliceId || next.milestoneId || ''}|${outcome}`

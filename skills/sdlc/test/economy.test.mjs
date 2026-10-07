@@ -325,6 +325,73 @@ test('a parked-at-gate slice resumed via parkedRetry re-runs the gate, not the b
   assert.equal(last.inputs.patch.counters.gateCommit, 'c2')
 })
 
+// ---------- stop = pause after the last running agent (2026-10-07 run-runtime spec, Section 2) ----------
+
+test('a stopRequested implementer pauses the run without spending a fix round', async () => {
+  const written = []
+  const rt = await runMain(happy({
+    implementer: () => ({ stopRequested: true, green: false, notes: 'STOP seen before starting' }),
+    'state-writer': call => { written.push(call); return ok() },
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  assert.match(rt.result.reason, /stop requested/)
+  // nothing at all runs after the implementer: no verifier, no reviewer, no state-write
+  assert.deepEqual(rt.roles(), ['state-reader', 'implementer'])
+  assert.deepEqual(written, [])
+  // the action never completed, so the pause is not a counted iteration (and no fix round was spent)
+  assert.deepEqual(rt.result.iterations, [])
+})
+
+test('an agent already running finishes, the next one does not start', async () => {
+  const written = []
+  const rt = await runMain(happy({
+    implementer: () => ({ green: true, notes: 'all green' }),
+    'verify-planner': () => ({ stopRequested: true, scenarios: [], tools: [], risk: 'high' }),
+    'state-writer': call => { written.push(call); return ok() },
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  // the implementer's result was consumed (it was already running), but no verify or review agent started after it
+  assert.equal(rt.calls.filter(c => c.role === 'implementer').length, 1)
+  // the verify-planner itself finished (it was the running agent); nothing beside or after it started
+  assert.deepEqual(rt.roles().filter(r => r === 'verifier' || r === 'reviewer' || (r.startsWith('verify-') && r !== 'verify-planner')), [])
+  // the persisted state is still what the round began with: no patch with a phase or counters landed
+  const patches = written.filter(c => c.inputs.op === 'patch-slice' && c.inputs.patch && (c.inputs.patch.phase || c.inputs.patch.counters))
+  assert.deepEqual(patches, [])
+})
+
+test('a stopRequested agent deep in a parallel group unwinds cleanly', async () => {
+  const rt = await runMain(happy({
+    'verify-http-api': () => ({ ...clearVote(), cases: 2, passed: 2 }),
+    'verify-security': () => ({ stopRequested: true, refuted: false, evidence: 'STOP seen before starting' }),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  // the fold never happens: no collector files the branches, no regression lens runs after it
+  assert.equal(rt.roles().includes('verify-collector'), false)
+  assert.equal(rt.roles().filter(r => r === 'verifier').length, 1, 'only the spec-fidelity lens already running beside the profiles')
+  assert.deepEqual(rt.result.iterations, [])
+})
+
+test('an iteration-top stop action still ends stopped, not paused', async () => {
+  const rt = await runMain(happy())
+  assert.equal(rt.result.state, 'stopped')
+  assert.doesNotMatch(rt.result.reason, /stop requested/)
+})
+
+test('a stopRequested state-reader pauses instead of stalling into the relaunch loop', async () => {
+  const rt = await runMain(happy({
+    // the reader no-ops because it saw the stop file: its "failed to report" must not read as a stall,
+    // or the driver keeps relaunching into STOP until the stuck limit removes the worktree
+    'state-reader': () => ({ stopRequested: true, action: 'stop', reason: 'STOP seen before starting' }),
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  assert.match(rt.result.reason, /stop requested/)
+  assert.deepEqual(rt.result.iterations, [])
+})
+
 // ---------- lifecycle: the whole slice, plan through integrate ----------
 
 test('lifecycle: a profile refutation promotes into the fix round, the gate commits, the integrator merges', async () => {
