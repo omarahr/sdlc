@@ -710,3 +710,26 @@ test('the schema pins the merge prune and the run request names the moved report
   assert.match(rr, /\.sdlc\/reports\/<id>\/REPORT\.md/)
   assert.doesNotMatch(rr, /\.sdlc\/slices\/<id>\/REPORT\.md/)
 })
+
+test('the README documents the run worktree, the step-boundary pause and the STE rule', () => {
+  const readme = readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
+  // the worktree model: the loop always works in .claude/worktrees/sdlc-run on sdlc/run-<n>,
+  // never in the owner's checkout; removed when the run ends, kept while paused
+  assert.match(readme, /worktree at `\.claude\/worktrees\/sdlc-run`/, 'the run worktree path is missing')
+  assert.match(readme, /branch named `sdlc\/run-<n>`/, 'the run branch name is missing')
+  assert.match(readme, /never works in your checkout/, 'the owner-checkout guarantee is missing')
+  assert.match(readme, /removes the worktree and deletes the run branch/, 'the cleanup when the run ends is missing')
+  assert.match(readme, /paused run keeps its worktree/, 'the pause keeps the worktree is missing')
+  // pause semantics: /sdlc stop pauses after the running agent finishes; no new agent starts
+  const stopRow = readme.split('\n').find(l => l.includes('`/sdlc stop`') && l.trim().startsWith('|'))
+  assert.ok(stopRow, 'the command table has no /sdlc stop row')
+  assert.match(stopRow, /Pause the run.*finishes/, 'the stop row does not state the pause')
+  assert.match(readme, /pauses the run: .{0,120}finishes/, 'the pause wording is missing')
+  assert.match(readme, /no new agent starts/, 'the no-new-agent rule is missing')
+  assert.match(readme, /`\/sdlc <spec>` to resume/, 'the resume path is missing')
+  // the STE note: prompts, loop logs and tracker text follow the style rules, not the word list
+  assert.match(readme, /ASD-STE100/, 'the STE standard is missing')
+  assert.match(readme, /style rules.{0,80}not the licensed word list/, 'the rule-set scope is missing')
+  assert.match(readme, /ste-check\.py/, 'the linter is missing')
+  assert.match(readme, /prompts.{0,40}log lines.{0,60}tracker/, 'the STE scope (prompts, logs, tracker) is missing')
+})
