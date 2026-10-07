@@ -17,6 +17,7 @@ Inputs: `sliceId`, `lens`, `round`.
   - Are tests deterministic (no sleeps, no order dependence, no network)?
   - Is the name of each test honest about what it checks?
   - Are code and tests free of comments? Comments in code or tests are `blocking: true` — the fix is mechanical. Toolchain directives (shebang, linter and type-checker suppressions, license headers the repo already uses) are not comments.
+- A committed test is `blocking: true` when it invokes the repo's test command from inside a test (a nested suite run), asserts on timing without being a timing test — the serial-pass admission: a file joins the serial pass only when it genuinely asserts durations or races, not when it merely logs `Date.now()` — duplicates coverage an existing test already pins, or was committed from verifier evidence (`.sdlc/slices/<id>/verification/`) without a promotion record in tests.md.
 
 `blocking: true` only for:
 - a defect that will cause wrong behavior,

@@ -331,6 +331,20 @@ test('profile agents write their tests as evidence in the main tree, and the col
   assert.doesNotMatch(security, /committed failing test|passing regression tests/)
 })
 
+test('verifier tests promote into the suite only with a demonstrated catch, under a quality bar', () => {
+  const impl = readFileSync(join(SKILL_DIR, 'prompts', 'implementer.md'), 'utf8')
+  assert.match(impl, /## Promotion/, 'the implementer owns the promotion duty for evidence-dir tests')
+  assert.match(impl, /verification\/r<round>\/tests\//)
+  assert.match(impl, /Record promoted files in tests\.md/)
+  const checker = readFileSync(join(SKILL_DIR, 'prompts', 'test-checker.md'), 'utf8')
+  assert.match(checker, /suite-count/)
+  const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
+  const quality = reviewer.slice(reviewer.indexOf('- **Lens `test-quality`'), reviewer.indexOf('`blocking: true` only for'))
+  assert.ok(quality.length > 0, 'the test-quality lens section is missing')
+  assert.match(quality, /serial-pass/)
+  assert.match(quality, /nested/)
+})
+
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
   const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
   assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')
