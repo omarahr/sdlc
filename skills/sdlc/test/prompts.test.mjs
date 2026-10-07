@@ -345,6 +345,46 @@ test('verifier tests promote into the suite only with a demonstrated catch, unde
   assert.match(quality, /nested/)
 })
 
+test('the regression lens holds the suite slot in full scope, and the slice scope survives an impact.py failure', () => {
+  const v = readFileSync(join(SKILL_DIR, 'prompts', 'verifier.md'), 'utf8')
+  // the scope bullets are single lines, so a full-scope rule cannot leak into the slice scope
+  const sliceLine = v.split('\n').find(l => l.startsWith('  - **`slice` scope:**'))
+  const fullLine = v.split('\n').find(l => l.startsWith('  - **`full` scope:**'))
+  assert.ok(sliceLine && fullLine, 'the regression scope bullets are missing')
+  // the full scope holds the suite slot before running the suite, and releases it in every exit path
+  assert.match(fullLine, /Hold the suite slot first: `python3 "<skill>\/suite-receipt\.py" slot --repo \.`/)
+  assert.match(fullLine, /blocks until free/)
+  assert.match(fullLine, /release it with `slot-release` in every exit path/)
+  // a busy slot across attempts means a live orphaned holder, not a crashed one (a crashed holder's
+  // flock dies with the process): one slot-release recovers, and a handover is never re-entered
+  assert.match(fullLine, /an orphaned holder \(a slot process that outlived its run\)/)
+  assert.match(fullLine, /slot-release` once to recover/)
+  assert.match(fullLine, /never re-enter during a handover/)
+  assert.match(fullLine, /do not retry aggressively/)
+  // the mapping is best effort: a failed impact.py never refutes the slice on its own
+  assert.match(sliceLine, /best effort/)
+  assert.match(sliceLine, /a mapping failure alone never refutes the slice/)
+  // the static Inputs line names scope, so the agent reads its scope from its inputs
+  assert.match(v, /Inputs: `sliceId`, `lens`, `round`, `scope`\./)
+  // the spec-fidelity note matches the lens's actual scoping
+  assert.match(v, /The regression lens tests the suite at the slice scope during build rounds and in full at the gate, so do not run it here\./)
+  assert.doesNotMatch(v, /The regression lens runs the full suite, so do not run it here\./)
+  // SKILL.md's phase list places the Gate between the verify group and Integrate
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.match(skill, /full-suite Gate, integrate/)
+  // the gate holds the slot itself, so it skips the lens's slot step rather than re-holding, and an
+  // orphaned holder never stalls it: it releases once and holds again
+  const gate = readFileSync(join(SKILL_DIR, 'prompts', 'gate.md'), 'utf8')
+  const gateStep2 = gate.split('\n').find(l => l.startsWith('2. Hold the suite slot'))
+  const gateStep3 = gate.split('\n').find(l => l.startsWith('3. Run the **full** regression lens'))
+  assert.ok(gateStep2 && gateStep3, 'the gate steps are missing')
+  assert.match(gateStep2, /a previous holder was orphaned/)
+  assert.match(gateStep2, /suite-receipt\.py" slot-release --repo \.` once and hold again/)
+  assert.match(gateStep3, /skipping its slot step/)
+  assert.match(gateStep3, /every other rule there verbatim/)
+  assert.doesNotMatch(gateStep3, /Follow every rule there verbatim/)
+})
+
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
   const planner = readFileSync(join(SKILL_DIR, 'prompts', 'scenario-planner.md'), 'utf8')
   assert.match(planner, /`risk`[\s\S]{0,200}`low`/, 'the planner reads the slices\' risk')
