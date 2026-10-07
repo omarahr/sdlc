@@ -342,4 +342,6 @@ test('the integrator trusts the gate receipt, regates after a product-code CI fi
   // screenshots are embedded from the report's own assets folder, so the links survive the prune
   assert.match(reporter, /!\[<state>\]\(assets\/<file>\.png\)/)
   assert.doesNotMatch(reporter, /verification\/r<n>\/assets/)
+  // and the commit stages the assets too, so the images ship with the slice's PR
+  assert.match(reporter, /git add \.sdlc\/reports\/<id>\/REPORT\.md \.sdlc\/reports\/<id>\/assets/)
 })

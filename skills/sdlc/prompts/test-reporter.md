@@ -88,5 +88,5 @@ Long evidence stays in its file. Link it rather than pasting it. Never paste a w
 
 ## Finish
 - Paths in the report are relative to the report's own folder (`.sdlc/reports/<id>/`), and test references are repo-relative `path:line`.
-- Commit: `git add .sdlc/reports/<id>/REPORT.md && git commit -m "chore(sdlc): test report [<id>]"`.
+- Commit: `git add .sdlc/reports/<id>/REPORT.md .sdlc/reports/<id>/assets && git commit -m "chore(sdlc): test report [<id>]"`.
 - Return `{ok, notes}`. The report never blocks the slice: when a source is missing, write the report with what exists and say what was missing, in the Appendix.
