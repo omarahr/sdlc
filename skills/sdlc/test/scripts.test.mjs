@@ -420,6 +420,73 @@ test('stack mode finds the milestone that owns the slice, not the first one', op
   assert.equal(git(repo, 'branch', '--list', 'sdlc/M-1').trim(), '')
 })
 
+// ---------- suite slot ----------
+// The gate holds the suite slot for the whole of a full-suite run, so two agents on one repo never
+// interleave two full suites. The holder here is a real background process the way the gate's is, and
+// the probe (--timeout 0) is the non-blocking way everything else asks about the slot.
+const slotProbe = (repo, ...args) => spawnSync('python3', [RECEIPT, 'slot', '--repo', repo, ...args], { encoding: 'utf8' })
+// the holder prints one line the moment it has the slot, so the test waits for that rather than sleeping.
+// The backstop kills a holder that never acquires, so a blocked acquire path cannot hang the suite
+const holdSlot = repo => new Promise((resolve, reject) => {
+  const p = spawn('python3', [RECEIPT, 'slot', '--repo', repo], { stdio: ['ignore', 'pipe', 'pipe'] })
+  const backstop = setTimeout(() => p.kill('SIGKILL'), 5000)
+  let out = '', err = ''
+  p.stdout.on('data', c => { out += c; if (out.includes('\n')) { clearTimeout(backstop); resolve({ p, line: out.split('\n')[0] }) } })
+  p.stderr.on('data', c => { err += c })
+  p.on('exit', () => { clearTimeout(backstop); reject(new Error(`the slot holder exited before it held the slot: ${out}${err}`)) })
+})
+// the holder's exit, with a kill so a holder that never notices its release cannot hang the suite
+const holderExit = p => new Promise(resolve => {
+  const t = setTimeout(() => p.kill('SIGKILL'), 5000)
+  p.once('exit', code => { clearTimeout(t); resolve(code) })
+})
+
+test('the suite slot is exclusive, and slot-release frees it from another process', opts, async () => {
+  const repo = fixture({ slices: [slice('S-001')] })
+  const { p: holder, line } = await holdSlot(repo)
+  try {
+    assert.deepEqual(JSON.parse(line), { ok: true, held: true })
+    assert.equal(existsSync(join(repo, '.sdlc', 'suite.lock')), true)
+
+    // while it is held: the probe exits 1, and its JSON names no lock file
+    const busy = slotProbe(repo, '--timeout', '0')
+    assert.equal(busy.status, 1)
+    assert.deepEqual(JSON.parse(busy.stdout.trim()), { ok: false, busy: true })
+    assert.doesNotMatch(busy.stdout, /suite\.lock/)
+    // and a bounded wait gives up within its budget rather than hanging behind the holder
+    const t0 = Date.now()
+    const timed = slotProbe(repo, '--timeout', '0.2')
+    assert.equal(timed.status, 1)
+    assert.ok(Date.now() - t0 >= 50, 'the bounded wait did not wait at all')
+    assert.ok(Date.now() - t0 < 2000, 'the bounded wait outlived its timeout')
+
+    // slot-release, run from this process rather than the holder's, frees the slot
+    const rel = call(RECEIPT, repo, ['slot-release'])
+    assert.equal(rel.code, 0)
+    assert.deepEqual([rel.out.ok, rel.out.released], [true, true])
+    const free = slotProbe(repo, '--timeout', '0')
+    assert.equal(free.status, 0, free.stderr)
+    assert.deepEqual(JSON.parse(free.stdout.trim()), { ok: true, busy: false })
+
+    // and the holder noticed the release and exited on its own, so nothing is left holding
+    assert.equal(await holderExit(holder), 0)
+  } finally {
+    holder.kill()
+  }
+})
+
+test('the suite slot is self-healing: it works without .sdlc and after a killed holder', opts, async () => {
+  const repo = scratch('sdlc-slot-')
+  // releasing a slot nobody ever took answers rather than failing
+  assert.deepEqual(call(RECEIPT, repo, ['slot-release']).out, { ok: true, released: false })
+  const { p: holder } = await holdSlot(repo)
+  assert.equal(existsSync(join(repo, '.sdlc', 'suite.lock')), true, 'slot did not create .sdlc/')
+  holder.kill('SIGKILL')
+  await holderExit(holder)
+  // the killed holder's lock died with it, so the slot is free again despite the leftover file
+  assert.equal(slotProbe(repo, '--timeout', '0').status, 0)
+})
+
 test('stack mode aborts a conflicting merge of the default branch into the run branch', opts, () => {
   const repo = fixture({
     config: { gitMode: 'stack', defaultBranch: 'main', runBranch: 'sdlc/run-1' },
