@@ -20,11 +20,11 @@ Do not work it out yourself from `gitMode` or from a git command. `gitMode` does
 2. **Archive the current attempt:** if branch `sdlc/<id>` exists:
    - commit any uncommitted work on it as "wip before <action>",
    - rename it `sdlc/<id>-attempt-<n>`, where n is the next free number,
-   - `git checkout <baseBranch>`. In `stack` mode the default branch is never committed to.
+   - Get the worktree to a safe branch before the actions. In `direct` and `pr` mode run `git checkout sdlc/run-<n>`: `<baseBranch>` is `<defaultBranch>` there, and the owner's checkout holds it. In `stack` and `mr` mode run `git checkout <baseBranch>`. In `stack` mode the default branch is never committed to.
 
-**Default-branch commits keep the write-up (I2):** before any **default-branch commit** below, copy the slice's recorded files from the archived branch: `git checkout sdlc/<id>-attempt-<n> -- .sdlc/slices/<id> .sdlc/DECISIONS.md .sdlc/SPEC-PROPOSALS.md`. Do this **after** the checkout in step 2. The files then sit on the branch the run commits to. Without this, parked retries and STUCK.md would read an empty failures.md.
+**Default-branch commits keep the write-up (I2):** before any **default-branch commit** below, copy the slice's recorded files from the archived branch: `git checkout sdlc/<id>-attempt-<n> -- .sdlc/slices/<id> .sdlc/DECISIONS.md .sdlc/SPEC-PROPOSALS.md`. Do this **after** the checkout in step 2. The copy stages the files; the **default-branch commit** below then puts them on `<baseBranch>`. Without this, parked retries and STUCK.md would read an empty failures.md.
 
-Every **default-branch commit** below lands on `<baseBranch>`, the branch checked out in step 2.
+Every **default-branch commit** below lands on `<baseBranch>`: the **default-branch commit** procedure in commit-state.md puts it there, whatever branch HEAD is on. The checkout in step 2 gets the worktree to a safe branch before the actions.
 
 **Actions:**
 - **replan:**

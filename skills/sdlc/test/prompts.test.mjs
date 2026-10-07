@@ -414,6 +414,20 @@ test('the escalator and force-park ask for the branch rather than naming it, and
   assert.match(w, /after\*\* renaming, and after checking the branch out/)
 })
 
+test('the escalator returns to the run branch in direct and pr mode, and never checks out the default branch', () => {
+  const e = readFileSync(join(SKILL_DIR, 'prompts', 'escalator.md'), 'utf8')
+  // ruling B of the final re-review: in direct and pr mode `<baseBranch>` is `<defaultBranch>`, a branch
+  // the owner's checkout holds — git refuses that checkout from the run worktree, and every escalator
+  // action then fails at its archive step. The archive step moves the worktree to a safe branch instead.
+  assert.match(e, /In `direct` and `pr` mode run `git checkout sdlc\/run-<n>`/)
+  // stack and mr keep the named checkout: there the run worktree may hold `<baseBranch>`
+  assert.match(e, /In `stack` and `mr` mode run `git checkout <baseBranch>`/)
+  // the run branch is never spelled as the default branch (the spirit of the milestone-writer pin)
+  assert.doesNotMatch(e, /git checkout <defaultBranch>/)
+  // the commit procedure owns where the commits land, not the checkout in step 2
+  assert.doesNotMatch(e, /the branch checked out in step 2/)
+})
+
 test('every agent writes comment-free code in the target repo, and its prose in STE', () => {
   const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
   assert.match(common, /[Nn]o comments in (the )?(code|target)/, 'the no-comments rule')
