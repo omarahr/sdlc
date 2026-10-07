@@ -23,7 +23,7 @@ test('bootstrap runs env, extractor, three critics per round until a dry round, 
     [0, 'statements'], [0, 'structures'], [0, 'cross-cutting'], [1, 'statements'], [1, 'structures'], [1, 'cross-cutting'],
   ])
   assert.equal(rt.calls.find(c => c.role === 'state-writer').inputs.op, 'bootstrap-complete')
-  assert.deepEqual(rt.calls.find(c => c.role === 'env-detector').inputs, { specPath: 'docs/spec.md', gitMode: 'direct', commitFormat: null })
+  assert.deepEqual(rt.calls.find(c => c.role === 'env-detector').inputs, { specPath: 'docs/spec.md', gitMode: 'direct', commitFormat: null, defaultBranch: '' })
   assert.match(rt.result.iterations[0].outcome, /8 extracted.*2 critic rounds.*3 slices/)
 })
 
@@ -50,8 +50,22 @@ test('bootstrap passes mr mode and the commit format to the env-detector, whose 
     'state-writer': () => ok(),
   }), { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
   const env = rt.calls.find(c => c.role === 'env-detector')
-  assert.deepEqual(env.inputs, { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}' })
+  assert.deepEqual(env.inputs, { specPath: 'docs/spec.md', gitMode: 'mr', commitFormat: '{type}: [PROJ-123] {subject}', defaultBranch: '' })
   assert.deepEqual(env.opts.schema.properties.gitMode.enum, ['pr', 'direct', 'mr', 'stack'])
+})
+
+test('the env-detector vars carry the driver-resolved defaultBranch, empty when the driver had none', async () => {
+  // in the run worktree the current branch is sdlc/run-<n>, so the input — not the worktree's branch —
+  // is what keeps the direct-mode push target from being corrupted
+  const rt = await runMain(scripted({
+    'state-reader': reader(),
+    'env-detector': [{ gitMode: 'direct', commands: {} }],
+    'requirements-extractor': [{ added: 1 }],
+    'completeness-critic': () => ({ added: 0 }),
+    slicer: [{ added: 1 }],
+    'state-writer': () => ok(),
+  }), { specPath: 'docs/spec.md', gitMode: 'direct', defaultBranch: 'trunk' })
+  assert.equal(rt.calls.find(c => c.role === 'env-detector').inputs.defaultBranch, 'trunk')
 })
 
 test('critic that never goes dry is capped and the cap is logged', async () => {

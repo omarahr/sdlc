@@ -566,10 +566,11 @@ test('pr, direct and mr mode are untouched by the stack arm', opts, () => {
   }
 })
 
-test('direct and mr mode never pull the default branch, unlike pr mode', opts, () => {
-  for (const mode of ['direct', 'mr']) {
-    // the pr arm checks out the default branch and pulls it; direct and mr must not, or a slice would
-    // silently be built on a default branch that moved without the run saying so
+test('direct mode cuts from the fetched default-branch tip, mr from the local ref; neither moves the local branch', opts, () => {
+  for (const [mode, fromRemote] of [['direct', true], ['mr', false]]) {
+    // Ruling A: the local default branch belongs to the owner's checkout and the run never advances it,
+    // so no arm may pull or check it out. Direct mode with a remote builds on the fetched tip instead;
+    // mr's defaultBranch is the run's own working branch, so its local ref is the truth.
     const repo = fixture({
       config: { gitMode: mode, defaultBranch: 'main', runBranch: '' },
       slices: [slice('S-001')],
@@ -579,10 +580,63 @@ test('direct and mr mode never pull the default branch, unlike pr mode', opts, (
     const pub = publisher(remotes.get(repo))
     pushFile(pub, 'src/app.txt', 'v2\n', 'main moved')
     assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' }).code, 0)
-    // the local default branch is left exactly where it was, and the slice starts from that tip
+    // the local default branch is left exactly where it was, in both modes
     assert.equal(git(repo, 'rev-parse', 'main'), local, `${mode} mode moved the local default branch`)
-    assert.equal(git(repo, 'rev-parse', 'sdlc/S-001^'), local, `${mode} mode cut the slice from a pulled default branch`)
+    assert.equal(git(repo, 'rev-parse', 'sdlc/S-001^'),
+      fromRemote ? git(repo, 'rev-parse', 'origin/main') : local,
+      `${mode} mode cut the slice from the wrong tip`)
   }
+})
+
+test('direct mode with a remote cuts the slice from origin/<defaultBranch> and keeps the committed state', opts, () => {
+  // The verified failure (final review, finding 3): a run with a remote never advances the local ref, so
+  // `git checkout -b sdlc/S-001 main` switched to the pre-run tree and DELETED the committed .sdlc/ state
+  // from the working tree; patch_slice then failed and every slice developed against pre-run code.
+  const repo = fixture({ config: { gitMode: 'direct', defaultBranch: 'main', runBranch: '' }, slices: [slice('S-001')], remote: true })
+  // the run's own branch, as a run worktree holds it; the owner's checkout keeps main elsewhere
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  const owner = scratch('sdlc-wt-')
+  git(repo, 'worktree', 'add', '-q', owner, 'main')
+  // a state push moved origin/main past the local ref, the way every state commit in direct mode does
+  const pub = publisher(remotes.get(repo))
+  const pushed = [slice('S-001')]
+  pushed[0].title = 'Slice S-001 (state push)'
+  pushFile(pub, join('.sdlc', 'slices.json'), JSON.stringify(pushed, null, 2), 'state push')
+  git(repo, 'fetch', '-q', 'origin')
+  assert.notEqual(git(repo, 'rev-parse', 'origin/main'), git(repo, 'rev-parse', 'main'),
+    'the local ref is not stale, so this is not the world the finding pins')
+  const localMain = git(repo, 'rev-parse', 'main')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' }).code, 0)
+  // the cut came from the fetched tip, never from the stale local ref
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-001^'), git(repo, 'rev-parse', 'origin/main'))
+  // the committed state survived the cut, and the patch landed on top of it
+  assert.equal(existsSync(join(repo, '.sdlc', 'config.json')), true)
+  assert.equal(existsSync(join(repo, '.sdlc', 'slices.json')), true)
+  assert.equal(json(repo, 'slices.json')[0].status, 'in_progress')
+  // and the owner's ref was never touched
+  assert.equal(git(repo, 'rev-parse', 'main'), localMain)
+  // no upstream: a bare push on the slice branch must not be able to fast-forward the default branch
+  let tracked = ''
+  try { tracked = execFileSync('git', ['-C', repo, 'config', '--get-all', 'branch.sdlc/S-001.merge'], { encoding: 'utf8' }) } catch { /* unset */ }
+  assert.equal(tracked.trim(), '', 'the slice branch tracks origin/<defaultBranch>, so a bare push could ship it unreviewed')
+})
+
+test('pr mode with a remote cuts the slice from origin/<defaultBranch> without checking the branch out', opts, () => {
+  // The pr arm used to check the default branch out to pull it, which a run worktree cannot do (the
+  // owner's checkout holds the branch) and which ruling A forbids anyway.
+  const repo = fixture({ config: { gitMode: 'pr', defaultBranch: 'main', runBranch: '' }, slices: [slice('S-001')], remote: true })
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  const owner = scratch('sdlc-wt-')
+  git(repo, 'worktree', 'add', '-q', owner, 'main')
+  const pub = publisher(remotes.get(repo))
+  pushFile(pub, 'src/app.txt', 'v2\n', 'main moved')
+  git(repo, 'fetch', '-q', 'origin')
+  assert.notEqual(git(repo, 'rev-parse', 'origin/main'), git(repo, 'rev-parse', 'main'),
+    'the local ref is not stale, so this is not the world the finding pins')
+  const localMain = git(repo, 'rev-parse', 'main')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'sdlc/S-001^'), git(repo, 'rev-parse', 'origin/main'))
+  assert.equal(git(repo, 'rev-parse', 'main'), localMain)
 })
 
 test('a dependency whose branch exists but which is not awaiting merge is not used as a base', opts, () => {
@@ -1691,4 +1745,69 @@ test('the janitor notes missing or unreadable state instead of deleting, and sti
   const out2 = JSON.parse(r2.stdout)
   assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), 'sdlc/S-001-v1', 'an unparseable ledger deleted a branch')
   assert.match(out2.notes.join(' '), /slices\.json/)
+})
+
+// ---------- ste-check ----------
+// The STE linter the prompts answer to. One clean line and one dirty line per rule ste-style.md
+// states, plus the exemptions the prompts rely on — and the rule-source files themselves must pass,
+// since they are written in the style they define.
+const STE_CHECK = join(SKILL_DIR, 'ste-check.py')
+const runSteCheck = (...files) => spawnSync('python3', [STE_CHECK, ...files], { encoding: 'utf8' })
+const steSample = (name, text) => {
+  const file = join(scratch('sdlc-ste-'), name)
+  writeFileSync(file, text)
+  return file
+}
+
+test('ste-check passes the rule sources it gates', opts, () => {
+  const r = runSteCheck(join(SKILL_DIR, 'prompts', 'ste-style.md'), join(SKILL_DIR, 'prompts', '_common.md'))
+  assert.equal(r.status, 0, r.stdout)
+})
+
+test('ste-check prints one file:line: rule — text line per violation and exits 1', opts, () => {
+  const line = 'Run the tests, check the result, commit the branch.'
+  const file = steSample('dirty.md', `${line}\n`)
+  const r = runSteCheck(file)
+  assert.equal(r.status, 1)
+  assert.deepEqual(r.stdout.trim().split('\n'), [`${file}:1: multi-clause — ${line}`])
+})
+
+test('ste-check keeps the exempt lines clean', opts, () => {
+  const clean = steSample('clean.md', [
+    'Run the tests.',
+    'The suite ran twice today.',
+    'Adjust the value, then read the file again.',
+    'The SDLC records every ADR in the decisions file.',
+    'Never create or switch branches, commit, push or restart anything.',
+    'The command `Run it! Please just make sure it is GREAT` stays unflagged.',
+    'The <MAINROOT> input names the owner checkout.',
+    '<summary>Case detail (n cases)</summary>',
+    '<patch as JSON>',
+    '# The heading SHOUTS and that is fine',
+    '| Column | OTHER |',
+    '```',
+    'RUN EVERYTHING! please just make sure it is GREAT',
+    '```',
+    '',
+  ].join('\n'))
+  const r = runSteCheck(clean)
+  assert.equal(r.status, 0, r.stdout)
+})
+
+test('ste-check flags each rule on its own line', opts, () => {
+  const cases = [
+    ['long-sentence', 'Send the report to the reviewer and the planner and the auditor and the gate and the tracker and the bar judge today.'],
+    ['exclamation', 'Report the result now!'],
+    ['all-caps', 'Never ship the API key in THIS file.'],
+    ['all-caps', 'Read <WHOOSIS> from your inputs.'],
+    ['all-caps', '<skill> THIS line opens with a raw placeholder.'],
+    ['banned-word', 'Please run the suite.'],
+    ['multi-clause', 'Run the tests, check the result, commit the branch.'],
+  ]
+  for (const [rule, line] of cases) {
+    const file = steSample('dirty.md', `${line}\n`)
+    const r = runSteCheck(file)
+    assert.equal(r.status, 1, `${rule}: ${r.stdout}`)
+    assert.deepEqual(r.stdout.trim().split('\n'), [`${file}:1: ${rule} — ${line}`], rule)
+  }
 })

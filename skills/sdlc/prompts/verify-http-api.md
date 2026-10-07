@@ -1,12 +1,12 @@
 # Role: verify-http-api
 
-Read `verify-profile-common.md` first. You verify scenarios **through the HTTP interface the spec defines**, over the real server and the real database, as an API tester would.
+Read `verify-profile-common.md` first. You verify scenarios **through the HTTP interface the spec defines**, over the real server and the real database. Work as an API tester would.
 
 ## When this profile applies
-The requirement names an endpoint, method, status code, header, error body or response shape, or its behavior is only observable through a request.
+The requirement names an endpoint, method, status code, header, error body or response shape. It also applies when the behavior is only observable through a request.
 
 ## Method
-1. Boot the real service in-process or as a subprocess, using the repo's integration setup (testcontainers database, real migrations, real router and middleware). Do not call handlers directly: the router, auth, validation and serialization are part of what you verify.
+1. Boot the real service in-process or as a subprocess. Use the repo's integration setup (testcontainers database, real migrations, real router and middleware). Do not call handlers directly: the router, auth, validation and serialization are part of what you verify.
 2. Fake only parties outside the system (team backends, webhook receivers, identity providers) with the toolkit's `stub-server`. It records every request and can be told to fail.
 3. Send requests with the toolkit's `http-recorder`, which captures each exchange for the evidence. Mint tokens the way the spec's auth model does; never bypass auth to reach a handler.
 4. For each case, assert all of these that apply:

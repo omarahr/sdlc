@@ -7,8 +7,8 @@ Two actors can touch the same resource at the same time and the spec says what m
 
 ## Method
 1. Name the invariant first, in one sentence, and cite its spec source. For example: "exactly one submission row per idempotency key".
-2. Force the interleaving rather than hoping for it. Use the toolkit's `race-runner`: start N actors behind a barrier so they release together, and where you can reach a hook point, pause one actor between its read and its write (a transaction hook, or a stub that holds a response).
-3. Repeat. Run each case many times (at least 200 iterations, or a duration bound) with the language's race detector on (`go test -race`, `--detect-async-leaks` or the equivalent), and record how many iterations ran.
+2. Force the interleaving rather than hoping for it. Use the toolkit's `race-runner`. Start N actors behind a barrier so they release together. Where you can reach a hook point, pause one actor between its reading and its writing. Use a transaction hook, or a stub that holds a response.
+3. Repeat. Run each case many times (at least 200 iterations, or a duration bound). Run it with the language's race detector on (`go test -race`, `--detect-async-leaks` or the equivalent). Record how many iterations ran.
 4. Assert the invariant against the database, not against in-memory results.
 
 ## Corners

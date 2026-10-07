@@ -3,7 +3,7 @@
 
 The state-reader agent runs this and returns its answer unchanged. Python 3, standard library only.
 
-    python3 next-action.py --repo <repo> [--spec <path>] [--bar-raiser-rounds N] [--prs <file>]
+    python3 next-action.py --repo <repo> [--main-root <dir>] [--spec <path>] [--bar-raiser-rounds N] [--prs <file>]
 
 It prints one JSON object:
   {"sync": ["<shell command>", ...]}       run these in the repo, then run this script again
@@ -19,6 +19,8 @@ Checks run in this order, and the first that matches wins:
 Anything the state cannot explain is the action "error", which the workflow treats as a run without progress.
 
 --prs takes {"open": [...], "merged": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).
+--main-root names the checkout that owns the run: the stop check reads <main-root>/.sdlc/STOP, so a run
+in a worktree stops on the owner's stop file. Without it, the stop check reads <repo>/.sdlc/STOP.
 """
 import argparse
 import hashlib
@@ -237,18 +239,29 @@ def slim_slice(s):
     return out
 
 
-def decide(repo, spec_arg, bar_rounds, prs_file):
+def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
     wt = Source(repo)
     sdlc = ".sdlc"
 
     # A. stop
-    if os.path.exists(os.path.join(repo, sdlc, "STOP")):
+    repo_for_stop = main_root or repo
+    if os.path.exists(os.path.join(repo_for_stop, sdlc, "STOP")):
         return {"next": {"action": "stop", "reason": "A: .sdlc/STOP exists"}}
 
     current = current_branch(repo)
     config = wt.json(f"{sdlc}/config.json")
     default = (config or {}).get("defaultBranch") or current
     base = wt if (not current or current == default) else Source(repo, default)
+    if base.branch and current != default and (config or {}).get("gitMode") in ("pr", "direct"):
+        # Ruling A: with a remote, the default branch's tip lives on origin/<defaultBranch> and the local
+        # ref belongs to the owner's checkout — the run never advances it, so it goes stale mid-run and the
+        # state the run pushed is read from the tracking ref instead. Stack mode stays on the local ref:
+        # its state rides the milestone branches, and when the default branch cannot answer for the run the
+        # decision falls back to the worktree, which a tracking ref holding an older run's state would cut
+        # off. `mr` stays too: its defaultBranch is the run's own working branch.
+        tracked, _ = run(repo, "git", "rev-parse", "-q", "--verify", f"refs/remotes/origin/{default}")
+        if tracked:
+            base = Source(repo, f"origin/{default}")
     if base.branch and base.read(f"{sdlc}/config.json") is None:
         base = wt
     config = base.json(f"{sdlc}/config.json")
@@ -273,14 +286,23 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
         ready = [p for p in state_prs + e2e_prs if pr_ready(p)]
         sync = [f"gh pr merge {p['number']} --squash --delete-branch" for p in ready]
         behind = False
-        if not prs_file:
+        if not prs_file and current == default:
+            # The behind round asks whether the local default branch can fast-forward to its remote tip, and
+            # answers by pulling. That is only sound where this checkout holds the branch: in a run worktree
+            # the current branch is the run branch, the local ref belongs to the owner's checkout, and a
+            # fetch can never move it — the refspec fetch that used to close this gap is refused there, and
+            # an always-true behind would loop to the error. The worktree world reads origin/<defaultBranch>
+            # directly (the base resolution above), so it needs no behind round; the plain fetch in the sync
+            # list below is what brings a merged pull request into that read.
             ok_l, local = run(repo, "git", "rev-parse", default)
             ok_r, remote = run(repo, "git", "rev-parse", f"origin/{default}")
             if ok_l and ok_r and local.strip() != remote.strip():
                 behind = run(repo, "git", "merge-base", "--is-ancestor", default, f"origin/{default}")[0]
         if sync or behind:
-            # fast-forward the default branch without leaving a slice branch that is checked out
-            sync.append(f"git pull --ff-only origin {default}" if current == default else f"git fetch origin {default}:{default}")
+            # the plain fetch, with no refspec: it updates the origin/<defaultBranch> tracking ref the
+            # decision reads. The old `fetch origin <d>:<d>` form advances the local branch, which is
+            # refused in a run worktree because the owner's checkout holds that branch.
+            sync.append(f"git pull --ff-only origin {default}" if current == default else f"git fetch origin {default}")
             return {"sync": sync}
         blocked = [p for p in state_prs if not pr_ready(p)]
         if blocked:
@@ -465,6 +487,7 @@ def decide(repo, spec_arg, bar_rounds, prs_file):
 def main():
     ap = argparse.ArgumentParser(description="Decide the next sdlc-loop action from .sdlc/ state")
     ap.add_argument("--repo", required=True)
+    ap.add_argument("--main-root", default=None)
     ap.add_argument("--spec", default=None)
     ap.add_argument("--bar-raiser-rounds", type=int, default=0)
     ap.add_argument("--prs", default=None)
@@ -472,7 +495,13 @@ def main():
     try:
         if GIT_MODES_ERROR:
             raise StateError(GIT_MODES_ERROR)
-        result = decide(os.path.abspath(a.repo), a.spec, a.bar_raiser_rounds, a.prs)
+        result = decide(
+            os.path.abspath(a.repo),
+            a.spec,
+            a.bar_raiser_rounds,
+            a.prs,
+            os.path.abspath(a.main_root) if a.main_root else None,
+        )
     except StateError as e:
         result = {"next": {"action": "error", "reason": str(e)}}
     except Exception as e:  # a crash must reach the workflow as an answer, never as silence

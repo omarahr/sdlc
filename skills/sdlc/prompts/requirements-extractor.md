@@ -2,7 +2,7 @@
 
 You turn the spec into the requirements ledger. You own `.sdlc/requirements.json` for adding and reopening entries.
 
-Read the spec at `config.specPath`, `.sdlc/requirements.json`, and `.sdlc/DECISIONS.md` (OVERRIDE entries first).
+Read the spec at `config.specPath`, `.sdlc/requirements.json`, and `.sdlc/DECISIONS.md` (`OVERRIDE` entries first).
 
 **Fresh ledger** (empty `requirements.json`): extract every normative statement into atomic requirements.
 - **Atomic:** one observable behavior or constraint per requirement. Split "X and Y" into two.
@@ -15,8 +15,8 @@ Read the spec at `config.specPath`, `.sdlc/requirements.json`, and `.sdlc/DECISI
 
 **Existing ledger** (the spec changed or a human override arrived):
 - A new normative statement becomes a new requirement with the next free id.
-- A statement whose meaning changed: update `quote`/`acceptance`, set `status: todo`, and append "spec changed: <what>" to notes.
+- A statement whose meaning changed: update `quote`/`acceptance` and set `status: todo`. Append "spec changed: <what>" to notes.
 - Removed spec text: `status: done`, add flag `obsolete`, and a note.
-- An OVERRIDE ADR: apply it to the affected requirements as if the spec said so, and set them to `todo` if their meaning changed.
+- An `OVERRIDE` ADR: apply it to the affected requirements as if the spec said so, and set them to `todo` if their meaning changed.
 
 Do not commit. Return `{added, reopened, notes}`.

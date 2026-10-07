@@ -360,7 +360,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
   let NOW = () => Date.now();
   function ago(d) {
     const m = Math.round((NOW() - d.getTime()) / 60000);
-    if (m < 1) return "just now";
+    if (m < 1) return "now";
     if (m < 60) return m + " min ago";
     return Math.floor(m / 60) + " h " + (m % 60) + " min ago";
   }

@@ -41,8 +41,9 @@ function fixture(files = {}, { gitMode = 'direct', config = {} } = {}) {
   return repo
 }
 
-function decide(repo, { rounds = 0, prs = null } = {}) {
+function decide(repo, { rounds = 0, prs = null, mainRoot = null } = {}) {
   const args = [SCRIPT, '--repo', repo, '--bar-raiser-rounds', String(rounds)]
+  if (mainRoot) args.push('--main-root', mainRoot)
   if (prs) {
     const f = join(repo, 'prs.json')
     writeFileSync(f, JSON.stringify({ open: [], merged: [], ...prs }))
@@ -59,6 +60,15 @@ test('A: a STOP file wins over everything, even a missing config', opts, () => {
   assert.equal(next(repo).action, 'stop')
 })
 
+test('A: the stop probe resolves at the main root when --main-root is given, at the repo otherwise', opts, () => {
+  // a run in a second checkout (a worktree): the owner's .sdlc/STOP stops it, its own does not
+  const main = fixture({ STOP: '' })
+  const wt = fixture({})
+  assert.equal(next(wt, { mainRoot: main }).action, 'stop')
+  // without the flag, behavior is exactly as it was: the repo's own .sdlc decides, and it has no STOP
+  assert.notEqual(next(wt).action, 'stop')
+})
+
 test('A: bootstrap when the config is missing, the spec changed, or an override was added', opts, () => {
   assert.match(next(fixture({ 'config.json': null })).reason, /config\.json is missing/)
   const changed = next(fixture({}, { config: { specHash: 'old' } }))
@@ -73,7 +83,8 @@ test('A: in pr mode a ready state PR is merged first, and one that is not ready 
   const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: 'pr' })
   const ready = decide(repo, { prs: { open: [pr('sdlc/state-20260101', { number: 12 }), pr('sdlc/M-1-e2e', { number: 13 })] } })
   assert.deepEqual(ready.sync.slice(0, 2), ['gh pr merge 12 --squash --delete-branch', 'gh pr merge 13 --squash --delete-branch'])
-  assert.match(ready.sync[2], /^git (pull --ff-only origin main|fetch origin main:main)$/)
+  assert.match(ready.sync[2], /^git (pull --ff-only origin main|fetch origin main)$/,
+    'the refspec fetch (fetch origin main:main) is refused in a run worktree, where the owner\'s checkout holds main')
   const blocked = next(repo, { prs: { open: [pr('sdlc/state-20260101', { reviewDecision: 'REVIEW_REQUIRED' })] } })
   assert.equal(blocked.action, 'wait')
   // an e2e PR that is not ready never blocks slices
@@ -254,6 +265,63 @@ test('the ledger hash matches the jq command in state-schema.md', opts, t => {
 function git(repo, ...args) {
   return execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@example.test', '-c', 'commit.gpgsign=false', ...args], { cwd: repo, encoding: 'utf8' })
 }
+
+// the worktree world a run lives in: the repo under test is the run worktree on `sdlc/run-<n>`, the
+// default branch is checked out in a second worktree (the owner's checkout), and a remote holds the
+// default branch's tip. Returns { repo, bare } so a test can move origin/<defaultBranch> like a merge would.
+function worktreeWorld(gitMode, files = {}) {
+  const repo = fixture({ ...files }, { gitMode })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  const bare = scratch('sdlc-remote-')
+  git(bare, 'init', '-q', '--bare', '-b', 'main')
+  git(repo, 'remote', 'add', 'origin', bare)
+  git(repo, 'push', '-q', '-u', 'origin', 'main')
+  git(repo, 'checkout', '-q', '-b', 'sdlc/run-1')
+  const owner = scratch('sdlc-owner-')
+  git(repo, 'worktree', 'add', '-q', owner, 'main')
+  return { repo, bare }
+}
+
+test('worktree world: a stale local default ref triggers no sync, and the decision reads origin/<defaultBranch>', opts, () => {
+  // Ruling A: the run never advances or reads the local <defaultBranch> ref — the owner's checkout holds
+  // it, and after the first merge it is stale. The state the run pushed lives on origin/<defaultBranch>,
+  // so a stale local ref neither triggers a sync round nor feeds the decision.
+  const { repo, bare } = worktreeWorld('pr')
+  // a merged state PR moved origin/main past the local ref: S-1 awaits merge on the remote tip only
+  const pub = scratch('sdlc-pub-')
+  execFileSync('git', ['clone', '-q', bare, pub])
+  writeFileSync(join(pub, '.sdlc', 'slices.json'), JSON.stringify([slice('S-1', 'awaiting-merge', { pr: 'u' })]))
+  git(pub, 'add', '-A')
+  git(pub, 'commit', '-q', '-m', 'state S-1')
+  git(pub, 'push', '-q', 'origin', 'main')
+  git(repo, 'fetch', '-q', 'origin')
+  const localMain = git(repo, 'rev-parse', 'main')
+  const d = decide(repo, { prs: { merged: [{ number: 4, headRefName: 'sdlc/S-1', url: 'https://example.test/pr/4' }] } })
+  assert.equal(d.sync, undefined, 'a stale local default ref must not trigger a sync round')
+  assert.equal(d.next.action, 'retryMerge', 'the decision came from origin/main, not from the stale local ref')
+  assert.equal(git(repo, 'rev-parse', 'main'), localMain, 'the run advanced the owner\'s ref')
+})
+
+test('worktree world: the sync round fetches without a refspec, the command succeeds, and one round is enough', opts, () => {
+  const { repo } = worktreeWorld('pr')
+  git(repo, 'fetch', '-q', 'origin')
+  // the precondition: the old refspec form is exactly what a worktree cannot do, because the owner's
+  // checkout holds the default branch
+  let refused = false
+  try { git(repo, 'fetch', 'origin', 'main:main') } catch { refused = true }
+  assert.ok(refused, 'the refspec fetch did not refuse, so this is not the worktree world the finding pins')
+  // a ready state pull request: the sync merges it, then brings the default branch's tip in
+  const d = decide(repo, { prs: { open: [pr('sdlc/state-20260101', { number: 12 })] } })
+  assert.deepEqual(d.sync.slice(0, 1), ['gh pr merge 12 --squash --delete-branch'])
+  assert.equal(d.sync.at(-1), 'git fetch origin main', 'the refspec form is refused in a run worktree; the plain fetch is not')
+  // the state-reader runs the commands from the run worktree, with main held by another worktree
+  const [bin, ...fetchArgs] = d.sync.at(-1).split(' ')
+  execFileSync(bin, fetchArgs, { cwd: repo })
+  const again = decide(repo, { prs: { open: [] } })
+  assert.equal(again.sync, undefined, 'the sync must resolve in one round, not repeat into the error the finding pins')
+})
 
 test('a slice in progress on its own branch is found from the default branch, and stays the decision after a merge', opts, () => {
   const repo = fixture({ 'slices.json': [slice('S-1')] })

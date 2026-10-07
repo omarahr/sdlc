@@ -1,9 +1,13 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync } from 'node:fs'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { runMain, loadInternals, clear as clearVote, scripted, ok, SKILL_DIR } from './harness.mjs'
+import { runMain, loadInternals, clear as clearVote, scripted, ok, scriptSource, scratch, SKILL_DIR } from './harness.mjs'
 import { happy, sliceNext } from './slice.test.mjs'
+
+let python = true
+try { execFileSync('python3', ['--version']) } catch { python = false }
 
 const clear = { refuted: false, evidence: 'holds' }
 
@@ -325,6 +329,117 @@ test('a parked-at-gate slice resumed via parkedRetry re-runs the gate, not the b
   assert.equal(last.inputs.patch.counters.gateCommit, 'c2')
 })
 
+// ---------- stop = pause after the last running agent (2026-10-07 run-runtime spec, Section 2) ----------
+
+test('a stopRequested implementer pauses the run without spending a fix round', async () => {
+  const written = []
+  const rt = await runMain(happy({
+    implementer: () => ({ stopRequested: true, green: false, notes: 'STOP seen before starting' }),
+    'state-writer': call => { written.push(call); return ok() },
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  assert.match(rt.result.reason, /stop requested/)
+  // nothing at all runs after the implementer: no verifier, no reviewer, no state-write
+  assert.deepEqual(rt.roles(), ['state-reader', 'implementer'])
+  assert.deepEqual(written, [])
+  // the action never completed, so the pause is not a counted iteration (and no fix round was spent)
+  assert.deepEqual(rt.result.iterations, [])
+})
+
+test('an agent already running finishes, the next one does not start', async () => {
+  const written = []
+  const rt = await runMain(happy({
+    implementer: () => ({ green: true, notes: 'all green' }),
+    'verify-planner': () => ({ stopRequested: true, scenarios: [], tools: [], risk: 'high' }),
+    'state-writer': call => { written.push(call); return ok() },
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  // the implementer's result was consumed (it was already running), but no verify or review agent started after it
+  assert.equal(rt.calls.filter(c => c.role === 'implementer').length, 1)
+  // the verify-planner itself finished (it was the running agent); nothing beside or after it started
+  assert.deepEqual(rt.roles().filter(r => r === 'verifier' || r === 'reviewer' || (r.startsWith('verify-') && r !== 'verify-planner')), [])
+  // the persisted state is still what the round began with: no patch with a phase or counters landed
+  const patches = written.filter(c => c.inputs.op === 'patch-slice' && c.inputs.patch && (c.inputs.patch.phase || c.inputs.patch.counters))
+  assert.deepEqual(patches, [])
+})
+
+test('a stopRequested agent deep in a parallel group unwinds cleanly', async () => {
+  const rt = await runMain(happy({
+    'verify-http-api': () => ({ ...clearVote(), cases: 2, passed: 2 }),
+    'verify-security': () => ({ stopRequested: true, refuted: false, evidence: 'STOP seen before starting' }),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  // the fold never happens: no collector files the branches, no regression lens runs after it
+  assert.equal(rt.roles().includes('verify-collector'), false)
+  assert.equal(rt.roles().filter(r => r === 'verifier').length, 1, 'only the spec-fidelity lens already running beside the profiles')
+  assert.deepEqual(rt.result.iterations, [])
+})
+
+test('an iteration-top stop action still ends stopped, not paused', async () => {
+  const rt = await runMain(happy())
+  assert.equal(rt.result.state, 'stopped')
+  assert.doesNotMatch(rt.result.reason, /stop requested/)
+})
+
+test('a stop-file stop at the iteration top pauses, and any other stop reason still ends stopped', async () => {
+  // next-action.py's stop reason: the driver keeps the worktree for a paused run and must never run
+  // cleanup against it, so a STOP-file stop finishes paused even when no agent had started
+  const stopFile = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'A: .sdlc/STOP exists' }] }))
+  assert.equal(stopFile.result.state, 'paused')
+  assert.equal(stopFile.result.reason, 'stop requested')
+  assert.deepEqual(stopFile.result.iterations, [])
+  const other = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'spec changed' }] }))
+  assert.equal(other.result.state, 'stopped')
+  assert.equal(other.result.reason, 'spec changed')
+  // 'STOP' alone is never enough: the match is the exact file path, so a coincidental substring stops
+  const coincidental = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'STOPPED: the spec was replaced' }] }))
+  assert.equal(coincidental.result.state, 'stopped')
+})
+
+test('a stopRequested state-reader pauses instead of stalling into the relaunch loop', async () => {
+  const rt = await runMain(happy({
+    // the reader no-ops because it saw the stop file: its "failed to report" must not read as a stall,
+    // or the driver keeps relaunching into STOP until the stuck limit removes the worktree
+    'state-reader': () => ({ stopRequested: true, action: 'stop', reason: 'STOP seen before starting' }),
+  }))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  assert.match(rt.result.reason, /stop requested/)
+  assert.deepEqual(rt.result.iterations, [])
+})
+
+test('every dispatched prompt carries the stop check, resolved at the main root', async () => {
+  const rt = await runMain(happy(), { mainRoot: '/owner/checkout' })
+  assert.ok(rt.calls.length > 1, 'the run dispatched nothing')
+  for (const c of rt.calls) {
+    assert.match(c.prompt, /\/owner\/checkout\/\.sdlc\/STOP/, `${c.role} prompt lacks the stop-file path`)
+    assert.match(c.prompt, /stopRequested: true/, `${c.role} prompt lacks the no-op answer`)
+  }
+})
+
+test('a stopRequested state-writer mid-buildLoop stops the run before the next agent dispatches', async () => {
+  // Ruling C: every persist site checks the flag immediately, so a state-writer that no-ops with
+  // stopRequested cannot let the flow dispatch the next agent (up to 2-3 no-op agents per pause before)
+  const rt = await runMain(happy({
+    'verify-http-api': c => (c.inputs.round === 0 ? { refuted: true, evidence: 'empty input crashes', failingTest: 'edge — a — R-1' } : clearVote()),
+    'state-writer': () => ({ stopRequested: true, ok: true }),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  assert.equal(rt.result.state, 'paused')
+  assert.match(rt.result.reason, /stop requested/)
+  // the state-writer that answered stopRequested is the last agent: no round-1 implementer, no verifier
+  const after = rt.calls.slice(rt.calls.findIndex(c => c.role === 'state-writer') + 1)
+  assert.deepEqual(after.map(c => c.role), [])
+  // the no-op agent count is at most the one that returned the flag
+  assert.equal(rt.calls.filter(c => c.role === 'state-writer').length, 1)
+  assert.equal(rt.calls.filter(c => c.role === 'implementer').length, 1)
+  // the action never completed, so the pause is not a counted iteration
+  assert.deepEqual(rt.result.iterations, [])
+})
+
 // ---------- lifecycle: the whole slice, plan through integrate ----------
 
 test('lifecycle: a profile refutation promotes into the fix round, the gate commits, the integrator merges', async () => {
@@ -370,4 +485,34 @@ test('lifecycle: a profile refutation promotes into the fix round, the gate comm
   const integrator = rt.calls.find(c => c.role === 'integrator')
   assert.equal(integrator.inputs.mode, 'ship')
   assert.match(rt.result.iterations[0].outcome, /S-1 merged abc123/)
+})
+
+// ---------- the loop's own narration follows the STE rules (prompts/ste-style.md) ----------
+
+// log() strings are the run's narration: the tracker and the driver show them, so they follow the
+// same STE rules the prompt files follow. ste-check.py lints the literal text around the
+// interpolations (each one counts as one placeholder word), so a future log line that breaks a
+// rule fails here, next to the tests that pin the wording.
+test('every log string in sdlc-loop.js follows the STE rules', { skip: !python && 'python3 not installed' }, () => {
+  const src = scriptSource()
+  const lines = []
+  const re = /log\((`(?:[^`\\]|\\[\s\S])*`|'(?:[^'\\]|\\[\s\S])*')\)/g
+  let m
+  while ((m = re.exec(src))) {
+    let s = m[1].slice(1, -1)
+    let out = '', i = 0
+    while (i < s.length) {
+      if (s[i] === '$' && s[i + 1] === '{') {
+        let depth = 1, j = i + 2
+        while (j < s.length && depth) { if (s[j] === '{') depth++; else if (s[j] === '}') depth--; j++ }
+        out += 'X'; i = j
+      } else out += s[i++]
+    }
+    lines.push(out)
+  }
+  assert.ok(lines.length > 30, `the extraction found the log strings (${lines.length})`)
+  const file = join(scratch('sdlc-ste-'), 'logs.md')
+  writeFileSync(file, lines.join('\n') + '\n')
+  const lint = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), file], { encoding: 'utf8' })
+  assert.equal(lint.status, 0, `ste-check flagged log strings:\n${lint.stdout}`)
 })

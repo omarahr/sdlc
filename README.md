@@ -44,7 +44,7 @@ When a milestone's slices are done, a **behavior campaign** checks what the runn
 
 When every slice is done, a final audit checks the whole spec. Optional **bar-raiser** rounds then polish quality past what the spec asks for.
 
-All progress lives in `.sdlc/` in your repo, so a run can be stopped, run into usage limits, or crash, and pick up where it left off.
+Run progress lives in `.sdlc/` in the run worktree (see [the run worktree](#the-run-worktree)), while the relaunch counters stay in your checkout, so a run can be paused, run into usage limits, or crash, and pick up where it left off.
 
 ## Install
 
@@ -100,13 +100,13 @@ Wrapping it in `/loop` is recommended. Each milestone has an allowance of how ma
 | Command | What it does |
 |---|---|
 | `/sdlc <spec> [--git pr\|direct\|mr\|stack] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
-| `/sdlc status` | Print the dashboard (`.sdlc/STATUS.md`) |
-| `/sdlc stop` | Finish the current step, then exit. Run `/sdlc <spec>` to resume |
+| `/sdlc status` | Print the dashboard (the run worktree's `.sdlc/STATUS.md` while a run exists) |
+| `/sdlc stop` | Pause the run: the agent in flight finishes, no new agent starts. `/sdlc <spec>` resumes |
 
 - `--git pr` (default when the repo has a GitHub remote): one branch and one PR per slice. It merges only once CI passes.
 - `--git mr` (default when the remote is a GitLab that `glab` is signed in to): commits every slice to the branch you started on, pushes it, and keeps **one** merge request for the whole run open against the remote's default branch. After each slice it waits for the pipeline and fixes CI-only failures. When the run is done it marks the merge request ready; you review and merge it. Start from a feature branch. It also works on GitHub, as one pull request for the run.
 - `--git stack`: the milestone is the unit you review and merge. The tool creates `sdlc/run-<n>` from your default branch and pushes it, cuts a `sdlc/M-<n>` branch per milestone from it, and cuts each slice branch from its milestone branch with a pull request targeting that milestone — so you keep per-slice CI and can still merge a slice on its own. When a milestone's behavior campaign verifies, its branch opens a pull request against your default branch; after you merge that, the run branch advances onto your default branch and the next milestone branches from there. While that pull request is open the run holds, rather than stacking the next milestone on a milestone you have not accepted yet. GitHub only.
-- `--git direct`: commits to the branch you are on and pushes nothing. This is the default when there is no GitHub remote and no signed-in GitLab.
+- `--git direct`: when the repo has no remote, it commits to the branch you are on and pushes nothing (it moves your branch's ref with `git update-ref`; the run logs a note telling you to run `git reset --hard <defaultBranch>` on your clean checkout to catch up). With a remote, it never touches your checkout: it works on its run branch and pushes each slice to the remote's default branch (`git push origin HEAD:<defaultBranch>`), which your checkout picks up on its next pull. This is the default when there is no GitHub remote and no signed-in GitLab.
 - `--commit-format "<format>"`: the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`. For example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one (a GitLab push rule, commitlint or a commit-msg hook).
 - `--bar-raiser N`: allow up to N polish rounds after the spec is complete. The default is 0.
 - `--max-iterations N`: a smoke run that stops after N iterations.
@@ -114,6 +114,12 @@ Wrapping it in `/loop` is recommended. Each milestone has an allowance of how ma
 In every mode, when a slice ships the integrator deletes the branches of its earlier failed attempts (`sdlc/<id>-attempt-<n>`, locally and on the remote), and those of the slice it was split from once all of that slice's parts are done. The write-ups stay in `.sdlc/slices/<id>/`.
 
 In `stack` mode there are no `sdlc/state-*` pull requests: `.sdlc/` state commits ride on the current milestone's branch, or on the run branch before the first milestone branch exists, and land with the milestone.
+
+### The run worktree
+
+The loop never works in your checkout. A run works in a git worktree at `.claude/worktrees/sdlc-run`, on a branch named `sdlc/run-<n>`, and the run state (`.sdlc/`) lives there too — so `/sdlc status` reads the worktree's dashboard while a run exists. Your checkout only ever sees the branches and pull requests the run pushes — except in `direct` mode with no remote, where the run commits to the branch you are on (with a remote it pushes to the remote's default branch instead, and your checkout picks that up on its next pull).
+
+`/sdlc stop` pauses the run: it writes `.sdlc/STOP` in your checkout, the agent in flight finishes, and no new agent starts. Run `/sdlc <spec>` to resume from where it paused. A paused run keeps its worktree; when the run ends rather than pauses (done, stopped, stuck, livelocked, or a `--max-iterations` smoke run), the driver removes the worktree and deletes the run branch — safe, because by then every slice is committed to the branch the run builds on.
 
 Live progress shows in `/workflows`.
 
@@ -168,6 +174,8 @@ The collector needs Python 3 and nothing else. To share the page, send someone t
 | `.sdlc/STUCK.md` | Written only if it livelocks. Contains the smallest human decision that would unblock it |
 | `.sdlc/slices/<id>/` | Per-slice plans, reviews and verification reports |
 
+While a run exists, the `.sdlc/` entries live in the run worktree (`.claude/worktrees/sdlc-run`); the tracker's own output goes to `.sdlc/tracker/` in your checkout.
+
 ## Before you run it
 
 - **It is expensive.** Every slice goes through planning, test writing, implementation, integration-level behavior tests, review and verification, plus a black-box behavior campaign per milestone. As a rough guide, one real project averaged about 70 agents and about 4–5M subagent tokens per finished slice. Use it for well-specified projects on a plan with high limits.
@@ -195,19 +203,21 @@ flowchart TD
   S -- "continue<br/>(did work, hit the agent cap)" --> L
   S -- "waiting or stalled" --> W["wait 30 min"] --> L
   S -- "done, stopped, livelock or stuck" --> DEL["delete driver.json"] --> E(["report and end the loop"])
+  S -- "paused (you ran /sdlc stop)" --> E2(["report and end the loop,<br/>keeping the worktree and driver.json"])
 ```
 
 - `waiting`: only PRs awaiting human review remain.
 - `stalled`: the run completed nothing, or it repeated the same outcome three times.
 - `stuck`: 24 stalled runs in a row, about 12 hours without progress.
 - `livelock`: nothing can run without a human decision. `.sdlc/STUCK.md` names the smallest one.
+- `paused`: you ran `/sdlc stop`. The agent in flight finished, no new agent started. The worktree and the driver file are kept; `/sdlc <spec>` resumes.
 
 ### One run: read the state, pick one action, repeat
 
 ```mermaid
 flowchart TD
   RS["state-reader<br/>syncs the repo with its PRs, then runs<br/>next-action.py on the .sdlc/ state"] --> D{"next action"}
-  D -- "STOP file" --> stop(["stopped"])
+  D -- "STOP file" --> pause(["paused"])
   D -- "no config, or the spec changed" --> BS["bootstrap"]
   D -- "a PR is now mergeable" --> RM["retryMerge"]
   D -- "a slice is in progress,<br/>or the next todo slice is ready" --> SL["slice"]
@@ -370,10 +380,13 @@ skills/sdlc/
   next-action.py  # decides the next action from the .sdlc/ state
   state-write.py  # applies state changes: slice patches, STATUS.md, ledger additions
   suite-receipt.py  # records full test-suite runs, so the same code is not tested twice
+  ste-check.py    # the simplified-English linter for the prompts, the logs and the tracker text
   prompts/        # one prompt per role: planner, test-writer, implementer, verifier, reviewer, …
   test/           # tests for the workflow logic (node:test)
   fixtures/       # tiny specs for end-to-end checks
 ```
+
+The fixed text the agents read — the prompts in `prompts/`, the loop's log lines, the tracker's labels, `.sdlc/STATUS.md` and the reports the agents write — follows the ASD-STE100 simplified-English style rules (the rule set, not the licensed word list), and `ste-check.py` enforces them in the test suite. Docs like this README are ordinary English.
 
 Run the tests with `npm test` (Node 20+ and Python 3). CI runs the same suite on Linux and macOS, on Node 20 and 24.
 

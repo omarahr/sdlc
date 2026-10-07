@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
 import { scriptSource, SKILL_DIR } from './harness.mjs'
 
@@ -82,27 +83,41 @@ test('the e2e harness cuts its branch from the milestone branch in stack mode, a
   // the ownership sentence sits mid-paragraph, so anchor on the sentence rather than the line start
   const owner = e.match(/You commit on branch `sdlc\/<milestoneId>-e2e`\.[^\n]*/)
   assert.ok(owner, 'the ownership sentence is missing')
-  assert.match(owner[0], /In `stack` mode it is cut from `sdlc\/M-<n>`, the milestone branch, not the default branch/)
+  assert.match(owner[0], /In `stack` mode the branch is cut from `sdlc\/M-<n>`, the milestone branch, not the default branch/)
   // anchored on step 1, so a stray mention elsewhere in the file cannot satisfy it
   const step1 = e.match(/^1\. \*\*Branch:\*\*.*$/m)
   assert.ok(step1, 'step 1 is missing')
   // stack mode bases the suite on the milestone branch, and defers to the slice that created it
   assert.match(step1[0], /In `stack` mode cut it from the milestone branch `sdlc\/M-<n>`/)
-  assert.match(step1[0], /if it is missing, stop and say so rather than creating it/)
+  assert.match(step1[0], /[Ii]f it is missing, stop and say so rather than creating it/)
   // the other three modes keep a base of their own, so direct and mr agents are not left without one
-  assert.match(step1[0], /In `pr` mode cut it from the up-to-date default branch/)
-  assert.match(step1[0], /In `direct` and `mr` mode cut it from the working branch \(`config\.defaultBranch`\)/)
+  // Ruling A: in pr mode the default branch's tip lives on origin/<defaultBranch>; the local ref is the
+  // owner's and a run never advances it
+  assert.match(step1[0], /In `pr` mode cut it from the default branch's fetched tip/)
+  assert.match(step1[0], /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b sdlc\/<milestoneId>-e2e --no-track origin\/<defaultBranch>/)
+  assert.match(step1[0], /With no remote, cut it from the local `<defaultBranch>` ref instead/)
+  assert.match(step1[0], /In `direct` and `mr` mode cut it from the run branch/)
+  // branching from a ref is always allowed; only checking a branch out is blocked by another worktree
+  assert.match(step1[0], /git refuses only \*checking out\* a branch another worktree holds/)
   assert.match(step1[0], /Never cut it from the default branch in `stack` mode/)
 })
 
-test('the env-detector creates and pushes the run branch, and refuses stack without a github remote', () => {
+test('the env-detector adopts the driver-created run branch, and numbers a fresh one the way the driver does', () => {
   const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
+  // the driver pre-creates the worktree on `sdlc/run-<n>`: adopt it, verify the push, never create a second
+  assert.match(env, /git branch --show-current/)
+  assert.match(env, /sdlc\/run-\*/)
+  assert.match(env, /do not create( or push)? (a|another) (new one|run branch)|do not create or push/)
+  assert.match(env, /git ls-remote --heads origin <current-branch>/)
+  assert.match(env, /git push -u origin <current-branch>/)
+  // the create path survives for a run the driver did not set up, numbered by the driver's own rule:
+  // (count of local `sdlc/run-*` branches) + 1 — remote-tracking refs no longer feed the number
   assert.match(env, /git checkout -b sdlc\/run-<n> <defaultBranch>/)
   assert.match(env, /git push -u origin sdlc\/run-<n>/)
-  // n is 1 + the highest existing, so a second run cannot clobber a live one — local and remote alike
+  assert.match(env, /count of `sdlc\/run-\*` branches\) \+ 1/)
   assert.match(env, /refs\/heads\/sdlc\/run-\*/)
-  assert.match(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
-  assert.match(env, /drop the `origin\/` prefix before reading `<n>`/)
+  assert.doesNotMatch(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
+  assert.doesNotMatch(env, /drop the `origin\/` prefix before reading `<n>`/)
   // anchored on the stack sentence: a bare /cannot work/ also matches the pre-existing mr bullet,
   // which would let the stack refusal be deleted without this test noticing
   assert.match(env, /`stack` mode cannot work without a github\.com remote and a signed-in `gh`/)
@@ -118,8 +133,144 @@ test('the env-detector resolves stack from the input or an existing config, and 
   assert.match(env, /the `gitMode` input;[\s\S]{0,200}an existing `config\.gitMode`[\s\S]{0,200}otherwise detect one/)
   assert.match(env, /`stack` is never detected/)
   // symbolic-ref without --short prints refs/remotes/origin/main; every later consumer wants main
-  assert.match(env, /`defaultBranch`: from `git symbolic-ref --short refs\/remotes\/origin\/HEAD`/)
+  assert.match(env, /`defaultBranch`: applied per mode from the `defaultBranch` input/)
   assert.match(env, /always a bare branch name/)
+})
+
+test('direct mode ships from the run worktree: sync, squash, push to the default branch', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  // scope to the direct block: pr/mr/stack still name the default branch in their own, legitimate ways
+  const direct = i.slice(i.indexOf('**`direct` mode:**'), i.indexOf('**`mr` mode:**'))
+  assert.ok(direct.length > 0, 'the direct block is missing')
+  // the owner's checkout holds the default branch, so the worktree can never check it out: push to it instead
+  assert.doesNotMatch(direct, /git checkout <defaultBranch>/)
+  // the ff-only sync comes first, so the squash lands on the default branch's tip; a failed sync changes nothing
+  assert.match(direct, /merge --ff-only origin\/<defaultBranch>/)
+  assert.match(direct, /state: "inconclusive"/)
+  assert.match(direct, /git push origin HEAD:<defaultBranch>/)
+  // no-remote fallback: the shared refs move the owner's branch, and the note walks them through the recovery
+  assert.match(direct, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
+  assert.match(direct, /your checkout is behind the moved branch/)
+  assert.match(direct, /git reset --hard <defaultBranch>/)
+  // a failed evidence-sha push is retried once, then reported: the next slice's sync must not be left wedged
+  assert.match(direct, /On a failed evidence-sha push, retry once/)
+  assert.match(direct, /state: "failed"/)
+})
+
+test('the default-branch state commit runs from the worktree and pushes, instead of checking the branch out', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const arm = c.slice(c.indexOf('- `direct` or `mr` mode:'), c.indexOf('- `pr` mode:'))
+  assert.ok(arm.length > 0, 'the direct/mr arm is missing')
+  assert.doesNotMatch(arm, /git checkout <defaultBranch>/)
+  assert.match(arm, /merge --ff-only origin\/<defaultBranch>/)
+  assert.match(arm, /git push origin HEAD:<defaultBranch>/)
+  assert.match(arm, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
+  assert.match(arm, /your checkout is behind the moved branch/)
+  assert.match(arm, /git reset --hard <defaultBranch>/)
+})
+
+test('slice creation cuts from refs, and no prompt presents the default branch as a place to be', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const sliceStep = c.slice(c.indexOf('**Slice commit**'), c.indexOf('**Default-branch commit**'))
+  // Ruling A: with a remote the cut is from origin/<defaultBranch>, fetched without a refspec; the local
+  // ref is the owner's and stays put. The no-remote fallback keeps the local-ref cut.
+  assert.match(sliceStep, /cut it from the default branch's fetched tip/)
+  assert.match(sliceStep, /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b sdlc\/<id> --no-track origin\/<defaultBranch>/)
+  assert.match(sliceStep, /When the repo has no remote, cut it from the local `<defaultBranch>` ref instead/)
+  assert.match(sliceStep, /git refuses only \*checking out\* a branch another worktree holds/)
+  assert.match(sliceStep, /never advances it/)
+  const rr = readFileSync(join(SKILL_DIR, 'prompts', 'run-request.md'), 'utf8')
+  // mr's working branch is the run branch: the sentence may not name config.defaultBranch as the place
+  assert.doesNotMatch(rr, /committed to the working branch \(`config\.defaultBranch`\)/)
+  assert.match(rr, /the working branch \(the run branch/)
+})
+
+test('the pr state-commit arm syncs the run branch too, and no arm checks the default branch out', () => {
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const pr = c.slice(c.indexOf('- `pr` mode:'))
+  assert.ok(pr.length > 0, 'the pr arm is missing')
+  // step 1 and the after-merge step sync the run branch onto the default tip, the way the direct/mr arm does
+  assert.match(pr, /merge --ff-only origin\/<defaultBranch>/)
+  assert.match(pr, /git update-ref refs\/heads\/<defaultBranch> HEAD/)
+  // and the checkout is gone from the whole file: no arm may check the default branch out in the worktree
+  assert.doesNotMatch(c, /git checkout <defaultBranch>/)
+})
+
+test('the worktree returns to the run branch before every run-branch operation (ruling B)', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  // between ship steps 5 and 6: the ship steps squash onto and delete from the run branch, and a worktree
+  // still on sdlc/<id> made `merge --squash` a no-op and the branch deletion a refusal
+  const step5 = i.split('\n').find(l => l.startsWith('5. Commit on the slice branch'))
+  assert.ok(step5, 'ship step 5 is missing')
+  assert.match(step5, /git checkout sdlc\/run-<n>/)
+
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  // the direct/mr arm commits and syncs on the run branch
+  const arm = c.slice(c.indexOf('- `direct` or `mr` mode:'), c.indexOf('- `pr` mode:'))
+  assert.match(arm, /Return to the run branch: `git checkout sdlc\/run-<n>`/)
+  // the pr arm syncs the run branch before the state branch is cut and again after the merge
+  const pr = c.slice(c.indexOf('- `pr` mode:'))
+  assert.match(pr, /Return to the run branch: `git checkout sdlc\/run-<n>`/)
+  assert.match(pr, /return to the run branch: `git checkout sdlc\/run-<n>`[\s\S]{0,200}[Ss]ync the run branch onto the default branch's tip again/)
+  // the stack arm commits on a branch that varies: the checkout is named, not improvised
+  const stack = c.slice(c.indexOf('- `stack` mode:'), c.indexOf('- `direct` or `mr` mode:'))
+  assert.match(stack, /Check the branch out first/)
+  assert.match(stack, /[Nn]o branch this arm names is held by another worktree/)
+
+  // the relaunch ff-only merge hits a mid-slice branch after a pause unless HEAD goes back first
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  const wt = skill.split('\n').find(l => l.includes('**Run worktree:**'))
+  assert.ok(wt, 'the run worktree step is missing')
+  assert.match(wt, /put its HEAD back on the run branch[\s\S]{0,200}git -C "\$WT" checkout sdlc\/run-<n>/)
+  assert.match(wt, /merge --ff-only origin\/<defaultBranch>/)
+})
+
+test('the pr blocked-merge fallback writes in the run worktree and never returns to the default branch', () => {
+  // the owner's checkout holds the default branch, so "Return to the default branch" was both a
+  // run-state-ownership violation and a git refusal; the log line belongs to the worktree's ledger
+  const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
+  const pr = c.slice(c.indexOf('- `pr` mode:'))
+  assert.match(pr, /state-pr-blocked/)
+  assert.match(pr, /log\.jsonl in the run worktree/)
+  assert.match(pr, /Commit it on the PR branch and push/, 'an uncommitted append would block the next checkout: log.jsonl differs between the branches')
+  assert.doesNotMatch(pr, /Return to the default branch/)
+})
+
+test('the schema documents the mainRoot input and the direct mode push it now implies', () => {
+  const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
+  // the stop probe reads the owner's checkout, not the worktree: mainRoot is where that is written down
+  assert.match(schema, /`mainRoot`/)
+  assert.match(schema, /mainRoot[\s\S]{0,200}\.sdlc\/STOP|\.sdlc\/STOP[\s\S]{0,200}mainRoot/)
+  // direct mode now pushes: the stale "nothing is pushed" must go
+  const direct = schema.split('\n').find(l => l.includes('`direct`:'))
+  assert.ok(direct, 'the direct bullet is missing')
+  assert.doesNotMatch(direct, /nothing is pushed/)
+  // the defaultBranch description matches env-detector's per-mode rules: pr takes the owner's
+  // branch, and mr's IS the working branch
+  const db = schema.split('\n').find(l => l.startsWith('- `defaultBranch` is per mode'))
+  assert.ok(db, 'the per-mode defaultBranch line is missing')
+  assert.match(db, /in `pr` mode the branch the owner's checkout is on/)
+  assert.match(db, /in `mr` mode the working branch itself/)
+})
+
+test('the pr after-merge step syncs the run branch onto the base and pushes, and no held branch is ever checked out', () => {
+  const i = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  const after = i.slice(i.indexOf('**After merging:**'))
+  assert.ok(after.length > 0, 'the after-merge step is missing')
+  // the base branch may be held by the owner's checkout (pr mode), so the sync is commit-state's shape
+  assert.match(after, /git fetch origin <baseBranch>/)
+  assert.match(after, /git merge --ff-only FETCH_HEAD/)
+  assert.match(after, /state: "inconclusive"/)
+  assert.match(after, /never rebase/)
+  assert.match(after, /git push origin HEAD:<baseBranch>/)
+  assert.match(after, /git update-ref refs\/heads\/<baseBranch> HEAD/)
+  assert.match(after, /commit-state\.md's reworked flow/)
+  // stack keeps its carve-out: the milestone branch is never held elsewhere, and its PR carries the state
+  assert.match(after, /per commit-state\.md's stack arm/)
+  // no step may check the base or default branch out anywhere in the file; slice-branch checkouts
+  // (git checkout sdlc/<id>) stay — those branches are never held elsewhere
+  assert.doesNotMatch(i, /git checkout <baseBranch>/)
+  assert.doesNotMatch(i, /git checkout <defaultBranch>/)
 })
 
 test('the integrator deletes archived attempt branches once a slice ships', () => {
@@ -138,6 +289,10 @@ test('the integrator asks the code for the slice base branch instead of naming i
   // and the evidence diff uses that same base, not the default branch
   assert.match(i, /git diff --name-only <baseBranch>\.\.\.HEAD/)
   assert.match(i, /--ref sdlc\/<id>/)
+  // Ruling A: in pr and direct mode the run reads the default branch's tip at origin/<baseBranch>, so the
+  // evidence diff does too; the local ref is the owner's and goes stale after the first merge
+  assert.match(i, /diff against `origin\/<baseBranch>`/)
+  assert.match(i, /When it does not, diff against `<baseBranch>`/)
   // The base is now the answer `base-branch` prints, and the prompt says so where it is defined —
   // both in the evidence step and in the ship step, since each is read on its own.
   assert.match(i, /state-write\.py" base-branch --repo \. --slice <id>/)
@@ -259,6 +414,20 @@ test('the escalator and force-park ask for the branch rather than naming it, and
   assert.match(w, /after\*\* renaming, and after checking the branch out/)
 })
 
+test('the escalator returns to the run branch in direct and pr mode, and never checks out the default branch', () => {
+  const e = readFileSync(join(SKILL_DIR, 'prompts', 'escalator.md'), 'utf8')
+  // ruling B of the final re-review: in direct and pr mode `<baseBranch>` is `<defaultBranch>`, a branch
+  // the owner's checkout holds — git refuses that checkout from the run worktree, and every escalator
+  // action then fails at its archive step. The archive step moves the worktree to a safe branch instead.
+  assert.match(e, /In `direct` and `pr` mode run `git checkout sdlc\/run-<n>`/)
+  // stack and mr keep the named checkout: there the run worktree may hold `<baseBranch>`
+  assert.match(e, /In `stack` and `mr` mode run `git checkout <baseBranch>`/)
+  // the run branch is never spelled as the default branch (the spirit of the milestone-writer pin)
+  assert.doesNotMatch(e, /git checkout <defaultBranch>/)
+  // the commit procedure owns where the commits land, not the checkout in step 2
+  assert.doesNotMatch(e, /the branch checked out in step 2/)
+})
+
 test('every agent writes comment-free code in the target repo, and its prose in STE', () => {
   const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
   assert.match(common, /[Nn]o comments in (the )?(code|target)/, 'the no-comments rule')
@@ -271,6 +440,12 @@ test('every agent writes comment-free code in the target repo, and its prose in 
   assert.match(common, /active voice/)
   assert.match(common, /imperative/)
   assert.match(common, /one word, one meaning/)
+  // the prose rule names its source: every report, note and status text follows ste-style.md
+  assert.match(common, /Write all reports, notes and status text in the style of `ste-style\.md`\./)
+  const style = readFileSync(join(SKILL_DIR, 'prompts', 'ste-style.md'), 'utf8')
+  assert.match(style, /`check` means verify with evidence/)
+  assert.match(style, /`confirm` means read a result/)
+  assert.ok(existsSync(join(SKILL_DIR, 'ste-check.py')), 'the linter behind the style rule exists')
   // the reviewer enforces: comments in code block; STE prose slips never do
   const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
   assert.match(reviewer, /[Cc]omments in (the )?(code|slice)/)
@@ -314,14 +489,14 @@ test('profile agents write their tests as evidence in the main tree, and the col
   const collector = readFileSync(join(SKILL_DIR, 'prompts', 'verify-collector.md'), 'utf8')
   assert.match(collector, /You fold nothing into the slice branch/)
   assert.match(collector, /verification\/r<round>\/tests\/<profile>-<part>\//)
-  assert.match(collector, /copy them unmodified/)
+  assert.match(collector, /copy them unmodified/i)
   assert.match(collector, /git branch -D/)
   assert.doesNotMatch(collector, /cherry-pick/)
   assert.doesNotMatch(collector, /checkout sdlc\/<id>/)
   assert.doesNotMatch(collector, /[Rr]un the newly added verification test files/)
   // the agents write into the main tree, so the move from the worktree is the fallback, not the routine
   assert.match(collector, /file the test files its agent wrote under/)
-  assert.match(collector, /move them in from its worktree only when it left them there instead/)
+  assert.match(collector, /move them in from its worktree only when it left them there instead/i)
   // the ui profile boots the app in a browser inside its test fixture, so the fast-test rule carves it out
   assert.match(common, /The ui profile's browser fixture is the exception/)
   // a security attack is evidence under tests/, promoted later only if the finding holds — never a commit
@@ -367,14 +542,16 @@ test('the regression lens holds the suite slot in full scope, and the slice scop
   assert.match(fullLine, /an orphaned holder \(a slot process that outlived its run\)/)
   assert.match(fullLine, /slot-release` once to recover/)
   assert.match(fullLine, /never re-enter during a handover/)
-  assert.match(fullLine, /do not retry aggressively/)
+  assert.match(fullLine, /do not retry aggressively/i)
   // the mapping is best effort: a failed impact.py never refutes the slice on its own
   assert.match(sliceLine, /best effort/)
   assert.match(sliceLine, /a mapping failure alone never refutes the slice/)
   // the static Inputs line names scope, so the agent reads its scope from its inputs
   assert.match(v, /Inputs: `sliceId`, `lens`, `round`, `scope`\./)
-  // the spec-fidelity note matches the lens's actual scoping
-  assert.match(v, /The regression lens tests the suite at the slice scope during build rounds and in full at the gate, so do not run it here\./)
+  // the spec-fidelity note matches the lens's actual scoping (now split into STE sentences)
+  assert.match(v, /The regression lens tests the suite at the slice scope during build rounds\./)
+  assert.match(v, /It runs in full at the gate\./)
+  assert.match(v, /Do not run it here\./)
   assert.doesNotMatch(v, /The regression lens runs the full suite, so do not run it here\./)
   // SKILL.md's phase list places the Gate between the verify group and Integrate
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
@@ -450,6 +627,25 @@ test('the state-reader runs the janitor once per run without letting it block th
   assert.match(reader, /no change to `action`[\s\S]{0,200}janitor[\s\S]{0,120}`reason`/)
 })
 
+test('the state-reader passes the main root to the stop probe', () => {
+  const reader = readFileSync(join(SKILL_DIR, 'prompts', 'state-reader.md'), 'utf8')
+  assert.match(reader, /--main-root "<mainRoot>"/)
+})
+
+test('every agent is told to check the stop file before it starts and to no-op into stopRequested', () => {
+  // the agent-carried stop probe (2026-10-07 run-runtime spec, Section 2): a workflow script cannot read
+  // the filesystem, so run()'s preamble and _common.md carry the check, and the loop reads the flag back
+  const src = scriptSource()
+  const runFn = src.slice(src.indexOf('async function run('), src.indexOf('function reviewOpts('))
+  assert.ok(runFn.length > 0, 'the run() preamble block is missing')
+  assert.match(runFn, /\.sdlc\/STOP/, 'the preamble never names the stop file')
+  assert.match(runFn, /stopRequested: true/, 'the preamble never names the no-op answer')
+  assert.match(runFn, /mainRoot/, 'the preamble must resolve the stop file at the main root, not the worktree')
+  const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
+  assert.match(common, /Before you start work, check whether that file is there/)
+  assert.match(common, /Return your normal result shape with `stopRequested: true`/)
+})
+
 test('the state schema documents the verify economy the loop implements', () => {
   const schema = readFileSync(join(SKILL_DIR, 'prompts', 'state-schema.md'), 'utf8')
   // the slice lifecycle runs through the gate: the phase enum names all five in order
@@ -469,7 +665,7 @@ test('the state schema documents the verify economy the loop implements', () => 
   assert.match(schema, /resuming it keeps the slice's phase and counters instead of re-planning/)
   // the ledger row's shape, and the rule that keeps refutation outcomes out of the stored state
   assert.match(schema, /"kind": "verify" \| "gate", "round": <n>, "outcome": "verified" \| "refuted" \| "infra"/)
-  assert.match(schema, /the tracker derives it from consecutive rounds/)
+  assert.match(schema, /[Tt]he tracker derives it from consecutive rounds/)
   // a review-blocked round on a low slice stores its blocking findings as the row's refutations
   assert.match(schema, /review-blocked round on a `low` slice carries the blocking findings' count in `refutations`/)
   // the profile agents' unpromoted tests are evidence files the schema lists where they are written
@@ -477,6 +673,107 @@ test('the state schema documents the verify economy the loop implements', () => 
   // reports live in their own directory, never under the slice
   assert.match(schema, /## reports\/<id>\//)
   assert.doesNotMatch(schema, /slices\/<id>\/REPORT\.md/)
+})
+
+test('the driver resolves the default branch in the owner checkout and hands it to the loop per mode', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // inside the worktree the current branch is sdlc/run-<n>, so "defaultBranch = current branch" would
+  // corrupt every direct-mode push target: the driver resolves it from the owner's checkout instead
+  assert.match(skill, /DEFAULT_BRANCH=\$\(git -C "\$REPO" symbolic-ref --short refs\/remotes\/origin\/HEAD 2>\/dev\/null \|\| true\)/)
+  // symbolic-ref unset falls back to the owner's branch; detached HEAD is reported and ended
+  assert.match(skill, /when that is empty, `DEFAULT_BRANCH=\$\(git -C "\$REPO" branch --show-current\)`/)
+  assert.match(skill, /detached HEAD\), report and end/)
+  // pr hands the branch the owner's checkout is on, not the remote's default
+  assert.match(skill, /BASE_BRANCH=\$\(git -C "\$REPO" branch --show-current\)/)
+  // the launch hands the resolved value per mode: direct/stack get the resolved default, pr the
+  // owner's branch, and mr nothing at all
+  assert.match(skill, /in `direct` and `stack` pass `defaultBranch: "\$DEFAULT_BRANCH"`/)
+  assert.match(skill, /in `pr` pass `defaultBranch: "\$BASE_BRANCH"`/)
+  assert.match(skill, /in `mr` omit it entirely/)
+})
+
+test('the env-detector applies the defaultBranch input per mode, and mr ignores it', () => {
+  const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
+  assert.match(env, /Inputs: `specPath`[\s\S]{0,200}`defaultBranch`/)
+  // direct and stack take the driver-resolved input; pr takes the owner's branch
+  assert.match(env, /`direct` and `stack`: the input when it is non-empty/)
+  assert.match(env, /`pr`: the input when it is non-empty[\s\S]{0,200}the branch the owner's checkout is on/)
+  // the fallback for an empty input is the legacy detection
+  assert.match(env, /When the input is empty, fall back to the old detection/)
+  assert.match(env, /from `git symbolic-ref --short refs\/remotes\/origin\/HEAD`/)
+  assert.match(env, /else the current branch name/)
+  // mr ignores the input entirely: its defaultBranch is the working branch, and an input naming the
+  // remote's default branch would equal targetBranch and wrongly downgrade the run to direct
+  assert.match(env, /`mr`: ignore the input entirely/)
+  assert.match(env, /Never feed the input to the `targetBranch` check/)
+  // symbolic-ref without --short prints refs/remotes/origin/main; every later consumer wants main
+  assert.match(env, /always a bare branch name/)
+})
+
+test('the driver ensures the run worktree before the config checks, and points the loop at it', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // the worktree comes first, and WT is its one name: run state (config, gitMode, resume) reads $WT after it
+  const wt = skill.indexOf('**Run worktree:**')
+  assert.ok(wt > -1, 'the run worktree step is missing')
+  assert.ok(wt < skill.indexOf('specPath'), 'the worktree step must precede the config checks')
+  assert.match(skill, /WT="\$REPO\/\.claude\/worktrees\/sdlc-run"/)
+  // pre-flight: the folder is git-ignored first, the worktree is created or reused, never reset
+  assert.match(skill, /git-ignored[\s\S]{0,200}\.claude\/worktrees\//, '.claude/worktrees/ is ignored before use')
+  assert.match(skill, /worktree add "\$WT" -b sdlc\/run-<n>/)
+  assert.match(skill, /\(count of `sdlc\/run-\*` branches\) \+ 1/, 'n comes from the existing run branches')
+  assert.match(skill, /merge --ff-only origin\/<defaultBranch>/, 'a relaunch reuses and fast-forwards the worktree')
+  assert.match(skill, /diverged and end[\s\S]{0,80}the owner decides/, 'a failed ff-only sync is the owner\'s call')
+  assert.match(skill, /[Dd]irty[\s\S]{0,120}report and end[\s\S]{0,120}owner/, 'a dirty worktree is the owner\'s, never reset')
+  // run state reads the worktree: the specPath check, and never a checkout in the owner's tree
+  assert.match(skill, /`\$WT\/\.sdlc\/config\.json` exists and its `specPath` differs/)
+  assert.doesNotMatch(skill, /git -C "\$REPO" checkout <config\.runBranch>/, 'the owner\'s checkout is never moved to the run branch')
+  // the launch hands the loop the worktree as its repo, and the stop probe the owner's checkout
+  assert.match(skill, /repoRoot: "<worktree path>", mainRoot: REPO/)
+})
+
+test('the stop wording promises a pause, and the paused bullet keeps the worktree', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.match(skill, /the current agent finishes first, then the run pauses, and that `\/sdlc <spec>` resumes it/)
+  const paused = skill.split('\n').find(l => l.includes('**`paused`'))
+  assert.ok(paused, 'the paused bullet is missing')
+  assert.match(paused, /keep the worktree/)
+  assert.match(paused, /`\/sdlc <spec>` resumes/)
+  assert.match(paused, /ScheduleWakeup\(\{stop: true\}\)/)
+})
+
+test('the loop-end cleanup removes the worktree and the run branch, and reports a refusal', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  const whenever = skill.split('\n').find(l => l.includes('Whenever the loop ends'))
+  assert.ok(whenever, 'the whenever-the-loop-ends bullet is missing')
+  assert.match(whenever, /worktree remove "\$WT"/)
+  // -d, not -D: the deletion refuses unmerged work, so the report path is real
+  assert.match(whenever, /branch -d sdlc\/run-<n>/)
+  assert.doesNotMatch(whenever, /branch -D/)
+  assert.match(whenever, /slice state is committed to `<defaultBranch>`/)
+  assert.match(whenever, /[Rr]efusal[\s\S]{0,160}keep both, end/)
+})
+
+test('the tracker reads run state from the worktree and writes to the owner\'s checkout', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // both collect.py invocations read the run worktree and land the page in the owner's checkout
+  const sites = skill.split('\n').filter(l => l.includes('collect.py'))
+  assert.ok(sites.length >= 2, 'the build and watch commands are missing')
+  for (const l of sites) assert.match(l, /--repo "\$WT" --out "\$REPO\/\.sdlc\/tracker"/, `a collect.py call misses the split: ${l}`)
+  // /sdlc status prints the run worktree's STATUS.md first, the repo root's as fallback
+  const status = skill.split('\n').find(l => l.includes('/sdlc status`:'))
+  assert.ok(status, 'the status line is missing')
+  assert.match(status, /worktrees\/sdlc-run\/\.sdlc\/STATUS\.md/)
+  // the bar-raiser round count is read where the run writes it
+  assert.match(skill, /`rounds` in the run worktree's `\.sdlc\/barraiser\.json`/)
+  // the driver file stays on the owner's checkout, never in the worktree
+  assert.match(skill, /\$REPO\/\.sdlc\/tracker\/driver\.json/)
+})
+
+test('every prompt file passes the STE linter, with no allowlist and no skips', () => {
+  const files = readdirSync(join(SKILL_DIR, 'prompts')).filter(f => f.endsWith('.md')).sort()
+  assert.ok(files.length > 0, 'the prompts directory holds markdown files')
+  const r = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), ...files.map(f => join(SKILL_DIR, 'prompts', f))], { encoding: 'utf8' })
+  assert.equal(r.status, 0, `ste-check.py found violations:\n${r.stdout}${r.stderr}`)
 })
 
 test('the schema pins the merge prune and the run request names the moved reports', () => {
@@ -493,4 +790,46 @@ test('the schema pins the merge prune and the run request names the moved report
   const rr = readFileSync(join(SKILL_DIR, 'prompts', 'run-request.md'), 'utf8')
   assert.match(rr, /\.sdlc\/reports\/<id>\/REPORT\.md/)
   assert.doesNotMatch(rr, /\.sdlc\/slices\/<id>\/REPORT\.md/)
+})
+
+test('the README documents the run worktree, the step-boundary pause and the STE rule', () => {
+  const readme = readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
+  // the worktree model: the loop always works in .claude/worktrees/sdlc-run on sdlc/run-<n>,
+  // never in the owner's checkout; removed when the run ends, kept while paused
+  assert.match(readme, /worktree at `\.claude\/worktrees\/sdlc-run`/, 'the run worktree path is missing')
+  assert.match(readme, /branch named `sdlc\/run-<n>`/, 'the run branch name is missing')
+  assert.match(readme, /never works in your checkout/, 'the owner-checkout guarantee is missing')
+  assert.match(readme, /removes the worktree and deletes the run branch/, 'the cleanup when the run ends is missing')
+  assert.match(readme, /paused run keeps its worktree/, 'the pause keeps the worktree is missing')
+  // pause semantics: /sdlc stop pauses after the running agent finishes; no new agent starts
+  const stopRow = readme.split('\n').find(l => l.includes('`/sdlc stop`') && l.trim().startsWith('|'))
+  assert.ok(stopRow, 'the command table has no /sdlc stop row')
+  assert.match(stopRow, /Pause the run.*finishes/, 'the stop row does not state the pause')
+  assert.match(readme, /pauses the run: .{0,120}finishes/, 'the pause wording is missing')
+  assert.match(readme, /no new agent starts/, 'the no-new-agent rule is missing')
+  assert.match(readme, /`\/sdlc <spec>` to resume/, 'the resume path is missing')
+  // the STE note: prompts, loop logs and tracker text follow the style rules, not the word list
+  assert.match(readme, /ASD-STE100/, 'the STE standard is missing')
+  assert.match(readme, /style rules.{0,80}not the licensed word list/, 'the rule-set scope is missing')
+  assert.match(readme, /ste-check\.py/, 'the linter is missing')
+  assert.match(readme, /prompts.{0,40}log lines.{0,60}tracker/, 'the STE scope (prompts, logs, tracker) is missing')
+})
+
+test('the README worktree claims hold for direct mode, the driver counters, and the STE scope', () => {
+  const readme = readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
+  // the checkout guarantee is qualified for direct mode, and only for the no-remote case: with a remote,
+  // direct mode pushes origin HEAD:<defaultBranch> twice per slice and never touches the owner's checkout
+  assert.match(readme, /except in `direct` mode with no remote, where the run commits to the branch you are on/,
+    'the direct-mode exception to the checkout guarantee is missing')
+  assert.match(readme, /With a remote, it never touches your checkout/,
+    'the direct bullet must name the push-based flow the remote case actually runs')
+  assert.match(readme, /pushes each slice to the remote's default branch/, 'the remote direct-mode flow is missing')
+  // the run progress lives in the worktree, but the relaunch counters stay on the owner's checkout
+  assert.match(readme, /relaunch counters stay in your checkout/, 'the driver-counter exception is missing')
+  // the end-state list of the removal sentence matches the driver flowchart's (includes stopped)
+  assert.match(readme, /ends rather than pauses \(done, stopped, stuck, livelocked/,
+    'the end-state enumeration is missing stopped')
+  // the STE note covers the fixed text, not "every word"
+  assert.match(readme, /fixed text the agents read/, 'the STE note must scope to the fixed text')
+  assert.doesNotMatch(readme, /Every word the agents read/, 'the STE note must not claim every word')
 })

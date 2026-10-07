@@ -120,7 +120,7 @@ test('three failed fix rounds escalate', async () => {
   const rt = await runMain(happy({ implementer: () => ({ green: false, notes: 'lint fails' }) }, 'implement'))
   assert.equal(rt.roles().filter(r => r === 'implementer').length, 3)
   assert.equal(rt.calls.find(c => c.role === 'escalator').inputs.action, 'replan')
-  assert.match(rt.calls.find(c => c.role === 'escalator').inputs.why, /fix rounds exhausted/)
+  assert.match(rt.calls.find(c => c.role === 'escalator').inputs.why, /fix rounds: no fix passed/)
 })
 
 test('an inconclusive implementer run is re-run without spending a fix round', async () => {

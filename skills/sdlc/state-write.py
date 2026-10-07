@@ -530,7 +530,9 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
     if branch_exists(repo, want):
         git(repo, "checkout", "-q", want)
         return want
-    # the same answer slice_base gives, so the branch a prompt is told to use is the branch cut here
+    # the same branch slice_base names, so the branch a prompt is told to use is the branch cut here;
+    # when a remote holds the default branch the cut reads its tip at origin/<defaultBranch>, the fetched
+    # spelling of the same branch slice_base prints
     base = awaiting_merge_base(repo, slices, slice_id)
     if not base:
         base = config.get("defaultBranch") or "main"
@@ -551,11 +553,19 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
                 # carry every shipped milestone: nothing else moves it, and the audit runs after they merged
                 advance_run_branch(repo, config, run)
                 base = run
-        elif config.get("gitMode") == "pr":
-            # the slice starts from the up-to-date default branch; with no remote, or uncommitted state, it starts from the local one
-            if git(repo, "checkout", "-q", base, check=False).returncode == 0:
-                git(repo, "pull", "-q", "--ff-only", check=False)
-    git(repo, "checkout", "-q", "-b", want, base)
+        elif config.get("gitMode") in ("pr", "direct"):
+            # Ruling A: when a remote holds the default branch, its local ref belongs to the owner's
+            # checkout and the run never advances it — after the first push it is stale, and a cut from it
+            # lands the slice on pre-run code and wipes the committed .sdlc/ state from the tree. Fetch the
+            # tip (the plain form: the refspec form is refused while the owner's checkout holds the branch)
+            # and cut from origin/<defaultBranch>. With no remote the local ref is the truth and the cut is
+            # the local one. `mr` keeps the local ref too: its defaultBranch is the run's own working branch.
+            git(repo, "fetch", "-q", "origin", base, check=False)
+            if git(repo, "rev-parse", "-q", "--verify", f"refs/remotes/origin/{base}", check=False).returncode == 0:
+                base = f"origin/{base}"
+    # --no-track: a slice branch cut from origin/<defaultBranch> would track it, and a bare push on the
+    # slice branch would then fast-forward the default branch with unreviewed work
+    git(repo, "checkout", "-q", "-b", want, "--no-track", base)
     return want
 
 

@@ -220,9 +220,9 @@ def last_commit(repo):
 
 
 def build(repo, journal=None, run_label=None, run_cap=None, cache=None, box=None):
+    # a missing .sdlc/ is an empty page, not an error: with --out the page lands where the driver
+    # points (default <repo>/.sdlc/tracker), and render() creates that dir when it does not exist
     sdlc = os.path.join(repo, ".sdlc")
-    if not os.path.isdir(sdlc):
-        raise SystemExit(f"no .sdlc/ in {repo}: run /sdlc first")
     config = read_json(os.path.join(sdlc, "config.json"), {})
     reqs = read_json(os.path.join(sdlc, "requirements.json"), [])
     raw = read_json(os.path.join(sdlc, "slices.json"), [])

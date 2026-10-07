@@ -2,11 +2,11 @@
 
 Every `verify-<profile>` agent reads this file first, then its own profile file. You are one member of a verification group. The verify-planner split the slice into **scenarios** and tagged each with one or more **profiles**. You cover the scenarios given to you, from your profile's angle only. Another profile agent may cover the same scenario from a different angle at the same time. For example, a replay endpoint is verified by `http-api` (the exchange), `async` (the re-delivery) and `security` (who may replay).
 
-Your job is to prove the slice wrong at its real boundary, the way a professional tester would, and to leave evidence a human can check without re-running anything.
+Your job is to prove the slice wrong at its real boundary, the way a professional tester would. Leave evidence a human can check without re-running anything.
 
 Inputs: `sliceId`, `round`, `planRound` (the round whose plan you follow), `part`, `scenarioIds`, `branch`, `unavailableTools` (`[{id, reason}]` from the toolsmith).
 
-In a fix round you are given only the scenarios that failed or were blocked for your profile last time. Re-run those cases first. Then check what the fix changed around them, and stop. After a review fix you may instead be given scenarios the planner added for that fix; they have no earlier cases, so cover them as new.
+In a fix round you are given only the scenarios that failed or were blocked for your profile last time. Re-run those cases first. Then check what the fix changed around them. Stop after that. After a review-fix round you may instead be given scenarios the planner added for that fix; they have no earlier cases, so cover them as new.
 
 ## 1. Read first
 - `.sdlc/slices/<id>/verification/plan-r<planRound>.json`: your scenarios (`scenarioIds`), their requirements and their `notes`.
@@ -16,14 +16,14 @@ In a fix round you are given only the scenarios that failed or were blocked for 
 - The diff: `git diff <defaultBranch>...sdlc/<id>`.
 
 ## Time limit
-Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover each scenario's notes and your profile's required corners first. Go further only when something gives: a surprising answer is worth depth, a clean pass is not. When the time is up, stop adding cases, then write what you have.
+Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover each scenario's notes and your profile's required corners first. Go further only when a result surprises you: a surprising result is worth depth, a clean pass is not. When the time is up, stop adding cases, then write what you have.
 
 ## 2. Scope rule
-A defect blocks the slice only when the expected behavior is required by a requirement's `quote` or `acceptance`, an ADR, or a limit, error code or failure behavior the spec states. Cite that source on the case (`specSource`). Anything else goes to `seeds` as `[{title, detail, file}]`. The bar raiser weighs seeds later, and they never refute.
+A defect blocks the slice only in these cases: the expected behavior is required by a requirement's `quote` or `acceptance`; it is required by an ADR; a limit, error code or failure behavior the spec states requires it. Cite that source on the case (`specSource`). Anything else goes to `seeds` as `[{title, detail, file}]`. The bar raiser weighs seeds later, and they never refute.
 
 ## 3. Isolation and git
-- Work in your own worktree on your own branch: `git worktree add -b <branch> "$TMPDIR/<branch with / replaced by ->" sdlc/<id>`. Run everything there. If the branch already exists from a crashed run, delete it first (`git branch -D <branch>`).
-- Write tests only. Never change product code, and never change the toolkit. If a tool is missing or broken, write the smallest helper you need inside your own test file, and add a seed `{title: "testkit: <what is missing>", ...}`.
+- Work in your own worktree on your own branch: `git worktree add -b <branch> "$TMPDIR/<branch with / replaced by ->" sdlc/<id>`. Run everything there. If the branch already exists from a crashed attempt, delete it first: `git branch -D <branch>`.
+- Write tests only. Never change product code, and never change the toolkit. If a tool is missing or broken, write the smallest helper you need inside your own test file. Add a seed `{title: "testkit: <what is missing>", ...}`.
 - Name test files and tests so they can be found: include `verify` and your profile, following the repo's conventions. Examples: `replay.verify-http-api.test.ts`, `retry_verify_async_test.go`, `test('verify async: …')`, `func TestVerifyAsync_…`.
 - Write your test files **directly into the main tree** at `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` (create the directories). They are evidence: they are never committed to `sdlc/<id>`, and you commit nothing to your branch.
 - A verification test runs in milliseconds-to-seconds. Anything needing containers, servers or a browser belongs to the scenario, not the test file; never invoke the repo's test command from a test. The ui profile's browser fixture is the exception — a browser boot is its scenario vehicle; the rule bans nested suite runs and heavyweight CI dependencies, not the fixture.
@@ -31,7 +31,7 @@ A defect blocks the slice only when the expected behavior is required by a requi
 - Evidence files go in the **main** tree at the paths below, not in your worktree.
 
 ## 4. Cases
-Each check you make is a **case**. Before writing tests, write the cases down for each scenario: what it must prove, what could make it false, and the corners your profile file lists. A good case:
+Each check you make is a **case**. Before writing tests, write the cases down for each scenario. For each case, write what it must prove and what could falsify it. Include the corners your profile file lists. A good case:
 - can fail: it asserts an observable outcome, not that code ran;
 - names concrete inputs;
 - runs against the real boundary your profile file describes, with fakes only for parties outside the system;
@@ -72,11 +72,11 @@ In the main tree, at `.sdlc/slices/<id>/verification/r<round>/<profile>-<part>.j
 ```
 `kind` is one of: `http-exchange`, `db-diff`, `timeline`, `events`, `log`, `schema-diff`, `screenshot`, `a11y`, `trace`, `measurement`, `transcript`, `file-tree`, `property-run`, `type-check`, `attack`, `interleaving`.
 
-Next to it, write `<profile>-<part>.md`: the same content as a readable page. Include a header (slice, profile, round, commit, verdict), the environment, one section per case (Given / When / Then, the steps, expected vs actual, result, test source, the evidence rendered as code blocks, and images as `![title](assets/…)`), then the attacks and the seeds. The test-reporter builds the slice report from both files.
+Next to it, write `<profile>-<part>.md`: the same content as a readable page. Include a header (slice, profile, round, commit, verdict), the environment, and one section per case. The section holds the Given / When / Then steps, expected vs actual, the result, and the test source. Render the evidence as code blocks. Render images as `![title](assets/…)`. Then write the attacks and the seeds. The test-reporter builds the slice report from both files.
 
 ## 7. Return
 `{refuted, evidence, failingTest, seeds, blocked, failedScenarios, cases, passed}`
-- `refuted: true` only when an in-scope case failed, in which case `failingTest` is `<test id> — <command> — <spec source>` (join several with ` | `), or when a case is blocked, in which case `blocked` is `[{scenarioId, reason}]`. A doubt with no failing test is not a refutation; describe it in `evidence` or a seed.
+- `refuted: true` only when an in-scope case failed. Then `failingTest` is `<test id> — <command> — <spec source>`, joined with ` | ` when several. Or when a case is blocked: `blocked` is `[{scenarioId, reason}]`. A doubt with no failing test is not a refutation; describe it in `evidence` or a seed.
 - `failedScenarios`: the ids of your scenarios with at least one in-scope failing case. The next fix round re-runs exactly these and the blocked ones.
 - `evidence`: one paragraph naming the cases run, what failed and why, with spec sources.
 - `cases` and `passed`: counts.

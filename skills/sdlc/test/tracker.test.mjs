@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { execFileSync, spawn } from 'node:child_process'
+import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { mkdirSync, writeFileSync, readFileSync, existsSync, utimesSync, statSync } from 'node:fs'
 import vm from 'node:vm'
 import { join } from 'node:path'
@@ -56,10 +56,18 @@ test('collector turns .sdlc state into a self-contained tracker page', { skip: !
   assert.equal(readFileSync(join(out, '.gitignore'), 'utf8'), '*\n')
 })
 
-test('collector refuses a repo without .sdlc', { skip: !python && 'python3 not installed' }, () => {
+test('collector builds an empty page for a repo without .sdlc, and creates the out dir', { skip: !python && 'python3 not installed' }, () => {
+  // with --out the page lands where the driver points (default <repo>/.sdlc/tracker), so a missing
+  // .sdlc/ must not kill the build: the dir is created and the empty state is rendered
   const repo = scratch('sdlc-tracker-empty-')
-  assert.throws(() => execFileSync('python3', [COLLECT, '--repo', repo], { stdio: 'pipe' }))
-  assert.equal(existsSync(join(repo, '.sdlc')), false)
+  execFileSync('python3', [COLLECT, '--repo', repo], { stdio: 'pipe' })
+  const out = join(repo, '.sdlc', 'tracker')
+  const data = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8'))
+  assert.deepEqual(data.slices, [])
+  assert.deepEqual(data.requirements, { done: 0, total: 0, parked: 0 })
+  assert.equal(data.decisions, null)
+  assert.equal(data.run, null)
+  assert.ok(existsSync(join(out, 'index.html')))
 })
 
 test('verifier test reports render as pages with the referenced test source', { skip: !python && 'python3 not installed' }, () => {
@@ -729,4 +737,52 @@ test('the scroll box is capped and scrolls, and only the slot ever builds it', (
   assert.doesNotMatch(jsFunction(src, 'workflowCard'), /wf-scroll/, 'the redrawn card does not build the box')
   assert.match(jsFunction(src, 'drawWorkflow'), /wfScroll\.replaceChildren\(/, 'the box is the node a redraw empties')
   assert.match(jsFunction(src, 'render'), /wfScroll = el\("div", "wf-scroll"\)/, 'the slot builds the box once')
+})
+
+// the page's and the reports' rendered labels and sentences follow the same STE rules the prompt
+// files follow (prompts/ste-style.md). Rendering whole HTML through ste-check is vacuous — the
+// linter skips tag-opening lines — so the test lints the rendered strings directly: the page
+// script's string literals (its prose) and reports.py's string constants with tags stripped,
+// docstrings, CSS and regular expressions left out as code.
+test("the tracker's rendered strings follow the STE rules", { skip: !python && 'python3 not installed' }, () => {
+  const dir = scratch('sdlc-tracker-ste-')
+  const page = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
+  const scripts = [...page.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).join('\n')
+  const strings = new Set()
+  const re = /"((?:[^"\\]|\\[\s\S])*)"/g
+  let m
+  while ((m = re.exec(scripts))) {
+    const s = m[1]
+    if (s.includes(' ') && /[a-zA-Z]{2}/.test(s) && !/^[\w.%\-/:]+$/.test(s)) strings.add(s)
+  }
+  assert.ok(strings.size >= 40, `extracted ${strings.size} page strings`)
+  const tplFile = join(dir, 'template.md')
+  const repFile = join(dir, 'reports.md')
+  writeFileSync(tplFile, [...strings].join('\n') + '\n')
+  const extract = spawnSync('python3', ['-c', `
+import ast, re
+tree = ast.parse(open(${JSON.stringify(join(SKILL_DIR, 'tracker', 'reports.py'))}, encoding="utf-8").read())
+docstrings = set()
+for node in ast.walk(tree):
+    if isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.body:
+        first = node.body[0]
+        if isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant) and isinstance(first.value.value, str):
+            docstrings.add(id(first.value))
+lines = []
+for node in ast.walk(tree):
+    if not (isinstance(node, ast.Constant) and isinstance(node.value, str)) or id(node) in docstrings:
+        continue
+    s = node.value
+    if "{" in s or chr(92) in s or not re.search("[a-z]", s):
+        continue
+    s = " ".join(re.sub("<[^>]*>", " ", s).split())
+    if s and " " in s:
+        lines.append(s)
+open(${JSON.stringify(repFile)}, "w", encoding="utf-8").write("\\n".join(lines) + "\\n")
+print(len(lines))
+`], { encoding: 'utf8' })
+  assert.equal(extract.status, 0, extract.stderr)
+  assert.ok(Number(extract.stdout.trim()) >= 10, `extracted ${extract.stdout.trim()} report strings`)
+  const lint = spawnSync('python3', [join(SKILL_DIR, 'ste-check.py'), tplFile, repFile], { encoding: 'utf8' })
+  assert.equal(lint.status, 0, `ste-check flagged tracker strings:\n${lint.stdout}`)
 })
