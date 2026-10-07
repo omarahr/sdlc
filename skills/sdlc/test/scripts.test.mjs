@@ -1,7 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync, spawn } from 'node:child_process'
-import { mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync, chmodSync, mkdtempSync, utimesSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { SKILL_DIR, scratch } from './harness.mjs'
 
@@ -1560,4 +1561,134 @@ test('impact answers exit 0 with a note when the repo or git itself is unusable'
   assert.deepEqual([out.changed, out.testFiles, out.packages], [[], [], []])
   assert.match(r.stderr, /\S/)
   assert.equal(r.stderr.trim().split('\n').length, 1)
+})
+
+// ---------- janitor ----------
+// The reaper the state-reader runs once per run. Scratch reaping happens in the REAL temp dir — the
+// harness scratch root is itself an `sdlc-` dir under it, so directing the janitor there would delete
+// every other test's fixtures — which is why these tests make their own dirs, age them by mtime, and
+// clean up whatever survives.
+const JANITOR = join(SKILL_DIR, 'janitor.py')
+const runJanitor = (repo, ...args) =>
+  spawnSync('python3', [JANITOR, '--repo', repo, ...args], { encoding: 'utf8' })
+const agedDir = (name, litter = false) => {
+  const dir = mkdtempSync(join(tmpdir(), name))
+  if (litter) writeFileSync(join(dir, 'litter.txt'), 'stale scratch\n')
+  // aging last: writing into the dir bumps its mtime, so the age is set after the contents
+  const aged = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000)
+  utimesSync(dir, aged, aged)
+  return dir
+}
+
+test('the janitor reaps an old sdlc- scratch dir in the real temp dir and keeps a fresh one', opts, () => {
+  const old = agedDir('sdlc-janitor-old-', true)
+  const fresh = mkdtempSync(join(tmpdir(), 'sdlc-janitor-fresh-'))
+  try {
+    const r = runJanitor(fresh)
+    assert.equal(r.status, 0, r.stderr)
+    const out = JSON.parse(r.stdout)
+    assert.deepEqual(Object.keys(out).sort(), ['notes', 'removedBranches', 'removedDirs'])
+    assert.equal(typeof out.removedDirs, 'number')
+    assert.ok(Array.isArray(out.removedBranches), 'removedBranches is a list')
+    assert.ok(Array.isArray(out.notes), 'notes is a list')
+    assert.ok(out.removedDirs >= 1, 'nothing was reaped')
+    assert.equal(existsSync(old), false, 'the old scratch dir survived')
+    assert.equal(existsSync(fresh), true, 'the fresh scratch dir was reaped')
+
+    // --days raises the age bar: the 8-day-old dir below is within the window and the fresh one is
+// not, so survival is compared relative to the dirs themselves rather than to a count that
+// real-temp litter from other tests could upset
+    const aged = agedDir('sdlc-janitor-dated-')
+    try {
+      const wider = runJanitor(fresh, '--days', '30')
+      assert.equal(wider.status, 0, wider.stderr)
+      assert.equal(existsSync(aged), true, 'a dir within the --days window was reaped')
+      assert.equal(existsSync(fresh), true, 'the fresh dir was reaped by the wider window')
+    } finally {
+      rmSync(aged, { recursive: true, force: true })
+    }
+  } finally {
+    rmSync(fresh, { recursive: true, force: true })
+    rmSync(old, { recursive: true, force: true })
+  }
+})
+
+test('the janitor reaps by janitorDays from config.json when --days is not given', opts, () => {
+  const repo = fixture({ config: { janitorDays: 30 } })
+  const aged = agedDir('sdlc-janitor-cfg-')
+  const fresh = mkdtempSync(join(tmpdir(), 'sdlc-janitor-cfgfresh-'))
+  try {
+    // config.json says 30 days, so the 8-day-old dir survives where the default would reap it;
+    // survival is asserted on the dirs themselves, not on a count real-temp litter could upset
+    const r = runJanitor(repo)
+    assert.equal(r.status, 0, r.stderr)
+    assert.equal(existsSync(aged), true, 'config janitorDays was ignored')
+    assert.equal(existsSync(fresh), true, 'a fresh dir was reaped')
+  } finally {
+    rmSync(aged, { recursive: true, force: true })
+    rmSync(fresh, { recursive: true, force: true })
+  }
+})
+
+test('the janitor deletes v-branches of finished and unknown slices and keeps live ones', opts, () => {
+  const repo = fixture({
+    slices: [
+      slice('S-001', { status: 'done' }),
+      slice('S-002', { status: 'in_progress' }),
+      slice('S-003', { status: 'rejected' }),
+      slice('S-004'),
+      // a known slice whose row carries no status field is still known, so its branch is kept
+      slice('S-005', { status: undefined }),
+    ],
+  })
+  for (const b of ['sdlc/S-001-v1', 'sdlc/S-002-v1', 'sdlc/S-003-v1', 'sdlc/S-004-v1', 'sdlc/S-005-v1', 'sdlc/S-999-v1', 'sdlc/S-004-attempt-1-v1', 'sdlc/S-004', 'sdlc/run-1', 'sdlc/-v1', 'sdlc/S-001-vextra/nested']) {
+    git(repo, 'branch', b)
+  }
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.removedBranches.sort(), ['sdlc/S-001-v1', 'sdlc/S-003-v1', 'sdlc/S-999-v1'])
+  assert.deepEqual(out.notes, [])
+  const left = git(repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads').split('\n').sort()
+  // sdlc/-v1 has an empty id (the old crash shape) and the nested name is a foreign branch, not a
+  // v-branch: neither is a ledger row, so neither is ever swept
+  assert.deepEqual(left, ['main', 'sdlc/-v1', 'sdlc/S-001-vextra/nested', 'sdlc/S-002-v1', 'sdlc/S-004', 'sdlc/S-004-attempt-1-v1', 'sdlc/S-004-v1', 'sdlc/S-005-v1', 'sdlc/run-1'])
+})
+
+test('the janitor prunes a stale worktree registration before sweeping, so the branch is not pinned forever', opts, () => {
+  // `git branch -D` refuses a branch whose worktree is registered, and a worktree deleted without
+  // `git worktree remove` leaves that registration behind forever — the janitor would fail on the
+  // same branch every round until a human pruned. The prune before the sweep is the self-heal.
+  const repo = fixture({ slices: [slice('S-001', { status: 'done' })] })
+  git(repo, 'branch', 'sdlc/S-001-v1')
+  const wt = scratch('sdlc-wt-')
+  git(repo, 'worktree', 'add', '-q', wt, 'sdlc/S-001-v1')
+  rmSync(wt, { recursive: true, force: true })
+  // the precondition: the stale registration is what blocks the delete, so the prune is what unblocks it
+  assert.throws(() => git(repo, 'branch', '-D', 'sdlc/S-001-v1'), /used by worktree/)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(JSON.parse(r.stdout).removedBranches, ['sdlc/S-001-v1'])
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), '')
+})
+
+test('the janitor notes missing or unreadable state instead of deleting, and still runs', opts, () => {
+  // no .sdlc/ at all: the reaping is best effort, so exit 0 with a note
+  const bare = initRepo()
+  const r = runJanitor(bare)
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.removedBranches, [])
+  assert.equal(typeof out.removedDirs, 'number')
+  assert.match(out.notes.join(' '), /slices\.json/)
+
+  // an unparseable ledger deletes nothing
+  const repo = fixture({ slices: [slice('S-001', { status: 'done' })] })
+  writeFileSync(join(repo, '.sdlc', 'slices.json'), '{not json')
+  git(repo, 'branch', 'sdlc/S-001-v1')
+  const r2 = runJanitor(repo)
+  assert.equal(r2.status, 0, r2.stderr)
+  const out2 = JSON.parse(r2.stdout)
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), 'sdlc/S-001-v1', 'an unparseable ledger deleted a branch')
+  assert.match(out2.notes.join(' '), /slices\.json/)
 })

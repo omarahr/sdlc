@@ -40,6 +40,7 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
 - A command that does not apply is `""`.
 - `environment` lists the install and service commands the env-fixer ran.
 - An optional `keepEvidence: true` makes the integrator skip the retention prune of `.sdlc/slices/<id>/verification/` (see `slices/<id>/`).
+- An optional `janitorDays` sets the scratch age in days at which `janitor.py` reaps the `sdlc-` directories under the OS temp dir (default 7).
 - `commands.e2e` is set by the e2e-harness: one command that boots the whole system, runs every e2e test except the ids in `e2e/pending.json`, and tears it down.
 
 ## requirements.json
