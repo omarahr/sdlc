@@ -1260,7 +1260,13 @@ async function main() {
     if (stopHit) return finish('paused', 'stop requested; the last agent finished', history)
     if (!next) return pause('state reader failed twice', history)
     log(`#${iteration} → ${next.action}${next.sliceId ? ' ' + next.sliceId : ''}${next.milestoneId ? ' ' + next.milestoneId : ''}: ${next.reason}`)
-    if (next.action === 'stop') return finish('stopped', next.reason, history)
+    if (next.action === 'stop') {
+      // a stop-file stop pauses: the driver keeps the worktree for a paused run and never runs
+      // cleanup against it, so the promise the stop wording makes holds at the iteration top too.
+      // Any other stop reason (spec changed, pr not ready) ends the run, which removes it.
+      if (next.reason && next.reason.includes('STOP')) return finish('paused', 'stop requested', history)
+      return finish('stopped', next.reason, history)
+    }
     if (next.action === 'done') return finish('done', next.summary || next.reason, history)
     if (next.action === 'wait') return finish('waiting', next.reason, history)
     // the state could not be read or explained: nothing to run, so back off like any run without progress

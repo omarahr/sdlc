@@ -2,8 +2,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { runMain, scripted, scriptSource, loadInternals } from './harness.mjs'
 
-test('stop action ends the run as stopped', async () => {
-  const rt = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'STOP file present' }] }))
+test('a stop action without a stop-file reason ends the run as stopped', async () => {
+  const rt = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'spec changed' }] }))
   assert.equal(rt.result.state, 'stopped')
   assert.deepEqual(rt.roles(), ['state-reader'])
   assert.deepEqual(rt.errors, [])

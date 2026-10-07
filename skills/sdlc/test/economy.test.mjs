@@ -380,6 +380,18 @@ test('an iteration-top stop action still ends stopped, not paused', async () => 
   assert.doesNotMatch(rt.result.reason, /stop requested/)
 })
 
+test('a stop-file stop at the iteration top pauses, and any other stop reason still ends stopped', async () => {
+  // next-action.py's stop reason: the driver keeps the worktree for a paused run and must never run
+  // cleanup against it, so a STOP-file stop finishes paused even when no agent had started
+  const stopFile = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'A: .sdlc/STOP exists' }] }))
+  assert.equal(stopFile.result.state, 'paused')
+  assert.equal(stopFile.result.reason, 'stop requested')
+  assert.deepEqual(stopFile.result.iterations, [])
+  const other = await runMain(scripted({ 'state-reader': [{ action: 'stop', reason: 'spec changed' }] }))
+  assert.equal(other.result.state, 'stopped')
+  assert.equal(other.result.reason, 'spec changed')
+})
+
 test('a stopRequested state-reader pauses instead of stalling into the relaunch loop', async () => {
   const rt = await runMain(happy({
     // the reader no-ops because it saw the stop file: its "failed to report" must not read as a stall,
