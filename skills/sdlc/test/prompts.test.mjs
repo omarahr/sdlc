@@ -372,6 +372,12 @@ test('every agent writes comment-free code in the target repo, and its prose in 
   assert.match(common, /active voice/)
   assert.match(common, /imperative/)
   assert.match(common, /one word, one meaning/)
+  // the prose rule names its source: every report, note and status text follows ste-style.md
+  assert.match(common, /Write all reports, notes and status text in the style of `ste-style\.md`\./)
+  const style = readFileSync(join(SKILL_DIR, 'prompts', 'ste-style.md'), 'utf8')
+  assert.match(style, /`check` means verify with evidence/)
+  assert.match(style, /`confirm` means read a result/)
+  assert.ok(existsSync(join(SKILL_DIR, 'ste-check.py')), 'the linter behind the style rule exists')
   // the reviewer enforces: comments in code block; STE prose slips never do
   const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
   assert.match(reviewer, /[Cc]omments in (the )?(code|slice)/)

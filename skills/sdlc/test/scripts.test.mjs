@@ -1692,3 +1692,68 @@ test('the janitor notes missing or unreadable state instead of deleting, and sti
   assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), 'sdlc/S-001-v1', 'an unparseable ledger deleted a branch')
   assert.match(out2.notes.join(' '), /slices\.json/)
 })
+
+// ---------- ste-check ----------
+// The STE linter the prompts answer to. One clean line and one dirty line per rule ste-style.md
+// states, plus the exemptions the prompts rely on — and the rule-source files themselves must pass,
+// since they are written in the style they define.
+const STE_CHECK = join(SKILL_DIR, 'ste-check.py')
+const runSteCheck = (...files) => spawnSync('python3', [STE_CHECK, ...files], { encoding: 'utf8' })
+const steSample = (name, text) => {
+  const file = join(scratch('sdlc-ste-'), name)
+  writeFileSync(file, text)
+  return file
+}
+
+test('ste-check passes the rule sources it gates', opts, () => {
+  const r = runSteCheck(join(SKILL_DIR, 'prompts', 'ste-style.md'), join(SKILL_DIR, 'prompts', '_common.md'))
+  assert.equal(r.status, 0, r.stdout)
+})
+
+test('ste-check prints one file:line: rule — text line per violation and exits 1', opts, () => {
+  const line = 'Run the tests, check the result, commit the branch.'
+  const file = steSample('dirty.md', `${line}\n`)
+  const r = runSteCheck(file)
+  assert.equal(r.status, 1)
+  assert.deepEqual(r.stdout.trim().split('\n'), [`${file}:1: multi-clause — ${line}`])
+})
+
+test('ste-check keeps the exempt lines clean', opts, () => {
+  const clean = steSample('clean.md', [
+    'Run the tests.',
+    'The suite ran twice today.',
+    'Adjust the value, then read the file again.',
+    'The SDLC records every ADR in the decisions file.',
+    'Never create or switch branches, commit, push or restart anything.',
+    'The command `Run it! Please just make sure it is GREAT` stays unflagged.',
+    'The <MAINROOT> input names the owner checkout.',
+    '<summary>Case detail (n cases)</summary>',
+    '<patch as JSON>',
+    '# The heading SHOUTS and that is fine',
+    '| Column | OTHER |',
+    '```',
+    'RUN EVERYTHING! please just make sure it is GREAT',
+    '```',
+    '',
+  ].join('\n'))
+  const r = runSteCheck(clean)
+  assert.equal(r.status, 0, r.stdout)
+})
+
+test('ste-check flags each rule on its own line', opts, () => {
+  const cases = [
+    ['long-sentence', 'Send the report to the reviewer and the planner and the auditor and the gate and the tracker and the bar judge today.'],
+    ['exclamation', 'Report the result now!'],
+    ['all-caps', 'Never ship the API key in THIS file.'],
+    ['all-caps', 'Read <WHOOSIS> from your inputs.'],
+    ['all-caps', '<skill> THIS line opens with a raw placeholder.'],
+    ['banned-word', 'Please run the suite.'],
+    ['multi-clause', 'Run the tests, check the result, commit the branch.'],
+  ]
+  for (const [rule, line] of cases) {
+    const file = steSample('dirty.md', `${line}\n`)
+    const r = runSteCheck(file)
+    assert.equal(r.status, 1, `${rule}: ${r.stdout}`)
+    assert.deepEqual(r.stdout.trim().split('\n'), [`${file}:1: ${rule} — ${line}`], rule)
+  }
+})
