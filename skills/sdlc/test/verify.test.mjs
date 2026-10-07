@@ -323,6 +323,9 @@ test('the regression verifier runs after the collector, and alongside spec-fidel
   }))
   const { votes, lenses } = await rt.I.verifyPhase('S-1', 0)
   assert.equal(rt.I.tallyVerify(votes, lenses).pass, true)
+  // the regression lens is slice-scoped during build rounds: the scope comes from the inputs, not the prompt
+  const reg = rt.calls.find(c => c.role === 'verifier' && c.inputs.lens === 'regression')
+  assert.equal(reg.inputs.scope, 'slice')
   const order = rt.calls.map(c => (c.role === 'verifier' ? c.inputs.lens : c.role))
   assert.ok(order.indexOf('spec-fidelity') < order.indexOf('verify-collector'))
   assert.equal(order.indexOf('regression'), order.length - 1)

@@ -197,6 +197,72 @@ test('gatePhase returns an infra verdict on a silent gate agent, and parks on th
   assert.deepEqual(ledger.at(-1), { kind: 'gate', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 })
 })
 
+// blocked-only and silent-verifier rounds are infra too: they replay at the same fix round and park after three
+test('a blocked-only profile round replays at the same fix round and parks after three', async () => {
+  let reads = 0
+  const written = []
+  const rt = await runMain(scripted({
+    // production relay: the state-reader hands back what the loop actually persisted — the last
+    // state-writer patch is the slice the next iteration sees — so every infra persist is pinned by
+    // construction: deleting one breaks the relay and the test. The relay stops once the park lands:
+    // unlike the gate (one round per run iteration), the build loop spends all three infra rounds
+    // inside one action
+    'state-reader': () => {
+      const n = reads++
+      const last = written.at(-1)
+      if (n >= 3 || (last && last.inputs.patch.status === 'parked')) return { action: 'stop', reason: 'end' }
+      return sliceNext('implement', last
+        ? { risk: 'high', counters: last.inputs.patch.counters, ledger: last.inputs.patch.ledger }
+        : { risk: 'high', counters: { fixRounds: 0, gateCommit: '', infraRetries: 0 } })
+    },
+    implementer: () => ({ green: true, notes: 'green' }),
+    verifier: () => clearVote(),
+    // the review runs next to the regression lens while the profiles vote is not refuting; on an infra
+    // round its verdict is ignored, so a clean review costs nothing
+    reviewer: () => ({ findings: [] }),
+    'verify-planner': () => ({ scenarios: [{ id: 'VS-1', title: 't', requirementIds: ['R-1'], profiles: ['http-api'] }], tools: [], risk: 'high' }),
+    'verify-http-api': () => ({ refuted: false, evidence: 'no server', blocked: [{ scenarioId: 'VS-1', reason: 'the api server would not start' }] }),
+    'verify-collector': () => ok(),
+    'state-writer': call => { written.push(call); return ok() },
+    // escalator deliberately unscripted: an escalation would show up as an error and a role
+  }))
+  assert.deepEqual(rt.errors, [])
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 3)
+  assert.ok(impls.every(c => c.inputs.fixRound === 0), 'blocked-only rounds replay at the same fix round')
+  assert.equal(rt.roles().includes('escalator'), false, 'infra debt parks; it does not escalate')
+  const parked = written.filter(c => c.inputs.patch.status === 'parked')
+  assert.equal(parked.length, 1)
+  assert.equal(parked[0].inputs.patch.infraDebt, true)
+  assert.equal(parked[0].inputs.patch.counters.infraRetries, 3)
+  assert.deepEqual(parked[0].inputs.patch.ledger, [
+    { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+    { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 },
+  ])
+  // each replayed round's own persist carries the incremented infra streak; the third round's streak
+  // rides the park persist, which replaces the plain one
+  assert.deepEqual(written.filter(c => !c.inputs.patch.status).map(c => c.inputs.patch.counters.infraRetries), [1, 2])
+  assert.match(rt.result.iterations[0].outcome, /parked with infra debt/)
+})
+
+test('a round whose only anomaly is a failed-to-report verifier replays without consuming a fix round', async () => {
+  let n = 0
+  const rt = await runMain(happy({
+    // the spec-fidelity verifier fails both of its attempts in round 0; the regression lens reports normally
+    verifier: c => (c.inputs.lens === 'spec-fidelity' && n++ < 2 ? null : clearVote()),
+  }, 'implement'))
+  assert.deepEqual(rt.errors, [])
+  const arrays = ledgerArrays(rt)
+  assert.deepEqual(arrays[0].at(-1), { kind: 'verify', round: 0, outcome: 'infra', refutations: 0, failingTests: 0 })
+  assert.deepEqual(arrays[1].at(-1), { kind: 'verify', round: 0, outcome: 'verified', refutations: 0, failingTests: 0 })
+  const impls = rt.calls.filter(c => c.role === 'implementer')
+  assert.equal(impls.length, 2)
+  assert.ok(impls.every(c => c.inputs.fixRound === 0), 'the silent-verifier round replayed at the same fix round')
+  const last = rt.calls.filter(c => c.role === 'state-writer' && c.inputs.patch && c.inputs.patch.counters).at(-1)
+  assert.equal(last.inputs.patch.counters.infraRetries, 0)
+})
+
 test('three consecutive gate infra failures park the slice without escalating', async () => {
   let reads = 0
   const written = []

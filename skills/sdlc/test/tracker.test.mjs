@@ -694,7 +694,10 @@ test('the stats row carries the verify economics next to the existing counts', (
   assert.ok(stats.some((t) => t.startsWith('1 / 1') && t.includes('refutations fixed')), 'refutation→fix rate off the ledgers')
   assert.ok(stats.some((t) => t.startsWith('2') && t.includes('infra retries')))
   assert.ok(stats.some((t) => t.startsWith('1') && t.includes('max fix round') && t.includes('r0×1 · r1×1')), 'the fix-round distribution')
-  assert.ok(stats.some((t) => t.startsWith('3') && t.includes('agents per verify round')), '12 journal agents over 4 verify rounds')
+  assert.ok(stats.some((t) => t.startsWith('3') && t.includes('run agents per verify round')), '12 journal agents over 4 verify rounds')
+  // the label says "run agents": the numerator is run-wide, not the battery alone
+  const per = [...page.document.querySelectorAll('.stat')].find((s) => s.textContent.includes('run agents per verify round'))
+  assert.match(per.title, /run-wide/)
   // a run whose slices have no ledger rows shows no economics at all
   const plain = loadPage(trackerStatus(longRun()))
   assert.equal(plain.document.querySelectorAll('.stat .l').filter((l) => l.textContent.includes('verify round')).length, 0)

@@ -664,17 +664,18 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
     w.append(num, el("div", "l", label));
     return w;
   }
-  function stat0(n, label) {
+  function stat0(n, label, title) {
     const w = el("div", "stat");
+    if (title) w.title = title;
     w.append(el("div", "n", String(n)), el("div", "l", label));
     return w;
   }
 
   // verify economics, from the slices' ledger rows: the refutation→fix rate (a refuted row for a slice
   // followed by a verified row at a higher round), the infra retries, the fix-round distribution (the
-  // highest verify round each slice reached) and the agents per verify round. The hub's journal count
-  // arrives in status.json's run.agents; the page never reads the journal itself. Null while no slice
-  // has recorded a round.
+  // highest verify round each slice reached) and the run agents per verify round (run-wide, not
+  // battery-only). The hub's journal count arrives in status.json's run.agents; the page never reads
+  // the journal itself. Null while no slice has recorded a round.
   function economics(slices, run) {
     let refuted = 0, fixed = 0, infra = 0, rounds = 0, seen = false;
     const dist = {};
@@ -718,7 +719,8 @@ window.SDLC_STATUS = /*__SDLC_STATUS__*/null;
       }
       if (e.perRound != null) {
         const p = e.perRound;
-        row.append(stat0(Number.isInteger(p) ? p : Math.round(p * 10) / 10, "agents per verify round"));
+        row.append(stat0(Number.isInteger(p) ? p : Math.round(p * 10) / 10, "run agents per verify round",
+          "run-wide: every agent the run spent, divided by the verify rounds the ledger records — not the battery alone"));
       }
     }
     return row;

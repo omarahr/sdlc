@@ -25,10 +25,18 @@ test('tallyVerify: one failing test beats any number of approvals', () => {
   assert.deepEqual(r.failingTests, ['edge.test.ts > empty input'])
 })
 
-test('tallyVerify counts null votes as refutations', () => {
+test('tallyVerify treats a silent verifier as infra, not a refutation', () => {
   const r = I.tallyVerify([yes, null, null])
   assert.equal(r.pass, false)
-  assert.equal(r.refutations, 2)
+  assert.equal(r.refutations, 0)
+  assert.equal(r.infra, true)
+  // a genuine refutation still wins over a silent verifier: infra must not mask a real bug
+  const refuted = I.tallyVerify([null, yes, { refuted: true, evidence: 'broken' }])
+  assert.equal(refuted.pass, false)
+  assert.equal(refuted.refutations, 1)
+  assert.equal(refuted.infra, false)
+  // and a silent verifier alone never produces a failing test for the implementer to chase
+  assert.deepEqual(I.tallyVerify([null, null, null], ['spec-fidelity', 'profiles', 'regression']).failingTests, [])
 })
 
 test('allClear needs every vote present and not refuted', () => {
@@ -67,8 +75,9 @@ test('tallyAudit treats a failed auditor as refuting every id in its chunk', () 
 })
 
 test('normalizeCounters fills missing counters with zero and keeps given ones', () => {
-  assert.deepEqual(I.normalizeCounters({ fixRounds: 2 }), { planRevisions: 0, fixRounds: 2, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0 })
-  assert.deepEqual(I.normalizeCounters(undefined), { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0 })
+  assert.deepEqual(I.normalizeCounters({ fixRounds: 2 }), { planRevisions: 0, fixRounds: 2, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, gateCommit: '' })
+  assert.deepEqual(I.normalizeCounters(undefined), { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, gateCommit: '' })
+  assert.equal(I.normalizeCounters({ gateCommit: 'c1' }).gateCommit, 'c1')
 })
 
 test('chunk splits into fixed-size groups', () => {
@@ -112,11 +121,14 @@ test('profileVote refutes on a failing test and folds blocked scenarios and sile
   const blocked = I.profileVote([{ refuted: false, evidence: 'ok' }, { refuted: false, evidence: 'no browser', blocked: [{ scenarioId: 'VS-2', reason: 'chromium did not start' }] }], groups)
   assert.equal(blocked.refuted, false)
   assert.equal(blocked.outcome, 'infra')
-  assert.match(blocked.failingTest, /blocked: \[ui#1\] VS-2: chromium did not start/)
+  // blocked detail is infra, never a failing test: a blocked-only round must not burn a fix round
+  assert.equal(blocked.failingTest, '')
+  assert.match(blocked.evidence, /\[ui#1\] VS-2: chromium did not start/)
   const silent = I.profileVote([{ refuted: false, evidence: 'ok' }, null], groups)
   assert.equal(silent.refuted, false)
   assert.equal(silent.outcome, 'infra')
-  assert.match(silent.failingTest, /VS-3: profile verifier failed to report/)
+  assert.equal(silent.failingTest, '')
+  assert.match(silent.evidence, /failed to report/)
   // a refuting vote wins over blocked scenarios: infra must not mask a real bug
   const both = I.profileVote([{ refuted: true, evidence: 'bad', failingTest: 't1 — go test — R-1' }, { refuted: false, evidence: 'no browser', blocked: [{ scenarioId: 'VS-2', reason: 'chromium did not start' }] }], groups)
   assert.equal(both.refuted, true)

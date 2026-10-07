@@ -336,6 +336,8 @@ test('verifier tests promote into the suite only with a demonstrated catch, unde
   assert.match(impl, /## Promotion/, 'the implementer owns the promotion duty for evidence-dir tests')
   assert.match(impl, /verification\/r<round>\/tests\//)
   assert.match(impl, /Record promoted files in tests\.md/)
+  // door 2: a reviewer's keep-worthy finding promotes a verifier test too, not only a demonstrated catch
+  assert.match(impl, /review finding names a verifier test/)
   const checker = readFileSync(join(SKILL_DIR, 'prompts', 'test-checker.md'), 'utf8')
   assert.match(checker, /suite-count/)
   const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
@@ -343,6 +345,9 @@ test('verifier tests promote into the suite only with a demonstrated catch, unde
   assert.ok(quality.length > 0, 'the test-quality lens section is missing')
   assert.match(quality, /serial-pass/)
   assert.match(quality, /nested/)
+  // the reviewer reports a keep-worthy verifier test as blocking, naming its path under verification/
+  assert.match(quality, /keep-worthy/)
+  assert.match(quality, /verification\//)
 })
 
 test('the regression lens holds the suite slot in full scope, and the slice scope survives an impact.py failure', () => {
@@ -354,7 +359,9 @@ test('the regression lens holds the suite slot in full scope, and the slice scop
   // the full scope holds the suite slot before running the suite, and releases it in every exit path
   assert.match(fullLine, /Hold the suite slot first: `python3 "<skill>\/suite-receipt\.py" slot --repo \.`/)
   assert.match(fullLine, /blocks until free/)
-  assert.match(fullLine, /release it with `slot-release` in every exit path/)
+  assert.match(fullLine, /elease it with `slot-release` in every exit path/)
+  // the holder is a background process: it keeps holding the slot until slot-release ends it
+  assert.match(fullLine, /[Rr]un it in the background/)
   // a busy slot across attempts means a live orphaned holder, not a crashed one (a crashed holder's
   // flock dies with the process): one slot-release recovers, and a handover is never re-entered
   assert.match(fullLine, /an orphaned holder \(a slot process that outlived its run\)/)
@@ -379,10 +386,12 @@ test('the regression lens holds the suite slot in full scope, and the slice scop
   const gateStep3 = gate.split('\n').find(l => l.startsWith('3. Run the **full** regression lens'))
   assert.ok(gateStep2 && gateStep3, 'the gate steps are missing')
   assert.match(gateStep2, /a previous holder was orphaned/)
+  assert.match(gateStep2, /[Rr]un it in the background/)
   assert.match(gateStep2, /suite-receipt\.py" slot-release --repo \.` once and hold again/)
   assert.match(gateStep3, /skipping its slot step/)
   assert.match(gateStep3, /every other rule there verbatim/)
   assert.doesNotMatch(gateStep3, /Follow every rule there verbatim/)
+  assert.ok(gate.endsWith('\n'), 'gate.md ends with a newline')
 })
 
 test('the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them', () => {
@@ -427,8 +436,10 @@ test('the integrator trusts the gate receipt, regates after a product-code CI fi
   // screenshots are embedded from the report's own assets folder, so the links survive the prune
   assert.match(reporter, /!\[<state>\]\(assets\/<file>\.png\)/)
   assert.doesNotMatch(reporter, /verification\/r<n>\/assets/)
-  // and the commit stages the assets too, so the images ship with the slice's PR
+  // and the commit stages the assets too, so the images ship with the slice's PR — but only
+  // when the folder exists: a screenshot-free report must not fail its git add on a missing pathspec
   assert.match(reporter, /git add \.sdlc\/reports\/<id>\/REPORT\.md \.sdlc\/reports\/<id>\/assets/)
+  assert.match(reporter, /assets\/` folder does not exist/)
 })
 
 test('the state schema documents the verify economy the loop implements', () => {

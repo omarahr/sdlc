@@ -127,9 +127,10 @@ def started_ago(entry, now):
 def economics(slices, status):
     """Verify economics over the slices' ledger rows, for the run card: the refutation→fix rate (a
     refuted row for a slice followed by a verified row at a higher round), the infra retries, the
-    fix-round distribution (the highest verify round each slice reached) and the agents per verify
-    round. The hub never reads the journal: collect.py already counted it into status.json's
-    run.agents, and that count is divided by the verify rounds the ledger records. None while no
+    fix-round distribution (the highest verify round each slice reached) and the run agents per
+    verify round (run-wide, not battery-only). The hub never reads the journal: collect.py already
+    counted it into status.json's run.agents — every agent the run spent, build and review and gate
+    included — and that count is divided by the verify rounds the ledger records. None while no
     slice has recorded a round."""
     refuted = fixed = infra = verify_rounds = 0
     dist = {}
@@ -197,7 +198,8 @@ def econ_html(e):
     if e["perRound"] is not None:
         p = e["perRound"]
         p = int(p) if p == int(p) else round(p, 1)
-        parts.append(f'<b>{p}</b> agents/verify round')
+        parts.append('<span title="run-wide: every agent this run spent, divided by the verify rounds the ledger records — not the battery alone">'
+                     f'<b>{p}</b> run agents/verify round</span>')
     if not parts:
         return ""
     return f'<p class="econ">{" · ".join(parts)}</p>'

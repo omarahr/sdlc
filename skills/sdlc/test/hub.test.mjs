@@ -167,7 +167,9 @@ test("the index shows each run's verify economics from its slices' ledger rows",
     assert.match(index.body, /<b>2<\/b> infra retries/)
     assert.match(index.body, /max fix round <b>1<\/b>/)
     assert.match(index.body, /r0×1 · r1×1/, 'the fix-round distribution: one slice at round 0, one at round 1')
-    assert.match(index.body, /<b>3<\/b> agents\/verify round/, '12 journal agents over 4 verify rounds')
+    assert.match(index.body, /<b>3<\/b> run agents\/verify round/, '12 journal agents over 4 verify rounds')
+    // the label notes the numerator is run-wide, not the battery alone
+    assert.match(index.body, /run-wide/)
   } finally { await hub.stop() }
 })
 

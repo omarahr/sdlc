@@ -78,10 +78,12 @@ function isInfra(v) {
 function tallyVerify(votes, lenses = []) {
   const failingTests = votes.filter(v => v && v.failingTest).map(v => v.failingTest)
   votes.forEach((v, i) => {
-    if (lenses[i] === 'regression' && isRefuting(v) && !isInfra(v) && !(v && v.failingTest)) failingTests.push(`regression: ${v ? v.evidence : 'verifier failed to report'}`)
+    // a real refutation without a failing test still fails the round; a silent verifier never does —
+    // it is infra below, and "verifier failed to report" is not evidence against the slice
+    if (lenses[i] === 'regression' && v && isRefuting(v) && !isInfra(v) && !v.failingTest) failingTests.push(`regression: ${v.evidence}`)
   })
-  const refutations = votes.filter(v => isRefuting(v) && !isInfra(v)).length
-  const infra = !refutations && failingTests.length === 0 && votes.some(isInfra)
+  const refutations = votes.filter(v => v && isRefuting(v) && !isInfra(v)).length
+  const infra = !refutations && failingTests.length === 0 && (votes.some(isInfra) || votes.some(v => !v))
   // each vote looks at something the others do not, so one refutation is enough: the spec-fidelity verifier
   // often has no failing test to name, and a majority rule would let the other two outvote it
   return { pass: failingTests.length === 0 && refutations === 0 && !infra, refutations, failingTests, infra }
@@ -151,7 +153,8 @@ function groupScenarios(scenarios, max = PROFILE_AGENT_LIMIT) {
 }
 
 // folds the profile agents into one vote: a failing test or refuting evidence refutes it; blocked
-// scenarios and silent agents are infra
+// scenarios and silent agents are infra. Their detail rides in the evidence, never in the failing test:
+// an infra-only round must never hand the implementer a failing test to chase (and burn a fix round on)
 function profileVote(votes, groups) {
   const failing = []
   const infra = []
@@ -159,21 +162,18 @@ function profileVote(votes, groups) {
   votes.forEach((v, i) => {
     const g = groups[i]
     const tag = `[${g.profile}${g.part ? `#${g.part}` : ''}]`
-    if (!v) {
-      infra.push(...g.scenarioIds.map(id => `${tag} ${id}: profile verifier failed to report`))
-      return
-    }
+    if (!v) return // a silent agent is infra (outcome below); its scenarios re-run via pendingPairs
     if (v.failingTest) failing.push(`${tag} ${v.failingTest}`)
     for (const b of v.blocked || []) infra.push(`${tag} ${b.scenarioId}: ${b.reason}`)
     if (isRefuting(v) && !isInfra(v)) refuters.push(`${tag} ${v.evidence}`)
   })
-  const failingTest = [...failing, ...infra.map(b => `blocked: ${b}`)].join(' | ')
+  const failingTest = failing.join(' | ')
   const refuted = failing.length > 0 || refuters.length > 0
   const evidence = groups.length
-    ? votes.map((v, i) => `[${groups[i].profile}${groups[i].part ? `#${groups[i].part}` : ''}] ${v ? `${v.refuted ? 'REFUTED' : 'ok'}: ${v.evidence}` : 'failed to report'}`).join(' ; ')
+    ? [...votes.map((v, i) => `[${groups[i].profile}${groups[i].part ? `#${groups[i].part}` : ''}] ${v ? `${v.refuted ? 'REFUTED' : 'ok'}: ${v.evidence}` : 'failed to report'}`), ...infra].join(' ; ')
     : 'no scenarios to verify'
   const seeds = votes.filter(Boolean).flatMap(v => v.seeds || [])
-  const outcome = refuted ? 'refuted' : infra.length || votes.some(isInfra) ? 'infra' : 'verified'
+  const outcome = refuted ? 'refuted' : infra.length || votes.some(isInfra) || votes.some(v => !v) ? 'infra' : 'verified'
   return { refuted, outcome, evidence, failingTest, seeds }
 }
 
@@ -221,7 +221,7 @@ function tallyAudit(ids, results) {
 }
 
 function normalizeCounters(c) {
-  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, ...(c || {}) }
+  return { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, gateCommit: '', ...(c || {}) }
 }
 
 function chunk(arr, size) {
@@ -669,10 +669,10 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
     { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })
   const coreRun = lens => () => {
     const opts = { schema: VOTE, phase: 'Verify', label: `${id}:${lens}` }
-    return run('verifier', { sliceId: id, lens, round }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
+    return run('verifier', { sliceId: id, lens, round, scope: 'slice' }, lens === 'spec-fidelity' ? reviewOpts(opts) : opts)
   }
-  // with profile tests to run, the regression verifier waits for the profile agents: their test files land in the
-  // main tree as they work, and it runs the full suite once on a machine they have left
+  // with profile tests to run, the regression verifier waits for the profile agents: their test files land
+  // in the main tree as they work, and the slice-scoped regression lens runs once they have left
   const early = groups.length ? ['spec-fidelity'] : ['spec-fidelity', 'regression']
   const all = await parallel([
     ...early.map(coreRun),
@@ -687,7 +687,8 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
   let pending = pendingPairs(profiles, groups)
   if (groups.length) {
     const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
-    // cleanup is infra, not evidence: a collector failure never refutes; the branch sweep at the gate catches leftovers
+    // cleanup is infra, not evidence: a collector failure never refutes; the integrator's cleanup
+    // sweeps any branches a finished slice left behind
     if (!c || !c.ok) log(`${id} verify r${round}: verify-collector did not finish cleanup (${c ? c.notes || '' : 'no report'})`)
   }
   const pv = plan
@@ -831,8 +832,10 @@ async function gatePhase(id, counters, ledger = []) {
   phase('Gate')
   let g = await run('gate', { sliceId: id }, { schema: GATE, phase: 'Gate', label: id })
   if (!g) g = { state: 'infra', notes: 'gate agent failed to report' }
-  // the gate's own ledger row: a fail carries the real failing test it found
-  const pushRow = outcome => ledger.push(ledgerRow('gate', 0, outcome, outcome === 'refuted' ? 1 : 0, outcome === 'refuted' ? 1 : 0))
+  // the gate's own ledger row: a fail carries the real failing test it found (0 when it names none)
+  const pushRow = outcome => ledger.push(ledgerRow('gate', 0, outcome,
+    outcome === 'refuted' && g.failingTest ? 1 : 0,
+    outcome === 'refuted' && g.failingTest ? 1 : 0))
   // the return is {verdict, failingTest} so sliceAction can hand the gate's failing test to the build loop
   if (g.state === 'pass') {
     counters.gateCommit = g.commit || ''
