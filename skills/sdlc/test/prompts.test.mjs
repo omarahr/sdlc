@@ -484,14 +484,23 @@ test('the state schema documents the verify economy the loop implements', () => 
   assert.doesNotMatch(schema, /slices\/<id>\/REPORT\.md/)
 })
 
-test('the driver ensures the run worktree before launching, and points the loop at it', () => {
+test('the driver ensures the run worktree before the config checks, and points the loop at it', () => {
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // the worktree comes first, and WT is its one name: run state (config, gitMode, resume) reads $WT after it
+  const wt = skill.indexOf('**Run worktree:**')
+  assert.ok(wt > -1, 'the run worktree step is missing')
+  assert.ok(wt < skill.indexOf('specPath'), 'the worktree step must precede the config checks')
+  assert.match(skill, /WT="\$REPO\/\.claude\/worktrees\/sdlc-run"/)
   // pre-flight: the folder is git-ignored first, the worktree is created or reused, never reset
   assert.match(skill, /git-ignored[\s\S]{0,200}\.claude\/worktrees\//, '.claude/worktrees/ is ignored before use')
-  assert.match(skill, /worktree add .*\.claude\/worktrees\/sdlc-run -b sdlc\/run-<n>/)
+  assert.match(skill, /worktree add "\$WT" -b sdlc\/run-<n>/)
   assert.match(skill, /\(count of `sdlc\/run-\*` branches\) \+ 1/, 'n comes from the existing run branches')
   assert.match(skill, /merge --ff-only origin\/<defaultBranch>/, 'a relaunch reuses and fast-forwards the worktree')
+  assert.match(skill, /diverged and end[\s\S]{0,80}the owner decides/, 'a failed ff-only sync is the owner\'s call')
   assert.match(skill, /[Dd]irty[\s\S]{0,120}report and end[\s\S]{0,120}owner/, 'a dirty worktree is the owner\'s, never reset')
+  // run state reads the worktree: the specPath check, and never a checkout in the owner's tree
+  assert.match(skill, /`\$WT\/\.sdlc\/config\.json` exists and its `specPath` differs/)
+  assert.doesNotMatch(skill, /git -C "\$REPO" checkout <config\.runBranch>/, 'the owner\'s checkout is never moved to the run branch')
   // the launch hands the loop the worktree as its repo, and the stop probe the owner's checkout
   assert.match(skill, /repoRoot: "<worktree path>", mainRoot: REPO/)
 })
@@ -510,10 +519,28 @@ test('the loop-end cleanup removes the worktree and the run branch, and reports 
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
   const whenever = skill.split('\n').find(l => l.includes('Whenever the loop ends'))
   assert.ok(whenever, 'the whenever-the-loop-ends bullet is missing')
-  assert.match(whenever, /worktree remove .*\.claude\/worktrees\/sdlc-run/)
-  assert.match(whenever, /branch -D sdlc\/run-<n>/)
+  assert.match(whenever, /worktree remove "\$WT"/)
+  // -d, not -D: the deletion refuses unmerged work, so the report path is real
+  assert.match(whenever, /branch -d sdlc\/run-<n>/)
+  assert.doesNotMatch(whenever, /branch -D/)
   assert.match(whenever, /slice state is committed to `<defaultBranch>`/)
-  assert.match(whenever, /[Rr]efusal[\s\S]{0,120}unmerged[\s\S]{0,120}keep both, end/)
+  assert.match(whenever, /[Rr]efusal[\s\S]{0,160}keep both, end/)
+})
+
+test('the tracker reads run state from the worktree and writes to the owner\'s checkout', () => {
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  // both collect.py invocations read the run worktree and land the page in the owner's checkout
+  const sites = skill.split('\n').filter(l => l.includes('collect.py'))
+  assert.ok(sites.length >= 2, 'the build and watch commands are missing')
+  for (const l of sites) assert.match(l, /--repo "\$WT" --out "\$REPO\/\.sdlc\/tracker"/, `a collect.py call misses the split: ${l}`)
+  // /sdlc status prints the run worktree's STATUS.md first, the repo root's as fallback
+  const status = skill.split('\n').find(l => l.includes('/sdlc status`:'))
+  assert.ok(status, 'the status line is missing')
+  assert.match(status, /worktrees\/sdlc-run\/\.sdlc\/STATUS\.md/)
+  // the bar-raiser round count is read where the run writes it
+  assert.match(skill, /`rounds` in the run worktree's `\.sdlc\/barraiser\.json`/)
+  // the driver file stays on the owner's checkout, never in the worktree
+  assert.match(skill, /\$REPO\/\.sdlc\/tracker\/driver\.json/)
 })
 
 test('the schema pins the merge prune and the run request names the moved reports', () => {

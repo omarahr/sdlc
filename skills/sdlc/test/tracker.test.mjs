@@ -56,10 +56,18 @@ test('collector turns .sdlc state into a self-contained tracker page', { skip: !
   assert.equal(readFileSync(join(out, '.gitignore'), 'utf8'), '*\n')
 })
 
-test('collector refuses a repo without .sdlc', { skip: !python && 'python3 not installed' }, () => {
+test('collector builds an empty page for a repo without .sdlc, and creates the out dir', { skip: !python && 'python3 not installed' }, () => {
+  // with --out the page lands where the driver points (default <repo>/.sdlc/tracker), so a missing
+  // .sdlc/ must not kill the build: the dir is created and the empty state is rendered
   const repo = scratch('sdlc-tracker-empty-')
-  assert.throws(() => execFileSync('python3', [COLLECT, '--repo', repo], { stdio: 'pipe' }))
-  assert.equal(existsSync(join(repo, '.sdlc')), false)
+  execFileSync('python3', [COLLECT, '--repo', repo], { stdio: 'pipe' })
+  const out = join(repo, '.sdlc', 'tracker')
+  const data = JSON.parse(readFileSync(join(out, 'status.json'), 'utf8'))
+  assert.deepEqual(data.slices, [])
+  assert.deepEqual(data.requirements, { done: 0, total: 0, parked: 0 })
+  assert.equal(data.decisions, null)
+  assert.equal(data.run, null)
+  assert.ok(existsSync(join(out, 'index.html')))
 })
 
 test('verifier test reports render as pages with the referenced test source', { skip: !python && 'python3 not installed' }, () => {
