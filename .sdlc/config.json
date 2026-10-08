@@ -1,0 +1,21 @@
+{
+  "specPath": "docs/superpowers/specs/2026-10-08-branch-format-design.md",
+  "specHash": "116d9f224de1840c9d2e014e41c17133bbd00ef2be7e02dcbab2cab4d34d6aec",
+  "overridesSeen": 0,
+  "gitMode": "pr",
+  "forge": "github",
+  "defaultBranch": "main",
+  "runBranch": "",
+  "targetBranch": "",
+  "commitFormat": "",
+  "runRequest": null,
+  "commands": {
+    "install": "",
+    "build": "",
+    "test": "npm test",
+    "lint": "",
+    "typecheck": "",
+    "e2e": ""
+  },
+  "environment": []
+}
