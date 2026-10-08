@@ -399,7 +399,8 @@ function fakeDom() {
     setItem: (k, v) => kept.set(k, String(v)),
     removeItem: k => kept.delete(k),
   }
-  const doc = { activeElement: null, title: '', focusCalls: [], ids: {} }
+  // metrics: scroll metrics by class, for a box a redraw builds anew, as a browser measures it
+  const doc = { activeElement: null, title: '', focusCalls: [], ids: {}, metrics: {} }
 
   class E {
     constructor(tag) {
@@ -407,8 +408,16 @@ function fakeDom() {
       this.children = []; this.parentNode = null; this._text = '';
       this.title = ''; this.type = ''; this.hidden = false; this.open = false;
       // scroll metrics the tests set by hand; writing scrollTop clamps and fires scroll, as a browser does
-      this._st = 0; this.scrollHeight = 0; this.clientHeight = 0;
+      this._st = 0; this._sh = null; this._ch = null;
     }
+    // by the first class, or by the tag for a node with none
+    metric(k) { const m = doc.metrics[this.className.split(/\s+/)[0] || this.tagName]; return (m && m[k]) || 0 }
+    get scrollHeight() { return this._sh ?? this.metric('scrollHeight') }
+    set scrollHeight(v) { this._sh = v }
+    get clientHeight() { return this._ch ?? this.metric('clientHeight') }
+    set clientHeight(v) { this._ch = v }
+    // a rect the tests set by hand, for the rows the follow brings into view
+    getBoundingClientRect() { return this._rect || this.metric('rect') || { top: 0, bottom: 0 } }
     get scrollTop() { return this._st }
     set scrollTop(v) {
       this._st = Math.max(0, Math.min(v, this.scrollHeight - this.clientHeight));
@@ -531,114 +540,147 @@ const trackerStatus = (workflow) => ({
   requirements: { done: 1, total: 3, parked: 1 }, slices: [], milestones: [], recent: [], workflow,
 })
 
-test('the workflow card is drawn into a bounded scroll box that a redraw does not replace', () => {
+// the agent list is the scroll box, and a redraw builds it anew; these give every list the
+// metrics a browser would measure for it
+const listMetrics = (page, scrollHeight = 2000, clientHeight = 400) => {
+  page.document.metrics['wf-agents'] = { scrollHeight, clientHeight }
+}
+const list = (page) => page.document.querySelector('.wf-agents')
+
+test('the agent list is the scroll box, and a redraw keeps where the person scrolled to', () => {
   const wf = longRun()
   const page = loadPage(trackerStatus(wf))
-  const box = page.document.querySelector('.wf-scroll')
-  assert.ok(box, 'the card is drawn into a scroll box of its own')
-  const card = box.querySelector('.wf')
-  assert.ok(card, 'and the card is inside it')
-  assert.equal(card.querySelector('.wf-scroll'), null, 'the box wraps the card, not the other way round')
-  assert.equal(card.contains(box), false)
-  assert.equal(box.querySelectorAll('.wf-agent').length, 1, 'the phase the loop is in is the one on show')
+  const card = page.document.querySelector('.wf')
+  assert.ok(card, 'the card is drawn')
+  assert.ok(card.querySelector('.wf-head'), 'with its head above the body, outside the list')
+  assert.equal(list(page).querySelector('.wf-head'), null, 'so the head does not scroll away with the agents')
+  assert.ok(list(page).querySelector('h3'), 'the phase heading is inside the list, where it sticks')
+  assert.equal(list(page).querySelectorAll('.wf-agent').length, 1, 'the phase the loop is in is the one on show')
   // the person has scrolled up to read; a redraw must not yank them back to the newest agent
-  box.scrollHeight = 2000; box.clientHeight = 400
-  box.scrollTop = 120
+  listMetrics(page)
+  list(page).scrollTop = 120
+  const before = list(page)
   const more = longRun()
   more.run.agents.push(agent('r2', 'reviewer:S-003:architecture', 'Review', 'running', { startedAt: '2026-01-12T09:56:00Z', seconds: 0 }))
   page.live(page.next(more))
-  const after = page.document.querySelector('.wf-scroll')
-  assert.equal(page.document.querySelectorAll('.wf-scroll').length, 1, 'there is still exactly one box')
-  assert.equal(after, box, 'and it is the same node, not one the redraw built')
-  assert.notEqual(after.querySelector('.wf'), card, 'the card inside it really was replaced')
-  assert.equal(after.scrollTop, 120, 'so the box kept where the person had scrolled to')
-  assert.equal(after.querySelectorAll('.wf-agent').length, 2, 'and the new agent is in it')
+  assert.equal(page.document.querySelectorAll('.wf-agents').length, 1, 'there is still exactly one list')
+  assert.notEqual(list(page), before, 'the list really was rebuilt')
+  assert.equal(list(page).scrollTop, 120, 'and the new list is where the person had scrolled to')
+  assert.equal(list(page).querySelectorAll('.wf-agent').length, 2, 'and the new agent is in it')
 })
 
 test('picking a phase and following the live phase bring that phase into view', () => {
   const page = loadPage(trackerStatus(longRun()))
-  const box = page.document.querySelector('.wf-scroll')
-  box.scrollHeight = 2000; box.clientHeight = 400
-  const heading = () => box.querySelector('.wf-agents h3').textContent
-  const phase = (n) => box.querySelectorAll('.wf-phase').find((b) => b.dataset.phase === n)
+  listMetrics(page)
+  const heading = () => list(page).querySelector('h3').textContent
+  const phase = (n) => page.document.querySelectorAll('.wf-phase').find((b) => b.dataset.phase === n)
   assert.match(heading(), /^Review /, 'a fresh page follows the phase the loop is in')
+  list(page).scrollTop = 200
   phase('Implement').click()
-  assert.match(heading(), /^Implement /, 'the picked phase is the one the box shows')
-  assert.equal(box.scrollTop, 0, 'shown from the top')
+  assert.match(heading(), /^Implement /, 'the picked phase is the one the list shows')
+  assert.equal(list(page).scrollTop, 0, 'shown from the top')
   assert.equal(phase('Implement').className, 'wf-phase sel')
-  const follow = box.querySelectorAll('button').find((b) => b.dataset.follow)
+  const follow = page.document.querySelectorAll('.wf button').find((b) => b.dataset.follow)
   assert.ok(follow, 'the follow control appears once a phase is pinned away from the live one')
   assert.equal(follow.textContent, 'Follow the live phase')
-  box.scrollTop = 90
+  list(page).scrollTop = 90
   follow.click()
   assert.match(heading(), /^Review /, 'back to the phase the loop is in')
-  assert.equal(page.document.querySelector('.wf-scroll').scrollTop, 1600, 'and follow lands on the newest agent, at the bottom of the box')
-  assert.equal(box.querySelectorAll('button').some((b) => b.dataset.follow), false, 'nothing left to follow')
+  assert.equal(list(page).scrollTop, 1600, 'and follow lands on the newest agent, at the bottom of the list')
+  assert.equal(page.document.querySelectorAll('.wf button').some((b) => b.dataset.follow), false, 'nothing left to follow')
   // and the pin is forgotten, so a redraw keeps following
   page.live(page.next(longRun()))
   assert.match(heading(), /^Review /)
 })
 
-test('the box tails the newest agent while the live phase is followed, and pauses when the person scrolls up', () => {
+test('the list tails the newest agent while the live phase is followed, and pauses when the person scrolls up', () => {
   const page = loadPage(trackerStatus(longRun()))
-  const box = page.document.querySelector('.wf-scroll')
-  // the browser reports real metrics on its own; the fake DOM needs them set by hand
-  box.scrollHeight = 2000; box.clientHeight = 400
-  const bottom = () => box.scrollHeight - box.clientHeight
+  listMetrics(page)
+  const bottom = () => list(page).scrollHeight - list(page).clientHeight
   const more = longRun()
   more.run.agents.push(agent('r2', 'reviewer:S-003:architecture', 'Review', 'running', { startedAt: '2026-01-12T09:56:00Z', seconds: 0 }))
   page.live(page.next(more))
-  assert.equal(box.scrollTop, bottom(), 'a page that never scrolled anywhere follows the newest agent at the bottom')
+  assert.equal(list(page).scrollTop, bottom(), 'a page that never scrolled anywhere follows the newest agent at the bottom')
   // scrolling up to read pauses the tail: a redraw leaves the person where they are
-  box.scrollTop = 300
+  list(page).scrollTop = 300
   const more2 = longRun()
   more2.run.agents.push(agent('r2', 'reviewer:S-003:architecture', 'Review', 'running', { startedAt: '2026-01-12T09:56:00Z', seconds: 0 }),
     agent('r3', 'reviewer:S-003:ux', 'Review', 'running', { startedAt: '2026-01-12T09:57:00Z', seconds: 0 }))
-  box.scrollHeight = 2160
+  listMetrics(page, 2160)
   page.live(page.next(more2))
-  assert.equal(box.scrollTop, 300, 'a redraw does not yank a person reading up the list')
+  assert.equal(list(page).scrollTop, 300, 'a redraw does not yank a person reading up the list')
   // scrolling back to the bottom resumes the tail
-  box.scrollTop = bottom()
+  list(page).scrollTop = bottom()
   const more3 = longRun()
   more3.run.agents.push(agent('r2', 'reviewer:S-003:architecture', 'Review', 'running', { startedAt: '2026-01-12T09:56:00Z', seconds: 0 }),
     agent('r3', 'reviewer:S-003:ux', 'Review', 'running', { startedAt: '2026-01-12T09:57:00Z', seconds: 0 }),
     agent('r4', 'reviewer:S-003:perf', 'Review', 'running', { startedAt: '2026-01-12T09:58:00Z', seconds: 0 }))
-  box.scrollHeight = 2240
+  listMetrics(page, 2240)
   page.live(page.next(more3))
-  assert.equal(box.scrollTop, bottom(), 'the tail picks up again once the person is back at the bottom')
+  assert.equal(list(page).scrollTop, bottom(), 'the tail picks up again once the person is back at the bottom')
 })
 
-test("the running agents' clocks still tick between redraws, inside the box", () => {
+test("the running agents' clocks still tick between redraws, inside the list", () => {
   const wf = longRun()
   const page = loadPage(trackerStatus(wf))
-  const box = page.document.querySelector('.wf-scroll')
-  const running = () => box.querySelector('.wf-agent.running[data-start]')
+  const running = () => list(page).querySelector('.wf-agent.running[data-start]')
   const time = () => running().querySelector('.time').textContent
   assert.equal(time(), '5m00s', 'the running agent shows how long it has been going')
   page.clock.t += 60 * 1000
   page.poll()
   assert.equal(time(), '6m00s', 'and keeps counting between redraws')
-  box.scrollHeight = 2000; box.clientHeight = 400
-  box.scrollTop = 30
+  listMetrics(page)
+  list(page).scrollTop = 30
   page.live(page.next(wf))
   assert.equal(time(), '6m00s', 'a redraw does not lose the running agent')
-  assert.equal(page.document.querySelector('.wf-scroll').scrollTop, 30, 'nor the place in the list')
+  assert.equal(list(page).scrollTop, 30, 'nor the place in the list')
 })
 
 test('a redraw puts the focus back on the same control without moving the page or the list', () => {
   const page = loadPage(trackerStatus(longRun()))
-  const box = page.document.querySelector('.wf-scroll')
-  const phase = (n) => box.querySelectorAll('.wf-phase').find((b) => b.dataset.phase === n)
+  const phase = (n) => page.document.querySelectorAll('.wf-phase').find((b) => b.dataset.phase === n)
   phase('Plan').focus() // the person is on this button when the watcher rebuilds the card
   page.document.focusCalls.length = 0
-  box.scrollHeight = 2000; box.clientHeight = 400
-  box.scrollTop = 64
+  listMetrics(page)
+  list(page).scrollTop = 64
   page.live(page.next(longRun()))
   const last = page.document.focusCalls.at(-1)
   assert.ok(last, 'the focus was put back')
   assert.equal(last.node.dataset.phase, 'Plan', 'on the same phase button')
-  assert.equal(last.opts && last.opts.preventScroll, true, 'without scrolling the page or the box to do it')
-  assert.equal(page.document.querySelector('.wf-scroll').scrollTop, 64, 'and without disturbing the list')
+  assert.equal(last.opts && last.opts.preventScroll, true, 'without scrolling the page or the list to do it')
+  assert.equal(list(page).scrollTop, 64, 'and without disturbing the list')
+})
+
+test('the follow brings the newest running agent into view when finished agents sit below it', () => {
+  // the reviewer started last of the running ones; three agents started after it and are done
+  // tokens: the page redraws only for changed data, so each payload differs in the first agent
+  const reviewRun = (tokens = 1000) => runFixture([
+    agent('p1', 'planner:S-003', 'Review', 'done', { tokens }),
+    agent('r1', 'reviewer:S-003:security', 'Review', 'running', { startedAt: '2026-01-12T09:55:00Z', seconds: 0 }),
+    ...Array.from({ length: 3 }, (_, i) => agent('d' + i, 'critic:S-003:' + i, 'Review', 'done')),
+  ])
+  const page = loadPage(trackerStatus(reviewRun()))
+  // a list 400 high on screen at y 100..500, heading to y 130, scrolled to its foot at 600
+  // the follow scrolls to the bottom first; at the bottom the running row is above the heading
+  page.document.metrics['wf-agents'] = { scrollHeight: 1000, clientHeight: 400, rect: { top: 100, bottom: 500 } }
+  page.document.metrics.h3 = { rect: { top: 100, bottom: 130 } }
+  page.document.metrics['wf-agent'] = { rect: { top: 80, bottom: 100 } }
+  page.live(page.next(reviewRun(2000)))
+  assert.equal(list(page).scrollTop, 600 + 100 - 500 + 12, 'the running agent sits at the foot of the list')
+  page.live(page.next(reviewRun(3000)))
+  assert.equal(list(page).scrollTop, 212, 'and the follow is still on after a redraw, though short of the bottom')
+  // with nothing finished below it, the running agent is in view at the bottom, and the follow goes there
+  page.document.metrics['wf-agent'] = { rect: { top: 470, bottom: 490 } }
+  page.live(page.next(reviewRun(4000)))
+  assert.equal(list(page).scrollTop, 600)
+})
+
+test('the phase column keeps its own scroll position across a redraw', () => {
+  const page = loadPage(trackerStatus(longRun()))
+  page.document.metrics['wf-phases'] = { scrollHeight: 600, clientHeight: 400 }
+  page.document.querySelector('.wf-phases').scrollTop = 150
+  page.live(page.next(longRun()))
+  assert.equal(page.document.querySelector('.wf-phases').scrollTop, 150)
 })
 
 // the source side: the cap, and where the box is built
@@ -721,22 +763,25 @@ test('the stats row carries the verify economics next to the existing counts', (
   assert.ok(gateStats.every((t) => !t.includes('-Infinity')), 'and no -Infinity anywhere')
 })
 
-test('the scroll box is capped and scrolls, and only the slot ever builds it', () => {
+test('the card body is capped, the agent list scrolls under a sticky heading, and the head stays out of it', () => {
   const src = readFileSync(join(SKILL_DIR, 'tracker', 'template.html'), 'utf8')
-  const rule = cssRule(src, '.wf-scroll')
-  assert.ok(rule, '.wf-scroll has a rule of its own')
-  assert.match(rule, /max-height:\s*(?:min\([^)]*\)|\d+(?:\.\d+)?(?:px|vh|rem|em|%))/, 'the box has a maximum height')
-  assert.doesNotMatch(rule, /(?:^|;)\s*height:/, 'a cap, not a fixed height, so a short run is not padded out')
-  assert.match(rule, /overflow-y:\s*auto|overflow:\s*(?:hidden\s+)?auto/, 'and the box scrolls on its own')
-  // at the narrow breakpoint the columns stack: the card gets taller, so the same cap bounds it
+  const body = cssRule(src, '.wf-body')
+  assert.match(body, /max-height:\s*(?:min\([^)]*\)|\d+(?:\.\d+)?(?:px|vh|rem|em|%))/, 'the body has a maximum height')
+  assert.doesNotMatch(body, /(?:^|;)\s*height:/, 'a cap, not a fixed height, so a short run is not padded out')
+  assert.match(body, /display:\s*flex/, 'a flex row, so the cap clamps both columns')
+  assert.match(cssRule(src, '.wf-agents'), /overflow-y:\s*auto/, 'the agent list scrolls on its own')
+  assert.match(cssRule(src, '.wf-phases'), /overflow-y:\s*auto/, 'and so does the phase column')
+  const h3 = cssRule(src, '.wf-agents h3')
+  assert.match(h3, /position:\s*sticky/, 'the phase heading sticks')
+  assert.match(h3, /top:\s*0/, 'to the top of the list')
+  assert.match(h3, /background:/, 'over an opaque background, so rows do not show through it')
+  assert.equal(cssRule(src, '.wf-scroll'), null, 'the card no longer scrolls as a whole')
+  // at the narrow breakpoint the columns stack: the phases take their height, the list keeps the cap
   const narrow = src.match(/@media \(max-width: 720px\) \{\n([\s\S]*?)\n\}/)
   assert.ok(narrow, 'the 720px breakpoint is still there')
-  assert.doesNotMatch(narrow[1], /\.wf-scroll/, 'and the cap is unchanged when they stack')
-  // the card a redraw replaces never carries the box; the slot builds it once, and it is the box
-  // itself that a redraw empties
-  assert.doesNotMatch(jsFunction(src, 'workflowCard'), /wf-scroll/, 'the redrawn card does not build the box')
-  assert.match(jsFunction(src, 'drawWorkflow'), /wfScroll\.replaceChildren\(/, 'the box is the node a redraw empties')
-  assert.match(jsFunction(src, 'render'), /wfScroll = el\("div", "wf-scroll"\)/, 'the slot builds the box once')
+  assert.match(narrow[1], /\.wf-agents \{ max-height:/, 'the list keeps a cap when they stack')
+  // the scroll positions cross the redraw in drawWorkflow
+  assert.match(jsFunction(src, 'drawWorkflow'), /listTop/, 'a redraw carries the list position over')
 })
 
 // the page's and the reports' rendered labels and sentences follow the same STE rules the prompt
