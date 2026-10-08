@@ -228,12 +228,12 @@ svg text { font-family: var(--mono); font-size: 10px; }
 .wf-head .desc { color: var(--muted); flex: 1 1 260px; min-width: 0; font-size: 12px; }
 .wf-head .tot { color: var(--muted); font-family: var(--mono); font-size: 11.5px; white-space: nowrap; }
 .wf-head .paused { color: var(--hold); white-space: nowrap; }
-/* the box the card is drawn into: it caps how far the agent list can stretch the page, and it wraps
-   the card rather than sitting inside it, because a redraw replaces the card and a scroller inside
-   it would go back to the top every couple of seconds. max-height, so a short run is not padded out */
-.wf-scroll { max-height: min(440px, 60vh); overflow-y: auto; overflow-x: hidden; }
-.wf-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
-.wf-phases { border-right: 1px solid var(--rule); padding: 6px 0; background: var(--sunk); }
+/* the body caps how far the agent list can stretch the page; the card's head stays put above it and
+   each column scrolls on its own. max-height, so a short run is not padded out. a single-line flex
+   row clamps its columns to that cap, which a grid row does not. a redraw replaces the card, so
+   drawWorkflow carries each column's scroll position over to the new one */
+.wf-body { display: flex; max-height: min(440px, 60vh); }
+.wf-phases { flex: 0 0 200px; overflow-y: auto; border-right: 1px solid var(--rule); padding: 6px 0; background: var(--sunk); }
 .wf-phase { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; width: 100%; padding: 3px 12px; border: 0; background: none; font: inherit; font-size: 12px; color: var(--ink); text-align: left; cursor: pointer; }
 .wf-phase:hover { background: var(--live-soft); }
 .wf-phase.sel { background: var(--live-soft); color: var(--live); font-weight: 600; }
@@ -246,8 +246,9 @@ svg text { font-family: var(--mono); font-size: 10px; }
 .wf .bad { color: var(--fail); }
 .wf .run { color: var(--live); animation: pulse 2.2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .wf .run { animation: none; } }
-.wf-agents { padding: 10px 14px 12px; min-width: 0; }
-.wf-agents h3 { font: inherit; font-weight: 600; font-size: 12.5px; margin: 0 0 6px; }
+.wf-agents { flex: 1 1 auto; min-width: 0; overflow-y: auto; padding: 0 14px 12px; }
+/* the heading stays at the top of the list while a long phase scrolls under it */
+.wf-agents h3 { position: sticky; top: 0; z-index: 1; background: var(--surface); font: inherit; font-weight: 600; font-size: 12.5px; margin: 0 0 4px; padding: 10px 0 4px; }
 .wf-agents h3 span { color: var(--faint); font-weight: 400; }
 .wf-agent { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto auto; gap: 10px; align-items: baseline; padding: 2px 0; font-size: 12px; }
 .wf-agent .lbl { font-family: var(--mono); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -258,8 +259,10 @@ svg text { font-family: var(--mono); font-size: 10px; }
 .wf-earlier { margin: 0 18px 14px; font-size: 11.5px; color: var(--muted); }
 .wf-earlier summary { cursor: pointer; color: var(--live); }
 @media (max-width: 720px) {
-  .wf-body { grid-template-columns: 1fr; }
-  .wf-phases { border-right: 0; border-bottom: 1px solid var(--rule); }
+  /* stacked, the phases take their full height and only the agent list keeps the cap */
+  .wf-body { flex-direction: column; max-height: none; }
+  .wf-phases { flex: none; overflow-y: visible; border-right: 0; border-bottom: 1px solid var(--rule); }
+  .wf-agents { max-height: min(440px, 60vh); }
   .wf-agent { grid-template-columns: 14px minmax(0, 1fr) auto; }
   .wf-agent .meta { display: none; }
 }
@@ -530,6 +533,14 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     const body = el("div", "wf-body");
     const left = el("div", "wf-phases");
     const right = el("div", "wf-agents");
+    // near the bottom of the list the tail is on; a scroll away from it pauses the tail
+    right.addEventListener("scroll", () => {
+      // the scroll the follow itself made keeps the tail on, though it may stop short of the bottom
+      const snapped = Math.abs(right.scrollTop - snapTop) < 1;
+      snapTop = -1;
+      if (snapped) return;
+      tailing = right.scrollTop >= right.scrollHeight - right.clientHeight - 24;
+    });
     const foot = el("div", "wf-foot");
     const draw = () => {
       left.replaceChildren();
@@ -592,15 +603,28 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
 
   // the workflow card is redrawn on its own from live.js, so it sits in a slot of its own.
   // the rail above it is the summary; the agent list is behind a toggle so the fold still holds.
-  // wfScroll is the slot's own scroll box and is the node whose children the redraw replaces, so
-  // where the person has scrolled to survives it.
-  let wfSlot = null, wfScroll = null;
-  // while the live phase is on show the box tails it: every rebuild keeps the newest agent in view.
-  // scrolling up pauses the tail; the bottom of the box, or the follow button, resumes it.
+  // wfBox is the node whose children the redraw replaces. the agent list is the scroll box, and it
+  // is new on every redraw, so drawWorkflow carries where the person has scrolled to over to it.
+  let wfSlot = null, wfBox = null;
+  // while the live phase is on show the list tails it: every rebuild keeps the newest agent in view.
+  // scrolling up pauses the tail; the bottom of the list, or the follow button, resumes it.
   let tailing = true;
-  // picking a phase swaps the list under the heading, so the box goes back to the top of the card
-  function revealWorkflow() { if (wfScroll) wfScroll.scrollTop = 0; }
-  function snapToTail() { if (wfScroll) wfScroll.scrollTop = wfScroll.scrollHeight; }
+  function agentList() { return wfBox && wfBox.querySelector(".wf-agents"); }
+  // picking a phase swaps the list under the heading, so the list goes back to its top
+  function revealWorkflow() { const l = agentList(); if (l) l.scrollTop = 0; }
+  // where the follow last put the list, so its own scroll does not read as the person scrolling up
+  let snapTop = -1;
+  // the follow shows the bottom of the list, unless that hides the newest running agent: agents that
+  // started after it and finished already sit below it. then that agent sits at the foot of the list
+  function snapToTail() {
+    const l = agentList();
+    if (!l) return;
+    l.scrollTop = snapTop = Math.max(0, l.scrollHeight - l.clientHeight);
+    const busy = l.querySelectorAll(".wf-agent.running"), last = busy[busy.length - 1], h = l.querySelector("h3");
+    if (!last || !h) return;
+    const row = last.getBoundingClientRect(), under = h.getBoundingClientRect().bottom;
+    if (row.top < under) l.scrollTop = snapTop = Math.max(0, l.scrollTop + row.bottom - l.getBoundingClientRect().bottom + 12);
+  }
   function drawWorkflow(wf, paused) {
     if (!wfSlot || !wf || !wf.run) { if (wfSlot) wfSlot.hidden = true; return; }
     // drawn from Claude Code's own run files; if their shape changes, the last card stays
@@ -608,8 +632,10 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
       // a rebuild must not take keyboard focus away from the phase or follow button the person is on
       const at = document.activeElement;
       const had = at && wfSlot.contains(at) ? (at.dataset.follow ? { follow: true } : at.dataset.phase ? { phase: at.dataset.phase } : null) : null;
+      const oldList = agentList(), oldPhases = wfBox.querySelector(".wf-phases");
+      const listTop = oldList ? oldList.scrollTop : 0, phasesTop = oldPhases ? oldPhases.scrollTop : 0;
       const card = workflowCard(wf, paused, revealWorkflow);
-      wfScroll.replaceChildren(card);
+      wfBox.replaceChildren(card);
       wfSlot.hidden = false;
       if (had) {
         const btns = Array.from(wfSlot.querySelectorAll("button"));
@@ -619,7 +645,8 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
         if (next) next.focus({ preventScroll: true });
       }
       // a followed phase keeps the newest agent in view; a scrolled-up or pinned one stays put
-      if (tailing && card.dataset.liveTail) snapToTail();
+      if (tailing && card.dataset.liveTail) snapToTail(); else agentList().scrollTop = listTop;
+      card.querySelector(".wf-phases").scrollTop = phasesTop;
     } catch (err) { /* no workflow view */ }
   }
   // running agents' clocks tick between redraws
@@ -664,13 +691,65 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     w.append(num, el("div", "l", label));
     return w;
   }
+  function stat0(n, label, title) {
+    const w = el("div", "stat");
+    if (title) w.title = title;
+    w.append(el("div", "n", String(n)), el("div", "l", label));
+    return w;
+  }
 
-  function statsRow(c, slices, req, ms) {
+  // verify economics, from the slices' ledger rows: the refutation→fix rate (a refuted row for a slice
+  // followed by a verified row at a higher round), the infra retries, the fix-round distribution (the
+  // highest verify round each slice reached) and the run agents per verify round (run-wide, not
+  // battery-only). The hub's journal count arrives in status.json's run.agents; the page never reads
+  // the journal itself. Null while no slice has recorded a round.
+  function economics(slices, run) {
+    let refuted = 0, fixed = 0, infra = 0, rounds = 0, seen = false;
+    const dist = {};
+    (slices || []).forEach((s) => {
+      if (!s || !Array.isArray(s.ledger) || !s.ledger.length) return;
+      seen = true;
+      let sliceRefuted = false, sliceFixed = false, refRound = null, maxRound = -1;
+      s.ledger.forEach((r) => {
+        if (!r) return;
+        const rnd = Number.isFinite(r.round) ? r.round : 0;
+        if (r.outcome === "infra") infra++;
+        if (r.kind === "verify") { rounds++; maxRound = Math.max(maxRound, rnd); }
+        if (r.outcome === "refuted") { sliceRefuted = true; refRound = refRound === null ? rnd : Math.min(refRound, rnd); }
+        else if (r.outcome === "verified" && refRound !== null && rnd > refRound) sliceFixed = true;
+      });
+      if (sliceRefuted) refuted++;
+      if (sliceFixed) fixed++;
+      if (maxRound >= 0) dist[maxRound] = (dist[maxRound] || 0) + 1;
+    });
+    if (!seen) return null;
+    let perRound = null;
+    const agents = run && typeof run.agents === "number" ? run.agents : null;
+    if (rounds && agents !== null && agents >= 0) perRound = agents / rounds;
+    return { refuted, fixed, infra, dist, rounds, perRound };
+  }
+
+  function statsRow(c, slices, req, ms, run) {
     const row = el("div", "stats");
     row.append(stat(c.done, slices.length, "slices done" + (c.parked ? ", " + c.parked + " parked" : "")));
     row.append(stat(req.done, req.total, "requirements · " + Math.round(100 * req.done / Math.max(1, req.total)) + "%"));
     const real = ms.filter((m) => !m.final && m.status !== null);
     if (real.length) row.append(stat(real.filter((m) => m.status === "verified").length, real.length, "milestones verified"));
+    const e = economics(slices, run);
+    if (e) {
+      if (e.refuted) row.append(stat(e.fixed, e.refuted, "refutations fixed"));
+      if (e.infra) row.append(stat0(e.infra, "infra retries"));
+      // a ledger can hold no verify-kind rows (a lone gate row from pre-ledger state): no distribution
+      if (Object.keys(e.dist).length) {
+        const line = Object.keys(e.dist).sort((a, b) => a - b).map((r) => "r" + r + "×" + e.dist[r]).join(" · ");
+        row.append(stat0(Math.max(...Object.keys(e.dist).map(Number)), "max fix round · " + line));
+      }
+      if (e.perRound != null) {
+        const p = e.perRound;
+        row.append(stat0(Number.isInteger(p) ? p : Math.round(p * 10) / 10, "run agents per verify round",
+          "run-wide: every agent the run spent, divided by the verify rounds in the ledger — not the battery alone"));
+      }
+    }
     return row;
   }
 
@@ -702,7 +781,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     const band = el("section", "band");
     const wf = data.workflow;
     if (!(wf && wf.run)) {
-      band.append(statsRow(c, slices, req, ms));
+      band.append(statsRow(c, slices, req, ms, data.run));
       return band;
     }
     const run = wf.run, agents = run.agents || [];
@@ -723,7 +802,7 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     ].filter(Boolean).join(" · ")));
     const busy = agents.filter((a) => a.status === "running");
     if (busy.length) left.append(el("div", "run-now", busy.map((a) => a.label).join(", ")));
-    top.append(left, statsRow(c, slices, req, ms));
+    top.append(left, statsRow(c, slices, req, ms, data.run));
     band.append(top, phaseRail(wf));
     return band;
   }
@@ -766,12 +845,8 @@ window.SDLC_STATUS = {"title": "Bookmarks Service", "example": true, "updatedAt"
     app.append(runBand(data, c, slices, req, ms));
 
     const wfCol = panel("Agents in this run", "every agent the loop has spent on");
-    wfScroll = el("div", "wf-scroll");
-    // near the bottom of the box the tail is on; a scroll away from it pauses the tail
-    wfScroll.addEventListener("scroll", () => {
-      tailing = wfScroll.scrollTop >= wfScroll.scrollHeight - wfScroll.clientHeight - 24;
-    });
-    wfCol.body.append(wfScroll);
+    wfBox = el("div", "wf-box");
+    wfCol.body.append(wfBox);
     wfSlot = wfCol.root;
     app.append(wfSlot);
     drawWorkflow(data.workflow, false);
