@@ -68,3 +68,18 @@ const bin = restrictedPath(['python3', 'git'])
 - Step N answers call N. `fallback` answers every later call. `failNext(count, step)` fails the next calls.
 - `calls()` returns `[{n, argv, cwd}]`. The argv log keeps spaces, newlines and empty arguments. `cwd` is the real path.
 - `restrictedPath(keep)` returns a directory that holds links to the kept commands only. Use it as `PATH` to test an absent command.
+
+## glab-stub (`glab-stub.mjs`)
+
+A `glab` shim for tests of GitLab code paths. It wraps `stub-server` with the shim named `glab`. It opens no network port.
+
+```js
+const glab = glabStub({ script: [{ stdout: [] }, { stderr: 'boom', exit: 1 }] })
+spawnSync('python3', [...], { env: glab.env() })
+glab.calls()
+const env = { PATH: glab.path(gh.path()) }
+```
+
+- It takes the same options and steps as `stubServer`. Step N answers call N.
+- Each stub keeps its own log. Put both stubs on one `PATH` to test a run that calls both tools.
+- `restrictedPath(keep)` is re-exported. Use it to test an absent `glab`.
