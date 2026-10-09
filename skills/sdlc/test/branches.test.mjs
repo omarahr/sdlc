@@ -367,6 +367,12 @@ test('validate_format rejects two placeholders, none, whitespace and an invalid 
   assert.match(dotted, /is not a valid branch name/, `the invalid-ref message does not carry the git reason: ${dotted}`)
 })
 
+test('validate_format rejects Unicode whitespace that git accepts', opts, () => {
+  const formats = ['sdlc/\u00a0{name}', 'sdlc/\u3000{name}', 'sdlc/\u2028{name}', 'sdlc/\t{name}']
+  const results = assertFails('validate_format', formats)
+  formats.forEach((fmt, i) => assert.match(results[i].fail, /holds whitespace/, `validate_format(${JSON.stringify(fmt)}): ${results[i].fail}`))
+})
+
 test('validate_format rejects the literal parts that git refuses', opts, () => {
   assertFails('validate_format', ['-{name}', 'a\x01/{name}', 'sdlc/{name}.lock', '/{name}', 'a~/{name}', 'sdlc/{name}\x00'])
 })

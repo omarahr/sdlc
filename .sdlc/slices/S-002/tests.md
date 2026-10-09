@@ -10,3 +10,4 @@ All tests are in `skills/sdlc/test/branches.test.mjs`.
 - T-015 `split returns the prefix, the suffix and the lower flag` — R-020 — fails because `split` does not exist ("split is missing").
 - T-016 `name puts the tail in the placeholder and lowercases only the tail` — R-019 (partial; parse-back closes in S-007) — fails because `name` does not exist (AttributeError names `name`).
 - T-017 `validate_format without git is a Fail, not a crash` — R-017 — fails because `validate_format` does not run git, so it returns its input with an empty PATH.
+- T-018 `validate_format rejects Unicode whitespace that git accepts` — R-017 — promoted in fix round 1 from TC-contract-4 (`.sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs`). It pins the whitespace check for U+00A0, U+3000, U+2028 and a tab. Each case must raise Fail with "holds whitespace".
