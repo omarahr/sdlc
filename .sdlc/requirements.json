@@ -1160,7 +1160,7 @@
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:210",
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:313"
       ],
-      "commit": "pending"
+      "commit": "2866a4f1a3c417c1fc32c1cee5ca4a6e93f0ebb9"
     },
     "notes": ""
   },
@@ -1352,7 +1352,7 @@
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:190",
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:301"
       ],
-      "commit": "pending"
+      "commit": "2866a4f1a3c417c1fc32c1cee5ca4a6e93f0ebb9"
     },
     "notes": ""
   },
@@ -1412,7 +1412,7 @@
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:266",
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:301"
       ],
-      "commit": "pending"
+      "commit": "2866a4f1a3c417c1fc32c1cee5ca4a6e93f0ebb9"
     },
     "notes": ""
   },
@@ -1455,7 +1455,7 @@
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:278",
         ".sdlc/slices/S-014/verification/r0/tests/security-0/read-rules.verify-security.test.mjs:332"
       ],
-      "commit": "pending"
+      "commit": "2866a4f1a3c417c1fc32c1cee5ca4a6e93f0ebb9"
     },
     "notes": ""
   },
