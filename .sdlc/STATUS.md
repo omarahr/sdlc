@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T21:09:57Z
+Updated: 2026-10-09T21:21:50Z
 
 Requirements: 52/122 done · 1 parked · 0 stubbed · 0 obsolete
-Slices: 13/30 done · current: none · awaiting merge: none
+Slices: 13/30 done · current: S-014 read_rules reads the GitLab push rule and the no-forge case · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 46 · Spec proposals: 2
+ADRs: 51 · Spec proposals: 4
 
 ## Recent
 - 2026-10-09T17:02:40Z slice-merged S-006 R-011 and R-120 done; R-068 in progress until S-007 adds parse

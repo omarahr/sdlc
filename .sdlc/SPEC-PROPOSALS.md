@@ -9,3 +9,13 @@
 - Source: contradiction ADR-20261009-164238-decision-judge-S-006-a3a8
 - Proposal: In the R-068 acceptance, state that the name and split half runs before parse exists. State that the parse assertion joins the same round-trip test once parse exists.
 - Rationale: The slice order puts the round-trip test before parse. Two ADRs now handle this split for R-019 and R-068. One explicit sentence removes the conflict.
+
+### P-20261009-211639: Remove "an error" from the glab no-rule list
+- Source: contradiction ADR-20261009-211639-decision-judge-S-014-f2c2
+- Proposal: In spec section 3, remove "an error" from the list of glab results that mean no rule. State that a non-zero glab exit or non-JSON output gives the note "rules unknown on gitlab: <stderr>" and unchecked samples.
+- Rationale: The no-rule list and the failure sentence overlap for a 403 or 404. A failed read must not report samples as checked.
+
+### P-20261009-211807: Reword the glab no-rule sentence in spec section 3
+- Source: contradiction ADR-20261009-211807-decision-judge-S-014-6a1c
+- Proposal: In spec section 3 (line 107), replace "The literal `null` body, an error, or an empty `branch_name_regex` means no rule" with "A successful `null` body, a JSON object without `branch_name_regex`, or an empty `branch_name_regex` means no rule." Keep the glab failure sentence: a non-zero exit, missing glab, non-JSON output or timeout gives the note `rules unknown on gitlab: <stderr>` and unchecked samples.
+- Rationale: The word "error" conflicts with the failure sentence in the same paragraph. ADR f2c2 and e148 already set the behavior. Only the wording is wrong.

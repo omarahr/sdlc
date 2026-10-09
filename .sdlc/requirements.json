@@ -1120,7 +1120,7 @@
     "specRef": "§3",
     "quote": "A rule is `{\"source\": \"github\" | \"gitlab\", \"kind\": \"starts_with\" | \"ends_with\" | \"contains\" | \"regex\", \"pattern\": str, \"negate\": bool, \"label\": str}`.",
     "acceptance": "Every rule read_rules returns has exactly these keys. `kind` is one of the four values. `source` is `github` or `gitlab`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1270,7 +1270,7 @@
     "specRef": "§3",
     "quote": "`glab api \"projects/:fullpath/push_rule\"` once. The literal `null` body, an error, or an empty `branch_name_regex` means no rule. Otherwise one rule, `kind` `regex`, `pattern` the regex, `label` `push rule`.",
     "acceptance": "The glab shim is called once. A null body, an error, or an empty `branch_name_regex` gives no rules. A regex gives one rule with kind `regex` and label `push rule`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1285,7 +1285,7 @@
     "specRef": "§3",
     "quote": "A `glab` failure is the note `rules unknown on gitlab: <stderr>` and the samples are `unchecked`.",
     "acceptance": "A glab shim that exits 1 gives one note starting `rules unknown on gitlab:` and every sample `unchecked`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1300,7 +1300,7 @@
     "specRef": "§3",
     "quote": "**No forge** (`forge` is `\"\"`): no rules; every sample is `unchecked`.",
     "acceptance": "With `forge: \"\"` the preflight returns an empty rules list and every sample `unchecked`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
