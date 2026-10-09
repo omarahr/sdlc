@@ -1,0 +1,22 @@
+✔ verify security AT-1: every corpus value stays one path segment, argv list, no shell (16703.857042ms)
+✔ verify security AT-2: dot-only samples are not encoded (seed evidence) (324.138042ms)
+✔ verify security AT-3: placeholders and shell syntax in a sample are encoded; marker file never created (497.976708ms)
+✔ verify security AT-4: NUL sample is encoded as %00 and reaches gh as one argv item (184.408917ms)
+✔ verify security AT-5: failure on the second sample leaks no partial rules and stops (210.166333ms)
+✔ verify security AT-6: hostile gh stdout (deep nesting, huge, wrong types, bad bytes) never raises (2280.579209ms)
+✔ verify security AT-7: rule fields from hostile gh output do not crash judge (seed evidence) (309.072208ms)
+✔ verify security AT-8: stderr with control chars and 1 MB of text becomes exactly one note (381.53225ms)
+✔ verify security AT-9: secret-looking token in stderr; token in env is not placed in the note on success (352.091209ms)
+✔ verify security AT-10: hung gh ends in one note after the timeout, process tree does not hang the caller (1050.099625ms)
+✔ verify security AT-11: a gh planted inside the repo is never executed when PATH lacks gh (52.241666ms)
+✔ verify security AT-12: hostile config forge values never reach gh (761.094959ms)
+✔ verify security AT-13: gh runs with cwd equal to repo, no prompt env, stdin closed, no tree change (215.892083ms)
+✔ verify security AT-14: 5000 samples and a 20000-rule body stay bounded (6163.568709ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29667.754833

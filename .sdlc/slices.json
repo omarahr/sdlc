@@ -1991,12 +1991,110 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-013",
     "pr": "",
     "risk": "medium",
     "riskReason": "The GitHub read decides the verdict from a live API; a wrong mapping hides an active rule.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Non-string pattern from the API can crash evaluate",
+        "detail": "github_rule copies parameters.pattern without a type check. A rule with a valid operator and a missing or non-string pattern makes evaluate raise TypeError (re.compile(None) or startswith(None)). Fix: make github_rule set the kind to None when the pattern is not a string, so judge reports unevaluated.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Dot segments are not encoded in the API path",
+        "detail": "urllib.parse.quote with safe empty leaves '.' and '..' unchanged. validate_format refuses such names, so this is not reachable now. Reject or encode dot-only samples in read_rules as a guard.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "unchecked flag covers two cases",
+        "detail": "unchecked is true both for a non-github forge and for a failed gh call. Only notes tell them apart. S-014 should keep the notes distinct when it adds the GitLab and no-forge branches.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "No test for the gh timeout path",
+        "detail": "read_rules catches subprocess.TimeoutExpired, but no committed test covers it. T-R-029a to c cover exit failure, bad JSON and a missing gh. Add a test with a stalled shim and a small timeout, or lower GH_TIMEOUT through a parameter. Non-blocking: the verifier ran stall cases.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "ghShim duplicates the new stub-server testkit",
+        "detail": "branches.test.mjs defines its own gh shim helper. The testkit stub-server.mjs added in the same slice does the same job (argv and cwd log, scripted output). Later slices (S-014, S-015) should use one of them. Consider moving branches.test.mjs to stubServer. Not blocking: the testkit is for verifiers and its own self-test passes.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Edge cases not pinned: non-dict list items and empty sample list",
+        "detail": "github_rule returns None for non-dict items and read_rules with an empty samples list returns unchecked false with no call. No test pins either behavior. Add one small test for each if the behavior is wanted.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Slice rating is medium and fits the code",
+        "detail": "The slice crosses a subprocess boundary, and the rating is medium, so the verification battery already applies. No change needed. The 119 tests in branches.test.mjs and the stub-server self-test pass. The diff has no comments in code or tests.",
+        "file": ".sdlc/slices.json",
+        "blocking": false
+      },
+      {
+        "title": "Empty parameters.name falls back to ruleset label",
+        "detail": "The spec says label is parameters.name when present. The code treats an empty name as absent. The spec leaves this undefined.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "gh timeout of 60 seconds per sample is a plan choice",
+        "detail": "The spec states no limit. Many samples with a hung gh could take long in total.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules takes samples; spec names read_rules(repo)",
+        "detail": "Spec section 2 lists read_rules(repo). Code has read_rules(repo, samples) per ADR f2cc. Extra exports: make_rule, github_rule, RULE_KEYS, GH_TIMEOUT.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Rule union dedup is quadratic",
+        "detail": "`rule not in result[\"rules\"]` scans a list. 10000 rules take 1.24 s, 20000 take 4.87 s, 50000 rules took about 37 s in one call.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Duplicate sample names overwrite by_sample",
+        "detail": "samples [dup, dup] make two gh calls; the second body replaces the first under one key.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Non-bool negate becomes true through bool()",
+        "detail": "negate \"false\" and 1 give true. GitHub sends a bool, so the effect is small.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Failure note keeps all stderr text",
+        "detail": "200 KB of stderr with NUL and escape codes gives a note of 200045 characters, unchanged.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules: dot-only samples are not encoded",
+        "detail": "quote(safe='') keeps . and .. so the path ends in branches/.. . Git refuses these names and the spec fixes the encoding, so this does not block.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules: rule fields keep the JSON types from gh",
+        "detail": "pattern and kind of any JSON type pass into rules. judge raises TypeError on int, dict, list and null patterns. Keep only str kind and pattern, or make judge treat other types as unevaluated.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules: failure note keeps raw stderr",
+        "detail": "The note keeps ANSI escapes, CR and LF, and any length. A token in stderr reaches the note and any log. Collapse control characters and cap the length.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules: quadratic rule dedupe",
+        "detail": "20000 distinct rules take 6 s because of list membership tests. Use a seen set of serialized rules.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -2007,7 +2105,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-014",
