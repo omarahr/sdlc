@@ -887,13 +887,40 @@
     "specRef": "§2",
     "quote": "`parse(fmt, branch, ids=None)`: `None` unless `branch` starts with `prefix` and ends with `suffix`;",
     "acceptance": "parse returns null for `main`, for `feature/PROJ-1-foo` under `feature/PROJ-1-{name}`, and for `sdlc/feature-x` under the default. `sdlc/feature-x` passes the prefix and suffix test and still gives null because no kind row matches its tail.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034229-decision-judge-S-002-b015",
+      "ADR-20261009-045048-decision-judge-S-004-7815",
+      "ADR-20261009-164238-decision-judge-S-006-a3a8",
+      "ADR-20261009-170811-decision-judge-S-007-275e",
+      "ADR-20261009-170812-decision-judge-S-007-35cd",
+      "ADR-20261009-170814-decision-judge-S-007-5aab",
+      "ADR-20261009-171409-implementer-S-007-f520"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-021a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-021b",
+        "skills/sdlc/test/branches.test.mjs :: exports test",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:168",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:56",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:71",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:143",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:160",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:186",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:411",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:18",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:38",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:17",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:43",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:52"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -902,13 +929,45 @@
     "specRef": "§2",
     "quote": "otherwise the tail between them is classified by the first regex that matches, in this order, compiled with `re.IGNORECASE` when `lower` is set:",
     "acceptance": "Classification follows table rows 1 to 8 in order. `S-fix-M-1-2` is a slice. `M-1-e2e-api` is an e2e-area. `S-001-v0-http-api-0` is verify with profile `http-api`. An area with dashes parses whole: `M-1-e2e-a-b` gives area `a-b`. Under `{name:lower}` the regexes compile with re.IGNORECASE.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034229-decision-judge-S-002-b015",
+      "ADR-20261009-045048-decision-judge-S-004-7815",
+      "ADR-20261009-164238-decision-judge-S-006-a3a8",
+      "ADR-20261009-170811-decision-judge-S-007-275e",
+      "ADR-20261009-170812-decision-judge-S-007-35cd",
+      "ADR-20261009-170814-decision-judge-S-007-5aab",
+      "ADR-20261009-171409-implementer-S-007-f520"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-022a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-022b",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:117",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:87",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:212",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:245",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:249",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:273",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:277",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:18",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:47",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:54",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:62",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:69",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:116",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:134",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:152",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:52",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:70",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:87"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -917,13 +976,37 @@
     "specRef": "§2",
     "quote": "The result is `{\"kind\", \"tail\", \"id\", \"n\", \"area\", \"round\", \"profile\", \"part\", \"ts\", \"known\"}` with the parts that apply.",
     "acceptance": "parse of `sdlc/run-2` gives kind `run` and `n: 2`. Of `sdlc/state-20261008101500` gives `ts`. Of `sdlc/S-001-v0-http-api-0` gives `id`, `round`, `profile`, `part`. Of `sdlc/M-1-e2e-api` gives `id` and `area`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034229-decision-judge-S-002-b015",
+      "ADR-20261009-045048-decision-judge-S-004-7815",
+      "ADR-20261009-164238-decision-judge-S-006-a3a8",
+      "ADR-20261009-170811-decision-judge-S-007-275e",
+      "ADR-20261009-170812-decision-judge-S-007-35cd",
+      "ADR-20261009-170814-decision-judge-S-007-5aab",
+      "ADR-20261009-171409-implementer-S-007-f520"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-023a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-023b",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:139",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:168",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:281",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:305",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:18",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:47",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:54",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:104",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:70",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:87"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -932,13 +1015,35 @@
     "specRef": "§2",
     "quote": "When `ids` (an iterable of ledger ids) is given, `id` is replaced by the ledger's spelling that matches it, case-insensitively under `lower`, and `known` says whether one matched; without `ids`, `known` is `None`.",
     "acceptance": "`parse(\"feature/PROJ-1-{name:lower}\", \"feature/proj-1-s-001\", ids=[\"S-001\"])` gives `id: \"S-001\"` and `known: true`. An id absent from the list gives `known: false`. Without ids, `known` is null.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034229-decision-judge-S-002-b015",
+      "ADR-20261009-045048-decision-judge-S-004-7815",
+      "ADR-20261009-164238-decision-judge-S-006-a3a8",
+      "ADR-20261009-170811-decision-judge-S-007-275e",
+      "ADR-20261009-170812-decision-judge-S-007-35cd",
+      "ADR-20261009-170814-decision-judge-S-007-5aab",
+      "ADR-20261009-171409-implementer-S-007-f520"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-024a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-024b",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:117",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:249",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:277",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:333",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:358",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:366",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:134",
+        ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:163"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -1592,15 +1697,22 @@
     "specRef": "§Testing",
     "quote": "`name and parse round-trip every kind under the default, a prefixed and a lowercased format`: for each kind and the formats `sdlc/{name}`, `feature/PROJ-1-{name}`, `feature/PROJ-1-{name:lower}`.",
     "acceptance": "`skills/sdlc/test/branches.test.mjs` is new. It runs `branches.py` through execFileSync and imports it in a probe for the Python API. Its round-trip test covers all eight kinds under the three formats.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [
       "ADR-20261009-034229-decision-judge-S-002-b015",
       "ADR-20261009-164238-decision-judge-S-006-a3a8",
-      "ADR-20261009-164239-decision-judge-S-006-db35"
+      "ADR-20261009-164239-decision-judge-S-006-db35",
+      "ADR-20261009-041704-decision-judge-S-003-9e7b",
+      "ADR-20261009-045048-decision-judge-S-004-7815",
+      "ADR-20261009-170811-decision-judge-S-007-275e",
+      "ADR-20261009-170812-decision-judge-S-007-35cd",
+      "ADR-20261009-170814-decision-judge-S-007-5aab",
+      "ADR-20261009-171409-implementer-S-007-f520"
     ],
     "evidence": {
       "files": [
+        "skills/sdlc/branches.py",
         "skills/sdlc/test/branches.test.mjs"
       ],
       "tests": [
@@ -1610,24 +1722,41 @@
         ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:87",
         ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:124",
         ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:69",
-        ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:140"
+        ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:140",
+        "skills/sdlc/test/branches.test.mjs :: T-R-068a"
       ],
-      "commit": ""
+      "commit": "pending"
     },
-    "notes": "parse half closes in S-007"
+    "notes": "parse half closed in S-007"
   },
   {
     "id": "R-069",
     "specRef": "§Testing",
     "quote": "`parse returns null for a foreign branch and resolves ids against the ledger`: `main`, `feature/PROJ-1-foo`, `sdlc/feature-x` give `null`; `feature/proj-1-s-001` with ids `['S-001']` gives `S-001`, `known: true`.",
     "acceptance": "The branches test asserts those four parse results.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034229-decision-judge-S-002-b015",
+      "ADR-20261009-045048-decision-judge-S-004-7815",
+      "ADR-20261009-164238-decision-judge-S-006-a3a8",
+      "ADR-20261009-170811-decision-judge-S-007-275e",
+      "ADR-20261009-170812-decision-judge-S-007-35cd",
+      "ADR-20261009-170814-decision-judge-S-007-5aab",
+      "ADR-20261009-171409-implementer-S-007-f520"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-069a",
+        ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:56",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:143",
+        ".sdlc/slices/S-007/verification/r0/tests/contract-0/parse.verify-contract.test.mjs:333"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
