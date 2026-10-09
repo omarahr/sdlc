@@ -1,0 +1,138 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "The loop asks for a state branch with no timestamp and gets sdlc/state- plus 14 UTC digits",
+      "requirementIds": [
+        "R-008"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Run branches.py name --kind state under TZ values far from UTC (Pacific/Kiritimati, America/Adak, Etc/GMT+12) and near midnight. The 14 digits must be %Y%m%d%H%M%S in UTC, between the times taken before and after the call. Kind must be state. Check the default format, a custom format (feature/PROJ-1-{name}) and {name:lower}. Check that extra flags (--id, --n, --round) do not change the state tail. The output must be one JSON line, exit 0."
+    },
+    {
+      "id": "VS-2",
+      "title": "A caller gives an explicit state timestamp and it is used as given",
+      "requirementIds": [
+        "R-008"
+      ],
+      "profiles": [
+        "contract",
+        "security"
+      ],
+      "notes": "Call name(fmt, 'state', ts=...) through the Python API. ts '20261008101500' must give sdlc/state-20261008101500. Empty string and None must generate a timestamp. Try ts 0 (int), '0', and non-string values. Try ts values with '/', '..', whitespace, control characters and '@{': the name is not passed through git check-ref-format, so record what comes back. A ref-unsafe result is a seed, not a refutation, unless the spec says the name must be a valid ref. The CLI has no --ts flag; confirm --ts exits 2 with one JSON error."
+    },
+    {
+      "id": "VS-3",
+      "title": "The loop names a verify branch for a round, profile and part, round 0 and part 0 included",
+      "requirementIds": [
+        "R-009"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "name --kind verify --id S-001 --round 0 --profile http-api --part 0 must print sdlc/S-001-v0-http-api-0. Try every profile in the catalog (http-api, async, concurrency, data, ui, i18n, cli, contract, security, limits), larger rounds and parts, and fix-slice ids (S-fix-3, S-fix-M-1-2, split ids S-013a). The CLI output must equal the branch builder in sdlc-loop.js verifyPhase (`sdlc/${id}-v${round}-${g.profile}-${g.part}`) under the default format. The tail must equal tail('verify', ...) through the API. Property: for generated ints and catalog profiles, name output equals the template."
+    },
+    {
+      "id": "VS-4",
+      "title": "A verify branch request with a missing or malformed part is refused cleanly",
+      "requirementIds": [
+        "R-009"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "contract"
+      ],
+      "notes": "Drop each of --id, --round, --profile, --part in turn: exit 2, exactly one JSON line with ok false naming the part, no traceback on stdout or stderr, no file or ref change. Empty --id and --profile must fail. Non-integer --round and --part (1.5, 0x1, '', ' 1', unicode digits, huge integers, '-1') must exit 2 or give a defined result; record what argparse int() accepts. A negative round gives S-001-v-1-...: report as a seed if accepted. Profiles from the attack corpus (traversal, control chars, flag-like values, unicode whitespace, injection) must not crash and must not yield a branch that escapes the prefix; note the name is not ref-checked. API: tail('verify') with None or '' for any part raises Fail naming the part."
+    },
+    {
+      "id": "VS-5",
+      "title": "The loop names an attempt branch for a slice and attempt number",
+      "requirementIds": [
+        "R-010"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "name --kind attempt --id S-001 --n 1 must print sdlc/S-001-attempt-1. --id S-fix-M-1-2 --n 3 must print sdlc/S-fix-M-1-2-attempt-3. Try --n 0 (required-part check accepts 0) and large n. API tail('attempt', id=..., n=...) must match. Extra flags such as --round or --profile must not leak into the attempt tail."
+    },
+    {
+      "id": "VS-6",
+      "title": "An attempt branch request with a missing or malformed number is refused cleanly",
+      "requirementIds": [
+        "R-010"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "contract"
+      ],
+      "notes": "Missing --id or --n: exit 2 with one JSON error naming the part, no traceback. Non-integer --n (abc, 1.0, '', huge-integers, unicode-digits, integer-forms families) must exit 2 or give a defined ASCII result. A negative n gives S-001-attempt--1: report as a seed if accepted. API: tail('attempt') with missing id or n raises Fail naming the part. Confirm no file or git ref changes in the scratch repo."
+    },
+    {
+      "id": "VS-7",
+      "title": "A team with a custom branch format gets verify and attempt branches inside that format",
+      "requirementIds": [
+        "R-009",
+        "R-010"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Set branchFormat in .sdlc/config.json and also pass --format. feature/PROJ-1-{name:lower} must give feature/PROJ-1-s-001-v0-http-api-0 and feature/PROJ-1-s-001-attempt-1. A format with a suffix (x/{name}/y) must keep the suffix. --format must win over config. An invalid format must exit 2 before any name is built. Check that {name:lower} lowercases only the tail, never the prefix."
+    },
+    {
+      "id": "VS-8",
+      "title": "A verify branch never leaves the machine: no script pushes it or opens a pull or merge request for it",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "Scan sdlc-loop.js and every skills/sdlc/*.py (and any helper they call) for git push, gh pr create, glab mr create and equivalent argv lists, including multi-line argv and pushes built from variables. Trace every push target back to its source and confirm none can be a verify branch name. Confirm the loop's verify branch builder reaches only the verify-<profile> branch input and the verify-collector branches input. Read the verify-<profile> and verify-collector prompt files: if a prompt tells the agent to push its verify branch or open a request for it, report it. Run the committed T-R-119 test and mutate a copy of sdlc-loop.js (add a push of branch(g)) to confirm the test catches it."
+    },
+    {
+      "id": "VS-9",
+      "title": "A verify branch push written in a form the line scan missed is caught by the guard test",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "Fix round 1 rewrote T-R-119 in skills/sdlc/test/branches.test.mjs (commit f2d3ce2). It now joins continuation lines and pins the exact list of push and create sites. Re-prove it on a copy of the skill: the three TC-cli-11 mutants (a verify name built on an earlier line, a git(repo, \"push\", ...) call split over lines, a split create call) must fail it. Then hunt for push forms the site regex does not match: single-quoted git(repo, 'push', ...), a receiver other than repo (git(root, \"push\", ...)), [\"git\", \"-C\", repo, \"push\", ...], a shell string with git -C x push, execFileSync('git', ['push', ...]) or spawn in sdlc-loop.js, os.system or subprocess with shell=True, and gh pr create built from a list with flags between parts. Each form that pushes a verify branch and still passes T-R-119 is a defect. Check that the excluded text 'git push --delete <branch>' cannot hide a real push. Check that the test passes on the unchanged tree, runs from the repo root with repo-relative imports, and does not depend on the worktree path."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py name in a scratch git repo with a controlled env and TZ, capture JSON, exit code, stderr and tree diff.",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Call tail and name through the Python API in batches with generated ids, rounds, parts, profiles and ts values.",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Feed hostile id, profile, round, part and n values to the CLI and the API.",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "The change crosses one boundary, the branches.py name command, and a wrong tail gives wrong state, verify and attempt branch names that later break recognition and sweeps.",
+  "notes": "Round 1 follows a review fix that changed only T-R-119, the guard test for R-119. The fix changed no product code, so VS-1 to VS-8 keep their ids and notes. VS-9 is new and re-proves the stronger guard against verify pushes the old scan missed. R-093 is listed on the slice but ADR-20261009-053059-decision-judge-S-005-23a9 moves it to S-027, so no scenario covers it. The loop still hard-codes the verify branch builder with the sdlc/ prefix and ignores a custom format; VS-3 checks it against the default format only, and a later slice owns wiring the loop to branches.py. No spec number applies to these scenarios, so limits is not tagged. The name command does not pass its output through git check-ref-format, so hostile parts can give ref-unsafe names; VS-2, VS-4 and VS-6 record this as a seed."
+}

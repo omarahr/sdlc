@@ -1,0 +1,16 @@
+✔ verify security: the unmutated copy has no ban entry (0.541667ms)
+✔ verify security: the spec GitHub rules read in branches.py changes only the direct and forge pins (534.284416ms)
+✔ verify security: the spec quote import adds a network pin entry and no ban (178.318792ms)
+✔ verify security: gh api -X GET through the next-action run wrapper changes only the forge and wrapper-verb pins (171.524167ms)
+✔ verify security: the spec GitLab push rule read changes only a pin, direct or through run (377.3855ms)
+✔ verify security: a git fetch through the state-write wrapper changes no pin, and a git log adds one known verb (174.500583ms)
+✔ verify security: the guard reads the reads and never runs them (87.257166ms)
+✔ verify security seed: a list item with a space shifts the forge parse, so a POST to pulls gives no forge violation (167.518041ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1822.980417

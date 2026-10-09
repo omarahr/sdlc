@@ -1,0 +1,444 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "6aa869e",
+  "environment": "macOS, Python 3.14.7, Node test runner, git; scratch git repos from the testkit cli-runner (TZ=UTC, scratch HOME)",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "An explicit state ts is used as given; empty and None generate a timestamp",
+      "given": "branches.py loaded by path through python3 -I",
+      "when": "name('sdlc/{name}','state', ts=...) with '20261008101500', '', None, 0, '0'",
+      "then": "the explicit value is in the tail as given",
+      "expected": "sdlc/state-20261008101500; 14 UTC digits for '' and None; sdlc/state-0 for 0 and '0'",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-008 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:71",
+      "command": "node --test --test-name-pattern \"VS-2 an explicit\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "ts values",
+          "inline": "ts='20261008101500' -> sdlc/state-20261008101500\nts='' -> sdlc/state-<14 digits>\nts=None -> sdlc/state-<14 digits>\nts=0 -> sdlc/state-0\nts='0' -> sdlc/state-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "Hostile ts values never raise an unhandled exception and keep the prefix",
+      "given": "103 ts values: traversal, control chars, injection, format strings, unicode whitespace and confusables, oversized, NUL, non-strings",
+      "when": "name('sdlc/{name}','state', ts=v) for each",
+      "then": "each call returns a name that starts with sdlc/state-",
+      "expected": "no exception other than Fail; prefix kept",
+      "actual": "no exception; prefix kept; 48 of 103 names fail git check-ref-format (seed)",
+      "result": "pass",
+      "specSource": "spec section 2: every command prints one JSON object, exit 2 on bad input",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:86",
+      "command": "node --test --test-name-pattern \"VS-2 hostile ts\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "ts corpus",
+          "inline": "see log"
+        },
+        {
+          "kind": "log",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/security-0-attacks.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "The CLI refuses --ts with one JSON error",
+      "given": "a scratch git repo",
+      "when": "name --kind state --ts 20261008101500, --ts=x, --t 1",
+      "then": "exit 2, one JSON line, ok false, no traceback, no file or ref change",
+      "expected": "exit 2 with one JSON error",
+      "actual": "exit 2, {\"ok\": false, \"error\": \"unrecognized arguments: ...\"}, tree unchanged",
+      "result": "pass",
+      "specSource": "spec section 2 CLI synopsis (no --ts) and exit 2 rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:98",
+      "command": "node --test --test-name-pattern \"VS-2 the CLI has no\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "--ts",
+          "inline": "name --kind state --ts 20261008101500 -> exit 2, ok false, tree unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Each missing or empty verify part exits 2 and names the part",
+      "given": "a scratch git repo",
+      "when": "name --kind verify with each of --id, --round, --profile, --part dropped or empty; tail('verify') with None or '' for each",
+      "then": "exit 2, one JSON error naming the part; API raises Fail naming the part",
+      "expected": "Fail naming the part",
+      "actual": "as expected; tree unchanged on every call",
+      "result": "pass",
+      "specSource": "spec section 2: a missing part is a Fail; exit 2 on bad input",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:107",
+      "command": "node --test --test-name-pattern \"VS-4 each missing\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "missing parts",
+          "inline": "--profile dropped -> exit 2 {\"ok\": false, \"error\": \"a verify branch name needs a non-empty profile\"}\n--round '' -> exit 2 (argparse int refuses '')"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Malformed --round and --part exit 2 or give an integer tail, never a crash",
+      "given": "integer-forms, unicode-digits, huge-integers, unicode-whitespace, flag-like values, -1, 1.5, 0x1, ' 1'",
+      "when": "name --kind verify --round v / --part v",
+      "then": "exit 0 with an integer tail or exit 2 with one JSON error; no traceback; no file or ref change",
+      "expected": "clean refusal or integer tail",
+      "actual": "no crash; argparse int() accepts -1, +1, 1_000, padded whitespace, unicode digits and up to 4300 digits; 4301 digits exits 2. Negative values give S-001-v-1-... (seed)",
+      "result": "pass",
+      "specSource": "spec section 2: exit 2 with ok false on bad input",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:124",
+      "command": "node --test --test-name-pattern \"VS-4 malformed\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "accepted integer forms",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/security-0-attacks.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Hostile --id and --profile never crash, never change state, keep the sdlc/ prefix",
+      "given": "every argv-safe attack-corpus entry (125)",
+      "when": "name --kind verify --id v / --profile v (250 calls)",
+      "then": "exit 0 or 2, one JSON line, no traceback, tree unchanged, branch starts with sdlc/",
+      "expected": "no crash, no side effect",
+      "actual": "as expected; 73 names fail git check-ref-format (seed)",
+      "result": "pass",
+      "specSource": "spec section 2: one JSON object per command",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:141",
+      "command": "node --test --test-name-pattern \"VS-4 hostile\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "ref-unsafe examples",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/security-0-attacks.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-010"
+      ],
+      "title": "A missing attempt part exits 2 and names the part",
+      "given": "a scratch git repo",
+      "when": "name --kind attempt without --id or --n, or with ''; tail('attempt') without id or n",
+      "then": "exit 2 naming the part; Fail naming the part",
+      "expected": "Fail naming the part",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "spec section 2: a missing part is a Fail",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:161",
+      "command": "node --test --test-name-pattern \"VS-6 a missing\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "missing n",
+          "inline": "--n dropped -> exit 2 {\"ok\": false, \"error\": \"a attempt branch name needs a non-empty n\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-8",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-010"
+      ],
+      "title": "Malformed --n exits 2 or gives an integer tail, never a crash",
+      "given": "integer-forms, unicode-digits, huge-integers, unicode-whitespace, flag-like, injection, -1, abc, 1.0",
+      "when": "name --kind attempt --n v",
+      "then": "exit 0 with an integer tail or exit 2 with one JSON error",
+      "expected": "clean refusal or integer tail",
+      "actual": "no crash; abc and 1.0 exit 2; -1 gives S-001-attempt--1 (seed)",
+      "result": "pass",
+      "specSource": "spec section 2: exit 2 with ok false on bad input",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:177",
+      "command": "node --test --test-name-pattern \"VS-6 malformed\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "accepted --n forms",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/security-0-attacks.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-9",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-010"
+      ],
+      "title": "Hostile attempt --id never crashes and keeps the prefix and suffix",
+      "given": "every argv-safe attack-corpus entry",
+      "when": "name --kind attempt --id v --n 1",
+      "then": "exit 0 or 2, one JSON line, no traceback, tree unchanged; branch is sdlc/...-attempt-1",
+      "expected": "no crash, no side effect",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "spec section 2: one JSON object per command",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:192",
+      "command": "node --test --test-name-pattern \"VS-6 hostile\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attempt id corpus",
+          "inline": "125 calls, all exit 0 or 2, tree unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-10",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Every push or request call in the scripts targets a run or milestone branch",
+      "given": "sdlc-loop.js, skills/sdlc/*.py and tracker/*.py",
+      "when": "scan code lines for git push argv, a lone \"push\" argv line, and pr/mr create",
+      "then": "only the three state-write.py pushes: run branch, leased delete gated on MILESTONE_BRANCH, milestone branch; MILESTONE_BRANCH matches no verify name",
+      "expected": "no push or request names a verify branch",
+      "actual": "as expected; no gh pr create or glab mr create anywhere",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:211",
+      "command": "node --test --test-name-pattern \"VS-8 every push\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "push call lines",
+          "inline": "state-write.py:248 git(repo, \"push\", \"-q\", \"origin\", run, ...)\nstate-write.py:425 git(repo, \"push\", ..., f\":{branch}\") gated on MILESTONE_BRANCH\nstate-write.py:464 git(repo, \"push\", \"-q\", \"-u\", \"origin\", want, ...)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-11",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The verify prompts never tell an agent to push or open a request",
+      "given": "prompts/verify-*.md, verify-collector.md and verify-profile-common.md",
+      "when": "search for push, pr create, mr create, pull request, merge request",
+      "then": "no match",
+      "expected": "no instruction to push a verify branch",
+      "actual": "no match",
+      "result": "pass",
+      "specSource": "R-119 acceptance (a verify branch stays local)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:238",
+      "command": "node --test --test-name-pattern \"VS-8 the verify-profile\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "prompt scan",
+          "inline": "prompts/verify-*.md: 0 matches"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-12",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The committed T-R-119 passes on the slice and catches a push of branch(g) added to verifyPhase",
+      "given": "a copy of skills/sdlc",
+      "when": "run T-R-119 on the copy; then add `const pushIt = g => agent(`git push origin ${branch(g)}`)` to verifyPhase and run it again",
+      "then": "pass on the clean copy; fail on the mutant",
+      "expected": "the test guards the guarantee",
+      "actual": "pass 1 on clean; fail 1 on the mutant",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:259",
+      "command": "node --test --test-name-pattern \"VS-8 the committed\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "mutation",
+          "inline": "clean copy: # pass 1\nmutant with git push of branch(g): # fail 1"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-13",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 does not catch a Python push of a verify name built on an earlier line",
+      "given": "a copy of skills/sdlc with a leak() added to state-write.py: vb = f\"sdlc/{sid}-v{r}-{prof}-{k}\" then git(repo, \"push\", ..., vb)",
+      "when": "run T-R-119 on the copy",
+      "then": "records a blind spot of the text scan",
+      "expected": "blind spot recorded as a seed; no current code has this shape",
+      "actual": "T-R-119 passes on the mutant (exit 0)",
+      "result": "pass",
+      "specSource": "R-119 acceptance (test strength; seed only)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:272",
+      "command": "node --test --test-name-pattern \"VS-8 T-R-119 misses\" .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "two-line mutant",
+          "inline": "T-R-119 exit 0 on the mutant"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "A-1",
+      "charter": "Explore the state tail with an explicit ts to find a value that escapes the prefix or crashes name()",
+      "input": "103 ts values (traversal, control chars, injection, NUL, non-strings)",
+      "expected": "tail used as given, no crash",
+      "observed": "no crash; prefix kept; 48 names fail git check-ref-format",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:86"
+    },
+    {
+      "id": "A-2",
+      "charter": "Explore the CLI with a --ts flag to find an undocumented override of the state timestamp",
+      "input": "--ts 20261008101500, --ts=x, --t 1",
+      "expected": "exit 2, one JSON error",
+      "observed": "exit 2, ok false, tree unchanged",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:98"
+    },
+    {
+      "id": "A-3",
+      "charter": "Explore verify parts with missing and empty values to find a branch built from a hole",
+      "input": "each of id, round, profile, part dropped or empty",
+      "expected": "exit 2 naming the part",
+      "observed": "exit 2 naming the part",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:107"
+    },
+    {
+      "id": "A-4",
+      "charter": "Explore --round and --part with integer forms and unicode digits to find a crash or a non-ASCII tail",
+      "input": "integer-forms, unicode-digits, huge-integers, whitespace, flag-like",
+      "expected": "exit 2 or integer tail",
+      "observed": "no crash; negatives, unicode digits, 1_000 and 4300-digit values accepted",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:124"
+    },
+    {
+      "id": "A-5",
+      "charter": "Explore --id and --profile with the full attack corpus to find a crash, a side effect or a name outside sdlc/",
+      "input": "125 corpus entries per flag",
+      "expected": "no crash, no change, sdlc/ prefix",
+      "observed": "held; 73 ref-unsafe names",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:141"
+    },
+    {
+      "id": "A-6",
+      "charter": "Explore attempt parts with missing and malformed values",
+      "input": "missing id or n; integer forms and corpus for --n and --id",
+      "expected": "exit 2 or integer tail, no crash",
+      "observed": "held; --n -1 gives attempt--1",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:177"
+    },
+    {
+      "id": "A-7",
+      "charter": "Explore the scripts for a push or a request that can name a verify branch",
+      "input": "source scan of sdlc-loop.js, skills/sdlc/*.py, tracker/*.py, verify prompts",
+      "expected": "no such call",
+      "observed": "three pushes, all run or milestone branches",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:211"
+    },
+    {
+      "id": "A-8",
+      "charter": "Mutate verifyPhase to push branch(g) to find whether T-R-119 guards R-119",
+      "input": "added git push of branch(g)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 fails",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:259"
+    },
+    {
+      "id": "A-9",
+      "charter": "Mutate state-write.py to push a verify name built on an earlier line",
+      "input": "vb = f'sdlc/{sid}-v{r}-{prof}-{k}'; git(repo, 'push', ..., vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 passes",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:272"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "name does not check its output with git check-ref-format",
+      "detail": "Hostile ts, id and profile values give names such as sdlc/state-../../x, sdlc/a\\nb-v0-http-api-0 and sdlc/state-@{u}. 48 of 103 ts values and 73 of 250 id/profile values give ref-unsafe names. The spec does not require a valid ref from name, and callers are the loop itself, so this is not a blocker. A check in name or in tail would give a clean exit 2.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Negative round, part and n give names that parse cannot read back",
+      "detail": "argparse int() accepts -1, so --round -1 gives sdlc/S-001-v-1-http-api-0 and --n -1 gives sdlc/S-001-attempt--1. The spec parse regexes use \\d+, so these names do not round-trip. It also accepts +1, 1_000, padded whitespace, unicode digits and 4300-digit values. Refuse negative values in tail or with a non-negative type.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "T-R-119 text scan misses a push of a verify name built on another line",
+      "detail": "A mutant adds vb = f\"sdlc/{sid}-v{r}-{prof}-{k}\" and then git(repo, \"push\", \"-q\", \"origin\", vb) to state-write.py. T-R-119 still passes. The scan also does not read skills/sdlc/tracker/*.py. No current code has this shape; the plan names this risk.",
+      "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "Fail message says 'a attempt branch name'",
+      "detail": "tail('attempt') without n raises 'a attempt branch name needs a non-empty n'. The article is wrong for kinds that start with a vowel (attempt, e2e, e2e-area).",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

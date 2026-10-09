@@ -1,0 +1,84 @@
+# S-005 verification plan, round 0 (re-plan after escalation step 1)
+
+Risk: **medium**. The slice crosses one boundary, the branches.py name command, and its guard test decides whether a verify branch can leave the machine; a gap there is a security defect, not data loss.
+
+## Scenarios
+
+| Id | Title | Requirements | Profiles |
+|---|---|---|---|
+| VS-1 | The loop asks for a state branch with no timestamp and gets sdlc/state- plus 14 UTC digits | R-008 | cli, contract |
+| VS-2 | A caller gives an explicit state timestamp and it is used as given | R-008 | contract, security |
+| VS-3 | The loop names a verify branch for a round, profile and part, round 0 and part 0 included | R-009 | cli, contract |
+| VS-4 | A verify branch request with a missing or malformed part is refused cleanly | R-009 | cli, security, contract |
+| VS-5 | The loop names an attempt branch for a slice and attempt number | R-010 | cli, contract |
+| VS-6 | An attempt branch request with a missing or malformed number is refused cleanly | R-010 | cli, security, contract |
+| VS-7 | A team with a custom branch format gets verify and attempt branches inside that format | R-009, R-010 | cli, contract |
+| VS-8 | A verify branch never leaves the machine on today's scripts, and only the profile agent and the collector get the verify branch builder | R-119 | security, cli |
+| VS-9 | A push or pull-request form inside the R-119 scope is caught by the AST guard | R-119 | security, cli |
+| VS-10 | A spec-required forge read changes only a pin and hits no ban | R-119 | security, cli |
+| VS-11 | The guard fails closed on a script it cannot read or a new script type | R-119 | security, cli |
+
+## Scenario notes
+
+### VS-1: The loop asks for a state branch with no timestamp and gets sdlc/state- plus 14 UTC digits
+No product change for state: S-003 owns the tail. Re-prove it beside the new rows. Run branches.py name --kind state under TZ values far from UTC (Pacific/Kiritimati, America/Adak, Etc/GMT+12) and near midnight. The 14 digits must be %Y%m%d%H%M%S in UTC, between the times taken before and after the call. Check the default format, feature/PROJ-1-{name} and {name:lower}. Extra flags (--id, --n, --round, --profile) must not change the state tail. Output is one JSON line, exit 0.
+
+### VS-2: A caller gives an explicit state timestamp and it is used as given
+T-R-008b is a characterization test. Call name(fmt, 'state', ts=...) through the Python API. ts '20261008101500' must give sdlc/state-20261008101500, and feature/PROJ-1-state-20261008101500 under a prefixed format. Empty string and None must generate a timestamp. Try ts 0 (int), '0' and non-string values. Try ts values with '/', '..', whitespace, control characters and '@{'. The name is not passed through git check-ref-format; a ref-unsafe result is a seed, not a refutation, because the spec does not bound name inputs. The CLI has no --ts flag; --ts must exit 2 with one JSON error.
+
+### VS-3: The loop names a verify branch for a round, profile and part, round 0 and part 0 included
+name --kind verify --id S-001 --round 0 --profile http-api --part 0 must print sdlc/S-001-v0-http-api-0, and --round 2 --part 3 must print sdlc/S-001-v2-http-api-3. Try every catalog profile, larger rounds and parts, and fix and split slice ids (S-fix-3, S-fix-M-1-2, S-013a). Under the default format the CLI output must equal the verifyPhase builder in sdlc-loop.js (sdlc/${id}-v${round}-${g.profile}-${g.part}). The CLI tail must equal tail('verify', ...) through the API. Property: for generated ints and catalog profiles, the output equals the template.
+
+### VS-4: A verify branch request with a missing or malformed part is refused cleanly
+Drop each of --id, --round, --profile, --part in turn: exit 2, one JSON line with ok false that names the part, no traceback, no file or ref change. Empty --id and --profile must fail. Non-integer --round and --part (1.5, 0x1, '', ' 1', unicode digits, huge integers, '-1') must exit 2 or give a defined ASCII result; record what argparse int() accepts. A negative round that gives S-001-v-1-... is a seed if accepted (security r0 finding 1: the spec does not bound name inputs). Attack-corpus profiles (traversal, control chars, flag-like values, unicode whitespace, injection) must not crash and must not yield a branch outside the prefix. API: tail('verify') with None or '' for any part raises Fail that names the part.
+
+### VS-5: The loop names an attempt branch for a slice and attempt number
+name --kind attempt --id S-001 --n 1 must print sdlc/S-001-attempt-1. --id S-fix-M-1-2 --n 3 must print sdlc/S-fix-M-1-2-attempt-3. Try --n 0 and a large n. API tail('attempt', id=..., n=...) must match the CLI. Extra flags such as --round, --profile or --part must not leak into the attempt tail.
+
+### VS-6: An attempt branch request with a missing or malformed number is refused cleanly
+Missing --id or --n: exit 2 with one JSON error that names the part, no traceback. Non-integer --n (abc, 1.0, '', huge-integers, unicode-digits, integer-forms families) must exit 2 or give a defined ASCII result. A negative n that gives S-001-attempt--1 is a seed if accepted. API: tail('attempt') with a missing id or n raises Fail that names the part. No file or git ref changes in the scratch repo.
+
+### VS-7: A team with a custom branch format gets verify and attempt branches inside that format
+Set branchFormat in .sdlc/config.json, and also pass --format. feature/PROJ-1-{name:lower} must give feature/PROJ-1-s-001-v0-http-api-0 and feature/PROJ-1-s-001-attempt-1. A format with a suffix (x/{name}/y) keeps the suffix. --format wins over config. An invalid format exits 2 before a name is built. {name:lower} lowercases only the tail, never the prefix.
+
+### VS-8: A verify branch never leaves the machine on today's scripts, and only the profile agent and the collector get the verify branch builder
+Run node --test skills/sdlc/test/push-guard.test.mjs from the repo root: it must pass on the unchanged tree and must not depend on the worktree path. Run python3 skills/sdlc/test/push_guard.py <plugin root> and compare each pinned site with the source: the 11 direct sites, the 6 network entries, the three push calls in state-write.py (advance_run_branch, prune_stale_milestone_branches, ensure_milestone_branch) and the two pr list reads in next-action.py load_prs. Trace each push target to its source; none may be a verify name (data flow into a pinned site is seed S1). Confirm the loop's verifyPhase branch builder reaches only the verify-<profile> branch input and the verify-collector branches input (T-R-119d). Read verify-<profile>.md and verify-collector.md; a prompt that pushes a verify branch is seed S4 (S-027 owns prompts), record it, do not refute.
+
+### VS-9: A push or pull-request form inside the R-119 scope is caught by the AST guard
+The re-plan replaced the regex scan with push_guard.py, an ast scanner with pins. Follow the refutation rule in tests.md (ADR-20261009-062930-decision-judge-S-005-388e): a refutation is a literal form in a scanned file, inside the covered scope, that leaves the push_guard.py output equal to the pins. Seeds S1 to S5 are never refutations; record each one. Re-run every mutant from rounds 0 to 2 on a copied tree (cli-runner copySkill or a cp of the plugin root): quoted paths between git and push, 'pu' + 'sh', more than 80 characters, split shell=True strings, gh api .../pulls, execSync/execFileSync/spawnSync in sdlc-loop.js with and without require. Then hunt for new in-scope forms: import aliases (import subprocess as sp, from os import system as s), os.posix_spawn, os.exec*, pty, asyncio.create_subprocess_exec, starred argv, a tuple argv, keyword args= argv, f-string verbs, a wrapper passed as a value or through a lambda or functools.partial, a wrapper call with options before the verb (-c alias.x=push), gh api with -X post in lower case, --method=POST as one token, -XPOST, --field=, a pulls or merge_requests path split by +, glab mr create through run(), graphql with no flags, getattr(subprocess, 'run'), __import__('subprocess'), importlib. In sdlc-loop.js try global.process, global['child'+'_process'], globalThis, Function('...'), a fourth 'global' literal, "global" in double quotes and in backticks. Each in-scope form that keeps the output equal to the pins is a defect.
+
+### VS-10: A spec-required forge read changes only a pin and hits no ban
+The guard must not over-block the S-013 and S-014 reads, or later slices must weaken it. Add subprocess.run(['gh', 'api', f'repos/{slug}/rules/branches/{quote(s, safe="")}']) in a new branches.py function, run(repo, 'gh', 'api', '-X', 'GET', 'repos/o/r/rules/branches/x') in next-action.py, and glab api projects/:fullpath/push_rule. Each must change only the direct, forge or wrapper-verb pin, and leave forgeViolations, opaque, dynamic and wrapperValues empty. Also add a git log or git fetch call through the state-write.py git wrapper: it must not fail T-R-119b (the verb set holds, a new known verb is allowed). Report an over-block as a defect only when a spec-required read hits a ban.
+
+### VS-11: The guard fails closed on a script it cannot read or a new script type
+A guard that skips a file hides a push. On a copied tree add: a .py file with a syntax error, a .py file with invalid UTF-8 or a BOM, a .py file under a new subdirectory, a symlinked .py file, hooks/x.sh, skills/sdlc/x.mjs and x.cjs, a file with no extension that holds a shebang, and a .py file in a directory named like an excluded one at a deeper level (skills/sdlc/tracker/test/x.py). push_guard.py must exit non-zero, report the file, or change the files pin; it must never exit 0 with the output equal to the pins. The excluded directories (test, fixtures, prompts, __pycache__, node_modules) are seed S5 only where the plan names them. Check that a crash of push_guard.py fails the test and is not read as an empty, passing report.
+
+## Coverage
+
+| Requirement | Scenarios |
+|---|---|
+| R-008 | VS-1, VS-2 |
+| R-009 | VS-3, VS-4, VS-7 |
+| R-010 | VS-5, VS-6, VS-7 |
+| R-119 | VS-8, VS-9, VS-10, VS-11 |
+| R-093 | none: moved to S-027 by ADR-20261009-062918-decision-judge-S-005-7fbd |
+
+## Tools
+
+| Id | Profile | Purpose | Exists |
+|---|---|---|---|
+| cli-runner | cli | Run branches.py name and push_guard.py in a scratch repo with a controlled env and TZ; copySkill gives a mutable tree for guard mutants; capture JSON, exit code, stderr and tree diff. | yes |
+| property | contract | Call tail and name through the Python API in batches with generated ids, rounds, parts, profiles, n and ts values. | yes |
+| attack-corpus | security | Feed hostile id, profile, round, part, n and ts values to the CLI and the API, and plant decoy modules next to the guard. | yes |
+
+## Changes since the previous plan
+- The re-plan dropped the regex scan for T-R-119. The new guard is an AST scanner with pinned sites: `skills/sdlc/test/push_guard.py` and `skills/sdlc/test/push-guard.test.mjs`.
+- VS-8 now checks the pins against the source and the verify builder confinement.
+- VS-9 now uses the refutation rule of ADR-388e. It re-runs every mutant from rounds 0 to 2 and hunts for new in-scope forms.
+- VS-10 is new. It checks that a spec-required forge read changes only a pin. This guards against a ban that a later slice must weaken.
+- VS-11 is new. It checks that the guard fails closed on a file it cannot parse or a new script type.
+- VS-1 to VS-7 keep their ids. Their notes add the T-R-008b characterization and the seed rule for unbounded parts.
+
+## Notes
+
+This is round 0 of the re-plan after escalation step 1. It replaces the earlier plan-r0 and plan-r1. VS-1 to VS-9 keep their ids. VS-9 now targets the AST guard (push_guard.py and push-guard.test.mjs) and follows the refutation rule of ADR-20261009-062930-decision-judge-S-005-388e. VS-10 and VS-11 are new: they check that the guard does not over-block spec-required reads and that it fails closed. R-093 is listed on the slice, but ADR-20261009-053059-decision-judge-S-005-23a9 and ADR-20261009-062918-decision-judge-S-005-7fbd move it to S-027, so no scenario covers it. The loop still hard-codes the verify branch builder with the sdlc/ prefix; VS-3 checks it under the default format only. No spec number applies, so limits is not tagged. The name command does not pass its output through git check-ref-format, so hostile parts can give ref-unsafe names; VS-2, VS-4 and VS-6 record this as a seed. Profiles in priority order: cli (10 scenarios), security (7), contract (6).

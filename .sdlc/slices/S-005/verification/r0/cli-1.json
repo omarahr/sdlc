@@ -1,0 +1,432 @@
+{
+  "profile": "cli",
+  "part": 1,
+  "round": 0,
+  "commit": "9e1e71b",
+  "environment": "macOS (Darwin 25.6.0), Python 3.14.7, Node v24.19.0, git; push_guard.py run as a subprocess on copies of skills/sdlc and hooks in cli-runner scratch directories; proof pushes go to a local bare origin",
+  "cases": [
+    {
+      "id": "TC-cli-12",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output",
+      "given": "the slice commit 9e1e71b, unmodified",
+      "when": "python3 skills/sdlc/test/push_guard.py <root> runs on the worktree and on a copy under 'copy with spaces ü'",
+      "then": "both runs exit 0 with the same report: 3 pushes, and empty dynamic, forgeViolations, opaque, wrapperValues and jsHits",
+      "expected": "exit 0, output equal to the pins",
+      "actual": "exit 0 for both roots, no changed key; node --test skills/sdlc/test/push-guard.test.mjs passes 6 of 6",
+      "result": "pass",
+      "specSource": "R-119 acceptance; tests.md refutation rule (ADR-20261009-062930-decision-judge-S-005-388e)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:203",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-12 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard on the unchanged roots",
+          "inline": "### TC-cli-12 unchanged worktree\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-12 copy under a path with spaces and unicode\nexit: 0\nchanged keys: (none: output equals the pins)\n$ node --test skills/sdlc/test/push-guard.test.mjs\nℹ tests 6\nℹ pass 6\nℹ fail 0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-13",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Every round 0 to 2 mutant changes the guard output",
+      "given": "a copy of skills/sdlc and hooks",
+      "when": "25 mutants from rounds 0 to 2 are appended one at a time: quoted paths and paths over 80 characters between git and push, 'pu' + 'sh', split shell=True strings, os.system shell strings, gh pr create with --repo before the verb, gh api .../pulls, execSync, execFileSync and spawnSync with and without require",
+      "then": "push_guard.py runs on each copy",
+      "expected": "each mutant changes at least one key or the extension check",
+      "actual": "all 25 mutants change pushes, direct, opaque, forge, forgeViolations, wrapperVerbs or jsHits",
+      "result": "pass",
+      "specSource": "R-119 acceptance; tests.md refutation rule (ADR-20261009-062930-decision-judge-S-005-388e)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:218",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-13 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "mutant transcripts (one block per mutant)",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-15",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The new in-scope forms named by the plan change the guard output",
+      "given": "a copy of skills/sdlc and hooks",
+      "when": "32 forms are appended one at a time: import aliases, os.posix_spawn, os.execvp, pty, asyncio.create_subprocess_exec, starred, tuple and args= argv, an f-string verb, the wrapper through a lambda and functools.partial, -c alias.x=push, gh api -X post, --method=POST, -XPOST, --field=, a pulls path split by +, glab mr create, graphql with no flags, gh pr new, getattr, __import__, importlib, and the sdlc-loop.js forms global.process, global['child'+'_process'], globalThis, Function, a fourth 'global', \"global\" and `global`",
+      "then": "push_guard.py runs on each copy",
+      "expected": "each form changes at least one key",
+      "actual": "all 32 forms change at least one key",
+      "result": "pass",
+      "specSource": "R-119 acceptance; tests.md refutation rule (ADR-20261009-062930-decision-judge-S-005-388e)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:223",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-15 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "mutant transcripts (one block per mutant)",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-40",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A process module rebound to another name hides a real verify push",
+      "given": "a copy with janitor.py extended by def _m(repo, b): sp = subprocess; sp.run(['git', '-C', repo, 'push', 'origin', b], check=True)",
+      "when": "push_guard.py runs on the copy; then _m is called on a scratch repo with a bare origin and the branch sdlc/S-001-v0-http-api-0",
+      "then": "the guard must change a key, because the form is a process call in a scanned file",
+      "expected": "a changed key (direct) for each rebind form",
+      "actual": "exit 0 and output equal to the pins for 5 forms: sp = subprocess, a default parameter sp=subprocess, a walrus (sp := subprocess), [subprocess][0], o = os then o.system(...). The proof run pushed refs/heads/sdlc/S-001-v0-http-api-0 to the bare origin.",
+      "result": "fail",
+      "specSource": "R-119 acceptance; tests.md R-119 scope 'Any call to subprocess.*, os.system ...'; refutation rule: a process call in a scanned file that leaves the output equal to the pins",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:228",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-40 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output and proof push",
+          "inline": "### TC-cli-40 module bound to a local name\n$ python3 <wt>/skills/sdlc/test/push_guard.py <copy>\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-40 module as a default parameter value\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-40 module through a walrus\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-40 module through a list subscript\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-40 os bound to a local name\nexit: 0\nchanged keys: (none: output equals the pins)\n### run _m from the mutated janitor.py\nexit: 0\nremote refs after: refs/heads/sdlc/S-001-v0-http-api-0"
+        },
+        {
+          "kind": "file-tree",
+          "title": "bare origin refs",
+          "inline": "before: (none)\nafter:  refs/heads/sdlc/S-001-v0-http-api-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-41",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The posix module runs a verify push that the guard does not see",
+      "given": "a copy with janitor.py extended by import posix and posix.system('git -C ' + repo + ' push origin ' + b), and by posix.posix_spawnp('git', [...push...], {})",
+      "when": "push_guard.py runs on the copy; then _m is called on a scratch repo with a bare origin",
+      "then": "the guard must change a key: posix.system is os.system under its native module name",
+      "expected": "a changed key (direct or dynamic)",
+      "actual": "exit 0 and output equal to the pins for both forms. The proof run pushed refs/heads/sdlc/S-001-v0-http-api-0.",
+      "result": "fail",
+      "specSource": "R-119 acceptance; tests.md refutation rule: a new form that is a process call in a scanned file refutes when the output stays equal to the pins",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:236",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-41 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output and proof push",
+          "inline": "### TC-cli-41 posix.system\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-41 posix.posix_spawnp\nexit: 0\nchanged keys: (none: output equals the pins)\n### run _m from the mutated janitor.py\nexit: 0\nremote refs after: refs/heads/sdlc/S-001-v0-http-api-0"
+        },
+        {
+          "kind": "file-tree",
+          "title": "bare origin refs",
+          "inline": "before: (none)\nafter:  refs/heads/sdlc/S-001-v0-http-api-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-42",
+      "scenarioId": "VS-11",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A unicode_escape source cookie hides a verify push from the AST scan",
+      "given": "a copy with janitor.py line 2 set to '# coding: unicode_escape' and line 3 set to '#\\u000aimport subprocess as _h, os as _o\\u000aif ...: _h.run([\"git\", \"-C\", ..., \"push\", \"origin\", \"sdlc/S-001-v0-http-api-0\"], check=True)'",
+      "when": "push_guard.py runs on the copy; then python3 <copy>/skills/sdlc/janitor.py --help runs with VERIFY_REMOTE_REPO set to a scratch repo",
+      "then": "the guard must report the file or change a key: it parses the text as UTF-8 and ignores the cookie, so it reads a different program than Python runs",
+      "expected": "a changed key or a non-zero exit",
+      "actual": "guard exit 0, output equal to the pins (the scanner sees one comment line). janitor.py --help exits 0 and pushes refs/heads/sdlc/S-001-v0-http-api-0 to the bare origin.",
+      "result": "fail",
+      "specSource": "R-119 acceptance; tests.md R-119 scope 'Any call to subprocess.*'; refutation rule: a literal form in a scanned file that leaves the output equal to the pins",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:244",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-42 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output and proof push",
+          "inline": "### TC-cli-42 janitor.py with a unicode_escape cookie and a hidden push\n$ python3 <wt>/skills/sdlc/test/push_guard.py <copy>\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-42 run the mutated janitor.py --help\n$ VERIFY_REMOTE_REPO=<work repo> python3 <copy>/skills/sdlc/janitor.py --help\nexit: 0\nremote refs after: refs/heads/sdlc/S-001-v0-http-api-0"
+        },
+        {
+          "kind": "file-tree",
+          "title": "bare origin refs",
+          "inline": "before: (none)\nafter:  refs/heads/sdlc/S-001-v0-http-api-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-43",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A network module reached through a rebind or a private name is not reported",
+      "given": "a copy with collect.py extended by u = urllib.request; u.urlopen(u.Request('https://api.github.com/repos/o/r/pulls', data=b'{}', method='POST')), and janitor.py extended by import _socket; _socket.socket().connect(('api.github.com', 443))",
+      "when": "push_guard.py runs on each copy",
+      "then": "the guard must change the network key",
+      "expected": "a changed key (network)",
+      "actual": "exit 0 and output equal to the pins for both forms. The calls were not executed: no network access in the test.",
+      "result": "fail",
+      "specSource": "R-119 acceptance; tests.md R-119 scope 'Any call to urllib.request.*, http.client.* or socket.*'; refutation rule for a network call in a scanned file",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:259",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-43 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-43 urllib.request bound to a local name in collect.py\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-43 _socket in janitor.py\nexit: 0\nchanged keys: (none: output equals the pins)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-44",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A banned identifier written with a unicode escape passes the loop scan",
+      "given": "a copy with sdlc-loop.js extended by glob\\u0061lThis['pro' + 'cess'], Fun\\u0063tion('return 1')() or ev\\u0061l('1')",
+      "when": "push_guard.py runs on each copy; node -e reads the escaped names",
+      "then": "jsHits must change: the escaped names are the banned identifiers globalThis, Function and eval",
+      "expected": "a changed key (jsHits)",
+      "actual": "node prints 'true true true' (each escaped name is the same binding). The guard exits 0 with output equal to the pins for all three.",
+      "result": "fail",
+      "specSource": "R-119 acceptance; tests.md R-119 scope 'any use of a banned identifier, in code or in strings' in sdlc-loop.js",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:264",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-44 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node identity check and guard output",
+          "inline": "$ node -e 'console.log(glob\\u0061lThis === globalThis, Fun\\u0063tion === Function, ev\\u0061l === eval)'\nexit: 0\nstdout: true true true\n### TC-cli-44 glob\\u0061lThis\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-44 Fun\\u0063tion\nexit: 0\nchanged keys: (none: output equals the pins)\n### TC-cli-44 ev\\u0061l\nexit: 0\nchanged keys: (none: output equals the pins)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-47",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The S-013 gh api rules read in branches.py changes only the direct and forge pins",
+      "given": "a copy with branches.py extended by subprocess.run(['gh', 'api', f'repos/{slug}/rules/branches/{quote(s, safe=\"\")}'], ...)",
+      "when": "push_guard.py runs on the copy",
+      "then": "only direct and forge change; forgeViolations, opaque, dynamic and wrapperValues stay empty",
+      "expected": "changed keys direct, forge; no ban",
+      "actual": "changed keys: direct, forge; the four ban keys are empty",
+      "result": "pass",
+      "specSource": "R-119 acceptance; VS-10 over-block rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:274",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-47 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-47 S-013 rules read\nexit: 0\nchanged keys: direct, forge"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-48",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A GET read through the next-action run wrapper hits no ban in any spelling",
+      "given": "a copy with next-action.py extended by run(repo, 'gh', 'api', <method>, 'repos/o/r/rules/branches/x') for -X GET, -X get, --method=GET, -XGET and no method",
+      "when": "push_guard.py runs on each copy",
+      "then": "only forge and wrapperVerbs change; no ban key changes",
+      "expected": "changed keys wrapperVerbs, forge",
+      "actual": "changed keys: wrapperVerbs, forge for all five spellings",
+      "result": "pass",
+      "specSource": "R-119 acceptance; VS-10 over-block rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:281",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-48 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-48 -X GET / -X get / --method=GET / -XGET / no method\nexit: 0 (each)\nchanged keys: wrapperVerbs, forge (each)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-49",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The glab push_rule read changes only the direct and forge pins",
+      "given": "a copy with branches.py extended by subprocess.run(['glab', 'api', 'projects/:fullpath/push_rule'], ...)",
+      "when": "push_guard.py runs on the copy",
+      "then": "only direct and forge change",
+      "expected": "changed keys direct, forge",
+      "actual": "changed keys: direct, forge",
+      "result": "pass",
+      "specSource": "R-119 acceptance; VS-10 over-block rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:293",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-49 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-49 glab api push_rule\nexit: 0\nchanged keys: direct, forge"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-50",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A git log or git fetch through the state-write wrapper hits no ban",
+      "given": "a copy with state-write.py extended by git(repo, 'log', '-1', '--format=%H') or git(repo, 'fetch', '-q', 'origin')",
+      "when": "push_guard.py runs on each copy",
+      "then": "git log changes only the wrapperVerbs pin; git fetch changes nothing, because fetch is a pinned verb",
+      "expected": "log: wrapperVerbs only; fetch: no change",
+      "actual": "log: changed keys wrapperVerbs (adds 'state-write.py git log'); fetch: no change. T-R-119b needs a pin update for a new verb, which is a review step, not a ban.",
+      "result": "pass",
+      "specSource": "R-119 acceptance; VS-10 over-block rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:300",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-50 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-50 git log\nexit: 0\nchanged keys: wrapperVerbs\n  + wrapperVerbs: state-write.py git log\n### TC-cli-50 git fetch\nexit: 0\nchanged keys: (none: output equals the pins)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-51",
+      "scenarioId": "VS-11",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A pinned script the scanner cannot parse is reported as opaque",
+      "given": "a copy with hooks/live-poke.py replaced by a syntax error, invalid UTF-8, a NUL byte, a latin-1 cookie with a latin-1 byte, or a BOM before a push",
+      "when": "push_guard.py runs on each copy",
+      "then": "each copy changes the opaque key or another key",
+      "expected": "opaque holds 'hooks/live-poke.py parse <error>'",
+      "actual": "exit 0 and a 'hooks/live-poke.py parse' entry in opaque for all five",
+      "result": "pass",
+      "specSource": "R-119 acceptance; VS-11 fail-closed rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:309",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-51 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-51 syntax error / invalid UTF-8 / NUL byte / latin-1 cookie / BOM\nexit: 0 (each)\nchanged keys: opaque (each)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-52",
+      "scenarioId": "VS-11",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A new script file or a new script type changes the files pin or the extension check",
+      "given": "a copy with one of: a .py in a new subdirectory, a symlinked .py file, hooks/x.sh, x.mjs, x.cjs, a file with no extension and a shebang, x.PY, x.pyc",
+      "when": "push_guard.py runs on each copy",
+      "then": "each copy changes files, or adds a file outside the allowed extensions",
+      "expected": "files or extensions change",
+      "actual": "new .py: files; symlinked .py: files and direct; the other six: files and extensions",
+      "result": "pass",
+      "specSource": "R-119 acceptance; tests.md 'A new script file of another type fails the test'",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:327",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-52 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "path": ".sdlc/slices/S-005/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-54",
+      "scenarioId": "VS-11",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A guard crash fails the repo test instead of passing as an empty report",
+      "given": "a copy with hooks/live-poke.py or sdlc-loop.js at mode 000",
+      "when": "push_guard.py runs on each copy",
+      "then": "the guard exits non-zero with empty stdout; push-guard.test.mjs guard() asserts exit 0 before it parses stdout",
+      "expected": "non-zero exit, empty stdout",
+      "actual": "exit 1 with PermissionError on stderr and empty stdout for both; push-guard.test.mjs:105 asserts r.status 0",
+      "result": "pass",
+      "specSource": "R-119 acceptance; VS-11 fail-closed rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:349",
+      "command": "VERIFY_WT=$PWD node --test --test-name-pattern 'TC-cli-54 ' .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs  (run from the repo root on sdlc/S-005 at 9e1e71b)",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard output",
+          "inline": "### TC-cli-54 unreadable .py\nexit: 1\nstderr: PermissionError: [Errno 13] Permission denied: '<copy>/hooks/live-poke.py'\n### TC-cli-54 unreadable .js\nexit: 1\nstderr: PermissionError: [Errno 13] Permission denied: '<copy>/skills/sdlc/sdlc-loop.js'"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "S1: a second top-level def with a pinned name hides a new push",
+      "detail": "A second 'def advance_run_branch(repo, run)' appended to state-write.py with git(repo, 'push', '-q', 'origin', run, check=False) leaves the output equal to the pins. The pushes key is a set of (file, function, text), so a duplicate site collapses into the pinned one. Recorded under S1 (data flow into a pinned site). A count of each pinned site would close it.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3: module attribute walks are not tracked",
+      "detail": "subprocess.__dict__['run'](...), operator.attrgetter('run')(subprocess)(...) and (() => 0).constructor('...') in sdlc-loop.js leave the output equal to the pins.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "Code runners outside the listed modules",
+      "detail": "runpy.run_path, code.InteractiveInterpreter().runsource and import _posixsubprocess leave the output equal to the pins. Each can run code that the scan never reads.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S5: excluded directory names apply at any depth",
+      "detail": "skills/sdlc/tracker/test/x.py holding subprocess.run(['git', 'push', ...]) is not scanned: SKIPPED matches a directory name at any depth, not only skills/sdlc/test. The scope text names the directories by name, so this is recorded as S5.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S5: a symlinked directory is not walked",
+      "detail": "skills/sdlc/lib as a symlink to a directory that holds x.py with a push leaves the output equal to the pins: os.walk does not follow directory symlinks and the files key does not list the link.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "hooks/hooks.json commands are not checked",
+      "detail": "A SubagentStop hook entry with command 'git push origin sdlc/S-001-v0-http-api-0' in hooks/hooks.json leaves the output equal to the pins. The file is in the scanned set as .json, but the scan reads only .py and .js content. Claude Code runs these commands on each agent start and stop.",
+      "file": "hooks/hooks.json"
+    }
+  ]
+}

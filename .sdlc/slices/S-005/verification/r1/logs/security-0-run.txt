@@ -1,0 +1,194 @@
+seed: 36 corpus entries give a ref-unsafe branch name
+accepted: 63; examples: negative=sdlc/S-001-v-1-http-api-0 negative=sdlc/S-001-v0-http-api--1 negative=sdlc/S-001-attempt--1
+ts 0 -> ["return","sdlc/state-0"]; ts traversal -> ["return","sdlc/state-../../x"]; ts ref chars -> ["return","sdlc/state-a@{1} b\u0001"]
+✖ verify security TC-security-1: state-write.py git wrapper: --work-tree takes a pinned verb as its value, then push breaks a pin (79.294833ms)
+✖ verify security TC-security-2: next-action.py run wrapper: git --work-tree show push breaks a pin (77.042667ms)
+✖ verify security TC-security-3: impact.py git_lines wrapper: --work-tree diff push breaks a pin (78.32775ms)
+✖ verify security TC-security-4: next-action.py load_prs: gh pr --milestone list create breaks a pin (79.9005ms)
+✖ verify security TC-security-5: pydoc.pipepager runs a shell command that pushes breaks a pin (78.856542ms)
+✖ verify security TC-security-6: logging.handlers.HTTPHandler POSTs to the pulls API breaks a pin (79.658458ms)
+✖ verify security TC-security-7: uuid._get_command_stdout runs git push breaks a pin (87.609083ms)
+✖ verify security TC-security-8: xml.dom.minidom.parse fetches a URL breaks a pin (77.575333ms)
+✔ verify security TC-security-9: git --work-tree <pinned verb> push really pushes a verify branch (242.22075ms)
+✔ verify security TC-security-10: pydoc.pipepager and HTTPHandler reach a process and the network (85.88575ms)
+✔ verify security TC-security-11: gh routes pr --milestone list create to pr create (23.89775ms)
+✔ verify security TC-security-12: VS-9 plan forms each break a pin (2838.031833ms)
+✔ verify security TC-security-13: VS-11 unreadable, new and odd files fail closed (962.915292ms)
+✔ verify security TC-security-14: VS-11 a crash of push_guard.py is a non-zero exit, not an empty report (46.80325ms)
+✖ verify security TC-security-15: VS-11 a .py file under a symlinked directory is scanned or reported (79.47875ms)
+✔ verify security TC-security-16: VS-4 VS-6 hostile id and profile values never crash and stay under the prefix (45658.375459ms)
+✔ verify security TC-security-17: VS-4 VS-6 malformed round, part and n exit 2 or give an ASCII name (16055.764416ms)
+✔ verify security TC-security-18: VS-4 VS-6 a missing part exits 2 with one JSON error naming the part (1291.685458ms)
+✔ verify security TC-security-19: VS-2 an explicit state ts is used as given, and empty or None generates one (43.374375ms)
+✔ verify security TC-security-20: VS-8 the three pinned pushes target the run branch and milestone branches only (85.260458ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 11
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68371.2275
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-1: state-write.py git wrapper: --work-tree takes a pinned verb as its value, then push breaks a pin (79.294833ms)
+  AssertionError [ERR_ASSERTION]: TC-security-1: push_guard.py output equals the pins for an in-scope form: state-write.py git wrapper: --work-tree takes a pinned verb as its value, then push
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-2: next-action.py run wrapper: git --work-tree show push breaks a pin (77.042667ms)
+  AssertionError [ERR_ASSERTION]: TC-security-2: push_guard.py output equals the pins for an in-scope form: next-action.py run wrapper: git --work-tree show push
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-3: impact.py git_lines wrapper: --work-tree diff push breaks a pin (78.32775ms)
+  AssertionError [ERR_ASSERTION]: TC-security-3: push_guard.py output equals the pins for an in-scope form: impact.py git_lines wrapper: --work-tree diff push
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-4: next-action.py load_prs: gh pr --milestone list create breaks a pin (79.9005ms)
+  AssertionError [ERR_ASSERTION]: TC-security-4: push_guard.py output equals the pins for an in-scope form: next-action.py load_prs: gh pr --milestone list create
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-5: pydoc.pipepager runs a shell command that pushes breaks a pin (78.856542ms)
+  AssertionError [ERR_ASSERTION]: TC-security-5: push_guard.py output equals the pins for an in-scope form: pydoc.pipepager runs a shell command that pushes
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-6: logging.handlers.HTTPHandler POSTs to the pulls API breaks a pin (79.658458ms)
+  AssertionError [ERR_ASSERTION]: TC-security-6: push_guard.py output equals the pins for an in-scope form: logging.handlers.HTTPHandler POSTs to the pulls API
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-7: uuid._get_command_stdout runs git push breaks a pin (87.609083ms)
+  AssertionError [ERR_ASSERTION]: TC-security-7: push_guard.py output equals the pins for an in-scope form: uuid._get_command_stdout runs git push
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:91:3
+✖ verify security TC-security-8: xml.dom.minidom.parse fetches a URL breaks a pin (77.575333ms)
+  AssertionError [ERR_ASSERTION]: TC-security-8: push_guard.py output equals the pins for an in-scope form: xml.dom.minidom.parse fetches a URL
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:223:1
+✖ verify security TC-security-15: VS-11 a .py file under a symlinked directory is scanned or reported (79.47875ms)
+  AssertionError [ERR_ASSERTION]: skills/sdlc/lib/x.py holds a push and push_guard.py exits 0 with output equal to the pins
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:232:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+exit 1

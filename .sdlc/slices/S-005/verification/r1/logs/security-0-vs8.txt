@@ -1,0 +1,14 @@
+✔ every process and network call in the scripts sits at a pinned site (79.772542ms)
+✔ every wrapper call gives a constant verb, and only the three reviewed calls push (80.142208ms)
+✔ the loop script has no process or network access (250.523667ms)
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.432083ms)
+✔ each known push and pull-request form fails the guard (4920.477125ms)
+✔ a spec-required forge read changes only a pin and hits no ban (167.128834ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5642.082917

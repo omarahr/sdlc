@@ -1,0 +1,21 @@
+✔ verify security: VS-2 an explicit state ts is used as given, empty and None generate one (43.2025ms)
+✔ verify security: VS-2 hostile ts values never raise an unhandled exception and keep the prefix (2306.486834ms)
+✔ verify security: VS-2 the CLI has no --ts flag and refuses it with one JSON error (381.285041ms)
+✔ verify security: VS-4 each missing verify part exits 2 with one JSON error naming the part (1310.391125ms)
+✔ verify security: VS-4 malformed --round and --part exit 2 or give an ASCII integer, never a crash (18182.65675ms)
+✔ verify security: VS-4 hostile --id and --profile never crash, never change state, keep the sdlc/ prefix (45109.113042ms)
+✔ verify security: VS-6 a missing attempt part exits 2 with one JSON error naming it (652.511958ms)
+✔ verify security: VS-6 malformed --n exits 2 or gives an ASCII integer, never a crash (10582.029209ms)
+✔ verify security: VS-6 hostile attempt --id never crashes and keeps the sdlc/ prefix (20075.003375ms)
+✔ verify security: VS-8 every push or request call in the scripts targets a run or milestone branch (2.685ms)
+✔ verify security: VS-8 the verify-profile and verify-collector prompts never tell an agent to push or open a request (0.649125ms)
+✔ verify security: VS-8 the committed T-R-119 passes on the slice and catches a verify push added to the loop (247.967834ms)
+✔ verify security: VS-8 T-R-119 misses a python push of a verify name built on another line (114.997958ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 99277.045541

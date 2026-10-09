@@ -1,0 +1,1269 @@
+✔ clean audit reports pass and records all audited ids (2.532416ms)
+✔ majority-refuted requirements are reopened (1.711917ms)
+✔ repeated audit abort returns stalled (0.460209ms)
+✔ livelock writes STUCK.md and ends the run as livelock (0.773125ms)
+✔ seven lens finders, dedupe against seen, judge fresh ideas, write verdicts (3.58925ms)
+✔ behavior-changing ideas become proposals without judging (2.01225ms)
+✔ overflow is deferred and the round is not dry (2.145667ms)
+✔ empty round is dry (0.495833ms)
+✔ a backlog that fills a judging batch is drained before any finder runs (0.832166ms)
+✔ judges receive the round number so they can raise the bar (0.498917ms)
+✔ bar raiser is off by default: a barRaiserRound action ends the run as done without running it (0.402417ms)
+✔ the state reader is told the bar-raiser round budget (1.198375ms)
+✔ bootstrap runs env, extractor, three critics per round until a dry round, slicer, then commits (2.760833ms)
+✔ a critic that fails to report keeps the round from counting as dry (1.591375ms)
+✔ bootstrap passes mr mode and the commit format to the env-detector, whose schema allows mr (0.612792ms)
+✔ the env-detector vars carry the driver-resolved defaultBranch, empty when the driver had none (1.074167ms)
+✔ critic that never goes dry is capped and the cap is logged (0.612208ms)
+✔ the documented git modes and the workflow script agree (1.42675ms)
+✔ bootstrap aborts without committing when the extractor fails (0.434833ms)
+✔ branches.py imports from its path and exposes the public functions (182.268125ms)
+✔ branches.py imports only standard library modules (62.422917ms)
+✔ every command runs and prints one JSON object (468.538083ms)
+✔ a flag that a command does not name is bad input (295.979125ms)
+✔ bad input exits 2 with one JSON error object (766.061458ms)
+✔ load_format returns the config value or the default (541.992375ms)
+✔ a command without --format uses the config format (417.903833ms)
+✔ the three scripts import branches from their own directory (151.171625ms)
+✔ a script run through a symlink imports branches from its real directory (134.118875ms)
+✔ a git-modes.json that cannot be read fails preflight with one JSON error (186.292167ms)
+✔ a missing or malformed git-modes.json fails preflight with one JSON error, and name, parse and list still run (2173.697209ms)
+✔ a deeply nested config.json is bad input, not a crash (201.1185ms)
+✔ the three scripts run with the working directory outside the skill directory (161.949791ms)
+✔ branch recognition in the three scripts still resolves from a scratch working directory (898.685292ms)
+✔ validate_format accepts one placeholder with a valid literal part (89.483416ms)
+✔ validate_format rejects two placeholders, none, whitespace and an invalid ref (53.375584ms)
+✔ validate_format rejects Unicode whitespace that git accepts (33.875292ms)
+✔ validate_format rejects the literal parts that git refuses (135.443791ms)
+✔ an invalid-ref format is bad input on the CLI (208.147625ms)
+✔ split returns the prefix, the suffix and the lower flag (37.47275ms)
+✔ name puts the tail in the placeholder and lowercases only the tail (50.669041ms)
+✔ validate_format without git is a Fail, not a crash (42.214958ms)
+✔ tail builds the slice, state and e2e-area tails and fails on a missing part (32.840625ms)
+✔ the state tail is the current UTC time (32.886792ms)
+✔ name without a required part exits 2 with one JSON error and no traceback (197.119333ms)
+✔ name takes the format from the flag, then the config, then the default (470.528083ms)
+✔ preflight reports the resolved format and whether it was given (861.118334ms)
+✔ the --format flag wins over a broken config in name and preflight (1287.491667ms)
+✔ name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds (429.422834ms)
+✔ tail builds the run, milestone and e2e tails and fails on a missing part (39.440792ms)
+✔ name for the run, milestone and e2e kinds follows a prefixed and a lowercased format and fails without its part (281.6385ms)
+✔ name prints the state branch as sdlc/state- and 14 UTC digits (132.448375ms)
+✔ an explicit state ts is used as given (30.528708ms)
+✔ name prints the verify branch (198.414541ms)
+✔ tail builds the verify tail and fails on a missing part (165.604041ms)
+✔ name prints the attempt branch (186.230666ms)
+✔ tail builds the attempt tail and fails on a missing part (221.427208ms)
+✔ no script pushes a verify branch or opens a pull request for it (1.51175ms)
+✔ a stop action without a stop-file reason ends the run as stopped (2.20225ms)
+✔ done returns the summary (0.999875ms)
+✔ wait returns waiting (0.87775ms)
+✔ state reader failing twice in a run that did nothing returns stalled after exactly one retry (0.586667ms)
+✔ maxIterations 0 starts no agents (0.38975ms)
+✔ agent cap stops before an iteration that does not fit (0.4485ms)
+✔ low remaining budget stops before the next iteration (0.492209ms)
+✔ the agent cap holds inside one milestone: a fixing round of the same milestone gets no headroom (1.405958ms)
+✔ crossing a milestone boundary restores the cap: the next milestone gets a whole allowance (0.965125ms)
+✔ the run total is not reset at a milestone boundary, and the pause message says which number it means (1.494333ms)
+✔ the money brake still stops a run whose milestone allowance was just made whole (0.640417ms)
+✔ unknown action in a run that did nothing returns stalled (0.368416ms)
+✔ a run that completed an action before the state reader failed returns continue (0.433458ms)
+✔ each stalled run adds one to stalledRuns, carried through args (0.698458ms)
+✔ the 24th stalled run in a row returns stuck (0.681916ms)
+✔ a repeated outcome that stalls counts toward stuck, and does not reset stalledRuns (0.610417ms)
+✔ stop, done and wait leave stalledRuns as it came in (0.28975ms)
+✔ an error from the state reader ends a run that did nothing as stalled, with the reason (0.275792ms)
+✔ the state reader is given the decision script path (0.600541ms)
+✔ prompt names the common and role prompt files and embeds inputs (0.276667ms)
+✔ run() counts every attempt and returns null after two failures (1.02725ms)
+✔ every phase title used in the script is declared in meta.phases (1.265ms)
+✔ the Gate phase is declared after the verify group and before Integrate (0.776541ms)
+✔ plan passes both critics, tests fail correctly, slice advances to implement (5.463ms)
+✔ ambiguities go to the decision panel and the planner re-runs with the ADRs (2.722583ms)
+✔ plan refuted three times escalates to replan (0.613834ms)
+✔ tests that never fail for the right reason escalate after three attempts (0.564875ms)
+✔ happy path runs implement, core verifiers, the profile group, three reviewers, the report, integrate (0.938416ms)
+✔ resume at implement skips plan and tests (0.626959ms)
+✔ resume at integrate goes straight to the integrator with persisted seeds (0.857125ms)
+✔ a profile verifier failing test forces a fix round carrying the evidence (0.638625ms)
+✔ three failed fix rounds escalate (0.390625ms)
+✔ an inconclusive implementer run is re-run without spending a fix round (0.501458ms)
+✔ a fix round is spent only when the implementer stays inconclusive after its re-run (0.54275ms)
+✔ a blocking finding that survives refutation forces a fix round (1.014209ms)
+✔ a blocking finding refuted by the majority is dropped and non-blocking ones become seeds (0.44825ms)
+✔ reviewer that fails to report blocks the slice (0.681584ms)
+✔ integration failure escalates (0.563875ms)
+✔ an inconclusive final check is re-run, and never escalates (0.52575ms)
+✔ a final check still inconclusive after its re-run leaves the slice in integrate (0.941792ms)
+✔ parkedRetry unparks then runs the slice from plan with reset counters (0.497792ms)
+✔ retryMerge calls the integrator in retry-merge mode (0.243125ms)
+✔ a low-risk slice skips the verify battery and ships on a clean review (0.560334ms)
+✔ a low-risk slice resumed at implement still skips the battery (0.585833ms)
+✔ a reviewer demanding verification turns the battery on for the same round (1.649958ms)
+✔ a demanding review with blocking findings fixes first; the battery judges the fix (0.716792ms)
+✔ a demanded battery that refutes sends the slice into a fix round with the verify evidence (0.498291ms)
+✔ no-progress guard force-parks a slice after three identical outcomes (0.355375ms)
+✔ an infra vote never counts as a refutation, but stops the round from passing (1.001666ms)
+✔ a refuting vote wins over infra classification (infra must not mask a real bug) (1.035458ms)
+✔ profileVote folds blocked scenarios and silent agents into infra, not refutation (0.63275ms)
+✔ a battery slice runs the gate before integrate, and a gate fail goes back to the build loop (0.772667ms)
+✔ a slice already at phase gate resumes at the gate, not the build loop (0.29825ms)
+✔ each verify round appends one ledger row to a single cumulative persist (0.440166ms)
+✔ an infra round appends an infra row and replays without spending a fix round (1.09975ms)
+✔ a gate fail appends its row and the retry carries the ledger through the recursion (0.680333ms)
+✔ a round the implementer could not finish still appends its refuted row (0.525375ms)
+✔ the integrator sending regate re-runs the gate (0.615125ms)
+✔ three consecutive infra rounds park the slice with infra debt, without escalating (0.646291ms)
+✔ gatePhase returns an infra verdict on a silent gate agent, and parks on the third (0.800708ms)
+✔ a blocked-only profile round replays at the same fix round and parks after three (1.00725ms)
+✔ a round whose only anomaly is a failed-to-report verifier replays without consuming a fix round (0.757792ms)
+✔ three consecutive gate infra failures park the slice without escalating (0.703708ms)
+✔ a parked-at-gate slice resumed via parkedRetry re-runs the gate, not the build loop (0.476459ms)
+✔ a stopRequested implementer pauses the run without spending a fix round (0.996542ms)
+✔ an agent already running finishes, the next one does not start (0.344584ms)
+✔ a stopRequested agent deep in a parallel group unwinds cleanly (0.358041ms)
+✔ an iteration-top stop action still ends stopped, not paused (0.417792ms)
+✔ a stop-file stop at the iteration top pauses, and any other stop reason still ends stopped (0.983542ms)
+✔ a stopRequested state-reader pauses instead of stalling into the relaunch loop (0.392292ms)
+✔ every dispatched prompt carries the stop check, resolved at the main root (0.831209ms)
+✔ a stopRequested state-writer mid-buildLoop stops the run before the next agent dispatches (0.661541ms)
+✔ lifecycle: a profile refutation promotes into the fix round, the gate commits, the integrator merges (1.837333ms)
+✔ every log string in sdlc-loop.js follows the STE rules (56.641125ms)
+✔ first escalation is replan (2.477583ms)
+✔ step 4 runs a three-angle decision panel and passes the ADR to the escalator (1.267667ms)
+✔ panel with no proposals skips the judge and passes adr null (0.512959ms)
+✔ step 5 parks a spec slice and reverts an improvement slice (1.743625ms)
+✔ ladder never goes past park (0.530666ms)
+✔ escalator that fails to confirm is reported in the outcome (0.441875ms)
+✔ plan passes both critics, tests fail correctly, slice advances to implement (4.718417ms)
+✔ ambiguities go to the decision panel and the planner re-runs with the ADRs (2.098459ms)
+✔ plan refuted three times escalates to replan (0.55775ms)
+✔ tests that never fail for the right reason escalate after three attempts (0.399834ms)
+✔ happy path runs implement, core verifiers, the profile group, three reviewers, the report, integrate (0.891708ms)
+✔ resume at implement skips plan and tests (0.830083ms)
+✔ resume at integrate goes straight to the integrator with persisted seeds (0.904583ms)
+✔ a profile verifier failing test forces a fix round carrying the evidence (0.690208ms)
+✔ three failed fix rounds escalate (0.39925ms)
+✔ an inconclusive implementer run is re-run without spending a fix round (0.523292ms)
+✔ a fix round is spent only when the implementer stays inconclusive after its re-run (0.350708ms)
+✔ a blocking finding that survives refutation forces a fix round (0.979ms)
+✔ a blocking finding refuted by the majority is dropped and non-blocking ones become seeds (0.374458ms)
+✔ reviewer that fails to report blocks the slice (0.512084ms)
+✔ integration failure escalates (0.3055ms)
+✔ an inconclusive final check is re-run, and never escalates (0.274125ms)
+✔ a final check still inconclusive after its re-run leaves the slice in integrate (0.811125ms)
+✔ parkedRetry unparks then runs the slice from plan with reset counters (0.453833ms)
+✔ retryMerge calls the integrator in retry-merge mode (0.240917ms)
+✔ a low-risk slice skips the verify battery and ships on a clean review (0.304ms)
+✔ a low-risk slice resumed at implement still skips the battery (0.220083ms)
+✔ a reviewer demanding verification turns the battery on for the same round (0.6465ms)
+✔ a demanding review with blocking findings fixes first; the battery judges the fix (0.401875ms)
+✔ a demanded battery that refutes sends the slice into a fix round with the verify evidence (0.368125ms)
+✔ no-progress guard force-parks a slice after three identical outcomes (0.2915ms)
+✔ I1: a blocking finding whose refuters all die is kept, not dropped (0.320625ms)
+✔ I1: bar raiser round where every finder died is not dry (0.702792ms)
+✔ I1: an idea whose judges died is deferred, not rejected (0.338625ms)
+✔ I3: a retryMerge that keeps waiting returns waiting instead of force-parking (0.17675ms)
+✔ I3: a force-park that fails ends the run as stalled (0.253958ms)
+✔ I4: the no-progress streak carries across runs through args and is returned (0.323584ms)
+✔ I4: a bar-raiser writer failure yields a constant outcome (0.237625ms)
+✔ I5: at most five blocking findings are judged per round (0.384416ms)
+✔ I5: when the first five blocking findings are all refuted, the rest are judged too (0.370375ms)
+✔ I5: a blocking finding past the first five still forces a fix round when it holds (0.506958ms)
+✔ I5: at most three ambiguities go to decision panels per planner round (0.936625ms)
+✔ I5: a build loop that would pass the agent cap pauses without escalating (0.369292ms)
+✔ I9: a lone regression refutation fails verification (0.329416ms)
+✔ git-modes.json holds an ordered list of mode names (43.80475ms)
+✔ the workflow script mode list is the one in git-modes.json (71.660292ms)
+✔ each python script resolves its modes from the file beside it, not from a literal (166.146833ms)
+✔ a missing or malformed git-modes.json stops the scripts instead of falling back to a list (1500.556958ms)
+✔ the hook pokes the watcher of the project it runs in, from any subfolder (42.207292ms)
+✔ the hook does nothing when no watcher is running (136.626792ms)
+✔ the hook exits 0 silently on empty, garbage or odd input (264.364375ms)
+✔ hooks.json registers the poke on agent start and stop, through the plugin root (0.53625ms)
+✔ the hub answers its health marker, 404s the unknown, and says when no run is registered (182.396125ms)
+✔ the index lists live runs and greys stale ones, and serves each run page from its tracker dir (116.545916ms)
+✔ the index is a status board: counts band, phase chip, slice progress and relative times (113.652667ms)
+✔ the index shows each run's verify economics from its slices' ledger rows (57.788708ms)
+✔ a run page never serves a file outside its tracker directory (111.856666ms)
+✔ a corrupt registration is skipped, never 500s the index (108.752417ms)
+✔ a registration with the wrong shape is skipped, and its run page 404s (111.501042ms)
+✔ an embedded null byte in a run path is a 404, never a traceback (57.474167ms)
+✔ an entry with a null repo or a non-string status title never 500s the index (108.190459ms)
+✔ an entry quiet for a day is pruned from the registry and the index (109.698125ms)
+✔ run_id slugs the repo dir and the spec path, and a same-named repo elsewhere gets a hash suffix (112.026666ms)
+✔ run_id slugs a repo dir whose name is outside the hub id alphabet (94.18425ms)
+✔ register writes the registration atomically, and heartbeat refreshes its mtime (129.901042ms)
+✔ an unwritable registry warns and carries on, reporting failure (75.11375ms)
+✔ the hub contract: port 8787 and ~/.sdlc/hub when the test overrides are absent (62.820667ms)
+✖ --publish registers the run and the hub serves its page at the fixed url (47043.216542ms)
+✖ a foreign process on the hub port is an error, never a silent move to another port (46884.473875ms)
+✖ a foreign 200 with the wrong body is still a foreign server, never a doomed hub spawn (47020.864583ms)
+✔ a hub dir blocked by a plain file warns, and the watcher carries on unpublished (4078.666708ms)
+✔ a watcher that started behind a squatter publishes once a real hub appears (4907.9625ms)
+✔ two runs publish side by side through the one hub (6205.563875ms)
+✔ the docs speak of the hub and the fixed port, never of per-run serving (0.951542ms)
+✔ the hub's rendered strings follow the STE rules (80.727834ms)
+✔ plan passes both critics, tests fail correctly, slice advances to implement (4.544542ms)
+✔ ambiguities go to the decision panel and the planner re-runs with the ADRs (2.889667ms)
+✔ plan refuted three times escalates to replan (0.594916ms)
+✔ tests that never fail for the right reason escalate after three attempts (0.551958ms)
+✔ happy path runs implement, core verifiers, the profile group, three reviewers, the report, integrate (0.86475ms)
+✔ resume at implement skips plan and tests (0.691417ms)
+✔ resume at integrate goes straight to the integrator with persisted seeds (0.934959ms)
+✔ a profile verifier failing test forces a fix round carrying the evidence (0.913167ms)
+✔ three failed fix rounds escalate (0.556542ms)
+✔ an inconclusive implementer run is re-run without spending a fix round (0.568458ms)
+✔ a fix round is spent only when the implementer stays inconclusive after its re-run (0.39875ms)
+✔ a blocking finding that survives refutation forces a fix round (1.139333ms)
+✔ a blocking finding refuted by the majority is dropped and non-blocking ones become seeds (0.394959ms)
+✔ reviewer that fails to report blocks the slice (0.760959ms)
+✔ integration failure escalates (0.352958ms)
+✔ an inconclusive final check is re-run, and never escalates (0.314791ms)
+✔ a final check still inconclusive after its re-run leaves the slice in integrate (0.990541ms)
+✔ parkedRetry unparks then runs the slice from plan with reset counters (0.642584ms)
+✔ retryMerge calls the integrator in retry-merge mode (0.29475ms)
+✔ a low-risk slice skips the verify battery and ships on a clean review (0.470084ms)
+✔ a low-risk slice resumed at implement still skips the battery (0.279333ms)
+✔ a reviewer demanding verification turns the battery on for the same round (1.155041ms)
+✔ a demanding review with blocking findings fixes first; the battery judges the fix (0.878292ms)
+✔ a demanded battery that refutes sends the slice into a fix round with the verify evidence (0.729375ms)
+✔ no-progress guard force-parks a slice after three identical outcomes (0.556291ms)
+✔ milestonePlan runs the milestone-planner (0.3515ms)
+✔ a clean campaign plans, reviews coverage, boots the stack, runs every area and reports verified (1.519958ms)
+✔ coverage gaps send the scenario plan back with the critiques (0.504458ms)
+✔ critics that never go dry stop after the round limit and the last revision still runs (0.521209ms)
+✔ a failure confirmed by the judges becomes a bug for the writer (0.622375ms)
+✔ a failure the judges refute is dismissed with their classification (0.451958ms)
+✔ dead judges never dismiss a failure (0.481875ms)
+✔ failures beyond the judge limit carry over as unjudged (0.694167ms)
+✔ a runner that dies marks its scenarios blocked and the outcome partial (0.416209ms)
+✔ a stack that cannot boot is reported blocked without running scenarios (0.313125ms)
+✔ runners go in batches of three so one laptop is not flooded (17.090459ms)
+✔ a re-run after fixes replays the planned scenarios without new coverage critique (1.1155ms)
+✔ dismissalClass picks the majority classification among refuting voters (0.856375ms)
+✔ verifier seeds reach the integrator alongside review seeds (0.372417ms)
+✔ a planner that judges the slice too big goes straight to split without critics (0.215875ms)
+✔ a too-big verdict after an earlier split escalates one rung further, never back down (0.208125ms)
+fatal: refusing to fetch into branch 'refs/heads/main' checked out at '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-jI5F9y/sdlc-owner-gJ3glv'
+From /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-jI5F9y/sdlc-remote-7yAP3B
+ * branch            main       -> FETCH_HEAD
+✔ A: a STOP file wins over everything, even a missing config (74.4375ms)
+✔ A: the stop probe resolves at the main root when --main-root is given, at the repo otherwise (214.248042ms)
+✔ A: bootstrap when the config is missing, the spec changed, or an override was added (299.11025ms)
+✔ A: in pr mode a ready state PR is merged first, and one that is not ready means wait (336.960541ms)
+✔ B: a slice whose PR is mergeable, approved and green is merged; a failing check or pending review is not (795.53025ms)
+✔ B: a slice PR that a human merged is recorded, not rebuilt and not waited on (128.029ms)
+✔ B: a slice in progress resumes, with only the fields the workflow uses (113.019041ms)
+✔ C: milestones are planned when the file is missing, and verified once every member is finished (360.536542ms)
+✔ C: a fixing milestone runs again when its fix slices are finished, and never past three attempts (324.829375ms)
+✔ D: the next todo slice needs its dependencies done, awaiting merge or parked; a missing or split one counts through (431.543083ms)
+✔ D: a parked slice is retried while it has retries left, after every todo slice (107.376167ms)
+✔ E: todo slices that nothing can unblock are a livelock that names them (107.838208ms)
+✔ F: the audit runs when it is missing, failed or older than the ledger (403.587416ms)
+✔ F: parked slices out of retries are a livelock; an unfinished requirement nobody owns is an error (197.509ms)
+✔ F: a milestone that is neither verified nor exhausted blocks done with an error (100.589667ms)
+✔ F: the bar raiser runs only while rounds are left and it has not gone dry twice (493.833166ms)
+✔ a gitMode this script does not know is an error, not a mode it falls through (687.258875ms)
+✔ slim_slice passes a slice's risk through to the loop, and old slices stay unrated (187.158709ms)
+✔ a state file that is not valid JSON is an error; a wrapped slices list is read (202.0815ms)
+✔ the ledger hash matches the jq command in state-schema.md (142.073042ms)
+✔ worktree world: a stale local default ref triggers no sync, and the decision reads origin/<defaultBranch> (828.737958ms)
+✔ worktree world: the sync round fetches without a refspec, the command succeeds, and one round is enough (873.344208ms)
+✔ a slice in progress on its own branch is found from the default branch, and stays the decision after a merge (563.007333ms)
+✔ an open PR left by an attempt that was replanned does not hold the slice (346.106166ms)
+✔ stack mode waits while a milestone pull request is open (93.088792ms)
+✔ stack mode waits on a milestone pull request that is green but unreviewed (90.2305ms)
+✔ stack mode does not wait once the milestone pull request has merged (109.34075ms)
+✔ stack mode ignores an sdlc/M-1-e2e pull request when deciding whether to wait (100.317375ms)
+✔ stack mode does not hold on an unreviewed e2e pull request left by a run that changed mode (304.380166ms)
+✔ pr mode still merges a ready e2e pull request itself (70.082208ms)
+✔ stack mode holds on a milestone pull request before the milestone is recorded as verified (89.499583ms)
+✔ stack mode holds on a milestone pull request that is green and ready to merge (317.177125ms)
+✔ stack mode holds on a milestone pull request whose milestone is not on the default branch yet (304.214125ms)
+✔ stack mode stops holding once the milestone pull request is merged into the default branch (355.082ms)
+✔ the reviewer can demand the verification battery for a mis-rated slice, and the schema passes the flag (1.156167ms)
+✔ every agent role used by the script has a prompt file (0.84325ms)
+✔ shared prompt files exist (0.1125ms)
+✔ script avoids APIs the workflow runtime forbids (0.474416ms)
+✔ the slicer rates each slice's verification risk, low only for harmless changes (0.513334ms)
+✔ every prompt that branches on the git mode says what mr mode does (0.458208ms)
+✔ the mode-agnostic prompts cover stack mode (0.148209ms)
+✔ the skill documents the stack flag, its remote requirement and its resume path (0.163542ms)
+✔ config.json documents runBranch, and milestones document their pr field (0.141667ms)
+✔ the common rules scope the relayed user request to the driver (0.168292ms)
+✔ the e2e harness cuts its branch from the milestone branch in stack mode, and names a base for every mode (0.254375ms)
+✔ the env-detector adopts the driver-created run branch, and numbers a fresh one the way the driver does (0.234333ms)
+✔ the env-detector resolves stack from the input or an existing config, and stores a bare defaultBranch (0.120417ms)
+✔ direct mode ships from the run worktree: sync, squash, push to the default branch (0.101041ms)
+✔ the default-branch state commit runs from the worktree and pushes, instead of checking the branch out (0.074416ms)
+✔ slice creation cuts from refs, and no prompt presents the default branch as a place to be (0.182166ms)
+✔ the pr state-commit arm syncs the run branch too, and no arm checks the default branch out (0.087292ms)
+✔ the worktree returns to the run branch before every run-branch operation (ruling B) (0.356125ms)
+✔ the pr blocked-merge fallback writes in the run worktree and never returns to the default branch (0.136583ms)
+✔ the schema documents the mainRoot input and the direct mode push it now implies (0.196ms)
+✔ the pr after-merge step syncs the run branch onto the base and pushes, and no held branch is ever checked out (0.237042ms)
+✔ the integrator deletes archived attempt branches once a slice ships (0.166459ms)
+✔ the integrator asks the code for the slice base branch instead of naming it in prose (0.188625ms)
+✔ the milestone-writer opens the milestone pull request and retargets the e2e merge (0.120958ms)
+✔ the milestone-writer defers the milestone branch to its owner rather than creating it (0.100625ms)
+✔ the milestone-writer leaves both branch transitions to the code (0.127417ms)
+✔ the stack commit rule states when the run branch is actually pushed (0.07925ms)
+✔ the implementer times the suite against the slice base branch in stack mode (0.063792ms)
+✔ the stack commit rule names the branch instead of guessing it from a milestone status (0.400583ms)
+✔ the escalator and force-park ask for the branch rather than naming it, and never the default branch (0.2235ms)
+✔ the escalator returns to the run branch in direct and pr mode, and never checks out the default branch (0.105417ms)
+✔ every agent writes comment-free code in the target repo, and its prose in STE (0.296667ms)
+✔ the regression lens is slice-scoped during build rounds and full only at the gate (0.225833ms)
+✔ profile agents write their tests as evidence in the main tree, and the collector only files and cleans (0.766125ms)
+✔ verifier tests promote into the suite only with a demonstrated catch, under a quality bar (0.295291ms)
+✔ the regression lens holds the suite slot in full scope, and the slice scope survives an impact.py failure (0.392791ms)
+✔ the campaign covers slices that skipped verification, and the integrator receipt note is scoped to them (0.24625ms)
+✔ the integrator trusts the gate receipt, regates after a product-code CI fix, and prunes bulk at merge (0.275166ms)
+✔ the state-reader runs the janitor once per run without letting it block the decision (0.142542ms)
+✔ the state-reader passes the main root to the stop probe (0.071959ms)
+✔ every agent is told to check the stop file before it starts and to no-op into stopRequested (0.281667ms)
+✔ the state schema documents the verify economy the loop implements (0.149625ms)
+✔ the driver resolves the default branch in the owner checkout and hands it to the loop per mode (0.086458ms)
+✔ the env-detector applies the defaultBranch input per mode, and mr ignores it (0.283125ms)
+✔ the driver ensures the run worktree before the config checks, and points the loop at it (0.243375ms)
+✔ the stop wording promises a pause, and the paused bullet keeps the worktree (0.180333ms)
+✔ the loop-end cleanup removes the worktree and the run branch, and reports a refusal (0.154666ms)
+✔ the tracker reads run state from the worktree and writes to the owner's checkout (0.153583ms)
+✔ every prompt file passes the STE linter, with no allowlist and no skips (174.480291ms)
+✔ the schema pins the merge prune and the run request names the moved reports (0.349209ms)
+✔ the README documents the run worktree, the step-boundary pause and the STE rule (0.361167ms)
+✔ the README worktree claims hold for direct mode, the driver counters, and the STE scope (0.204334ms)
+✔ patch-slice creates the slice branch, merges the patch, marks requirements, writes STATUS.md and commits (1027.890417ms)
+✔ patch-slice uses the commit format, and branches from an awaiting-merge dependency (696.086042ms)
+✔ patch-slice fails without committing when the slice or the input is wrong (533.363292ms)
+✔ status lists what needs a human eye (221.814458ms)
+✔ add-requirements assigns the next ids and refuses a quote already in the ledger unless it is distinct (399.996208ms)
+✔ critics adding at the same time never lose an entry or reuse an id (253.772917ms)
+✔ a receipt covers the same code through state commits and a squash merge, and not a code change (1072.870292ms)
+✔ a failed or partial receipt never stands in for the final check (686.79075ms)
+✔ stack mode cuts a slice branch from its milestone branch, creating and pushing that branch when it is absent (1178.047083ms)
+✔ stack mode cuts an audit fix slice from the run branch, since it belongs to no milestone (652.299ms)
+✔ stack mode uses a milestone fix slice as an ordinary milestone slice (746.452709ms)
+✔ stack mode cuts a fix slice whose milestone is already verified from the run branch, and creates no milestone branch (680.915209ms)
+✔ stack mode bases the slice on a dependency awaiting merge, as pr mode does (581.831542ms)
+✔ stack mode ignores an awaiting-merge dependency whose branch is gone, and uses the milestone branch (604.240875ms)
+✔ stack mode finds the milestone that owns the slice, not the first one (1818.458709ms)
+✔ the suite slot is exclusive, and slot-release frees it from another process (580.955875ms)
+Automatic merge went well; stopped before committing as requested
+Automatic merge went well; stopped before committing as requested
+error: cannot delete branch 'sdlc/M-1' used by worktree at '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-MgpDrn/sdlc-wt-OgceL6'
+error: cannot delete branch 'sdlc/S-001-v1' used by worktree at '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-MgpDrn/sdlc-wt-TurdgB'
+✔ the suite slot is self-healing: it works without .sdlc and after a killed holder (135.804917ms)
+✔ stack mode aborts a conflicting merge of the default branch into the run branch (1184.383125ms)
+✔ stack mode merges the default branch into the run branch when it moves without conflicting (1527.492958ms)
+✔ stack mode refuses to cut a slice when there is no run branch to fall back on (227.042625ms)
+✔ pr, direct and mr mode are untouched by the stack arm (1213.256334ms)
+✔ direct mode cuts from the fetched default-branch tip, mr from the local ref; neither moves the local branch (1709.913916ms)
+✔ direct mode with a remote cuts the slice from origin/<defaultBranch> and keeps the committed state (1092.17325ms)
+✔ pr mode with a remote cuts the slice from origin/<defaultBranch> without checking the branch out (1085.0905ms)
+✔ a dependency whose branch exists but which is not awaiting merge is not used as a base (679.428458ms)
+✔ stack mode names the missing run branch rather than letting git fail (249.532584ms)
+✔ an unknown gitMode fails loudly instead of committing the slice to the default branch (2744.511792ms)
+✔ after a milestone PR merges, the run branch carries it before the next branch is cut from it (1283.2435ms)
+✔ the run branch is advanced onto the default branch when a milestone branch is cut too (1544.877667ms)
+✔ advancing the run branch merges rather than rebasing, and never force-pushes it (1324.61525ms)
+✔ a milestone branch left behind by an earlier attempt does not win over the verified rule (662.5945ms)
+✔ a second run cuts its own M-1 instead of building on the first run's leftover milestone branch (2434.22ms)
+✔ pruning deletes a shipped milestone branch and nothing else (3980.861833ms)
+✔ the prune does not delete a remote milestone branch that is ahead of the local one (2470.060333ms)
+✔ the prune deletes the remote milestone branch only while the remote still holds what it proved (3450.519625ms)
+✔ a milestone branch whose only unshipped change is a file mode is kept (1991.905708ms)
+✔ a milestone branch checked out in another worktree is not deleted (2179.404416ms)
+✔ a milestone branch with a slice pull request still open against it is not deleted (3117.685792ms)
+✔ a milestone branch that moved between the proof and the delete survives the delete (3089.235166ms)
+✔ the prune fetches the default branch before deciding, so a shipped milestone is not left behind (2246.159083ms)
+✔ an earlier run's milestone branch holding unshipped work is kept, and never built on (1344.076333ms)
+✔ base-branch names the milestone branch for a slice that belongs to a milestone (716.794167ms)
+✔ base-branch names the run branch for an audit fix that belongs to no milestone (739.715542ms)
+✔ base-branch names the run branch for a fix of a milestone that already shipped (243.091542ms)
+✔ base-branch names the dependency branch for a slice whose dependency is awaiting merge (626.532209ms)
+✔ pr, direct and mr mode answer with the default branch, and stay there (1800.35925ms)
+✔ base-branch names a milestone branch that does not exist yet, without creating it (323.05375ms)
+✔ base-branch reads the repo and changes nothing at all (1085.887ms)
+✔ base-branch fails loudly rather than printing a plausible branch (759.710375ms)
+✔ impact maps a changed source file to its package tests and reverse-dependency packages (262.819583ms)
+﹣ impact follows Go imports to reverse-dependent packages when a go.mod exists (0.036625ms) # go not installed
+✔ impact falls back to the test files in the changed paths when no package graph exists (259.501291ms)
+✔ impact answers exit 0 with a note when the repo or git itself is unusable (50.429125ms)
+✔ the janitor reaps an old sdlc- scratch dir in the real temp dir and keeps a fresh one (102.398875ms)
+✔ the janitor reaps by janitorDays from config.json when --days is not given (212.99025ms)
+✔ the janitor deletes v-branches of finished and unknown slices and keeps live ones (546.618125ms)
+✔ the janitor prunes a stale worktree registration before sweeping, so the branch is not pinned forever (340.599833ms)
+✔ the janitor notes missing or unreadable state instead of deleting, and still runs (335.383ms)
+✔ ste-check passes the rule sources it gates (34.05725ms)
+✔ ste-check prints one file:line: rule — text line per violation and exits 1 (30.097584ms)
+✔ ste-check keeps the exempt lines clean (28.199917ms)
+✔ ste-check flags each rule on its own line (201.406583ms)
+✔ plan passes both critics, tests fail correctly, slice advances to implement (3.473459ms)
+✔ ambiguities go to the decision panel and the planner re-runs with the ADRs (2.46075ms)
+✔ plan refuted three times escalates to replan (0.569833ms)
+✔ tests that never fail for the right reason escalate after three attempts (0.56125ms)
+✔ happy path runs implement, core verifiers, the profile group, three reviewers, the report, integrate (0.95725ms)
+✔ resume at implement skips plan and tests (0.757875ms)
+✔ resume at integrate goes straight to the integrator with persisted seeds (1.049458ms)
+✔ a profile verifier failing test forces a fix round carrying the evidence (0.910792ms)
+✔ three failed fix rounds escalate (0.441083ms)
+✔ an inconclusive implementer run is re-run without spending a fix round (0.519ms)
+✔ a fix round is spent only when the implementer stays inconclusive after its re-run (0.608042ms)
+✔ a blocking finding that survives refutation forces a fix round (1.19075ms)
+✔ a blocking finding refuted by the majority is dropped and non-blocking ones become seeds (0.547166ms)
+✔ reviewer that fails to report blocks the slice (0.599458ms)
+✔ integration failure escalates (0.413208ms)
+✔ an inconclusive final check is re-run, and never escalates (0.629375ms)
+✔ a final check still inconclusive after its re-run leaves the slice in integrate (0.950834ms)
+✔ parkedRetry unparks then runs the slice from plan with reset counters (0.597083ms)
+✔ retryMerge calls the integrator in retry-merge mode (0.279875ms)
+✔ a low-risk slice skips the verify battery and ships on a clean review (0.344666ms)
+✔ a low-risk slice resumed at implement still skips the battery (0.276958ms)
+✔ a reviewer demanding verification turns the battery on for the same round (0.7155ms)
+✔ a demanding review with blocking findings fixes first; the battery judges the fix (0.596208ms)
+✔ a demanded battery that refutes sends the slice into a fix round with the verify evidence (0.510667ms)
+✔ no-progress guard force-parks a slice after three identical outcomes (0.340916ms)
+✔ tallyVerify passes only when no vote refutes and there is no failing test (0.434709ms)
+✔ tallyVerify: a spec-fidelity refutation with no failing test fails verification on its own (0.063583ms)
+✔ tallyVerify: one failing test beats any number of approvals (0.279667ms)
+✔ tallyVerify treats a silent verifier as infra, not a refutation (0.055542ms)
+✔ allClear needs every vote present and not refuted (0.056917ms)
+✔ survives needs a strict majority of non-refuting votes (0.045375ms)
+✔ dedupeIdeas drops seen keys and in-batch duplicates, normalizing keys (0.124167ms)
+✔ tallyAudit reopens a requirement only when a majority of auditors refute it (0.088125ms)
+✔ tallyAudit treats a failed auditor as refuting every id in its chunk (0.05375ms)
+✔ normalizeCounters fills missing counters with zero and keeps given ones (0.104291ms)
+✔ chunk splits into fixed-size groups (0.060042ms)
+✔ groupScenarios gives each profile its scenarios, splitting only past the agent limit (1.348ms)
+✔ profileVote refutes on a failing test and folds blocked scenarios and silent agents into infra (1.041834ms)
+✔ testkit attack-corpus: every family loads with unique ids and string values (2.622083ms)
+✔ testkit attack-corpus: repeat entries expand to their length (0.2535ms)
+✔ testkit attack-corpus: argv-safe filtering drops NUL values only where needed (1.635667ms)
+✔ testkit attack-corpus: every argv-safe value reaches a python script intact (137.563666ms)
+✔ testkit attack-corpus: flag helpers build abbreviations, duplicates and = forms (0.104417ms)
+✔ testkit attack-corpus: a decoy on PYTHONPATH fires and records its import (91.816125ms)
+✔ testkit attack-corpus: a shadow decoy in the script directory answers with decoy values (84.957458ms)
+✔ testkit cli-runner: runs a skill script from a scratch cwd and records the transcript (544.885875ms)
+✔ testkit cli-runner: the environment is controlled, overrides apply and undefined removes a key (49.901625ms)
+✔ testkit cli-runner: the tree diff shows added, changed and removed files and new refs (418.822ms)
+✔ testkit cli-runner: an unchanged tree is reported as unchanged (389.432542ms)
+✔ testkit cli-runner: a NUL argument is recorded as a spawn error, not thrown (1.077417ms)
+✔ testkit cli-runner: stdin input, timeouts and copied skill directories (448.072375ms)
+✔ testkit property: the generator is deterministic for a seed (1.1185ms)
+✔ testkit property: callPython classifies return, Fail and every other exception (564.316791ms)
+✔ testkit property: check reports violations with the seed for replay (86.986542ms)
+✔ testkit property: validate_format runs over generated formats through the module loaded by path (2510.205458ms)
+✔ testkit property: every config shape materializes and load_format runs on it (116.950291ms)
+
+Interrupted while running:
+
+⚠ skills/sdlc/test/tracker.test.mjs (skills/sdlc/test/tracker.test.mjs:1:1)
+⚠ skills/sdlc/test/verify.test.mjs (skills/sdlc/test/verify.test.mjs:1:1)
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027982: invalid continuation byte
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027981: invalid continuation byte
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027981: invalid continuation byte
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027055: invalid continuation byte
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027055: invalid continuation byte
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027055: invalid continuation byte
+✖ collector turns .sdlc state into a self-contained tracker page (2334.782542ms)
+✖ collector builds an empty page for a repo without .sdlc, and creates the out dir (2043.9925ms)
+✖ verifier test reports render as pages with the referenced test source (1946.831375ms)
+✖ a slice test report leads the page, with the verification rounds as an appendix and screenshots inline (1967.664084ms)
+✖ a pre-existing slice keeps its report at the old location under the slice (1967.305708ms)
+✖ collector adds the workflow view: phases, agents with status, model, tokens and time, and earlier runs (1892.023083ms)
+✖ collector leaves the workflow view out when the run folder cannot be read (1890.270125ms)
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027330: invalid continuation byte
+✖ a watcher keeps rebuilding until --stop-watch, and a newer watcher replaces it (11224.637292ms)
+✖ a build writes live.js with the same workflow block the page embeds, safe inside a script tag (1871.433458ms)
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027551: invalid continuation byte
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+    main()
+    ~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+    box, slow_at = machine(), time.time()
+                   ~~~~~~~^^
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+    log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+    stdout = self._translate_newlines(stdout,
+                                      self.stdout.encoding,
+                                      self.stdout.errors)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+    data = data.decode(encoding, errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027330: invalid continuation byte
+✖ a poke rebuilds live.js within a second or two without rebuilding the page, and live.js refreshes on its own every 5 s (11904.096417ms)
+✔ the page redraws the workflow card only for a newer live payload, and flags a live run gone quiet (1.109083ms)
+✔ the page keeps its last card for an empty live payload, and never flags a finished run (0.661417ms)
+✔ the page redraws again only when the workflow data changed, not for a payload that differs in builtAt alone (0.373084ms)
+✔ a payload with unchanged data still resets the paused clock, with exactly one redraw (0.304375ms)
+✖ --stop-watch marks the run as not running in status.json and live.js, and fixes its end time (1847.41ms)
+✔ an agent cut off in an earlier run is read once, not on every rebuild (43.805ms)
+✔ the agent list is the scroll box, and a redraw keeps where the person scrolled to (12.991792ms)
+✔ picking a phase and following the live phase bring that phase into view (3.241583ms)
+✔ the list tails the newest agent while the live phase is followed, and pauses when the person scrolls up (2.102666ms)
+✔ the running agents' clocks still tick between redraws, inside the list (1.631917ms)
+✔ a redraw puts the focus back on the same control without moving the page or the list (1.44975ms)
+✔ the follow brings the newest running agent into view when finished agents sit below it (2.0505ms)
+✔ the phase column keeps its own scroll position across a redraw (1.057292ms)
+✔ the agents, milestones and pace chart are plain open regions, so a reload never folds them shut (1.732875ms)
+✔ the stats row carries the verify economics next to the existing counts (3.101792ms)
+✔ the card body is capped, the agent list scrolls under a sticky heading, and the head stays out of it (0.862625ms)
+✔ the tracker's rendered strings follow the STE rules (66.733541ms)
+✖ skills/sdlc/test/tracker.test.mjs (638365.749583ms)
+✔ plan passes both critics, tests fail correctly, slice advances to implement (3.793375ms)
+✔ ambiguities go to the decision panel and the planner re-runs with the ADRs (2.18775ms)
+✔ plan refuted three times escalates to replan (0.535667ms)
+✔ tests that never fail for the right reason escalate after three attempts (0.3935ms)
+✔ happy path runs implement, core verifiers, the profile group, three reviewers, the report, integrate (0.632708ms)
+✔ resume at implement skips plan and tests (0.461208ms)
+✔ resume at integrate goes straight to the integrator with persisted seeds (0.844459ms)
+✔ a profile verifier failing test forces a fix round carrying the evidence (0.557708ms)
+✔ three failed fix rounds escalate (0.492042ms)
+✔ an inconclusive implementer run is re-run without spending a fix round (0.733792ms)
+✔ a fix round is spent only when the implementer stays inconclusive after its re-run (0.446959ms)
+✔ a blocking finding that survives refutation forces a fix round (1.210667ms)
+✔ a blocking finding refuted by the majority is dropped and non-blocking ones become seeds (0.507625ms)
+✔ reviewer that fails to report blocks the slice (0.41675ms)
+✔ integration failure escalates (0.466583ms)
+✔ an inconclusive final check is re-run, and never escalates (0.3395ms)
+✔ a final check still inconclusive after its re-run leaves the slice in integrate (0.762917ms)
+✔ parkedRetry unparks then runs the slice from plan with reset counters (0.477917ms)
+✔ retryMerge calls the integrator in retry-merge mode (0.531625ms)
+✔ a low-risk slice skips the verify battery and ships on a clean review (0.623875ms)
+✔ a low-risk slice resumed at implement still skips the battery (0.383667ms)
+✔ a reviewer demanding verification turns the battery on for the same round (1.351625ms)
+✔ a demanding review with blocking findings fixes first; the battery judges the fix (0.492041ms)
+✔ a demanded battery that refutes sends the slice into a fix round with the verify evidence (0.403541ms)
+✔ no-progress guard force-parks a slice after three identical outcomes (0.325959ms)
+✔ the profile group gets its scenarios, branch and unavailable tools; the toolsmith runs only for missing tools (1.556166ms)
+✔ no missing tools means no toolsmith, and a clean group passes (1.518833ms)
+✔ a collector that fails only logs; the round still fails or passes on the verifiers alone (0.400833ms)
+✔ a planner that fails to report refutes the profiles vote without running any profile agent (0.371375ms)
+✔ a fix round reuses the round-0 plan and re-runs only the failed (scenario, profile) pairs (0.579041ms)
+✔ a fix round after a review finding runs no profile agent when every scenario held (0.48775ms)
+✔ a blocked tool is rebuilt in the fix round and its scenario re-run (1.621375ms)
+✔ the planner's risk rating caps the profile group (0.491584ms)
+✔ capProfiles keeps the profiles that cover most scenarios, and pendingPairs picks failed and blocked ones (0.305875ms)
+✔ capProfiles breaks a tie by the order the planner tagged the profiles, not by catalog order (0.250667ms)
+✔ every profile has a prompt file that reads the shared profile rules (1.66925ms)
+✔ by default every agent runs on the session model (0.659625ms)
+✔ with a review model set, the spec-fidelity verifier and the reviewers run on it; everyone else inherits (0.71575ms)
+✔ reviewModel null keeps every agent on the session model (0.538125ms)
+✔ a review model that fails falls back to the session model (0.561ms)
+✔ a list of review models is tried in order before the session model (0.47125ms)
+✔ the session model gets its two attempts after every review model failed (1.062375ms)
+✔ a review model that failed twice in a row is skipped for the rest of the run, and one success resets the count (0.555791ms)
+✔ reviewModel accepts one model name or a list (0.657791ms)
+✔ profile agents run in batches of four (11.838417ms)
+✔ after a review fix, the planner adds scenarios for the fix and only those run (1.065ms)
+✔ after a review fix that changed no behavior, the planner adds nothing and no profile agent runs (0.684666ms)
+✔ after a review fix, a planner that fails to report falls back to the earlier plan (0.706ms)
+✔ a fix round after a verification failure does not plan again (0.5965ms)
+✔ the regression verifier runs after the collector, and alongside spec-fidelity when there are no profile tests (1.580166ms)
+✔ a failed collector still gets a regression run (0.339041ms)
+✔ the review runs next to the regression verifier when everything before it held, and only once (0.650792ms)
+✔ no review is started when a profile verifier or the spec-fidelity verifier refuted the slice (0.75625ms)
+✔ a regression failure and a blocking review finding reach the implementer in the same round (0.515875ms)
+✔ with no profile tests the review still runs, after verification (0.529125ms)
+ℹ tests 534
+ℹ suites 0
+ℹ pass 518
+ℹ fail 14
+ℹ cancelled 1
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 638451.764958
+
+✖ failing tests:
+
+test at skills/sdlc/test/hub.test.mjs:393:1
+✖ --publish registers the run and the hub serves its page at the fixed url (47043.216542ms)
+  AssertionError [ERR_ASSERTION]: published a url
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/hub.test.mjs:396:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at skills/sdlc/test/hub.test.mjs:417:1
+✖ a foreign process on the hub port is an error, never a silent move to another port (46884.473875ms)
+  AssertionError [ERR_ASSERTION]: the page is still built
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/hub.test.mjs:430:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at skills/sdlc/test/hub.test.mjs:443:1
+✖ a foreign 200 with the wrong body is still a foreign server, never a doomed hub spawn (47020.864583ms)
+  AssertionError [ERR_ASSERTION]: the page is still built
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/hub.test.mjs:456:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:37:1
+✖ collector turns .sdlc state into a self-contained tracker page (2334.782542ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-fSbdDo --journal /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-fSbdDo/journal.jsonl --run-label Run 1
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027982: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:41:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 44380,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:59:1
+✖ collector builds an empty page for a repo without .sdlc, and creates the out dir (2043.9925ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-empty-pFSH1A
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027982: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:63:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 45850,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:73:1
+✖ verifier test reports render as pages with the referenced test source (1946.831375ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-yMKfzA
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027981: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:90:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 46663,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:113:1
+✖ a slice test report leads the page, with the verification rounds as an appendix and screenshots inline (1967.664084ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-kBAnLm
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027981: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:127:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 47605,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:142:1
+✖ a pre-existing slice keeps its report at the old location under the slice (1967.305708ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-q7VJm3
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027055: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:147:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 48739,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:169:1
+✖ collector adds the workflow view: phases, agents with status, model, tokens and time, and earlier runs (1892.023083ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-ePqbVt --journal /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-ePqbVt/workflows/wf_new/journal.jsonl
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027055: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:185:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 49707,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:203:1
+✖ collector leaves the workflow view out when the run folder cannot be read (1890.270125ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-YizQYb --journal /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-YizQYb/missing/journal.jsonl
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027055: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:205:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 50298,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:209:1
+✖ a watcher keeps rebuilding until --stop-watch, and a newer watcher replaces it (11224.637292ms)
+  Error: ENOENT: no such file or directory, open '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-8AgZvt/.sdlc/tracker/status.json'
+      at readFileSync (node:fs:484:20)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:224:29)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-8AgZvt/.sdlc/tracker/status.json'
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:238:1
+✖ a build writes live.js with the same workflow block the page embeds, safe inside a script tag (1871.433458ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-hj57YC --journal /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-hj57YC/workflows/wf_new/journal.jsonl
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027330: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:244:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 53312,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:255:1
+✖ a poke rebuilds live.js within a second or two without rebuilding the page, and live.js refreshes on its own every 5 s (11904.096417ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-sw5t2S --journal /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-sw5t2S/workflows/wf_new/journal.jsonl --stop-watch
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027551: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:276:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 55800,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:353:1
+✖ --stop-watch marks the run as not running in status.json and live.js, and fixes its end time (1847.41ms)
+  Error: Command failed: python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-MsVfeY --journal /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-w99lIs/sdlc-tracker-MsVfeY/workflows/wf_new/journal.jsonl --stop-watch
+  Traceback (most recent call last):
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 453, in <module>
+      main()
+      ~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 388, in main
+      box, slow_at = machine(), time.time()
+                     ~~~~~~~^^
+    File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/tracker/collect.py", line 206, in machine
+      log = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
+            ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+      stdout, stderr = process.communicate(input, timeout=timeout)
+                       ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+      stdout, stderr = self._communicate(input, endtime, timeout)
+                       ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2194, in _communicate
+      stdout = self._translate_newlines(stdout,
+                                        self.stdout.encoding,
+                                        self.stdout.errors)
+    File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1099, in _translate_newlines
+      data = data.decode(encoding, errors)
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 7027330: invalid continuation byte
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:942:11)
+      at execFileSync (node:child_process:978:15)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-regression-r1/skills/sdlc/test/tracker.test.mjs:358:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes> ],
+    pid: 56219,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 2f 70 72 69 76 61 74 ... 1856 more bytes>
+  }
+
+test at skills/sdlc/test/tracker.test.mjs:1:1
+✖ skills/sdlc/test/tracker.test.mjs (638365.749583ms)
+  'Promise resolution is still pending but the event loop has already resolved'

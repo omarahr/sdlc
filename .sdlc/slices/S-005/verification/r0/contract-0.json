@@ -1,0 +1,481 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "9e1e71b",
+  "environment": "macOS (Darwin 25.6), Python 3.14.7, Node v24.19.0, git; branches.py imported by path from a scratch cwd with python3 -I; CLI through the testkit cli-runner; base seed 720361592",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-009",
+        "R-010"
+      ],
+      "title": "The module surface has tail and name with the spec signatures and imports only the standard library",
+      "given": "branches.py at 9e1e71b",
+      "when": "a consumer imports branches by path with python3 -I and lists the public names and signatures",
+      "then": "tail is (kind, **parts), name is (fmt, kind, **parts), KINDS holds verify and attempt, and only stdlib modules are imported",
+      "expected": "tail is (kind, **parts), name is (fmt, kind, **parts), KINDS holds verify and attempt, and only stdlib modules are imported",
+      "actual": "Signatures as expected; KINDS has verify and attempt; modules argparse, json, os, re, subprocess, sys",
+      "result": "pass",
+      "specSource": "R-009 and R-010 acceptance (the name command builds the tail)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:86",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "type-check",
+          "title": "surface listing",
+          "inline": "tail(kind, **parts)\nname(fmt, kind, **parts)\nsplit(fmt); load_format(repo); validate_format(fmt); Fail\nKINDS=('run','slice','milestone','e2e','e2e-area','state','verify','attempt')\nNAME_PARTS=('id','n','area','round','profile','part')\nmodules: argparse json os re subprocess sys (all stdlib)\nfull listing: .sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "name(fmt, \"state\") gives state- and 14 UTC digits under six time zones and four formats",
+      "given": "TZ in Pacific/Kiritimati, America/Adak, Etc/GMT+12, Etc/GMT-14, Asia/Kathmandu, UTC",
+      "when": "name is called for sdlc/{name}, feature/PROJ-1-{name}, feature/PROJ-1-{name:lower}, x/{name}/y with five sets of extra parts",
+      "then": "each result is prefix + state- + 14 digits + suffix, and the digits lie between the UTC times taken before and after the call",
+      "expected": "each result is prefix + state- + 14 digits + suffix, and the digits lie between the UTC times taken before and after the call",
+      "actual": "All 126 calls in the UTC window; extra parts never change the tail",
+      "result": "pass",
+      "specSource": "R-008 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:118",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "tails per zone",
+          "inline": "TZ=Pacific/Kiritimati tail=state-20261009065032 window=[20261009065032,20261009065032]\nTZ=Etc/GMT+12 tail=state-20261009065033 window=[20261009065033,20261009065033]\n(six zones, see .sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "Property: the state name stays in the UTC window for any format and any extra parts",
+      "given": "TZ=Pacific/Kiritimati, nine formats, random extra id, n, round, part and profile",
+      "when": "2000 generated name(fmt, 'state', ...) calls",
+      "then": "every result matches the reference model prefix + state-<UTC %Y%m%d%H%M%S> + suffix",
+      "expected": "every result matches the reference model prefix + state-<UTC %Y%m%d%H%M%S> + suffix",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-008 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:142",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "state-utc-window",
+          "inline": "property state-utc-window: seed=720361592 runs=2000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "An explicit ts is used as given; an empty or None ts generates one",
+      "given": "ts='20261008101500', '' and None",
+      "when": "name and tail are called under sdlc/{name} and feature/PROJ-1-{name:lower}",
+      "then": "sdlc/state-20261008101500, state-20261008101500, feature/PROJ-1-state-20261008101500; '' and None give 14 digits in the UTC window",
+      "expected": "sdlc/state-20261008101500, state-20261008101500, feature/PROJ-1-state-20261008101500; '' and None give 14 digits in the UTC window",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-008 acceptance (an explicit ts part is used as given)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:166",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "explicit ts examples",
+          "inline": "name('sdlc/{name}','state',ts='20261008101500') -> sdlc/state-20261008101500\nname('feature/PROJ-1-{name:lower}','state',ts=...) -> feature/PROJ-1-state-20261008101500\nts='' and ts=None -> sdlc/state-<14 UTC digits>"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "Property: any 14-digit ts passes through unchanged under any format",
+      "given": "random 14-digit ts strings and nine formats",
+      "when": "2000 generated calls",
+      "then": "prefix + state- + ts + suffix",
+      "expected": "prefix + state- + ts + suffix",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-008 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:184",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "state-explicit-ts",
+          "inline": "property state-explicit-ts: seed=720361517 runs=2000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "Corner ts values are recorded and never raise an exception",
+      "given": "ts 0, '0', 1.5, True, False, a list, traversal, '/', whitespace, newline, ESC, '@{-1}', 300 chars, Arabic digits",
+      "when": "name('sdlc/{name}','state',ts=...)",
+      "then": "no uncaught exception; 0 and '0' give sdlc/state-0",
+      "expected": "no uncaught exception; 0 and '0' give sdlc/state-0",
+      "actual": "All return; the name is not ref-checked (seed)",
+      "result": "pass",
+      "specSource": "R-008 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:193",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "corner ts",
+          "inline": "ts=0 -> sdlc/state-0\nts=true -> sdlc/state-True\nts=\"../../x\" -> sdlc/state-../../x\nts=\"2026\\n\" -> sdlc/state-2026\\n\nts=\"@{-1}\" -> sdlc/state-@{-1}\n(full list in .sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Spec example: the verify branch for round 0 and part 0",
+      "given": "id S-001, round 0, profile http-api, part 0; also S-fix-M-1-2 and S-013a",
+      "when": "name and tail under sdlc/{name}",
+      "then": "sdlc/S-001-v0-http-api-0 and S-001-v0-http-api-0",
+      "expected": "sdlc/S-001-v0-http-api-0 and S-001-v0-http-api-0",
+      "actual": "As expected; S-fix-M-1-2-v12-concurrency-7 and S-013a-v1-i18n-0 also correct",
+      "result": "pass",
+      "specSource": "R-009 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:203",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "spec example",
+          "inline": "name('sdlc/{name}','verify',id='S-001',round=0,profile='http-api',part=0) -> sdlc/S-001-v0-http-api-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Property: the verify name equals the spec template, the loop builder and itself on a second call",
+      "given": "generated ids (plain, fix, milestone fix, split), ints 0 to 2^31, ten catalog profiles, nine formats",
+      "when": "2000 x (name, tail, name) calls",
+      "then": "equal to the reference model, equal to sdlc-loop.js `sdlc/${id}-v${round}-${g.profile}-${g.part}` under the default format, deterministic",
+      "expected": "equal to the reference model, equal to sdlc-loop.js `sdlc/${id}-v${round}-${g.profile}-${g.part}` under the default format, deterministic",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-009 quote and acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:216",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "verify-template",
+          "inline": "property verify-template: seed=720361547 runs=2000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "A missing, None or empty verify part raises Fail that names the part",
+      "given": "each of id, round, profile, part omitted, None or ''",
+      "when": "tail('verify') and name(feature/PROJ-1-{name:lower}, 'verify')",
+      "then": "Fail whose message names the missing part",
+      "expected": "Fail whose message names the missing part",
+      "actual": "Fail: a verify branch name needs a non-empty <part>",
+      "result": "pass",
+      "specSource": "R-009 acceptance (the four parts make the name)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:235",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "messages",
+          "inline": "a verify branch name needs a non-empty id | ... round | ... profile | ... part"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Property: any dropped subset of verify parts fails on the first missing part",
+      "given": "random subsets dropped by omit, None or ''",
+      "when": "2000 tail('verify') calls",
+      "then": "Fail naming the first missing part in id, round, profile, part order",
+      "expected": "Fail naming the first missing part in id, round, profile, part order",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-009 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:254",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "verify-missing-part",
+          "inline": "property verify-missing-part: seed=720361532 runs=2000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-009"
+      ],
+      "title": "Corner verify part values through the API are recorded",
+      "given": "round -1, False, 1.5, '0'; part -1; profile '../x', 'a b', ESC; id '-x', dotted capital I",
+      "when": "name('sdlc/{name:lower}','verify',...)",
+      "then": "no exception; every result keeps the sdlc/ prefix",
+      "expected": "no exception; every result keeps the sdlc/ prefix",
+      "actual": "All return under sdlc/; negative and non-int parts are accepted (seed)",
+      "result": "pass",
+      "specSource": "R-009 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:270",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "corners",
+          "inline": "round=-1 -> sdlc/s-001-v-1-http-api-0\nround=false -> sdlc/s-001-vfalse-http-api-0\nprofile=\"../x\" -> sdlc/s-001-v0-../x-0\nid=\"-x\" -> sdlc/-x-v0-http-api-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-010"
+      ],
+      "title": "Spec example: the attempt branch, n 0, a large n and extra parts",
+      "given": "S-001 n 1; S-fix-M-1-2 n 3; n 0; n 10^15; extra round, profile, part, area, ts",
+      "when": "name and tail under sdlc/{name}",
+      "then": "sdlc/S-001-attempt-1, S-001-attempt-1, sdlc/S-fix-M-1-2-attempt-3, sdlc/S-001-attempt-0, sdlc/S-001-attempt-1, sdlc/S-001-attempt-1000000000000000",
+      "expected": "sdlc/S-001-attempt-1, S-001-attempt-1, sdlc/S-fix-M-1-2-attempt-3, sdlc/S-001-attempt-0, sdlc/S-001-attempt-1, sdlc/S-001-attempt-1000000000000000",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-010 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:279",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "spec example",
+          "inline": "name('sdlc/{name}','attempt',id='S-001',n=1) -> sdlc/S-001-attempt-1"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-010"
+      ],
+      "title": "Property: the attempt name equals the spec template and extra parts never leak",
+      "given": "generated ids and n, random extra parts, nine formats",
+      "when": "2000 x (name with extras, tail) calls",
+      "then": "equal to the reference model",
+      "expected": "equal to the reference model",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-010 quote and acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:291",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "attempt-template",
+          "inline": "property attempt-template: seed=720361502 runs=2000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-14",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-010"
+      ],
+      "title": "A missing, None or empty attempt part raises Fail that names the part",
+      "given": "id or n omitted, None or ''; both omitted",
+      "when": "tail('attempt') and name('x/{name}/y','attempt')",
+      "then": "Fail naming id or n",
+      "expected": "Fail naming id or n",
+      "actual": "Fail: a attempt branch name needs a non-empty <part>; n=-1 gives sdlc/S-001-attempt--1 (seed)",
+      "result": "pass",
+      "specSource": "R-010 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:308",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "corners",
+          "inline": "n=-1 -> sdlc/S-001-attempt--1; n=false -> sdlc/S-001-attempt-False"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-15",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-009",
+        "R-010"
+      ],
+      "title": "A custom format wraps verify and attempt tails and lowercases only the tail",
+      "given": "formats feature/PROJ-1-{name:lower}, x/{name}/y, ABC/{name:lower}/DEF",
+      "when": "name for verify and attempt",
+      "then": "feature/PROJ-1-s-001-v0-http-api-0, feature/PROJ-1-s-001-attempt-1, x/S-001-v0-http-api-0/y, x/S-001-attempt-1/y, ABC/s-fix-m-1-2-attempt-3/DEF",
+      "expected": "feature/PROJ-1-s-001-v0-http-api-0, feature/PROJ-1-s-001-attempt-1, x/S-001-v0-http-api-0/y, x/S-001-attempt-1/y, ABC/s-fix-m-1-2-attempt-3/DEF",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-009 and R-010 acceptance with the spec format rule",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:320",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "format examples",
+          "inline": "ABC/{name:lower}/DEF + attempt S-FIX-M-1-2 n 3 -> ABC/s-fix-m-1-2-attempt-3/DEF"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-16",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-009",
+        "R-010"
+      ],
+      "title": "Consumer view: config.branchFormat applies, --format wins, an invalid format exits 2",
+      "given": "a scratch git repo with branchFormat feature/PROJ-1-{name:lower}",
+      "when": "branches.py name for verify and attempt, then with --format x/{name}/y, then with x/{name}{name}",
+      "then": "config format used; flag wins; invalid format exits 2 with one JSON line, empty stderr, unchanged tree",
+      "expected": "config format used; flag wins; invalid format exits 2 with one JSON line, empty stderr, unchanged tree",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-009 and R-010 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:337",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "cli",
+          "inline": "config=feature/PROJ-1-s-001-v0-http-api-0, feature/PROJ-1-s-001-attempt-1\nflag=x/S-001-v0-http-api-0/y\ninvalid={\"ok\": false, \"error\": \"the branch format 'x/{name}{name}' must hold exactly one {name} or {name:lower}, found 2\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-17",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-008"
+      ],
+      "title": "Consumer view: the CLI has no --ts flag and refuses it with one JSON error",
+      "given": "a scratch git repo",
+      "when": "branches.py name --kind state --ts 20261008101500",
+      "then": "exit 2, one JSON line with ok false, empty stderr, unchanged tree",
+      "expected": "exit 2, one JSON line with ok false, empty stderr, unchanged tree",
+      "actual": "exit 2, {\"ok\": false, \"error\": \"unrecognized arguments: --ts 20261008101500\"}",
+      "result": "pass",
+      "specSource": "R-008 acceptance (the CLI prints sdlc/state- plus 14 UTC digits)",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:355",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "cli --ts",
+          "inline": "exit=2 {\"ok\": false, \"error\": \"unrecognized arguments: --ts 20261008101500\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-18",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-009",
+        "R-010"
+      ],
+      "title": "Consumer view: the CLI output equals the API name for sampled verify and attempt inputs",
+      "given": "a scratch git repo, generated ids, ints and every catalog profile",
+      "when": "120 branches.py name calls, half verify and half attempt",
+      "then": "exit 0, branch equals name() and the spec template, empty stderr",
+      "expected": "exit 0, branch equals name() and the spec template, empty stderr",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-009 and R-010 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:367",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-005 at 9e1e71b> VERIFY_LOG=.sdlc/slices/S-005/verification/r0/logs/contract-0-run.txt node --test .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "cli-equals-api",
+          "inline": "consumer cli-equals-api: seed=720361487 runs=120 violations=0"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "name() returns ref-unsafe names for hostile parts",
+      "detail": "tail and name do not pass the result through git check-ref-format. ts '../../x', '@{-1}', a newline, profile 'a b' or ESC give names that git refuses. The spec does not bound name inputs.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Negative, boolean and float parts give names that parse cannot read back",
+      "detail": "round -1 gives S-001-v-1-..., n -1 gives S-001-attempt--1, round False gives vFalse. The CLI int() type rejects some forms, but the API accepts all of them.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Fail message grammar for kinds that start with a vowel",
+      "detail": "The message reads 'a attempt branch name needs a non-empty n'. The message names the part as required, but the article is wrong.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
