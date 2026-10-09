@@ -1,3 +1,4 @@
 {"ts": "2026-10-08T16:30:34Z", "type": "bootstrap", "detail": "ledger seeded: 122 requirements (0 done, 122 todo), 29 slices (0 done, 29 todo), 0 overrides"}
 {"ts":"2026-10-09T03:34:32Z","type":"slice-merged","slice":"S-001","detail":"evidence recorded; shipping through a pull request"}
 {"ts":"2026-10-09T04:09:40Z","type":"slice-merged","slice":"S-002","detail":"validate_format, split and name: R-001, R-017, R-019, R-020, R-071 done"}
+{"ts":"2026-10-09T04:45:05Z","type":"slice-merged","slice":"S-003","detail":"tail contract and format resolution order: R-018, R-099, R-015, R-012 done; R-002 in progress until S-027"}
