@@ -1,0 +1,247 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 1,
+  "commit": "6ad4424",
+  "environment": "Python 3.14.7, Node test runner, git on PATH, testkit property.mjs; seed 12012; worktree of sdlc/S-012 at 6ad4424",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Surface: judge(rules, sample), ref_format_error(ref), regex_error(pattern), evaluate(rule, sample)",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "Functions exist with these signatures",
+      "expected": "Functions exist with these signatures",
+      "actual": "as expected; signatures unchanged",
+      "result": "pass",
+      "specSource": "R-035 quote",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:28",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "surface",
+          "inline": "judge (rules, sample)\nref_format_error (ref)\nregex_error (pattern)\nevaluate (rule, sample)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Uncompilable patterns give unevaluated, note equal to regex_error, negate true, false and absent",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "unevaluated, rule null, notes ['cannot evaluate push rule: <re.error>']",
+      "expected": "unevaluated, rule null, notes ['cannot evaluate push rule: <re.error>']",
+      "actual": "as expected for 14 patterns x 3 negate values",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:40",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "inline": "ok: VS-1 bad patterns never raise and note equals regex_error"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Bad pattern beside a passing rule is unevaluated; unknown kind note",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "unevaluated; note names the unknown kind",
+      "expected": "unevaluated; note names the unknown kind",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-035 acceptance; plan approach (ADR 8da6)",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:52",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "inline": "ok: unevaluated; 'cannot evaluate g1: unknown kind glob'"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Catastrophic pattern (a+)+$ on 22 chars finishes",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "judge returns",
+      "expected": "judge returns",
+      "actual": "returned fail in 197 ms",
+      "result": "pass",
+      "specSource": "plan risk (spec accepts)",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:61",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "measurement",
+          "title": "time",
+          "inline": "catastrophic ms 197"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "A deeply nested pattern that re.compile rejects never raises out of judge (r0 failure, re-run)",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "judge returns a dict with result unevaluated and a note",
+      "expected": "judge returns a dict with result unevaluated and a note",
+      "actual": "open2000 and balanced1000 return unevaluated with note 'cannot evaluate deep: the pattern is nested too deeply'. 300 levels return fail, as before.",
+      "result": "pass",
+      "specSource": "R-035 quote: a pattern re.compile rejects gives None; it never blocks",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:254",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "nested pattern output",
+          "inline": "re.compile on nested 2000 RecursionError 1000 RecursionError 300 ok\ndeep open2000 return {\"result\":\"unevaluated\",\"rule\":null,\"notes\":[\"cannot evaluate deep: the pattern is nested too deeply\"]}\ndeep balanced1000 return {\"result\":\"unevaluated\",...}\ndeep balanced300 return {\"result\":\"fail\",\"rule\":\"deep\",\"notes\":[]}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Nested pattern (500, 1000, 2000, 5000 open parentheses) gives a note equal to regex_error, negate true and false",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "unevaluated with the note equal to regex_error",
+      "expected": "unevaluated with the note equal to regex_error",
+      "actual": "all 8 combinations return unevaluated, rule null, one note equal to 'cannot evaluate deep: ' + regex_error(pattern)",
+      "result": "pass",
+      "specSource": "R-035 quote: a pattern re.compile rejects gives None; it never blocks",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:263",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "inline": "ok: round 1 nested pattern gives a note equal to regex_error"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Nested pattern beside a passing rule is unevaluated; beside a failing rule the sample fails with that label",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "unevaluated beside passing rule; fail with label 'bad' beside failing rule",
+      "expected": "unevaluated beside passing rule; fail with label 'bad' beside failing rule",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-035 quote; R-036 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:274",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "inline": "ok"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "A repeat count too large for re.compile (a{4294967296}, a{99999999999999999999}, a{1,99999999999999999999}, a{99999999999999999999,}) never raises out of judge",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "judge returns a dict with result unevaluated and a note starting 'cannot evaluate big: '",
+      "expected": "judge returns a dict with result unevaluated and a note starting 'cannot evaluate big: '",
+      "actual": "judge raised OverflowError 'the repetition number is too large' for all four patterns, with negate true and false. re.compile rejects each with OverflowError, not re.error. The fix catches re.error and RecursionError only.",
+      "result": "fail",
+      "specSource": "R-035 quote: a pattern re.compile rejects gives None; it never blocks",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:281",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "judge output",
+          "inline": "re.compile on large repeat counts\na{4294967296} OverflowError\na{99999999999999999999} OverflowError\na{1,99999999999999999999} OverflowError\na{99999999999999999999,} OverflowError\njudge a{4294967296} exception OverflowError \"the repetition number is too large\"\njudge a{99999999999999999999} exception OverflowError ...\njudge a{1,99999999999999999999} exception OverflowError ...\njudge a{99999999999999999999,} exception OverflowError ..."
+        },
+        {
+          "kind": "log",
+          "title": "full run",
+          "path": ".sdlc/slices/S-012/verification/r1/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "regex_error returns text for every pattern re.compile rejects, including a{4294967296}",
+      "given": "judge, regex_error and ref_format_error loaded by path in python3 -I, from commit 6ad4424",
+      "when": "the function is called with the inputs named in the title",
+      "then": "regex_error returns a non-empty text and does not raise",
+      "expected": "regex_error returns a non-empty text and does not raise",
+      "actual": "regex_error raised OverflowError for a{4294967296}. The pattern is nested-deep and ordinary patterns return text.",
+      "result": "fail",
+      "specSource": "R-035 quote: a pattern re.compile rejects gives None; it never blocks",
+      "test": ".sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:291",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test --test-name-pattern='VS-1|surface' .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "path": ".sdlc/slices/S-012/verification/r1/logs/contract-0-run.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "regex_error and _raw_result catch exception types one by one",
+      "detail": "The r0 fix added RecursionError. re.compile also raises OverflowError for a repeat count above the C limit. One handler for the exceptions re.compile raises on bad input would close the class. MemoryError is not reproduced.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

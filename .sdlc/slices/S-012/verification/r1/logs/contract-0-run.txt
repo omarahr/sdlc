@@ -1,0 +1,91 @@
+judge (rules, sample)
+ref_format_error (ref)
+regex_error (pattern)
+evaluate (rule, sample)
+validate_format (fmt)
+
+missing kind note ["cannot evaluate g2: unknown kind None"]
+catastrophic ms 197 {"result":"fail","rule":"cat","notes":[]}
+re.compile on nested 2000 RecursionError 1000 RecursionError 300 ok  python Python 3.14.7
+deep open2000 return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate deep: the pattern is nested too deeply"]}
+deep balanced1000 return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate deep: the pattern is nested too deeply"]}
+deep balanced300 return  {"result":"fail","rule":"deep","notes":[]}
+re.compile on large repeat counts
+a{4294967296} OverflowError
+a{99999999999999999999} OverflowError
+a{1,99999999999999999999} OverflowError
+a{99999999999999999999,} OverflowError
+
+judge a{4294967296} exception OverflowError "the repetition number is too large"
+judge a{99999999999999999999} exception OverflowError "the repetition number is too large"
+judge a{1,99999999999999999999} exception OverflowError "the repetition number is too large"
+judge a{99999999999999999999,} exception OverflowError "the repetition number is too large"
+✔ verify contract: surface lists judge, ref_format_error, regex_error, evaluate (40.409125ms)
+✔ verify contract: VS-1 bad patterns never raise and note equals regex_error (3520.417916ms)
+✔ verify contract: VS-1 bad pattern beside passing rule is unevaluated; unknown kind note (156.177167ms)
+✔ verify contract: VS-1 catastrophic pattern finishes (196.552166ms)
+✔ verify contract: VS-1 deeply nested pattern that re.compile rejects never raises out of judge (118.075667ms)
+✔ verify contract: VS-1 round 1 nested pattern gives a note equal to regex_error, negate true and false (675.166291ms)
+✔ verify contract: VS-1 round 1 nested pattern beside a failing rule and a passing rule (83.168333ms)
+✖ verify contract: VS-1 round 1 repeat counts too large for re.compile never raise out of judge (62.903959ms)
+✖ verify contract: VS-1 round 1 regex_error returns text for every pattern re.compile rejects (33.312917ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4939.066041
+
+✖ failing tests:
+
+test at .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:281:1
+✖ verify contract: VS-1 round 1 repeat counts too large for re.compile never raise out of judge (62.903959ms)
+  AssertionError [ERR_ASSERTION]: a{4294967296}: OverflowError the repetition number is too large
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:287:33
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:287:8)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:291:1
+✖ verify contract: VS-1 round 1 regex_error returns text for every pattern re.compile rejects (33.312917ms)
+  AssertionError [ERR_ASSERTION]: a{4294967296}: OverflowError
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:294:33
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r1/tests/contract-0/judge.verify-contract.test.mjs:294:8)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
