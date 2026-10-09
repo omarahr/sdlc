@@ -12,3 +12,4 @@
 {"ts":"2026-10-09T17:28:10Z","type":"slice-merged","slice":"S-007","detail":"R-021, R-022, R-023, R-024, R-069 done; R-068 parse half closed"}
 {"ts":"2026-10-09T17:54:51Z","type":"slice-merged","slice":"S-008","detail":"R-102, R-103, R-104, R-105, R-070 done"}
 {"ts":"2026-10-09T18:20:57Z","type":"slice-merged","slice":"S-009","detail":"R-106, R-107, R-108, R-109 done"}
+{"ts":"2026-10-09T19:13:52Z","type":"slice-merged","slice":"S-010","detail":"R-025, R-094 done"}

@@ -1052,13 +1052,66 @@
     "specRef": "§2",
     "quote": "`list_kind(repo, fmt, kind)`: every local branch (`git for-each-ref --format=%(refname:short) refs/heads/`) that parses to `kind`, with its parts, sorted by `n` for `run` and `attempt` and by name otherwise.",
     "acceptance": "A fixture repo holds branches of several kinds. `list --kind slice` returns only slice branches with their parts, sorted by name. `list --kind run` sorts by `n`. Foreign branches are absent.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-053055-decision-judge-S-005-f41b",
+      "ADR-20261009-182640-decision-judge-S-010-7c1e",
+      "ADR-20261009-182641-decision-judge-S-010-e3f4",
+      "ADR-20261009-182645-decision-judge-S-010-bd10"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-025a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-025b",
+        "skills/sdlc/test/branches.test.mjs :: T-R-025c",
+        "skills/sdlc/test/branches.test.mjs :: T-R-025d",
+        "skills/sdlc/test/branches.test.mjs :: T-R-025e",
+        "skills/sdlc/test/branches.test.mjs :: T-R-025f",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:18",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:30",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:44",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:63",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:93",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:126",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:158",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:172",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:25",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:64",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:78",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:85",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:104",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:120",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:143",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:172",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:197",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:210",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:262",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:295",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:319",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:347",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:356",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:20",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:36",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:50",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:58",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:66",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:76",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:85",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:98",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:114",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:121",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:129",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:145",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:159",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:201",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:217"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2206,13 +2259,31 @@
     "specRef": "§2",
     "quote": "`list_kind(repo, fmt, kind)`: every local branch (`git for-each-ref --format=%(refname:short) refs/heads/`) that parses to `kind`, with its parts, sorted by `n` for `run` and `attempt` and by name otherwise.",
     "acceptance": "`list --kind attempt` sorts by `n` numerically: `sdlc/S-001-attempt-2` precedes `sdlc/S-001-attempt-10`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-053055-decision-judge-S-005-f41b",
+      "ADR-20261009-182640-decision-judge-S-010-7c1e",
+      "ADR-20261009-182641-decision-judge-S-010-e3f4",
+      "ADR-20261009-182645-decision-judge-S-010-bd10"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-094a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-094b",
+        ".sdlc/slices/S-010/verification/r0/tests/cli-0/list.verify-cli.test.mjs:30",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:85",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:104",
+        ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:210",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:121",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:129",
+        ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:145"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
