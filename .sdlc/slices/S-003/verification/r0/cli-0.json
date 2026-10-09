@@ -1,0 +1,770 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "13b17f1",
+  "environment": "macOS (Darwin 25.6), Python 3.14.7, Node v24.19.0, git 2.50.1; branches.py run as a subprocess by the testkit cli-runner in scratch git repos with a controlled env",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-018"
+      ],
+      "title": "name --kind state takes the current UTC time under extreme TZ",
+      "given": "A scratch git repo with no config",
+      "when": "Run name --kind state under TZ=Pacific/Kiritimati, TZ=Etc/GMT+12 and TZ=UTC",
+      "then": "The branch is sdlc/state-<14 digits>, and the stamp is a valid UTC date between the times before and after the call",
+      "expected": "Exit 0, one JSON line, branch ^sdlc/state-\\d{14}$, stamp inside the UTC bracket",
+      "actual": "As expected in all three zones: for example sdlc/state-20261009042759 under UTC+14",
+      "result": "pass",
+      "specSource": "R-018 acceptance (tail(\"state\") is 14 digits); R-018 quote (state without ts generates the timestamp)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:94",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-1 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-1 transcript",
+          "inline": "=== TC-cli-1\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-2\n$ TZ=Pacific/Kiritimati python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 --kind state\nexit: 0 (68 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"sdlc/{name}\", \"kind\": \"state\", \"branch\": \"sdlc/state-20261009042759\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-2 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-1 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-018"
+      ],
+      "title": "name refuses --ts with one JSON error",
+      "given": "A scratch git repo",
+      "when": "Run name --kind state --ts 20261008101500",
+      "then": "Exit 2, one JSON error, no traceback, no tree change",
+      "expected": "Exit 2 and {ok:false, error naming ts}",
+      "actual": "Exit 2, error \"unrecognized arguments: --ts 20261008101500\", stderr empty",
+      "result": "pass",
+      "specSource": "Plan VS-2 notes; R-099 one JSON error rule",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:106",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-2 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-2 transcript",
+          "inline": "=== TC-cli-2\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-6\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-5 --kind state --ts 20261008101500\nexit: 2 (47 ms)\n--- stdout\n{\"ok\": false, \"error\": \"unrecognized arguments: --ts 20261008101500\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-6 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-5 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-2 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-099"
+      ],
+      "title": "name --kind e2e-area without --area exits 2 with one JSON error",
+      "given": "A scratch git repo and a separate scratch cwd",
+      "when": "Run name --kind e2e-area --id M-1",
+      "then": "Exit 2, one JSON object {ok:false, error} naming area, empty stderr, no change to the repo, the cwd or git refs",
+      "expected": "Exit 2, error names area, no traceback, tree diff empty",
+      "actual": "Exit 2, error \"a e2e-area branch name needs a non-empty area\", stderr empty, both trees unchanged",
+      "result": "pass",
+      "specSource": "R-099 acceptance",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:111",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-3 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-3 transcript",
+          "inline": "=== TC-cli-3\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-8\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-7 --kind e2e-area --id M-1\nexit: 2 (68 ms)\n--- stdout\n{\"ok\": false, \"error\": \"a e2e-area branch name needs a non-empty area\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-8 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-7 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-3 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-099",
+        "R-018"
+      ],
+      "title": "An empty or absent required part exits 2 with one JSON error naming it",
+      "given": "A scratch git repo",
+      "when": "Run name for e2e-area with --area \"\", without --id, with --id \"\", with no parts; and slice without --id, with --id \"\", and with --format but no --id",
+      "then": "Each call gives exit 2 and one JSON error that names the missing part",
+      "expected": "Exit 2, one JSON error naming area or id, no traceback, tree unchanged",
+      "actual": "As expected for all seven calls",
+      "result": "pass",
+      "specSource": "R-018 quote (a missing part is a Fail); R-099 acceptance",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:119",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-4 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-4 transcript",
+          "inline": "=== TC-cli-4\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-10\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind e2e-area --id M-1 --area ''\nexit: 2 (74 ms)\n--- stdout\n{\"ok\": false, \"error\": \"a e2e-area branch name needs a non-empty area\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-10 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-4 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-099"
+      ],
+      "title": "Kinds without a TAILS row and an unknown kind exit 2 with one JSON error",
+      "given": "A scratch git repo",
+      "when": "Run name for kinds run, milestone, e2e, verify, attempt with every part flag, and for kind bogus",
+      "then": "Each call gives exit 2 and one JSON error, with no traceback",
+      "expected": "Exit 2 and one JSON error each",
+      "actual": "Exit 2, error \"no branch name is defined for kind '<kind>'\" for each; bogus names the kind. Interim behavior per ADR, recorded only",
+      "result": "pass",
+      "specSource": "ADR-20261009-041711-decision-judge-S-003-4882",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:130",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-5 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-5 transcript",
+          "inline": "=== TC-cli-5\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-18\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind run --id S-001 --n 1 --round 0 --profile cli --part 0 --area api\nexit: 2 (73 ms)\n--- stdout\n{\"ok\": false, \"error\": \"no branch name is defined for kind 'run'\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-18 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-5 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-015",
+        "R-002"
+      ],
+      "title": "The flag wins over the config, and the config wins over the default",
+      "given": "A repo with branchFormat feature/PROJ-1-{name}, a repo with no config, and a plain directory",
+      "when": "Run name --kind slice --id S-001 with and without --format sdlc/{name}",
+      "then": "The branch is sdlc/S-001 with the flag, feature/PROJ-1-S-001 without it, and sdlc/S-001 with no config",
+      "expected": "The three R-015 names",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-015 acceptance; R-002 acceptance clause 1",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:138",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-6 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-6 transcript",
+          "inline": "=== TC-cli-6\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-25\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-24 --kind slice --id S-001 --format 'sdlc/{name}'\nexit: 0 (64 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branch\": \"sdlc/S-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-25 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-24 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-6 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-015",
+        "R-002"
+      ],
+      "title": "A config without a usable branchFormat falls back to sdlc/{name}",
+      "given": "Twelve config shapes: branchFormat \"\", null, 5, a list, an object, true, no key, {}, and a JSON array, string, number or null as the whole file",
+      "when": "Run name --kind slice --id S-001 with no flag, and call load_format(repo) through python3 -I",
+      "then": "Each gives format sdlc/{name}, branch sdlc/S-001, and load_format agrees",
+      "expected": "format sdlc/{name} and load_format equal to it",
+      "actual": "As expected for all twelve shapes",
+      "result": "pass",
+      "specSource": "R-015 quote (without either, the default applies); R-002 acceptance clause 1",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:163",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-7 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-7 transcript",
+          "inline": "=== TC-cli-7 empty string\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-32\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-31 --kind slice --id S-001\nexit: 0 (63 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branch\": \"sdlc/S-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-32 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-31 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-7 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-015",
+        "R-099"
+      ],
+      "title": "A broken config gives exit 2 and one JSON error, no traceback",
+      "given": "Config files that are invalid JSON, 200000-deep nesting, unreadable (mode 000), a directory, and invalid UTF-8",
+      "when": "Run name --kind slice --id S-001 with no flag",
+      "then": "Exit 2 and one JSON error each; load_format raises Fail",
+      "expected": "Exit 2, one JSON error, empty stderr",
+      "actual": "As expected; deep nesting gives a RecursionError message inside the JSON error",
+      "result": "pass",
+      "specSource": "R-099 one JSON error rule; plan VS-5 notes",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:185",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-8 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-8 transcript",
+          "inline": "=== TC-cli-8 deep nesting\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-74\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-68 --kind slice --id S-001\nexit: 2 (48 ms)\n--- stdout\n{\"ok\": false, \"error\": \"$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-68/.sdlc/config.json is not valid JSON: RecursionError: Stack overflow (used 16352 kB) while decoding a JSON array from a unicode string\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-74 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-68 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-8 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-015"
+      ],
+      "title": "An explicit empty --format fails validation and does not fall back",
+      "given": "A repo with branchFormat feature/{name} and a repo with no config",
+      "when": "Run name --kind slice --id S-001 --format \"\"",
+      "then": "Exit 2 and one JSON error; the config is not used",
+      "expected": "Exit 2",
+      "actual": "Exit 2, error \"the branch format '' must hold exactly one {name} or {name:lower}, found 0\"",
+      "result": "pass",
+      "specSource": "R-015 quote (--format overrides config.branchFormat)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:193",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-9 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-9 transcript",
+          "inline": "=== TC-cli-9\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-83\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-82 --kind slice --id S-001 --format ''\nexit: 2 (46 ms)\n--- stdout\n{\"ok\": false, \"error\": \"the branch format '' must hold exactly one {name} or {name:lower}, found 0\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-83 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-82 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-9 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-015"
+      ],
+      "title": "--format wins even when the config is broken",
+      "given": "The five broken config repos of TC-cli-8",
+      "when": "Run name --kind slice --id S-001 --format team/{name}",
+      "then": "Exit 0 and branch team/S-001; the config is not read",
+      "expected": "Exit 0, team/S-001",
+      "actual": "As expected for all five",
+      "result": "pass",
+      "specSource": "R-015 quote (--format overrides config.branchFormat)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:200",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-10 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-10 transcript",
+          "inline": "=== TC-cli-10 invalid JSON\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-91\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-86 --kind slice --id S-001 --format 'team/{name}'\nexit: 0 (62 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"team/{name}\", \"kind\": \"slice\", \"branch\": \"team/S-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-91 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-86 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-10 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-015"
+      ],
+      "title": "{name:lower} in the config lowercases the tail",
+      "given": "A repo with branchFormat feature/{name:lower}",
+      "when": "Run name for slice S-001, e2e-area M-1/API and state",
+      "then": "feature/s-001, feature/m-1-e2e-api, feature/state-<14 digits>; load_format returns the raw format",
+      "expected": "Lowercased tails",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-015 acceptance (the config format applies); plan VS-5 notes",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:206",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-11 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-11 transcript",
+          "inline": "=== TC-cli-11\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-97\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 --kind slice --id S-001\nexit: 0 (58 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"feature/{name:lower}\", \"kind\": \"slice\", \"branch\": \"feature/s-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-97 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-11 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-12",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-015",
+        "R-018"
+      ],
+      "title": "The name output holds exactly ok, command, format, kind and branch",
+      "given": "A repo with branchFormat feature/PROJ-1-{name}",
+      "when": "Run name for slice, e2e-area and state, each with and without --format",
+      "then": "Each call prints one JSON line with exactly the five keys, empty stderr, exit 0",
+      "expected": "Key set {ok, command, format, kind, branch}",
+      "actual": "As expected for all six calls",
+      "result": "pass",
+      "specSource": "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:214",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-12 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-12 transcript",
+          "inline": "=== TC-cli-12\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-102\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind slice --id S-001\nexit: 0 (64 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"feature/PROJ-1-{name}\", \"kind\": \"slice\", \"branch\": \"feature/PROJ-1-S-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-102 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-12 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-13",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-018"
+      ],
+      "title": "Unused part flags do not change the branch or crash",
+      "given": "A repo with no config",
+      "when": "Run name for slice and e2e-area with --n 0 --part 0 --round 0 --profile x, and with non-zero values",
+      "then": "The branch stays sdlc/S-001 or sdlc/M-1-e2e-api",
+      "expected": "Branch unchanged, exit 0",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-018 quote (the tail from the table in section 1); ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:230",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-13 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-13 transcript",
+          "inline": "=== TC-cli-13\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-109\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 --kind slice --id S-001 --n 0 --part 0 --round 0 --profile x\nexit: 0 (63 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branch\": \"sdlc/S-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-109 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-13 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-14",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-015"
+      ],
+      "title": "name is idempotent and does not read the cwd, with spaces and unicode in the repo path",
+      "given": "A non-git repo path with a space, ü and CJK characters and config feature/{name}; a second cwd that is a repo with config other/{name}",
+      "when": "Run the same name call twice, the second from the other cwd",
+      "then": "Both calls print the same stdout, feature/S-001",
+      "expected": "Identical outputs",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-015 quote (--repo is the target repo)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:238",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-14 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-14 transcript",
+          "inline": "=== TC-cli-14\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-113\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $'$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo with space ü 名前-112' --kind slice --id S-001\nexit: 0 (60 ms)\n--- stdout\n{\"ok\": true, \"command\": \"name\", \"format\": \"feature/{name}\", \"kind\": \"slice\", \"branch\": \"feature/S-001\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-113 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo with space ü 名前-112 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-14 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-15",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-099"
+      ],
+      "title": "A --repo that is not a directory exits 2 with one JSON error",
+      "given": "A path that does not exist",
+      "when": "Run name --repo <missing> --kind slice --id S-001",
+      "then": "Exit 2, one JSON error naming --repo",
+      "expected": "Exit 2",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-099 one JSON error rule",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:248",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-15 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-15 transcript",
+          "inline": "=== TC-cli-15\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-116\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/gone-115/nope --kind slice --id S-001\nexit: 2 (43 ms)\n--- stdout\n{\"ok\": false, \"error\": \"--repo '$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/gone-115/nope' is not a directory\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-116 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-15 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-16",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-012"
+      ],
+      "title": "preflight --format reports that format with given true in every git mode",
+      "given": "A repo with config feature/{name}, and a repo with no config",
+      "when": "Run preflight --mode <m> --format team/{name} and --format sdlc/{name} for pr, direct, mr and stack",
+      "then": "format equals the flag and given is the JSON boolean true",
+      "expected": "given true, format from the flag",
+      "actual": "As expected for all twelve calls",
+      "result": "pass",
+      "specSource": "R-012 acceptance (preflight with --format reports that format with given true)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:267",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-16 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-16 transcript",
+          "inline": "=== TC-cli-16\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-119\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 --mode pr --format 'team/{name}'\nexit: 0 (61 ms)\n--- stdout\n{\"ok\": true, \"command\": \"preflight\", \"format\": \"team/{name}\", \"args\": {\"repo\": \"$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117\", \"mode\": \"pr\", \"branch\": null}, \"given\": true}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-119 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-16 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-17",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-012"
+      ],
+      "title": "preflight with no flag reads config.branchFormat with given true",
+      "given": "Repos with config feature/{name} and sdlc/{name}",
+      "when": "Run preflight --mode <m> for every git mode",
+      "then": "format equals the config value and given is true, also when the value equals the default",
+      "expected": "given true",
+      "actual": "As expected for all eight calls",
+      "result": "pass",
+      "specSource": "R-012 acceptance (with no flag it reads config.branchFormat)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:277",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-17 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-17 transcript",
+          "inline": "=== TC-cli-17\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-133\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 --mode pr\nexit: 0 (59 ms)\n--- stdout\n{\"ok\": true, \"command\": \"preflight\", \"format\": \"feature/{name}\", \"args\": {\"repo\": \"$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131\", \"mode\": \"pr\", \"branch\": null}, \"given\": true}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-133 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-17 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-18",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-012"
+      ],
+      "title": "preflight --format with a broken config still reports the flag",
+      "given": "The five broken config repos of TC-cli-8",
+      "when": "Run preflight --mode pr --format team/{name}",
+      "then": "Exit 0, format team/{name}, given true; the config is not read",
+      "expected": "given true",
+      "actual": "As expected for all five; this matches name, which also skips the config when the flag is given",
+      "result": "pass",
+      "specSource": "R-012 quote (the --branch-format flag comes first)",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:286",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-18 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-18 transcript",
+          "inline": "=== TC-cli-18 invalid JSON\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-146\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-141 --mode pr --format 'team/{name}'\nexit: 0 (57 ms)\n--- stdout\n{\"ok\": true, \"command\": \"preflight\", \"format\": \"team/{name}\", \"args\": {\"repo\": \"$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-141\", \"mode\": \"pr\", \"branch\": null}, \"given\": true}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-146 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-141 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-18 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-19",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-012",
+        "R-002"
+      ],
+      "title": "preflight with no format given falls back to sdlc/{name} with given false",
+      "given": "A repo with no config, a plain directory, and the twelve fallback shapes of TC-cli-7",
+      "when": "Run preflight --mode <m> for every git mode, and call load_format(repo)",
+      "then": "format sdlc/{name}, given false, exit 0, one JSON object; load_format returns sdlc/{name}",
+      "expected": "given false only with the default format",
+      "actual": "As expected for all 56 calls",
+      "result": "pass",
+      "specSource": "R-012 acceptance (with neither it falls back to sdlc/{name}); R-002 acceptance clause 1",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:292",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-19 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-19 transcript",
+          "inline": "=== TC-cli-19 number\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-185\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 --mode pr\nexit: 0 (67 ms)\n--- stdout\n{\"ok\": true, \"command\": \"preflight\", \"format\": \"sdlc/{name}\", \"args\": {\"repo\": \"$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155\", \"mode\": \"pr\", \"branch\": null}, \"given\": false}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-185 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-19 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-20",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-012",
+        "R-099"
+      ],
+      "title": "preflight with no flag and a broken config exits 2 with one JSON error",
+      "given": "The five broken config repos of TC-cli-8",
+      "when": "Run preflight --mode pr",
+      "then": "Exit 2 and one JSON error, not given false",
+      "expected": "Exit 2",
+      "actual": "As expected for all five",
+      "result": "pass",
+      "specSource": "R-099 one JSON error rule; plan VS-8 notes",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:303",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-20 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-20 transcript",
+          "inline": "=== TC-cli-20 invalid JSON\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-240\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-235 --mode pr\nexit: 2 (41 ms)\n--- stdout\n{\"ok\": false, \"error\": \"$TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-235/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting ',' delimiter: line 1 column 34 (char 33)\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-240 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-235 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-20 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-21",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-012",
+        "R-099"
+      ],
+      "title": "preflight with an unknown mode or an invalid --format exits 2",
+      "given": "A repo with no config",
+      "when": "Run preflight --mode bogus, --format \"\" and --format no-placeholder",
+      "then": "Exit 2 and one JSON error each",
+      "expected": "Exit 2",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-099 one JSON error rule",
+      "test": ".sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:309",
+      "command": "cd <repo> && node --test --test-name-pattern='TC-cli-21 ' .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-21 transcript",
+          "inline": "=== TC-cli-21\n$ cd $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-246\n$ python3 $TMPDIR/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 --mode bogus\nexit: 2 (41 ms)\n--- stdout\n{\"ok\": false, \"error\": \"--mode 'bogus' is not one of pr, direct, mr, stack\"}\n--- stderr\n\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-246 (unchanged)\n--- tree $TMPDIR/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "TC-cli-21 tree diff of repo and cwd",
+          "inline": "Every watched tree (unchanged); git refs unchanged. Full record in the log file."
+        },
+        {
+          "kind": "log",
+          "title": "all transcripts",
+          "path": ".sdlc/slices/S-003/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "branches.py --help prints argparse text, not JSON",
+      "detail": "`branches.py name --help` prints the argparse usage text and exits 0. The spec does not define --help, so this is not a defect. Callers that parse stdout as JSON get text here.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "preflight output still echoes an interim args object",
+      "detail": "preflight prints {ok, command, format, args, given}. The args echo holds the absolute repo path. A later slice that defines the preflight output should decide whether args stays.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "The missing-part error says 'a e2e-area branch name'",
+      "detail": "The message uses the article 'a' before every kind. The text is correct in meaning but reads badly for e2e-area.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

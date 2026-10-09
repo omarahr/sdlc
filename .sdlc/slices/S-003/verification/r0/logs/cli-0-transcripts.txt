@@ -1,0 +1,1649 @@
+=== TC-cli-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-2
+$ TZ=Pacific/Kiritimati python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 --kind state
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261009042759"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 (unchanged)
+
+=== TC-cli-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-3
+$ TZ=Etc/GMT+12 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 --kind state
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261009042800"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-3 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 (unchanged)
+
+=== TC-cli-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-4
+$ TZ=UTC python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 --kind state
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261009042800"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-4 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-1 (unchanged)
+
+=== TC-cli-2
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-5 --kind state --ts 20261008101500
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --ts 20261008101500"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-5 (unchanged)
+
+=== TC-cli-3
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-7 --kind e2e-area --id M-1
+exit: 2 (68 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty area"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-7 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-10
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind e2e-area --id M-1 --area ''
+exit: 2 (74 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty area"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-10 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-11
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind e2e-area --area api
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-11 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-12
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind e2e-area --id '' --area api
+exit: 2 (72 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-12 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-13
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind e2e-area
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-13 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-14
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind slice
+exit: 2 (69 ms)
+--- stdout
+{"ok": false, "error": "a slice branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-14 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-15
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind slice --id ''
+exit: 2 (75 ms)
+--- stdout
+{"ok": false, "error": "a slice branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-15 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-4
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-16
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 --kind slice --format 'feature/{name}'
+exit: 2 (74 ms)
+--- stdout
+{"ok": false, "error": "a slice branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-16 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-9 (unchanged)
+
+=== TC-cli-5
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-18
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind run --id S-001 --n 1 --round 0 --profile cli --part 0 --area api
+exit: 2 (73 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'run'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-18 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)
+
+=== TC-cli-5
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-19
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind milestone --id S-001 --n 1 --round 0 --profile cli --part 0 --area api
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'milestone'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-19 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)
+
+=== TC-cli-5
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-20
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind e2e --id S-001 --n 1 --round 0 --profile cli --part 0 --area api
+exit: 2 (64 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'e2e'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-20 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)
+
+=== TC-cli-5
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-21
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind verify --id S-001 --n 1 --round 0 --profile cli --part 0 --area api
+exit: 2 (77 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'verify'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-21 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)
+
+=== TC-cli-5
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-22
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind attempt --id S-001 --n 1 --round 0 --profile cli --part 0 --area api
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'attempt'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-22 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)
+
+=== TC-cli-5
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-23
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 --kind bogus --id S-001
+exit: 2 (68 ms)
+--- stdout
+{"ok": false, "error": "--kind 'bogus' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-23 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-17 (unchanged)
+
+=== TC-cli-6
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-25
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-24 --kind slice --id S-001 --format 'sdlc/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-25 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-24 (unchanged)
+
+=== TC-cli-6
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-26
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-24 --kind slice --id S-001
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name}", "kind": "slice", "branch": "feature/PROJ-1-S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-26 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-24 (unchanged)
+
+=== TC-cli-6
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-28
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-27 --kind slice --id S-001
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-28 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-27 (unchanged)
+
+=== TC-cli-6
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-30
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-29 --kind slice --id S-001
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-30 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-29 (unchanged)
+
+=== TC-cli-7 empty string
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-32
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-31 --kind slice --id S-001
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-32 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-31 (unchanged)
+
+=== TC-cli-7 null
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-35
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-34 --kind slice --id S-001
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-35 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-34 (unchanged)
+
+=== TC-cli-7 number
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-38
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-37 --kind slice --id S-001
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-38 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-37 (unchanged)
+
+=== TC-cli-7 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-41
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-40 --kind slice --id S-001
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-41 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-40 (unchanged)
+
+=== TC-cli-7 object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-44
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-43 --kind slice --id S-001
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-44 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-43 (unchanged)
+
+=== TC-cli-7 boolean
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-47
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-46 --kind slice --id S-001
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-47 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-46 (unchanged)
+
+=== TC-cli-7 no key
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-50
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-49 --kind slice --id S-001
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-50 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-49 (unchanged)
+
+=== TC-cli-7 empty object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-53
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-52 --kind slice --id S-001
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-53 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-52 (unchanged)
+
+=== TC-cli-7 array config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-56
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-55 --kind slice --id S-001
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-56 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-55 (unchanged)
+
+=== TC-cli-7 string config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-59
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-58 --kind slice --id S-001
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-59 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-58 (unchanged)
+
+=== TC-cli-7 number config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-62
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-61 --kind slice --id S-001
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-62 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-61 (unchanged)
+
+=== TC-cli-7 null config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-65
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-64 --kind slice --id S-001
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-65 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-64 (unchanged)
+
+=== TC-cli-8 invalid JSON
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-72
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-67 --kind slice --id S-001
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-67/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting ',' delimiter: line 1 column 34 (char 33)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-72 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-67 (unchanged)
+
+=== TC-cli-8 deep nesting
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-74
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-68 --kind slice --id S-001
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-68/.sdlc/config.json is not valid JSON: RecursionError: Stack overflow (used 16352 kB) while decoding a JSON array from a unicode string"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-74 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-68 (unchanged)
+
+=== TC-cli-8 unreadable
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-76
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-69 --kind slice --id S-001
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "cannot read /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-69/.sdlc/config.json: [Errno 13] Permission denied: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-69/.sdlc/config.json'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-76 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-69 (unchanged)
+
+=== TC-cli-8 directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-78
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-70 --kind slice --id S-001
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "cannot read /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-70/.sdlc/config.json: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-70/.sdlc/config.json'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-78 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-70 (unchanged)
+
+=== TC-cli-8 invalid UTF-8
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-80
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-71 --kind slice --id S-001
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-71/.sdlc/config.json is not valid JSON: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 2: invalid start byte"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-80 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-71 (unchanged)
+
+=== TC-cli-9
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-83
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-82 --kind slice --id S-001 --format ''
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-83 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-82 (unchanged)
+
+=== TC-cli-9
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-85
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-84 --kind slice --id S-001 --format ''
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-85 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-84 (unchanged)
+
+=== TC-cli-10 invalid JSON
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-91
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-86 --kind slice --id S-001 --format 'team/{name}'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}", "kind": "slice", "branch": "team/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-91 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-86 (unchanged)
+
+=== TC-cli-10 deep nesting
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-92
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-87 --kind slice --id S-001 --format 'team/{name}'
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}", "kind": "slice", "branch": "team/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-92 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-87 (unchanged)
+
+=== TC-cli-10 unreadable
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-93
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-88 --kind slice --id S-001 --format 'team/{name}'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}", "kind": "slice", "branch": "team/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-93 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-88 (unchanged)
+
+=== TC-cli-10 directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-94
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-89 --kind slice --id S-001 --format 'team/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}", "kind": "slice", "branch": "team/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-94 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-89 (unchanged)
+
+=== TC-cli-10 invalid UTF-8
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-95
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-90 --kind slice --id S-001 --format 'team/{name}'
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}", "kind": "slice", "branch": "team/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-95 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-90 (unchanged)
+
+=== TC-cli-11
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-97
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 --kind slice --id S-001
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "slice", "branch": "feature/s-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-97 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 (unchanged)
+
+=== TC-cli-11
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-98
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 --kind e2e-area --id M-1 --area API
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "e2e-area", "branch": "feature/m-1-e2e-api"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-98 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 (unchanged)
+
+=== TC-cli-11
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-99
+$ TZ=Pacific/Kiritimati python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 --kind state
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "state", "branch": "feature/state-20261009042811"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-99 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-96 (unchanged)
+
+=== TC-cli-12
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-102
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind slice --id S-001
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name}", "kind": "slice", "branch": "feature/PROJ-1-S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-102 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)
+
+=== TC-cli-12
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-103
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind slice --id S-001 --format 'team/{name}-x'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}-x", "kind": "slice", "branch": "team/S-001-x"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-103 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)
+
+=== TC-cli-12
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-104
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind e2e-area --id M-1 --area api
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name}", "kind": "e2e-area", "branch": "feature/PROJ-1-M-1-e2e-api"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-104 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)
+
+=== TC-cli-12
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-105
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind e2e-area --id M-1 --area api --format 'sdlc/{name}'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-api"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-105 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)
+
+=== TC-cli-12
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-106
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind state
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name}", "kind": "state", "branch": "feature/PROJ-1-state-20261009042811"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-106 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)
+
+=== TC-cli-12
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-107
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 --kind state --format 'sdlc/{name}'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261009042812"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-107 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-101 (unchanged)
+
+=== TC-cli-13
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-109
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 --kind slice --id S-001 --n 0 --part 0 --round 0 --profile x
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-109 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 (unchanged)
+
+=== TC-cli-13
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-110
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 --kind e2e-area --id M-1 --area api --n 0 --part 0 --round 0 --profile x
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-api"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-110 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 (unchanged)
+
+=== TC-cli-13
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-111
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 --kind slice --id S-001 --n 7 --part 3 --round 2 --profile cli
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-111 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-108 (unchanged)
+
+=== TC-cli-14
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-113
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo with space ü 名前-112' --kind slice --id S-001
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "slice", "branch": "feature/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-113 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo with space ü 名前-112 (unchanged)
+
+=== TC-cli-14
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-114
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo with space ü 名前-112' --kind slice --id S-001
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "slice", "branch": "feature/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-114 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo with space ü 名前-112 (unchanged)
+
+=== TC-cli-15
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-116
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/gone-115/nope --kind slice --id S-001
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/gone-115/nope' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-116 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-119
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 --mode pr --format 'team/{name}'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-119 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-120
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode pr --format 'sdlc/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-120 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-121
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode pr --format 'team/{name}'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-121 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-122
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 --mode direct --format 'team/{name}'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117", "mode": "direct", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-122 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-123
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode direct --format 'sdlc/{name}'
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "direct", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-123 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-124
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode direct --format 'team/{name}'
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "direct", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-124 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-125
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 --mode mr --format 'team/{name}'
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117", "mode": "mr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-125 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-126
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode mr --format 'sdlc/{name}'
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "mr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-126 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-127
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode mr --format 'team/{name}'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "mr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-127 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-128
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 --mode stack --format 'team/{name}'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117", "mode": "stack", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-128 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-117 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-129
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode stack --format 'sdlc/{name}'
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "stack", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-129 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-16
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-130
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 --mode stack --format 'team/{name}'
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118", "mode": "stack", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-130 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-118 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-133
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 --mode pr
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "feature/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-133 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-134
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 --mode pr
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-134 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-135
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 --mode direct
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "feature/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131", "mode": "direct", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-135 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-136
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 --mode direct
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132", "mode": "direct", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-136 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-137
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 --mode mr
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "feature/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131", "mode": "mr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-137 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-138
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 --mode mr
+exit: 0 (56 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132", "mode": "mr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-138 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-139
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 --mode stack
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "feature/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131", "mode": "stack", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-139 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-131 (unchanged)
+
+=== TC-cli-17
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-140
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 --mode stack
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132", "mode": "stack", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-140 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-132 (unchanged)
+
+=== TC-cli-18 invalid JSON
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-146
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-141 --mode pr --format 'team/{name}'
+exit: 0 (57 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-141", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-146 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-141 (unchanged)
+
+=== TC-cli-18 deep nesting
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-147
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-142 --mode pr --format 'team/{name}'
+exit: 0 (57 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-142", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-147 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-142 (unchanged)
+
+=== TC-cli-18 unreadable
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-148
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-143 --mode pr --format 'team/{name}'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-143", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-148 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-143 (unchanged)
+
+=== TC-cli-18 directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-149
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-144 --mode pr --format 'team/{name}'
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-144", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-149 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-144 (unchanged)
+
+=== TC-cli-18 invalid UTF-8
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-150
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-145 --mode pr --format 'team/{name}'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-145", "mode": "pr", "branch": null}, "given": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-150 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-145 (unchanged)
+
+=== TC-cli-19 no config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-165
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 --mode pr
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-165 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 (unchanged)
+
+=== TC-cli-19 no config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-166
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 --mode direct
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-166 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 (unchanged)
+
+=== TC-cli-19 no config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-167
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 --mode mr
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-167 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 (unchanged)
+
+=== TC-cli-19 no config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-168
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 --mode stack
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-168 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-151 (unchanged)
+
+=== TC-cli-19 no git
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-170
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 --mode pr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-170 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 (unchanged)
+
+=== TC-cli-19 no git
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-171
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 --mode direct
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-171 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 (unchanged)
+
+=== TC-cli-19 no git
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-172
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 --mode mr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-172 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 (unchanged)
+
+=== TC-cli-19 no git
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-173
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 --mode stack
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-173 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/plain-152 (unchanged)
+
+=== TC-cli-19 empty string
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-175
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 --mode pr
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-175 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 (unchanged)
+
+=== TC-cli-19 empty string
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-176
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 --mode direct
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-176 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 (unchanged)
+
+=== TC-cli-19 empty string
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-177
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 --mode mr
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-177 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 (unchanged)
+
+=== TC-cli-19 empty string
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-178
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 --mode stack
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-178 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-153 (unchanged)
+
+=== TC-cli-19 null
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-180
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 --mode pr
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-180 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 (unchanged)
+
+=== TC-cli-19 null
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-181
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 --mode direct
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-181 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 (unchanged)
+
+=== TC-cli-19 null
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-182
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 --mode mr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-182 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 (unchanged)
+
+=== TC-cli-19 null
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-183
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 --mode stack
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-183 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-154 (unchanged)
+
+=== TC-cli-19 number
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-185
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 --mode pr
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-185 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 (unchanged)
+
+=== TC-cli-19 number
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-186
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 --mode direct
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-186 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 (unchanged)
+
+=== TC-cli-19 number
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-187
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 --mode mr
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-187 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 (unchanged)
+
+=== TC-cli-19 number
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-188
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 --mode stack
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-188 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-155 (unchanged)
+
+=== TC-cli-19 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-190
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 --mode pr
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-190 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 (unchanged)
+
+=== TC-cli-19 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-191
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 --mode direct
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-191 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 (unchanged)
+
+=== TC-cli-19 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-192
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 --mode mr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-192 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 (unchanged)
+
+=== TC-cli-19 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-193
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 --mode stack
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-193 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-156 (unchanged)
+
+=== TC-cli-19 object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-195
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 --mode pr
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-195 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 (unchanged)
+
+=== TC-cli-19 object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-196
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 --mode direct
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-196 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 (unchanged)
+
+=== TC-cli-19 object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-197
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 --mode mr
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-197 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 (unchanged)
+
+=== TC-cli-19 object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-198
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 --mode stack
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-198 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-157 (unchanged)
+
+=== TC-cli-19 boolean
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-200
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 --mode pr
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-200 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 (unchanged)
+
+=== TC-cli-19 boolean
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-201
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 --mode direct
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-201 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 (unchanged)
+
+=== TC-cli-19 boolean
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-202
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 --mode mr
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-202 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 (unchanged)
+
+=== TC-cli-19 boolean
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-203
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 --mode stack
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-203 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-158 (unchanged)
+
+=== TC-cli-19 no key
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-205
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 --mode pr
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-205 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 (unchanged)
+
+=== TC-cli-19 no key
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-206
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 --mode direct
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-206 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 (unchanged)
+
+=== TC-cli-19 no key
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-207
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 --mode mr
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-207 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 (unchanged)
+
+=== TC-cli-19 no key
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-208
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 --mode stack
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-208 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-159 (unchanged)
+
+=== TC-cli-19 empty object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-210
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 --mode pr
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-210 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 (unchanged)
+
+=== TC-cli-19 empty object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-211
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 --mode direct
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-211 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 (unchanged)
+
+=== TC-cli-19 empty object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-212
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 --mode mr
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-212 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 (unchanged)
+
+=== TC-cli-19 empty object
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-213
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 --mode stack
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-213 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-160 (unchanged)
+
+=== TC-cli-19 array config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-215
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 --mode pr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-215 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 (unchanged)
+
+=== TC-cli-19 array config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-216
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 --mode direct
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-216 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 (unchanged)
+
+=== TC-cli-19 array config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-217
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 --mode mr
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-217 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 (unchanged)
+
+=== TC-cli-19 array config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-218
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 --mode stack
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-218 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-161 (unchanged)
+
+=== TC-cli-19 string config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-220
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 --mode pr
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-220 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 (unchanged)
+
+=== TC-cli-19 string config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-221
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 --mode direct
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-221 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 (unchanged)
+
+=== TC-cli-19 string config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-222
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 --mode mr
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-222 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 (unchanged)
+
+=== TC-cli-19 string config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-223
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 --mode stack
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-223 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-162 (unchanged)
+
+=== TC-cli-19 number config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-225
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 --mode pr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-225 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 (unchanged)
+
+=== TC-cli-19 number config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-226
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 --mode direct
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-226 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 (unchanged)
+
+=== TC-cli-19 number config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-227
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 --mode mr
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-227 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 (unchanged)
+
+=== TC-cli-19 number config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-228
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 --mode stack
+exit: 0 (76 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-228 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-163 (unchanged)
+
+=== TC-cli-19 null config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-230
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 --mode pr
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164", "mode": "pr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-230 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 (unchanged)
+
+=== TC-cli-19 null config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-231
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 --mode direct
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164", "mode": "direct", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-231 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 (unchanged)
+
+=== TC-cli-19 null config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-232
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 --mode mr
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164", "mode": "mr", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-232 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 (unchanged)
+
+=== TC-cli-19 null config
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-233
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 --mode stack
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164", "mode": "stack", "branch": null}, "given": false}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-233 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-164 (unchanged)
+
+=== TC-cli-20 invalid JSON
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-240
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-235 --mode pr
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-235/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting ',' delimiter: line 1 column 34 (char 33)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-240 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-235 (unchanged)
+
+=== TC-cli-20 deep nesting
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-241
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-236 --mode pr
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-236/.sdlc/config.json is not valid JSON: RecursionError: Stack overflow (used 16352 kB) while decoding a JSON array from a unicode string"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-241 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-236 (unchanged)
+
+=== TC-cli-20 unreadable
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-242
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-237 --mode pr
+exit: 2 (39 ms)
+--- stdout
+{"ok": false, "error": "cannot read /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-237/.sdlc/config.json: [Errno 13] Permission denied: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-237/.sdlc/config.json'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-242 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-237 (unchanged)
+
+=== TC-cli-20 directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-243
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-238 --mode pr
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "cannot read /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-238/.sdlc/config.json: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-238/.sdlc/config.json'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-243 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-238 (unchanged)
+
+=== TC-cli-20 invalid UTF-8
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-244
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-239 --mode pr
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-239/.sdlc/config.json is not valid JSON: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 2: invalid start byte"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-244 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-239 (unchanged)
+
+=== TC-cli-21
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-246
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 --mode bogus
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "--mode 'bogus' is not one of pr, direct, mr, stack"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-246 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 (unchanged)
+
+=== TC-cli-21
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-247
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 --mode pr --format ''
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-247 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 (unchanged)
+
+=== TC-cli-21
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-248
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-0/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 --mode pr --format no-placeholder
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'no-placeholder' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/cwd-248 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-BIGUwW/testkit-cli-c0QDo3/repo-245 (unchanged)
+

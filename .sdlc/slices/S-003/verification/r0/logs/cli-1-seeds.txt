@@ -1,0 +1,33 @@
+$ branches.py name --repo r --kind slice --id='../x'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/../x"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='a b'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/a b"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='x..y'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/x..y"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='x~1'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/x~1"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='a:b'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/a:b"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='x.lock'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/x.lock"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='*'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/*"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='@{1}'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/@{1}"}
+git check-ref-format --branch: refused
+$ branches.py name --repo r --kind slice --id='é'
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/é"}
+git check-ref-format --branch: valid
+
+$ branches.py name --help
+usage: branches.py name [-h] --repo REPO --kind KIND [--id ID] [--n N]
+                        [--area AREA] [--round ROUND] [--profile PROFILE]
+                        [--part PART] [--format FORMAT]
+exit 0

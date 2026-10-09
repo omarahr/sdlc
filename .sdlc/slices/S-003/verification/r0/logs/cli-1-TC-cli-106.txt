@@ -1,0 +1,143 @@
+# first cmd-subst
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=$(touch pwned)' '--area=$(touch pwned)'
+exit: 0 (57 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/$(touch pwned)-e2e-$(touch pwned)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first backticks
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=`touch pwned`' '--area=`touch pwned`'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/`touch pwned`-e2e-`touch pwned`"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first semicolon
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=x; touch pwned' '--area=x; touch pwned'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/x; touch pwned-e2e-x; touch pwned"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first pipe
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=x | cat' '--area=x | cat'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/x | cat-e2e-x | cat"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first ampersand
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=x && touch pwned' '--area=x && touch pwned'
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/x && touch pwned-e2e-x && touch pwned"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first redirect
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=x > pwned' '--area=x > pwned'
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/x > pwned-e2e-x > pwned"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first json-break
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id="}, "ok": true, "x": {"' '--area="}, "ok": true, "x": {"'
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/\"}, \"ok\": true, \"x\": {\"-e2e-\"}, \"ok\": true, \"x\": {\""}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first newline-json
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area $'--id=x\n{\"ok\": true}' $'--area=x\n{\"ok\": true}'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/x\n{\"ok\": true}-e2e-x\n{\"ok\": true}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first git-option
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=--upload-pack=touch pwned' '--area=--upload-pack=touch pwned'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/--upload-pack=touch pwned-e2e---upload-pack=touch pwned"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first git-revision
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=HEAD@{1}' '--area=HEAD@{1}'
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/HEAD@{1}-e2e-HEAD@{1}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first percent
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area --id=%s%n%x --area=%s%n%x
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/%s%n%x-e2e-%s%n%x"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first python-format
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id={0.__class__}' '--area={0.__class__}'
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/{0.__class__}-e2e-{0.__class__}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# first glob
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area '--id=*' '--area=*'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/*-e2e-*"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-106-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+

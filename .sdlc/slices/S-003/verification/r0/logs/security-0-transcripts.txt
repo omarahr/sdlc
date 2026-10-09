@@ -1,0 +1,2000 @@
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-285 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-286
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '{name:lower}'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/{name:lower}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-286 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-287
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area '{name:lower}'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-{name:lower}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-287 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-288
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '{0}'
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/{0}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-288 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-289
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area '{0}'
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-{0}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-289 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-290
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id %s
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/%s"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-290 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-291
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area %s
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-%s"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-291 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-292
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '{id}'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/{id}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-292 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-293
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area '{id}'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-{id}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-293 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-294
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '{0.__class__}'
+exit: 0 (76 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/{0.__class__}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-294 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-295
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area '{0.__class__}'
+exit: 0 (78 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-{0.__class__}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-295 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-296
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '{name}{name}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/{name}{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-296 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-297
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area '{name}{name}'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-{name}{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-297 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-298
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-2 --kind slice --id '{NAME}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name:lower}-x", "kind": "slice", "branch": "team/{name}-x"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-298 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-2 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-299
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '{name}' --format 'a/{name}/b'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "a/{name}/b", "kind": "slice", "branch": "a/{name}/b"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-299 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-300
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id=--
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/--"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-300 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-301
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id --
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-301 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-302
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area=--
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e---"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-302 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-303
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id=-h
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/-h"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-303 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-304
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id -h
+exit: 2 (56 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-304 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-305
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area=-h
+exit: 0 (79 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e--h"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-305 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-306
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id=--help
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/--help"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-306 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-307
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id --help
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-307 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-308
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area=--help
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e---help"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-308 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-309
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice '--id=--format=x/{name}'
+exit: 0 (83 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/--format=x/{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-309 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-310
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id '--format=x/{name}'
+exit: 2 (55 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-310 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-311
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 '--area=--format=x/{name}'
+exit: 0 (78 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e---format=x/{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-311 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-312
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id=-1
+exit: 0 (85 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-312 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-313
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id -1
+exit: 0 (79 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-313 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-314
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area=-1
+exit: 0 (84 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e--1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-314 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-315
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id=-
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/-"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-315 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-316
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id -
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/-"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-316 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-317
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area=-
+exit: 0 (88 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e--"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-317 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-318
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id=--repo
+exit: 0 (79 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/--repo"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-318 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-319
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id --repo
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-319 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-320
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area=--repo
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e---repo"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-320 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-321
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id==
+exit: 0 (78 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/="}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-321 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-322
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id =
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/="}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-322 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-323
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind e2e-area --id M-1 --area==
+exit: 0 (77 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-="}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-323 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-324
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice '--id=--format=evil/{name}'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/--format=evil/{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-324 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-325
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-1 --area=--help
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-325 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-326
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id --help
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-326 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-327
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id --format 'x/{name}'
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-327 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-328
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-1 --id S-2
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-328 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-329
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n ''
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-329 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-330
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 0x10
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '0x10'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-330 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-331
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 1.5
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '1.5'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-331 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-332
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 1e3
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '1e3'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-332 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-333
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n two
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'two'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-333 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-334
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n inf
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'inf'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-334 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-335
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n nan
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'nan'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-335 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-336
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 999999999999999999999999999999999999999999999999999999999999999999999999999 …(4526 chars)
+exit: 2 (61 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(4362 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-336 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-337
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 999999999999999999999999999999999999999999999999999999999999999999999999999 …(100225 chars)
+exit: 2 (102 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(100061 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-337 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-338
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n -99999999999999999999999999999999999999999999999999999999999999999999999999 …(5226 chars)
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '-9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(5062 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-338 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-339
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'Ⅷ'
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '\u2167'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-339 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-340
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'²'
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '\u00b2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-340 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-341
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'①'
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '\u2460'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-341 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-342
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round ''
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-342 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-343
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 0x10
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '0x10'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-343 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-344
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 1.5
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '1.5'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-344 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-345
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 1e3
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '1e3'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-345 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-346
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round two
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: 'two'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-346 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-347
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round inf
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: 'inf'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-347 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-348
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round nan
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: 'nan'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-348 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-349
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 99999999999999999999999999999999999999999999999999999999999999999999999 …(4530 chars)
+exit: 2 (61 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(4366 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-349 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-350
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 99999999999999999999999999999999999999999999999999999999999999999999999 …(100229 chars)
+exit: 2 (103 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(100065 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-350 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-351
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round -9999999999999999999999999999999999999999999999999999999999999999999999 …(5230 chars)
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(5066 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-351 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-352
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'Ⅷ'
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '\u2167'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-352 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-353
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'²'
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '\u00b2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-353 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-354
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'①'
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '\u2460'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-354 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-355
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part ''
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-355 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-356
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 0x10
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '0x10'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-356 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-357
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 1.5
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '1.5'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-357 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-358
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 1e3
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '1e3'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-358 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-359
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part two
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: 'two'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-359 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-360
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part inf
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: 'inf'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-360 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-361
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part nan
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: 'nan'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-361 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-362
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 999999999999999999999999999999999999999999999999999999999999999999999999 …(4529 chars)
+exit: 2 (57 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(4365 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-362 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-363
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 999999999999999999999999999999999999999999999999999999999999999999999999 …(100228 chars)
+exit: 2 (90 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(100064 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-363 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-364
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part -99999999999999999999999999999999999999999999999999999999999999999999999 …(5229 chars)
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '-9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(5065 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-364 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-365
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'Ⅷ'
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '\u2167'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-365 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-366
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'²'
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '\u00b2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-366 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-367
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'①'
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '\u2460'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-367 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-368
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n ''
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-368 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-369
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n ' 3 '
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-369 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-370
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n +1
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-370 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-371
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n -0
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-371 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-372
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n -1
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-372 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-373
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 1_000
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-373 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-374
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 0x10
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '0x10'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-374 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-375
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 010
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-375 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-376
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 1.5
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '1.5'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-376 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-377
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 1e3
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '1e3'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-377 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-378
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n two
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'two'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-378 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-379
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n inf
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'inf'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-379 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-380
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n nan
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'nan'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-380 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-381
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 9223372036854775807
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-381 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-382
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 9223372036854775808
+exit: 0 (74 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-382 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-383
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 99999999999999999999
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-383 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-384
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $' 3'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-384 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-385
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'\t3\n'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-385 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-386
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'٣'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-386 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-387
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'١٢'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-387 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-388
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'１２'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-388 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-389
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'१'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-389 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-390
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'২'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-390 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-391
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'߁'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-391 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-392
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'𝟏'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-392 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-393
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'²'
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '\u00b2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-393 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-394
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'Ⅷ'
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '\u2167'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-394 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-395
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'①'
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '\u2460'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-395 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-396
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'1٢'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-396 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-397
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n $'๑'
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-397 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-398
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 999999999999999999999999999999999999999999999999999999999999999999999999999 …(4525 chars)
+exit: 0 (79 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-398 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-399
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 999999999999999999999999999999999999999999999999999999999999999999999999999 …(4526 chars)
+exit: 2 (57 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(4362 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-399 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-400
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 999999999999999999999999999999999999999999999999999999999999999999999999999 …(100225 chars)
+exit: 2 (99 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(100061 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-400 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-401
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n -99999999999999999999999999999999999999999999999999999999999999999999999999 …(5226 chars)
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '-9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(5062 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-401 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-402
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --n 000000000000000000000000000000000000000000000000000000000000000000000000000 …(10226 chars)
+exit: 2 (65 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 …(10062 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-402 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-403
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round ''
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-403 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-404
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round ' 3 '
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-404 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-405
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round +1
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-405 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-406
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round -0
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-406 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-407
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round -1
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-407 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-408
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 1_000
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-408 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-409
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 0x10
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '0x10'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-409 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-410
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 010
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-410 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-411
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 1.5
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '1.5'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-411 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-412
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 1e3
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '1e3'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-412 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-413
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round two
+exit: 2 (53 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: 'two'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-413 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-414
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round inf
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: 'inf'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-414 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-415
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round nan
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: 'nan'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-415 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-416
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 9223372036854775807
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-416 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-417
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 9223372036854775808
+exit: 0 (76 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-417 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-418
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 99999999999999999999
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-418 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-419
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $' 3'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-419 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-420
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'\t3\n'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-420 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-421
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'٣'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-421 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-422
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'١٢'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-422 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-423
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'１２'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-423 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-424
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'१'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-424 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-425
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'২'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-425 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-426
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'߁'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-426 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-427
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'𝟏'
+exit: 0 (74 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-427 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-428
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'²'
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '\u00b2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-428 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-429
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'Ⅷ'
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '\u2167'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-429 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-430
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'①'
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '\u2460'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-430 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-431
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'1٢'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-431 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-432
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round $'๑'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-432 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-433
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 99999999999999999999999999999999999999999999999999999999999999999999999 …(4529 chars)
+exit: 0 (81 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-433 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-434
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 99999999999999999999999999999999999999999999999999999999999999999999999 …(4530 chars)
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(4366 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-434 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-435
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 99999999999999999999999999999999999999999999999999999999999999999999999 …(100229 chars)
+exit: 2 (99 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(100065 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-435 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-436
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round -9999999999999999999999999999999999999999999999999999999999999999999999 …(5230 chars)
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(5066 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-436 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-437
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --round 00000000000000000000000000000000000000000000000000000000000000000000000 …(10230 chars)
+exit: 2 (61 ms)
+--- stdout
+{"ok": false, "error": "argument --round: invalid int value: '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 …(10066 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-437 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-438
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part ''
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-438 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-439
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part ' 3 '
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-439 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-440
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part +1
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-440 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-441
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part -0
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-441 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-442
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part -1
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-442 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-443
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 1_000
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-443 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-444
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 0x10
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '0x10'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-444 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-445
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 010
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-445 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-446
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 1.5
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '1.5'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-446 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-447
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 1e3
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '1e3'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-447 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-448
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part two
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: 'two'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-448 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-449
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part inf
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: 'inf'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-449 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-450
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part nan
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: 'nan'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-450 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-451
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 9223372036854775807
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-451 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-452
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 9223372036854775808
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-452 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-453
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 99999999999999999999
+exit: 0 (81 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-453 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-454
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $' 3'
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-454 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-455
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'\t3\n'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-455 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-456
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'٣'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-456 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-457
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'١٢'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-457 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-458
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'１２'
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-458 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-459
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'१'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-459 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-460
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'২'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-460 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-461
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'߁'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-461 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-462
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'𝟏'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-462 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-463
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'²'
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '\u00b2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-463 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-464
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'Ⅷ'
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '\u2167'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-464 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-465
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'①'
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '\u2460'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-465 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-466
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'1٢'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-466 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-467
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part $'๑'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-467 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-468
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 999999999999999999999999999999999999999999999999999999999999999999999999 …(4528 chars)
+exit: 0 (80 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-468 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-469
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 999999999999999999999999999999999999999999999999999999999999999999999999 …(4529 chars)
+exit: 2 (56 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(4365 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-469 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-470
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 999999999999999999999999999999999999999999999999999999999999999999999999 …(100228 chars)
+exit: 2 (100 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(100064 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-470 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-471
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part -99999999999999999999999999999999999999999999999999999999999999999999999 …(5229 chars)
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '-9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 …(5065 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-471 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-472
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001 --part 000000000000000000000000000000000000000000000000000000000000000000000000 …(10229 chars)
+exit: 2 (68 ms)
+--- stdout
+{"ok": false, "error": "argument --part: invalid int value: '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 …(10065 chars)
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-472 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-473
+$ python3 -I -c $'import subprocess,sys\nb=sys.argv[1].encode()\nrepo=sys.argv[2].encode()\nfor part in (b\"\\xff\\xfe\", b\"S-\\xc0\\xaf\", b\"\\xed\\xa0\\x80\"):\n  for args in ([b\"--kind\", b\"slice\", b\"--id\", part], [b\"--kind\", b\"e2e-area\", b\"--id\", b\"M-1\", b\"--area\", part]):\n    p=subprocess.run([b\"python3\", b, b\"name\", b\"--repo\", repo, *args], capture_output=True)\n    sys.stdout.write(\"%d\\t%s\\t%s\\n\" % (p.returncode, p.stdout.decode(\"utf-8\",\"backslashreplace\").strip(), p.stderr.decode(\"utf-8\",\"backslashreplace\").replace(\"\\n\",\" \")))\n' /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1
+exit: 0 (446 ms)
+--- stdout
+0	{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/\udcff\udcfe"}	
+0	{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-\udcff\udcfe"}	
+0	{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-\udcc0\udcaf"}	
+0	{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-S-\udcc0\udcaf"}	
+0	{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/\udced\udca0\udc80"}	
+0	{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e-\udced\udca0\udc80"}	
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-473 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-decoy-474
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind slice --id S-001
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-decoy-474 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-decoy-474
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 --kind state
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261009043040"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-decoy-474 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/repo-1 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-475
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo ../.. --kind slice --id S-001
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-475 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-476
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /etc --kind slice --id S-001
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-476 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-477
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo ../../../../etc/passwd --kind slice --id S-001
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "--repo '../../../../etc/passwd' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-477 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-478
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo '..\..' --kind slice --id S-001
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "--repo '..\\\\..' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-478 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-479
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo %2e%2e/%2e%2e --kind slice --id S-001
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "--repo '%2e%2e/%2e%2e' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-479 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-480
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo '~' --kind slice --id S-001
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "--repo '~' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-480 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-481
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo file:///etc --kind slice --id S-001
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "--repo 'file:///etc' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-481 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-482
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo '\\server\share' --kind slice --id S-001
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "--repo '\\\\\\\\server\\\\share' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-482 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-483
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo . --kind slice --id S-001
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-483 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-484
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo ./ --kind slice --id S-001
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-wU15Lx/testkit-cli-Yb1yV0/cwd-484 (unchanged)

@@ -1,0 +1,20 @@
+# decoys in cwd: branches, json, argparse, re, subprocess, datetime, os, sys
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-107-9
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind slice --id S-001
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# error path with decoys in cwd
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-107-9
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area --id M-1
+exit: 2 (62 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty area"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+

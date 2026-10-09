@@ -1,0 +1,88 @@
+# --kind slice --id --help
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind slice --id --help
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --kind slice --id -h
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind slice --id -h
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --kind slice --id --format
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind slice --id --format
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --kind slice --id --repo
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind slice --id --repo
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --kind e2e-area --id M-1 --area --format
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area --id M-1 --area --format
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --kind e2e-area --id M-1 --area --help
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area --id M-1 --area --help
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --kind e2e-area --id M-1 --area -h
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area --id M-1 --area -h
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+
+# --area=--format
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-003-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 --kind e2e-area --id M-1 --area=--format
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-1-e2e---format"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/cwd-104-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ZQV49s/testkit-cli-iIPePF/repo-1 (unchanged)
+

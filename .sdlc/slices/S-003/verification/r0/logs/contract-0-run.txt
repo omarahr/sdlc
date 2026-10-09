@@ -1,0 +1,32 @@
+property tail slice: seed=20261009 runs=1000 violations=0
+property tail state: seed=20261010 runs=1000 violations=0
+property tail e2e-area: seed=20261011 runs=1000 violations=0
+property name: seed=20261012 runs=1000 violations=0
+lenient non-strict JSON accepted as default: ["NaN","Infinity"]
+property load_format: seed=20261013 runs=1000 violations=0
+property cli-name-vs-load_format: seed=20261014 runs=200 violations=0
+✔ verify contract: tail("slice", id="S-001") is the str "S-001" (R-018 example) (34.41775ms)
+✔ verify contract: slice tail with a missing, empty or None id raises Fail, never KeyError or TypeError (35.007208ms)
+✔ verify contract: property slice tail equals the id and ignores extra parts (40.163417ms)
+✔ verify contract: state tail without ts is 14 UTC digits under TZ=Pacific/Kiritimati and TZ=Etc/GMT+12 (78.852167ms)
+✔ verify contract: state tail with ts="20261008101500" is "state-20261008101500" (32.59925ms)
+✔ verify contract: property state tail keeps a given ts and stamps UTC when ts is absent, empty or None (36.983166ms)
+✔ verify contract: e2e-area tail joins id and area in any keyword order (R-018 example) (35.208917ms)
+✔ verify contract: e2e-area with a missing part raises the module Fail that names the part (35.664875ms)
+✔ verify contract: property e2e-area tail matches the reference model (39.273959ms)
+✔ verify contract: zero-valued numeric parts are accepted and do not change the tail (VS-10) (35.868208ms)
+✔ verify contract: tail is deterministic for the same input (33.997834ms)
+✔ verify contract: load_format resolves the config value or the default (R-015, R-002 clause 1, VS-8) (70.053209ms)
+✔ verify contract: load_format raises Fail for invalid JSON, deep nesting and an unreadable file (55.9405ms)
+✔ verify contract: name follows the resolved format, and {name:lower} lowercases the tail (R-015 examples) (36.848ms)
+✔ verify contract: property name is prefix + tail + suffix, lowercased for {name:lower} (38.905917ms)
+✔ verify contract: property load_format over arb.configShape matches the spec model (610.131583ms)
+✔ verify contract: CLI name format agrees with load_format on each config shape (VS-5) (15992.958125ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17290.256709
