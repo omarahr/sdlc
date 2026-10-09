@@ -31,7 +31,7 @@ The committed tests `T-R-030a` to `T-R-084b` in `skills/sdlc/test/branches.test.
 
 ## Scenarios
 ### VS-1 · One glab call serves many samples, run in the repo
-Profiles: contract, security. Risk: Risk: one call per sample, a wrong argv, or a wrong cwd. Try 1, 3 and 50 samples. The argv must be api projects/:fullpath/push_rule. The cwd must be the repo. A branch name in the samples must never reach the argv.
+Profiles: contract, security. Risk: one call per sample, a wrong argv, or a wrong cwd. Try 1, 3 and 50 samples. The argv must be api projects/:fullpath/push_rule. The cwd must be the repo. A branch name in the samples must never reach the argv.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
