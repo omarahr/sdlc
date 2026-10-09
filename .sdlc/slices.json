@@ -992,12 +992,79 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-006",
     "pr": "",
     "risk": "medium",
     "riskReason": "Lowercasing changes what parse must match; a mistake breaks id resolution on every lowercased branch.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "24-case list built twice",
+        "detail": "T-R-068a and T-R-068b each build the same 24-case list. Extract one helper.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "State branch split by string operations",
+        "detail": "T-R-068b rebuilds the state-branch affixes by splitting the format string. Reuse the output of split instead.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Scanner lives in the test file",
+        "detail": "findE2eAreaPushViolations is local to branches.test.mjs. Move it to harness.mjs when S-009 reuses it.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "The 24-case list is built twice",
+        "detail": "T-R-068a and T-R-068b each build the same 24 cases. The cliArgs helper also repeats the split logic in the state branch check. Extract one cases helper. Style only.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-068a restates the tail rule in the test",
+        "detail": "T-R-068a computes the expected middle with row.tail.toLowerCase(). It reads the tail from mod.tail, so a wrong tail would match its own expectation. Existing tests pin the exact tail strings, so the risk is small. Consider pinning a few literal branches. Non-blocking.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "The R-120 scan is a text heuristic",
+        "detail": "T-R-120a looks at a 4-line window around a push line and matches by kind name. The plan records this limit, and T-R-120b proves the scan can fail. S-009 and S-021 to S-024 must tighten it to the parsed kind. Non-blocking.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "R-120 scan names the kind, not the parsed kind",
+        "detail": "A push that builds an e2e-area branch through a variable, or a statement longer than 4 lines, passes the scan. Tighten it once parse exists (S-009, S-021 to S-024).",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      },
+      {
+        "title": "R-068 parse half still missing",
+        "detail": "The round-trip test covers name and split only. S-007 must add the parse assertion and close R-068.",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      },
+      {
+        "title": "Round trip covers name only",
+        "detail": "parse is a stub that echoes its input, so the parse half of the round trip is unverified until S-007.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "R-120 scan misses list-form gh pr create",
+        "detail": "PUSH_SITE matches the text 'pr create'. A call written as run(repo, 'gh', 'pr', 'create', '--head', x) has no such text, so it is not a site.",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      },
+      {
+        "title": "R-120 scan reads only the kind name and six files",
+        "detail": "A variable-built branch, an e2e-area name more than 3 lines after the push line, and the prompts are not scanned. S-009 and S-021 to S-024 must tighten the scan to the parsed kind.",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      },
+      {
+        "title": "R-120 scan uses kind name, not parsed kind",
+        "detail": "A push that builds an e2e-area branch through a variable is not caught. Tighten the scan once parse exists (S-007, S-009).",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -1013,6 +1080,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
