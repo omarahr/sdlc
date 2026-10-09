@@ -1,2 +1,0 @@
-property parse-model: seed=7 runs=3000 nonNull=1253 violations=0
-[]

@@ -927,6 +927,82 @@
       "title": "the fix lifts the int string limit for the whole process",
       "detail": "branches.py calls sys.set_int_max_str_digits(0) at import, so any importer loses the limit. No slowdown shows at 100000 digits (137 ms). A cap on digit count would keep the limit.",
       "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "T-R-108b repeats a check that T-R-108a already makes",
+      "detail": "The first assertion of T-R-108b (sdlc/S-001-attempt-2 gives kind attempt) repeats T-R-108a. The {name} format assertion is new. Delete the first assertion, or rename the test to name the new coverage. Not blocking.",
+      "file": "skills/sdlc/test/branches.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "state row accepts a trailing newline and non-ASCII digits",
+      "detail": "sdlc/state-20261008101500 followed by a newline gives kind state because $ matches before a final newline. Fullwidth and Arabic-Indic digits give kind state with a non-ASCII ts. S-007 left both open.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "CLI parse has no way to pass ledger ids",
+      "detail": "branches.py parse has no --ids flag, so known is always null at the CLI. The ledger check is reachable only through the function.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Trailing newline accepted by rows 5 to 8",
+      "detail": "parse of 'sdlc/S-001\\n' gives kind slice; the same holds for state, attempt and verify tails. Python `$` matches before a final newline.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Non-ASCII digits accepted by \\d",
+      "detail": "Arabic-Indic digits give kind state, attempt and verify; int() converts them.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Attempt and verify rows accept any id text",
+      "detail": "sdlc/--flag-attempt-1 and ids with NUL or lone surrogate parse as attempt. Callers must treat id as untrusted.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Huge digit runs give unbounded integers",
+      "detail": "A 5000-digit round, part or n parses to a full Python int.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Public names beyond the spec API",
+      "detail": "PARSE_ROWS and INTEGER_PARTS are public names that the spec does not list.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Shared run worktree edited during verification",
+      "detail": "branches.py in the run worktree briefly lacked parse (uncommitted change). Restored later. Verification used a separate worktree at d29cba7.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "One property batch timed out once",
+      "detail": "One 3000-call batch hit the 120 s limit once; later runs took under 100 ms. Probably machine load; inconclusive, not a defect.",
+      "file": "skills/sdlc/test/testkit/property.mjs"
+    },
+    {
+      "title": "verify row accepts a trailing newline",
+      "detail": "parse of sdlc/S-001-v0-cli-0 followed by a newline gives kind verify, because $ matches before a final newline. The newline stays in tail. Same open item as S-007.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Unicode digits accepted by \\d",
+      "detail": "Arabic-Indic digits parse as integers in round and part. Use re.ASCII or [0-9].",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Verify row backtracks quadratically (limits)",
+      "detail": "A tail of 8000 repeats of -v0-a takes 1.1 s, and the time grows with the square. The spec states no limit, so this goes to verify-limits.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Verify id is not checked against the slice id shape",
+      "detail": "--force-v0-cli-0 and s-001-v0-cli-0 parse as verify with a flag-like or lower-case id, as the (.+) regex allows. Callers must use the known flag.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "testkit: callPython hangs intermittently on a 200 kB input",
+      "detail": "One run in about six of the same call timed out under node spawnSync. The same call never timed out from Python in 60 runs. Parse took 3 ms.",
+      "file": "skills/sdlc/test/testkit/property.mjs"
     }
   ]
 }
