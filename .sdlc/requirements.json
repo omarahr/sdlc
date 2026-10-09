@@ -68,7 +68,7 @@
     "specRef": "§1",
     "quote": "| `run` | `run-<n>` | `sdlc/run-1` | stack |",
     "acceptance": "`branches.py name --kind run --n 1` under the default format prints `sdlc/run-1`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -83,7 +83,7 @@
     "specRef": "§1",
     "quote": "| `slice` | `<sliceId>` | `sdlc/S-001` | pr, stack |",
     "acceptance": "`branches.py name --kind slice --id S-001` under the default format prints `sdlc/S-001`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -98,7 +98,7 @@
     "specRef": "§1",
     "quote": "| `milestone` | `<milestoneId>` | `sdlc/M-1` | stack |",
     "acceptance": "`branches.py name --kind milestone --id M-1` under the default format prints `sdlc/M-1`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -113,7 +113,7 @@
     "specRef": "§1",
     "quote": "| `e2e` | `<milestoneId>-e2e` | `sdlc/M-1-e2e` | pr |",
     "acceptance": "`branches.py name --kind e2e --id M-1` under the default format prints `sdlc/M-1-e2e`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -128,7 +128,7 @@
     "specRef": "§1",
     "quote": "| `e2e-area` | `<milestoneId>-e2e-<area>` | `sdlc/M-1-e2e-api` | never |",
     "acceptance": "`branches.py name --kind e2e-area --id M-1 --area api` under the default format prints `sdlc/M-1-e2e-api`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
