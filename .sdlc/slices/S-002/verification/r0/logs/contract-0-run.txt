@@ -1,0 +1,84 @@
+property validate_format-model: seed=20261009 runs=1500 accepted=448 violations=0
+unicode-whitespace nbsp: Fail model=whitespace
+unicode-whitespace em-space: Fail model=whitespace
+unicode-whitespace ideographic: Fail model=whitespace
+unicode-whitespace zwsp: return model=accept
+unicode-whitespace zwnj: return model=accept
+unicode-whitespace zwj: return model=accept
+unicode-whitespace bom: return model=accept
+unicode-whitespace line-sep: Fail model=whitespace
+unicode-whitespace para-sep: Fail model=whitespace
+unicode-whitespace ogham: Fail model=whitespace
+unicode-whitespace narrow-nbsp: Fail model=whitespace
+unicode-whitespace mongolian-vs: return model=accept
+unicode-whitespace nbsp-only: Fail model=whitespace
+unicode-whitespace trailing-nbsp: Fail model=whitespace
+"sdlc/{name}.." -> Fail; git=fatal: 'sdlc/S-001..' is not a valid branch name
+"sdlc/{name}.lock" -> Fail; git=fatal: 'sdlc/S-001.lock' is not a valid branch name
+"-{name}" -> Fail; git=fatal: '-S-001' is not a valid branch name
+"/{name}" -> Fail; git=fatal: '/S-001' is not a valid branch name
+"{name}/" -> Fail; git=fatal: 'S-001/' is not a valid branch name
+"a//{name}" -> Fail; git=fatal: 'a//S-001' is not a valid branch name
+"a~/{name}" -> Fail; git=fatal: 'a~/S-001' is not a valid branch name
+"a^/{name}" -> Fail; git=fatal: 'a^/S-001' is not a valid branch name
+"a:/{name}" -> Fail; git=fatal: 'a:/S-001' is not a valid branch name
+"a?/{name}" -> Fail; git=fatal: 'a?/S-001' is not a valid branch name
+"a*/{name}" -> Fail; git=fatal: 'a*/S-001' is not a valid branch name
+"a[/{name}" -> Fail; git=fatal: 'a[/S-001' is not a valid branch name
+"a\\/{name}" -> Fail; git=fatal: 'a\/S-001' is not a valid branch name
+"@/{name}" -> return; git=accept
+"a/.b/{name}" -> Fail; git=fatal: 'a/.b/S-001' is not a valid branch name
+"a\u0001/{name}" -> Fail; git=fatal: 'a?/S-001' is not a valid branch name
+"a\u001f/{name}" -> Fail; git=fatal: 'a?/S-001' is not a valid branch name
+"a/{name}" -> Fail; git=fatal: 'a?/S-001' is not a valid branch name
+"sdlc/{name}\u0000" -> Fail; git=NUL
+".{name}" -> Fail; git=fatal: '.S-001' is not a valid branch name
+"a..b/{name}" -> Fail; git=fatal: 'a..b/S-001' is not a valid branch name
+"{name}." -> Fail; git=fatal: 'S-001.' is not a valid branch name
+"--format/{name}" -> Fail; git=fatal: '--format/S-001' is not a valid branch name
+"-h{name}" -> Fail; git=fatal: '-hS-001' is not a valid branch name
+fake git exit 0 with sdlc/{name}..: return
+{
+ "missing": {
+  "outcome": "Fail",
+  "message": "cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 2] No such file or directory: 'git'"
+ },
+ "exit1": {
+  "outcome": "Fail",
+  "message": "the branch format 'sdlc/{name}' gives 'sdlc/S-001', which git check-ref-format refuses: exit 1"
+ },
+ "exit128": {
+  "outcome": "Fail",
+  "message": "the branch format 'sdlc/{name}' gives 'sdlc/S-001', which git check-ref-format refuses: boom"
+ },
+ "noexec": {
+  "outcome": "Fail",
+  "message": "cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 13] Permission denied: 'git'"
+ },
+ "exit0": {
+  "outcome": "return",
+  "value": "sdlc/{name}..",
+  "same": true
+ }
+}
+property split-rebuild: seed=20261009 runs=1500 violations=0
+property name-tail: seed=20261009 runs=1500 violations=0
+✔ verify contract: TC-contract-1 validate_format returns the exact input for valid formats (189.451375ms)
+✔ verify contract: TC-contract-2 a valid format is accepted from any cwd and with GIT_DIR set (578.401166ms)
+✔ verify contract: TC-contract-3 property validate_format agrees with the spec model and git (37792.976792ms)
+✔ verify contract: TC-contract-4 structurally malformed formats raise Fail and nothing else (749.576459ms)
+✔ verify contract: TC-contract-5 git-refused literal parts raise Fail with the git reason, same verdict as git (920.0725ms)
+✔ verify contract: TC-contract-6 shell metacharacters in the format reach git as one argv item (221.020417ms)
+✔ verify contract: TC-contract-7 a missing or broken git gives Fail, never a crash (497.916375ms)
+✔ verify contract: TC-contract-8 split spec examples and corner formats (72.968ms)
+✔ verify contract: TC-contract-9 property split rebuilds its input and refuses other placeholder counts (46.798458ms)
+✔ verify contract: TC-contract-10 name spec examples, lowercase only the tail (73.313708ms)
+✔ verify contract: TC-contract-11 property name is prefix + tail (lowercased under {name:lower}) + suffix (144.484709ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 41369.801708

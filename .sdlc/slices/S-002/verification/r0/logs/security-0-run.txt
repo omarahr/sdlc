@@ -1,0 +1,17 @@
+✔ verify security: VS-2 unicode whitespace and control characters in the format raise Fail, never another exception (462.669166ms)
+✔ verify security: VS-2 zero-width characters get the same verdict as a direct git check-ref-format call (214.74425ms)
+✔ verify security: VS-3 git-refused literal parts raise Fail with check-ref-format and the same verdict as git (849.897416ms)
+✔ verify security: VS-3 a leading dash reaches git as the branch name, not as an option (318.540917ms)
+✔ verify security: VS-3 a NUL in the format raises Fail, not ValueError (35.104459ms)
+✔ verify security: VS-3 shell metacharacters reach git as one argv item and run no shell (4320.633875ms)
+✔ verify security: VS-3 a hostile cwd repo config does not run code or change the verdict (692.286125ms)
+✔ verify security: VS-8 a git-refused branchFormat in config.json stops every command with one JSON error and no change (4662.732ms)
+✔ verify security: VS-8 --format overrides config.json in both directions (1372.691791ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13065.971459

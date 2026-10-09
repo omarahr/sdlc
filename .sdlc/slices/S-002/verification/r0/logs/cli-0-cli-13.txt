@@ -1,0 +1,87 @@
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-3
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 --kind slice --id S-001 --format 'sdlc/{name}..'
+exit: 2 (69 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}..' gives 'sdlc/S-001..', which git check-ref-format refuses: fatal: 'sdlc/S-001..' is not a valid branch name"}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-3 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-4
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py name --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 --kind slice --id S-001 --format 'sdlc/{name}'
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "$TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2", "kind": "slice", "id": "S-001", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-4 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-5
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py parse --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 --branch sdlc/S-001 --format 'sdlc/{name}..'
+exit: 2 (61 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}..' gives 'sdlc/S-001..', which git check-ref-format refuses: fatal: 'sdlc/S-001..' is not a valid branch name"}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-5 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-6
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py parse --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 --branch sdlc/S-001 --format 'sdlc/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "$TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2", "branch": "sdlc/S-001"}}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-6 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-7
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py list --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 --kind slice --format 'sdlc/{name}..'
+exit: 2 (71 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}..' gives 'sdlc/S-001..', which git check-ref-format refuses: fatal: 'sdlc/S-001..' is not a valid branch name"}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-7 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-8
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py list --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 --kind slice --format 'sdlc/{name}'
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "args": {"repo": "$TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2", "kind": "slice"}}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-8 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-9
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 --mode pr --format 'sdlc/{name}..'
+exit: 2 (58 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}..' gives 'sdlc/S-001..', which git check-ref-format refuses: fatal: 'sdlc/S-001..' is not a valid branch name"}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-9 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-1 (unchanged)
+
+### TC-cli-13
+$ cd $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-10
+$ python3 $TMPDIR/sdlc-S-002-v0-cli-0/skills/sdlc/branches.py preflight --repo $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 --mode pr --format 'sdlc/{name}'
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "$TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2", "mode": "pr", "branch": null}}
+--- stderr
+
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/cwd-10 (unchanged)
+--- tree $TMPDIR/sdlc-test-eNtlMk/testkit-cli-aJQyIq/repo-2 (unchanged)
