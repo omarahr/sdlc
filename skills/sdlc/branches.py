@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 
 DEFAULT_FORMAT = "sdlc/{name}"
@@ -33,18 +34,62 @@ def load_format(repo):
 
 
 def validate_format(fmt):
+    prefix, suffix, _ = split(fmt)
+    rest = prefix + suffix
+    if "{" in rest or "}" in rest:
+        raise Fail(f"the branch format {fmt!r} holds a brace outside its placeholder")
+    if re.search(r"\s", fmt):
+        raise Fail(f"the branch format {fmt!r} holds whitespace")
+    candidate = name(fmt, "slice", id="S-001")
+    try:
+        result = subprocess.run(
+            ["git", "check-ref-format", "--branch", candidate],
+            capture_output=True,
+            text=True,
+            errors="replace",
+        )
+    except (OSError, ValueError) as e:
+        raise Fail(f"cannot check the branch format {fmt!r} with git check-ref-format: {e}")
+    if result.returncode != 0:
+        reason = result.stderr.strip() or f"exit {result.returncode}"
+        raise Fail(f"the branch format {fmt!r} gives {candidate!r}, which git check-ref-format refuses: {reason}")
+    return fmt
+
+
+TAILS = {
+    "slice": (("id",), lambda p: p["id"]),
+}
+
+
+def tail(kind, **parts):
+    row = TAILS.get(kind)
+    if row is None:
+        raise Fail(f"no branch name is defined for kind {kind!r}")
+    required, build = row
+    for part in required:
+        value = parts.get(part)
+        if value is None or value == "":
+            raise Fail(f"a {kind} branch name needs a non-empty {part}")
+    return str(build(parts))
+
+
+def split(fmt):
     if not isinstance(fmt, str):
         raise Fail("the branch format must be a string")
     count = sum(fmt.count(p) for p in PLACEHOLDERS)
     if count != 1:
         raise Fail(f"the branch format {fmt!r} must hold exactly one {{name}} or {{name:lower}}, found {count}")
     placeholder = next(p for p in PLACEHOLDERS if p in fmt)
-    rest = fmt.replace(placeholder, "", 1)
-    if "{" in rest or "}" in rest:
-        raise Fail(f"the branch format {fmt!r} holds a brace outside its placeholder")
-    if re.search(r"\s", fmt):
-        raise Fail(f"the branch format {fmt!r} holds whitespace")
-    return fmt
+    prefix, suffix = fmt.split(placeholder, 1)
+    return prefix, suffix, placeholder == "{name:lower}"
+
+
+def name(fmt, kind, **parts):
+    prefix, suffix, lower = split(fmt)
+    middle = tail(kind, **parts)
+    if lower:
+        middle = middle.lower()
+    return prefix + middle + suffix
 
 
 def load_git_modes(path=GIT_MODES_PATH):
