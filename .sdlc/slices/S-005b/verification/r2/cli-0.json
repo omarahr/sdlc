@@ -1,0 +1,487 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 2,
+  "commit": "39aa68f",
+  "environment": "macOS (Darwin 25.6), Node v24, Python 3.14.7 (/opt/homebrew/bin/python3), git version 2.50.1 (Apple Git-155); push_guard.py run through the testkit cli-runner on scratch copies of skills/sdlc and hooks; mutants called through the testkit module-loader against a local bare remote",
+  "cases": [
+    {
+      "id": "TC-cli-32",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A new option after a known wrapper verb, in any str spelling, breaks a pin or is opaque (re-run)",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "16 option forms after fetch or push are added one at a time: m1 f-string, m2 .strip(), m3 str(), list spread, inline star, split option, --receive-pack, --exec, -u, --upl, padded, +, format(), %, join()",
+      "then": "push_guard.py runs on each copy",
+      "expected": "Each form changes wrapperVerbs, opaque or pushes",
+      "actual": "All 16 forms change wrapperVerbs. The U+2010 confusable form also changes wrapperVerbs (observation).",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:107",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-32:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-33",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The str hidden-option mutants do not push a verify branch while the guard passes (re-run)",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline; a work repo with a bare origin and the local branch sdlc/S-001-v0-cli-0",
+      "when": "Six hidden-option mutants and one control are loaded with module-loader and called",
+      "then": "The bare remote refs and the guard keys are compared",
+      "expected": "No mutant pushes with every key equal",
+      "actual": "Each mutant pushes the verify branch, and the guard flags each one in wrapperVerbs",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:137",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-33:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-34",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "On the clean tree opaque is empty and no wrapperVerbs entry can run a command (re-run)",
+      "given": "The clean tree at 39aa68f",
+      "when": "push_guard.py runs",
+      "then": "The 37 option entries and the 28 value entries are read",
+      "expected": "opaque, dynamic and forgeViolations are empty; no entry names --upload-pack, --receive-pack, --exec, -c, --config or fetch -u",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:156",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-34:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-35",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A corpus whitespace or invisible character in front of a hidden option breaks a pin or does not push (re-run)",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "Each attack-corpus unicode-whitespace value is put in front of the --upload-pack option",
+      "then": "The guard runs and the mutant is called against a bare remote",
+      "expected": "No entry pushes with every key equal",
+      "actual": "No entry pushes with every key equal",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:174",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-35:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-36",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "An option after a known wrapper verb as a bytes constant leaves every key equal",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "A bytes option is added after fetch: b\"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\" in a state-write.py git call, the same in a next-action.py run call, and b\"-u\" in a state-write.py git call",
+      "then": "push_guard.py runs on each copy",
+      "expected": "Each form changes wrapperVerbs, opaque or pushes",
+      "actual": "The three forms leave every key equal. The suite-receipt.py and impact.py forms break wrapperVerbs only because their verb is new in that file.",
+      "result": "fail",
+      "specSource": "R-119 acceptance; tests.md R-119 scope (a push through a pinned wrapper in any spelling of the constant arguments; wrapperVerbs holds one entry per option after the verb); ADR-20261009-062930-decision-judge-S-005-388e (a new process call in a scanned file that leaves the output equal to the pins refutes R-119)",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:187",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-36:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "bytes option: guard output and push",
+          "inline": "=== TC-cli-36 bytes --upload-pack after fetch, state-write.py\nmutant: git(repo, \"fetch\", \"origin\", b\"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)\n$ python3 -I skills/sdlc/test/push_guard.py <tree>\nexit: 0 (86 ms) tree unchanged: true\nchanged keys: <none>\n\n=== TC-cli-37 behavior bytes --upload-pack after fetch, state-write.py\ngit version 2.50.1 (Apple Git-155)\nguard changed keys: <none>\n$ python3 -I skills/sdlc/test/testkit/loadcall.py <tree>/skills/sdlc/state-write.py _mutant '[\"<repo>\",\"sdlc/S-001-v0-cli-0\"]'\nexit: 0 (182 ms)\noutcome: return\n--- remote <bare origin>\nrefs before: <none>\nrefs after: refs/heads/sdlc/S-001-v0-cli-0\nrefs added: refs/heads/sdlc/S-001-v0-cli-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-37",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A bytes --upload-pack mutant pushes a verify branch to a bare remote while the guard output equals the pins",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline; a work repo with a bare origin and the local branch sdlc/S-001-v0-cli-0",
+      "when": "The state-write.py and next-action.py bytes mutants are loaded with module-loader and called",
+      "then": "The bare remote refs and the guard keys are compared",
+      "expected": "The guard flags the mutant, or the bare remote has no verify ref",
+      "actual": "Both mutants push refs/heads/sdlc/S-001-v0-cli-0 to the bare remote with every guard key equal. The suite-receipt.py mutant raises TypeError and is flagged.",
+      "result": "fail",
+      "specSource": "R-119 acceptance (a verify branch stays local); ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:204",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-37:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "bytes mutant push",
+          "inline": "=== TC-cli-36 bytes --upload-pack after fetch, state-write.py\nmutant: git(repo, \"fetch\", \"origin\", b\"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)\n$ python3 -I skills/sdlc/test/push_guard.py <tree>\nexit: 0 (86 ms) tree unchanged: true\nchanged keys: <none>\n\n=== TC-cli-37 behavior bytes --upload-pack after fetch, state-write.py\ngit version 2.50.1 (Apple Git-155)\nguard changed keys: <none>\n$ python3 -I skills/sdlc/test/testkit/loadcall.py <tree>/skills/sdlc/state-write.py _mutant '[\"<repo>\",\"sdlc/S-001-v0-cli-0\"]'\nexit: 0 (182 ms)\noutcome: return\n--- remote <bare origin>\nrefs before: <none>\nrefs after: refs/heads/sdlc/S-001-v0-cli-0\nrefs added: refs/heads/sdlc/S-001-v0-cli-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-38",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Other spellings of an option after a known wrapper verb break a pin or are opaque",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "Ten forms are added: whole argv starred into git and run, a conditional expression, a subscript, a walrus, a tuple star with a keyword spread, list(), list +, list *, impact run argv",
+      "then": "push_guard.py runs on each copy",
+      "expected": "Each form changes wrapperVerbs, opaque or pushes",
+      "actual": "Each form changes a listed key",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:218",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-38:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-25",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Seed probe S1: a variable option after a known wrapper verb (re-run)",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "A state-write.py mutant passes a parameter opt after fetch",
+      "then": "The guard runs and the mutant is called",
+      "expected": "Seed S1: recorded, never a refutation",
+      "actual": "The guard flags it in wrapperVerbs (value entry); the seed is closed for this form",
+      "result": "pass",
+      "specSource": "ADR-20261009-062930-decision-judge-S-005-388e seed S1; ADR-20261009-120000-implementer-S-005b-5e7d",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:240",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-25:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-101",
+      "scenarioId": "VS-14",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A git option before the verb that can run a command or change the target is opaque",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "16 pre-verb options (-c glued and split, --config-env in two forms, --exec-path, --git-dir in two forms, --work-tree, --namespace, --super-prefix, --attr-source, --exec-pa, --conf, -p, --paginate, --list-cmds) are put at six sites: the four wrappers, a janitor.py list-literal direct site and a janitor.py shell=True site",
+      "then": "push_guard.py runs on each of the 96 copies",
+      "expected": "Each copy has an opaque entry",
+      "actual": "Each of the 96 copies has an opaque entry",
+      "result": "pass",
+      "specSource": "tests.md R-119 scope (a git option before the verb other than -C, -c and five flag options makes the call opaque; -c is opaque since fix round 1)",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:246",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-101:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-105",
+      "scenarioId": "VS-14",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The five allowed git flag options before the verb cannot run a command or push",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline; a work repo with a bare origin",
+      "when": "--no-pager, --no-optional-locks, --literal-pathspecs, --no-replace-objects and --bare are put before diff in a state-write.py git call",
+      "then": "The mutant is called against the bare remote",
+      "expected": "No flag pushes; each flag is reviewed as unable to run a command",
+      "actual": "No flag pushes. Four exit 0; --bare exits 129. Review: none of the five takes a value, so none can name a command.",
+      "result": "pass",
+      "specSource": "tests.md R-119 scope (the five allowed flag options); VS-14 notes",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:285",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-105:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-106",
+      "scenarioId": "VS-14",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A bytes git option before the verb breaks a pin",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "b\"-c\", a glued b\"-c...\" and b\"--config-env=...\" are put before the verb in three wrappers",
+      "then": "push_guard.py runs on each copy",
+      "expected": "Each form breaks a pin",
+      "actual": "Each form breaks wrapperVerbs: the guard reads the bytes text as the verb",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:296",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-106:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-102",
+      "scenarioId": "VS-15",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "An import alias bound anywhere in a module resolves to the watched module",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "16 alias forms: late import, late from-import, late os alias, import in another function with global, try block, if block, class body re-bound at module level, json and subprocess under one name, alias then assignment, assignment then import, del then import, __import__ in a lambda default and in a comprehension, late from os import system, hub.py late alias, import os as posixpath",
+      "then": "push_guard.py runs on each copy",
+      "expected": "Each form breaks a pin (direct, dynamic or imports)",
+      "actual": "Each form breaks at least one pin",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:310",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-102:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-107",
+      "scenarioId": "VS-15",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "On the clean tree dynamic is empty, so no file has a rebound import name",
+      "given": "The clean tree at 39aa68f",
+      "when": "push_guard.py runs",
+      "then": "dynamic is read",
+      "expected": "dynamic is empty",
+      "actual": "dynamic is empty",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e refutation rule; tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:338",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-107:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-103",
+      "scenarioId": "VS-16",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A process call through a submodule attribute chain breaks a pin",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline",
+      "when": "13 chains (os.path.os, posixpath.os, shutil.os, pathlib.os, tempfile._os, urllib.request.os, subprocess.os, glob.os, fnmatch.os, fnmatch.posixpath.os, mimetypes.os, argparse._os, branches.os) and 9 aliased chains each call system or create_subprocess_shell",
+      "then": "push_guard.py runs on each copy",
+      "expected": "Each chain breaks a pin",
+      "actual": "Each chain breaks direct, dynamic or imports. json.decoder.re.purge is a control with no process call.",
+      "result": "pass",
+      "specSource": "tests.md R-119 scope (an attribute chain through a watched module is read as the watched module call)",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:343",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-103:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-104",
+      "scenarioId": "VS-17",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Each guard-miss mutant from every round pushes a verify branch only when the guard flags it",
+      "given": "A scratch copy of skills/sdlc and hooks at 39aa68f; push_guard.py clean output as the baseline; a work repo with a bare origin and the local branch named by branches.py name --kind verify (sdlc/S-001-v0-cli-0)",
+      "when": "12 mutants from rounds 0 and 1 and the round 2 bytes mutant are loaded with module-loader and called",
+      "then": "The guard keys and the bare remote refs are compared",
+      "expected": "No mutant pushes with every key equal",
+      "actual": "All 12 earlier mutants are flagged by the guard. The round 2 bytes mutant pushes the verify branch with every key equal.",
+      "result": "fail",
+      "specSource": "R-119 acceptance (a verify branch stays local); ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:386",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-005b at 39aa68f> VERIFY_LOG=.sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs --test-name-pattern \"TC-cli-104:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (15 tests, 12 pass, 3 fail)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-run.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "guard and module-loader transcripts, part 1 (part 2: .sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts-2.txt)",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "TC-cli-104 summary",
+          "inline": "=== TC-cli-104 summary (git version 2.50.1 (Apple Git-155))\nr0 D-1 -c core.fsmonitor before diff, state-write.py: guard keys wrapperVerbs, opaque; pushed true\nr0 TC-cli-17 late alias import subprocess as sp, janitor.py: guard keys direct, pushes; pushed true\nr0 TC-cli-17 late from subprocess import run as _r, state-write.py: guard keys direct, pushes; pushed true\nr0 TC-cli-17 late import os as _o, branches.py: guard keys direct, pushes; pushed true\nr0 TC-cli-18 -c core.fsmonitor with $IFS, state-write.py: guard keys opaque; pushed true\nr0 TC-cli-18 -c core.fsmonitor before rev-parse, suite-receipt.py: guard keys opaque; pushed false\nr0 TC-cli-18 -c core.fsmonitor at a direct site, janitor.py: guard keys direct, opaque; pushed true\nr1 TC-cli-23 -c glued, state-write.py: guard keys opaque; pushed false\nr1 D-1 m1 f-string option, state-write.py: guard keys wrapperVerbs; pushed true\nr1 D-1 m3 str() option, next-action.py: guard keys wrapperVerbs; pushed true\nr1 TC-cli-27 os.path.os.system, janitor.py: guard keys direct, pushes; pushed true\nr1 TC-cli-27 from os import path as _p, _p.os.system, branches.py: guard keys direct, pushes; pushed true\nr2 TC-cli-37 bytes --upload-pack option, state-write.py: guard keys <none>; pushed true"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "push_guard.py reads every non-str constant as constant text",
+      "detail": "pieces() returns str(node.value) for any Constant, so b\"--upload-pack=...\" folds to the token b'--upload-pack=... with no leading dash. value_nodes() skips it as constant. A bytes option after the verb records no wrapperVerbs entry. A bytes argument before the verb is read as the verb, which breaks the pin only by chance. A fix can treat a bytes constant (or any non-str constant) as non-constant, or record it as a value entry.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "suite-receipt.py git wrapper raises TypeError on a bytes argument",
+      "detail": "The error message joins args with ' '.join, so a bytes argument raises TypeError after the git call ran. Not a defect today, since no caller passes bytes.",
+      "file": "skills/sdlc/suite-receipt.py"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+✔ verify cli TC-cli-1: D-1 m1 to m3 in the next-action run body change wrapperBodies (282.687833ms)
+✔ verify cli TC-cli-2: every TC-cli-18 and TC-cli-20 form in each of the five bodies changes wrapperBodies (7202.156333ms)
+✔ verify cli TC-cli-3: control-flow push forms inside a body change wrapperBodies (702.121917ms)
+✔ verify cli TC-cli-4: a push through a helper outside the body breaks a pin twice (172.29925ms)
+✔ verify cli TC-cli-5: a changed signature, default or decorator changes wrapperBodies (644.767459ms)
+✔ verify cli TC-cli-6: a duplicate, shadowing, nested, method or async wrapper def adds a wrapperBodies entry (437.634667ms)
+✔ verify cli TC-cli-7: a wrapper name bound by a lambda or an import alias breaks another pin (255.8575ms)
+✔ verify cli TC-cli-8: a comment, a blank line or a line continuation in a body keeps every key (806.61925ms)
+✔ verify cli TC-cli-9: wrapperBodies is equal on python 3.14, 3.12 and 3.9 (467.508083ms)
+✔ verify cli TC-cli-10: a token-equal re-quote changes the body text (observation) (83.51825ms)
+✔ verify cli TC-cli-11: outside a body, a non-constant program, verb, option or api path gives an opaque entry (967.077042ms)
+✔ verify cli TC-cli-12: -C with a variable value before push still records the push (180.187667ms)
+✔ verify cli TC-cli-13: every covered git push spelling outside a body breaks a pin (1759.9195ms)
+✔ verify cli TC-cli-14: corpus spellings of the push verb break a pin or are not a push (3748.916375ms)
+✔ verify cli TC-cli-15: pull-request creation and forge writes give a forgeViolations or opaque entry (1871.795875ms)
+✔ verify cli TC-cli-16: a process or network call reached by an alias, a value or dynamic code breaks a pin (2988.211917ms)
+✖ verify cli TC-cli-17: an import alias bound after its use in the file breaks a pin (250.882708ms)
+✖ verify cli TC-cli-18: a git -c option that runs a command before a constant verb breaks a pin (534.958167ms)
+✖ verify cli TC-cli-19: the TC-cli-17 and TC-cli-18 mutants push a verify branch to a bare remote (875.925833ms)
+✔ verify cli TC-cli-20: the loop script gains no process or network access (1786.870417ms)
+✔ verify cli TC-cli-21: a new verify branch reference in verifyPhase fails T-R-119d (470.907875ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 18
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27089.737333
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:432:1
+✖ verify cli TC-cli-17: an import alias bound after its use in the file breaks a pin (250.882708ms)
+  AssertionError [ERR_ASSERTION]: the guard output equals the pins for:
+  import subprocess as sp after a function that calls sp.run, janitor.py
+  from subprocess import run as _r after its use, state-write.py
+  import os as _o after its use, branches.py
+  + actual - expected
+  
+  + [
+  +   'import subprocess as sp after a function that calls sp.run, janitor.py',
+  +   'from subprocess import run as _r after its use, state-write.py',
+  +   'import os as _o after its use, branches.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:443:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'import subprocess as sp after a function that calls sp.run, janitor.py', 'from subprocess import run as _r after its use, state-write.py', 'import os as _o after its use, branches.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:446:1
+✖ verify cli TC-cli-18: a git -c option that runs a command before a constant verb breaks a pin (534.958167ms)
+  AssertionError [ERR_ASSERTION]: the guard output equals the pins for:
+  -c core.fsmonitor with $IFS in place of spaces before diff in state-write.py
+  -c core.fsmonitor with $IFS before rev-parse in suite-receipt.py
+  + actual - expected
+  
+  + [
+  +   '-c core.fsmonitor with $IFS in place of spaces before diff in state-write.py',
+  +   '-c core.fsmonitor with $IFS before rev-parse in suite-receipt.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:460:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ '-c core.fsmonitor with $IFS in place of spaces before diff in state-write.py', '-c core.fsmonitor with $IFS before rev-parse in suite-receipt.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:478:1
+✖ verify cli TC-cli-19: the TC-cli-17 and TC-cli-18 mutants push a verify branch to a bare remote (875.925833ms)
+  AssertionError [ERR_ASSERTION]: the guard passed these mutants, and each pushed sdlc/S-001-v0-http-api-0 to the bare remote:
+  TC-cli-17 janitor.py
+  TC-cli-18 state-write.py with $IFS
+  + actual - expected
+  
+  + [
+  +   'TC-cli-17 janitor.py',
+  +   'TC-cli-18 state-write.py with $IFS'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:495:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'TC-cli-17 janitor.py', 'TC-cli-18 state-write.py with $IFS' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

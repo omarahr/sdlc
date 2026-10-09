@@ -1,0 +1,30 @@
+node:path:1339
+      validateString(arg, 'path');
+      ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at join (node:path:1339:7)
+    at scan (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r1/.sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:21:38)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r1/.sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:26:15
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs (38.774417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42.248959
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs (38.774417ms)
+  'test failed'

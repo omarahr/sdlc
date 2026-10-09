@@ -1,0 +1,22 @@
+== A-1 skills/sdlc/branches.py
+  direct: +["branches.py _verify_read subprocess.run(['gh', 'api', f\"repos/{slug}/rules/branches/{quote(s, safe='')}\"], capture_output=True, text=True)"] -[]
+  forge: +["branches.py _verify_read gh api repos/"] -[]
+  forgeViolations=[] opaque=[]
+== A-7 skills/sdlc/next-action.py
+  wrapperVerbs: +["next-action.py gh api"] -[]
+  forge: +["next-action.py _verify_read gh api repos/"] -[]
+  forgeViolations=[] opaque=[]
+== A-8 skills/sdlc/next-action.py
+  wrapperVerbs: +["next-action.py gh api"] -[]
+  forge: +["next-action.py _verify_read gh api repos/"] -[]
+  forgeViolations=[] opaque=[]
+== A-15 skills/sdlc/branches.py
+  direct: +["branches.py _verify_read subprocess.run(['gh', 'api', f\"repos/{slug}/rules/branches/{urllib.parse.quote(s, safe='')}\"], capture_output=True, text=True)"] -[]
+  network: +["branches.py import urllib.parse"] -[]
+  forge: +["branches.py _verify_read gh api repos/"] -[]
+  forgeViolations=[] opaque=[]
+== N-6 skills/sdlc/next-action.py
+  wrapperVerbs: +["next-action.py gh api"] -[]
+  forge: +["next-action.py _verify_read gh api repos/"] -[]
+  forgeViolations: +["next-action.py _verify_read run(repo, 'gh', 'api', '-X', 'GЕT', f'repos/{slug}/rules/branches/{enc}') -- method GЕT"] -[]
+  forgeViolations=["next-action.py _verify_read run(repo, 'gh', 'api', '-X', 'GЕT', f'repos/{slug}/rules/branches/{enc}') -- method GЕT"] opaque=[]

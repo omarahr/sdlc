@@ -1,0 +1,48 @@
+✔ verify cli TC-cli-13: every covered git push spelling outside a body breaks a pin (2050.884333ms)
+✔ verify cli TC-cli-14: corpus spellings of the push verb break a pin or are not a push (4261.712542ms)
+✔ verify cli TC-cli-16: a process or network call reached by an alias, a value or dynamic code breaks a pin (3202.038083ms)
+✔ verify cli TC-cli-17: an import alias bound after its use in the file breaks a pin (302.444583ms)
+✔ verify cli TC-cli-18: a git -c option that runs a command before a constant verb breaks a pin (599.284459ms)
+✔ verify cli TC-cli-19: the TC-cli-17 and TC-cli-18 mutants push a verify branch to a bare remote (1034.654833ms)
+✔ verify cli TC-cli-22: an import alias bound late, in another scope or through a chain breaks a pin (1330.340834ms)
+✔ verify cli TC-cli-23: every git option before the verb other than -C and the five flags is opaque (1040.407208ms)
+✔ verify cli TC-cli-24: seed probe S1: a fetch run in the remote copies a verify branch into it with every key equal (298.545959ms)
+✔ verify cli TC-cli-25: seed probe S1: a variable option after a known wrapper verb leaves every key equal (200.163375ms)
+✖ verify cli TC-cli-26: seed probe S3: a process module reached through a class attribute leaves every key equal (99.637583ms)
+✔ verify cli TC-cli-27: the os.path.os.system mutant pushes a verify branch to a bare remote while the guard output equals the pins (905.620209ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 11
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15688.966833
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:346:1
+✖ verify cli TC-cli-26: seed probe S3: a process module reached through a class attribute leaves every key equal (99.637583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'direct',
+  +   'pushes'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r1/.sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:348:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'direct', 'pushes' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

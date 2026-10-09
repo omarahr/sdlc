@@ -1,0 +1,2000 @@
+    + state-write.py git def git ( repo , * args , check = True ) : args = ( "push" , "origin" , "sdlc/S-001-v0-cli-0" ) r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , tex
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+
+=== VS-1 -c remote.origin.push option in the argv list
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-13  exit 0 tree-unchanged true
+changed keys: direct, wrapperBodies
+  direct
+    + state-write.py git subprocess.run(['git', '-C', repo, '-c', 'remote.origin.push=HEAD', *args], capture_output=True, text=True)
+    - state-write.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True)
+  wrapperBodies
+    + state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , "-c" , "remote.origin.push=HEAD" , * args ] , capture_output = True , text = True ) if chec
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+
+=== VS-1 -X POST in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-15  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py run def run ( repo , * cmd ) : cmd = ( "gh" , "api" , "-X" , "POST" , "repos/o/r/pulls" ) try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout =
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-1 --method=PUT in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-17  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py run def run ( repo , * cmd ) : cmd = cmd + ( "--method=PUT" , ) try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout = 120 ) except ( OSError , 
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-1 -f in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-19  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py run def run ( repo , * cmd ) : cmd = cmd + ( "-f" , "title=x" ) try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout = 120 ) except ( OSError , 
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-1 --input in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-21  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py run def run ( repo , * cmd ) : cmd = cmd + ( "--input" , "-" ) try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout = 120 ) except ( OSError , s
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-1 verb from a parameter swap in impact run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-23  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + impact.py run def run ( args , cwd ) : args = list ( args ) [ : 1 ] + [ "push" , "origin" , "sdlc/S-001-v0-cli-0" ] return subprocess . run ( args , cwd = cwd , capture_output = True , text = True )
+    - impact.py run def run ( args , cwd ) : return subprocess . run ( args , cwd = cwd , capture_output = True , text = True 
+
+=== VS-1 impact git_lines gains --no-pager
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-25  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" , "--no-pager" ] + args , repo ) except OSError : return None return r . stdout . splitlines ( ) if r . returncode == 0 else
+    - impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return No
+
+=== VS-1 impact git_lines run call moved to a different program
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-27  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "gh" ] + args , repo ) except OSError : return None return r . stdout . splitlines ( ) if r . returncode == 0 else None
+    - impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return No
+
+=== VS-1 token-equal reorder: swap check kw
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-29  exit 0 tree-unchanged true
+changed keys: direct, wrapperBodies
+  direct
+    + state-write.py git subprocess.run(['git', '-C', repo, *args], text=True, capture_output=True)
+    - state-write.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True)
+  wrapperBodies
+    + state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , text = True , capture_output = True ) if check and r . returncode != 0 : raise F
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+
+=== VS-1 error string changed in suite-receipt git f-string expression
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-31  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + suite-receipt.py git def git ( repo , * args ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if r . returncode != 0 : raise SystemExit ( json . dump
+    - suite-receipt.py git def git ( repo , * args ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_outpu
+
+=== VS-1 f-string literal text changed in state-write git
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-33  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if check and r . returncode != 0 : raise F
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+
+=== VS-1 timeout changed in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-35  exit 0 tree-unchanged true
+changed keys: direct, wrapperBodies
+  direct
+    + next-action.py run subprocess.run(cmd, cwd=repo, capture_output=True, text=True, timeout=121)
+    - next-action.py run subprocess.run(cmd, cwd=repo, capture_output=True, text=True, timeout=120)
+  wrapperBodies
+    + next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout = 121 ) except ( OSError , subprocess . SubprocessError ) as
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-1 return value changed in impact git_lines
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-37  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return None return r . stdout . splitlines ( )
+    - impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return No
+
+=== VS-1 docstring added to state-write git
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-39  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + state-write.py git def git ( repo , * args , check = True ) : """doc # not a comment""" r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if check and r .
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+
+=== VS-1 global statement in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-41  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py run def run ( repo , * cmd ) : global _x try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout = 120 ) except ( OSError , subprocess . Subprocess
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-2 second identical def git in state-write
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-43  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+
+=== VS-2 identical def run appended to impact
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-45  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+
+=== VS-2 nested def git inside a function
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-47  exit 0 tree-unchanged true
+changed keys: direct, wrapperBodies, wrapperValues
+  direct
+    + state-write.py _outer.git subprocess.run(['git', '-C', repo, *args])
+  wrapperBodies
+    + state-write.py _outer.git def git ( repo , * args ) : return subprocess . run ( [ "git" , "-C" , repo , * args ] )
+  wrapperValues
+    + state-write.py _outer git
+
+=== VS-2 method named run in a class (janitor has none)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-49  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py _K.run def run ( self , * cmd ) : return None
+
+=== VS-2 async def git in state-write
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-51  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + state-write.py git async def git ( repo , * args ) : return None
+
+=== VS-2 default changed in suite-receipt (no default added)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-53  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + suite-receipt.py git def git ( repo , * args , check = False ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if r . returncode != 0 : raise SystemEx
+    - suite-receipt.py git def git ( repo , * args ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_outpu
+
+=== VS-2 signature reordered in impact git_lines
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-55  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + impact.py git_lines def git_lines ( repo , args ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return None return r . stdout . splitlines ( ) if r . returncode == 0 else None
+    - impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return No
+
+=== VS-2 two decorators added to next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-57  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + next-action.py run @ staticmethod @ ( lambda f : f ) def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , text = True , timeout = 120 ) except ( OSError ,
+    - next-action.py run def run ( repo , * cmd ) : try : r = subprocess . run ( cmd , cwd = repo , capture_output = True , te
+
+=== VS-2 return annotation added
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-59  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + state-write.py git def git ( repo , * args , check = True ) -> None : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if check and r . returncode != 0 :
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+
+=== VS-2 wrapper name rebound by assignment to a lambda that pushes
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-61  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + state-write.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0'])
+  pushes
+    + state-write.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0'])
+
+=== VS-2 wrapper rebound to a pure function (harmless, no process site)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-63  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-2 wrapper name decorated def of another module-level func
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-65  exit 0 tree-unchanged true
+changed keys: wrapperValues
+  wrapperValues
+    + state-write.py _z git
+
+=== VS-2 def git added in janitor (no wrapper entry) that wraps subprocess
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-67  exit 0 tree-unchanged true
+changed keys: direct, opaque
+  direct
+    + janitor.py git subprocess.run(['git', '-C', repo, *a])
+  opaque
+    + janitor.py git verb subprocess.run(['git', '-C', repo, *a])
+
+=== VS-2 t-string/f-string nested quotes body edit
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-69  exit 0 tree-unchanged true
+changed keys: wrapperBodies
+  wrapperBodies
+    + suite-receipt.py git def git ( repo , * args ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if r . returncode != 0 : raise SystemExit ( json . dump
+    - suite-receipt.py git def git ( repo , * args ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_outpu
+
+=== VS-3 comments and blanks in all five bodies
+changed keys: <none>
+
+=== VS-3b two-space indent and trailing spaces: <none>
+
+=== VS-4 local list spread into git
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-75  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant *extra
+  opaque
+    + state-write.py _mutant verb git(repo, *extra)
+
+=== VS-4 tuple built in a variable then spread
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-77  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant *extra
+  opaque
+    + state-write.py _mutant verb git(repo, *extra, check=False)
+
+=== VS-4 parameter api path
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-79  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + next-action.py gh value _mutant path
+  opaque
+    + next-action.py _mutant path run(repo, 'gh', 'api', path)
+
+=== VS-4 f-string api path with constant prefix pulls
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-81  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+    + next-action.py gh value _mutant f'repos/o/r/pulls/{n}'
+  forge
+    + next-action.py _mutant gh api repos/o/r/pulls/
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', f'repos/o/r/pulls/{n}') -- path holds pulls
+
+=== VS-4 variable verb passed to git
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-83  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant v
+  opaque
+    + state-write.py _mutant verb git(repo, v, 'origin')
+
+=== VS-4 verb with a variable suffix
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-85  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant 'pus' + v
+  opaque
+    + state-write.py _mutant verb git(repo, 'pus' + v, 'origin')
+
+=== VS-4 verb as ternary
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-87  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant 'push' if v else 'fetch'
+  opaque
+    + state-write.py _mutant verb git(repo, 'push' if v else 'fetch', 'origin')
+
+=== VS-4 verb from a call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-89  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant v.lower()
+  opaque
+    + state-write.py _mutant verb git(repo, v.lower())
+
+=== VS-4 verb from subscript
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-91  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant v[0]
+  opaque
+    + state-write.py _mutant verb git(repo, v[0])
+
+=== VS-4 option from a variable before the verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-93  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant o
+  opaque
+    + state-write.py _mutant verb git(repo, o, 'diff')
+
+=== VS-4 program from a variable via next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-95  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + next-action.py  value _mutant prog
+  opaque
+    + next-action.py _mutant program run(repo, prog, 'push')
+
+=== VS-4 program from a variable via impact run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-97  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + impact.py  value _mutant prog
+  opaque
+    + impact.py _mutant program run([prog, 'push'], '.')
+
+=== VS-4 argv from a variable via impact run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-99  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + impact.py  value _mutant argv
+  opaque
+    + impact.py _mutant program run(argv, '.')
+
+=== VS-4 rebind git to g
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-101  exit 0 tree-unchanged true
+changed keys: wrapperValues
+  wrapperValues
+    + state-write.py _mutant git
+
+=== VS-4 wrapper in a list
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-103  exit 0 tree-unchanged true
+changed keys: wrapperValues
+  wrapperValues
+    + state-write.py _mutant git
+
+=== VS-4 wrapper passed to map
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-105  exit 0 tree-unchanged true
+changed keys: wrapperValues
+  wrapperValues
+    + state-write.py _mutant git
+
+=== VS-4 wrapper as default parameter
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-107  exit 0 tree-unchanged true
+changed keys: wrapperValues
+  wrapperValues
+    + state-write.py _m git
+
+=== VS-4 first argument unpacked into git
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-109  exit 0 tree-unchanged true
+changed keys: wrapperVerbs
+  wrapperVerbs
+    + state-write.py git 
+
+=== VS-4 unpacked list literal incl. repo into git
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-111  exit 0 tree-unchanged true
+changed keys: wrapperVerbs
+  wrapperVerbs
+    + state-write.py git 
+
+=== VS-4 unpacked first arg into next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-113  exit 0 tree-unchanged true
+changed keys: opaque
+  opaque
+    + next-action.py _mutant empty run(*a)
+
+=== VS-4 keyword-passed argv to impact run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-115  exit 0 tree-unchanged true
+changed keys: opaque
+  opaque
+    + impact.py _mutant empty run(args=['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0'], cwd='.')
+
+=== VS-4 keyword-passed args to impact git_lines
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-117  exit 0 tree-unchanged true
+changed keys: wrapperVerbs
+  wrapperVerbs
+    + impact.py git 
+
+=== VS-4 wrapper reached by getattr on sys.modules (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-119  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-4 wrapper name through globals()
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-121  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + state-write.py _mutant globals()['git'](repo, 'fetch')
+    + state-write.py _mutant reflect globals()
+
+=== VS-4 bytes verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-123  exit 0 tree-unchanged true
+changed keys: wrapperVerbs
+  wrapperVerbs
+    + state-write.py git b'push'
+
+=== VS-4 non-str constants as verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-125  exit 0 tree-unchanged true
+changed keys: wrapperVerbs
+  wrapperVerbs
+    + state-write.py git 1
+
+=== VS-5 single quotes
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-127  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, 'push', 'origin', b)
+
+=== VS-5 implicit concat
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-129  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, 'push', 'origin', b)
+
+=== VS-5 plus concat three parts
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-131  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, 'p' + 'u' + 'sh', 'origin', b)
+
+=== VS-5 triple quoted
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-133  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, 'push', 'origin', b)
+
+=== VS-5 verb split over lines in call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-135  exit 0 tree-unchanged true
+changed keys: imports, direct, wrapperBodies, wrapperVerbs, pushes, opaque
+  imports
+    - state-write.py import os
+    - state-write.py import subprocess
+  direct
+    - state-write.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True)
+  wrapperBodies
+    - state-write.py git def git ( repo , * args , check = True ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , 
+  wrapperVerbs
+    - state-write.py git add
+    - state-write.py git branch
+  pushes
+    - state-write.py advance_run_branch git(repo, 'push', '-q', 'origin', run, check=False)
+    - state-write.py ensure_milestone_branch git(repo, 'push', '-q', '-u', 'origin', want, check=False)
+  opaque
+    + skills/sdlc/state-write.py parse SyntaxError
+
+=== VS-5 -C before verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-137  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, '-C', '/tmp/x', 'push', 'origin', b)
+
+=== VS-5 --no-pager before verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-139  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, '--no-pager', 'push', 'origin', b)
+
+=== VS-5 --bare before verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-141  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, '--bare', 'push', 'origin', b)
+
+=== VS-5 -c before verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-143  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  opaque
+    + state-write.py _mutant option git(repo, '-c', 'push.default=current', 'push', 'origin', b)
+
+=== VS-5 --git-dir before verb
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-145  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  opaque
+    + state-write.py _mutant option git(repo, '--git-dir=/x', 'push', 'origin', b)
+
+=== VS-5 -C stuck to value
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-147  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + state-write.py git value _mutant b
+  opaque
+    + state-write.py _mutant option git(repo, '-C/tmp/x', 'push', 'origin', b)
+
+=== VS-5 in suite-receipt git wrapper
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-149  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + suite-receipt.py git push
+    + suite-receipt.py git value _mutant b
+  pushes
+    + suite-receipt.py _mutant git(repo, 'push', 'origin', b)
+
+=== VS-5 in impact git_lines
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-151  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + impact.py git push
+    + impact.py git value _mutant b
+  pushes
+    + impact.py _mutant git_lines(['push', 'origin', b], '.')
+
+=== VS-5 in impact run list literal
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-153  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + impact.py git push
+    + impact.py git value _mutant b
+  pushes
+    + impact.py _mutant run(['git', 'push', 'origin', b], '.')
+
+=== VS-5 in next-action run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-155  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + next-action.py git push
+    + next-action.py git value _mutant b
+  pushes
+    + next-action.py _mutant run(repo, 'git', 'push', 'origin', b)
+
+=== VS-5 absolute git program path
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-157  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + next-action.py git push
+    + next-action.py git value _mutant b
+  pushes
+    + next-action.py _mutant run(repo, '/usr/bin/git', 'push', 'origin', b)
+
+=== VS-5 direct subprocess.run list
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-159  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant subprocess.run(['git', 'push', 'origin', b])
+  pushes
+    + janitor.py _mutant subprocess.run(['git', 'push', 'origin', b])
+
+=== VS-5 direct subprocess tuple argv
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-161  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant subprocess.run(('git', 'push', 'origin', b))
+  pushes
+    + janitor.py _mutant subprocess.run(('git', 'push', 'origin', b))
+
+=== VS-5 direct subprocess.Popen
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-163  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant subprocess.Popen(['git', 'push', 'origin', b])
+  pushes
+    + janitor.py _mutant subprocess.Popen(['git', 'push', 'origin', b])
+
+=== VS-5 direct check_call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-165  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant subprocess.check_call(['git', 'push', 'origin', b])
+  pushes
+    + janitor.py _mutant subprocess.check_call(['git', 'push', 'origin', b])
+
+=== VS-5 direct check_output args kw
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-167  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant subprocess.check_output(args=['git', 'push', 'origin', b])
+  pushes
+    + janitor.py _mutant subprocess.check_output(args=['git', 'push', 'origin', b])
+
+=== VS-5 direct string with shell True
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-169  exit 0 tree-unchanged true
+changed keys: direct, pushes, opaque
+  direct
+    + janitor.py _mutant subprocess.run('git push origin ' + b, shell=True)
+  pushes
+    + janitor.py _mutant subprocess.run('git push origin ' + b, shell=True)
+  opaque
+    + janitor.py _mutant shell subprocess.run('git push origin ' + b, shell=True)
+
+=== VS-5 direct string with shell True constant
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-171  exit 0 tree-unchanged true
+changed keys: direct, pushes, opaque
+  direct
+    + janitor.py _mutant subprocess.run('git push origin x', shell=True)
+  pushes
+    + janitor.py _mutant subprocess.run('git push origin x', shell=True)
+  opaque
+    + janitor.py _mutant shell subprocess.run('git push origin x', shell=True)
+
+=== VS-5 shell kw variable
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-173  exit 0 tree-unchanged true
+changed keys: direct, pushes, opaque
+  direct
+    + janitor.py _mutant subprocess.run(['git', 'push'], shell=b)
+  pushes
+    + janitor.py _mutant subprocess.run(['git', 'push'], shell=b)
+  opaque
+    + janitor.py _mutant shell subprocess.run(['git', 'push'], shell=b)
+
+=== VS-5 os.system constant
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-175  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant os.system('git push origin x')
+  pushes
+    + janitor.py _mutant os.system('git push origin x')
+
+=== VS-5 os.popen
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-177  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant os.popen('git push origin ' + b)
+  pushes
+    + janitor.py _mutant os.popen('git push origin ' + b)
+
+=== VS-5 os.execvp
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-179  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant os.execvp('git', ['git', 'push', 'origin', b])
+
+=== VS-5 os.spawnlp
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-181  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant os.spawnlp(os.P_WAIT, 'git', 'git', 'push', 'origin', b)
+
+=== VS-5 non-list argv
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-183  exit 0 tree-unchanged true
+changed keys: direct, opaque
+  direct
+    + janitor.py _mutant subprocess.run(argv)
+  opaque
+    + janitor.py _mutant argv subprocess.run(argv)
+
+=== VS-5 argv list comprehension
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-185  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant subprocess.run([x for x in ['git', 'push']])
+
+=== VS-5 argv via list() call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-187  exit 0 tree-unchanged true
+changed keys: direct, opaque
+  direct
+    + janitor.py _mutant subprocess.run(list(('git', 'push')))
+  opaque
+    + janitor.py _mutant argv subprocess.run(list(('git', 'push')))
+
+=== VS-5 argv star-unpack of a name
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-189  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant subprocess.run([*a])
+
+=== VS-5 send-pack verb (a new verb)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-191  exit 0 tree-unchanged true
+changed keys: wrapperVerbs
+  wrapperVerbs
+    + state-write.py git send-pack
+    + state-write.py git value _mutant b
+
+=== VS-5 edit a reviewed push to use a verify name
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-193  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git value ensure_milestone_branch want + 'x'
+  pushes
+    + state-write.py ensure_milestone_branch git(repo, 'push', '-q', '-u', 'origin', want + 'x', check=False)
+    - state-write.py ensure_milestone_branch git(repo, 'push', '-q', '-u', 'origin', want, check=False)
+
+=== VS-5 add --mirror to a reviewed push
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-195  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git push --mirror
+  pushes
+    + state-write.py advance_run_branch git(repo, 'push', '-q', '--mirror', 'origin', run, check=False)
+    - state-write.py advance_run_branch git(repo, 'push', '-q', 'origin', run, check=False)
+
+=== VS-5 reviewed push quote style change (must still be a pin hit? equal text)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-197  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-6 gh pr create
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-199  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh pr create
+  forge
+    + next-action.py _mutant gh pr create
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'pr', 'create', '--fill') -- verb pr create
+
+=== VS-6 gh pr create flags first
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-201  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh pr create
+  forge
+    + next-action.py _mutant gh pr create
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', '-R', 'o/r', 'pr', 'create') -- verb pr create
+
+=== VS-6 gh --repo= pr create
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-203  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh pr create
+  forge
+    + next-action.py _mutant gh pr create
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', '--repo=o/r', 'pr', 'create') -- verb pr create
+
+=== VS-6 glab mr create direct
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-205  exit 0 tree-unchanged true
+changed keys: direct, forge, forgeViolations
+  direct
+    + janitor.py _mutant subprocess.run(['glab', 'mr', 'create'])
+  forge
+    + janitor.py _mutant glab mr create
+  forgeViolations
+    + janitor.py _mutant subprocess.run(['glab', 'mr', 'create']) -- verb mr create
+
+=== VS-6 gh pr merge
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-207  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs
+    + next-action.py gh pr merge
+  forge
+    + next-action.py _mutant gh pr merge
+
+=== VS-6 gh pr edit
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-209  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs
+    + next-action.py gh pr edit
+  forge
+    + next-action.py _mutant gh pr edit
+
+=== VS-6 gh issue create
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-211  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs
+    + next-action.py gh issue create
+  forge
+    + next-action.py _mutant gh issue create
+
+=== VS-6 gh release create
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-213  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs
+    + next-action.py gh release create
+  forge
+    + next-action.py _mutant gh release create
+
+=== VS-6 gh api -X POST
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-215  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '-X', 'POST', 'repos/o/r/git/refs') -- method POST
+
+=== VS-6 gh api --method POST
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-217  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '--method', 'POST', 'repos/o/r/git/refs') -- method POST
+
+=== VS-6 gh api --method=DELETE
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-219  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs/heads/x
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '--method=DELETE', 'repos/o/r/git/refs/heads/x') -- method DELETE
+
+=== VS-6 gh api -XPOST stuck
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-221  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '-XPOST', 'repos/o/r/git/refs') -- method POST
+
+=== VS-6 gh api lowercase get allowed
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-223  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/rules/branches/x
+
+=== VS-6 gh api method not const
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-225  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+    + next-action.py gh value _mutant p
+  forge
+    + next-action.py _mutant gh api repos/o/r
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '-X', p, 'repos/o/r') -- method is not constant
+
+=== VS-6 gh api -f
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-227  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '-f', 'ref=x') -- field -f
+
+=== VS-6 gh api -F
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-229  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '-F', 'ref=x') -- field -F
+
+=== VS-6 gh api --field
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-231  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '--field', 'ref=x') -- field --field
+
+=== VS-6 gh api --field=
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-233  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '--field=ref=x') -- field --field
+
+=== VS-6 gh api --raw-field
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-235  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '--raw-field', 'ref=x') -- field --raw-field
+
+=== VS-6 gh api -fref stuck
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-237  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '-fref=x') -- field -f
+
+=== VS-6 gh api --input
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-239  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/git/refs
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/git/refs', '--input', 'x.json') -- field --input
+
+=== VS-6 gh api path pulls
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-241  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/pulls
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/pulls') -- path holds pulls
+
+=== VS-6 gh api path PULLS uppercase
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-243  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r/PULLS
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/PULLS') -- path holds pulls
+
+=== VS-6 gh api path with no prefix
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-245  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + next-action.py gh value _mutant p
+  opaque
+    + next-action.py _mutant path run(repo, 'gh', 'api', p)
+
+=== VS-6 gh api f-string path starting with var
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-247  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs
+    + next-action.py gh value _mutant f'{p}/pulls'
+  opaque
+    + next-action.py _mutant path run(repo, 'gh', 'api', f'{p}/pulls')
+
+=== VS-6 gh api graphql bare
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-249  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api graphql
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'graphql') -- path holds graphql
+
+=== VS-6 gh api graphql -f query
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-251  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api graphql
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'graphql', '-f', 'query=x') -- field -f
+    + next-action.py _mutant run(repo, 'gh', 'api', 'graphql', '-f', 'query=x') -- path holds graphql
+
+=== VS-6 gh api graphql GET
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-253  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api graphql
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '-X', 'GET', 'graphql') -- path holds graphql
+
+=== VS-6 gh api /graphql with leading slash
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-255  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api /graphql
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '/graphql') -- path holds graphql
+
+=== VS-6 gh api GRAPHQL upper
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-257  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api GraphQL
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'GraphQL') -- path holds graphql
+
+=== VS-6 gh api --paginate graphql
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-259  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api graphql
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', '--paginate', 'graphql') -- path holds graphql
+
+=== VS-6 gh api graphql after other positional
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-261  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh api
+  forge
+    + next-action.py _mutant gh api repos/o/r
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r', 'graphql') -- path holds graphql
+
+=== VS-6 glab api graphql
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-263  exit 0 tree-unchanged true
+changed keys: direct, forge, forgeViolations
+  direct
+    + janitor.py _mutant subprocess.run(['glab', 'api', 'graphql'])
+  forge
+    + janitor.py _mutant glab api graphql
+  forgeViolations
+    + janitor.py _mutant subprocess.run(['glab', 'api', 'graphql']) -- path holds graphql
+
+=== VS-6 glab api merge_requests POST
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-265  exit 0 tree-unchanged true
+changed keys: direct, forge, forgeViolations
+  direct
+    + janitor.py _mutant subprocess.run(['glab', 'api', '-X', 'POST', 'projects/1/merge_requests'])
+  forge
+    + janitor.py _mutant glab api projects/1/merge_requests
+  forgeViolations
+    + janitor.py _mutant subprocess.run(['glab', 'api', '-X', 'POST', 'projects/1/merge_requests']) -- method POST
+    + janitor.py _mutant subprocess.run(['glab', 'api', '-X', 'POST', 'projects/1/merge_requests']) -- path holds merge_requests
+
+=== VS-6 glab api merge_requests GET
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-267  exit 0 tree-unchanged true
+changed keys: direct, forge, forgeViolations
+  direct
+    + janitor.py _mutant subprocess.run(['glab', 'api', 'projects/1/merge_requests'])
+  forge
+    + janitor.py _mutant glab api projects/1/merge_requests
+  forgeViolations
+    + janitor.py _mutant subprocess.run(['glab', 'api', 'projects/1/merge_requests']) -- path holds merge_requests
+
+=== VS-6 gh with unknown leading option
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-269  exit 0 tree-unchanged true
+changed keys: opaque
+  opaque
+    + next-action.py _mutant option run(repo, 'gh', '--hostname', 'x', 'pr', 'create')
+
+=== VS-6 gh absolute path
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-271  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh pr create
+  forge
+    + next-action.py _mutant gh pr create
+  forgeViolations
+    + next-action.py _mutant run(repo, '/opt/homebrew/bin/gh', 'pr', 'create') -- verb pr create
+
+=== VS-6 gh pr create verb split into one token
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-273  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs
+    + next-action.py gh pr create
+  forge
+    + next-action.py _mutant gh pr create
+  forgeViolations
+    + next-action.py _mutant run(repo, 'gh', 'pr create') -- verb pr create
+
+=== VS-6 gh api issue comment POST via -X in lead position
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-275  exit 0 tree-unchanged true
+changed keys: opaque
+  opaque
+    + next-action.py _mutant option run(repo, 'gh', '-X', 'POST', 'api', 'repos/o/r/issues/1/comments')
+
+=== VS-6 curl to the forge
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-277  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant subprocess.run(['curl', '-X', 'POST', 'https://api.github.com/repos/o/r/pulls'])
+
+=== VS-6 git push --push-option merge_request.create (gitlab MR via push)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-279  exit 0 tree-unchanged true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs
+    + state-write.py git push -o
+    + state-write.py git value _mutant b
+  pushes
+    + state-write.py _mutant git(repo, 'push', '-o', 'merge_request.create', 'origin', b)
+
+=== VS-7 import alias bound in a later function
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-281  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant sp.run(['git', 'push'])
+  pushes
+    + janitor.py _mutant sp.run(['git', 'push'])
+
+=== VS-7 import inside try
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-283  exit 0 tree-unchanged true
+changed keys: direct, dynamic, pushes
+  direct
+    + janitor.py _m _s.run(['git', 'push', b])
+  dynamic
+    + janitor.py <module> value _s
+  pushes
+    + janitor.py _m _s.run(['git', 'push', b])
+
+=== VS-7 from-import of Popen as value
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-285  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant _P(['git', 'push', b])
+  pushes
+    + janitor.py _mutant _P(['git', 'push', b])
+
+=== VS-7 from os import system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-287  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant _sys('git push ' + b)
+  pushes
+    + janitor.py _mutant _sys('git push ' + b)
+
+=== VS-7 from os import execv
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-289  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant execv('/usr/bin/git', ['git', 'push', b])
+
+=== VS-7 from os import path then chain
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-291  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + branches.py _mutant _p.os.system('git push ' + b)
+  pushes
+    + branches.py _mutant _p.os.system('git push ' + b)
+
+=== VS-7 shutil.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-293  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant shutil.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant shutil.os.system('git push ' + b)
+
+=== VS-7 tempfile.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-295  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant tempfile.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant tempfile.os.system('git push ' + b)
+
+=== VS-7 glob.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-297  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant glob.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant glob.os.system('git push ' + b)
+
+=== VS-7 fnmatch.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-299  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant fnmatch.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant fnmatch.os.system('git push ' + b)
+
+=== VS-7 mimetypes.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-301  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant mimetypes.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant mimetypes.os.system('git push ' + b)
+
+=== VS-7 posixpath.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-303  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant posixpath.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant posixpath.os.system('git push ' + b)
+
+=== VS-7 branches.subprocess.run
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-305  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant branches.subprocess.run(['git', 'push', b])
+  pushes
+    + janitor.py _mutant branches.subprocess.run(['git', 'push', b])
+
+=== VS-7 hub.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-307  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant hub.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant hub.os.system('git push ' + b)
+
+=== VS-7 reports.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-309  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant reports.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant reports.os.system('git push ' + b)
+
+=== VS-7 workflow.os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-311  exit 0 tree-unchanged true
+changed keys: direct, pushes
+  direct
+    + janitor.py _mutant workflow.os.system('git push ' + b)
+  pushes
+    + janitor.py _mutant workflow.os.system('git push ' + b)
+
+=== VS-7 subprocess as dict value
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-313  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant value subprocess
+
+=== VS-7 subprocess in a tuple
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-315  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant value subprocess
+
+=== VS-7 subprocess passed as argument
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-317  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant value subprocess
+
+=== VS-7 os passed to vars
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-319  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant value os
+    + janitor.py _mutant vars(os)['system']('git push ' + b)
+
+=== VS-7 os.__dict__
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-321  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant private os.__dict__
+
+=== VS-7 getattr os
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-323  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant getattr(os, 'system')
+    + janitor.py _mutant value os
+
+=== VS-7 subprocess.run value in lambda
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-325  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant value subprocess.run
+
+=== VS-7 walrus os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-327  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant value os.system
+
+=== VS-7 default param os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-329  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _m value os.system
+
+=== VS-7 class base subprocess.Popen
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-331  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _P value subprocess.Popen
+
+=== VS-7 class attribute holds os.system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-333  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _C value os.system
+
+=== VS-7 socket.socket value
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-335  exit 0 tree-unchanged true
+changed keys: imports, network, dynamic
+  imports
+    + janitor.py import socket
+  network
+    + janitor.py import socket
+  dynamic
+    + janitor.py _mutant value socket.socket
+
+=== VS-7 urllib.request.urlopen call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-337  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import urllib.request
+  network
+    + janitor.py call _mutant urllib.request.urlopen('https://x/' + b)
+    + janitor.py import urllib.request
+
+=== VS-7 from urllib.request import urlopen
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-339  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import urllib.request
+  network
+    + janitor.py call _mutant urlopen('https://x/' + b)
+    + janitor.py import urllib.request
+
+=== VS-7 from urllib import request
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-341  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import urllib
+  network
+    + janitor.py call _mutant request.urlopen('https://x/' + b)
+    + janitor.py import urllib
+
+=== VS-7 http.client
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-343  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import http.client
+  network
+    + janitor.py call _mutant http.client.HTTPSConnection('x')
+    + janitor.py import http.client
+
+=== VS-7 smtplib
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-345  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import smtplib
+  network
+    + janitor.py call _mutant smtplib.SMTP('x')
+    + janitor.py import smtplib
+
+=== VS-7 webbrowser.open
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-347  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import webbrowser
+  network
+    + janitor.py call _mutant webbrowser.open('https://x/' + b)
+    + janitor.py import webbrowser
+
+=== VS-7 ssl
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-349  exit 0 tree-unchanged true
+changed keys: imports, network
+  imports
+    + janitor.py import ssl
+  network
+    + janitor.py call _mutant ssl.create_default_context()
+    + janitor.py import ssl
+
+=== VS-7 import _socket
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-351  exit 0 tree-unchanged true
+changed keys: imports, network, dynamic
+  imports
+    + janitor.py import _socket
+  network
+    + janitor.py call _mutant _socket.socket()
+  dynamic
+    + janitor.py import _socket
+
+=== VS-7 import _posixsubprocess
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-353  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import _posixsubprocess
+  dynamic
+    + janitor.py _mutant value _posixsubprocess.fork_exec
+    + janitor.py import _posixsubprocess
+
+=== VS-7 import posix
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-355  exit 0 tree-unchanged true
+changed keys: imports, direct, dynamic, pushes
+  imports
+    + janitor.py import posix
+  direct
+    + janitor.py _mutant posix.system('git push ' + b)
+  dynamic
+    + janitor.py import posix
+  pushes
+    + janitor.py _mutant posix.system('git push ' + b)
+
+=== VS-7 import nt
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-357  exit 0 tree-unchanged true
+changed keys: imports, direct, dynamic, pushes
+  imports
+    + janitor.py import nt
+  direct
+    + janitor.py _mutant nt.system('git push ' + b)
+  dynamic
+    + janitor.py import nt
+  pushes
+    + janitor.py _mutant nt.system('git push ' + b)
+
+=== VS-7 import runpy
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-359  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import runpy
+  dynamic
+    + janitor.py import runpy
+
+=== VS-7 import code
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-361  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import code
+  dynamic
+    + janitor.py import code
+
+=== VS-7 import codeop
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-363  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import codeop
+  dynamic
+    + janitor.py import codeop
+
+=== VS-7 from runpy import run_path
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-365  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import runpy
+  dynamic
+    + janitor.py import runpy
+
+=== VS-7 import _winapi
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-367  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import _winapi
+  dynamic
+    + janitor.py _mutant value _winapi.CreateProcess
+    + janitor.py import _winapi
+
+=== VS-7 os._exit style private attr
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-369  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant private os._exit
+
+=== VS-7 subprocess._USE_POSIX_SPAWN
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-371  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant private subprocess._USE_POSIX_SPAWN
+
+=== VS-7 json._default_decoder private
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-373  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant private json._default_decoder
+    + janitor.py _mutant value json._default_decoder
+
+=== VS-7 eval call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-375  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant eval('1')
+
+=== VS-7 exec call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-377  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant exec('import os')
+
+=== VS-7 compile call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-379  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant compile('1', 'x', 'eval')
+
+=== VS-7 __import__ call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-381  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant __import__('sub' + 'process')
+
+=== VS-7 breakpoint call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-383  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant breakpoint()
+
+=== VS-7 importlib.import_module
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-385  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import importlib
+  dynamic
+    + janitor.py _mutant importlib.import_module('sub' + 'process')
+    + janitor.py import importlib
+
+=== VS-7 importlib.util
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-387  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import importlib.util
+  dynamic
+    + janitor.py _mutant importlib.util.find_spec('x')
+    + janitor.py import importlib.util
+
+=== VS-7 from importlib import import_module
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-389  exit 0 tree-unchanged true
+changed keys: imports, dynamic
+  imports
+    + janitor.py import importlib
+  dynamic
+    + janitor.py _mutant import_module('x')
+    + janitor.py import importlib
+
+=== VS-7 globals() call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-391  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant reflect globals()
+
+=== VS-7 locals() call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-393  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant reflect locals()
+
+=== VS-7 vars() no arg
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-395  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant reflect vars()
+
+=== VS-7 __builtins__ ref
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-397  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant reflect __builtins__
+
+=== VS-7 __builtins__ attribute walk
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-399  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant reflect __builtins__
+
+=== VS-7 globals via name rebind
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-401  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py _mutant reflect globals
+
+=== VS-7 sys.modules subscript call chain (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-403  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-7 print.__self__ builtins walk (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-405  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-7 type walk subclasses (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-407  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-7 multiprocessing.Process
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-409  exit 0 tree-unchanged true
+changed keys: imports, direct, network
+  imports
+    + janitor.py import multiprocessing
+  direct
+    + janitor.py _mutant multiprocessing.Process(target=print)
+  network
+    + janitor.py import multiprocessing
+
+=== VS-7 ctypes.CDLL system
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-411  exit 0 tree-unchanged true
+changed keys: imports, direct, network
+  imports
+    + janitor.py import ctypes
+  direct
+    + janitor.py _mutant ctypes.CDLL(None)
+  network
+    + janitor.py import ctypes
+
+=== VS-7 pty.spawn
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-413  exit 0 tree-unchanged true
+changed keys: imports, direct, network, pushes
+  imports
+    + janitor.py import pty
+  direct
+    + janitor.py _mutant pty.spawn(['git', 'push'])
+  network
+    + janitor.py import pty
+  pushes
+    + janitor.py _mutant pty.spawn(['git', 'push'])
+
+=== VS-7 asyncio.create_subprocess_exec
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-415  exit 0 tree-unchanged true
+changed keys: imports, direct, network, pushes
+  imports
+    + janitor.py import asyncio
+  direct
+    + janitor.py _mutant asyncio.create_subprocess_exec('git', 'push')
+  network
+    + janitor.py import asyncio
+  pushes
+    + janitor.py _mutant asyncio.create_subprocess_exec('git', 'push')
+
+=== VS-7 os.posix_spawn
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-417  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant os.posix_spawn('/usr/bin/git', ['git', 'push'], {})
+
+=== VS-7 os.fork
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-419  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant os.fork()
+
+=== VS-7 os.forkpty
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-421  exit 0 tree-unchanged true
+changed keys: direct
+  direct
+    + janitor.py _mutant os.forkpty()
+
+=== VS-7 os.startfile
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-423  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-7 star import from subprocess
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-425  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py from subprocess import *
+
+=== VS-7 star import from os
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-427  exit 0 tree-unchanged true
+changed keys: dynamic
+  dynamic
+    + janitor.py from os import *
+
+=== VS-7 relative import of a watched name
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-429  exit 0 tree-unchanged true
+changed keys: imports
+  imports
+    + janitor.py import .
+
+=== VS-8 process code
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-431  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = process.env
+
+=== VS-8 process in string
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-433  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = "process"
+
+=== VS-8 process in template
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-435  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = `process`
+
+=== VS-8 process in comment
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-437  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process // process
+
+=== VS-8 escaped \u0070rocess
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-439  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = "process"
+
+=== VS-8 escaped \u{70}rocess
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-441  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = "process"
+
+=== VS-8 escaped upper hex \u0050
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-443  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-8 escaped require code
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-445  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 require const _a = require("fs")
+
+=== VS-8 escaped child_process string
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-447  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 child_process const _a = "child_process"
+
+=== VS-8 escaped \u{000070}
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-449  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = "process"
+
+=== VS-8 double-escaped \\u0070
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-451  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 process const _a = "\process"
+
+=== VS-8 require
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-453  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 require const _a = require("fs")
+
+=== VS-8 import()
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-455  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 import const _a = import("fs")
+
+=== VS-8 fetch
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-457  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 fetch fetch("https://x")
+
+=== VS-8 XMLHttpRequest
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-459  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 XMLHttpRequest new XMLHttpRequest()
+
+=== VS-8 WebSocket
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-461  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 WebSocket new WebSocket("wss://x")
+
+=== VS-8 EventSource
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-463  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 EventSource new EventSource("x")
+
+=== VS-8 globalThis
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-465  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 globalThis const _a = globalThis
+
+=== VS-8 global code
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-467  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 global const _a = global
+
+=== VS-8 global double-quoted
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-469  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 global const _a = "global"
+
+=== VS-8 global backtick
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-471  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 global const _a = `global`
+
+=== VS-8 fourth single-quoted global
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-473  exit 0 tree-unchanged true
+changed keys: jsAllowed
+  jsAllowed
+    + sdlc-loop.js const _a = 'global'
+
+=== VS-8 single-quoted global plus process same line
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-475  exit 0 tree-unchanged true
+changed keys: jsHits, jsAllowed
+  jsHits
+    + sdlc-loop.js:1338 process const _a = ['global', process]
+  jsAllowed
+    + sdlc-loop.js const _a = ['global', process]
+
+=== VS-8 eval
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-477  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 eval eval("1")
+
+=== VS-8 Function
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-479  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 Function Function("return 1")
+
+=== VS-8 Deno
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-481  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 Deno Deno.run
+
+=== VS-8 Bun
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-483  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 Bun Bun.spawn
+    + sdlc-loop.js:1338 spawn Bun.spawn
+
+=== VS-8 navigator
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-485  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 navigator navigator.sendBeacon
+
+=== VS-8 Worker
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-487  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 Worker new Worker("x")
+
+=== VS-8 exec
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-489  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 exec const _a = { exec: 1 }
+
+=== VS-8 execSync
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-491  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 execSync execSync("x")
+
+=== VS-8 execFile
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-493  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 execFile execFile("x")
+
+=== VS-8 execFileSync
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-495  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 execFileSync execFileSync("x")
+
+=== VS-8 spawn
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-497  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 spawn spawn("x")
+
+=== VS-8 spawnSync
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-499  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 spawnSync spawnSync("x")
+
+=== VS-8 fork
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-501  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 fork fork("x")
+
+=== VS-8 child_process
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-503  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 child_process const _a = "child_process"
+
+=== VS-8 process on a line with the allowed literal escaped
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-505  exit 0 tree-unchanged true
+changed keys: jsHits, jsAllowed
+  jsHits
+    + sdlc-loop.js:1338 process const _a = 'global'; process
+  jsAllowed
+    + sdlc-loop.js const _a = 'global'; process
+
+=== VS-8 unicode-escaped quote around global
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-507  exit 0 tree-unchanged true
+changed keys: jsAllowed
+  jsAllowed
+    + sdlc-loop.js const _a = 'global'
+
+=== VS-8 \x70rocess hex escape in string (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-509  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-8 octal escape string (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-511  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-8 string concat pro+cess (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-513  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-8 this walk (S3 seed)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-515  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-8 SharedWorker / importScripts / WebTransport (outside list)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-517  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== VS-8 module.require / Module._load
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-519  exit 0 tree-unchanged true
+changed keys: jsHits
+  jsHits
+    + sdlc-loop.js:1338 require const _a = module.require
+
+=== VS-8 line comment containing banned id in the allowlist literal line
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-521  exit 0 tree-unchanged true
+changed keys: jsHits, jsAllowed
+  jsHits
+    + sdlc-loop.js:1338 fetch // 'global' fetch
+  jsAllowed
+    + sdlc-loop.js // 'global' fetch
+
+=== VS-8 decisionPanel allowed lines
+    run('decision-proposer', { ...q, angle }, { schema: PROPOSAL, phase: 'Escalate', label: `${q.sliceId || 'global'}:${angle}` })))).filter(Boolean)
+    log(`decision panel for ${q.sliceId || 'global'} got no proposals: ${q.question}`)
+  return run('decision-judge', { ...q, proposals }, { schema: DECISION, phase: 'Escalate', label: q.sliceId || 'global' })
+
+=== VS-9 unmutated
+exit 0
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.648375ms)
+ℹ pass 1
+ℹ fail 0
+
+=== VS-9 a branch reference added in verifyPhase (log line)
+exit 1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.838417ms)
+ℹ pass 0
+ℹ fail 1
+✖ failing tests:
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.838417ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+
+=== VS-9 branch passed to the toolsmith
+exit 1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.839ms)
+ℹ pass 0
+ℹ fail 1
+✖ failing tests:
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.839ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+
+=== VS-9 branch passed to the verifier lens
+exit 1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.896333ms)
+ℹ pass 0
+ℹ fail 1
+✖ failing tests:
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.896333ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+
+=== VS-9 verify branch name rebuilt by template in the toolsmith call (seed: name, not the builder)
+exit 0
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.688542ms)
+ℹ pass 1
+ℹ fail 0
+  seed probe: T-R-119d exit 0
+
+=== VS-9 branch builder in a new line inside verifyPhase
+exit 1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.849459ms)
+ℹ pass 0
+ℹ fail 1
+✖ failing tests:
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.849459ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+
+=== VS-9 alias of the builder made on the collector line (seed: test counts lines)
+exit 0
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.643541ms)
+ℹ pass 1
+ℹ fail 0
+  seed probe: T-R-119d exit 0
+
+=== seed S1 for-loop rebinds the variable pushed by a reviewed call
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-532  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== seed S1 duplicate of a reviewed push line (same text)
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-534  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== seed S5 python file under a nested fixtures directory
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-536  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== seed S5 python file under a nested test directory
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-538  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== seed S3 sys.modules call chain
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-540  exit 0 tree-unchanged true
+changed keys: <none>
+
+=== seed S3 print.__self__ builtins walk
+$ python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-hkiCtY/testkit-cli-UVXwp6/tree-542  exit 0 tree-unchanged true
+changed keys: <none>

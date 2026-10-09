@@ -1,0 +1,189 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "A push or forge write added inside a pinned wrapper body fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "contract"
+      ],
+      "notes": "Risk: a call inside one of the five bodies (state-write git, suite-receipt git, next-action run, impact run, impact git_lines) is not classified, so the body pin is the only guard. Try the forms of spec-fidelity r2 D-1 and cli r2 TC-cli-18 and TC-cli-20: -X POST, --method=PATCH, -f, --input, -c remote.origin.push, --no-pager, a verb or program that comes from a parameter. Every body edit must change wrapperBodies."
+    },
+    {
+      "id": "VS-2",
+      "title": "A changed wrapper definition (signature, default, decorator, duplicate, nested def or method) fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "contract"
+      ],
+      "notes": "Risk: a second identical def, a nested def with a push, a class method named like a wrapper, a decorator or a changed default escapes the body pin. wrapperBodies is sorted and not de-duplicated, so a duplicate def adds an entry. Try Python 3.11 and 3.12+ f-string and t-string tokens."
+    },
+    {
+      "id": "VS-3",
+      "title": "A comment or a blank line in a wrapper body keeps every pin",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "The pin must break on code only. Add comments and blank lines inside each of the five bodies, change the existing comment in impact git_lines, vary indent and trailing whitespace, and use a comment that contains a quote or a hash. Every key must equal the clean output."
+    },
+    {
+      "id": "VS-4",
+      "title": "Outside a wrapper body, a non-constant program, verb, option or api path is opaque, and no token counts as forwarded",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Risk: the forwarded-token logic is removed. A local list spread into git, a parameter api path, a variable verb passed to a wrapper and a rebind of a wrapper name must give an opaque entry or a wrapperValues entry. Data flow into a pinned site is seed S1."
+    },
+    {
+      "id": "VS-5",
+      "title": "A new git push of a branch outside the wrapper bodies fails the guard in every covered spelling",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Try quotes, split lines, implicit concatenation, a + of two constants, an option before the verb (-C, -c, five flag options, any other option opaque), a direct subprocess list-literal argv and shell=True. A push must change pushes, direct or opaque."
+    },
+    {
+      "id": "VS-6",
+      "title": "A pull-request creation or other forge write fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Try gh pr create, glab mr create, gh api with -X POST, --method, -f, -F, --field, --raw-field, --input, an api path with pulls or merge_requests, a path with no constant prefix, and every graphql form (ADR-368d bans graphql, with or without flags). A lowercase get method is allowed."
+    },
+    {
+      "id": "VS-7",
+      "title": "A process or network call reached by an alias, a value, an attribute chain, an import or dynamic code fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Try import aliases bound anywhere in a module, a watched module used as a value (rebind, default parameter, walrus, list element, base class), shutil.os.system, branches.subprocess.run, posix, nt, _posixsubprocess, _socket, imports of runpy and code, a private attribute of a module, eval, exec, compile, __import__, importlib, globals, locals and vars()."
+    },
+    {
+      "id": "VS-8",
+      "title": "The loop script gains no process or network access",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Try each banned identifier in sdlc-loop.js in code, in a string and as a \\uXXXX or \\u{...} escape. The only allowlist entry is the single-quoted 'global'. The three decisionPanel lines stay pinned. A constructor walk through this is seed S3."
+    },
+    {
+      "id": "VS-9",
+      "title": "The loop hands its verify branch builder only to the profile agent and the collector",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "Add a branch reference in verifyPhase and check that T-R-119d fails. The test reads sdlc-loop.js only."
+    },
+    {
+      "id": "VS-10",
+      "title": "A new script type, a symlink or a non-UTF-8 source in the scanned tree fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Add a .sh or .mjs file, a symlink to a file and to a directory, a Python file with a latin-1 coding line, invalid UTF-8 and a NUL byte under skills/sdlc and hooks. The scanned list of 13 files is exact. The test, fixtures and prompts directories are outside the scan (seed S5)."
+    },
+    {
+      "id": "VS-11",
+      "title": "A spec-required forge read changes only a pin and hits no ban",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "The only reviewed forge call is next-action.py load_prs gh pr list. A new gh or glab read with a constant verb or api path must change forge and nothing in forgeViolations. A read with a graphql path must hit the ban."
+    },
+    {
+      "id": "VS-12",
+      "title": "A verify branch stays local when a push-capable script runs against a real bare remote",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "Use module-loader with a bare remote. Create a verify branch and run the push-capable calls in state-write.py, janitor.py and the other scripts. Compare the remote refs before and after. A guard-flagged mutant may push; an unflagged one must not."
+    },
+    {
+      "id": "VS-13",
+      "title": "Each guard-miss mutant from every round changes a pin, and the clean tree shows no drift",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Replay the 95 attempt 1 rows, the 2 tree mutants and the 26 'S-005b r2' rows of T-R-119e. A mutant that leaves every key equal is a refutation. Run the scanner twice on the clean tree: the output must be byte-equal. Run it from a different cwd and with a symlinked root."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run push_guard.py and the push-capable scripts from a scratch cwd, record exit codes, stderr and the tree diff.",
+      "exists": true
+    },
+    {
+      "id": "module-loader",
+      "profile": "cli",
+      "purpose": "Load a script by path, call one function and record the bare remote refs before and after.",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Hostile values for argv, paths and format strings; decoy modules.",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Seeded generators that call the scanner functions through pycall.py.",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "A push form that the guard misses lets a verify branch reach the remote, but the slice adds only a test scanner and no product behavior.",
+  "notes": "Fresh plan for ladder step 4 (ADR-20261009-152830-decision-judge-S-005b-2d39): the scanner pins the five wrapper bodies in wrapperBodies and has no forwarded-token logic. The attempt-2 verification files are stale; this plan replaces them. Apply ADR-20261009-062930-decision-judge-S-005-388e (scope and refutation rule) and ADR-20261009-063408-decision-judge-S-005-368d (graphql ban). Seeds S1 to S5 are never refutations; record each in the report. The spec states no number, so limits is not tagged. The slice has no HTTP, async, data or UI boundary. Earlier rounds saw a safety classifier stop security sessions, so cli is tagged on every scenario that security covers. Keep earlier verification files as evidence."
+}

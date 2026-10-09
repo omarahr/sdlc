@@ -1,0 +1,695 @@
+### na-run-repo-list-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### na-run-repo-list-pr-create
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### im-git_lines-repo-list-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### im-run-cwd-list-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### sw-git-repo-starred-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### sw-git-repo-verb-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### sr-git-repo-starred-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### behavior na-run-repo-list-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### behavior next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/repo-19
+$ python3 -c 'import importlib.util, sys; sys.path.insert(0, "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/tree-15/skills/sdlc"); s = importlib.util.spec_from_file_location("m", "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/tree-15/skills/sdlc/next-action.py"); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); m._verify_sec(None, "sdlc/S-001-v0-security-0", None)'
+exit: 0 (146 ms)
+--- stdout
+
+--- stderr
+
+remote refs: refs/heads/sdlc/S-001-v0-security-0
+
+### behavior sw-git-repo-starred-push
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### behavior state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/repo-26
+$ python3 -c 'import importlib.util, sys; sys.path.insert(0, "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/tree-22/skills/sdlc"); s = importlib.util.spec_from_file_location("m", "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/tree-22/skills/sdlc/state-write.py"); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); m._verify_sec("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lARGVp/testkit-cli-d8AFfI/repo-26", "sdlc/S-001-v0-security-0", None)'
+exit: 0 (128 ms)
+--- stdout
+
+--- stderr
+
+remote refs: refs/heads/sdlc/S-001-v0-security-0
+
+### os.startfile
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 starred tuple verb
+breaches: ["pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 f-string verb
+breaches: ["pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 bytes decode verb
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec verb git(repo, b'push'.decode(), 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### VS-2 percent format verb
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec verb git(repo, '%s' % 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### VS-2 join verb
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec verb git(repo, ''.join(['pu', 'sh']), 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### VS-2 alias upper case
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '-c', 'Alias.p=push', 'p', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### VS-2 one string verb and refspec
+breaches: ["pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 tab inside option
+breaches: ["pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 no-break space inside option
+breaches: ["pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 --git-dir= before verb
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '--git-dir=.git', 'push')"]
+pushes: 3 forgeViolations: 0
+
+### VS-2 send-pack
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 subtree push
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 keyword repo and starred list
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 dict splat
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 direct tuple argv
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 direct args keyword
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 check_output
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 absolute git path
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-2 env launcher
+breaches: ["direct"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 sh -c
+breaches: ["direct"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-2 xargs stdin
+breaches: ["direct"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 -Xpost attached
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 2
+
+### VS-3 --method=PATCH
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 --raw-field=
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 -F attached
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 --input after path
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 pr Create upper case
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 pr new alias
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 pr merge
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 gh alias set
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 gh user alias
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 glab mr create
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 GraphQL upper case
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 method override header
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 -X after path
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 percent-encoded path
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-3 --hostname before verb
+breaches: ["opaque"]
+opaque: ["next-action.py _verify_sec option run(repo, 'gh', '--hostname', 'h', 'pr', 'create')"]
+pushes: 3 forgeViolations: 0
+
+### VS-3 absolute gh path
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 --repo= before verb
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 -R attached
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+pushes: 3 forgeViolations: 1
+
+### VS-3 double dash before path
+breaches: ["opaque"]
+opaque: ["next-action.py _verify_sec option run(repo, 'gh', 'api', '--', 'repos/o/r/pulls')"]
+pushes: 3 forgeViolations: 0
+
+### VS-3 workflow run
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 os alias
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 getoutput alias
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 os.execvpe
+breaches: ["direct"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 shutil.os.system
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 tempfile._os
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 tempfile.os.system
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 branches.subprocess.run
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 branches.os.system
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 globmod.os.system
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 glob.os.system
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 mimetypes.os.system
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 hub.subprocess.run
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 hub.socketserver.TCPServer
+breaches: ["network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 socketserver.socket
+breaches: ["network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 ThreadingHTTPServer call
+breaches: ["network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 urllib.request.Request POST
+breaches: ["network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 getattr with built name
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 operator.attrgetter
+breaches: ["imports","dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 webbrowser
+breaches: ["imports","network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 smtplib from import
+breaches: ["imports","network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 urlopen alias
+breaches: ["imports","network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 http client from import
+breaches: ["imports","network"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 platform.os.system
+breaches: ["imports","direct"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 os.forkpty
+breaches: ["direct"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 lambda default
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 decorator
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 metaclass keyword
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 with Popen
+breaches: ["direct","pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### VS-4 annotation default
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 match capture
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-4 second def of wrapper name
+breaches: ["opaque"]
+opaque: ["state-write.py run verb git(repo, *a)"]
+pushes: 3 forgeViolations: 0
+
+### VS-4 __builtins__ value
+breaches: ["dynamic"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 globalThis bracket
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 unicode escape name
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 dynamic import escaped
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 global double quote
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 global template
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 allowed literal reused
+breaches: ["jsAllowed"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 carriage return line
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### VS-5 line separator
+breaches: ["jsHits"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus double-dash
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '--', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus help-short
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '-h', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus help-long
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '--help', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus flag-eq
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '--format=x/{name}', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus negative-like
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '-1', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus single-dash
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '-', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus flag-name
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '--repo', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus equals-empty
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus cmd-subst
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus backticks
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus semicolon
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus pipe
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus ampersand
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus redirect
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus json-break
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus newline-json
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus git-option
+breaches: ["opaque"]
+opaque: ["state-write.py _verify_sec option git(repo, '--upload-pack=touch pwned', 'push', 'origin', b)"]
+pushes: 3 forgeViolations: 0
+
+### corpus git-revision
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus percent
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus python-format
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus glob
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus nbsp
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus em-space
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus ideographic
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus zwsp
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus zwnj
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus zwj
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus bom
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus line-sep
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus para-sep
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus ogham
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus narrow-nbsp
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus mongolian-vs
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### corpus nbsp-only
+breaches: ["pushes"]
+opaque: []
+pushes: 4 forgeViolations: 0
+
+### corpus trailing-nbsp
+breaches: ["wrapperVerbs"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### file hooks/x.sh
+breaches: ["extensions"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### file skills/sdlc/x.mjs
+breaches: ["extensions"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### file skills/sdlc/x.cjs
+breaches: ["extensions"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### file skills/sdlc/noext
+breaches: ["extensions"]
+opaque: []
+pushes: 3 forgeViolations: 0
+
+### latin-1 janitor.py
+breaches: ["imports","direct","opaque"]
+opaque: ["skills/sdlc/janitor.py parse encoding iso-8859-1"]
+pushes: 3 forgeViolations: 0
+
+### symlink skills/sdlc/tracker
+breaches: ["opaque"]
+opaque: ["skills/sdlc/link-tracker symlink"]
+pushes: 3 forgeViolations: 0
+
+### symlink skills/sdlc/branches.py
+breaches: ["files","imports","direct","opaque"]
+opaque: ["skills/sdlc/link-branches.py symlink"]
+pushes: 3 forgeViolations: 0
+
+### clean tree
+breaches: []
+opaque: []
+pushes: 3 forgeViolations: 0
+

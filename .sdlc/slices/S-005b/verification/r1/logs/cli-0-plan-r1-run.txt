@@ -1,0 +1,96 @@
+✔ verify cli TC-cli-1: D-1 m1 to m3 in the next-action run body change wrapperBodies (297.978125ms)
+✔ verify cli TC-cli-2: every TC-cli-18 and TC-cli-20 form in each of the five bodies changes wrapperBodies (7835.279875ms)
+✔ verify cli TC-cli-3: control-flow push forms inside a body change wrapperBodies (773.721625ms)
+✔ verify cli TC-cli-4: a push through a helper outside the body breaks a pin twice (203.298125ms)
+✔ verify cli TC-cli-5: a changed signature, default or decorator changes wrapperBodies (668.244166ms)
+✔ verify cli TC-cli-6: a duplicate, shadowing, nested, method or async wrapper def adds a wrapperBodies entry (491.550209ms)
+✔ verify cli TC-cli-7: a wrapper name bound by a lambda or an import alias breaks another pin (298.746792ms)
+✔ verify cli TC-cli-8: a comment, a blank line or a line continuation in a body keeps every key (857.857875ms)
+✔ verify cli TC-cli-9: wrapperBodies is equal on python 3.14, 3.12 and 3.9 (454.264833ms)
+✔ verify cli TC-cli-10: a token-equal re-quote changes the body text (observation) (94.948167ms)
+✔ verify cli TC-cli-11: outside a body, a non-constant program, verb, option or api path gives an opaque entry (1056.711167ms)
+✔ verify cli TC-cli-12: -C with a variable value before push still records the push (188.722917ms)
+✔ verify cli TC-cli-13: every covered git push spelling outside a body breaks a pin (1974.507584ms)
+✔ verify cli TC-cli-14: corpus spellings of the push verb break a pin or are not a push (4147.40025ms)
+✔ verify cli TC-cli-15: pull-request creation and forge writes give a forgeViolations or opaque entry (2069.411167ms)
+✔ verify cli TC-cli-16: a process or network call reached by an alias, a value or dynamic code breaks a pin (3165.236333ms)
+✔ verify cli TC-cli-20: the loop script gains no process or network access (2010.830292ms)
+✔ verify cli TC-cli-21: a new verify branch reference in verifyPhase fails T-R-119d (498.341459ms)
+✔ verify cli TC-cli-28: no phase of the loop other than verifyPhase builds a verify branch name (0.747791ms)
+✔ verify cli TC-cli-29: a new script type, a symlink or a non-UTF-8 source fails the guard (1576.757584ms)
+✔ verify cli TC-cli-30: a spec-required forge read outside a body changes only a pin and hits no ban (787.8105ms)
+✔ verify cli TC-cli-31: a verify branch stays local when the push-capable scripts run against a real remote (8123.51475ms)
+✖ verify cli TC-cli-32: a new option after a known wrapper verb, in any literal spelling, breaks a pin or is opaque (1671.458292ms)
+✔ verify cli TC-cli-35: a corpus whitespace or invisible character in front of a hidden option breaks a pin or does not push (5439.653709ms)
+✖ verify cli TC-cli-33: the hidden-option mutants m1 and m3 do not push a verify branch while the guard passes (3422.918208ms)
+✔ verify cli TC-cli-25: seed probe S1: a variable option after a known wrapper verb (re-run) (492.622167ms)
+✔ verify cli TC-cli-34: on the clean tree opaque is empty and no wrapperVerbs option can run a command (0.314125ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 25
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 49332.82125
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard-plan-r1.verify-cli.test.mjs:705:1
+✖ verify cli TC-cli-32: a new option after a known wrapper verb, in any literal spelling, breaks a pin or is opaque (1671.458292ms)
+  AssertionError [ERR_ASSERTION]: the guard output equals the pins for:
+  m1 f-string with a leading formatted value, state-write.py: no key
+  m2 .strip() of a constant option, state-write.py: no key
+  m3 str() of a constant option through next-action run: no key
+  local list spread after the verb, state-write.py: no key
+  option from format(), state-write.py: no key
+  option from a % format, state-write.py: no key
+  option from join, state-write.py: no key
+  + actual - expected
+  
+  + [
+  +   'm1 f-string with a leading formatted value, state-write.py: no key',
+  +   'm2 .strip() of a constant option, state-write.py: no key',
+  +   'm3 str() of a constant option through next-action run: no key',
+  +   'local list spread after the verb, state-write.py: no key',
+  +   'option from format(), state-write.py: no key',
+  +   'option from a % format, state-write.py: no key',
+  +   'option from join, state-write.py: no key'
+  + ]
+  - []
+  
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'm1 f-string with a leading formatted value, state-write.py: no key', 'm2 .strip() of a constant option, state-write.py: no key', 'm3 str() of a constant option through next-action run: no key', 'local list spread after the verb, state-write.py: no key', 'option from format(), state-write.py: no key', 'option from a % format, state-write.py: no key', 'option from join, state-write.py: no key' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard-plan-r1.verify-cli.test.mjs:761:1
+✖ verify cli TC-cli-33: the hidden-option mutants m1 and m3 do not push a verify branch while the guard passes (3422.918208ms)
+  AssertionError [ERR_ASSERTION]: m1 state-write.py f-string option: pushed sdlc/S-001-v0-http-api-0 with every key equal
+  m2 state-write.py .strip() option: pushed sdlc/S-001-v0-http-api-0 with every key equal
+  m3 next-action.py str() option: pushed sdlc/S-001-v0-http-api-0 with every key equal
+  local list spread after the verb, state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal
+  option from format(), state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal
+  option from join, state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal
+  + actual - expected
+  
+  + [
+  +   'm1 state-write.py f-string option: pushed sdlc/S-001-v0-http-api-0 with every key equal',
+  +   'm2 state-write.py .strip() option: pushed sdlc/S-001-v0-http-api-0 with every key equal',
+  +   'm3 next-action.py str() option: pushed sdlc/S-001-v0-http-api-0 with every key equal',
+  +   'local list spread after the verb, state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal',
+  +   'option from format(), state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal',
+  +   'option from join, state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal'
+  + ]
+  - []
+  
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'm1 state-write.py f-string option: pushed sdlc/S-001-v0-http-api-0 with every key equal', 'm2 state-write.py .strip() option: pushed sdlc/S-001-v0-http-api-0 with every key equal', 'm3 next-action.py str() option: pushed sdlc/S-001-v0-http-api-0 with every key equal', 'local list spread after the verb, state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal', 'option from format(), state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal', 'option from join, state-write.py: pushed sdlc/S-001-v0-http-api-0 with every key equal' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

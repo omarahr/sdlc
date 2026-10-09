@@ -1,0 +1,147 @@
+SA-01 local list spread into git	GUARD HIT wrapperVerbs,opaque
+SA-02 parameter verb into git	GUARD HIT wrapperVerbs,opaque
+SA-03 f-string verb into git	GUARD HIT wrapperVerbs,opaque
+SA-04 f-string verb with constant prefix	GUARD HIT wrapperVerbs,opaque
+SA-05 string plus parameter verb	GUARD HIT wrapperVerbs,opaque
+SA-06 verb from a method call	GUARD HIT wrapperVerbs,opaque
+SA-07 verb from an if expression	GUARD HIT wrapperVerbs,opaque
+SA-08 verb from a subscript	GUARD HIT wrapperVerbs,opaque
+SA-09 verb from percent format	GUARD HIT wrapperVerbs,opaque
+SA-10 starred map call	GUARD HIT wrapperVerbs,opaque
+SA-11 variable program in next-action run	GUARD HIT wrapperVerbs,opaque
+SA-12 variable program in suite-receipt git (starred repo)	GUARD HIT opaque
+SA-13 non-constant -X value for gh api	GUARD HIT wrapperVerbs,forge,forgeViolations
+SA-14 parameter api path	GUARD HIT wrapperVerbs,opaque
+SA-15 variable -c option before verb	GUARD HIT wrapperVerbs,opaque
+SA-16 variable -C value then constant push	GUARD HIT wrapperVerbs,pushes
+SA-17 impact run with variable argv	GUARD HIT wrapperVerbs,opaque
+SA-18 impact git_lines with variable argv	GUARD HIT wrapperVerbs,opaque
+SA-19 impact git_lines keyword args	GUARD HIT wrapperVerbs
+SA-20 impact git_lines keyword args reversed	GUARD HIT wrapperVerbs
+SA-21 impact run keyword args	GUARD HIT opaque
+SA-22 impact run kwargs spread	GUARD HIT opaque
+SA-23 impact git_lines kwargs spread	GUARD HIT wrapperVerbs
+SA-24 next-action run keyword cmd	GUARD HIT opaque
+SA-25 state-write git kwargs spread	GUARD HIT wrapperVerbs
+SA-26 rebind wrapper to a name	GUARD HIT wrapperValues
+SA-27 wrapper as default parameter	GUARD HIT wrapperValues
+SA-28 wrapper in a list element	GUARD HIT wrapperValues
+SA-29 wrapper in a class attribute	GUARD HIT wrapperValues
+SA-30 wrapper in a walrus	GUARD HIT wrapperValues
+SA-31 wrapper looked up with globals	GUARD HIT dynamic
+SA-32 wrapper through __call__	GUARD HIT wrapperValues
+SA-33 wrapper through lambda forwarder	GUARD HIT opaque
+SA-34 new def with wrapper name shadows (suite-receipt)	GUARD HIT wrapperBodies
+SA-35 bytes verb	GUARD HIT wrapperVerbs
+SA-36 program git.exe	GUARD HIT wrapperVerbs
+SA-37 program env git push	GUARD HIT wrapperVerbs
+SA-38 program absolute git path	GUARD HIT wrapperVerbs,pushes
+SA-39 program sh -c	GUARD HIT wrapperVerbs
+SA-40 git alias via -c	GUARD HIT wrapperVerbs,opaque
+SA-41 git exec-path option	GUARD HIT opaque
+SA-42 git long option glued to -C	GUARD HIT wrapperVerbs,opaque
+SA-43 glued -cvalue	GUARD HIT opaque
+SA-44 push with unicode fullwidth verb	GUARD HIT wrapperVerbs
+SA-45 push with trailing space	GUARD HIT wrapperVerbs,pushes
+SA-46 push by tuple star	GUARD HIT wrapperVerbs,pushes
+SA-47 pinned wrapper named as a parameter	GUARD HIT wrapperVerbs,pushes
+SA-48 send-pack verb	GUARD HIT wrapperVerbs
+SA-49 fetch with refspec to remote ref delete form	GUARD HIT wrapperVerbs
+SA-50 gh with leading repo option and pr create	GUARD HIT wrapperVerbs,forge,forgeViolations
+SB-01 import alias in a function	GUARD HIT direct,pushes
+SB-02 from-import alias of run	GUARD HIT direct,pushes
+SB-03 from-import os.system alias	GUARD HIT direct,pushes
+SB-04 shutil.os.system	GUARD HIT direct,pushes
+SB-05 glob.os.system	GUARD HIT direct,pushes
+SB-06 branches.subprocess.run	GUARD HIT direct,pushes
+SB-07 tempfile private os	GUARD HIT dynamic
+SB-08 posix.system	GUARD HIT imports,direct,dynamic,pushes
+SB-09 nt import	GUARD HIT imports,dynamic
+SB-10 _posixsubprocess	GUARD HIT imports,dynamic
+SB-11 _socket	GUARD HIT imports,network,dynamic
+SB-12 runpy	GUARD HIT imports,dynamic
+SB-13 code	GUARD HIT imports,dynamic
+SB-14 codeop	GUARD HIT imports,dynamic
+SB-15 _winapi	GUARD HIT imports,dynamic
+SB-16 module as value rebind	GUARD HIT dynamic
+SB-17 module as default parameter	GUARD HIT dynamic
+SB-18 module in walrus	GUARD HIT dynamic
+SB-19 module in list	GUARD HIT dynamic
+SB-20 subprocess as base class	GUARD HIT dynamic
+SB-21 process function as value	GUARD HIT dynamic
+SB-22 os.system as value	GUARD HIT dynamic
+SB-23 module in dict	GUARD HIT dynamic
+SB-24 module in lambda	GUARD HIT dynamic
+SB-25 module as decorator	GUARD HIT dynamic
+SB-26 module passed as argument	GUARD HIT dynamic
+SB-27 os.__dict__ lookup	GUARD HIT dynamic
+SB-28 vars(os) lookup	GUARD HIT dynamic
+SB-29 getattr on os	GUARD HIT dynamic
+SB-30 getattr with joined name	GUARD HIT dynamic
+SB-31 getattr aliased	GUARD HIT dynamic
+SB-32 eval	GUARD HIT dynamic
+SB-33 exec	GUARD HIT dynamic
+SB-34 compile	GUARD HIT dynamic
+SB-35 __import__	GUARD HIT dynamic
+SB-36 importlib	GUARD HIT imports,dynamic
+SB-37 globals	GUARD HIT dynamic
+SB-38 locals	GUARD HIT dynamic
+SB-39 vars no argument	GUARD HIT dynamic
+SB-40 __builtins__	GUARD HIT dynamic
+SB-41 eval alias	GUARD HIT dynamic
+SB-42 builtins module	GUARD HIT imports
+SB-43 breakpoint	GUARD HIT dynamic
+SB-44 urllib.request urlopen	GUARD HIT imports,network
+SB-45 from-import of a re-exported module under an alias	GUARD HIT direct,pushes
+SB-46 http.client	GUARD HIT imports,network
+SB-47 socket	GUARD HIT imports,network
+SB-48 ctypes	GUARD HIT imports,direct,network
+SB-49 os.popen	GUARD HIT direct,pushes
+SB-50 os.posix_spawnp	GUARD HIT direct
+SB-51 os.startfile	GUARD HIT direct
+SB-52 os.forkpty	GUARD HIT direct
+SB-53 pty.spawn	GUARD HIT imports,direct,network,pushes
+SB-54 asyncio subprocess	GUARD HIT imports,direct,network,pushes
+SB-55 subprocess shell True with variable	GUARD HIT direct,pushes,opaque
+SB-56 import star from os	GUARD HIT dynamic
+SB-57 rebound import name	GUARD HIT dynamic
+SB-58 import subprocess as os only (alias swap)	GUARD HIT imports,direct,pushes
+SB-59 sys._getframe	GUARD HIT dynamic
+SB-61 import branches as b then b.subprocess	GUARD HIT direct,pushes
+SB-62 re-exported module bound to a name	GUARD HIT dynamic
+SB-63 branches.os.system	GUARD HIT direct,pushes
+SB-64 hub.http.client	GUARD HIT network
+SB-65 urllib.request in hub	GUARD HIT network
+SB-60 module-level code runs at import	GUARD HIT direct,pushes
+SD-01 getattr on a re-exporting pure module reaches subprocess.run	NO PIN CHANGED
+SD-02 vars on a re-exporting pure module reaches subprocess.run	NO PIN CHANGED
+SD-03 getattr on shutil reaches os.system	NO PIN CHANGED
+SD-04 getattr with a variable name on a pure module	NO PIN CHANGED
+SD-05 object.__getattribute__ on a pure module	NO PIN CHANGED
+SD-06 getattr on a pure module reaches os.popen	NO PIN CHANGED
+SD-07 getattr on hub reaches the http package	NO PIN CHANGED
+SC-04 sys.modules lookup	NO PIN CHANGED
+SC-05 subclasses walk	NO PIN CHANGED
+SC-06 hub re-exported server class	NO PIN CHANGED
+SC-07 __loader__ globals walk	GUARD HIT dynamic
+SC-09 print.__self__ reaches the builtins module	NO PIN CHANGED
+SC-08 star import of branches then plain subprocess	GUARD HIT direct,pushes
+SEEDS-OPEN ["SC-04 sys.modules lookup","SC-05 subclasses walk","SC-06 hub re-exported server class","SC-09 print.__self__ reaches the builtins module"]
+marker	GUARD HIT direct
+behavior	NO PIN CHANGED
+behavior pins changed: [] pushed=true refsAdded=["refs/heads/sdlc/S-9-v1-security-0"]
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/cwd-265
+$ python3 -I /private/tmp/claude-502/-Users-omar-ragab-projects-sdlc/ee901699-6895-4bea-ac93-9d9d0d650602/scratchpad/sdlc-S-005b-v1-security-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/tree-262/skills/sdlc/janitor.py _verify_sec '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/repo-261","sdlc/S-9-v1-security-0","s"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/loadcall-264/result.json
+exit: 0 (167 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/cwd-265 (unchanged)
+--- call _verify_sec("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/repo-261", "sdlc/S-9-v1-security-0", "s") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/tree-262/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-V31805/testkit-cli-M7F1YR/remote-260
+refs before: <none>
+refs after: refs/heads/sdlc/S-9-v1-security-0
+refs added: refs/heads/sdlc/S-9-v1-security-0
+clean	NO PIN CHANGED

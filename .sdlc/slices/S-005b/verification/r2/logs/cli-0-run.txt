@@ -1,0 +1,108 @@
+✔ verify cli TC-cli-32: a new option after a known wrapper verb, in any spelling, breaks a pin or is opaque (re-run) (1665.736375ms)
+✔ verify cli TC-cli-33: the hidden-option mutants do not push a verify branch while the guard passes (re-run) (3300.16675ms)
+✔ verify cli TC-cli-34: on the clean tree opaque is empty and no wrapperVerbs entry can run a command (re-run) (0.40175ms)
+✔ verify cli TC-cli-35: a corpus whitespace or invisible character in front of a hidden option breaks a pin or does not push (re-run) (5016.649375ms)
+✖ verify cli TC-cli-36: an option after a known wrapper verb as a bytes constant breaks a pin or is opaque (489.385125ms)
+✖ verify cli TC-cli-37: the bytes option mutants do not push a verify branch while the guard passes (1481.400542ms)
+✔ verify cli TC-cli-38: other spellings of an option after a known wrapper verb break a pin or are opaque (972.813083ms)
+✔ verify cli TC-cli-25: seed probe S1: a variable option after a known wrapper verb (re-run) (468.281167ms)
+✔ verify cli TC-cli-101: a git option before the verb that can run a command or change the target is opaque (9372.110625ms)
+✔ verify cli TC-cli-105: the five allowed git flag options before the verb cannot run a command or push (1709.545333ms)
+✔ verify cli TC-cli-106: a bytes git option before the verb breaks a pin (284.410166ms)
+✔ verify cli TC-cli-102: an import alias bound anywhere in a module resolves to the watched module (1595.167166ms)
+✔ verify cli TC-cli-107: on the clean tree dynamic is empty, so no file has a rebound import name (0.125292ms)
+✔ verify cli TC-cli-103: a process call through a submodule attribute chain breaks a pin (2238.191334ms)
+✖ verify cli TC-cli-104: each guard-miss mutant from every round pushes a verify branch only when the guard flags it (5595.396916ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 12
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35009.520292
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:187:1
+✖ verify cli TC-cli-36: an option after a known wrapper verb as a bytes constant breaks a pin or is opaque (489.385125ms)
+  AssertionError [ERR_ASSERTION]: the guard output equals the pins for:
+  bytes --upload-pack after fetch, state-write.py: no key
+  bytes --upload-pack after fetch through next-action run: no key
+  bytes -u then a separate command after fetch, state-write.py: no key
+  + actual - expected
+  
+  + [
+  +   'bytes --upload-pack after fetch, state-write.py: no key',
+  +   'bytes --upload-pack after fetch through next-action run: no key',
+  +   'bytes -u then a separate command after fetch, state-write.py: no key'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:201:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'bytes --upload-pack after fetch, state-write.py: no key', 'bytes --upload-pack after fetch through next-action run: no key', 'bytes -u then a separate command after fetch, state-write.py: no key' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:204:1
+✖ verify cli TC-cli-37: the bytes option mutants do not push a verify branch while the guard passes (1481.400542ms)
+  AssertionError [ERR_ASSERTION]: bytes --upload-pack after fetch, state-write.py: pushed sdlc/S-001-v0-cli-0 with every key equal
+  bytes --upload-pack after fetch through next-action run: pushed sdlc/S-001-v0-cli-0 with every key equal
+  + actual - expected
+  
+  + [
+  +   'bytes --upload-pack after fetch, state-write.py: pushed sdlc/S-001-v0-cli-0 with every key equal',
+  +   'bytes --upload-pack after fetch through next-action run: pushed sdlc/S-001-v0-cli-0 with every key equal'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:215:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'bytes --upload-pack after fetch, state-write.py: pushed sdlc/S-001-v0-cli-0 with every key equal', 'bytes --upload-pack after fetch through next-action run: pushed sdlc/S-001-v0-cli-0 with every key equal' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:386:1
+✖ verify cli TC-cli-104: each guard-miss mutant from every round pushes a verify branch only when the guard flags it (5595.396916ms)
+  AssertionError [ERR_ASSERTION]: the guard passed these mutants, and each pushed sdlc/S-001-v0-cli-0 to the bare remote:
+  r2 TC-cli-37 bytes --upload-pack option, state-write.py
+  + actual - expected
+  
+  + [
+  +   'r2 TC-cli-37 bytes --upload-pack option, state-write.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:411:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'r2 TC-cli-37 bytes --upload-pack option, state-write.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,60 @@
+push_guard.py module surface at 39aa68f
+59:def is_process(q):
+75:def is_network(q):
+84:def canon(q):
+95:def harmless(last):
+99:def is_low(top):
+103:def watched(top):
+107:def token(text, const=True, prefix=None):
+111:def pieces(node):
+134:def value_nodes(nodes):
+144:def split_tokens(pcs):
+173:def fold(node):
+194:def source_slice(lines, start, end):
+201:def body_text(source_lines, node):
+226:class Scanner(ast.NodeVisitor):
+227:    def __init__(self, rel, tree, report, source_lines):
+242:    def func(self):
+245:    def where(self, node):
+248:    def add(self, key, value):
+251:    def bind_imports(self, tree):
+267:    def note_import(self, module):
+271:    def visit_Import(self, node):
+281:    def visit_ImportFrom(self, node):
+296:    def visit_FunctionDef(self, node):
+313:    def visit_ClassDef(self, node):
+318:    def qualify(self, node):
+326:    def resolve(self, node):
+333:    def in_wrapper(self):
+339:    def fold_node(self, node):
+348:    def fold_nodes(self, nodes):
+351:    def visit_Name(self, node):
+365:    def visit_Attribute(self, node):
+375:    def check_value(self, node):
+397:    def visit_Call(self, node):
+419:    def direct(self, node, q):
+446:    def wrapper_call(self, node, shape):
+464:    def opaque(self, node, why):
+467:    def classify(self, node, program, rest, wrapped):
+507:    def forge(self, node, prog, rest, wrapped):
+577:def unescape_js(text):
+578:    def char(m):
+584:def scan_js(rel, path, report):
+597:def walk(root):
+612:def main(argv):
+
+JSON output keys (clean scan):
+  files 17
+  imports 22
+  direct 11
+  network 9
+  dynamic 0
+  wrapperBodies 5
+  wrapperVerbs 91
+  pushes 3
+  forge 1
+  forgeViolations 0
+  opaque 0
+  wrapperValues 0
+  jsHits 0
+  jsAllowed 3

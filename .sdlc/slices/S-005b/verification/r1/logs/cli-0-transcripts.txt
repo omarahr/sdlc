@@ -1,0 +1,1085 @@
+push_guard.py verify-cli transcripts, root /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run
+
+=== TC-cli-13 double quotes
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-3
+exit: 0 (93 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 single quotes
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-5
+exit: 0 (91 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 split over lines
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-7
+exit: 0 (93 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 implicit concatenation
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-9
+exit: 0 (92 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 + of two constants
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-11
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (91 -> 92)
+    + suite-receipt.py git push
+  pushes (3 -> 4)
+    + suite-receipt.py _m git(repo, 'pu' + 'sh', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 -C option
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-13
+exit: 0 (90 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, '-C', '/tmp/x', 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 -c option
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-15
+exit: 0 (92 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _m option git(repo, '-c', 'push.default=current', 'push')
+
+=== TC-cli-13 refspec push
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-17
+exit: 0 (93 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'HEAD:refs/heads/sdlc/S-001-v0-x-0')
+
+=== TC-cli-13 --mirror
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-19
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (91 -> 92)
+    + state-write.py git push --mirror
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', '--mirror', 'origin')
+
+=== TC-cli-13 --all
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-21
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (91 -> 92)
+    + state-write.py git push --all
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', '--all', 'origin')
+
+=== TC-cli-13 direct subprocess site
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-23
+exit: 0 (95 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  pushes (3 -> 4)
+    + janitor.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+
+=== TC-cli-13 shell=True
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-25
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes, opaque
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run('git push origin sdlc/S-001-v0-http-api-0', shell=True)
+  pushes (3 -> 4)
+    + janitor.py _m subprocess.run('git push origin sdlc/S-001-v0-http-api-0', shell=True)
+  opaque (0 -> 1)
+    + janitor.py _m shell subprocess.run('git push origin sdlc/S-001-v0-http-api-0', shell=True)
+
+=== TC-cli-13 argv in a variable
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-27
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(cmd)
+  opaque (0 -> 1)
+    + janitor.py _m argv subprocess.run(cmd)
+
+=== TC-cli-13 tuple argv
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-29
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(('git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'))
+  pushes (3 -> 4)
+    + janitor.py _m subprocess.run(('git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'))
+
+=== TC-cli-13 next-action run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-31
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (91 -> 92)
+    + next-action.py git push
+  pushes (3 -> 4)
+    + next-action.py _m run(repo, 'git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 impact run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-33
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (91 -> 92)
+    + impact.py git push
+  pushes (3 -> 4)
+    + impact.py _m run(['git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'], repo)
+
+=== TC-cli-13 impact git_lines
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-35
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (91 -> 92)
+    + impact.py git push
+  pushes (3 -> 4)
+    + impact.py _m git_lines(['push', 'origin', 'sdlc/S-001-v0-http-api-0'], repo)
+
+=== TC-cli-13 --no-pager flag
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-37
+exit: 0 (94 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, '--no-pager', 'push')
+
+=== TC-cli-13 send-pack verb
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-39
+exit: 0 (90 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git send-pack
+
+=== TC-cli-13 collect.py direct site
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-41
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + tracker/collect.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  pushes (3 -> 4)
+    + tracker/collect.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+
+=== TC-cli-14 unicode-confusables cyrillic-s
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-43
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git ѕdlc/{name}
+
+=== TC-cli-14 unicode-confusables fullwidth-braces
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-45
+exit: 0 (89 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git sdlc/｛name｝
+
+=== TC-cli-14 unicode-confusables cyrillic-a
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-47
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git sdlc/{nаme}
+
+=== TC-cli-14 unicode-confusables fraction-slash
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-49
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git sdlc⁄{name}
+
+=== TC-cli-14 unicode-confusables division-slash
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-51
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git sdlc∕{name}
+
+=== TC-cli-14 unicode-confusables ligature
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-53
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git ﬁx/{name}
+
+=== TC-cli-14 unicode-confusables combining
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-55
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git sdlc/{name}́
+
+=== TC-cli-14 unicode-confusables rtl-override
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-57
+exit: 0 (94 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git sdlc/‮{name}
+
+=== TC-cli-14 unicode-confusables dotted-i
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-59
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git İ/{name}
+
+=== TC-cli-14 unicode-confusables kelvin
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-61
+exit: 0 (90 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git K/{name}
+
+=== TC-cli-14 unicode-confusables sharp-s
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-63
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git ß/{name}
+
+=== TC-cli-14 unicode-confusables kind-cyrillic
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-65
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git slіce
+
+=== TC-cli-14 unicode-confusables kind-upper
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-67
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git SLICE
+
+=== TC-cli-14 unicode-confusables mode-fullwidth
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-69
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git ｐｒ
+
+=== TC-cli-14 unicode-whitespace nbsp
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-71
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace em-space
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-73
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace ideographic
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-75
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace zwsp
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-77
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha​b
+
+=== TC-cli-14 unicode-whitespace zwnj
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-79
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha‌b
+
+=== TC-cli-14 unicode-whitespace zwj
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-81
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha‍b
+
+=== TC-cli-14 unicode-whitespace bom
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-83
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git push﻿a
+
+=== TC-cli-14 unicode-whitespace line-sep
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-85
+exit: 0 (97 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace para-sep
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-87
+exit: 0 (96 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace ogham
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-89
+exit: 0 (102 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace narrow-nbsp
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-91
+exit: 0 (100 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace mongolian-vs
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-93
+exit: 0 (96 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha᠎b
+
+=== TC-cli-14 unicode-whitespace nbsp-only
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-95
+exit: 0 (93 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push\xa0', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-14 unicode-whitespace trailing-nbsp
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-97
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pushslice
+
+=== TC-cli-14 control-chars tab
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-99
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars newline
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-101
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars cr
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-103
+exit: 0 (94 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars crlf
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-105
+exit: 0 (90 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars esc-ansi
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-107
+exit: 0 (94 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git push[31mred[0m
+
+=== TC-cli-14 control-chars bell
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-109
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pushab
+
+=== TC-cli-14 control-chars backspace
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-111
+exit: 0 (89 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pushabc
+
+=== TC-cli-14 control-chars del
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-113
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pushab
+
+=== TC-cli-14 control-chars soh
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-115
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pushx
+
+=== TC-cli-14 control-chars vt
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-117
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars ff
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-119
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars c1-nel
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-121
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars c1-csi
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-123
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git push31m
+
+=== TC-cli-14 control-chars trailing-newline
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-125
+exit: 0 (94 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git pushslice
+
+=== TC-cli-16 import alias before use
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-127
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + janitor.py _m sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-16 from import alias before use
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-129
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m P(['git', 'push'])
+  pushes (3 -> 4)
+    + janitor.py _m P(['git', 'push'])
+
+=== TC-cli-16 posix.system
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-131
+exit: 0 (91 ms) tree unchanged: true
+changed keys: imports, direct, dynamic, pushes
+  imports (22 -> 23)
+    + janitor.py import posix
+  direct (11 -> 12)
+    + janitor.py _m posix.system('git push')
+  dynamic (0 -> 1)
+    + janitor.py import posix
+  pushes (3 -> 4)
+    + janitor.py _m posix.system('git push')
+
+=== TC-cli-16 nt.system
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-133
+exit: 0 (93 ms) tree unchanged: true
+changed keys: imports, direct, dynamic, pushes
+  imports (22 -> 23)
+    + janitor.py import nt
+  direct (11 -> 12)
+    + janitor.py _m nt.system('git push')
+  dynamic (0 -> 1)
+    + janitor.py import nt
+  pushes (3 -> 4)
+    + janitor.py _m nt.system('git push')
+
+=== TC-cli-16 _posixsubprocess
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-135
+exit: 0 (91 ms) tree unchanged: true
+changed keys: imports, direct, dynamic
+  imports (22 -> 23)
+    + janitor.py import _posixsubprocess
+  direct (11 -> 12)
+    + janitor.py _m _posixsubprocess.fork_exec()
+  dynamic (0 -> 1)
+    + janitor.py import _posixsubprocess
+
+=== TC-cli-16 _winapi
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-137
+exit: 0 (92 ms) tree unchanged: true
+changed keys: imports, direct, dynamic
+  imports (22 -> 23)
+    + janitor.py import _winapi
+  direct (11 -> 12)
+    + janitor.py _m _winapi.CreateProcess()
+  dynamic (0 -> 1)
+    + janitor.py import _winapi
+
+=== TC-cli-16 _socket
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-139
+exit: 0 (92 ms) tree unchanged: true
+changed keys: imports, network, dynamic
+  imports (22 -> 23)
+    + janitor.py import _socket
+  network (9 -> 10)
+    + janitor.py call _m _socket.socket()
+  dynamic (0 -> 1)
+    + janitor.py import _socket
+
+=== TC-cli-16 _ssl
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-141
+exit: 0 (94 ms) tree unchanged: true
+changed keys: imports, network, dynamic
+  imports (22 -> 23)
+    + janitor.py import _ssl
+  network (9 -> 10)
+    + janitor.py call _m _ssl._SSLContext(2)
+  dynamic (0 -> 2)
+    + janitor.py _m private _ssl._SSLContext
+    + janitor.py import _ssl
+
+=== TC-cli-16 rebind
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-143
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value subprocess.run
+
+=== TC-cli-16 default parameter
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-145
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value subprocess.run
+
+=== TC-cli-16 walrus
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-147
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value os.system
+
+=== TC-cli-16 list element
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-149
+exit: 0 (94 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value os.popen
+
+=== TC-cli-16 subclass base
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-151
+exit: 0 (88 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _P value subprocess.Popen
+
+=== TC-cli-16 eval
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-153
+exit: 0 (94 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m eval('1')
+
+=== TC-cli-16 exec
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-155
+exit: 0 (93 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m exec('x = 1')
+
+=== TC-cli-16 compile
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-157
+exit: 0 (94 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m compile('1', 'f', 'eval')
+
+=== TC-cli-16 __import__
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-159
+exit: 0 (94 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m __import__('subprocess')
+
+=== TC-cli-16 breakpoint
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-161
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m breakpoint()
+
+=== TC-cli-16 importlib
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-163
+exit: 0 (90 ms) tree unchanged: true
+changed keys: imports, dynamic
+  imports (22 -> 23)
+    + janitor.py import importlib
+  dynamic (0 -> 2)
+    + janitor.py _m importlib.import_module('subprocess')
+    + janitor.py import importlib
+
+=== TC-cli-16 globals
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-165
+exit: 0 (93 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect globals()
+
+=== TC-cli-16 locals
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-167
+exit: 0 (93 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect locals()
+
+=== TC-cli-16 __builtins__
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-169
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect __builtins__
+
+=== TC-cli-16 vars()
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-171
+exit: 0 (93 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect vars()
+
+=== TC-cli-16 private attribute
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-173
+exit: 0 (90 ms) tree unchanged: true
+changed keys: direct, dynamic
+  direct (11 -> 12)
+    + janitor.py _m subprocess._args_from_interpreter_flags()
+  dynamic (0 -> 1)
+    + janitor.py _m private subprocess._args_from_interpreter_flags
+
+=== TC-cli-16 shutil.os.system
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-175
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m shutil.os.system('git push')
+  pushes (3 -> 4)
+    + janitor.py _m shutil.os.system('git push')
+
+=== TC-cli-16 branches.subprocess.run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-177
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m branches.subprocess.run(['git', 'push'])
+  pushes (3 -> 4)
+    + janitor.py _m branches.subprocess.run(['git', 'push'])
+
+=== TC-cli-16 new import outside the pure list
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-179
+exit: 0 (94 ms) tree unchanged: true
+changed keys: imports
+  imports (22 -> 23)
+    + janitor.py import pydoc
+
+=== TC-cli-16 asyncio subprocess
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-181
+exit: 0 (93 ms) tree unchanged: true
+changed keys: imports, direct, network, pushes
+  imports (22 -> 23)
+    + janitor.py import asyncio
+  direct (11 -> 12)
+    + janitor.py _m asyncio.create_subprocess_exec('git', 'push')
+  network (9 -> 10)
+    + janitor.py import asyncio
+  pushes (3 -> 4)
+    + janitor.py _m asyncio.create_subprocess_exec('git', 'push')
+
+=== TC-cli-16 os.posix_spawnp
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-183
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct
+  direct (11 -> 12)
+    + janitor.py _m os.posix_spawnp('git', ['git', 'push'], {})
+
+=== TC-cli-16 os.execvp
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-185
+exit: 0 (90 ms) tree unchanged: true
+changed keys: direct
+  direct (11 -> 12)
+    + janitor.py _m os.execvp('git', ['git', 'push'])
+
+=== TC-cli-16 pty.spawn
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-187
+exit: 0 (93 ms) tree unchanged: true
+changed keys: imports, direct, network, pushes
+  imports (22 -> 23)
+    + janitor.py import pty
+  direct (11 -> 12)
+    + janitor.py _m pty.spawn(['git', 'push'])
+  network (9 -> 10)
+    + janitor.py import pty
+  pushes (3 -> 4)
+    + janitor.py _m pty.spawn(['git', 'push'])
+
+=== TC-cli-16 urllib.request.urlopen in collect.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-189
+exit: 0 (92 ms) tree unchanged: true
+changed keys: network
+  network (9 -> 11)
+    + tracker/collect.py call _m urllib.request.Request('https://api.github.com/repos/o/r/pulls', data=b'{}')
+    + tracker/collect.py call _m urllib.request.urlopen(urllib.request.Request('https://api.github.com/repos/o/r/pulls', data=b'{}'))
+
+=== TC-cli-17 import subprocess as sp after a function that calls sp.run, janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-191
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-17 from subprocess import run as _r after its use, state-write.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-193
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + state-write.py _mutant _r(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + state-write.py _mutant _r(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-17 import os as _o after its use, branches.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-195
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant _o.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant _o.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-18 -c core.fsmonitor push before diff in state-write.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-197
+exit: 0 (93 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-c', 'core.fsmonitor=git push -q origin ' + 'sdlc/S-001-v0-http-api-0' + '; echo', 'diff', check=False)
+
+=== TC-cli-18 -c core.fsmonitor push before diff, one constant, state-write.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-199
+exit: 0 (93 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'diff', check=False)
+
+=== TC-cli-18 -c core.fsmonitor push before rev-parse in suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-201
+exit: 0 (93 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'rev-parse', 'HEAD')
+
+=== TC-cli-18 -c core.fsmonitor at a direct site in janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-203
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'diff'])
+
+=== TC-cli-18 -c core.fsmonitor with $IFS in place of spaces before diff in state-write.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-205
+exit: 0 (91 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-c', 'core.fsmonitor=git${IFS}push${IFS}-q${IFS}origin${IFS}sdlc/S-001-v0-http-api-0;echo', 'diff', check=False)
+
+=== TC-cli-18 -c core.fsmonitor with $IFS before rev-parse in suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-207
+exit: 0 (89 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '-c', 'core.fsmonitor=git${IFS}push${IFS}-q${IFS}origin${IFS}sdlc/S-001-v0-http-api-0;echo', 'rev-parse', 'HEAD')
+
+=== TC-cli-19 TC-cli-17 janitor.py
+guard changed keys: direct, pushes
+remote refs before: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-213
+$ /opt/homebrew/bin/python3 -c $'import importlib.util, sys\nsys.path.insert(0, \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-209/skills/sdlc\")\nspec = importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-209/skills/sdlc/janitor.py\")\nm = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nm._mutant(\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/repo-212\", \"sdlc/S-001-v0-http-api-0\")\n'
+exit: 0 (150 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-213 (unchanged)
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+
+=== TC-cli-19 TC-cli-18 state-write.py with $IFS
+guard changed keys: opaque
+remote refs before: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-218
+$ /opt/homebrew/bin/python3 -c $'import importlib.util, sys\nsys.path.insert(0, \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-214/skills/sdlc\")\nspec = importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-214/skills/sdlc/state-write.py\")\nm = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nm._mutant(\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/repo-217\", \"sdlc/S-001-v0-http-api-0\")\n'
+exit: 0 (168 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-218 (unchanged)
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+
+=== TC-cli-22 from os import system as _s after its use, branches.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-219
+exit: 0 (88 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant _s('git push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant _s('git push origin ' + b)
+
+=== TC-cli-22 global import inside another function, janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-221
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-22 import in a try block after its use, state-write.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-223
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + state-write.py _mutant _p(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + state-write.py <module> value _p
+  pushes (3 -> 4)
+    + state-write.py _mutant _p(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-22 one name bound to json and to subprocess, janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-225
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + janitor.py rebound import sp json subprocess
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-22 import os.path as osp then osp.os.system, branches.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-227
+exit: 0 (90 ms) tree unchanged: true
+changed keys: imports, direct, pushes
+  imports (22 -> 23)
+    + branches.py import os.path
+  direct (11 -> 12)
+    + branches.py _mutant osp.os.system('git push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant osp.os.system('git push origin ' + b)
+
+=== TC-cli-22 from os import path as _p then _p.os.system, branches.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-229
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant _p.os.system('git push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant _p.os.system('git push origin ' + b)
+
+=== TC-cli-22 os.path.os.system chain, janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-231
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant os.path.os.system('git push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant os.path.os.system('git push origin ' + b)
+
+=== TC-cli-22 urllib.request.os.system chain, collect.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-233
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + tracker/collect.py _mutant urllib.request.os.system('git push origin ' + b)
+  pushes (3 -> 4)
+    + tracker/collect.py _mutant urllib.request.os.system('git push origin ' + b)
+
+=== TC-cli-22 socketserver.os.system chain, hub.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-235
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + tracker/hub.py _mutant socketserver.os.system('git push origin ' + b)
+  pushes (3 -> 4)
+    + tracker/hub.py _mutant socketserver.os.system('git push origin ' + b)
+
+=== TC-cli-22 http.server.os.system chain, hub.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-237
+exit: 0 (92 ms) tree unchanged: true
+changed keys: network
+  network (9 -> 10)
+    + tracker/hub.py call _mutant http.server.os.system('git push origin ' + b)
+
+=== TC-cli-22 getattr(os, "system"), janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-239
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 2)
+    + janitor.py _mutant getattr(os, 'system')
+    + janitor.py _mutant value os
+
+=== TC-cli-22 os.system passed to map, janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-241
+exit: 0 (90 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _mutant value os.system
+
+=== TC-cli-23 -c glued to its value
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-243
+exit: 0 (93 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-ccore.fsmonitor=git push origin sdlc/S-001-v0-http-api-0;:', 'diff', check=False)
+
+=== TC-cli-23 --config-env
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-245
+exit: 0 (92 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--config-env=core.fsmonitor=SDLC_X', 'diff', check=False)
+
+=== TC-cli-23 -c at a direct site in janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-247
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-c', 'core.sshCommand=sh', '-C', repo, 'for-each-ref'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-c', 'core.sshCommand=sh', '-C', repo, 'for-each-ref'])
+
+=== TC-cli-23 -c after -C in suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-249
+exit: 0 (93 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '-C', '.', '-c', 'core.pager=sh', 'rev-parse', 'HEAD')
+
+=== TC-cli-23 -c through the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-251
+exit: 0 (95 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '-c', 'core.hooksPath=/tmp/h', 'fetch', '-q', 'origin')
+
+=== TC-cli-23 --exec-path
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-253
+exit: 0 (93 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--exec-path=/tmp/x', 'diff', check=False)
+
+=== TC-cli-23 --git-dir
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-255
+exit: 0 (92 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--git-dir', '/tmp/r.git', 'diff', check=False)
+
+=== TC-cli-23 --work-tree
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-257
+exit: 0 (91 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--work-tree=/tmp', 'diff', check=False)
+
+=== TC-cli-23 -c from a variable
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-259
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, opaque
+  wrapperVerbs (91 -> 92)
+    + state-write.py git value _mutant v
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-c', v, 'diff', check=False)
+
+=== TC-cli-23 -c and its value in one constant
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-261
+exit: 0 (92 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-c core.fsmonitor=x', 'diff', check=False)
+
+=== TC-cli-24 state-write.py git fetch in the remote
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-263
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 95)
+    + state-write.py git config
+    + state-write.py git config --get
+    + state-write.py git value _mutant f'refs/heads/{b}:refs/heads/{b}'
+    + state-write.py git value _mutant repo
+
+=== TC-cli-24 state-write.py git fetch in the remote, remote url read from .git/config
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-265
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 93)
+    + state-write.py git value _mutant f'refs/heads/{b}:refs/heads/{b}'
+    + state-write.py git value _mutant repo
+
+=== TC-cli-24 next-action.py run git fetch in the remote, remote url read from .git/config
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-267
+exit: 0 (89 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 93)
+    + next-action.py git value _mutant f'refs/heads/{b}:refs/heads/{b}'
+    + next-action.py git value _mutant repo
+
+=== TC-cli-25 variable option after fetch, state-write.py
+exit: 0
+stderr: 
+changed keys: wrapperVerbs
+
+=== TC-cli-25 f-string --upload-pack after fetch, state-write.py
+exit: 0
+stderr: 
+changed keys: wrapperVerbs
+
+=== TC-cli-26 import in a class body after its use, janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-273
+exit: 0 (93 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-27 os.path.os.system in janitor.py
+guard changed keys: direct, pushes
+remote refs before: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-279
+$ /opt/homebrew/bin/python3 -c $'import importlib.util, sys\nsys.path.insert(0, \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-275/skills/sdlc\")\nspec = importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-275/skills/sdlc/janitor.py\")\nm = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nm._mutant(\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/repo-278\", \"sdlc/S-001-v0-http-api-0\")\n'
+exit: 0 (156 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-279 (unchanged)
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+
+=== TC-cli-27 from os import path as _p, _p.os.system in branches.py
+guard changed keys: direct, pushes
+remote refs before: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-284
+$ /opt/homebrew/bin/python3 -c $'import importlib.util, sys\nsys.path.insert(0, \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-280/skills/sdlc\")\nspec = importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/tree-280/skills/sdlc/branches.py\")\nm = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nm._mutant(\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/repo-283\", \"sdlc/S-001-v0-http-api-0\")\n'
+exit: 0 (164 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-HQF0cq/testkit-cli-19Qrrx/cwd-284 (unchanged)
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0

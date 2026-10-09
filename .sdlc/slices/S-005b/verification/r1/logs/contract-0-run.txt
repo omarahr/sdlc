@@ -1,0 +1,40 @@
+{"seed":20261009,"runs":1000,"kinds":{"blank":828,"comment":553,"blank-fallback":237,"trailing":403,"crlf":501},"failures":[],"failureCount":0,"python":"3.14.7"}
+{"seed":20261009,"runs":1000,"kinds":{"blank":828,"comment":553,"blank-fallback":237,"trailing":403,"crlf":501},"failures":[],"failureCount":0,"python":"3.12.14"}
+{"seed":20261009,"runs":1000,"kinds":{"blank":828,"comment":553,"blank-fallback":237,"trailing":403,"crlf":501},"failures":[],"failureCount":0,"python":"3.9.6"}
+✔ verify contract TC-contract-1 VS-1: conditional verb in state-write git body changes wrapperBodies (119.423542ms)
+✔ verify contract TC-contract-2 VS-1: parameter rebind before the call in state-write git body changes wrapperBodies (109.304875ms)
+✔ verify contract TC-contract-3 VS-1: try/finally push in next-action run body changes wrapperBodies (108.673ms)
+✔ verify contract TC-contract-4 VS-1: with block push in impact run body changes wrapperBodies (106.658959ms)
+✔ verify contract TC-contract-5 VS-1: lambda push inside suite-receipt git body changes wrapperBodies (109.99925ms)
+✔ verify contract TC-contract-6 VS-1: comprehension push inside next-action run body changes wrapperBodies (110.595917ms)
+✔ verify contract TC-contract-7 VS-1: call to an outside helper from impact git_lines body changes wrapperBodies (109.012958ms)
+✔ verify contract TC-contract-8 VS-2: new decorator on suite-receipt git changes wrapperBodies (106.3515ms)
+✔ verify contract TC-contract-9 VS-2: changed default check=False on state-write git changes wrapperBodies (106.367417ms)
+✔ verify contract TC-contract-10 VS-2: new keyword-only parameter on state-write git changes wrapperBodies (114.011625ms)
+✔ verify contract TC-contract-11 VS-2: return annotation on impact run changes wrapperBodies (108.202416ms)
+✔ verify contract TC-contract-12 VS-2: duplicate module-level def run in impact changes wrapperBodies (112.240458ms)
+✔ verify contract TC-contract-13 VS-2: nested def git inside another state-write function changes wrapperBodies (110.927458ms)
+✔ verify contract TC-contract-14 VS-2: class method run in next-action changes wrapperBodies (106.775834ms)
+✔ verify contract TC-contract-15 VS-2: async def git in suite-receipt changes wrapperBodies (105.846ms)
+✔ verify contract TC-contract-16 VS-2: shadowing def git after the pinned one in state-write changes wrapperBodies (108.141208ms)
+✔ verify contract TC-contract-17 VS-2: wrapper name rebound by a lambda in state-write breaks another pin (110.789041ms)
+✔ verify contract TC-contract-18 VS-2: wrapper name bound by an import alias in impact breaks another pin (106.351291ms)
+✔ verify contract TC-contract-19 VS-3: comment line in each wrapper body keeps every key (108.137292ms)
+✔ verify contract TC-contract-20 VS-3: blank line and trailing comment in each wrapper body keeps every key (111.574041ms)
+✔ verify contract TC-contract-21 VS-3: changed existing comment in impact git_lines keeps every key (111.432875ms)
+✔ verify contract TC-contract-22 VS-3: backslash continuation in next-action run body keeps every key (109.647125ms)
+✔ verify contract TC-contract-23 VS-3: CRLF line ends in all four wrapper files keeps every key (107.748166ms)
+✔ verify contract TC-contract-24 VS-3: tab indent in impact run body keeps every key (111.64725ms)
+✔ verify contract TC-contract-25 VS-3: comment between decorators keeps the body text (222.394625ms)
+✔ verify contract TC-contract-26 VS-3: clean output is equal on every local python (334.535792ms)
+✔ verify contract TC-contract-27 VS-3: re-quoted string changes the body text (observation) (110.281958ms)
+✔ verify contract TC-contract-28 VS-3: body_text property over 1000 neutral and code edits on every local python (16777.47025ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20211.226041
+exit 0

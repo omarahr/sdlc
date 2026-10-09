@@ -1,0 +1,238 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "A push or forge write added inside a pinned wrapper body fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli",
+        "contract"
+      ],
+      "notes": "This is the class that refuted rounds 0 to 2 of attempt 1. Put each form in a scratch copy (cli-runner copySkill) and compare every key with the clean output. Forms: D-1 m1 to m3 in the next-action.py run body; the TC-cli-18 and TC-cli-20 forms in all five bodies; a conditional verb (verb = 'push' if x else 'status'); a body that rebinds a parameter before the call; a try/finally or with block that pushes; a lambda or comprehension inside the body that pushes; a push through a helper defined outside the body and called from it. Each form must change wrapperBodies. Per plan step 10, a verifier that adds a call inside a wrapper body checks wrapperBodies first: a change is a guard hit, not a miss. A form that leaves every key equal and is inside the scope refutes R-119."
+    },
+    {
+      "id": "VS-2",
+      "title": "A changed wrapper definition (signature, default, decorator, duplicate, nested or method) fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli",
+        "contract"
+      ],
+      "notes": "The pin covers the whole def from the first decorator to end_lineno. Try: a new decorator; a changed default (check=False); a new keyword-only parameter; a return annotation; a second module-level def with the same body (the key is not de-duplicated); a nested def with a wrapper name inside another function; a class method with a wrapper name; an async def with a wrapper name; a def git placed after the pinned one so it shadows it; a wrapper name assigned by a lambda (git = lambda ...) or by an import alias (from x import y as git). The last two are not FunctionDef nodes: check that they break another pin (wrapperValues, imports, direct), or record them against the scope and the refutation rule."
+    },
+    {
+      "id": "VS-3",
+      "title": "A comment or a blank line in a wrapper body keeps every pin",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "The pin must break only on a code change, so a reviewer is not asked to update it for prose. Try a comment line, a blank line, a trailing comment, a changed existing comment, a line continuation with a backslash, CRLF line ends, tabs in place of spaces for indent, and a comment between decorators. Each must keep every key equal. Check the f-string rule: the state-write.py and suite-receipt.py git bodies hold f-strings. Run push_guard.py under python3.14 (homebrew), python3.12 (~/.local/bin) and /usr/bin/python3 (3.9.6) when they can load it. The wrapperBodies text must be equal on every version that runs, because CI uses python-version '3.x'. A version that cannot load the scanner is an observation, not a refutation. Note a token-equal change: a reformat that keeps tokens equal (for example a string re-quoted with the other quote) changes the text; record whether that is so."
+    },
+    {
+      "id": "VS-4",
+      "title": "Outside a wrapper body, a non-constant program, verb, option or api path is opaque",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "The forwarding logic is gone, so no token is forwarded. In a new function of each wrapper file, call the wrapper with: a local list spread (git(repo, *extra)); a parameter verb; an f-string verb; a variable program in run; a non-constant -X value; a parameter api path; a non-constant option before the verb (-c from a variable, -C from a variable). Each must give an opaque entry. Also check the clean tree: opaque and forgeViolations stay empty, so the removal flagged no existing call."
+    },
+    {
+      "id": "VS-5",
+      "title": "A new git push of a branch outside the wrapper bodies fails the guard, in every covered spelling",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "Keep the attempt 1 spelling coverage: quotes, split lines, implicit concatenation, + of two constants, -C and -c options before the verb, a refspec push (HEAD:refs/heads/sdlc/S-001-v0-x-0), --mirror, --all, a push through a direct subprocess site, a shell=True call, an argv that is not a list literal. Use attack-corpus families unicode-confusables, unicode-whitespace and control-chars for the verb text: a confusable 'push' that git does not accept is not a push, so record it as an observation. Each covered form must break a pin. Round 1: TC-cli-18 and TC-cli-23 re-run the -c and pre-verb option forms; VS-14 owns them now."
+    },
+    {
+      "id": "VS-6",
+      "title": "A pull-request creation or other forge write fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "Forms: gh pr create, glab mr create, gh api with -X or --method other than GET in any case, -f, -F, --field, --raw-field, --input, a path holding pulls or merge_requests, and every graphql path with or without flags (ADR-368d). Try both in a new function and at a direct site with a list-literal argv. Try -R and --repo before the verb. Each must give a forgeViolations or opaque entry, or break the forge pin."
+    },
+    {
+      "id": "VS-7",
+      "title": "A process or network call reached by an alias, a value, an attribute chain, an import or dynamic code fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "Forms from the scope: import aliases; posix, nt, _posixsubprocess, _winapi, _socket, _ssl; a process API as a value (rebind, default parameter, walrus, list element, subclass base); eval, exec, compile, __import__, breakpoint, importlib; globals, locals, __builtins__, vars(); a private attribute of an imported module; shutil.os.system and branches.subprocess.run; a new import outside the pure list. Seeds S1 to S5 are never refutations; record them in the report. Round 1: VS-15 owns the late and rebound alias forms, and VS-16 owns the submodule attribute chains."
+    },
+    {
+      "id": "VS-8",
+      "title": "The loop script gains no process or network access",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "Add each banned identifier to a scratch copy of sdlc-loop.js, in code and in strings, also through \\uXXXX and \\u{...} escapes. Check that the 'global' allowlist accepts only the exact single-quoted literal: try \"global\", `global` and 'global ' in a new place. The three decisionPanel lines stay in jsAllowed. Constructor walks and this are seed S3."
+    },
+    {
+      "id": "VS-9",
+      "title": "The loop hands its verify branch builder only to the profile agent and the collector",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "T-R-119d pins the branch references in verifyPhase. Add a new branch reference in verifyPhase in a scratch copy and pass it to another agent (integrator, state-writer). The test must fail. Read sdlc-loop.js and confirm that no other phase builds a verify branch name."
+    },
+    {
+      "id": "VS-10",
+      "title": "A new script type, a symlink or a non-UTF-8 source in the scanned tree fails the guard",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Add a *.sh, *.mjs, *.cjs, *.ts or extension-less executable under skills/sdlc and under hooks. Add a symlink to a file and to a directory. Add a Python file with a latin-1 coding cookie and one with a BOM. Each must break the files pin or give an opaque entry. Files under test, fixtures, prompts, __pycache__ and node_modules are seed S5."
+    },
+    {
+      "id": "VS-11",
+      "title": "A spec-required forge read changes only a pin and hits no ban",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Add a gh pr list, gh pr view, gh api GET read and glab mr list in a new function outside a wrapper body. Each must change only the forge pin (and wrapperVerbs), with empty forgeViolations and opaque. wrapperBodies must stay equal, because no body changed."
+    },
+    {
+      "id": "VS-12",
+      "title": "A verify branch stays local when the push-capable scripts run against a real remote",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "Behavior check behind the source check. In a scratch repo with a bare remote (cli-runner gitRepo), create local branches named by branches.py name --kind verify. Run the scripts that push (state-write.py paths that push, the integrator-facing commands) and the forge reads with gh absent. Assert that the bare remote has no verify ref after each run. A push of a run branch or state branch is allowed. Round 1: also run state-write.py fetch paths, since the fix pins options after the verb. TC-cli-24 (a fetch run inside a local-path remote) is seed S1."
+    },
+    {
+      "id": "VS-13",
+      "title": "A new option after a known wrapper verb, in any spelling, breaks a pin or is opaque",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "contract"
+      ],
+      "notes": "New behavior in fix round 1: wrapperVerbs now holds one entry per option after the verb. Spec-fidelity r1 D-1 refuted it: an option token that is not a constant string with an empty prefix is not recorded. Forms: f\"{}--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\" in a state-write.py call; \"--upload-pack=...\".strip(); str(\"--upload-pack=...\") through next-action.py run; a variable option (git(repo, \"fetch\", \"-q\", \"origin\", opt), TC-cli-25); a starred list after the verb; an option split as two tokens (\"--upload-pack\", \"cmd\"); --receive-pack and --exec on push and fetch; -u on fetch; the abbreviated --upl form; a confusable or whitespace-padded dash from attack-corpus. Each must change wrapperVerbs, give an opaque entry or change pushes. Then run m1 and m3 against a bare remote: a form that pushes a verify branch with every key equal refutes R-119. Check the clean tree: opaque stays empty and the 33 new wrapperVerbs entries name no command-running option."
+    },
+    {
+      "id": "VS-14",
+      "title": "A git option before the verb that can run a command or change the target is opaque",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Fix round 1 made every -c before the git verb opaque (r0 spec-fidelity D-1 and TC-cli-18: core.fsmonitor, core.sshCommand). Try -c in all spellings: -c with the value in one token (-ccore.fsmonitor=...), --config-env=core.fsmonitor=VAR, --exec-path=..., --git-dir=..., --work-tree=..., --namespace=..., --super-prefix, --attr-source, and an abbreviated long option. Try each at a wrapper call outside a body, at a direct subprocess site with a list-literal argv, and at a shell=True site. Each must give an opaque entry or break the direct pin. A form that leaves every key equal and pushes to a bare remote refutes R-119. Read the five allowed flag options and judge whether any can run a command."
+    },
+    {
+      "id": "VS-15",
+      "title": "An import alias bound anywhere in a module resolves to the watched module",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "contract"
+      ],
+      "notes": "Fix round 1 binds aliases in one pass over the whole module before the visit, and a name bound to two different targets gives a dynamic entry \"rebound import\". TC-cli-17 refuted the old visit-order binding. Forms: import subprocess as sp after its use; from subprocess import run as _r after use; import os as _o after use; an import in another function, in a try block, in an if block, in a class body; one name bound to json and to subprocess; one name bound by import and by assignment (sp = json after import subprocess as sp); a del of an alias; an import inside a comprehension or lambda default. Each must break a pin (direct, dynamic or imports). Check the clean tree: dynamic stays empty, so no existing file has a rebound name. TC-cli-26 (class attribute _K.sp.run) is seed S3."
+    },
+    {
+      "id": "VS-16",
+      "title": "A process call reached through a submodule attribute chain breaks a pin",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Round 1 cli TC-cli-22 and TC-cli-27 failed: os.path.os.system(\"git push origin \" + b) in janitor.py and from os import path as _p; _p.os.system(...) in branches.py leave every key equal, and both mutants push a verify branch to a bare remote. canon() keeps a name whose first part is watched, so os.path.os.system is not read as os.system. Try every chain a pure or watched module re-exports: os.path.os, posixpath.os, shutil.os, pathlib.os, tempfile._os, json.decoder.re, urllib.request.os, subprocess.os, asyncio.subprocess, and the same chains through an import alias. Each must break a pin. The scope names the chain class (shutil.os.system, branches.subprocess.run), so a chain that leaves every key equal and runs a process refutes R-119."
+    },
+    {
+      "id": "VS-17",
+      "title": "Each guard-miss mutant from every round pushes a verify branch only when the guard flags it",
+      "requirementIds": [
+        "R-119"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "Behavior check behind the source check, for every defect found so far: r0 D-1 (-c core.fsmonitor), TC-cli-17 (late alias), TC-cli-18 (-c forms), r1 D-1 m1 and m3 (hidden option after the verb), TC-cli-27 (os.path.os.system). Build each mutant in a scratch copy, run push_guard.py, then load the mutated module and call the mutant against a work repo with a bare origin and a local branch named by branches.py name --kind verify. Expected: the guard output differs from the pins, or the bare remote has no verify ref. Use the module-loader tool. Record the git version."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run push_guard.py and the skill scripts from a scratch cwd with a controlled env; copySkill({ files }) builds mutated plugin copies; gitRepo builds scratch repos with branches and a bare remote; exec() runs the scanner under other python versions. gitRepo also builds the bare remote for VS-17.",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Supply confusable, whitespace, control-character and injection spellings for push and forge-write mutants.",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "callPython runs body_text and the scanner functions in batch to check that comment and blank-line edits keep the token text and that code edits change it.",
+      "exists": true
+    },
+    {
+      "id": "module-loader",
+      "profile": "cli",
+      "purpose": "Load a mutated skill module by path from a scratch copy with python3 -I and call one named function with arguments; return exit code, stdout, stderr and the bare remote refs. Replaces the local loadAndCall() helpers of TC-cli-19, TC-cli-24 and TC-cli-27.",
+      "exists": false
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "A push form that the guard misses lets a verify branch reach the remote; two rounds found such forms, but the slice adds only a test scanner and no product behavior.",
+  "notes": "Round 1 plan (ladder step 3, fix round 1 at e71f8c8). Scenario ids VS-1 to VS-12 are kept. VS-13 to VS-16 cover the behavior fix round 1 added (options after the verb in wrapperVerbs, -c opaque, the alias pass) and the r1 defects (spec-fidelity D-1, cli TC-cli-22 and TC-cli-27). VS-17 re-proves each defect found so far against a bare remote. Apply ADR-20261009-062930-decision-judge-S-005-388e and ADR-20261009-063408-decision-judge-S-005-368d. Seeds S1 to S5 are never refutations. The spec states no number, so limits is not tagged. In rounds 0 to 2 a safety classifier stopped the security sessions; cli is tagged on every scenario, so cli covers each one if security is blocked again. Keep the evidence: do not delete earlier verification files."
+}

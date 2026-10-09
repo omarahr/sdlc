@@ -1,0 +1,306 @@
+{"mode": "options", "seed": 20261009, "runs": 1000, "python": "3.14.7", "kinds": {"fstring-leading-expr": {"runs": 78, "hits": 0}, "whitespace-pad": {"runs": 72, "hits": 72}, "join-call": {"runs": 55, "hits": 0}, "confusable-dash": {"runs": 77, "hits": 0}, "format-call": {"runs": 84, "hits": 0}, "strip-call": {"runs": 66, "hits": 0}, "concat-const": {"runs": 67, "hits": 67}, "two-tokens": {"runs": 61, "hits": 61}, "starred-list": {"runs": 65, "hits": 0}, "concat-var-first": {"runs": 68, "hits": 0}, "const": {"runs": 60, "hits": 60}, "percent": {"runs": 68, "hits": 0}, "fstring-leading-var": {"runs": 51, "hits": 0}, "str-call": {"runs": 61, "hits": 0}, "variable": {"runs": 67, "hits": 0}}, "failureCount": 412, "failures": [{"run": 0, "kind": "fstring-leading-expr", "file": "skills/sdlc/state-write.py", "call": "git(repo, 'checkout', 'origin', f\"{''}--receive-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)", "changed": []}, {"run": 2, "kind": "join-call", "file": "skills/sdlc/state-write.py", "call": "git(repo, 'fetch', 'origin', ''.join(['-u=git push origin sdlc/S-001-v0-cli-0;:']), check=False)", "changed": []}, {"run": 4, "kind": "format-call", "file": "skills/sdlc/next-action.py", "call": "run(repo, 'git', 'for-each-ref', 'origin', '{}'.format('-u=git push origin sdlc/S-001-v0-cli-0;:'))", "changed": []}, {"run": 5, "kind": "strip-call", "file": "skills/sdlc/state-write.py", "call": "git(repo, 'branch', 'origin', '-u=git push origin sdlc/S-001-v0-cli-0;:'.strip(), check=False)", "changed": []}, {"run": 10, "kind": "format-call", "file": "skills/sdlc/next-action.py", "call": "run(repo, 'git', 'for-each-ref', 'origin', '{}'.format('--upl=git push origin sdlc/S-001-v0-cli-0;:'))", "changed": []}, {"run": 12, "kind": "format-call", "file": "skills/sdlc/state-write.py", "call": "git(repo, 'checkout', 'origin', '{}'.format('-u=git push origin sdlc/S-001-v0-cli-0;:'), check=False)", "changed": []}], "observations": [{"run": 3, "kind": "confusable-dash", "call": "run(repo, 'git', 'rev-parse', 'origin', '\u2012exec=git push origin sdlc/S-001-v0-cli-0;:')"}, {"run": 25, "kind": "confusable-dash", "call": "run(repo, 'git', 'fetch', 'origin', '\uff0dreceive-pack=git push origin sdlc/S-001-v0-cli-0;:')"}, {"run": 31, "kind": "confusable-dash", "call": "run(repo, 'git', 'fetch', 'origin', '\u2010u=git push origin sdlc/S-001-v0-cli-0;:')"}, {"seedS1": "concat-var-first", "call": "git(repo, 'merge', 'origin', pre + '-u=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}, {"seedS1": "fstring-leading-var", "call": "git(repo, 'branch', 'origin', f\"{pre}--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)"}, {"seedS1": "starred-list", "call": "run(repo, 'git', 'rev-parse', 'origin', *opts)"}, {"seedS1": "variable", "call": "run(repo, 'git', 'fetch', 'origin', opt)"}]}
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PHBxSi/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v1-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-z0uRV7/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PHBxSi/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PHBxSi/loadcall-3/result.json
+exit: 0 (172 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PHBxSi/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PHBxSi/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-z0uRV7/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PHBxSi/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-VM9uoT/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v1-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-aW3qO1/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-VM9uoT/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-VM9uoT/loadcall-3/result.json
+exit: 0 (157 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-VM9uoT/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-VM9uoT/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-aW3qO1/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-VM9uoT/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-wgzqSy/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v1-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-OSxu3p/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-wgzqSy/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-wgzqSy/loadcall-3/result.json
+exit: 0 (155 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-wgzqSy/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-wgzqSy/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-OSxu3p/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-wgzqSy/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PQMo9K/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v1-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-dvbwas/skills/sdlc/next-action.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PQMo9K/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PQMo9K/loadcall-3/result.json
+exit: 0 (164 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PQMo9K/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PQMo9K/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-dvbwas/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-PQMo9K/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-Q3QCwe/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v1-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-gNfp49/skills/sdlc/next-action.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-Q3QCwe/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-Q3QCwe/loadcall-3/result.json
+exit: 0 (158 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-Q3QCwe/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-Q3QCwe/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-gNfp49/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-4mvldk/testkit-cli-Q3QCwe/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+option entries: 37
+impact.py git diff --name-only
+impact.py go list -f
+next-action.py gh pr list
+next-action.py git branch --show-current
+next-action.py git fetch -q
+next-action.py git for-each-ref --format
+next-action.py git merge-base --is-ancestor
+next-action.py git rev-parse --verify
+next-action.py git rev-parse -q
+state-write.py git branch --show-current
+state-write.py git branch -d
+state-write.py git checkout --no-track
+state-write.py git checkout -b
+state-write.py git checkout -q
+state-write.py git commit -m
+state-write.py git commit -q
+state-write.py git diff --cached
+state-write.py git diff --name-only
+state-write.py git diff --quiet
+state-write.py git fetch --prune
+state-write.py git fetch -q
+state-write.py git for-each-ref --format
+state-write.py git ls-tree --
+state-write.py git merge --abort
+state-write.py git merge --ff-only
+state-write.py git merge --no-edit
+state-write.py git merge -q
+state-write.py git push --force-with-lease
+state-write.py git push -q
+state-write.py git push -u
+state-write.py git rev-parse --absolute-git-dir
+state-write.py git rev-parse --quiet
+state-write.py git rev-parse --short
+state-write.py git rev-parse --verify
+state-write.py git rev-parse -q
+state-write.py git update-ref -d
+state-write.py git worktree --porcelain
+{"mode": "aliases", "seed": 20261009, "runs": 1000, "python": "3.14.7", "kinds": {"if-block": {"runs": 119, "hits": 119}, "other-function": {"runs": 121, "hits": 121}, "class-body": {"runs": 93, "hits": 93}, "except-handler": {"runs": 117, "hits": 117}, "module-end": {"runs": 114, "hits": 114}, "while-block": {"runs": 101, "hits": 101}, "nested-function": {"runs": 109, "hits": 109}, "with-block": {"runs": 111, "hits": 111}, "try-block": {"runs": 115, "hits": 115}}, "failureCount": 0, "failures": [], "observations": []}
+changed keys: direct,dynamic,pushes
+dynamic: ["janitor.py _a value sp","janitor.py rebound import sp json subprocess"]
+direct: ["janitor.py _b sp.run(['git', 'push', 'origin', b])"]
+changed keys: direct,dynamic,pushes
+dynamic: ["janitor.py rebound import sp json subprocess"]
+direct: ["janitor.py _b sp.run(['git', 'push', 'origin', b])"]
+changed keys: direct,dynamic,pushes
+direct: ["janitor.py _b sp.run(['git', 'push', 'origin', b])"]
+changed keys: dynamic
+dynamic: ["janitor.py <module> value subprocess"]
+changed keys: dynamic
+dynamic: ["janitor.py <module> value _r"]
+changed keys: dynamic
+dynamic: ["janitor.py <module> __import__('subprocess')"]
+✖ verify contract TC-contract-29 VS-13: a literal option after a known wrapper verb, in any spelling, changes wrapperVerbs, opaque or pushes (property) (8232.453083ms)
+✖ verify contract TC-contract-30 VS-13: m1 f-string with a leading expression in state-write.py pushes a verify branch only when the guard flags it (546.176041ms)
+✖ verify contract TC-contract-30 VS-13: m2 strip call in state-write.py pushes a verify branch only when the guard flags it (516.515916ms)
+✖ verify contract TC-contract-30 VS-13: format call in state-write.py pushes a verify branch only when the guard flags it (518.088708ms)
+✖ verify contract TC-contract-30 VS-13: m3 str call in next-action.py pushes a verify branch only when the guard flags it (525.258917ms)
+✖ verify contract TC-contract-30 VS-13: join call in next-action.py pushes a verify branch only when the guard flags it (528.812917ms)
+✔ verify contract TC-contract-31 VS-13: the clean tree has no opaque entry and no command-running option in wrapperVerbs (0.531ms)
+✔ verify contract TC-contract-32 VS-15: an import alias bound anywhere in a module resolves to the watched module (property) (3634.091708ms)
+✔ verify contract TC-contract-33 VS-15: one name bound to json and to subprocess breaks the expected pin (115.407ms)
+✔ verify contract TC-contract-33 VS-15: one name bound to json in one place and to subprocess late breaks the expected pin (109.914708ms)
+✔ verify contract TC-contract-33 VS-15: import then assignment rebind sp = json breaks the expected pin (113.311709ms)
+✔ verify contract TC-contract-33 VS-15: assignment of a watched module to an imported name breaks the expected pin (119.729791ms)
+✔ verify contract TC-contract-33 VS-15: del of an alias, then a late rebind breaks the expected pin (116.41775ms)
+✔ verify contract TC-contract-33 VS-15: lambda default reaching the module through __import__ breaks the expected pin (117.805375ms)
+✔ verify contract TC-contract-34 VS-15: the clean tree has no dynamic entry, so no file has a rebound name (0.074709ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 9
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15362.112125
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:42:1
+✖ verify contract TC-contract-29 VS-13: a literal option after a known wrapper verb, in any spelling, changes wrapperVerbs, opaque or pushes (property) (8232.453083ms)
+  AssertionError [ERR_ASSERTION]: [
+   {
+    "run": 0,
+    "kind": "fstring-leading-expr",
+    "file": "skills/sdlc/state-write.py",
+    "call": "git(repo, 'checkout', 'origin', f\"{''}--receive-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)",
+    "changed": []
+   },
+   {
+    "run": 2,
+    "kind": "join-call",
+    "file": "skills/sdlc/state-write.py",
+    "call": "git(repo, 'fetch', 'origin', ''.join(['-u=git push origin sdlc/S-001-v0-cli-0;:']), check=False)",
+    "changed": []
+   },
+   {
+    "run": 4,
+    "kind": "format-call",
+    "file": "skills/sdlc/next-action.py",
+    "call": "run(repo, 'git', 'for-each-ref', 'origin', '{}'.format('-u=git push origin sdlc/S-001-v0-cli-0;:'))",
+    "changed": []
+   },
+   {
+    "run": 5,
+    "kind": "strip-call",
+    "file": "skills/sdlc/state-write.py",
+    "call": "git(repo, 'branch', 'origin', '-u=git push origin sdlc/S-001-v0-cli-0;:'.strip(), check=False)",
+    "changed": []
+   },
+   {
+    "run": 10,
+    "kind": "format-call",
+    "file": "skills/sdlc/next-action.py",
+    "call": "run(repo, 'git', 'for-each-ref', 'origin', '{}'.format('--upl=git push origin sdlc/S-001-v0-cli-0;:'))",
+    "changed": []
+   },
+   {
+    "run": 12,
+    "kind": "format-call",
+    "file": "skills/sdlc/state-write.py",
+    "call": "git(repo, 'checkout', 'origin', '{}'.format('-u=git push origin sdlc/S-001-v0-cli-0;:'), check=False)",
+    "changed": []
+   }
+  ]
+  
+  412 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:44:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 412,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:56:3
+✖ verify contract TC-contract-30 VS-13: m1 f-string with a leading expression in state-write.py pushes a verify branch only when the guard flags it (546.176041ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:65:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:56:3
+✖ verify contract TC-contract-30 VS-13: m2 strip call in state-write.py pushes a verify branch only when the guard flags it (516.515916ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:65:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:56:3
+✖ verify contract TC-contract-30 VS-13: format call in state-write.py pushes a verify branch only when the guard flags it (518.088708ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:65:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:56:3
+✖ verify contract TC-contract-30 VS-13: m3 str call in next-action.py pushes a verify branch only when the guard flags it (525.258917ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:65:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:56:3
+✖ verify contract TC-contract-30 VS-13: join call in next-action.py pushes a verify branch only when the guard flags it (528.812917ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:65:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

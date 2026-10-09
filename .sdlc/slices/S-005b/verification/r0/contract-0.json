@@ -1,0 +1,822 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "527e86b",
+  "environment": "macOS, node 24.19, python 3.14.7 (homebrew), 3.12.14 (uv), 3.9.6 (/usr/bin); scratch copies of skills and hooks",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Conditional verb in state-write git body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "conditional verb in state-write git body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:50",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Parameter rebind before the call in state-write git body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "parameter rebind before the call in state-write git body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:51",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Try/finally push in next-action run body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "try/finally push in next-action run body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:52",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "With block push in impact run body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "with block push in impact run body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:53",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Lambda push inside suite-receipt git body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "lambda push inside suite-receipt git body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:54",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Comprehension push inside next-action run body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "comprehension push inside next-action run body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:55",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Call to an outside helper from impact git_lines body changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "call to an outside helper from impact git_lines body changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:56",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "New decorator on suite-receipt git changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "new decorator on suite-receipt git changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:57",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Changed default check=False on state-write git changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "changed default check=False on state-write git changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:58",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "New keyword-only parameter on state-write git changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "new keyword-only parameter on state-write git changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:59",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Return annotation on impact run changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "return annotation on impact run changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:60",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Duplicate module-level def run in impact changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "duplicate module-level def run in impact changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:61",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Nested def git inside another state-write function changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "nested def git inside another state-write function changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:62",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-14",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Class method run in next-action changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "class method run in next-action changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:63",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-15",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Async def git in suite-receipt changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "async def git in suite-receipt changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:64",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-16",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Shadowing def git after the pinned one in state-write changes wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "shadowing def git after the pinned one in state-write changes wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:65",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-17",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Wrapper name rebound by a lambda in state-write breaks another pin",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "wrapper name rebound by a lambda in state-write breaks another pin",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:76",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-18",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Wrapper name bound by an import alias in impact breaks another pin",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "wrapper name bound by an import alias in impact breaks another pin",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:77",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-19",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Comment line in each wrapper body keeps every key",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "comment line in each wrapper body keeps every key",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:89",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-20",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Blank line and trailing comment in each wrapper body keeps every key",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "blank line and trailing comment in each wrapper body keeps every key",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:90",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-21",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Changed existing comment in impact git_lines keeps every key",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "changed existing comment in impact git_lines keeps every key",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:91",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-22",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Backslash continuation in next-action run body keeps every key",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "backslash continuation in next-action run body keeps every key",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:92",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-23",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "CRLF line ends in all four wrapper files keeps every key",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "CRLF line ends in all four wrapper files keeps every key",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:93",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-24",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Tab indent in impact run body keeps every key",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "tab indent in impact run body keeps every key",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:94",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-25",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Comment between decorators keeps the body text",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "comment between decorators keeps the body text",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:111",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-26",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Clean output is equal on every local python",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "clean output is equal on every local python",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:120",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-27",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Re-quoted string changes the body text",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "re-quoted string changes the body text",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:125",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-28",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Body_text property over 1000 neutral and code edits on every local python",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "body_text property over 1000 neutral and code edits on every local python",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:130",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "body_text property: seed 20261009, 1000 runs on Python 3.14.7, 3.12.14 and 3.9.6, 0 failures, no shrunk counterexample",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-29",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Two clean scans are byte-equal",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "two clean scans are byte-equal",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:140",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-30",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Scan from another cwd and through a symlinked root equals the clean output",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "scan from another cwd and through a symlinked root equals the clean output",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:147",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-31",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Clean output has empty opaque, forgeViolations, dynamic and five wrapperBodies",
+      "given": "A scratch copy of skills and hooks at the slice commit 527e86b",
+      "when": "The edit is applied and push_guard.py scans the copy",
+      "then": "The scanner output differs (or stays equal for VS-3 neutral edits) as the title states",
+      "expected": "clean output has empty opaque, forgeViolations, dynamic and five wrapperBodies",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:159",
+      "command": "VERIFY_ROOT=<slice worktree> TESTKIT_SEED=20261009 node --test .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-32",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "All T-R-119e rows (95 attempt 1 rows, 2 tree mutants, 26 S-005b r2 rows) change a pin",
+      "given": "The slice worktree at 527e86b",
+      "when": "Run skills/sdlc/test/push-guard.test.mjs",
+      "then": "7 of 7 tests pass",
+      "expected": "Every mutant changes a pin",
+      "actual": "7 pass, 0 fail",
+      "result": "pass",
+      "specSource": "R-119 acceptance; plan T-R-119e",
+      "test": "skills/sdlc/test/push-guard.test.mjs",
+      "command": "node --test skills/sdlc/test/push-guard.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "repo push guard run",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/contract-0-repo-pushguard.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "Python 3.11 not available locally",
+      "detail": "The f-string source-slice rule was run on 3.9, 3.12 and 3.14 only. 3.11 and 3.13 were not run. CI uses 3.x.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "Body pin is sensitive to string re-quoting",
+      "detail": "Changing a quote style in a wrapper body changes wrapperBodies (TC-contract-27). This is safe but asks a reviewer to update the pin for a style change.",
+      "file": "skills/sdlc/test/push_guard.py"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+== /opt/homebrew/bin/python3.14 r1 seed 20261009 runs 1000
+python 3.14.7 failures 0
+kinds {"concat-const": {"hits": 49, "runs": 49}, "concat-var-first": {"hits": 63, "runs": 63}, "confusable-dash": {"hits": 16, "runs": 69}, "const": {"hits": 64, "runs": 64}, "format-call": {"hits": 66, "runs": 66}, "fstring-leading-expr": {"hits": 76, "runs": 76}, "fstring-leading-var": {"hits": 64, "runs": 64}, "join-call": {"hits": 71, "runs": 71}, "percent": {"hits": 79, "runs": 79}, "starred-list": {"hits": 70, "runs": 70}, "str-call": {"hits": 75, "runs": 75}, "strip-call": {"hits": 57, "runs": 57}, "two-tokens": {"hits": 63, "runs": 63}, "variable": {"hits": 65, "runs": 65}, "whitespace-pad": {"hits": 69, "runs": 69}}
+  obs {'run': 23, 'kind': 'confusable-dash', 'call': "git(repo, 'fetch', 'origin', '–config=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}
+  obs {'run': 68, 'kind': 'confusable-dash', 'call': "git(repo, 'commit', 'origin', '‒upl=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}
+  seedS1 forms with no hit: 0
+== /opt/homebrew/bin/python3.14 r2 seed 20261009 runs 1000
+python 3.14.7 failures 162
+kinds {"bytes-const": {"hits": 16, "runs": 92}, "bytes-decode": {"hits": 72, "runs": 72}, "bytes-two-tokens": {"hits": 24, "runs": 110}, "fspath": {"hits": 84, "runs": 84}, "ifexp": {"hits": 92, "runs": 92}, "nbsp-pad": {"hits": 79, "runs": 79}, "newline-pad": {"hits": 87, "runs": 87}, "starred-const-list": {"hits": 76, "runs": 76}, "starred-const-tuple": {"hits": 67, "runs": 67}, "subscript": {"hits": 86, "runs": 86}, "tab-pad": {"hits": 79, "runs": 79}, "walrus": {"hits": 76, "runs": 76}}
+  first bytes-two-tokens skills/sdlc/state-write.py git(repo, 'checkout', 'origin', b'-u', b'git push origin sdlc/S-001-v0-cli-0;:', check=False) changed []
+  first bytes-const skills/sdlc/suite-receipt.py git(repo, 'rev-parse', 'origin', b'--config=git push origin sdlc/S-001-v0-cli-0;:') changed []
+  seedS1 forms with no hit: 0
+== /Users/omar.ragab/.local/bin/python3.12 r1 seed 20261009 runs 1000
+python 3.12.14 failures 0
+kinds {"concat-const": {"hits": 49, "runs": 49}, "concat-var-first": {"hits": 63, "runs": 63}, "confusable-dash": {"hits": 16, "runs": 69}, "const": {"hits": 64, "runs": 64}, "format-call": {"hits": 66, "runs": 66}, "fstring-leading-expr": {"hits": 76, "runs": 76}, "fstring-leading-var": {"hits": 64, "runs": 64}, "join-call": {"hits": 71, "runs": 71}, "percent": {"hits": 79, "runs": 79}, "starred-list": {"hits": 70, "runs": 70}, "str-call": {"hits": 75, "runs": 75}, "strip-call": {"hits": 57, "runs": 57}, "two-tokens": {"hits": 63, "runs": 63}, "variable": {"hits": 65, "runs": 65}, "whitespace-pad": {"hits": 69, "runs": 69}}
+  obs {'run': 23, 'kind': 'confusable-dash', 'call': "git(repo, 'fetch', 'origin', '–config=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}
+  obs {'run': 68, 'kind': 'confusable-dash', 'call': "git(repo, 'commit', 'origin', '‒upl=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}
+  seedS1 forms with no hit: 0
+== /Users/omar.ragab/.local/bin/python3.12 r2 seed 20261009 runs 1000
+python 3.12.14 failures 162
+kinds {"bytes-const": {"hits": 16, "runs": 92}, "bytes-decode": {"hits": 72, "runs": 72}, "bytes-two-tokens": {"hits": 24, "runs": 110}, "fspath": {"hits": 84, "runs": 84}, "ifexp": {"hits": 92, "runs": 92}, "nbsp-pad": {"hits": 79, "runs": 79}, "newline-pad": {"hits": 87, "runs": 87}, "starred-const-list": {"hits": 76, "runs": 76}, "starred-const-tuple": {"hits": 67, "runs": 67}, "subscript": {"hits": 86, "runs": 86}, "tab-pad": {"hits": 79, "runs": 79}, "walrus": {"hits": 76, "runs": 76}}
+  first bytes-two-tokens skills/sdlc/state-write.py git(repo, 'checkout', 'origin', b'-u', b'git push origin sdlc/S-001-v0-cli-0;:', check=False) changed []
+  first bytes-const skills/sdlc/suite-receipt.py git(repo, 'rev-parse', 'origin', b'--config=git push origin sdlc/S-001-v0-cli-0;:') changed []
+  seedS1 forms with no hit: 0
+== /usr/bin/python3 r1 seed 20261009 runs 1000
+python 3.9.6 failures 0
+kinds {"concat-const": {"hits": 49, "runs": 49}, "concat-var-first": {"hits": 63, "runs": 63}, "confusable-dash": {"hits": 16, "runs": 69}, "const": {"hits": 64, "runs": 64}, "format-call": {"hits": 66, "runs": 66}, "fstring-leading-expr": {"hits": 76, "runs": 76}, "fstring-leading-var": {"hits": 64, "runs": 64}, "join-call": {"hits": 71, "runs": 71}, "percent": {"hits": 79, "runs": 79}, "starred-list": {"hits": 70, "runs": 70}, "str-call": {"hits": 75, "runs": 75}, "strip-call": {"hits": 57, "runs": 57}, "two-tokens": {"hits": 63, "runs": 63}, "variable": {"hits": 65, "runs": 65}, "whitespace-pad": {"hits": 69, "runs": 69}}
+  obs {'run': 23, 'kind': 'confusable-dash', 'call': "git(repo, 'fetch', 'origin', '–config=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}
+  obs {'run': 68, 'kind': 'confusable-dash', 'call': "git(repo, 'commit', 'origin', '‒upl=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}
+  seedS1 forms with no hit: 0
+== /usr/bin/python3 r2 seed 20261009 runs 1000
+python 3.9.6 failures 162
+kinds {"bytes-const": {"hits": 16, "runs": 92}, "bytes-decode": {"hits": 72, "runs": 72}, "bytes-two-tokens": {"hits": 24, "runs": 110}, "fspath": {"hits": 84, "runs": 84}, "ifexp": {"hits": 92, "runs": 92}, "nbsp-pad": {"hits": 79, "runs": 79}, "newline-pad": {"hits": 87, "runs": 87}, "starred-const-list": {"hits": 76, "runs": 76}, "starred-const-tuple": {"hits": 67, "runs": 67}, "subscript": {"hits": 86, "runs": 86}, "tab-pad": {"hits": 79, "runs": 79}, "walrus": {"hits": 76, "runs": 76}}
+  first bytes-two-tokens skills/sdlc/state-write.py git(repo, 'checkout', 'origin', b'-u', b'git push origin sdlc/S-001-v0-cli-0;:', check=False) changed []
+  first bytes-const skills/sdlc/suite-receipt.py git(repo, 'rev-parse', 'origin', b'--config=git push origin sdlc/S-001-v0-cli-0;:') changed []
+  seedS1 forms with no hit: 0

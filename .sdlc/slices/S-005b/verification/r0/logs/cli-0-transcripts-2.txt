@@ -1,0 +1,1425 @@
+
+=== TC-cli-11 local list spread in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-246
+exit: 0 (81 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _m verb git(repo, *extra)
+
+=== TC-cli-11 parameter verb in suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-248
+exit: 0 (81 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _m verb git(repo, verb, 'origin')
+
+=== TC-cli-11 f-string verb in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-250
+exit: 0 (82 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _m verb git(repo, f'{v}', 'origin')
+
+=== TC-cli-11 variable program in next-action.py run
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-252
+exit: 0 (83 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _m program run(repo, prog, 'push', 'origin')
+
+=== TC-cli-11 variable program in impact.py run
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-254
+exit: 0 (76 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _m program run([prog, 'push', 'origin'], repo)
+
+=== TC-cli-11 parameter verb in impact.py git_lines
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-256
+exit: 0 (83 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _m verb git_lines([verb, 'origin'], repo)
+
+=== TC-cli-11 non-constant -X value in next-action.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-258
+exit: 0 (83 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/issues
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '-X', m, 'repos/o/r/issues') -- method is not constant
+
+=== TC-cli-11 parameter api path in next-action.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-260
+exit: 0 (82 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _m path run(repo, 'gh', 'api', path)
+
+=== TC-cli-11 -c value from a variable in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-262
+exit: 0 (82 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _m option git(repo, '-c', cfg, 'push', 'origin')
+
+=== TC-cli-11 non-constant option before the gh verb
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-264
+exit: 0 (83 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _m verb run(repo, 'gh', o, 'pr', 'create')
+
+=== TC-cli-11 --git-dir from a variable in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-266
+exit: 0 (83 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _m verb git(repo, '--git-dir=' + d, 'push')
+
+=== TC-cli-12 -C from a variable before push in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-268
+exit: 0 (83 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, '-C', d, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-12 -C followed by one starred list in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-270
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git 
+
+=== TC-cli-13 double quotes
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-272
+exit: 0 (82 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 single quotes
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-274
+exit: 0 (84 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 split over lines
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-276
+exit: 0 (83 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 implicit concatenation
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-278
+exit: 0 (81 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 + of two constants
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-280
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (27 -> 28)
+    + suite-receipt.py git push
+  pushes (3 -> 4)
+    + suite-receipt.py _m git(repo, 'pu' + 'sh', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 -C option
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-282
+exit: 0 (81 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, '-C', '/tmp/x', 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 -c option
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-284
+exit: 0 (84 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, '-c', 'push.default=current', 'push')
+
+=== TC-cli-13 refspec push
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-286
+exit: 0 (75 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'HEAD:refs/heads/sdlc/S-001-v0-x-0')
+
+=== TC-cli-13 --mirror
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-288
+exit: 0 (79 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', '--mirror', 'origin')
+
+=== TC-cli-13 --all
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-290
+exit: 0 (79 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', '--all', 'origin')
+
+=== TC-cli-13 direct subprocess site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-292
+exit: 0 (85 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  pushes (3 -> 4)
+    + janitor.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+
+=== TC-cli-13 shell=True
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-294
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes, opaque
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run('git push origin sdlc/S-001-v0-http-api-0', shell=True)
+  pushes (3 -> 4)
+    + janitor.py _m subprocess.run('git push origin sdlc/S-001-v0-http-api-0', shell=True)
+  opaque (0 -> 1)
+    + janitor.py _m shell subprocess.run('git push origin sdlc/S-001-v0-http-api-0', shell=True)
+
+=== TC-cli-13 argv in a variable
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-296
+exit: 0 (84 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(cmd)
+  opaque (0 -> 1)
+    + janitor.py _m argv subprocess.run(cmd)
+
+=== TC-cli-13 tuple argv
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-298
+exit: 0 (80 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(('git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'))
+  pushes (3 -> 4)
+    + janitor.py _m subprocess.run(('git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'))
+
+=== TC-cli-13 next-action run
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-300
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (27 -> 28)
+    + next-action.py git push
+  pushes (3 -> 4)
+    + next-action.py _m run(repo, 'git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-13 impact run
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-302
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (27 -> 28)
+    + impact.py git push
+  pushes (3 -> 4)
+    + impact.py _m run(['git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'], repo)
+
+=== TC-cli-13 impact git_lines
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-304
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (27 -> 28)
+    + impact.py git push
+  pushes (3 -> 4)
+    + impact.py _m git_lines(['push', 'origin', 'sdlc/S-001-v0-http-api-0'], repo)
+
+=== TC-cli-13 --no-pager flag
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-306
+exit: 0 (82 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, '--no-pager', 'push')
+
+=== TC-cli-13 send-pack verb
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-308
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git send-pack
+
+=== TC-cli-13 collect.py direct site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-310
+exit: 0 (81 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + tracker/collect.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  pushes (3 -> 4)
+    + tracker/collect.py _m subprocess.run(['git', '-C', repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+
+=== TC-cli-14 unicode-confusables cyrillic-s
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-312
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git ѕdlc/{name}
+
+=== TC-cli-14 unicode-confusables fullwidth-braces
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-314
+exit: 0 (82 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git sdlc/｛name｝
+
+=== TC-cli-14 unicode-confusables cyrillic-a
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-316
+exit: 0 (84 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git sdlc/{nаme}
+
+=== TC-cli-14 unicode-confusables fraction-slash
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-318
+exit: 0 (83 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git sdlc⁄{name}
+
+=== TC-cli-14 unicode-confusables division-slash
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-320
+exit: 0 (83 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git sdlc∕{name}
+
+=== TC-cli-14 unicode-confusables ligature
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-322
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git ﬁx/{name}
+
+=== TC-cli-14 unicode-confusables combining
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-324
+exit: 0 (87 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git sdlc/{name}́
+
+=== TC-cli-14 unicode-confusables rtl-override
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-326
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git sdlc/‮{name}
+
+=== TC-cli-14 unicode-confusables dotted-i
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-328
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git İ/{name}
+
+=== TC-cli-14 unicode-confusables kelvin
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-330
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git K/{name}
+
+=== TC-cli-14 unicode-confusables sharp-s
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-332
+exit: 0 (86 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git ß/{name}
+
+=== TC-cli-14 unicode-confusables kind-cyrillic
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-334
+exit: 0 (86 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git slіce
+
+=== TC-cli-14 unicode-confusables kind-upper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-336
+exit: 0 (88 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git SLICE
+
+=== TC-cli-14 unicode-confusables mode-fullwidth
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-338
+exit: 0 (83 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git ｐｒ
+
+=== TC-cli-14 unicode-whitespace nbsp
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-340
+exit: 0 (84 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace em-space
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-342
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace ideographic
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-344
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace zwsp
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-346
+exit: 0 (87 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha​b
+
+=== TC-cli-14 unicode-whitespace zwnj
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-348
+exit: 0 (84 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha‌b
+
+=== TC-cli-14 unicode-whitespace zwj
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-350
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha‍b
+
+=== TC-cli-14 unicode-whitespace bom
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-352
+exit: 0 (84 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git push﻿a
+
+=== TC-cli-14 unicode-whitespace line-sep
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-354
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace para-sep
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-356
+exit: 0 (86 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace ogham
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-358
+exit: 0 (83 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace narrow-nbsp
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-360
+exit: 0 (82 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 unicode-whitespace mongolian-vs
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-362
+exit: 0 (87 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha᠎b
+
+=== TC-cli-14 unicode-whitespace nbsp-only
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-364
+exit: 0 (83 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push\xa0', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-14 unicode-whitespace trailing-nbsp
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-366
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pushslice
+
+=== TC-cli-14 control-chars tab
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-368
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars newline
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-370
+exit: 0 (82 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars cr
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-372
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars crlf
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-374
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars esc-ansi
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-376
+exit: 0 (82 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git push[31mred[0m
+
+=== TC-cli-14 control-chars bell
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-378
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pushab
+
+=== TC-cli-14 control-chars backspace
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-380
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pushabc
+
+=== TC-cli-14 control-chars del
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-382
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pushab
+
+=== TC-cli-14 control-chars soh
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-384
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pushx
+
+=== TC-cli-14 control-chars vt
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-386
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars ff
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-388
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars c1-nel
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-390
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pusha
+
+=== TC-cli-14 control-chars c1-csi
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-392
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git push31m
+
+=== TC-cli-14 control-chars trailing-newline
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-394
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (27 -> 28)
+    + state-write.py git pushslice
+
+=== TC-cli-15 gh pr create
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-396
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh pr create
+  forge (1 -> 2)
+    + next-action.py _m gh pr create
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'pr', 'create', '--fill') -- verb pr create
+
+=== TC-cli-15 glab mr create direct
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-398
+exit: 0 (82 ms) tree unchanged: true
+changed keys: direct, forge, forgeViolations
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(['glab', 'mr', 'create'])
+  forge (1 -> 2)
+    + janitor.py _m glab mr create
+  forgeViolations (0 -> 1)
+    + janitor.py _m subprocess.run(['glab', 'mr', 'create']) -- verb mr create
+
+=== TC-cli-15 gh -R before the verb
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-400
+exit: 0 (85 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh pr create
+  forge (1 -> 2)
+    + next-action.py _m gh pr create
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', '-R', 'o/r', 'pr', 'create') -- verb pr create
+
+=== TC-cli-15 gh --repo before the verb direct
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-402
+exit: 0 (82 ms) tree unchanged: true
+changed keys: direct, forge, forgeViolations
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(['gh', '--repo', 'o/r', 'pr', 'create'])
+  forge (1 -> 2)
+    + janitor.py _m gh pr create
+  forgeViolations (0 -> 1)
+    + janitor.py _m subprocess.run(['gh', '--repo', 'o/r', 'pr', 'create']) -- verb pr create
+
+=== TC-cli-15 gh api -X post lower case
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-404
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/issues
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '-X', 'post', 'repos/o/r/issues') -- method post
+
+=== TC-cli-15 gh api -XPOST attached
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-406
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/issues
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '-XPOST', 'repos/o/r/issues') -- method POST
+
+=== TC-cli-15 gh api --method Delete
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-408
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/git/refs/heads/x
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '--method', 'Delete', 'repos/o/r/git/refs/heads/x') -- method Delete
+
+=== TC-cli-15 gh api --method=put
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-410
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/contents/x
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '--method=put', 'repos/o/r/contents/x') -- method put
+
+=== TC-cli-15 gh api -f
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-412
+exit: 0 (81 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/git/refs
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'repos/o/r/git/refs', '-f', 'ref=x') -- field -f
+
+=== TC-cli-15 gh api -F
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-414
+exit: 0 (83 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/git/refs
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'repos/o/r/git/refs', '-F', 'sha=@f') -- field -F
+
+=== TC-cli-15 gh api --field
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-416
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/git/refs
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'repos/o/r/git/refs', '--field', 'ref=x') -- field --field
+
+=== TC-cli-15 gh api --raw-field=
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-418
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/git/refs
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'repos/o/r/git/refs', '--raw-field=ref=x') -- field --raw-field
+
+=== TC-cli-15 gh api --input
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-420
+exit: 0 (80 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/git/refs
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '--input', 'b.json', 'repos/o/r/git/refs') -- field --input
+
+=== TC-cli-15 gh api path with pulls
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-422
+exit: 0 (82 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/pulls
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'repos/o/r/pulls') -- path holds pulls
+
+=== TC-cli-15 gh api path with PULLS upper case
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-424
+exit: 0 (79 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api repos/o/r/PULLS
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'repos/o/r/PULLS') -- path holds pulls
+
+=== TC-cli-15 glab api merge_requests
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-426
+exit: 0 (81 ms) tree unchanged: true
+changed keys: direct, forge, forgeViolations
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(['glab', 'api', f'projects/{p}/merge_requests'])
+  forge (1 -> 2)
+    + janitor.py _m glab api projects/
+  forgeViolations (0 -> 1)
+    + janitor.py _m subprocess.run(['glab', 'api', f'projects/{p}/merge_requests']) -- path holds merge_requests
+
+=== TC-cli-15 gh api graphql bare
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-428
+exit: 0 (84 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', 'graphql') -- path holds graphql
+
+=== TC-cli-15 gh api graphql -f query
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-430
+exit: 0 (89 ms) tree unchanged: true
+changed keys: direct, forge, forgeViolations
+  direct (11 -> 12)
+    + janitor.py _m subprocess.run(['gh', 'api', 'graphql', '-f', 'query=mutation{x}'])
+  forge (1 -> 2)
+    + janitor.py _m gh api graphql
+  forgeViolations (0 -> 2)
+    + janitor.py _m subprocess.run(['gh', 'api', 'graphql', '-f', 'query=mutation{x}']) -- field -f
+    + janitor.py _m subprocess.run(['gh', 'api', 'graphql', '-f', 'query=mutation{x}']) -- path holds graphql
+
+=== TC-cli-15 gh api /graphql
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-432
+exit: 0 (89 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api /graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '/graphql') -- path holds graphql
+
+=== TC-cli-15 glab api graphql
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-434
+exit: 0 (88 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py glab api
+  forge (1 -> 2)
+    + next-action.py _m glab api graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'glab', 'api', 'graphql') -- path holds graphql
+
+=== TC-cli-15 gh api --paginate graphql
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-436
+exit: 0 (88 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (27 -> 28)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _m gh api graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _m run(repo, 'gh', 'api', '--paginate', 'graphql') -- path holds graphql
+
+=== TC-cli-16 import alias before use
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-438
+exit: 0 (90 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + janitor.py _m sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-16 from import alias before use
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-440
+exit: 0 (90 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m P(['git', 'push'])
+  pushes (3 -> 4)
+    + janitor.py _m P(['git', 'push'])
+
+=== TC-cli-16 posix.system
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-442
+exit: 0 (95 ms) tree unchanged: true
+changed keys: imports, direct, dynamic, pushes
+  imports (22 -> 23)
+    + janitor.py import posix
+  direct (11 -> 12)
+    + janitor.py _m posix.system('git push')
+  dynamic (0 -> 1)
+    + janitor.py import posix
+  pushes (3 -> 4)
+    + janitor.py _m posix.system('git push')
+
+=== TC-cli-16 nt.system
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-444
+exit: 0 (90 ms) tree unchanged: true
+changed keys: imports, direct, dynamic, pushes
+  imports (22 -> 23)
+    + janitor.py import nt
+  direct (11 -> 12)
+    + janitor.py _m nt.system('git push')
+  dynamic (0 -> 1)
+    + janitor.py import nt
+  pushes (3 -> 4)
+    + janitor.py _m nt.system('git push')
+
+=== TC-cli-16 _posixsubprocess
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-446
+exit: 0 (88 ms) tree unchanged: true
+changed keys: imports, direct, dynamic
+  imports (22 -> 23)
+    + janitor.py import _posixsubprocess
+  direct (11 -> 12)
+    + janitor.py _m _posixsubprocess.fork_exec()
+  dynamic (0 -> 1)
+    + janitor.py import _posixsubprocess
+
+=== TC-cli-16 _winapi
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-448
+exit: 0 (86 ms) tree unchanged: true
+changed keys: imports, direct, dynamic
+  imports (22 -> 23)
+    + janitor.py import _winapi
+  direct (11 -> 12)
+    + janitor.py _m _winapi.CreateProcess()
+  dynamic (0 -> 1)
+    + janitor.py import _winapi
+
+=== TC-cli-16 _socket
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-450
+exit: 0 (87 ms) tree unchanged: true
+changed keys: imports, network, dynamic
+  imports (22 -> 23)
+    + janitor.py import _socket
+  network (9 -> 10)
+    + janitor.py call _m _socket.socket()
+  dynamic (0 -> 1)
+    + janitor.py import _socket
+
+=== TC-cli-16 _ssl
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-452
+exit: 0 (89 ms) tree unchanged: true
+changed keys: imports, network, dynamic
+  imports (22 -> 23)
+    + janitor.py import _ssl
+  network (9 -> 10)
+    + janitor.py call _m _ssl._SSLContext(2)
+  dynamic (0 -> 2)
+    + janitor.py _m private _ssl._SSLContext
+    + janitor.py import _ssl
+
+=== TC-cli-16 rebind
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-454
+exit: 0 (89 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value subprocess.run
+
+=== TC-cli-16 default parameter
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-456
+exit: 0 (85 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value subprocess.run
+
+=== TC-cli-16 walrus
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-458
+exit: 0 (82 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value os.system
+
+=== TC-cli-16 list element
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-460
+exit: 0 (85 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m value os.popen
+
+=== TC-cli-16 subclass base
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-462
+exit: 0 (94 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _P value subprocess.Popen
+
+=== TC-cli-16 eval
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-464
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m eval('1')
+
+=== TC-cli-16 exec
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-466
+exit: 0 (91 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m exec('x = 1')
+
+=== TC-cli-16 compile
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-468
+exit: 0 (87 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m compile('1', 'f', 'eval')
+
+=== TC-cli-16 __import__
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-470
+exit: 0 (93 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m __import__('subprocess')
+
+=== TC-cli-16 breakpoint
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-472
+exit: 0 (99 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m breakpoint()
+
+=== TC-cli-16 importlib
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-474
+exit: 0 (95 ms) tree unchanged: true
+changed keys: imports, dynamic
+  imports (22 -> 23)
+    + janitor.py import importlib
+  dynamic (0 -> 2)
+    + janitor.py _m importlib.import_module('subprocess')
+    + janitor.py import importlib
+
+=== TC-cli-16 globals
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-476
+exit: 0 (81 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect globals()
+
+=== TC-cli-16 locals
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-478
+exit: 0 (82 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect locals()
+
+=== TC-cli-16 __builtins__
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-480
+exit: 0 (81 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect __builtins__
+
+=== TC-cli-16 vars()
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-482
+exit: 0 (82 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _m reflect vars()
+
+=== TC-cli-16 private attribute
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-484
+exit: 0 (82 ms) tree unchanged: true
+changed keys: direct, dynamic
+  direct (11 -> 12)
+    + janitor.py _m subprocess._args_from_interpreter_flags()
+  dynamic (0 -> 1)
+    + janitor.py _m private subprocess._args_from_interpreter_flags
+
+=== TC-cli-16 shutil.os.system
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-486
+exit: 0 (82 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m shutil.os.system('git push')
+  pushes (3 -> 4)
+    + janitor.py _m shutil.os.system('git push')
+
+=== TC-cli-16 branches.subprocess.run
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-488
+exit: 0 (81 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _m branches.subprocess.run(['git', 'push'])
+  pushes (3 -> 4)
+    + janitor.py _m branches.subprocess.run(['git', 'push'])
+
+=== TC-cli-16 new import outside the pure list
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-490
+exit: 0 (84 ms) tree unchanged: true
+changed keys: imports
+  imports (22 -> 23)
+    + janitor.py import pydoc
+
+=== TC-cli-16 asyncio subprocess
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-492
+exit: 0 (82 ms) tree unchanged: true
+changed keys: imports, direct, network, pushes
+  imports (22 -> 23)
+    + janitor.py import asyncio
+  direct (11 -> 12)
+    + janitor.py _m asyncio.create_subprocess_exec('git', 'push')
+  network (9 -> 10)
+    + janitor.py import asyncio
+  pushes (3 -> 4)
+    + janitor.py _m asyncio.create_subprocess_exec('git', 'push')
+
+=== TC-cli-16 os.posix_spawnp
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-494
+exit: 0 (83 ms) tree unchanged: true
+changed keys: direct
+  direct (11 -> 12)
+    + janitor.py _m os.posix_spawnp('git', ['git', 'push'], {})
+
+=== TC-cli-16 os.execvp
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-496
+exit: 0 (82 ms) tree unchanged: true
+changed keys: direct
+  direct (11 -> 12)
+    + janitor.py _m os.execvp('git', ['git', 'push'])
+
+=== TC-cli-16 pty.spawn
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-498
+exit: 0 (82 ms) tree unchanged: true
+changed keys: imports, direct, network, pushes
+  imports (22 -> 23)
+    + janitor.py import pty
+  direct (11 -> 12)
+    + janitor.py _m pty.spawn(['git', 'push'])
+  network (9 -> 10)
+    + janitor.py import pty
+  pushes (3 -> 4)
+    + janitor.py _m pty.spawn(['git', 'push'])
+
+=== TC-cli-16 urllib.request.urlopen in collect.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-500
+exit: 0 (80 ms) tree unchanged: true
+changed keys: network
+  network (9 -> 11)
+    + tracker/collect.py call _m urllib.request.Request('https://api.github.com/repos/o/r/pulls', data=b'{}')
+    + tracker/collect.py call _m urllib.request.urlopen(urllib.request.Request('https://api.github.com/repos/o/r/pulls', data=b'{}'))
+
+=== TC-cli-17 import subprocess as sp after a function that calls sp.run, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-502
+exit: 0 (77 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-17 from subprocess import run as _r after its use, state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-504
+exit: 0 (80 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-17 import os as _o after its use, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-506
+exit: 0 (75 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-18 -c core.fsmonitor push before diff in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-508
+exit: 0 (79 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _mutant git(repo, '-c', 'core.fsmonitor=git push -q origin ' + 'sdlc/S-001-v0-http-api-0' + '; echo', 'diff', check=False)
+
+=== TC-cli-18 -c core.fsmonitor push before diff, one constant, state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-510
+exit: 0 (83 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _mutant git(repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'diff', check=False)
+
+=== TC-cli-18 -c core.fsmonitor push before rev-parse in suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-512
+exit: 0 (84 ms) tree unchanged: true
+changed keys: wrapperVerbs, pushes
+  wrapperVerbs (27 -> 28)
+    + suite-receipt.py git push
+  pushes (3 -> 4)
+    + suite-receipt.py _mutant git(repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'rev-parse', 'HEAD')
+
+=== TC-cli-18 -c core.fsmonitor at a direct site in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-514
+exit: 0 (83 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'diff'])
+  pushes (3 -> 4)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '-c', 'core.fsmonitor=git push -q origin sdlc/S-001-v0-http-api-0; echo', 'diff'])
+
+=== TC-cli-18 -c core.fsmonitor with $IFS in place of spaces before diff in state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-516
+exit: 0 (81 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-18 -c core.fsmonitor with $IFS before rev-parse in suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-518
+exit: 0 (85 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-19 TC-cli-17 janitor.py
+guard changed keys: <none>
+remote refs before: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-524
+$ /opt/homebrew/bin/python3 -c $'import importlib.util, sys\nsys.path.insert(0, \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-520/skills/sdlc\")\nspec = importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-520/skills/sdlc/janitor.py\")\nm = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nm._mutant(\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/repo-523\", \"sdlc/S-001-v0-http-api-0\")\n'
+exit: 0 (130 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-524 (unchanged)
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+
+=== TC-cli-19 TC-cli-18 state-write.py with $IFS
+guard changed keys: <none>
+remote refs before: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-529
+$ /opt/homebrew/bin/python3 -c $'import importlib.util, sys\nsys.path.insert(0, \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-525/skills/sdlc\")\nspec = importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-525/skills/sdlc/state-write.py\")\nm = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nm._mutant(\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/repo-528\", \"sdlc/S-001-v0-http-api-0\")\n'
+exit: 0 (178 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-529 (unchanged)
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+
+=== TC-cli-20 require in code
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-530
+exit: 0 (84 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 2)
+    + sdlc-loop.js:1338 child_process const _m = require("child_process")
+    + sdlc-loop.js:1338 require const _m = require("child_process")
+
+=== TC-cli-20 import() in code
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-532
+exit: 0 (84 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 2)
+    + sdlc-loop.js:1338 child_process const _m = () => import("node:child_process")
+    + sdlc-loop.js:1338 import const _m = () => import("node:child_process")
+
+=== TC-cli-20 fetch in a string
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-534
+exit: 0 (85 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 fetch const _m = "fetch"
+
+=== TC-cli-20 process through \u escape
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-536
+exit: 0 (82 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 process const _m = process.env
+
+=== TC-cli-20 spawn through \u{} escape
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-538
+exit: 0 (81 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 spawn const _m = spawn
+
+=== TC-cli-20 globalThis in code
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-540
+exit: 0 (84 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 globalThis const _m = globalThis
+
+=== TC-cli-20 "global" double-quoted
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-542
+exit: 0 (83 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 global const _m = "global"
+
+=== TC-cli-20 `global` template
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-544
+exit: 0 (84 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 global const _m = `global`
+
+=== TC-cli-20 'global ' with a space
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-546
+exit: 0 (82 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 global const _m = 'global '
+
+=== TC-cli-20 'global' in a new place
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-548
+exit: 0 (82 ms) tree unchanged: true
+changed keys: jsAllowed
+  jsAllowed (3 -> 4)
+    + sdlc-loop.js const _m = 'global'
+
+=== TC-cli-20 Function constructor
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-550
+exit: 0 (81 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 Function const _m = Function('return 1')
+
+=== TC-cli-20 Deno
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-552
+exit: 0 (87 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 Deno const _m = Deno
+
+=== TC-cli-20 Bun
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-554
+exit: 0 (82 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 Bun const _m = Bun
+
+=== TC-cli-20 navigator
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-556
+exit: 0 (84 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 navigator const _m = navigator
+
+=== TC-cli-20 Worker
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-558
+exit: 0 (82 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 Worker const _m = new Worker("x")
+
+=== TC-cli-20 WebSocket
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-560
+exit: 0 (83 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 WebSocket const _m = new WebSocket("ws://x")
+
+=== TC-cli-20 EventSource
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-562
+exit: 0 (79 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 EventSource const _m = new EventSource("x")
+
+=== TC-cli-20 XMLHttpRequest
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-564
+exit: 0 (80 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 XMLHttpRequest const _m = new XMLHttpRequest()
+
+=== TC-cli-20 execFile
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-566
+exit: 0 (82 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 execFile const _m = execFile
+
+=== TC-cli-20 fork
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/tree-568
+exit: 0 (83 ms) tree unchanged: true
+changed keys: jsHits
+  jsHits (0 -> 1)
+    + sdlc-loop.js:1338 fork const _m = fork
+
+=== TC-cli-21 clean copy
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-571
+$ /usr/local/bin/node --test --test-name-pattern 'verify branch builder' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-570/skills/sdlc/test/push-guard.test.mjs
+exit: 0 (94 ms)
+--- stdout
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.672958ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 63.920959
+--- stderr
+
+
+=== TC-cli-21 branch passed to the integrator
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-573
+$ /usr/local/bin/node --test --test-name-pattern 'verify branch builder' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-572/skills/sdlc/test/push-guard.test.mjs
+exit: 1 (91 ms)
+--- stdout
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.878125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60.942833
+
+✖ failing tests:
+
+test at ../loopcopy-572/skills/sdlc/test/push-guard.test.mjs:366:1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.878125ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+  const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
+  const _x = () => run('integrator', { sliceId: id, branch: branch(groups[0]) })
+  const profileRun = g => run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
+  const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
+  
+  4 !== 3
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-572/skills/sdlc/test/push-guard.test.mjs:374:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+--- stderr
+
+
+=== TC-cli-21 branch passed to the state-writer
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-575
+$ /usr/local/bin/node --test --test-name-pattern 'verify branch builder' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-574/skills/sdlc/test/push-guard.test.mjs
+exit: 1 (89 ms)
+--- stdout
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.898459ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57.852916
+
+✖ failing tests:
+
+test at ../loopcopy-574/skills/sdlc/test/push-guard.test.mjs:366:1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (0.898459ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+  const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
+  const profileRun = g => run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
+  await run('state-writer', { sliceId: id, branches: groups.map(branch) })
+  const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })
+  
+  4 !== 3
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-574/skills/sdlc/test/push-guard.test.mjs:374:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+--- stderr
+
+
+=== TC-cli-21 branch builder renamed
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/cwd-577
+$ /usr/local/bin/node --test --test-name-pattern 'verify branch builder' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-576/skills/sdlc/test/push-guard.test.mjs
+exit: 1 (99 ms)
+--- stdout
+✖ the loop gives its verify branch builder only to the profile agent and the collector (1.047583ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.8215
+
+✖ failing tests:
+
+test at ../loopcopy-576/skills/sdlc/test/push-guard.test.mjs:366:1
+✖ the loop gives its verify branch builder only to the profile agent and the collector (1.047583ms)
+  AssertionError [ERR_ASSERTION]: branch references:
+  
+  
+  0 !== 3
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-YTQpSP/testkit-cli-NJMZf2/loopcopy-576/skills/sdlc/test/push-guard.test.mjs:374:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+--- stderr
+

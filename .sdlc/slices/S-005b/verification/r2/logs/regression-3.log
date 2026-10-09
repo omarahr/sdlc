@@ -1,0 +1,378 @@
+✔ verify security: VS-9 T-R-119 passes on the unchanged skill, from the repo root and from a moved copy (236.434291ms)
+✖ verify security: VS-9 the three TC-cli-11 mutants fail T-R-119 (360.569667ms)
+✖ verify security: VS-9 T-R-119 catches a push in the git -C argv form the scripts already use (121.139542ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C <repo> push (113.583167ms)
+✖ verify security: VS-9 T-R-119 catches a verify push in a tracker skill script (118.842125ms)
+✖ verify security: VS-9 forms outside the scripts idiom, recorded as blind spots (1071.438333ms)
+✖ verify security: VS-9 forms the guard does catch (823.550625ms)
+✔ verify security: VS-9 the scripts on the slice commit hold no push or request of a verify branch (1.36675ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (237.599792ms)
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (109.204458ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (108.23875ms)
+✔ verify security: VS-9 round 2 forms outside the scripts idiom, recorded as blind spots (558.503583ms)
+✖ verify security: VS-9 round 2 forms the guard does catch (530.928625ms)
+✔ verify security: VS-9 a quote-tolerant scan of every skill file finds no verify push or request (1.943917ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 4
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4698.373791
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:67:1
+✖ verify security: VS-9 the three TC-cli-11 mutants fail T-R-119 (360.569667ms)
+  AssertionError [ERR_ASSERTION]: TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-0ar4wJ/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-0ar4wJ/test/branches.test.mjs
+    ---
+    duration_ms: 64.387333
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 67.6335
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:71:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:76:1
+✖ verify security: VS-9 T-R-119 catches a push in the git -C argv form the scripts already use (121.139542ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a verify push in the ["git", "-C", repo, "push", ...] form:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-jbP7ZO/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-jbP7ZO/test/branches.test.mjs
+    ---
+    duration_ms: 65.047083
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 68.190166
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:78:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:81:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C <repo> push (113.583167ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a verify push in a git -C shell string:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-31H8mA/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-31H8mA/test/branches.test.mjs
+    ---
+    duration_ms: 58.076709
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 61.216
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:83:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:86:1
+✖ verify security: VS-9 T-R-119 catches a verify push in a tracker skill script (118.842125ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 does not read tracker/*.py:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-ZsxuYz/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-ZsxuYz/test/branches.test.mjs
+    ---
+    duration_ms: 62.09275
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 65.224542
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:88:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91:1
+✖ verify security: VS-9 forms outside the scripts idiom, recorded as blind spots (1071.438333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'A-1',
+  +   'A-2',
+  +   'A-6',
+  +   'A-7',
+  +   'A-8',
+  +   'A-10',
+      'A-11',
+  +   'A-12',
+      'A-16'
+    ]
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:115:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'A-1',  'A-2',
+      'A-6',  'A-7',
+      'A-8',  'A-10',
+      'A-11', 'A-12',
+      'A-16'
+    ],
+    expected: [ 'A-11', 'A-16' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118:1
+✖ verify security: VS-9 forms the guard does catch (823.550625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'A-5',
+  +   'A-9',
+  +   'A-14',
+  +   'A-15',
+  +   'A-17',
+  +   'A-18',
+  +   'A-19'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:144:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'A-5',  'A-9',
+      'A-14', 'A-15',
+      'A-17', 'A-18',
+      'A-19'
+    ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:170:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (237.599792ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with git -C "{repo}" push of a verify name:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-A66XW2/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-A66XW2/test/branches.test.mjs
+    ---
+    duration_ms: 62.826584
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 65.97725
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:173:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:177:1
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (109.204458ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a quoted git -C push in a .sh skill script:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-bgOzZj/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-bgOzZj/test/branches.test.mjs
+    ---
+    duration_ms: 53.29875
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 56.402833
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:179:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:182:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (108.23875ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with "git -C " + repo + " push origin " + vb:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-gLDSQm/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-gLDSQm/test/branches.test.mjs
+    ---
+    duration_ms: 51.778458
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 54.984
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:184:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201:1
+✖ verify security: VS-9 round 2 forms the guard does catch (530.928625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'B-5',
+  +   'B-11',
+  +   'B-12',
+  +   'B-13',
+  +   'B-14'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:211:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'B-5', 'B-11', 'B-12', 'B-13', 'B-14' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

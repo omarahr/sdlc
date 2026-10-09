@@ -1,0 +1,1027 @@
+{
+ "profile": "security",
+ "part": 1,
+ "round": 0,
+ "commit": "d0a0c87",
+ "environment": "macOS Darwin 25.6, Python 3.14.7, Node 24.19.0; push_guard.py run on scratch copies of skills/sdlc and hooks at d0a0c87 (worktree sdlc/S-005b-v0-security-1)",
+ "cases": [
+  {
+   "id": "TC-security-1",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-1: S-013 GitHub read as T-R-119f writes it, at a direct site in branches.py changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-1 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-1:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-1",
+     "inline": "S-013 GitHub read as T-R-119f writes it, at a direct site in branches.py\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:48"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-2",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-2: S-013 GitHub read with owner and repo split, timeout keyword changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-2 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-2:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-2",
+     "inline": "S-013 GitHub read with owner and repo split, timeout keyword\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:49"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-3",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-3: S-013 GitHub read with -H Accept header, --paginate and --jq changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-3 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-3:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-3",
+     "inline": "S-013 GitHub read with -H Accept header, --paginate and --jq\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:50"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-4",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-4: S-013 GitHub read with the path built by + of constants and names changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-4 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-4:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-4",
+     "inline": "S-013 GitHub read with the path built by + of constants and names\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:51"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-5",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-5: S-013 GitHub read split over lines with implicit f-string concatenation changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-5 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-5:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-5",
+     "inline": "S-013 GitHub read split over lines with implicit f-string concatenation\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:52"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-6",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-6: gh api -X GET through the next-action.py run wrapper changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-6 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-6:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-6",
+     "inline": "gh api -X GET through the next-action.py run wrapper\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:53"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-7",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-7: gh api -X get in lower case through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-7 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-7:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-7",
+     "inline": "gh api -X get in lower case through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:54"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-8",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-8: gh api --method GET through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-8 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-8:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-8",
+     "inline": "gh api --method GET through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:55"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-9",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-9: gh api --method=GET through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-9 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-9:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-9",
+     "inline": "gh api --method=GET through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:56"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-10",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-10: gh api -XGET glued through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-10 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-10:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-10",
+     "inline": "gh api -XGET glued through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:57"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-11",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-11: gh api --method get in lower case through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-11 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-11:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-11",
+     "inline": "gh api --method get in lower case through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:58"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-12",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-12: gh api -X Get in mixed case after the path through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-12 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-12:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-12",
+     "inline": "gh api -X Get in mixed case after the path through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:59"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-13",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-13: S-013 GitLab push_rule read through run changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-13 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-13:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-13",
+     "inline": "S-013 GitLab push_rule read through run\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:60"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-14",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-14: S-013 GitLab push_rule read at a direct site in branches.py changes only a pin and hits no ban",
+   "given": "A copy of skills/sdlc and hooks at the slice tip d0a0c87",
+   "when": "Append the form A-14 in a new function and run push_guard.py on the copy",
+   "then": "Only the direct, forge and wrapperVerbs keys change; forgeViolations and opaque stay empty; pushes stay equal",
+   "expected": "forge changes; no key outside direct, forge, wrapperVerbs changes; forgeViolations == []; opaque == []",
+   "actual": "forge gains '<file> _verify_read gh|glab api <prefix>'; only direct or wrapperVerbs change besides it; forgeViolations == []; opaque == []",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f and R-119 scope (Reads are allowed; -X/--method GET in any case)",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:82",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-14:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "A-14",
+     "inline": "S-013 GitLab push_rule read at a direct site in branches.py\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:61"
+    },
+    {
+     "kind": "log",
+     "title": "guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-15",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-15: the S-013 GitHub read with 'import urllib.parse' added to branches.py hits no ban",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Add 'import urllib.parse' and the S-013 gh api read to branches.py, run push_guard.py",
+   "then": "No forge violation, no opaque call, no dynamic entry; the network key gains one entry",
+   "expected": "forgeViolations == []; opaque == []; dynamic unchanged",
+   "actual": "forgeViolations == []; opaque == []; network gains 'branches.py import urllib.parse'; direct and forge change",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f; spec section 3 requires urllib.parse.quote(sample, safe=\"\")",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:94",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-15:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "A-15 guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-16",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A-16: the S-013 GitHub read with 'from urllib.parse import quote' added to branches.py hits no ban",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Add 'from urllib.parse import quote' and the S-013 gh api read to branches.py, run push_guard.py",
+   "then": "No forge violation, no opaque call, no dynamic entry; the network key gains one entry",
+   "expected": "forgeViolations == []; opaque == []; dynamic unchanged",
+   "actual": "forgeViolations == []; opaque == []; network gains 'branches.py import urllib.parse'; direct and forge change",
+   "result": "pass",
+   "specSource": "tests.md T-R-119f; spec section 3 requires urllib.parse.quote(sample, safe=\"\")",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:104",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='A-16:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "A-15 guard key diffs",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-diffs.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-17",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-1: gh api -X POST on the rules path next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-1 and run push_guard.py",
+   "then": "forgeViolations holds '-- method POST'",
+   "expected": "a violation '-- method POST'",
+   "actual": "forgeViolations holds '-- method POST'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-1:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-1",
+     "inline": "gh api -X POST on the rules path\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:65"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-18",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-2: gh api --method=patch on the rules path next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-2 and run push_guard.py",
+   "then": "forgeViolations holds '-- method patch'",
+   "expected": "a violation '-- method patch'",
+   "actual": "forgeViolations holds '-- method patch'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-2:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-2",
+     "inline": "gh api --method=patch on the rules path\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:66"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-19",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-3: gh api -X GET with -f a=b next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-3 and run push_guard.py",
+   "then": "forgeViolations holds '-- field -f'",
+   "expected": "a violation '-- field -f'",
+   "actual": "forgeViolations holds '-- field -f'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-3:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-3",
+     "inline": "gh api -X GET with -f a=b\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:67"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-20",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-4: gh api -X GET then -X POST next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-4 and run push_guard.py",
+   "then": "forgeViolations holds '-- method POST'",
+   "expected": "a violation '-- method POST'",
+   "actual": "forgeViolations holds '-- method POST'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-4:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-4",
+     "inline": "gh api -X GET then -X POST\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:68"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-21",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-5: gh api -X with a non-constant method next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-5 and run push_guard.py",
+   "then": "forgeViolations holds '-- method is not constant'",
+   "expected": "a violation '-- method is not constant'",
+   "actual": "forgeViolations holds '-- method is not constant'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-5:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-5",
+     "inline": "gh api -X with a non-constant method\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:69"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-22",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-6: gh api -X with a Cyrillic E confusable of GET next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-6 and run push_guard.py",
+   "then": "forgeViolations holds '-- method GЕT'",
+   "expected": "a violation '-- method GЕT'",
+   "actual": "forgeViolations holds '-- method GЕT'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-6:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-6",
+     "inline": "gh api -X with a Cyrillic E confusable of GET\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:70"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-23",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-7: gh api -X GET with --input - next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-7 and run push_guard.py",
+   "then": "forgeViolations holds '-- field --input'",
+   "expected": "a violation '-- field --input'",
+   "actual": "forgeViolations holds '-- field --input'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-7:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-7",
+     "inline": "gh api -X GET with --input -\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:71"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-24",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-8: gh api -X GET graphql next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-8 and run push_guard.py",
+   "then": "forgeViolations holds '-- path holds graphql'",
+   "expected": "a violation '-- path holds graphql'",
+   "actual": "forgeViolations holds '-- path holds graphql'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-8:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-8",
+     "inline": "gh api -X GET graphql\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:72"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-25",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-9: gh api -X GET on a pulls path next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-9 and run push_guard.py",
+   "then": "forgeViolations holds '-- path holds pulls'",
+   "expected": "a violation '-- path holds pulls'",
+   "actual": "forgeViolations holds '-- path holds pulls'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-9:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-9",
+     "inline": "gh api -X GET on a pulls path\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:73"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-26",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "N-10: gh api --method GET with --raw-field next to the read allowance is a forge violation",
+   "given": "A copy of the tree at d0a0c87",
+   "when": "Append N-10 and run push_guard.py",
+   "then": "forgeViolations holds '-- field --raw-field'",
+   "expected": "a violation '-- field --raw-field'",
+   "actual": "forgeViolations holds '-- field --raw-field'",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope forge rule and ADR-368d graphql ban",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:114",
+   "command": "SDLC_VERIFY_ROOT=<slice tip checkout> node --test --test-name-pattern='N-10:' .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "N-10",
+     "inline": "gh api --method GET with --raw-field\nsource line .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:74"
+    },
+    {
+     "kind": "log",
+     "title": "run",
+     "path": ".sdlc/slices/S-005b/verification/r0/logs/security-1-run.txt"
+    }
+   ]
+  }
+ ],
+ "attacks": [
+  {
+   "id": "A-1",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitHub read as T-R-119f writes it, at a direct site in branches.py",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:48"
+  },
+  {
+   "id": "A-2",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitHub read with owner and repo split, timeout keyword",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:49"
+  },
+  {
+   "id": "A-3",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitHub read with -H Accept header, --paginate and --jq",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:50"
+  },
+  {
+   "id": "A-4",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitHub read with the path built by + of constants and names",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:51"
+  },
+  {
+   "id": "A-5",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitHub read split over lines with implicit f-string concatenation",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:52"
+  },
+  {
+   "id": "A-6",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api -X GET through the next-action.py run wrapper",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:53"
+  },
+  {
+   "id": "A-7",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api -X get in lower case through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:54"
+  },
+  {
+   "id": "A-8",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api --method GET through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:55"
+  },
+  {
+   "id": "A-9",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api --method=GET through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:56"
+  },
+  {
+   "id": "A-10",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api -XGET glued through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:57"
+  },
+  {
+   "id": "A-11",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api --method get in lower case through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:58"
+  },
+  {
+   "id": "A-12",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "gh api -X Get in mixed case after the path through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:59"
+  },
+  {
+   "id": "A-13",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitLab push_rule read through run",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:60"
+  },
+  {
+   "id": "A-14",
+   "charter": "Explore the forge rule with spec-required reads to find a false positive that would block S-013",
+   "input": "S-013 GitLab push_rule read at a direct site in branches.py",
+   "expected": "pin change only, no ban",
+   "observed": "pin change only (direct/forge/wrapperVerbs), no forge violation, no opaque call",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:61"
+  },
+  {
+   "id": "A-15",
+   "charter": "Explore the forge rule with the full S-013 read including its required import",
+   "input": "import urllib.parse plus gh api repos/{slug}/rules/branches/{quote(s, safe='')}",
+   "expected": "pin change only, no ban",
+   "observed": "no ban; the network pin also changes (urllib is a NET_MODULES top)",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:94"
+  },
+  {
+   "id": "A-16",
+   "charter": "Explore the forge rule with the full S-013 read including its required import",
+   "input": "from urllib.parse import quote plus gh api repos/{slug}/rules/branches/{quote(s, safe='')}",
+   "expected": "pin change only, no ban",
+   "observed": "no ban; the network pin also changes (urllib is a NET_MODULES top)",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:104"
+  },
+  {
+   "id": "N-1",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X POST on the rules path",
+   "expected": "violation method POST",
+   "observed": "violation method POST",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:65"
+  },
+  {
+   "id": "N-2",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api --method=patch on the rules path",
+   "expected": "violation method patch",
+   "observed": "violation method patch",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:66"
+  },
+  {
+   "id": "N-3",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X GET with -f a=b",
+   "expected": "violation field -f",
+   "observed": "violation field -f",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:67"
+  },
+  {
+   "id": "N-4",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X GET then -X POST",
+   "expected": "violation method POST",
+   "observed": "violation method POST",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:68"
+  },
+  {
+   "id": "N-5",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X with a non-constant method",
+   "expected": "violation method is not constant",
+   "observed": "violation method is not constant",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:69"
+  },
+  {
+   "id": "N-6",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X with a Cyrillic E confusable of GET",
+   "expected": "violation method GЕT",
+   "observed": "violation method GЕT",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:70"
+  },
+  {
+   "id": "N-7",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X GET with --input -",
+   "expected": "violation field --input",
+   "observed": "violation field --input",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:71"
+  },
+  {
+   "id": "N-8",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X GET graphql",
+   "expected": "violation path holds graphql",
+   "observed": "violation path holds graphql",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:72"
+  },
+  {
+   "id": "N-9",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api -X GET on a pulls path",
+   "expected": "violation path holds pulls",
+   "observed": "violation path holds pulls",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:73"
+  },
+  {
+   "id": "N-10",
+   "charter": "Explore whether the GET read allowance widens into a write",
+   "input": "gh api --method GET with --raw-field",
+   "expected": "violation field --raw-field",
+   "observed": "violation field --raw-field",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:74"
+  }
+ ],
+ "seeds": [
+  {
+   "title": "T-R-119f mutant omits the import that the S-013 read needs",
+   "detail": "Spec section 3 requires urllib.parse.quote. Adding 'import urllib.parse' or 'from urllib.parse import quote' to branches.py adds 'branches.py import urllib.parse' to the network key (urllib is in NET_MODULES). The real S-013 change must update the network pin too, while T-R-119f lets only direct, forge and wrapperVerbs change. No ban fires, so this is no refutation. Consider adding the import to the T-R-119f mutant, or treat urllib.parse as pure in the network key.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "The forge pin holds only the constant path prefix",
+   "detail": "Every gh api read at one function records 'gh api repos/'. A second read of another repos/ endpoint in the same function leaves the forge key unchanged. Writes still give a violation, so no push or PR escapes; the pin only gives less review signal for reads.",
+   "file": "skills/sdlc/test/push_guard.py"
+  }
+ ]
+}

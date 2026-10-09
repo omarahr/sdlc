@@ -1,0 +1,30 @@
+== .sdlc/slices/S-005/verification/r0/tests/cli-0/branches.verify-cli.test.mjs
+✖ failing tests:
+✖ verify cli: TC-cli-10 push_guard.py output equals the pins and each pinned push site is in the source (78.152083ms)
+✖ verify cli: TC-cli-11 push-guard.test.mjs passes from the repo root, from another cwd and from a copied path with spaces (11743.120875ms)
+== .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs
+✖ failing tests:
+✖ verify security: VS-8 the committed T-R-119 passes on the slice and catches a verify push added to the loop (242.609083ms)
+== .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs
+✖ failing tests:
+✖ verify security seed: a list item with a space shifts the forge parse, so a POST to pulls gives no forge violation (90.570375ms)
+== .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs
+✖ failing tests:
+✖ verify security: VS-9 the three TC-cli-11 mutants fail T-R-119 (356.752417ms)
+✖ verify security: VS-9 T-R-119 catches a push in the git -C argv form the scripts already use (111.174334ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C <repo> push (113.94825ms)
+✖ verify security: VS-9 T-R-119 catches a verify push in a tracker skill script (112.443584ms)
+✖ verify security: VS-9 forms outside the scripts idiom, recorded as blind spots (1073.789625ms)
+✖ verify security: VS-9 forms the guard does catch (813.357167ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (242.357209ms)
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (116.611209ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (109.829291ms)
+✖ verify security: VS-9 round 2 forms the guard does catch (546.539292ms)
+== .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs
+✖ verify cli: TC-cli-6 each forge write form holds a forge violation or an opaque entry
+== .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs
+✖ verify cli: TC-cli-6 each forge write form holds a forge violation or an opaque entry
+== .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs
+✖ verify cli: TC-cli-6 each forge write form holds a forge violation or an opaque entry
+== .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs
+✖ verify security: TC-security-4 os.startfile in a scanned script breaks a pin
