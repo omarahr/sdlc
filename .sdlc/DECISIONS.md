@@ -479,3 +479,11 @@
 - Decision: Option 1. A derivable rule gives its table format as the suggestion, also when a format was given. A derived format that git refuses is a failed derivation with exit 1. A regex literal is checked only against the S-001 tail. Other cases give a placeholder line that names the rule labels. A working failure adds a rename line.
 - Consequences / how to reverse: Only the suggest function and its tests change. No state depends on the text.
 - Affects: S-016, R-042, R-043, R-087, R-122
+
+### ADR-20261009-225010-implementer-S-016-a7f3: Two earlier tests assumed a rule that preflight now derives from
+- Status: auto
+- Context: T-R-044c used a starts_with rule and expected a failed verdict. T-R-073a used a negated starts_with feature/ rule, which the default format satisfies. Spec section 4 says preflight derives a format from one starts_with rule, so the first test cannot fail. The second test never fails.
+- Options: leave the tests failing; change the rule in each test.
+- Decision: T-R-044c uses a regex rule, which is never derived. T-R-073a negates starts_with sdlc/, which the default format fails.
+- Consequences / how to reverse: restore the old rules and drop the derivation. The tests keep their original intent.
+- Affects: R-042, R-044, S-016

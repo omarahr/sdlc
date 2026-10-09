@@ -2204,7 +2204,7 @@ test('T-R-044b a failed sample names the first failing rule', opts, () => {
 
 test('T-R-044c the exit code follows the verdict', opts, () => {
   const repo = githubRepo()
-  const shim = ghShim({ body: [startsWith('zzz only', 'zzz/')] })
+  const shim = ghShim({ body: [regexRule('zzz only', '^zzz/')] })
   const failing = preflight(repo, ['--mode', 'pr'], shim)
   assert.equal(failing.status, 1)
   assert.equal(failing.out.ok, false)
@@ -2548,7 +2548,7 @@ test('T-R-073a derive follows the table and refuses regex, negate and several ru
   }
   const refused = [
     regexRule('re', '^feature/'),
-    ghObj({ name: 'neg', operator: 'starts_with', pattern: 'feature/', negate: true }),
+    ghObj({ name: 'neg', operator: 'starts_with', pattern: 'sdlc/', negate: true }),
     [startsWith('a', 'feature/'), endsWith('b', '-x')],
   ]
   for (const rule of refused) {
