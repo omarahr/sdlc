@@ -1,0 +1,14 @@
+# S-013 tests
+- T-R-027a — R-027 — read_rules does not exist yet (AttributeError names read_rules)
+- T-R-027b — R-027 — read_rules does not exist yet
+- T-R-027c — R-027 — read_rules does not exist yet
+- T-R-028a — R-028 — read_rules does not exist yet
+- T-R-028b — R-028 — read_rules does not exist yet
+- T-R-028c — R-028 — read_rules does not exist yet
+- T-R-028d — R-028 — read_rules does not exist yet
+- T-R-028e — R-028 — read_rules does not exist yet
+- T-R-028f — R-028 — read_rules does not exist yet
+- T-R-029a — R-029 — read_rules does not exist yet
+- T-R-029b — R-029 — read_rules does not exist yet
+- T-R-029c — R-029 — read_rules does not exist yet
+- T-R-084a — R-084 (GitHub half) — read_rules does not exist yet
