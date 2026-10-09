@@ -2028,3 +2028,241 @@ test('T-R-084b a missing glab does not crash', opts, () => {
   assert.deepEqual(got.ret.rules, [])
   assert.equal(got.ret.unchecked, true)
 })
+
+const pathWith = (...shims) => [...shims.map((s) => s.bin), ...process.env.PATH.split(':')].join(':')
+
+function preflight(repo, args = [], shim = null) {
+  const env = shim ? { ...process.env, PATH: pathWith(shim) } : process.env
+  const r = run(['preflight', '--repo', repo, ...args], { env, cwd: scratch('sdlc-branches-cwd-') })
+  return { status: r.status, out: oneObject(r) }
+}
+
+const kinds = (out) => out.samples.map((s) => s.kind)
+const names = (out) => out.samples.map((s) => s.name)
+const sampleOf = (out, kind) => out.samples.find((s) => s.kind === kind)
+const normalize = (list) => list.map((n) => n.replace(/\d{14}/, 'TS'))
+const startsWith = (label, pattern) => ghObj({ name: label, operator: 'starts_with', pattern })
+const PASS_ALL = [startsWith('open', '')]
+const RESULTS = ['pass', 'fail', 'unevaluated', 'unchecked']
+
+test('T-R-038a the flag gives given true and the flag format', opts, () => {
+  const repo = withConfig({ gitMode: 'pr', branchFormat: 'feature/{name}' })
+  const { status, out } = preflight(repo, ['--mode', 'pr', '--format', 'team/{name}'])
+  assert.equal(status, 0)
+  assert.equal(out.given, true)
+  assert.equal(out.format, 'team/{name}')
+})
+
+test('T-R-038b the config gives given true and the config format', opts, () => {
+  const repo = withConfig({ gitMode: 'pr', branchFormat: 'feature/{name}' })
+  const { out } = preflight(repo, ['--mode', 'pr'])
+  assert.equal(out.given, true)
+  assert.equal(out.format, 'feature/{name}')
+})
+
+test('T-R-038c neither flag nor config gives given false and the default format', opts, () => {
+  const { out } = preflight(withConfig({ gitMode: 'pr' }), ['--mode', 'pr'])
+  assert.equal(out.given, false)
+  assert.equal(out.format, 'sdlc/{name}')
+})
+
+test('T-R-038d an invalid format exits 2 with an error object', opts, () => {
+  assertBadInput(['preflight', '--repo', withConfig({ gitMode: 'pr' }), '--mode', 'pr', '--format', 'feature/x'], 'format without placeholder')
+})
+
+test('T-R-039a the pr mode samples a slice, a state and an e2e branch', opts, () => {
+  const { out } = preflight(withConfig({ gitMode: 'pr' }), ['--mode', 'pr'])
+  assert.deepEqual(kinds(out), ['slice', 'state', 'e2e'])
+  const [slice, state, e2e] = names(out)
+  assert.equal(slice, 'sdlc/S-001')
+  assert.match(state, /^sdlc\/state-\d{14}$/)
+  assert.equal(e2e, 'sdlc/M-1-e2e')
+})
+
+test('T-R-039b the stack mode samples a run, a milestone and a slice branch', opts, () => {
+  const { out } = preflight(withConfig({ gitMode: 'stack' }), ['--mode', 'stack'])
+  assert.deepEqual(kinds(out), ['run', 'milestone', 'slice'])
+  assert.deepEqual(names(out), ['sdlc/run-1', 'sdlc/M-1', 'sdlc/S-001'])
+})
+
+test('T-R-039c the mr and direct modes sample nothing without --branch', opts, () => {
+  for (const mode of ['mr', 'direct']) {
+    const { status, out } = preflight(withConfig({ gitMode: mode }), ['--mode', mode])
+    assert.equal(status, 0, mode)
+    assert.deepEqual(out.samples, [], mode)
+  }
+})
+
+test('T-R-039d samples follow the format', opts, () => {
+  const { out } = preflight(withConfig({ gitMode: 'pr' }), ['--mode', 'pr', '--format', 'feature/{name:lower}'])
+  assert.equal(sampleOf(out, 'slice').name, 'feature/s-001')
+})
+
+test('T-R-040a the mr mode adds a working sample last', opts, () => {
+  const { out } = preflight(withConfig({ gitMode: 'mr' }), ['--mode', 'mr', '--branch', 'bad-name'])
+  assert.equal(out.samples.length, 1)
+  assert.equal(out.samples[0].kind, 'working')
+  assert.equal(out.samples[0].name, 'bad-name')
+})
+
+test('T-R-040b the working branch is judged as given', opts, () => {
+  const repo = withConfig({ gitMode: 'mr', forge: 'gitlab' })
+  const shim = glabShim({ body: { branch_name_regex: '^feat/' } })
+  const bad = preflight(repo, ['--mode', 'mr', '--branch', 'bad-name'], shim)
+  assert.equal(sampleOf(bad.out, 'working').name, 'bad-name')
+  assert.equal(sampleOf(bad.out, 'working').result, 'fail')
+  assert.equal(sampleOf(bad.out, 'working').rule, 'push rule')
+  const good = preflight(repo, ['--mode', 'mr', '--branch', 'feat/x'], shim)
+  assert.equal(sampleOf(good.out, 'working').name, 'feat/x')
+  assert.equal(sampleOf(good.out, 'working').result, 'pass')
+})
+
+test('T-R-040c the other modes ignore --branch', opts, () => {
+  for (const mode of ['pr', 'stack', 'direct']) {
+    const repo = withConfig({ gitMode: mode })
+    const plain = preflight(repo, ['--mode', mode]).out
+    const flagged = preflight(repo, ['--mode', mode, '--branch', 'X']).out
+    assert.equal(sampleOf(flagged, 'working'), undefined, mode)
+    assert.deepEqual(kinds(flagged), kinds(plain), mode)
+    assert.deepEqual(normalize(names(flagged)), normalize(names(plain)), mode)
+  }
+})
+
+test('T-R-041a a repo with no forge gives ok, exit 0 and unchecked samples', opts, () => {
+  const { status, out } = preflight(withConfig({ gitMode: 'pr' }), ['--mode', 'pr'])
+  assert.equal(status, 0)
+  assert.equal(out.ok, true)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.samples.length, 3)
+  assert.ok(out.samples.every((s) => s.result === 'unchecked'), JSON.stringify(out.samples))
+})
+
+test('T-R-041b passing and unevaluated samples never block', opts, () => {
+  const repo = githubRepo()
+  const pass = preflight(repo, ['--mode', 'pr'], ghShim({ body: [startsWith('sdlc only', 'sdlc/')] }))
+  assert.equal(pass.status, 0)
+  assert.equal(pass.out.ok, true)
+  assert.equal(pass.out.samples.length, 3)
+  assert.ok(pass.out.samples.every((s) => s.result === 'pass'), JSON.stringify(pass.out.samples))
+  const bad = preflight(repo, ['--mode', 'pr'], ghShim({ body: [ghObj({ name: 'broken', operator: 'regex', pattern: '(' })] }))
+  assert.equal(bad.status, 0)
+  assert.equal(bad.out.ok, true)
+  assert.equal(bad.out.samples.length, 3)
+  assert.ok(bad.out.samples.every((s) => s.result === 'unevaluated'), JSON.stringify(bad.out.samples))
+  assert.ok(bad.out.notes.some((n) => n.startsWith('cannot evaluate')), JSON.stringify(bad.out.notes))
+})
+
+test('T-R-041c unchecked samples never block', opts, () => {
+  const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], ghShim({ body: '', stderr: 'boom\n', exit: 1 }))
+  assert.equal(status, 0)
+  assert.equal(out.ok, true)
+  assert.equal(out.samples.length, 3)
+  assert.ok(out.samples.every((s) => s.result === 'unchecked'), JSON.stringify(out.samples))
+  assert.ok(out.notes.some((n) => n.startsWith('rules unknown on github:')), JSON.stringify(out.notes))
+})
+
+test('T-R-041d notes merge without duplicates, in first-seen order', opts, () => {
+  const body = [
+    ghObj({ name: 'badA', operator: 'regex', pattern: '(' }),
+    ghObj({ name: 'badB', operator: 'regex', pattern: '[' }),
+  ]
+  const { out } = preflight(githubRepo(), ['--mode', 'pr'], ghShim({ body }))
+  const cannot = out.notes.filter((n) => n.startsWith('cannot evaluate'))
+  assert.equal(cannot.length, 2, JSON.stringify(out.notes))
+  assert.match(cannot[0], /^cannot evaluate badA: /)
+  assert.match(cannot[1], /^cannot evaluate badB: /)
+  assert.equal(new Set(out.notes).size, out.notes.length)
+})
+
+test('T-R-044a the output has the spec keys', opts, () => {
+  const { out } = preflight(githubRepo(), ['--mode', 'pr'], ghShim({ body: [startsWith('sdlc only', 'sdlc/')] }))
+  for (const key of ['ok', 'format', 'derived', 'forge', 'rules', 'samples', 'notes', 'suggestion']) {
+    assert.ok(key in out, `missing ${key}`)
+  }
+  assert.equal(out.derived, false)
+  assert.equal(out.forge, 'github')
+  assert.equal(out.suggestion, '')
+  assert.ok(out.samples.length > 0)
+  for (const sample of out.samples) {
+    assert.deepEqual(Object.keys(sample).sort(), ['kind', 'name', 'result', 'rule'])
+    assert.ok(RESULTS.includes(sample.result), sample.result)
+    assert.equal(sample.rule, null)
+  }
+})
+
+test('T-R-044b a failed sample names the first failing rule', opts, () => {
+  const failing = [startsWith('first', 'zzz/'), startsWith('second', 'yyy/')]
+  const shim = ghShim({ body: [startsWith('sdlc only', 'sdlc/')], bodies: { 'sdlc/S-001': failing } })
+  const { out } = preflight(githubRepo(), ['--mode', 'pr'], shim)
+  const slice = sampleOf(out, 'slice')
+  assert.equal(slice.result, 'fail')
+  assert.equal(slice.rule, 'first')
+  const state = sampleOf(out, 'state')
+  assert.equal(state.result, 'pass')
+  assert.equal(state.rule, null)
+})
+
+test('T-R-044c the exit code follows the verdict', opts, () => {
+  const repo = githubRepo()
+  const shim = ghShim({ body: [startsWith('zzz only', 'zzz/')] })
+  const failing = preflight(repo, ['--mode', 'pr'], shim)
+  assert.equal(failing.status, 1)
+  assert.equal(failing.out.ok, false)
+  assert.ok(failing.out.samples.some((s) => s.result === 'fail'))
+  const passing = preflight(repo, ['--mode', 'pr', '--format', 'zzz/{name}'], shim)
+  assert.equal(passing.status, 0)
+  assert.equal(passing.out.ok, true)
+  assertBadInput(['preflight', '--repo', repo, '--mode', 'nonsense'], 'bad mode')
+})
+
+test('T-R-044d a bad ref name fails when the forge rules pass', opts, () => {
+  const { status, out } = preflight(githubRepo(), ['--mode', 'mr', '--branch', 'a..b'], ghShim({ body: PASS_ALL }))
+  const working = sampleOf(out, 'working')
+  assert.equal(working.result, 'fail')
+  assert.equal(working.rule, 'git check-ref-format')
+  assert.equal(out.ok, false)
+  assert.equal(status, 1)
+  const other = preflight(githubRepo(), ['--mode', 'pr'], ghShim({ body: PASS_ALL }))
+  assert.ok(other.out.samples.every((s) => s.result === 'pass'), JSON.stringify(other.out.samples))
+})
+
+test('T-R-044e a bad ref name fails without a forge', opts, () => {
+  const repo = withConfig({ gitMode: 'mr' })
+  const bad = preflight(repo, ['--mode', 'mr', '--branch', 'a..b'])
+  assert.equal(sampleOf(bad.out, 'working').result, 'fail')
+  assert.equal(sampleOf(bad.out, 'working').rule, 'git check-ref-format')
+  assert.equal(bad.out.ok, false)
+  assert.equal(bad.status, 1)
+  const good = preflight(repo, ['--mode', 'mr', '--branch', 'feat/x'])
+  assert.equal(sampleOf(good.out, 'working').result, 'unchecked')
+  assert.equal(good.status, 0)
+})
+
+test('T-R-044f a bad ref name fails when the rules are unknown', opts, () => {
+  const shim = ghShim({ body: '', stderr: 'boom\n', exit: 1 })
+  const bad = preflight(githubRepo(), ['--mode', 'mr', '--branch', 'a..b'], shim)
+  assert.equal(sampleOf(bad.out, 'working').result, 'fail')
+  assert.equal(sampleOf(bad.out, 'working').rule, 'git check-ref-format')
+  assert.ok(bad.out.notes.some((n) => n.startsWith('rules unknown on github:')), JSON.stringify(bad.out.notes))
+  assert.equal(bad.out.ok, false)
+  assert.equal(bad.status, 1)
+  const others = preflight(githubRepo(), ['--mode', 'pr', '--branch', 'a..b'], shim)
+  assert.ok(others.out.samples.every((s) => s.result === 'unchecked'), JSON.stringify(others.out.samples))
+})
+
+test('T-R-084a preflight with no gh and no glab gives unchecked samples and one note', opts, () => {
+  for (const forge of ['github', 'gitlab']) {
+    const bin = scratch('sdlc-nocli-bin-')
+    symlinkSync(PYTHON_PATH, join(bin, 'python3'))
+    symlinkSync(GIT_PATH, join(bin, 'git'))
+    const repo = withConfig({ gitMode: 'pr', forge })
+    const r = spawnSync(PYTHON_PATH, [BRANCHES, 'preflight', '--repo', repo, '--mode', 'pr'], { encoding: 'utf8', env: { ...process.env, PATH: bin }, cwd: scratch('sdlc-branches-cwd-') })
+    const out = oneObject(r)
+    assert.equal(r.status, 0, forge)
+    assert.equal(out.ok, true, forge)
+    assert.equal(out.notes.length, 1, JSON.stringify(out.notes))
+    assert.match(out.notes[0], new RegExp(`^rules unknown on ${forge}:`))
+    assert.equal(out.samples.length, 3, forge)
+    assert.ok(out.samples.every((s) => s.result === 'unchecked'), forge)
+  }
+})

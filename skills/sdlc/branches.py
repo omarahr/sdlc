@@ -173,7 +173,10 @@ def _collect_rules(repo, forge, samples):
 
 
 def read_rules(repo, samples):
-    forge = _config_value(repo, "forge") or ""
+    try:
+        forge = _config_value(repo, "forge") or ""
+    except Fail:
+        forge = ""
     result = {"forge": forge, "rules": [], "by_sample": {}, "notes": [], "unchecked": True}
     if forge not in ("github", "gitlab"):
         return result
@@ -470,13 +473,71 @@ def cmd_list(ns):
     }
 
 
+SAMPLE_KINDS = {
+    "pr": (("slice", {"id": "S-001"}), ("state", {}), ("e2e", {"id": "M-1"})),
+    "stack": (("run", {"n": 1}), ("milestone", {"id": "M-1"}), ("slice", {"id": "S-001"})),
+    "mr": (),
+    "direct": (),
+}
+
+
+def build_samples(fmt, mode, current):
+    samples = [
+        {"kind": kind, "name": name(fmt, kind, **parts)}
+        for kind, parts in SAMPLE_KINDS.get(mode, ())
+    ]
+    if mode == "mr" and current:
+        samples.append({"kind": "working", "name": current})
+    return samples
+
+
+def _sample_row(sample, rules, notes):
+    if rules is None:
+        outcome = judge([], sample["name"])
+        if outcome["result"] != "fail":
+            outcome = {"result": "unchecked", "rule": None, "notes": []}
+    else:
+        outcome = judge(rules, sample["name"])
+    notes.extend(outcome["notes"])
+    return {
+        "kind": sample["kind"],
+        "name": sample["name"],
+        "result": outcome["result"],
+        "rule": outcome["rule"],
+    }
+
+
+def verdict(repo, fmt, mode, current):
+    samples = build_samples(fmt, mode, current)
+    names = list(dict.fromkeys(s["name"] for s in samples))
+    read = read_rules(repo, names)
+    notes = list(read["notes"])
+    rows = []
+    for sample in samples:
+        rules = None if read["unchecked"] else read["by_sample"].get(sample["name"])
+        if rules is not None and not rules:
+            rules = []
+        rows.append(_sample_row(sample, rules, notes))
+    return {
+        "ok": all(row["result"] != "fail" for row in rows),
+        "forge": read["forge"],
+        "rules": read["rules"],
+        "samples": rows,
+        "notes": list(dict.fromkeys(notes)),
+    }
+
+
 def cmd_preflight(ns):
     repo = _repo(ns)
     modes = load_git_modes()
     if ns.mode not in modes:
         raise Fail(f"--mode {ns.mode!r} is not one of {', '.join(modes)}")
-    result = _echo("preflight", _format(ns, repo), ns)
+    fmt = _format(ns, repo)
+    result = _echo("preflight", fmt, ns)
     result["given"] = ns.format is not None or _config_format(repo) is not None
+    result["derived"] = False
+    result["suggestion"] = ""
+    result.update(verdict(repo, fmt, ns.mode, ns.branch))
     return result
 
 
@@ -529,6 +590,8 @@ def main(argv=None):
         print(json.dumps({"ok": False, "error": str(e) or "bad input"}))
         return 2
     print(json.dumps(result))
+    if ns.command == "preflight" and not result.get("ok"):
+        return 1
     return 0
 
 
