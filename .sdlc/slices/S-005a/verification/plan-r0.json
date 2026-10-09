@@ -1,0 +1,76 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "The loop asks for a state branch with no timestamp and gets sdlc/state- plus 14 UTC digits",
+      "requirementIds": ["R-008"],
+      "profiles": ["cli", "contract"],
+      "notes": "Run branches.py name --kind state under TZ values far from UTC (Pacific/Kiritimati, Etc/GMT+12) and near a second boundary. The digits must parse as %Y%m%d%H%M%S in UTC and lie between two UTC clock reads. Check the default format and a prefixed format. Through the API, tail('state') and tail('state', ts=None) and ts='' must each give state- plus 14 digits. Exit 0, one JSON line, no stderr, no change to the repo."
+    },
+    {
+      "id": "VS-2",
+      "title": "A caller gives an explicit state timestamp and it is used as given",
+      "requirementIds": ["R-008"],
+      "profiles": ["contract", "cli"],
+      "notes": "name(fmt, 'state', ts='20261008101500') must return the prefix, state-20261008101500 and the suffix, under sdlc/{name}, a prefixed format and {name:lower}. The CLI has no --ts flag; check that a --ts argument is refused with exit 2 and one JSON error, not a traceback. Record what the API does with a non-digit ts as a seed; the spec only says the value is used as given."
+    },
+    {
+      "id": "VS-3",
+      "title": "The loop names a verify branch for a round, profile and part, round 0 and part 0 included",
+      "requirementIds": ["R-009"],
+      "profiles": ["cli", "contract"],
+      "notes": "Acceptance: name --kind verify --id S-001 --round 0 --profile http-api --part 0 prints sdlc/S-001-v0-http-api-0. Round 0 and part 0 are falsy values: a truthiness check in the part loop would drop them. Try large rounds and parts, every catalog profile id, split ids (S-005a) and fix-slice ids (S-fix-M-1-2). Through the API, integer and string values must give the same tail."
+    },
+    {
+      "id": "VS-4",
+      "title": "A verify branch request with a missing or malformed part is refused cleanly",
+      "requirementIds": ["R-009"],
+      "profiles": ["cli", "security", "contract"],
+      "notes": "Omit each of --id, --round, --profile and --part in turn: exit 2, one JSON error that names the missing part, no traceback, no ref created. An empty --profile must be refused. Feed non-integer, negative, huge and unicode-digit rounds and parts, and hostile profiles (slashes, .., spaces, control characters, flag-like values, ~^: and @{). A name git check-ref-format refuses must not come back as ok. Record a profile that yields an unsafe ref name as a seed when no requirement covers it."
+    },
+    {
+      "id": "VS-5",
+      "title": "The loop names an attempt branch for a slice and attempt number",
+      "requirementIds": ["R-010"],
+      "profiles": ["cli", "contract"],
+      "notes": "Acceptance: name --kind attempt --id S-001 --n 1 prints sdlc/S-001-attempt-1. Also check --id S-fix-M-1-2 --n 3 and a split id. n = 0 must not be dropped as missing. Through the API, tail('attempt', id='S-001', n=1) returns S-001-attempt-1."
+    },
+    {
+      "id": "VS-6",
+      "title": "An attempt branch request with a missing or malformed number is refused cleanly",
+      "requirementIds": ["R-010"],
+      "profiles": ["cli", "security", "contract"],
+      "notes": "Omit --n, then --id: exit 2, one JSON error that names the part, no traceback. Feed non-integer, negative, huge, unicode-digit and flag-like n values, and hostile ids (traversal, control characters, injection strings). Check that no shell runs and no file outside the scratch repo changes."
+    },
+    {
+      "id": "VS-7",
+      "title": "A team with a custom branch format gets verify and attempt branches inside that format",
+      "requirementIds": ["R-009", "R-010"],
+      "profiles": ["cli", "contract"],
+      "notes": "Set branchFormat in .sdlc/config.json and pass --format: feature/PROJ-1-{name} gives feature/PROJ-1-S-001-v0-http-api-0 and feature/PROJ-1-S-001-attempt-1. feature/PROJ-1-{name:lower} gives s-001 forms. A format with a suffix must keep the suffix after the tail. --format must win over the config value."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py name in a scratch git repo with a controlled env and TZ, with and without a config branchFormat; capture JSON, exit code, stderr and tree diff.",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Call tail and name through the Python API in batches with generated ids, rounds, parts, profiles, n and ts values, and with formats from arb.format.",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Feed hostile id, profile, round, part and n values (control chars, flag-like values, traversal, unicode digits and whitespace, huge integers, injection) to the CLI and the API.",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "One CLI boundary with two new table rows; a wrong tail gives wrong verify and attempt branch names, which breaks later recognition and sweeps.",
+  "notes": "S-005a is split from S-005. Scenarios VS-1 to VS-7 match the S-005 plan-r0 scenarios for R-008, R-009 and R-010, which held in every S-005 round. The R-119 push-guard scenarios (S-005 VS-8 to VS-11) belong to S-005b and are out of scope. Do not test push_guard.py here. Parse and list of verify and attempt names belong to later slices (R-068 round trip); profile agents must not refute this slice on parse or list output, but may record seeds. The spec states no numeric limit for these kinds, so limits is not tagged."
+}

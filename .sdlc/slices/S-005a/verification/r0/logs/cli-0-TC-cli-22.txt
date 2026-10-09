@@ -1,0 +1,42 @@
+### without --kind
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-436
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-435 --id S-001 --n 1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: --kind"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-436 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-435 (unchanged)
+
+### unknown kind verif
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-437
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-435 --kind verif --id S-001 --round 0 --profile cli --part 0
+exit: 2 (62 ms)
+--- stdout
+{"ok": false, "error": "--kind 'verif' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-437 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-435 (unchanged)
+
+### repo dir that is not a git repo, with a space and unicode
+$ cd $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/not a repo ü-438'
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/not a repo ü-438' --kind attempt --id S-001 --n 1
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-001-attempt-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/not a repo ü-438 (unchanged)
+
+### verify in a non-git dir
+$ cd $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/not a repo ü-438'
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/not a repo ü-438' --kind verify --id S-001 --round 0 --profile http-api --part 0
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-http-api-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/not a repo ü-438 (unchanged)
+

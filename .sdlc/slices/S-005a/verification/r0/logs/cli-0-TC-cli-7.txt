@@ -1,0 +1,55 @@
+### --id S-001 --n 1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-359
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 --kind attempt --id S-001 --n 1
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-001-attempt-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-359 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 (unchanged)
+
+### --id S-fix-M-1-2 --n 3
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-360
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 --kind attempt --id S-fix-M-1-2 --n 3
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-fix-M-1-2-attempt-3"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-360 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 (unchanged)
+
+### --id S-013a --n 0
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-361
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 --kind attempt --id S-013a --n 0
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-013a-attempt-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-361 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 (unchanged)
+
+### --id S-001 --n 123456789
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-362
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 --kind attempt --id S-001 --n 123456789
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-001-attempt-123456789"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-362 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 (unchanged)
+
+### --id S-001 --n 2 --round 5 --profile cli --part 9 --area x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-363
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 --kind attempt --id S-001 --n 2 --round 5 --profile cli --part 9 --area x
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-001-attempt-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-363 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-358 (unchanged)
+

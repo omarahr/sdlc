@@ -1,0 +1,33 @@
+### --ts 20261008101500
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-432
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-431 --kind state --ts 20261008101500
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --ts 20261008101500"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-432 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-431 (unchanged)
+
+### --ts=20261008101500
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-433
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-431 --kind state --ts=20261008101500
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --ts=20261008101500"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-433 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-431 (unchanged)
+
+### --t 20261008101500
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-434
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-431 --kind state --t 20261008101500
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --t 20261008101500"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/cwd-434 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-XgRCHc/testkit-cli-nu45EP/repo-431 (unchanged)
+

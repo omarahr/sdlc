@@ -1,0 +1,7 @@
+--profile="../x" exit 0 sdlc/S-001-v0-../x-0 check-ref-format=false
+--profile="a b" exit 0 sdlc/S-001-v0-a b-0 check-ref-format=false
+--profile="x~1" exit 0 sdlc/S-001-v0-x~1-0 check-ref-format=false
+--profile="x@{1}" exit 0 sdlc/S-001-v0-x@{1}-0 check-ref-format=false
+--profile="a:b" exit 0 sdlc/S-001-v0-a:b-0 check-ref-format=false
+--id="S-001.lock/x" exit 0 sdlc/S-001.lock/x-v0-http-api-0 check-ref-format=false
+--profile="-v" exit 0 sdlc/S-001-v0--v-0 check-ref-format=true

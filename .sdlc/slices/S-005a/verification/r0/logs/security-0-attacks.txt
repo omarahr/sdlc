@@ -1,0 +1,119 @@
+VS-4 missing id=undefined -> exit 2 "a verify branch name needs a non-empty id"
+VS-4 missing id="" -> exit 2 "a verify branch name needs a non-empty id"
+VS-4 missing round=undefined -> exit 2 "a verify branch name needs a non-empty round"
+VS-4 missing round="" -> exit 2 "argument --round: invalid int value: ''"
+VS-4 missing profile=undefined -> exit 2 "a verify branch name needs a non-empty profile"
+VS-4 missing profile="" -> exit 2 "a verify branch name needs a non-empty profile"
+VS-4 missing part=undefined -> exit 2 "a verify branch name needs a non-empty part"
+VS-4 missing part="" -> exit 2 "argument --part: invalid int value: ''"
+VS-4 int flags: 150 calls, 102 refused, 48 accepted:
+  --round space-padded " 3 " -> sdlc/S-001-v3-http-api-0
+  --round plus "+1" -> sdlc/S-001-v1-http-api-0
+  --round neg-zero "-0" -> sdlc/S-001-v0-http-api-0
+  --round negative "-1" -> sdlc/S-001-v-1-http-api-0
+  --round underscore "1_000" -> sdlc/S-001-v1000-http-api-0
+  --round octal-lead "010" -> sdlc/S-001-v10-http-api-0
+  --round int64-max "9223372036854775807 -> sdlc/S-001-v9223372036854775807-http-api-0
+  --round int64-over "9223372036854775808 -> sdlc/S-001-v9223372036854775808-http-api-0
+  --round twenty-digits "9999999999999999999 -> sdlc/S-001-v99999999999999999999-http-api-0
+  --round nbsp-padded " 3" -> sdlc/S-001-v3-http-api-0
+  --round tab-padded "\t3\n" -> sdlc/S-001-v3-http-api-0
+  --round arabic-indic "٣" -> sdlc/S-001-v3-http-api-0
+  --round arabic-indic-12 "١٢" -> sdlc/S-001-v12-http-api-0
+  --round fullwidth "１２" -> sdlc/S-001-v12-http-api-0
+  --round devanagari "१" -> sdlc/S-001-v1-http-api-0
+  --round bengali "২" -> sdlc/S-001-v2-http-api-0
+  --round nko "߁" -> sdlc/S-001-v1-http-api-0
+  --round math-bold "𝟏" -> sdlc/S-001-v1-http-api-0
+  --round mixed "1٢" -> sdlc/S-001-v12-http-api-0
+  --round thai "๑" -> sdlc/S-001-v1-http-api-0
+  --round digits-4300 "9999999999999999999 -> sdlc/S-001-v999999999999999999999999999999999999999999999999
+  --round negative-like "-1" -> sdlc/S-001-v-1-http-api-0
+  --round neg "-1" -> sdlc/S-001-v-1-http-api-0
+  --round lead-space " 1" -> sdlc/S-001-v1-http-api-0
+  --part space-padded " 3 " -> sdlc/S-001-v0-http-api-3
+  --part plus "+1" -> sdlc/S-001-v0-http-api-1
+  --part neg-zero "-0" -> sdlc/S-001-v0-http-api-0
+  --part negative "-1" -> sdlc/S-001-v0-http-api--1
+  --part underscore "1_000" -> sdlc/S-001-v0-http-api-1000
+  --part octal-lead "010" -> sdlc/S-001-v0-http-api-10
+  --part int64-max "9223372036854775807 -> sdlc/S-001-v0-http-api-9223372036854775807
+  --part int64-over "9223372036854775808 -> sdlc/S-001-v0-http-api-9223372036854775808
+  --part twenty-digits "9999999999999999999 -> sdlc/S-001-v0-http-api-99999999999999999999
+  --part nbsp-padded " 3" -> sdlc/S-001-v0-http-api-3
+  --part tab-padded "\t3\n" -> sdlc/S-001-v0-http-api-3
+  --part arabic-indic "٣" -> sdlc/S-001-v0-http-api-3
+  --part arabic-indic-12 "١٢" -> sdlc/S-001-v0-http-api-12
+  --part fullwidth "１２" -> sdlc/S-001-v0-http-api-12
+  --part devanagari "१" -> sdlc/S-001-v0-http-api-1
+  --part bengali "২" -> sdlc/S-001-v0-http-api-2
+  --part nko "߁" -> sdlc/S-001-v0-http-api-1
+  --part math-bold "𝟏" -> sdlc/S-001-v0-http-api-1
+  --part mixed "1٢" -> sdlc/S-001-v0-http-api-12
+  --part thai "๑" -> sdlc/S-001-v0-http-api-1
+  --part digits-4300 "9999999999999999999 -> sdlc/S-001-v0-http-api-9999999999999999999999999999999999999
+  --part negative-like "-1" -> sdlc/S-001-v0-http-api--1
+  --part neg "-1" -> sdlc/S-001-v0-http-api--1
+  --part lead-space " 1" -> sdlc/S-001-v0-http-api-1
+VS-4 hostile id/profile: 250 calls, 73 ok results that git check-ref-format refuses; examples:
+  --id control-chars/tab -> "sdlc/a\tb-v0-http-api-0"
+  --id control-chars/newline -> "sdlc/a\nb-v0-http-api-0"
+  --id control-chars/cr -> "sdlc/a\rb-v0-http-api-0"
+  --id control-chars/crlf -> "sdlc/a\r\nb-v0-http-api-0"
+  --id control-chars/esc-ansi -> "sdlc/\u001b[31mred\u001b[0m-v0-http-api-0"
+  --id control-chars/bell -> "sdlc/a\u0007b-v0-http-api-0"
+  --id control-chars/backspace -> "sdlc/ab\bc-v0-http-api-0"
+  --id control-chars/del -> "sdlc/ab-v0-http-api-0"
+VS-4 flag variants:
+  --p 7 -> exit 2 ambiguous option: --p could match --profile, --part
+  --pr 7 -> sdlc/S-001-v0-7-0
+  --pro 7 -> sdlc/S-001-v0-7-0
+  --prof 7 -> sdlc/S-001-v0-7-0
+  --profi 7 -> sdlc/S-001-v0-7-0
+  --profil 7 -> sdlc/S-001-v0-7-0
+  --p 7 -> exit 2 ambiguous option: --p could match --profile, --part
+  --pa 7 -> sdlc/S-001-v0-http-api-7
+  --par 7 -> sdlc/S-001-v0-http-api-7
+  --r 7 -> exit 2 ambiguous option: --r could match --repo, --round
+  --ro 7 -> sdlc/S-001-v7-http-api-0
+  --rou 7 -> sdlc/S-001-v7-http-api-0
+  --roun 7 -> sdlc/S-001-v7-http-api-0
+  --p 7 -> exit 2 ambiguous option: --p could match --profile, --part
+  --pr 7 -> sdlc/S-001-v0-7-0
+  --profile twice -> sdlc/S-001-v0-security-0
+  --profile=--format -> sdlc/S-001-v0---format-0
+VS-6 missing id=undefined -> exit 2 "a attempt branch name needs a non-empty id"
+VS-6 missing id="" -> exit 2 "a attempt branch name needs a non-empty id"
+VS-6 missing n=undefined -> exit 2 "a attempt branch name needs a non-empty n"
+VS-6 missing n="" -> exit 2 "argument --n: invalid int value: ''"
+VS-6 --n: 73 calls, 50 refused, 23 accepted:
+  --n space-padded " 3 " -> sdlc/S-001-attempt-3
+  --n plus "+1" -> sdlc/S-001-attempt-1
+  --n neg-zero "-0" -> sdlc/S-001-attempt-0
+  --n negative "-1" -> sdlc/S-001-attempt--1
+  --n underscore "1_000" -> sdlc/S-001-attempt-1000
+  --n octal-lead "010" -> sdlc/S-001-attempt-10
+  --n int64-max "9223372036854775807 -> sdlc/S-001-attempt-9223372036854775807
+  --n int64-over "9223372036854775808 -> sdlc/S-001-attempt-9223372036854775808
+  --n twenty-digits "9999999999999999999 -> sdlc/S-001-attempt-99999999999999999999
+  --n nbsp-padded " 3" -> sdlc/S-001-attempt-3
+  --n tab-padded "\t3\n" -> sdlc/S-001-attempt-3
+  --n arabic-indic "٣" -> sdlc/S-001-attempt-3
+  --n arabic-indic-12 "١٢" -> sdlc/S-001-attempt-12
+  --n fullwidth "１２" -> sdlc/S-001-attempt-12
+  --n devanagari "१" -> sdlc/S-001-attempt-1
+  --n bengali "২" -> sdlc/S-001-attempt-2
+  --n nko "߁" -> sdlc/S-001-attempt-1
+  --n math-bold "𝟏" -> sdlc/S-001-attempt-1
+  --n mixed "1٢" -> sdlc/S-001-attempt-12
+  --n thai "๑" -> sdlc/S-001-attempt-1
+  --n digits-4300 "9999999999999999999 -> sdlc/S-001-attempt-99999999999999999999999999999999999999999
+  --n negative-like "-1" -> sdlc/S-001-attempt--1
+  --n neg "-1" -> sdlc/S-001-attempt--1
+VS-6 hostile attempt id: 125 calls, 38 ok results that git check-ref-format refuses
+git calls seen by the PATH shim:
+  check-ref-format --branch sdlc/S-001
+  check-ref-format --branch sdlc/S-001
+  check-ref-format --branch sdlc/S-001
+  check-ref-format --branch sdlc/S-001
+  check-ref-format --branch sdlc/S-001

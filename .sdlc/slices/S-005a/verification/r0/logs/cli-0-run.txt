@@ -1,0 +1,21 @@
+✔ verify cli: TC-cli-1 state name is sdlc/state- plus 14 UTC digits under far time zones (878.974792ms)
+✔ verify cli: TC-cli-2 state name keeps its tail under custom formats and ignores extra flags (733.479625ms)
+✔ verify cli: TC-cli-3 verify name matches the spec example, the loop builder and every catalog profile (7676.117292ms)
+✔ verify cli: TC-cli-4 verify name with a missing or empty part exits 2 with one JSON error naming it (1052.30375ms)
+✔ verify cli: TC-cli-5 malformed --round and --part are refused or give an ASCII integer (14072.284292ms)
+✔ verify cli: TC-cli-6 hostile --profile and --id values never crash and never escape the format prefix (29677.472875ms)
+✔ verify cli: TC-cli-7 attempt name matches the spec example for plain and fix ids, and extra flags do not leak (790.252416ms)
+✔ verify cli: TC-cli-8 attempt name with a missing or malformed number exits 2 or gives an ASCII integer (5882.069709ms)
+✔ verify cli: TC-cli-9 custom branch formats wrap verify and attempt tails, --format wins, a bad format exits 2 (3132.29ms)
+✔ verify cli: TC-cli-21 an explicit --ts flag is refused with one JSON error and no traceback (441.821375ms)
+✔ verify cli: TC-cli-22 name with no --kind, an unknown kind, and from a cwd that is not a repo (483.176792ms)
+✔ verify cli: TC-cli-23 name output for verify and attempt is the same on every run and in CI (950.440083ms)
+✔ verify cli: TC-cli-24 ref safety of accepted verify and attempt names (seed probe) (1210.735333ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 67120.490542

@@ -1,0 +1,20 @@
+✔ verify security: VS-4 the acceptance verify name holds as the baseline for every attack (140.828584ms)
+✔ verify security: VS-4 each missing or empty verify part exits 2 with one JSON error naming the part (1202.811917ms)
+✔ verify security: VS-4 malformed --round and --part exit 2 or give an ASCII integer, never a crash (20091.731375ms)
+✔ verify security: VS-4 hostile --id and --profile never crash, never change state, keep the sdlc/ prefix (44619.825334ms)
+✔ verify security: VS-4 a profile holding a placeholder is not expanded a second time (314.336292ms)
+✔ verify security: VS-4 abbreviated, duplicated and equals-form flags resolve to one flag or exit 2 (2616.376958ms)
+✔ verify security: VS-6 the acceptance attempt name holds and n = 0 is not dropped (324.532292ms)
+✔ verify security: VS-6 a missing or empty attempt part exits 2 with one JSON error naming it (685.200333ms)
+✔ verify security: VS-6 malformed --n exits 2 or gives an ASCII integer, never a crash (10423.722167ms)
+✔ verify security: VS-6 hostile attempt --id never crashes, is used verbatim and keeps the prefix (22185.077917ms)
+✔ verify security: VS-6 shell metacharacters in --id run no shell and touch no file outside the scratch repo (1918.706958ms)
+✔ verify security: VS-4 VS-6 name runs git only for check-ref-format, never push, branch or update-ref (1397.474583ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106171.711708
