@@ -1285,7 +1285,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "gate",
+    "phase": "integrate",
     "branch": "sdlc/S-008",
     "pr": "",
     "risk": "medium",
