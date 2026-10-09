@@ -86,7 +86,7 @@ def regex_error(pattern):
 
 
 RULE_KEYS = ("source", "kind", "pattern", "negate", "label")
-GH_TIMEOUT = 60
+FORGE_TIMEOUT = 60
 
 
 def make_rule(source, kind, pattern, negate, label):
@@ -106,46 +106,85 @@ def github_rule(obj):
     return make_rule("github", params.get("operator"), params.get("pattern"), params.get("negate"), label)
 
 
-def _gh_branch_rules(repo, sample):
-    path = "repos/{owner}/{repo}/rules/branches/" + urllib.parse.quote(sample, safe="")
+def gitlab_rule(body):
+    if not isinstance(body, dict):
+        return None
+    regex = body.get("branch_name_regex")
+    if not isinstance(regex, str) or not regex:
+        return None
+    return make_rule("gitlab", "regex", regex, False, "push rule")
+
+
+def _run_forge_cli(argv, repo):
+    tool = argv[0]
     env = dict(os.environ, GH_PROMPT_DISABLED="1")
     try:
         proc = subprocess.run(
-            ["gh", "api", path],
+            argv,
             capture_output=True,
             text=True,
             errors="replace",
             cwd=repo,
             stdin=subprocess.DEVNULL,
-            timeout=GH_TIMEOUT,
+            timeout=FORGE_TIMEOUT,
             env=env,
         )
     except (OSError, ValueError, subprocess.TimeoutExpired) as e:
         return None, str(e).strip() or type(e).__name__
     if proc.returncode != 0:
-        return None, proc.stderr.strip() or f"gh exited with status {proc.returncode}"
+        return None, proc.stderr.strip() or f"{tool} exited with status {proc.returncode}"
     try:
-        data = json.loads(proc.stdout)
+        return json.loads(proc.stdout), None
     except (ValueError, RecursionError):
-        return None, "gh printed output that is not JSON"
+        return None, f"{tool} printed output that is not JSON"
+
+
+def _gh_branch_rules(repo, sample):
+    path = "repos/{owner}/{repo}/rules/branches/" + urllib.parse.quote(sample, safe="")
+    data, error = _run_forge_cli(["gh", "api", path], repo)
+    if error is not None:
+        return None, error
     if not isinstance(data, list):
         return None, "gh printed JSON that is not a list"
     return [rule for rule in map(github_rule, data) if rule is not None], None
 
 
+def _glab_push_rule(repo):
+    body, error = _run_forge_cli(["glab", "api", "projects/:fullpath/push_rule"], repo)
+    if error is not None:
+        return None, error
+    rule = gitlab_rule(body)
+    return ([rule] if rule else []), None
+
+
+def _collect_rules(repo, forge, samples):
+    if forge == "github":
+        collected = []
+        for sample in samples:
+            outcome = _gh_branch_rules(repo, sample)
+            collected.append((sample, outcome))
+            if outcome[1] is not None:
+                break
+        return collected
+    rules, error = _glab_push_rule(repo)
+    if error is not None:
+        return [(None, (None, error))]
+    return [(sample, (rules, None)) for sample in samples] or [(None, (rules, None))]
+
+
 def read_rules(repo, samples):
     forge = _config_value(repo, "forge") or ""
     result = {"forge": forge, "rules": [], "by_sample": {}, "notes": [], "unchecked": True}
-    if forge != "github":
+    if forge not in ("github", "gitlab"):
         return result
-    for sample in samples:
-        rules, error = _gh_branch_rules(repo, sample)
+    collected = _collect_rules(repo, forge, samples)
+    for _, (_, error) in collected:
         if error is not None:
-            result["rules"] = []
-            result["by_sample"] = {}
             result["notes"] = [f"rules unknown on {forge}: {error}"]
             return result
-        result["by_sample"][sample] = rules
+    for sample, (rules, _) in collected:
+        if sample is not None:
+            result["by_sample"][sample] = rules
         for rule in rules:
             if rule not in result["rules"]:
                 result["rules"].append(rule)
