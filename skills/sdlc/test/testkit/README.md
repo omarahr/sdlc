@@ -49,3 +49,22 @@ decoyFired(decoy)
 - `{ argv: true }` drops values that argv cannot carry (NUL, lone surrogates). Use the `nul` family in files or stdin.
 - `abbreviations(flag)`, `duplicated(flag, values)` and `equalsForm(flag, value)` build flag variants.
 - `plantDecoy(dir, { module, behavior })` writes a decoy module. With `behavior: 'exit'` it exits with code 97. With `behavior: 'shadow'` it returns decoy values. Each import appends the decoy path to its marker file, and `decoyFired` reads it.
+
+## stub-server (`stub-server.mjs`)
+
+A shell shim that stands in for an outside command such as `gh`. It writes its argv and its cwd to a log, then prints the scripted stdout and stderr and exits with the scripted code. It opens no network port.
+
+```js
+const gh = stubServer({ script: [{ stdout: [{ id: 1 }] }, { stderr: 'boom', exit: 1 }] })
+spawnSync('python3', [...], { env: gh.env() })
+gh.calls()
+gh.count()
+gh.failNext(2, { exit: 1, stderr: 'down' })
+const bin = restrictedPath(['python3', 'git'])
+```
+
+- `stubServer({ name, script, fallback })` makes the shim `<dir>/<name>`. `gh.dir` goes at the front of `PATH`: use `gh.env()` or `gh.path()`.
+- A step is `{ stdout, stderr, exit, delaySeconds, stall }`. `stdout` takes a string, a Buffer or a JSON value. `stall` makes the shim sleep until the caller kills it.
+- Step N answers call N. `fallback` answers every later call. `failNext(count, step)` fails the next calls.
+- `calls()` returns `[{n, argv, cwd}]`. The argv log keeps spaces, newlines and empty arguments. `cwd` is the real path.
+- `restrictedPath(keep)` returns a directory that holds links to the kept commands only. Use it as `PATH` to test an absent command.
