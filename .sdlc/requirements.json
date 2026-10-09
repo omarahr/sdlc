@@ -1174,7 +1174,7 @@
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:324",
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:332"
       ],
-      "commit": "pending"
+      "commit": "e575c1b41c5ea967d8ff0b7ca9a69090473e2631"
     },
     "notes": ""
   },
@@ -1215,7 +1215,7 @@
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:138",
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:324"
       ],
-      "commit": "pending"
+      "commit": "e575c1b41c5ea967d8ff0b7ca9a69090473e2631"
     },
     "notes": ""
   },
@@ -1261,7 +1261,7 @@
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:210",
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:220"
       ],
-      "commit": "pending"
+      "commit": "e575c1b41c5ea967d8ff0b7ca9a69090473e2631"
     },
     "notes": ""
   },
@@ -2415,7 +2415,7 @@
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:240",
         ".sdlc/slices/S-013/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:252"
       ],
-      "commit": "pending"
+      "commit": "e575c1b41c5ea967d8ff0b7ca9a69090473e2631"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
