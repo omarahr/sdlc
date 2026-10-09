@@ -324,7 +324,7 @@
         ".sdlc/slices/S-005a/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:193",
         ".sdlc/slices/S-005a/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:355"
       ],
-      "commit": "pending"
+      "commit": "7427c8d9294efe61b87d8d10046660aa95ce1635"
     },
     "notes": ""
   },
@@ -378,7 +378,7 @@
         ".sdlc/slices/S-005a/verification/r0/tests/security-0/tails.verify-security.test.mjs:151",
         ".sdlc/slices/S-005a/verification/r0/tests/security-0/tails.verify-security.test.mjs:241"
       ],
-      "commit": "pending"
+      "commit": "7427c8d9294efe61b87d8d10046660aa95ce1635"
     },
     "notes": ""
   },
@@ -427,7 +427,7 @@
         ".sdlc/slices/S-005a/verification/r0/tests/security-0/tails.verify-security.test.mjs:227",
         ".sdlc/slices/S-005a/verification/r0/tests/security-0/tails.verify-security.test.mjs:241"
       ],
-      "commit": "pending"
+      "commit": "7427c8d9294efe61b87d8d10046660aa95ce1635"
     },
     "notes": ""
   },
