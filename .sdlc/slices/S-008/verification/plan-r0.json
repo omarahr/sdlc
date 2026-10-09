@@ -1,0 +1,19 @@
+{
+  "scenarios": [
+    {"id": "VS-1", "title": "A run branch is classified as run with an integer n", "requirementIds": ["R-102"], "profiles": ["contract", "cli"], "notes": "Try run-3, run-0, run-12, run-007. Try run-x, run-, run-3-x, run--1. n must be an integer and the row gives no id. The CLI must print the same kind and n."},
+    {"id": "VS-2", "title": "A milestone branch is classified as milestone and never swallows e2e tails", "requirementIds": ["R-103"], "profiles": ["contract", "cli"], "notes": "M-2 is milestone. M-, M-x are null. M-2-e2e and M-2-e2e-api must not be milestone. m-2 is null by default and milestone under {name:lower}."},
+    {"id": "VS-3", "title": "An e2e branch is classified as e2e and an e2e-area tail is not", "requirementIds": ["R-104"], "profiles": ["contract", "cli"], "notes": "M-2-e2e is e2e with id M-2. M-2-e2e-api must not be e2e. M-2-e2e- is null. Check the end anchor with trailing text."},
+    {"id": "VS-4", "title": "An e2e-area branch keeps a dashed area whole", "requirementIds": ["R-105"], "profiles": ["contract", "cli"], "notes": "M-2-e2e-api-v2 gives area api-v2. Try areas a, 0, e2e, v2-api-3, and long areas. The CLI must print the same id and area."},
+    {"id": "VS-5", "title": "First-match order holds under prefixed and suffixed formats", "requirementIds": ["R-102", "R-103", "R-104", "R-105"], "profiles": ["contract", "cli"], "notes": "Run rows 1 to 4 under feature/PROJ-1-{name} and {name}-wip. M-2-e2e-api-wip gives area api. A tail that fits rows 2, 3 and 4 in turn must go to the first matching row."},
+    {"id": "VS-6", "title": "Slice, e2e-area and verify branches keep the table's precedence in one call", "requirementIds": ["R-070"], "profiles": ["contract"], "notes": "S-fix-M-1-2 is slice. M-1-e2e-api is e2e-area. S-001-v0-http-api-0 is verify with profile http-api, round 0, part 0. Assert all three under the default format."},
+    {"id": "VS-7", "title": "Hostile branch tails are refused or classified without crashes", "requirementIds": ["R-102", "R-103", "R-104", "R-105"], "profiles": ["security", "cli"], "notes": "Python $ matches before a trailing newline, so try M-2\\n, run-3\\n and M-2-e2e\\n. Try unicode digits in run-N and M-N, NUL, control characters, flag-like values, and slashes inside an area (M-2-e2e-a/b). Parse must never raise, and a hostile tail must not gain a kind that a clean tail would not get. Slash in an area keeps the S-007 behavior per ADR-20261009-173303-decision-judge-S-008-a88a, so note it and do not fail on it."}
+  ],
+  "tools": [
+    {"id": "property", "profile": "contract", "purpose": "Call parse in batch through pycall.py with generated tails and formats.", "exists": true},
+    {"id": "cli-runner", "profile": "cli", "purpose": "Run branches.py parse in a scratch repo and compare kind, n, id and area with the function result.", "exists": true},
+    {"id": "attack-corpus", "profile": "security", "purpose": "Feed hostile tails (newline, unicode digits, NUL, flag-like values) to parse.", "exists": true}
+  ],
+  "risk": "medium",
+  "riskReason": "The slice adds tests only, but a precedence mistake in parse would misclassify milestone and e2e branches in the loop.",
+  "notes": "S-007 built all parse rows, so the slice changes no product code. Verification probes the existing rows at their boundaries. Limits, data, async and i18n do not apply."
+}

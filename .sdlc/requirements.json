@@ -1765,13 +1765,39 @@
     "specRef": "§Testing",
     "quote": "`parse keeps the table's precedence`: `S-fix-M-1-2` is a slice, `M-1-e2e-api` is an e2e area, `S-001-v0-http-api-0` is a verify branch with profile `http-api`.",
     "acceptance": "The branches test asserts the three classifications.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-102a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-103a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-104a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105b",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105c",
+        "skills/sdlc/test/branches.test.mjs :: T-R-070a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-102b",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:22",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:49",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:65",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:79",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:23",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:34",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:41",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:57",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:66",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2386,13 +2412,39 @@
     "specRef": "§2",
     "quote": "| 1 | `run` | `^run-(\\d+)$` | `n` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/run-3') returns kind 'run' with n 3. 'sdlc/run-x' returns None.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-102a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-103a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-104a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105b",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105c",
+        "skills/sdlc/test/branches.test.mjs :: T-R-070a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-102b",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:22",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:49",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:65",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:79",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:23",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:34",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:41",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:57",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:66",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2401,13 +2453,39 @@
     "specRef": "§2",
     "quote": "| 2 | `milestone` | `^(M-\\d+)$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2') returns kind 'milestone' with id 'M-2'. 'sdlc/M-2-e2e' does not match this row.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-102a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-103a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-104a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105b",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105c",
+        "skills/sdlc/test/branches.test.mjs :: T-R-070a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-102b",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:22",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:49",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:65",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:79",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:23",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:34",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:41",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:57",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:66",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2416,13 +2494,39 @@
     "specRef": "§2",
     "quote": "| 3 | `e2e` | `^(M-\\d+)-e2e$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2-e2e') returns kind 'e2e' with id 'M-2'. 'sdlc/M-2-e2e-api' does not match this row.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-102a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-103a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-104a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105b",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105c",
+        "skills/sdlc/test/branches.test.mjs :: T-R-070a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-102b",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:22",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:49",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:65",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:79",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:23",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:34",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:41",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:57",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:66",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2431,13 +2535,41 @@
     "specRef": "§2",
     "quote": "| 4 | `e2e-area` | `^(M-\\d+)-e2e-(.+)$` | `id`, `area` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2-e2e-api-v2') returns kind 'e2e-area', id 'M-2', area 'api-v2'. A dashed area stays whole. Areas never contain '/'. ",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-173303-decision-judge-S-008-a88a"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: T-R-102a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-103a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-104a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105b",
+        "skills/sdlc/test/branches.test.mjs :: T-R-105c",
+        "skills/sdlc/test/branches.test.mjs :: T-R-070a",
+        "skills/sdlc/test/branches.test.mjs :: T-R-102b",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:22",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:49",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:65",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:79",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-precedence.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:23",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:34",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:41",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:57",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:66",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
+        ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },

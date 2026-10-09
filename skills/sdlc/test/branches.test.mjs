@@ -981,6 +981,100 @@ test('T-R-024b case-insensitive matching only under lower', opts, () => {
   assert.equal(out[5].known, true)
 })
 
+const SUFFIX_FMT = '{name}-wip'
+
+const parseOne = (branch, fmt = DEFAULT_FMT) => pyParse([{ fmt, branch }])[0]
+
+test('T-R-102a row 1 run', opts, () => {
+  const out = parseOne('sdlc/run-3')
+  assert.equal(out.kind, 'run')
+  assert.equal(out.n, 3)
+  assert.equal(out.tail, 'run-3')
+  assert.equal('id' in out, false)
+  assert.equal(parseOne('sdlc/run-0').n, 0)
+  assert.equal(parseOne('sdlc/run-12').n, 12)
+  for (const branch of ['sdlc/run-x', 'sdlc/run-', 'sdlc/run-3-x', 'sdlc/run--1']) {
+    assert.equal(parseOne(branch), null, branch)
+  }
+  const cli = cliParse(DEFAULT_FMT, 'sdlc/run-3')
+  assert.equal(cli.kind, 'run')
+  assert.equal(cli.n, 3)
+})
+
+test('T-R-103a row 2 milestone', opts, () => {
+  const out = parseOne('sdlc/M-2')
+  assert.equal(out.kind, 'milestone')
+  assert.equal(out.id, 'M-2')
+  assert.equal(parseOne('sdlc/M-'), null)
+  assert.equal(parseOne('sdlc/M-x'), null)
+  assert.notEqual(parseOne('sdlc/M-2-e2e').kind, 'milestone')
+  assert.equal(parseOne('sdlc/m-2'), null)
+  assert.equal(parseOne('feature/PROJ-1-m-2', LOWER_FMT).kind, 'milestone')
+})
+
+test('T-R-104a row 3 e2e', opts, () => {
+  const out = parseOne('sdlc/M-2-e2e')
+  assert.equal(out.kind, 'e2e')
+  assert.equal(out.id, 'M-2')
+  assert.notEqual(parseOne('sdlc/M-2-e2e-api').kind, 'e2e')
+  assert.equal(parseOne('sdlc/M-2-e2e-'), null)
+})
+
+test('T-R-105a row 4 e2e-area', opts, () => {
+  const out = parseOne('sdlc/M-2-e2e-api-v2')
+  assert.equal(out.kind, 'e2e-area')
+  assert.equal(out.id, 'M-2')
+  assert.equal(out.area, 'api-v2')
+  assert.equal(parseOne('sdlc/M-2-e2e-a').area, 'a')
+  const nested = parseOne('sdlc/M-2-e2e-e2e')
+  assert.equal(nested.kind, 'e2e-area')
+  assert.equal(nested.area, 'e2e')
+  const cli = cliParse(DEFAULT_FMT, 'sdlc/M-2-e2e-api-v2')
+  assert.equal(cli.kind, 'e2e-area')
+  assert.equal(cli.id, 'M-2')
+  assert.equal(cli.area, 'api-v2')
+})
+
+test('T-R-105b area with dashes stays whole', opts, () => {
+  const out = pyParse([
+    { fmt: DEFAULT_FMT, branch: 'sdlc/M-2-e2e-v2-api-3' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/M-2-e2e-0' },
+  ])
+  assert.equal(out[0].area, 'v2-api-3')
+  assert.equal(out[1].area, '0')
+})
+
+test('T-R-105c precedence and prefixed formats', opts, () => {
+  for (const fmt of [PLAIN_FMT, SUFFIX_FMT, DEFAULT_FMT]) {
+    const wrap = (tail) => fmt.replace('{name}', tail)
+    const out = pyParse([
+      { fmt, branch: wrap('run-3') },
+      { fmt, branch: wrap('M-2') },
+      { fmt, branch: wrap('M-2-e2e') },
+      { fmt, branch: wrap('M-2-e2e-api') },
+    ])
+    assert.deepEqual(out.map((r) => r.kind), ['run', 'milestone', 'e2e', 'e2e-area'], fmt)
+    assert.equal(out[0].n, 3)
+    assert.equal(out[1].id, 'M-2')
+    assert.equal(out[2].id, 'M-2')
+    assert.equal(out[3].area, 'api', fmt)
+  }
+  assert.equal(parseOne('M-2-e2e-api-wip', SUFFIX_FMT).area, 'api')
+})
+
+test('T-R-070a parse keeps the table precedence', opts, () => {
+  const out = pyParse([
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-fix-M-1-2' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/M-1-e2e-api' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001-v0-http-api-0' },
+  ])
+  assert.deepEqual(out.map((r) => r.kind), ['slice', 'e2e-area', 'verify'])
+  assert.equal(out[0].id, 'S-fix-M-1-2')
+  assert.equal(out[2].profile, 'http-api')
+  assert.equal(out[2].round, 0)
+  assert.equal(out[2].part, 0)
+})
+
 test('T-R-069a parse returns null for a foreign branch and resolves ids against the ledger', opts, () => {
   const out = pyParse([
     { fmt: DEFAULT_FMT, branch: 'main' },
@@ -1033,4 +1127,11 @@ test('T-R-120b a planted e2e-area push is caught', () => {
   const wrapped = 'git(repo,\n  "push",\n  "origin",\n  name(fmt, "e2e-area", id=m))\n'
   assert.ok(findE2eAreaPushViolations(wrapped).violations.length >= 1)
   assert.deepEqual(findE2eAreaPushViolations('# git push e2e-area\n').violations, [])
+})
+
+test('T-R-102b a run number beyond the int string limit still parses to one JSON object', opts, () => {
+  const digits = '9'.repeat(5000)
+  const out = cliParse(DEFAULT_FMT, `sdlc/run-${digits}`)
+  assert.equal(out.kind, 'run')
+  assert.equal(out.tail, `run-${digits}`)
 })
