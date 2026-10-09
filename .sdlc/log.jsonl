@@ -2,3 +2,4 @@
 {"ts":"2026-10-09T03:34:32Z","type":"slice-merged","slice":"S-001","detail":"evidence recorded; shipping through a pull request"}
 {"ts":"2026-10-09T04:09:40Z","type":"slice-merged","slice":"S-002","detail":"validate_format, split and name: R-001, R-017, R-019, R-020, R-071 done"}
 {"ts":"2026-10-09T04:45:05Z","type":"slice-merged","slice":"S-003","detail":"tail contract and format resolution order: R-018, R-099, R-015, R-012 done; R-002 in progress until S-027"}
+{"ts":"2026-10-09T05:23:35Z","type":"slice-merged","slice":"S-004","detail":"tails: run, slice, milestone, e2e, e2e-area"}

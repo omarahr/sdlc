@@ -68,13 +68,50 @@
     "specRef": "§1",
     "quote": "| `run` | `run-<n>` | `sdlc/run-1` | stack |",
     "acceptance": "`branches.py name --kind run --n 1` under the default format prints `sdlc/run-1`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-041711-decision-judge-S-003-4882",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-045048-decision-judge-S-004-7815"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs: T-025 name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds",
+        "skills/sdlc/test/branches.test.mjs: T-026 tail builds the run, milestone and e2e tails and fails on a missing part",
+        "skills/sdlc/test/branches.test.mjs: T-027 name for the run, milestone and e2e kinds follows a prefixed and a lowercased format and fails without its part",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:80",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:137",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:159",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:170",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:180",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:311",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:90",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:102",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:116",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:131",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:154",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:226",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:252",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:276",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:294",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:306",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:374",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:91",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:118",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:132",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:159"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -83,13 +120,33 @@
     "specRef": "§1",
     "quote": "| `slice` | `<sliceId>` | `sdlc/S-001` | pr, stack |",
     "acceptance": "`branches.py name --kind slice --id S-001` under the default format prints `sdlc/S-001`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-041711-decision-judge-S-003-4882",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-045048-decision-judge-S-004-7815"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs: T-025 name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:80",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:258",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:278",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:311",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:90",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:116",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:336",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:359"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -98,13 +155,47 @@
     "specRef": "§1",
     "quote": "| `milestone` | `<milestoneId>` | `sdlc/M-1` | stack |",
     "acceptance": "`branches.py name --kind milestone --id M-1` under the default format prints `sdlc/M-1`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-041711-decision-judge-S-003-4882",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-045048-decision-judge-S-004-7815"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs: T-025 name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds",
+        "skills/sdlc/test/branches.test.mjs: T-026 tail builds the run, milestone and e2e tails and fails on a missing part",
+        "skills/sdlc/test/branches.test.mjs: T-027 name for the run, milestone and e2e kinds follows a prefixed and a lowercased format and fails without its part",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:80",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:137",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:208",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:243",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:311",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:90",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:102",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:116",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:131",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:154",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:226",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:252",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:276",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:91",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:118",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:167",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:208",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:226"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -113,13 +204,46 @@
     "specRef": "§1",
     "quote": "| `e2e` | `<milestoneId>-e2e` | `sdlc/M-1-e2e` | pr |",
     "acceptance": "`branches.py name --kind e2e --id M-1` under the default format prints `sdlc/M-1-e2e`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-041711-decision-judge-S-003-4882",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-045048-decision-judge-S-004-7815"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs: T-025 name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds",
+        "skills/sdlc/test/branches.test.mjs: T-026 tail builds the run, milestone and e2e tails and fails on a missing part",
+        "skills/sdlc/test/branches.test.mjs: T-027 name for the run, milestone and e2e kinds follows a prefixed and a lowercased format and fails without its part",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:80",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:107",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:137",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:208",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:243",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:311",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:90",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:102",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:116",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:131",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:154",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:226",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:252",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:276",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:91",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:118",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:167",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:208"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -128,13 +252,41 @@
     "specRef": "§1",
     "quote": "| `e2e-area` | `<milestoneId>-e2e-<area>` | `sdlc/M-1-e2e-api` | never |",
     "acceptance": "`branches.py name --kind e2e-area --id M-1 --area api` under the default format prints `sdlc/M-1-e2e-api`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-041711-decision-judge-S-003-4882",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-045048-decision-judge-S-004-7815"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs: T-025 name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:80",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:137",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:208",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:258",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:278",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-004/verification/r0/tests/cli-0/tails.verify-cli.test.mjs:311",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:90",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:116",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:252",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:276",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:336",
+        ".sdlc/slices/S-004/verification/r0/tests/contract-0/branches-tails.verify-contract.test.mjs:359",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:91",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:118",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:167",
+        ".sdlc/slices/S-004/verification/r0/tests/security-0/branches.verify-security.test.mjs:226"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
