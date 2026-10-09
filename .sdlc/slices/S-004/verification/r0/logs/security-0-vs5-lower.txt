@@ -1,0 +1,39 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-467
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 --kind milestone '--id={NAME}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "milestone", "branch": "feature/{name}"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-467 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-468
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 --kind e2e '--id={name:lower}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "e2e", "branch": "feature/{name:lower}-e2e"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-468 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-469
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 --kind milestone --id=%S%N
+exit: 0 (74 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "milestone", "branch": "feature/%s%n"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-469 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-470
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 --kind e2e '--id={0.__CLASS__}'
+exit: 0 (76 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name:lower}", "kind": "e2e", "branch": "feature/{0.__class__}-e2e"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-470 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-466 (unchanged)

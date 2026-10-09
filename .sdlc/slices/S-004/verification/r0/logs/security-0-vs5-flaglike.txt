@@ -1,0 +1,99 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-472
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind milestone --id --help
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-472 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-473
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind e2e-area --id M-1 --area --help
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-473 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-474
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind milestone --id -h
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-474 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-475
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind e2e-area --id M-1 --area -h
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-475 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-476
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind milestone --id --
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-476 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-477
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind e2e-area --id M-1 --area --
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-477 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-478
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind milestone --id --repo
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-478 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-479
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind e2e-area --id M-1 --area --repo
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-479 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-480
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind milestone --id '--format=x/{name}'
+exit: 2 (53 ms)
+--- stdout
+{"ok": false, "error": "argument --id: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-480 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-481
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 --kind e2e-area --id M-1 --area '--format=x/{name}'
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "argument --area: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/cwd-481 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-xmdm4W/testkit-cli-jryjFL/repo-471 (unchanged)

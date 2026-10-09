@@ -1,0 +1,100 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-84
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind run
+exit: 2 (64 ms)
+--- stdout
+{"ok": false, "error": "a run branch name needs a non-empty n"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-84 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-85
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind milestone
+exit: 2 (63 ms)
+--- stdout
+{"ok": false, "error": "a milestone branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-85 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-86
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind milestone --id ''
+exit: 2 (59 ms)
+--- stdout
+{"ok": false, "error": "a milestone branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-86 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-87
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind e2e
+exit: 2 (63 ms)
+--- stdout
+{"ok": false, "error": "a e2e branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-87 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-88
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind e2e --id ''
+exit: 2 (69 ms)
+--- stdout
+{"ok": false, "error": "a e2e branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-88 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-89
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind e2e-area --id M-1
+exit: 2 (69 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty area"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-89 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-90
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind e2e-area --id M-1 --area ''
+exit: 2 (65 ms)
+--- stdout
+{"ok": false, "error": "a e2e-area branch name needs a non-empty area"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-90 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-91
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind run --id 1
+exit: 2 (62 ms)
+--- stdout
+{"ok": false, "error": "a run branch name needs a non-empty n"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-91 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-92
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind milestone --n 1
+exit: 2 (64 ms)
+--- stdout
+{"ok": false, "error": "a milestone branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-92 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-93
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 --kind e2e --n 1 --area api
+exit: 2 (71 ms)
+--- stdout
+{"ok": false, "error": "a e2e branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-93 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-83 (unchanged)
+

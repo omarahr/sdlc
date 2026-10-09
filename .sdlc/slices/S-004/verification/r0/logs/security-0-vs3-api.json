@@ -1,0 +1,177 @@
+[
+  {
+    "call": [
+      "run",
+      {}
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a run branch name needs a non-empty n"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "n": null
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a run branch name needs a non-empty n"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "n": ""
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a run branch name needs a non-empty n"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "id": "1"
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a run branch name needs a non-empty n"
+    }
+  },
+  {
+    "call": [
+      "milestone",
+      {}
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a milestone branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "milestone",
+      {
+        "id": ""
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a milestone branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "milestone",
+      {
+        "id": null
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a milestone branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "milestone",
+      {
+        "n": 1
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a milestone branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "e2e",
+      {}
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a e2e branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "e2e",
+      {
+        "id": null
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a e2e branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "e2e",
+      {
+        "id": ""
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a e2e branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "e2e-area",
+      {
+        "id": "M-1"
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a e2e-area branch name needs a non-empty area"
+    }
+  },
+  {
+    "call": [
+      "e2e-area",
+      {
+        "area": "api"
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a e2e-area branch name needs a non-empty id"
+    }
+  },
+  {
+    "call": [
+      "e2e-area",
+      {
+        "id": "M-1",
+        "area": ""
+      }
+    ],
+    "result": {
+      "outcome": "Fail",
+      "message": "a e2e-area branch name needs a non-empty area"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "n": 0
+      }
+    ],
+    "result": {
+      "outcome": "return",
+      "value": "run-0"
+    }
+  }
+]

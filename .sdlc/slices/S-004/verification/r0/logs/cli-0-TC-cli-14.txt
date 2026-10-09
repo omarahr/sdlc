@@ -1,0 +1,79 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-181
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓' --kind run --n 1
+exit: 0 (78 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "run", "branch": "feature/run-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-181 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓ (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-182
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓' --kind slice --id S-001
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "slice", "branch": "feature/S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-182 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓ (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-183
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓' --kind milestone --id M-1
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "milestone", "branch": "feature/M-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-183 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓ (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-184
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓' --kind e2e --id M-1
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "e2e", "branch": "feature/M-1-e2e"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-184 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓ (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-185
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓' --kind e2e-area --id M-1 --area api
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "e2e-area", "branch": "feature/M-1-e2e-api"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-185 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/my repo ✓ (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-186
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/wörk space-180/nope' --kind run --n 1
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/w\u00f6rk space-180/nope' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-186 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-188
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-187 --kind milestone --id M-1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-187/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting value: line 1 column 18 (char 17)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-188 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-187 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-190
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-189 --kind e2e --id M-1 --format 'feature/{name}/{name}'
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-190 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-189 (unchanged)
+

@@ -1,0 +1,70 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-162
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind verify --id S-001 --round 1 --profile cli --part 0 --n 1
+exit: 2 (67 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'verify'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-162 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-163
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind attempt --id S-001 --round 1 --profile cli --part 0 --n 1
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "no branch name is defined for kind 'attempt'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-163 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-164
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind foo --id M-1
+exit: 2 (71 ms)
+--- stdout
+{"ok": false, "error": "--kind 'foo' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-164 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-165
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind RUN --id M-1 --n 1
+exit: 2 (71 ms)
+--- stdout
+{"ok": false, "error": "--kind 'RUN' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-165 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-166
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind Milestone --id M-1 --n 1
+exit: 2 (72 ms)
+--- stdout
+{"ok": false, "error": "--kind 'Milestone' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-166 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-167
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind 'e2e ' --id M-1 --n 1
+exit: 2 (63 ms)
+--- stdout
+{"ok": false, "error": "--kind 'e2e ' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-167 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-168
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-004-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 --kind E2E --id M-1 --n 1
+exit: 2 (61 ms)
+--- stdout
+{"ok": false, "error": "--kind 'E2E' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/cwd-168 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2Asy17/testkit-cli-nz1XM5/repo-161 (unchanged)
+

@@ -663,12 +663,87 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-004",
     "pr": "",
     "risk": "medium",
     "riskReason": "Wrong tails produce wrong names for the pushed run, slice, milestone and e2e families.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "name output is not checked as a valid ref or a non-flag",
+        "detail": "The new run, milestone and e2e rows build the tail from the given part with no shape check (ADR-20261009-045048 accepts this). A --id that holds '..', '~', ':', a space or a leading '-' gives a name that is not a valid ref. Under a plain '{name}' format, that name can also read as a git flag. No consumer calls name before S-008, and the loop passes only ledger ids, so the risk is low now. Fix: when consumers are wired, pass branch names to git after '--', or check the output of name with 'git check-ref-format --branch'.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "The run_lower case in T-027 does not prove lowercasing",
+        "detail": "The tail run-1 is already lowercase, so the case passes with or without {name:lower} support. Only e2e_lower proves it. Fix: remove run_lower, or do not count it as a lowercase check.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "The empty-part cases are not the same for each new row",
+        "detail": "T-026 checks an empty id only for milestone. It does not check tail('e2e', id='') or tail('run', n=''). The shared loop in tail covers them now, but a per-row builder would not. Fix: add e2e_empty_id and run_empty_n to the T-026 table.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-027 makes a second copy of the CLI missing-part loop",
+        "detail": "The test 'name without a required part exits 2 with one JSON error and no traceback' (line 474) has the same loop for slice and e2e-area. Fix: add the run, milestone and e2e rows to that table. Keep only the API format cases in T-027.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Accepted milestone ids and e2e areas give branches git check-ref-format refuses",
+        "detail": "109 of 270 accepted hostile values give a branch that git refuses, for example sdlc/../.., an id with a space, or an area with a newline. The format check probes only S-001. ADR-20261009-045048 accepts this gap. A consumer that pushes such a name fails late, at git. The list is in .sdlc/slices/S-004/verification/r0/logs/cli-0-TC-cli-9-git-refused.txt.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Run counter accepts unicode digits, padding and a negative sign",
+        "detail": "argparse int accepts ' 3', '+1', '1_000', Arabic-Indic and fullwidth digits, and -1. The value -1 gives sdlc/run--1 (ADR-20261009-045048). A counter of 4301 digits exits 2 only because of the Python int string limit, and the error echoes the full value.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Error text uses 'a e2e' and 'a e2e-area'",
+        "detail": "The missing-part error reads 'a e2e branch name needs a non-empty id'. The article is wrong before a vowel sound. The defect is cosmetic.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "tail('run', n=10**5000) raises ValueError, not Fail",
+        "detail": "Python limits int-to-str conversion to 4300 digits. The f-string in the run builder raises ValueError for a larger int. The CLI cannot reach it, because argparse refuses the same value. An API caller gets an exception outside the Fail contract.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "The CLI accepts a 4300-digit --n and prints a 4309-character branch",
+        "detail": "git check-ref-format accepts the name. A loose ref file name over 255 bytes cannot exist on common file systems. The loop passes counters from 1, so this is a robustness gap only.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "tail('run', n=...) accepts any type",
+        "detail": "n=True gives run-True, n=1.5 gives run-1.5, n=[] gives run-[]. ADR-20261009-045048 accepts no shape check. The parse row ^run-(\\d+)$ cannot read these names back. S-007 owns the round trip.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py name prints branch names that git refuses for a hostile milestone id or e2e area",
+        "detail": "name --kind milestone, e2e and e2e-area accept an id or area with '..', a space, a control character, braces or a leading slash. In 144 of 380 combinations, the printed branch fails git check-ref-format --branch, for example sdlc/../.. and sdlc/$(touch pwned). ADR-20261009-045048 accepts this gap. A git check-ref-format check of the final branch, or an id shape check, closes it. List: .sdlc/slices/S-004/verification/r0/logs/security-0-vs5-git-refused.txt.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "tail('run', n=<int over 4300 digits>) raises ValueError, not Fail",
+        "detail": "tail builds f'run-{n}', and Python refuses to print an int over 4300 digits, so tail raises ValueError. The CLI cannot reach this, because argparse int refuses the same digit count. Probe: .sdlc/slices/S-004/verification/r0/logs/security-0-seed-huge-n-api.txt.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "--n accepts padded, signed, underscored and non-ASCII digit forms",
+        "detail": "argparse int accepts ' 3 ', '+1', '-0', '1_000', '010' and Arabic-Indic or fullwidth digits, and name prints the normalized ASCII number. The branch is valid, but the CLI does not report a typo.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "The tail error text says 'a e2e branch name'",
+        "detail": "The Fail message puts the article 'a' before e2e and e2e-area. The message is clear but not grammatical.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -679,7 +754,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-005",

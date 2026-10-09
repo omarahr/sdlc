@@ -1,0 +1,50 @@
+[
+  {
+    "call": [
+      "run",
+      {
+        "n": "<True>"
+      }
+    ],
+    "result": {
+      "outcome": "return",
+      "value": "run-True"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "n": "7"
+      }
+    ],
+    "result": {
+      "outcome": "return",
+      "value": "run-7"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "n": 7
+      }
+    ],
+    "result": {
+      "outcome": "return",
+      "value": "run-7"
+    }
+  },
+  {
+    "call": [
+      "run",
+      {
+        "n": 0
+      }
+    ],
+    "result": {
+      "outcome": "return",
+      "value": "run-0"
+    }
+  }
+]
