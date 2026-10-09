@@ -1,0 +1,126 @@
+### VS-4 name no-placeholder
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-160
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format feature/x
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-160 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 name newline
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-173
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format $'sdlc/{name}\n'
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}\\n' holds whitespace"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-173 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 name empty
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-182
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format ''
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-182 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 preflight nbsp
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-248
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr --format $'sdlc/{name} '
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}\\xa0' holds whitespace"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-248 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 corpus unicode-whitespace/zwsp name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-320
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format $'a​b'
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a\\u200bb' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-320 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 corpus unicode-confusables/rtl-override name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-356
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format $'sdlc/‮{name}'
+exit: 0 (44 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/\u202e{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1", "kind": "slice", "id": null, "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-356 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 corpus control-chars/esc-ansi name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-378
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format $'\u001b[31mred\u001b[0m'
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '\\x1b[31mred\\x1b[0m' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-378 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-4 corpus oversized/format-200k name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-422
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind slice --format 'a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/
+<clipped 399656 chars>
+
+### VS-4 nul config nul-middle name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-427
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 --kind slice
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a\\x00b' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-427 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 (unchanged)
+
+### VS-4 nul config nul-middle parse
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-428
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 --branch sdlc/S-1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a\\x00b' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-428 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 (unchanged)
+
+### VS-4 nul config nul-middle list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-429
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 --kind slice
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a\\x00b' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-429 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 (unchanged)
+
+### VS-4 nul config nul-middle preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-430
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 --mode pr
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a\\x00b' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-430 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-426 (unchanged)
+

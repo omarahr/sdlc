@@ -1,0 +1,332 @@
+{
+ "profile": "contract",
+ "part": 0,
+ "round": 0,
+ "commit": "de3dd5c",
+ "environment": "macOS (Darwin 25.6), Python 3.14.7, Node 24.19.0, git; module loaded by path from a scratch cwd with python3 -I; testkit property and cli-runner from skills/sdlc/test/testkit at de3dd5c",
+ "cases": [
+  {
+   "id": "TC-contract-1",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-013"
+   ],
+   "title": "A consumer imports branches.py by path and finds Fail, load_format, validate_format and main",
+   "given": "skills/sdlc/branches.py at the slice commit; a scratch cwd; python3 -I (no PYTHONPATH, no site)",
+   "when": "The probe loads the module through importlib.util.spec_from_file_location and lists its public names and signatures with inspect",
+   "then": "Fail subclasses Exception; load_format(repo), validate_format(fmt) and main(argv=None) are callable",
+   "expected": "The spec §2 functions exist with the spec signatures; Fail is an Exception",
+   "actual": "All present: load_format(repo), validate_format(fmt), main(argv=None); Fail MRO Fail -> Exception",
+   "result": "pass",
+   "specSource": "R-013 acceptance",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:55",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-1 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "file-tree",
+     "title": "surface listing",
+     "inline": "branches.py (loaded by path with python3 -I, importlib.util.spec_from_file_location, scratch cwd)\nFail                 class, MRO Fail -> Exception -> BaseException\nload_format          function (repo)\nvalidate_format      function (fmt)\nmain                 function (argv=None)\nload_git_modes       function (path=<skill dir>/git-modes.json)\nbuild_parser         function ()\ncmd_name/cmd_parse/cmd_list/cmd_preflight  function (ns)\nJsonArgumentParser   class\nDEFAULT_FORMAT='sdlc/{name}'  KINDS(tuple)  PLACEHOLDERS(tuple)  GIT_MODES_PATH(str)\nmodule imports: argparse, json, os, re, sys (all in sys.stdlib_module_names)"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-2",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-013"
+   ],
+   "title": "The import has no side effect and pulls only stdlib modules",
+   "given": "Spies on builtins.open and subprocess.Popen; a listing of the scratch cwd",
+   "when": "The probe imports branches.py by path, then parses its source with ast",
+   "then": "No stdout or stderr output; no read of git-modes.json or config.json; no subprocess; no new file in cwd; every imported top-level name is in sys.stdlib_module_names",
+   "expected": "No side effect; stdlib only",
+   "actual": "stdout \"\", stderr \"\", opened [], subprocess [], cwd unchanged, imports [argparse, json, os, re, sys], nonStdlib []",
+   "result": "pass",
+   "specSource": "R-013 quote and acceptance",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:72",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-2 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "probe output",
+     "inline": "{\"stdout\":\"\",\"stderr\":\"\",\"opened\":[],\"subprocess\":[],\"cwdChanged\":false,\"imports\":[\"argparse\",\"json\",\"os\",\"re\",\"sys\"],\"nonStdlib\":[]}"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-3",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-088",
+    "R-014",
+    "R-013"
+   ],
+   "title": "main(argv) in-process: every command with all its flags returns 0 and prints one JSON object; bad input returns 2",
+   "given": "A repo whose config holds feature/{name}",
+   "when": "The probe calls main() with: name with all eight optional flags; name in --flag=value form with only --repo and --kind; parse; list; preflight with --branch; parse without --branch; name --format ''; an unknown command; no command",
+   "then": "Each call returns an int, does not raise SystemExit, and writes exactly one JSON object line to stdout",
+   "expected": "rc 0 0 0 0 0 2 2 2 2; ok true on 0; ok false with a non-empty error on 2; format feature/{name} when --format is absent",
+   "actual": "rc 0 0 0 0 0 2 2 2 2; one JSON line each; stderr empty; format feature/{name} for the two calls without --format",
+   "result": "pass",
+   "specSource": "R-088 acceptance, R-014 quote",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:115",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-3 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "main() results (excerpt)",
+     "inline": "main([\"name\",\"--repo\",R,\"--kind\",\"slice\",\"--id\",\"S-001\",\"--n\",\"2\",\"--area\",\"a\",\"--round\",\"1\",\"--profile\",\"cli\",\"--part\",\"0\",\"--format\",\"sdlc/{name}\"]) -> 0\n  {\"ok\": true, \"command\": \"name\", \"format\": \"sdlc/{name}\", \"args\": {..., \"n\": 2, \"round\": 1, \"part\": 0}}\nmain([\"parse\",\"--repo\",R]) -> 2  {\"ok\": false, \"error\": \"the following arguments are required: --branch\"}\nmain([\"name\",\"--repo\",R,\"--kind\",\"slice\",\"--format\",\"\"]) -> 2  {\"ok\": false, \"error\": \"the branch format '' must hold exactly one {name} or {name:lower}, found 0\"}\nmain([\"bogus\"]) -> 2  {\"ok\": false, \"error\": \"argument command: invalid choice: 'bogus' ...\"}\nmain([]) -> 2  {\"ok\": false, \"error\": \"the following arguments are required: command\"}"
+    },
+    {
+     "kind": "log",
+     "title": "full run",
+     "path": ".sdlc/slices/S-001/verification/r0/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-4",
+   "scenarioId": "VS-4",
+   "requirementIds": [
+    "R-014"
+   ],
+   "title": "validate_format raises Fail for each structural bad format and for non-strings, and returns each valid control",
+   "given": "The plan inputs: no placeholder, {name}{name}, {name}-{name:lower}, stray braces, {id}, {NAME}, {name:upper}, space, tab, LF, CR, U+00A0, U+3000, empty string, {{name}}; non-strings null, 5, a list, a dict, true",
+   "when": "The probe calls validate_format on each through the module loaded by path",
+   "then": "Each bad input raises Fail and no other exception; sdlc/{name}, sdlc/{name:lower}, feature/{name}-x and {name} return unchanged",
+   "expected": "Fail x24, return x4",
+   "actual": "Fail x24, return x4 with the input value",
+   "result": "pass",
+   "specSource": "ADR-20261009-024036 (structural checks in S-001); spec §2 validate_format",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:158",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-4 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "per-input outcomes",
+     "path": ".sdlc/slices/S-001/verification/r0/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-5",
+   "scenarioId": "VS-4",
+   "requirementIds": [
+    "R-014"
+   ],
+   "title": "Property: validate_format agrees with a reference model built from the spec text",
+   "given": "arb.format (placeholders, braces, git-unsafe characters, unicode whitespace, control characters, NUL, lone surrogates, non-strings); a JS model: exactly one {name} or {name:lower}, no other brace, no Unicode White_Space character",
+   "when": "check() calls validate_format 3000 times through pycall.py",
+   "then": "Model-invalid input gives Fail; model-valid input of plain characters returns the input; no other exception",
+   "expected": "0 violations",
+   "actual": "0 violations (1980 model-invalid, 1020 model-valid)",
+   "result": "pass",
+   "specSource": "ADR-20261009-024036; R-014 quote",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:170",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-5 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "validate_format vs model",
+     "inline": "property validate_format: seed=20261009 runs=3000 violations=0 modelInvalid=1980 modelValid=1020"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-6",
+   "scenarioId": "VS-6",
+   "requirementIds": [
+    "R-016",
+    "R-014"
+   ],
+   "title": "load_format resolves each named config state, and a read error raises Fail",
+   "given": "15 repos: feature/{name}; key missing; empty string; file absent; no .sdlc; null; number; list; top-level list; top-level string; UTF-8 BOM; invalid JSON; directory in place of config.json; unreadable file; a config of 200000 \"[\" characters",
+   "when": "The probe calls load_format(repo) through the module loaded by path",
+   "then": "The first ten give feature/{name} or sdlc/{name}; the last five raise Fail",
+   "expected": "Deep nesting raises Fail like the other unreadable configs",
+   "actual": "14 of 15 as expected. Deep nesting raises RecursionError, not Fail: load_format catches ValueError and OSError only, and RecursionError is neither",
+   "result": "fail",
+   "specSource": "R-014 quote (\"Every command prints one JSON object; exit 2 ... on bad input\"); verification plan VS-6 note (a read error must raise Fail, not a raw exception)",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:185",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-6 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "deep nesting row",
+     "inline": "{\"label\": \"deep nesting\", \"expected\": \"Fail\", \"outcome\": \"exception\", \"type\": \"RecursionError\",\n \"message\": \"Stack overflow (used 16352 kB) while decoding a JSON array from a unicode string\"}"
+    },
+    {
+     "kind": "log",
+     "title": "full run",
+     "path": ".sdlc/slices/S-001/verification/r0/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-7",
+   "scenarioId": "VS-6",
+   "requirementIds": [
+    "R-016",
+    "R-014"
+   ],
+   "title": "Property: load_format returns the config string, the default, or Fail, and never another exception",
+   "given": "arb.configShape: absent, no .sdlc, directory, JSON values, non-object JSON, invalid text, deep nesting, invalid UTF-8, symlinks, unreadable",
+   "when": "checkLoadFormat calls load_format 1000 times; the model gives the config value when it is a non-empty string in a JSON object, else sdlc/{name}",
+   "then": "JSON shapes match the model; absent shapes give the default; no exception other than Fail",
+   "expected": "0 violations",
+   "actual": "34 violations, all RecursionError from deeply nested \"[\" text; every JSON shape matches the model",
+   "result": "fail",
+   "specSource": "R-014 quote; R-016 acceptance; VS-6 note",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:214",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-7 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "load_format property",
+     "inline": "property load_format: seed=20261009 runs=1000 violations=34\noutcomes: json:return 301, absent:return 66, no-sdlc-dir:return 71, dangling-symlink:return 76, text:return 27,\n  bytes:Fail 69, dir:Fail 70, text:Fail 149, symlink-loop:Fail 72, unreadable:Fail 65, text:exception 34\nfirst counterexample: config.json = \"[\" repeated (1000..200000) -> RecursionError: Stack overflow while decoding a JSON array\nreplay: TESTKIT_SEED=20261009"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-8",
+   "scenarioId": "VS-7",
+   "requirementIds": [
+    "R-016",
+    "R-014"
+   ],
+   "title": "A command without --format uses the config format, --format wins, and a bad config exits 2 with one JSON error",
+   "given": "Repos with config feature/{name}, feature/x, \"a {name}\", truncated JSON, and 200000 \"[\" characters",
+   "when": "The cli-runner runs parse, list and name from a scratch cwd, with and without --format",
+   "then": "Config format is used without the flag; the flag wins; every bad config without the flag exits 2 with one JSON error object",
+   "expected": "All rows exit 0 or 2 with exactly one JSON object",
+   "actual": "9 of 11 rows pass. parse and name on the deeply nested config exit 1 with no stdout and a RecursionError traceback on stderr. Malformed config with a valid --format exits 0 (recorded: the flag skips load_format)",
+   "result": "fail",
+   "specSource": "R-014 quote (\"Every command prints one JSON object; exit 2 with {ok: false, error} on bad input\")",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:236",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-8 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "deeply nested config",
+     "inline": "$ python3 skills/sdlc/branches.py parse --repo <repo> --branch x\n  (.sdlc/config.json holds '[' * 200000)\nexit 1, stdout: <empty>\nstderr (last line): RecursionError: Stack overflow (used 16352 kB) while decoding a JSON array from a unicode string\n$ python3 skills/sdlc/branches.py name --repo <repo> --kind slice\nexit 1, stdout: <empty>, same RecursionError traceback"
+    },
+    {
+     "kind": "log",
+     "title": "all rows",
+     "path": ".sdlc/slices/S-001/verification/r0/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-9",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-098"
+   ],
+   "title": "Each script loaded by path binds mod.branches to the real branches.py, past a decoy in cwd and on PYTHONPATH",
+   "given": "A scratch cwd that holds a decoy branches.py; a second decoy directory on PYTHONPATH (non-isolated python3)",
+   "when": "The probe loads next-action.py, state-write.py and janitor.py through importlib from that cwd",
+   "then": "mod.branches.__file__ resolves to skills/sdlc/branches.py; no decoy import is recorded",
+   "expected": "The real module for all three scripts in both runs",
+   "actual": "All six bindings name skills/sdlc/branches.py; neither decoy fired",
+   "result": "pass",
+   "specSource": "R-098 acceptance",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:270",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-9 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "bindings",
+     "inline": "{\"next-action.py\": \".../skills/sdlc/branches.py\", \"state-write.py\": \".../skills/sdlc/branches.py\", \"janitor.py\": \".../skills/sdlc/branches.py\"} (x2 runs)\ndecoyFired(cwd decoy) = null, decoyFired(PYTHONPATH decoy) = null"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-10",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-098"
+   ],
+   "title": "Each script runs --help through a symlink in another directory and through a relative path",
+   "given": "A symlink to each script in a scratch directory; a relative path ../<script> from skills/sdlc/test",
+   "when": "python3 <path> --help runs from a scratch cwd",
+   "then": "Exit 0 in both forms",
+   "expected": "exit 0",
+   "actual": "link 0 and relative 0 for all three scripts. Recorded: with a decoy branches.py beside the symlink, the decoy is imported and exits 97 (see seeds)",
+   "result": "pass",
+   "specSource": "R-098 acceptance; R-013 quote",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:310",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-10 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "per-script status",
+     "inline": "next-action.py  link 0  relative 0  linkBesideDecoy 97 (decoy fired)\nstate-write.py  link 0  relative 0  linkBesideDecoy 97 (decoy fired)\njanitor.py      link 0  relative 0  linkBesideDecoy 97 (decoy fired)"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-11",
+   "scenarioId": "VS-4",
+   "requirementIds": [
+    "R-014"
+   ],
+   "title": "validate_format gives the same outcome for the same input across two processes",
+   "given": "1000 generated format strings (seed 20261009)",
+   "when": "Two separate pycall batches call validate_format on the same inputs",
+   "then": "Outcomes, values and messages are equal",
+   "expected": "0 differences",
+   "actual": "0 differences",
+   "result": "pass",
+   "specSource": "Contract profile determinism corner; R-014",
+   "test": ".sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:327",
+   "command": "VERIFY_REPO=<worktree of sdlc/S-001> node --test --test-name-pattern \"TC-contract-11 \" .sdlc/slices/S-001/verification/r0/tests/contract-0/branches.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "determinism",
+     "inline": "determinism validate_format seed=20261009 runs=1000 diffs=0"
+    }
+   ]
+  }
+ ],
+ "attacks": [],
+ "seeds": [
+  {
+   "title": "branches.py: a decoy branches.py beside a symlinked script wins the import",
+   "detail": "The three scripts insert os.path.dirname(os.path.abspath(__file__)) into sys.path. abspath does not resolve symlinks, so when a script runs through a symlink, the symlink directory comes first. A branches.py in that directory is imported instead of the real one (decoy exit 97 for all three scripts). Use os.path.realpath(__file__) to bind to the real skill directory. The spec does not say which directory \"the script directory\" is for a symlink, so this is a seed.",
+   "file": "skills/sdlc/next-action.py"
+  },
+  {
+   "title": "branches.py: main([\"-h\"]) raises SystemExit instead of returning",
+   "detail": "main([\"-h\"]) and main([\"parse\",\"--help\"]) print argparse usage text and raise SystemExit(0). The spec does not define -h; a caller that imports main() and expects an int return gets an exception, and the CLI stdout is not a JSON object.",
+   "file": "skills/sdlc/branches.py"
+  },
+  {
+   "title": "branches.py: load_format drops a non-string branchFormat, but spec §4 uses config.get(\"branchFormat\") or default",
+   "detail": "load_format returns sdlc/{name} for a truthy non-string branchFormat such as 5 or [\"a/{name}\"]. Spec §4 describes next-action semantics as config.get(\"branchFormat\") or \"sdlc/{name}\", which would return 5 and then fail validation. The two readings diverge when later slices thread fmt through next-action.py.",
+   "file": "skills/sdlc/branches.py"
+  },
+  {
+   "title": "branches.py: validate_format accepts NUL and control characters in S-001",
+   "detail": "validate_format(\"sdlc/{name}\\x00\") and validate_format(\"a\\x01/{name}\") return the input. ADR-20261009-024036 assigns git check-ref-format to S-002 (R-017), so S-002 must refuse these.",
+   "file": "skills/sdlc/branches.py"
+  },
+  {
+   "title": "branches.py: a valid --format succeeds although the config is malformed",
+   "detail": "parse --format sdlc/{name} exits 0 when .sdlc/config.json is truncated JSON, because the flag skips load_format. The plan asked only to record this. Preflight may want to report a malformed config even when the flag is given.",
+   "file": "skills/sdlc/branches.py"
+  }
+ ]
+}

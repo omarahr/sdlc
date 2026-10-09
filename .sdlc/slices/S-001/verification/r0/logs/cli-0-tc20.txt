@@ -1,0 +1,65 @@
+### TC-cli-20 directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-317
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 --mode pr
+exit: 1 (50 ms)
+--- stdout
+
+--- stderr
+Traceback (most recent call last):
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/branches.py", line 171, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/branches.py", line 162, in main
+    result = handler(ns)
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/branches.py", line 112, in cmd_preflight
+    modes = load_git_modes()
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/branches.py", line 52, in load_git_modes
+    with open(path, encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/git-modes.json'
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-317 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 (unchanged)
+
+### TC-cli-20 directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-318
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-315/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 --branch x
+exit: 0 (49 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2", "branch": "x"}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-318 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 (unchanged)
+
+### TC-cli-20 unreadable
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-319
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 --mode pr
+exit: 1 (47 ms)
+--- stdout
+
+--- stderr
+Traceback (most recent call last):
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/branches.py", line 171, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/branches.py", line 162, in main
+    result = handler(ns)
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/branches.py", line 112, in cmd_preflight
+    modes = load_git_modes()
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/branches.py", line 52, in load_git_modes
+    with open(path, encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/git-modes.json'
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-319 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 (unchanged)
+
+### TC-cli-20 unreadable
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-320
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/skill-316/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 --branch x
+exit: 0 (47 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2", "branch": "x"}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/cwd-320 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-yPZFGX/testkit-cli-KtDNh0/plain-2 (unchanged)

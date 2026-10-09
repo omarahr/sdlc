@@ -1,0 +1,1125 @@
+===== TC-cli-11
+$ cd <scratch>/decoycwd-1
+$ python3 <worktree>/skills/sdlc/next-action.py --help
+exit: 0 (60 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/decoycwd-1 (unchanged)
+
+===== TC-cli-11
+$ cd <scratch>/decoycwd-1
+$ python3 -c $'import importlib.util,os,sys\nspec=importlib.util.spec_from_file_location(\"m\",sys.argv[1])\nmod=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(mod)\nprint(os.path.realpath(mod.branches.__file__))' <worktree>/skills/sdlc/next-action.py
+exit: 0 (50 ms)
+--- stdout
+/private<worktree>/skills/sdlc/branches.py
+--- stderr
+
+--- tree <scratch>/decoycwd-1 (unchanged)
+
+===== TC-cli-11
+$ cd <scratch>/decoycwd-2
+$ python3 <worktree>/skills/sdlc/state-write.py --help
+exit: 0 (58 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/decoycwd-2 (unchanged)
+
+===== TC-cli-11
+$ cd <scratch>/decoycwd-2
+$ python3 -c $'import importlib.util,os,sys\nspec=importlib.util.spec_from_file_location(\"m\",sys.argv[1])\nmod=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(mod)\nprint(os.path.realpath(mod.branches.__file__))' <worktree>/skills/sdlc/state-write.py
+exit: 0 (46 ms)
+--- stdout
+/private<worktree>/skills/sdlc/branches.py
+--- stderr
+
+--- tree <scratch>/decoycwd-2 (unchanged)
+
+===== TC-cli-11
+$ cd <scratch>/decoycwd-3
+$ python3 <worktree>/skills/sdlc/janitor.py --help
+exit: 0 (53 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree <scratch>/decoycwd-3 (unchanged)
+
+===== TC-cli-1
+$ cd <scratch>/cwd-2
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-1 --kind slice --id S-1
+exit: 0 (49 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-1", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-2 (unchanged)
+--- tree <scratch>/repo-1 (unchanged)
+
+===== TC-cli-11
+$ cd <scratch>/decoycwd-3
+$ python3 -c $'import importlib.util,os,sys\nspec=importlib.util.spec_from_file_location(\"m\",sys.argv[1])\nmod=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(mod)\nprint(os.path.realpath(mod.branches.__file__))' <worktree>/skills/sdlc/janitor.py
+exit: 0 (42 ms)
+--- stdout
+/private<worktree>/skills/sdlc/branches.py
+--- stderr
+
+--- tree <scratch>/decoycwd-3 (unchanged)
+
+===== TC-cli-12
+$ cd <scratch>/cwd-5
+$ PYTHONPATH=<scratch>/decoypath-4 python3 <worktree>/skills/sdlc/next-action.py --help
+exit: 0 (52 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/cwd-5 (unchanged)
+
+===== TC-cli-12
+$ cd <scratch>/cwd-7
+$ PYTHONPATH=<scratch>/decoypath-6 python3 <worktree>/skills/sdlc/next-action.py --help
+exit: 0 (52 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/cwd-7 (unchanged)
+
+===== TC-cli-1
+$ cd <scratch>/cwd-3
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-1 --branch feature/S-1
+exit: 0 (43 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-1", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-3 (unchanged)
+--- tree <scratch>/repo-1 (unchanged)
+
+===== TC-cli-12
+$ cd <scratch>/cwd-9
+$ PYTHONPATH=<scratch>/decoypkg-8 python3 <worktree>/skills/sdlc/next-action.py --help
+exit: 0 (56 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/cwd-9 (unchanged)
+
+===== TC-cli-12
+$ cd <scratch>/cwd-11
+$ PYTHONPATH=<scratch>/decoypath-10 python3 <worktree>/skills/sdlc/state-write.py --help
+exit: 0 (59 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/cwd-11 (unchanged)
+
+===== TC-cli-1
+$ cd <scratch>/cwd-4
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-1 --kind slice
+exit: 0 (46 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-1", "kind": "slice"}}
+--- stderr
+
+--- tree <scratch>/cwd-4 (unchanged)
+--- tree <scratch>/repo-1 (unchanged)
+
+===== TC-cli-12
+$ cd <scratch>/cwd-13
+$ PYTHONPATH=<scratch>/decoypath-12 python3 <worktree>/skills/sdlc/state-write.py --help
+exit: 0 (61 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/cwd-13 (unchanged)
+
+===== TC-cli-12
+$ cd <scratch>/cwd-15
+$ PYTHONPATH=<scratch>/decoypkg-14 python3 <worktree>/skills/sdlc/state-write.py --help
+exit: 0 (61 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/cwd-15 (unchanged)
+
+===== TC-cli-1
+$ cd <scratch>/cwd-5
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-1 --mode pr
+exit: 0 (50 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-1", "mode": "pr", "branch": null}}
+--- stderr
+
+--- tree <scratch>/cwd-5 (unchanged)
+--- tree <scratch>/repo-1 (unchanged)
+
+===== TC-cli-13
+$ cd <scratch>/cwd-23
+$ python3 <scratch>/links-22/next-action.py --help
+exit: 0 (54 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/cwd-23 (unchanged)
+
+===== TC-cli-13
+$ cd <scratch>/relcwd-24
+$ python3 ../../../sdlc-S-001-v0-cli-1/skills/sdlc/next-action.py --help
+exit: 0 (54 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/relcwd-24 (unchanged)
+
+===== TC-cli-2
+$ cd <scratch>/cwd-7
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-6 --kind slice --id S-1 --format 'sdlc/{name}'
+exit: 0 (44 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-6", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-7 (unchanged)
+--- tree <scratch>/repo-6 (unchanged)
+
+===== TC-cli-13
+$ cd <scratch>/cwd-25
+$ python3 -I <worktree>/skills/sdlc/next-action.py --help
+exit: 0 (61 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree <scratch>/cwd-25 (unchanged)
+
+===== TC-cli-13
+$ cd <scratch>/cwd-27
+$ python3 <scratch>/links-26/state-write.py --help
+exit: 0 (56 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/cwd-27 (unchanged)
+
+===== TC-cli-2
+$ cd <scratch>/cwd-8
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-6 --branch feature/S-1 --format 'sdlc/{name}'
+exit: 0 (47 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-6", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-8 (unchanged)
+--- tree <scratch>/repo-6 (unchanged)
+
+===== TC-cli-13
+$ cd <scratch>/relcwd-28
+$ python3 ../../../sdlc-S-001-v0-cli-1/skills/sdlc/state-write.py --help
+exit: 0 (57 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/relcwd-28 (unchanged)
+
+===== TC-cli-13
+$ cd <scratch>/cwd-29
+$ python3 -I <worktree>/skills/sdlc/state-write.py --help
+exit: 0 (53 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree <scratch>/cwd-29 (unchanged)
+
+===== TC-cli-2
+$ cd <scratch>/cwd-9
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-6 --kind slice --format 'sdlc/{name}'
+exit: 0 (43 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-6", "kind": "slice"}}
+--- stderr
+
+--- tree <scratch>/cwd-9 (unchanged)
+--- tree <scratch>/repo-6 (unchanged)
+
+===== TC-cli-2
+$ cd <scratch>/cwd-10
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-6 --mode pr --format 'sdlc/{name}'
+exit: 0 (38 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-6", "mode": "pr", "branch": null}}
+--- stderr
+
+--- tree <scratch>/cwd-10 (unchanged)
+--- tree <scratch>/repo-6 (unchanged)
+
+===== TC-cli-2
+$ cd <scratch>/cwd-11
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-6 --kind slice --id S-1 '--format=sdlc/{name:lower}'
+exit: 0 (39 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name:lower}", "args": {"repo": "<scratch>/repo-6", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-11 (unchanged)
+--- tree <scratch>/repo-6 (unchanged)
+
+===== TC-cli-2
+$ cd <scratch>/cwd-12
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-6 --branch feature/S-1 '--format=sdlc/{name:lower}'
+exit: 0 (39 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name:lower}", "args": {"repo": "<scratch>/repo-6", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-12 (unchanged)
+--- tree <scratch>/repo-6 (unchanged)
+
+===== TC-cli-14 (slice)
+$ cd <scratch>/cwd-36
+$ python3 <worktree>/skills/sdlc/next-action.py --repo <scratch>/ledger-35 --bar-raiser-rounds 0
+exit: 0 (147 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-1 is in progress at phase implement",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": "sdlc/S-1"
+}
+--- stderr
+
+--- tree <scratch>/cwd-36 (unchanged)
+--- tree <scratch>/ledger-35 (unchanged)
+
+===== TC-cli-3
+$ cd <scratch>/cwd-17
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-16 --kind slice --id S-1
+exit: 2 (50 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-17 (unchanged)
+--- tree <scratch>/repo-16 (unchanged)
+
+===== TC-cli-14 (main)
+$ cd <scratch>/cwd-38
+$ python3 <scratch>/mainskill-34/skills/sdlc/next-action.py --repo <scratch>/ledger-37 --bar-raiser-rounds 0
+exit: 0 (175 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-1 is in progress at phase implement",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": "sdlc/S-1"
+}
+--- stderr
+
+--- tree <scratch>/cwd-38 (unchanged)
+--- tree <scratch>/ledger-37 (unchanged)
+
+===== TC-cli-3
+$ cd <scratch>/cwd-18
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-16 --branch feature/S-1
+exit: 2 (58 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-18 (unchanged)
+--- tree <scratch>/repo-16 (unchanged)
+
+===== TC-cli-3
+$ cd <scratch>/cwd-19
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-16 --kind slice
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-19 (unchanged)
+--- tree <scratch>/repo-16 (unchanged)
+
+===== TC-cli-3
+$ cd <scratch>/cwd-20
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-16 --mode pr
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-20 (unchanged)
+--- tree <scratch>/repo-16 (unchanged)
+
+===== TC-cli-15 (slice)
+$ cd <scratch>/cwd-40
+$ python3 <worktree>/skills/sdlc/state-write.py base-branch --repo <scratch>/ledger-39 --slice S-2
+exit: 0 (74 ms)
+--- stdout
+{"ok": true, "slice": "S-2", "branch": "sdlc/S-1"}
+--- stderr
+
+--- tree <scratch>/cwd-40 (unchanged)
+--- tree <scratch>/ledger-39 (unchanged)
+
+===== TC-cli-3
+$ cd <scratch>/cwd-21
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-16 --kind slice --id S-1 --format 'sdlc/{name}'
+exit: 0 (43 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-16", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-21 (unchanged)
+--- tree <scratch>/repo-16 (unchanged)
+
+===== TC-cli-3
+$ cd <scratch>/cwd-22
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-16 --branch feature/S-1 --format 'sdlc/{name}'
+exit: 0 (49 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-16", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-22 (unchanged)
+--- tree <scratch>/repo-16 (unchanged)
+
+===== TC-cli-15 (main)
+$ cd <scratch>/cwd-42
+$ python3 <scratch>/mainskill-34/skills/sdlc/state-write.py base-branch --repo <scratch>/ledger-41 --slice S-2
+exit: 0 (96 ms)
+--- stdout
+{"ok": true, "slice": "S-2", "branch": "sdlc/S-1"}
+--- stderr
+
+--- tree <scratch>/cwd-42 (unchanged)
+--- tree <scratch>/ledger-41 (unchanged)
+
+===== TC-cli-15 (slice)
+$ cd <scratch>/cwd-44
+$ python3 <worktree>/skills/sdlc/state-write.py base-branch --repo <scratch>/ledger-43 --slice S-2
+exit: 0 (104 ms)
+--- stdout
+{"ok": true, "slice": "S-2", "branch": "main"}
+--- stderr
+
+--- tree <scratch>/cwd-44 (unchanged)
+--- tree <scratch>/ledger-43 (unchanged)
+
+===== TC-cli-15 (main)
+$ cd <scratch>/cwd-46
+$ python3 <scratch>/mainskill-34/skills/sdlc/state-write.py base-branch --repo <scratch>/ledger-45 --slice S-2
+exit: 0 (85 ms)
+--- stdout
+{"ok": true, "slice": "S-2", "branch": "main"}
+--- stderr
+
+--- tree <scratch>/cwd-46 (unchanged)
+--- tree <scratch>/ledger-45 (unchanged)
+
+===== TC-cli-16 (slice)
+$ cd <scratch>/cwd-48
+$ python3 <worktree>/skills/sdlc/janitor.py --repo <scratch>/ledger-47 --days 36500
+exit: 0 (188 ms)
+--- stdout
+{"removedDirs": 0, "removedBranches": ["sdlc/S-1-v1", "sdlc/S-9-v3"], "notes": []}
+--- stderr
+
+--- tree <scratch>/cwd-48 (unchanged)
+--- tree <scratch>/ledger-47
+- ref:refs/heads/sdlc/S-1-v1
+- ref:refs/heads/sdlc/S-9-v3
+
+===== TC-cli-16 (main)
+$ cd <scratch>/cwd-50
+$ python3 <scratch>/mainskill-34/skills/sdlc/janitor.py --repo <scratch>/ledger-49 --days 36500
+exit: 0 (180 ms)
+--- stdout
+{"removedDirs": 0, "removedBranches": ["sdlc/S-1-v1", "sdlc/S-9-v3"], "notes": []}
+--- stderr
+
+--- tree <scratch>/cwd-50 (unchanged)
+--- tree <scratch>/ledger-49
+- ref:refs/heads/sdlc/S-1-v1
+- ref:refs/heads/sdlc/S-9-v3
+
+===== TC-cli-4
+$ cd <scratch>/cwd-71
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-70 --kind slice --id S-1
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/repo-70/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}
+--- stderr
+
+--- tree <scratch>/cwd-71 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4
+$ cd <scratch>/cwd-72
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-70 --kind slice --id S-1
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/repo-70/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}
+--- stderr
+
+--- tree <scratch>/cwd-72 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4
+$ cd <scratch>/cwd-73
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-70 --branch feature/S-1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/repo-70/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}
+--- stderr
+
+--- tree <scratch>/cwd-73 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4
+$ cd <scratch>/cwd-74
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-70 --branch feature/S-1
+exit: 2 (49 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/repo-70/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}
+--- stderr
+
+--- tree <scratch>/cwd-74 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4
+$ cd <scratch>/cwd-75
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-70 --kind slice
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/repo-70/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}
+--- stderr
+
+--- tree <scratch>/cwd-75 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4
+$ cd <scratch>/cwd-76
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-70 --kind slice
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/repo-70/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}
+--- stderr
+
+--- tree <scratch>/cwd-76 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4 with --format
+$ cd <scratch>/cwd-79
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-70 --kind slice --id S-1 --format 'sdlc/{name}'
+exit: 0 (48 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-70", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-79 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4 with --format
+$ cd <scratch>/cwd-80
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-70 --branch feature/S-1 --format 'sdlc/{name}'
+exit: 0 (44 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-70", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-80 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4 with --format
+$ cd <scratch>/cwd-81
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-70 --kind slice --format 'sdlc/{name}'
+exit: 0 (41 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-70", "kind": "slice"}}
+--- stderr
+
+--- tree <scratch>/cwd-81 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4 with --format
+$ cd <scratch>/cwd-82
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-70 --mode pr --format 'sdlc/{name}'
+exit: 0 (45 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-70", "mode": "pr", "branch": null}}
+--- stderr
+
+--- tree <scratch>/cwd-82 (unchanged)
+--- tree <scratch>/repo-70 (unchanged)
+
+===== TC-cli-4 with --format
+$ cd <scratch>/cwd-92
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-83 --kind slice --id S-1 --format 'sdlc/{name}'
+exit: 0 (42 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-83", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-92 (unchanged)
+--- tree <scratch>/repo-83 (unchanged)
+
+===== TC-cli-4 with --format
+$ cd <scratch>/cwd-93
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-83 --branch feature/S-1 --format 'sdlc/{name}'
+exit: 0 (47 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-83", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-93 (unchanged)
+--- tree <scratch>/repo-83 (unchanged)
+
+===== TC-cli-5
+$ cd <scratch>/cwd-106
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-105 --kind slice --id S-1
+exit: 0 (37 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-105", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-106 (unchanged)
+--- tree <scratch>/repo-105 (unchanged)
+
+===== TC-cli-5
+$ cd <scratch>/cwd-107
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-105 --branch feature/S-1
+exit: 0 (38 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-105", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-107 (unchanged)
+--- tree <scratch>/repo-105 (unchanged)
+
+===== TC-cli-5
+$ cd <scratch>/cwd-108
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-105 --kind slice
+exit: 0 (38 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-105", "kind": "slice"}}
+--- stderr
+
+--- tree <scratch>/cwd-108 (unchanged)
+--- tree <scratch>/repo-105 (unchanged)
+
+===== TC-cli-5
+$ cd <scratch>/cwd-109
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-105 --mode pr
+exit: 0 (41 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-105", "mode": "pr", "branch": null}}
+--- stderr
+
+--- tree <scratch>/cwd-109 (unchanged)
+--- tree <scratch>/repo-105 (unchanged)
+
+===== TC-cli-5
+$ cd <scratch>/cwd-111
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-110 --kind slice --id S-1
+exit: 0 (37 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-110", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-111 (unchanged)
+--- tree <scratch>/repo-110 (unchanged)
+
+===== TC-cli-5
+$ cd <scratch>/cwd-112
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-110 --branch feature/S-1
+exit: 0 (38 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "<scratch>/repo-110", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-112 (unchanged)
+--- tree <scratch>/repo-110 (unchanged)
+
+===== TC-cli-6
+$ cd <scratch>/cwd-148
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-147 --kind slice --id S-1 --format ''
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-148 (unchanged)
+--- tree <scratch>/repo-147 (unchanged)
+
+===== TC-cli-6
+$ cd <scratch>/cwd-149
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-147 --branch feature/S-1 --format ''
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-149 (unchanged)
+--- tree <scratch>/repo-147 (unchanged)
+
+===== TC-cli-6
+$ cd <scratch>/cwd-150
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-147 --kind slice --format ''
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-150 (unchanged)
+--- tree <scratch>/repo-147 (unchanged)
+
+===== TC-cli-6
+$ cd <scratch>/cwd-151
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-147 --mode pr --format ''
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-151 (unchanged)
+--- tree <scratch>/repo-147 (unchanged)
+
+===== TC-cli-6
+$ cd <scratch>/cwd-152
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-147 --kind slice --id S-1 --format=
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-152 (unchanged)
+--- tree <scratch>/repo-147 (unchanged)
+
+===== TC-cli-6
+$ cd <scratch>/cwd-153
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-147 --branch feature/S-1 --format=
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree <scratch>/cwd-153 (unchanged)
+--- tree <scratch>/repo-147 (unchanged)
+
+===== TC-cli-7
+$ cd <scratch>/cwd-157
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-156 --kind slice --id S-1
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "cannot read <scratch>/repo-156/.sdlc/config.json: [Errno 21] Is a directory: '<scratch>/repo-156/.sdlc/config.json'"}
+--- stderr
+
+--- tree <scratch>/cwd-157 (unchanged)
+--- tree <scratch>/repo-156 (unchanged)
+
+===== TC-cli-7
+$ cd <scratch>/cwd-158
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-156 --branch feature/S-1
+exit: 2 (38 ms)
+--- stdout
+{"ok": false, "error": "cannot read <scratch>/repo-156/.sdlc/config.json: [Errno 21] Is a directory: '<scratch>/repo-156/.sdlc/config.json'"}
+--- stderr
+
+--- tree <scratch>/cwd-158 (unchanged)
+--- tree <scratch>/repo-156 (unchanged)
+
+===== TC-cli-7
+$ cd <scratch>/cwd-159
+$ python3 <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-156 --kind slice
+exit: 2 (38 ms)
+--- stdout
+{"ok": false, "error": "cannot read <scratch>/repo-156/.sdlc/config.json: [Errno 21] Is a directory: '<scratch>/repo-156/.sdlc/config.json'"}
+--- stderr
+
+--- tree <scratch>/cwd-159 (unchanged)
+--- tree <scratch>/repo-156 (unchanged)
+
+===== TC-cli-7
+$ cd <scratch>/cwd-160
+$ python3 <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-156 --mode pr
+exit: 2 (37 ms)
+--- stdout
+{"ok": false, "error": "cannot read <scratch>/repo-156/.sdlc/config.json: [Errno 21] Is a directory: '<scratch>/repo-156/.sdlc/config.json'"}
+--- stderr
+
+--- tree <scratch>/cwd-160 (unchanged)
+--- tree <scratch>/repo-156 (unchanged)
+
+===== TC-cli-7
+$ cd <scratch>/cwd-162
+$ python3 <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-161 --kind slice --id S-1
+exit: 2 (37 ms)
+--- stdout
+{"ok": false, "error": "cannot read <scratch>/repo-161/.sdlc/config.json: [Errno 13] Permission denied: '<scratch>/repo-161/.sdlc/config.json'"}
+--- stderr
+
+--- tree <scratch>/cwd-162 (unchanged)
+--- tree <scratch>/repo-161 (unchanged)
+
+===== TC-cli-7
+$ cd <scratch>/cwd-163
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-161 --branch feature/S-1
+exit: 2 (36 ms)
+--- stdout
+{"ok": false, "error": "cannot read <scratch>/repo-161/.sdlc/config.json: [Errno 13] Permission denied: '<scratch>/repo-161/.sdlc/config.json'"}
+--- stderr
+
+--- tree <scratch>/cwd-163 (unchanged)
+--- tree <scratch>/repo-161 (unchanged)
+
+===== TC-cli-8
+$ cd <scratch>/cwd-167
+$ PYTHONPATH='' python3 -I <worktree>/skills/sdlc/branches.py name --repo <scratch>/repo-166 --kind slice --id S-1
+exit: 0 (38 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-166", "kind": "slice", "id": "S-1", "n": null, "area": null, "round": null, "profile": null, "part": null}}
+--- stderr
+
+--- tree <scratch>/cwd-167 (unchanged)
+--- tree <scratch>/repo-166 (unchanged)
+
+===== TC-cli-8
+$ cd <scratch>/cwd-168
+$ PYTHONPATH='' python3 -I <worktree>/skills/sdlc/branches.py parse --repo <scratch>/repo-166 --branch feature/S-1
+exit: 0 (52 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-166", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/cwd-168 (unchanged)
+--- tree <scratch>/repo-166 (unchanged)
+
+===== TC-cli-8
+$ cd <scratch>/cwd-169
+$ PYTHONPATH='' python3 -I <worktree>/skills/sdlc/branches.py list --repo <scratch>/repo-166 --kind slice
+exit: 0 (39 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-166", "kind": "slice"}}
+--- stderr
+
+--- tree <scratch>/cwd-169 (unchanged)
+--- tree <scratch>/repo-166 (unchanged)
+
+===== TC-cli-8
+$ cd <scratch>/cwd-170
+$ PYTHONPATH='' python3 -I <worktree>/skills/sdlc/branches.py preflight --repo <scratch>/repo-166 --mode pr
+exit: 0 (40 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-166", "mode": "pr", "branch": null}}
+--- stderr
+
+--- tree <scratch>/cwd-170 (unchanged)
+--- tree <scratch>/repo-166 (unchanged)
+
+===== TC-cli-8
+$ cd $'<scratch>/with space é-171'
+$ python3 <worktree>/skills/sdlc/branches.py parse --repo $'<scratch>/repo ü x-172' --branch feature/S-1
+exit: 0 (40 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/{name}", "args": {"repo": "<scratch>/repo \u00fc x-172", "branch": "feature/S-1"}}
+--- stderr
+
+--- tree <scratch>/with space é-171 (unchanged)
+--- tree <scratch>/repo ü x-172 (unchanged)
+
+===== TC-cli-9
+$ cd <scratch>/cwd-176
+$ PYTHONPATH='' PYTHONDONTWRITEBYTECODE=<unset> python3 -I <scratch>/probe-174/probe.py <scratch>/skill-173/branches.py <scratch>/repo-175
+exit: 0 (57 ms)
+--- stdout
+{"importStdout": "", "openedDuringImport": [], "subprocessDuringImport": [], "failIsException": true, "callable": {"load_format": true, "validate_format": true, "main": true}, "topImports": ["argparse", "json", "os", "re", "sys"], "allImports": ["argparse", "json", "os", "re", "sys"], "nonStdlib": [], "main": {"parse --repo <scratch>/repo-175 --branch x": {"returned": 0, "stdout_lines": 1}, "name --repo <scratch>/repo-175 --kind slice": {"returned": 0, "stdout_lines": 1}, "name": {"returned": 2, "stdout_lines": 1}, "<empty>": {"returned": 2, "stdout_lines": 1}, "bogus": {"returned": 2, "stdout_lines": 1}, "parse --repo <scratch>/repo-175 --branch x --format nope": {"returned": 2, "stdout_lines": 1}, "--help": {"systemExit": 0, "stdout_head": "usage: branches.py [-h] {name,parse,list,preflight} ...\n\npos"}, "parse -h": {"systemExit": 0, "stdout_head": "usage: branches.py parse [-h] --repo REPO --branch BRANCH [-"}}}
+--- stderr
+
+--- tree <scratch>/cwd-176 (unchanged)
+--- tree <scratch>/skill-173
++ __pycache__
++ __pycache__/branches.cpython-314.pyc
+--- tree <scratch>/repo-175 (unchanged)
+
+===== TC-cli-9 main() outcomes
+{
+ "parse --repo <scratch>/repo-175 --branch x": {
+  "returned": 0,
+  "stdout_lines": 1
+ },
+ "name --repo <scratch>/repo-175 --kind slice": {
+  "returned": 0,
+  "stdout_lines": 1
+ },
+ "name": {
+  "returned": 2,
+  "stdout_lines": 1
+ },
+ "<empty>": {
+  "returned": 2,
+  "stdout_lines": 1
+ },
+ "bogus": {
+  "returned": 2,
+  "stdout_lines": 1
+ },
+ "parse --repo <scratch>/repo-175 --branch x --format nope": {
+  "returned": 2,
+  "stdout_lines": 1
+ },
+ "--help": {
+  "systemExit": 0,
+  "stdout_head": "usage: branches.py [-h] {name,parse,list,preflight} ...\n\npos"
+ },
+ "parse -h": {
+  "systemExit": 0,
+  "stdout_head": "usage: branches.py parse [-h] --repo REPO --branch BRANCH [-"
+ }
+}
+
+===== TC-cli-10
+$ cd <scratch>/cwd-180
+$ PATH=<scratch>/bin-178:/usr/bin:/bin python3 -I -c $'import importlib.util,sys\nspec=importlib.util.spec_from_file_location(\"b\",sys.argv[1])\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.load_format(sys.argv[2]), m.validate_format(\"sdlc/{name}\"))' <scratch>/skill-177/branches.py <scratch>/repo-179
+exit: 0 (94 ms)
+--- stdout
+feature/{name} sdlc/{name}
+--- stderr
+
+--- tree <scratch>/bin-178 (unchanged)
+
+===== TC-cli-10
+$ cd <scratch>/cwd-181
+$ python3 <scratch>/skill-177/branches.py parse --repo <scratch>/repo-179 --branch x
+exit: 0 (41 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/{name}", "args": {"repo": "<scratch>/repo-179", "branch": "x"}}
+--- stderr
+
+--- tree <scratch>/cwd-181 (unchanged)
+--- tree <scratch>/repo-179 (unchanged)
+
+===== TC-cli-10
+$ cd <scratch>/cwd-182
+$ python3 <scratch>/skill-177/branches.py preflight --repo <scratch>/repo-179 --mode pr
+exit: 2 (37 ms)
+--- stdout
+{"ok": false, "error": "<scratch>/skill-177/git-modes.json is missing: restore it from git"}
+--- stderr
+
+--- tree <scratch>/cwd-182 (unchanged)
+--- tree <scratch>/repo-179 (unchanged)

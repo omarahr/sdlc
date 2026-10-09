@@ -1,0 +1,182 @@
+### VS-9 decoy cwd+PYTHONPATH next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-cwd-625
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-pp-626 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --help
+exit: 0 (54 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-cwd-625 (unchanged)
+
+### VS-9 decoy cwd+PYTHONPATH state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-cwd-628
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-pp-629 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py --help
+exit: 0 (55 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-cwd-628 (unchanged)
+
+### VS-9 decoy cwd+PYTHONPATH janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-cwd-631
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-pp-632 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/janitor.py --help
+exit: 0 (50 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-cwd-631 (unchanged)
+
+### VS-9 importlib next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-634
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-pp-635 python3 -c $'import importlib.util,sys\nspec=importlib.util.spec_from_file_location(\"m\", \"/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (45 ms)
+--- stdout
+/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-634 (unchanged)
+
+### VS-9 importlib state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-636
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-pp-637 python3 -c $'import importlib.util,sys\nspec=importlib.util.spec_from_file_location(\"m\", \"/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (45 ms)
+--- stdout
+/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-636 (unchanged)
+
+### VS-9 importlib janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-638
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-pp-639 python3 -c $'import importlib.util,sys\nspec=importlib.util.spec_from_file_location(\"m\", \"/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/janitor.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (42 ms)
+--- stdout
+/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/decoy-import-638 (unchanged)
+
+### VS-9 symlink clean next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-641
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/link-clean-640/next-action.py --help
+exit: 0 (53 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-641 (unchanged)
+
+### VS-9 symlink clean state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-643
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/link-clean-642/state-write.py --help
+exit: 0 (51 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-643 (unchanged)
+
+### VS-9 symlink clean janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-645
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/link-clean-644/janitor.py --help
+exit: 0 (47 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-645 (unchanged)
+
+### VS-9 symlink with decoy beside the link next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-647
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/link-decoy-646/next-action.py --help
+exit: 97 (37 ms)
+--- stdout
+
+--- stderr
+DECOY branches IMPORTED
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-647 (unchanged)
+
+### VS-9 symlink with decoy beside the link state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-649
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/link-decoy-648/state-write.py --help
+exit: 97 (39 ms)
+--- stdout
+
+--- stderr
+DECOY branches IMPORTED
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-649 (unchanged)
+
+### VS-9 symlink with decoy beside the link janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-651
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/link-decoy-650/janitor.py --help
+exit: 97 (47 ms)
+--- stdout
+
+--- stderr
+DECOY branches IMPORTED
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-651 (unchanged)
+

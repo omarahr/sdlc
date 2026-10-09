@@ -1,0 +1,93 @@
+### VS-2 unnamed flag parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --kind slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --kind slice
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --kind slice"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 unnamed flag parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --mode pr
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-7
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --mode pr
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --mode pr"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-7 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 unnamed flag parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --n 1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-8
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --n 1
+exit: 2 (40 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: --n 1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 missing/unknown parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-10
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: --branch"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-10 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 missing/unknown parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 extra
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-21
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 extra
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "unrecognized arguments: extra"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-21 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 duplicate --repo bad then good
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-57
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /nonexistent-sdlc-verify --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch x
+exit: 0 (44 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1", "branch": "x"}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-57 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 duplicate --format bad then good
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-58
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --branch sdlc/S-1 --format bad --format 'sdlc/{name}'
+exit: 0 (45 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1", "branch": "sdlc/S-1"}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-58 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-2 help -h
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-60
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py -h
+exit: 0 (44 ms)
+--- stdout
+usage: branches.py [-h] {name,parse,list,preflight} ...
+
+positional arguments:
+  {name,parse,list,preflight}
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-60 (unchanged)
+

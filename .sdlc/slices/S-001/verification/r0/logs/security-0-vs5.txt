@@ -1,0 +1,202 @@
+### VS-5 name kind "bogus"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-462
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --kind bogus
+exit: 2 (39 ms)
+--- stdout
+{"ok": false, "error": "--kind 'bogus' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-462 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 mode "PR"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-499
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode PR
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "--mode 'PR' is not one of pr, direct, mr, stack"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-499 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 repo parse "/nonexistent-sdlc-verify"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-518
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /nonexistent-sdlc-verify --branch sdlc/S-1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "--repo '/nonexistent-sdlc-verify' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-518 (unchanged)
+
+### VS-5 repo parse "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/f-509/plain.txt"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-519
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/f-509/plain.txt --branch sdlc/S-1
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/f-509/plain.txt' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-519 (unchanged)
+
+### VS-5 repo parse "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/dl-510/dangling"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-520
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/dl-510/dangling --branch sdlc/S-1
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/dl-510/dangling' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-520 (unchanged)
+
+### VS-5 repo parse ""
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-521
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo '' --branch sdlc/S-1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "--repo '' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-521 (unchanged)
+
+### VS-5 repo parse "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/f-509/plain.txt/..x"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-522
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/f-509/plain.txt/..x --branch sdlc/S-1
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/f-509/plain.txt/..x' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-522 (unchanged)
+
+### VS-5 repo parse "file:///etc"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-523
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo file:///etc --branch sdlc/S-1
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "--repo 'file:///etc' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-523 (unchanged)
+
+### VS-5 repo parse "~/no-such-sdlc-dir"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-524
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py parse --repo '~/no-such-sdlc-dir' --branch sdlc/S-1
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "--repo '~/no-such-sdlc-dir' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-524 (unchanged)
+
+### VS-5 git-modes removed preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-565
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-564/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-564/git-modes.json is missing: restore it from git"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-565 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes invalid-json preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-570
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-569/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-569/git-modes.json must hold {\"gitModes\": [...]}: Expecting value: line 1 column 15 (char 14)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-570 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes invalid-utf8 preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-575
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-574/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-574/git-modes.json must hold {\"gitModes\": [...]}: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-575 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes no-key preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-580
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-579/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-579/git-modes.json must hold {\"gitModes\": [...]}: 'gitModes'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-580 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes top-list preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-585
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-584/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (41 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-584/git-modes.json must hold {\"gitModes\": [...]}: list indices must be integers or slices, not str"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-585 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes modes-string preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-590
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-589/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (38 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-589/git-modes.json must hold {\"gitModes\": [\"<mode>\", ...]} naming at least one mode"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-590 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes modes-empty preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-595
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-594/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-594/git-modes.json must hold {\"gitModes\": [\"<mode>\", ...]} naming at least one mode"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-595 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes modes-number preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-600
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-599/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-599/git-modes.json must hold {\"gitModes\": [\"<mode>\", ...]} naming at least one mode"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-600 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes modes-null preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-605
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-604/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-604/git-modes.json must hold {\"gitModes\": [\"<mode>\", ...]} naming at least one mode"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-605 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+
+### VS-5 git-modes empty preflight
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-610
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-609/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 --mode pr
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/skill-609/git-modes.json must hold {\"gitModes\": [...]}: Expecting value: line 1 column 1 (char 0)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/cwd-610 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-509380/testkit-cli-bQqEPX/repo-1 (unchanged)
+

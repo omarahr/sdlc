@@ -1,0 +1,517 @@
+{
+  "profile": "cli",
+  "part": 1,
+  "round": 0,
+  "commit": "de3dd5c",
+  "environment": "macOS (darwin 25.6), Python 3.14.7, Node 24.19.0, git; scratch repos from the testkit cli-runner with a scratch HOME, TZ=UTC, PYTHONUTF8=1; baseline skill from git archive main",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "A command without --format prints the config format",
+      "given": "A scratch git repo with .sdlc/config.json {gitMode: pr, branchFormat: feature/{name}}",
+      "when": "name, parse, list and preflight run from a scratch cwd without --format",
+      "then": "Each prints one JSON object with format feature/{name}",
+      "expected": "exit 0, one JSON object, ok true, format feature/{name}, empty stderr, repo and cwd trees unchanged",
+      "actual": "All four commands: exit 0, format feature/{name}, stderr empty, trees unchanged",
+      "result": "pass",
+      "specSource": "R-016 quote; R-014 acceptance",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:60",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "parse without --format",
+          "inline": "$ python3 branches.py parse --repo <scratch>/repo --branch feature/S-1\nexit: 0\n--- stdout\n{\"ok\": true, \"command\": \"parse\", \"format\": \"feature/{name}\", \"args\": {...}}\n--- stderr\n(empty)"
+        },
+        {
+          "kind": "transcript",
+          "title": "all four commands",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "repo and cwd",
+          "inline": "unchanged after each run (cli-runner snapshot, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "--format wins over the config format",
+      "given": "Config branchFormat feature/{name}",
+      "when": "Each command runs with --format sdlc/{name}, with --format=sdlc/{name:lower}, and with --format before the other flags",
+      "then": "format is the --format value",
+      "expected": "exit 0 and format sdlc/{name} or sdlc/{name:lower}, never feature/{name}",
+      "actual": "9 runs: exit 0, format equals the --format value in each",
+      "result": "pass",
+      "specSource": "R-016 quote (config is the fallback); R-014 acceptance (documented flags)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:65",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "override runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "repo and cwd",
+          "inline": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "An invalid config format fails without --format, and a valid --format overrides it",
+      "given": "Config branchFormat in: feature/x, 'a {name}', {name}{name}, x/{name}}, x/{id}, x/{name}+TAB",
+      "when": "Each command runs without --format, then with --format sdlc/{name}",
+      "then": "Without --format exit 2 with one {ok:false,error}; with --format exit 0",
+      "expected": "exit 2, stdout exactly {ok:false,error:<non-empty>}, no traceback; then exit 0",
+      "actual": "48 runs as expected. Example: exit 2, {\"ok\": false, \"error\": \"the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0\"}",
+      "result": "pass",
+      "specSource": "R-014 quote (exit 2 on bad input); ADR-20261009-024036 (structural checks in S-001)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:73",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "config feature/x, name without --format",
+          "inline": "$ python3 branches.py name --repo <scratch>/repo --kind slice --id S-1\nexit: 2\n--- stdout\n{\"ok\": false, \"error\": \"the branch format 'feature/x' must hold exactly one {name} or {name:lower}, found 0\"}\n--- stderr\n(empty)"
+        },
+        {
+          "kind": "transcript",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "repo and cwd",
+          "inline": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "Malformed config JSON fails without --format; with --format the config is not read",
+      "given": "config.json holds '{not json', a trailing comma object, or a UTF-8 BOM before valid JSON",
+      "when": "Each command runs without --format, then with --format sdlc/{name}",
+      "then": "Without --format: exit 2 with one JSON error. With --format: recorded only",
+      "expected": "exit 2 and one {ok:false,error} for invalid JSON",
+      "actual": "Invalid JSON: exit 2 with one JSON error. BOM: exit 2 ('Unexpected UTF-8 BOM'), recorded as a seed. With --format: exit 0 for all three files, because load_format is not called",
+      "result": "pass",
+      "specSource": "R-014 quote; spec silent on malformed config with --format (recorded)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:81",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "malformed config with --format",
+          "inline": "$ python3 branches.py parse --repo <scratch>/repo --branch feature/S-1 --format 'sdlc/{name}'\nexit: 0\n--- stdout\n{\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", ...}"
+        },
+        {
+          "kind": "transcript",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-016"
+      ],
+      "title": "An empty, missing or non-string config value falls back to sdlc/{name}",
+      "given": "No config, {}, branchFormat '', null, 7, a list, top-level list, top-level string, and a repo without .sdlc",
+      "when": "Each command runs without --format",
+      "then": "format is sdlc/{name}",
+      "expected": "exit 0, format sdlc/{name}",
+      "actual": "33 runs: exit 0, format sdlc/{name}",
+      "result": "pass",
+      "specSource": "R-016 quote and acceptance",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:101",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "fallback runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "repo and cwd",
+          "inline": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-014"
+      ],
+      "title": "An empty --format is refused, not replaced by the config format",
+      "given": "Config branchFormat feature/{name}",
+      "when": "Each command runs with --format '' and --format=",
+      "then": "exit 2 with one JSON error",
+      "expected": "exit 2, {ok:false,error}",
+      "actual": "8 runs: exit 2, error \"the branch format '' must hold exactly one {name} or {name:lower}, found 0\"",
+      "result": "pass",
+      "specSource": "R-014 quote; ADR-20261009-024036",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:111",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "empty --format",
+          "inline": "$ python3 branches.py name --repo <scratch>/repo --kind slice --id S-1 --format ''\nexit: 2\n--- stdout\n{\"ok\": false, \"error\": \"the branch format '' must hold exactly one {name} or {name:lower}, found 0\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-014",
+        "R-016"
+      ],
+      "title": "An unreadable config or a directory in its place gives one JSON error",
+      "given": "config.json is a directory, or a file with mode 000",
+      "when": "Each command runs without --format",
+      "then": "exit 2 with one JSON error, no traceback",
+      "expected": "exit 2, {ok:false,error}",
+      "actual": "8 runs: exit 2 with 'cannot read ...' JSON error, stderr empty",
+      "result": "pass",
+      "specSource": "R-014 quote",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:117",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "unreadable config runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-013"
+      ],
+      "title": "python3 branches.py <command> runs from a scratch cwd under -I, and with spaces and unicode in paths",
+      "given": "Scratch repo with config feature/{name}; empty PYTHONPATH",
+      "when": "python3 -I branches.py <cmd> from a scratch cwd; then parse with cwd 'with space é' and repo 'repo ü x'",
+      "then": "Each prints one JSON object with exit 0",
+      "expected": "exit 0, format feature/{name}, empty stderr",
+      "actual": "5 runs: exit 0, one JSON object, format feature/{name}",
+      "result": "pass",
+      "specSource": "R-013 acceptance ('python3 branches.py <command> runs')",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:129",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "-I runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-013"
+      ],
+      "title": "Import by path: no side effect, public functions present, stdlib only, main returns a code",
+      "given": "A copy of the skill directory, bytecode writing on, open() and subprocess spied",
+      "when": "A probe under python3 -I from a scratch cwd loads branches.py via spec_from_file_location, parses its imports with ast, and calls main() with 8 argv lists",
+      "then": "No stdout, no file open, no subprocess at import; Fail subclasses Exception; load_format, validate_format, main callable; all imports in sys.stdlib_module_names; main returns 0 or 2 for every command input",
+      "expected": "As stated",
+      "actual": "Import stdout empty; no open; no subprocess; Fail is an Exception; all three callable; nonStdlib []; only __pycache__ added. main returns 0 for valid parse and name, 2 for 'name', [], 'bogus' and a bad --format. main(['--help']) and main(['parse','-h']) raise SystemExit(0) after printing usage (spec does not define --help; seed)",
+      "result": "pass",
+      "specSource": "R-013 acceptance",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:197",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "probe run and main() outcomes",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "skill copy, cwd, repo",
+          "inline": "+ __pycache__/branches.cpython-314.pyc only"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-013"
+      ],
+      "title": "The module imports and parse runs without git-modes.json and without git",
+      "given": "A skill copy without git-modes.json; PATH starts with a fake git that records each call",
+      "when": "Load the module by path and call load_format and validate_format; run parse and preflight",
+      "then": "Import and parse succeed; git is never called; preflight fails with one JSON error",
+      "expected": "stdout 'feature/{name} sdlc/{name}'; parse exit 0; preflight exit 2 JSON",
+      "actual": "As expected; the fake git marker file was never written",
+      "result": "pass",
+      "specSource": "R-013 acceptance (importable, runnable)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs:223",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "no git-modes, fake git",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "fake git dir",
+          "inline": "unchanged: git was not called"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A decoy branches.py in the cwd does not shadow the real module",
+      "given": "A scratch cwd that holds a decoy branches.py which records its import and exits 97",
+      "when": "Each script runs --help from that cwd, and is loaded by path through importlib from that cwd",
+      "then": "--help exits 0; mod.branches.__file__ is the skill's branches.py; the decoy never runs",
+      "expected": "exit 0 and the real path",
+      "actual": "All three scripts: exit 0, real path, decoy marker absent. A mutant without the sys.path.insert line fails this case",
+      "result": "pass",
+      "specSource": "R-098 acceptance (import resolves through the script directory)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs:32",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "decoy cwd runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-12",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A decoy branches module on PYTHONPATH does not shadow the real module",
+      "given": "PYTHONPATH names a dir with an exiting decoy, a shadowing decoy, or a branches package that exits 97",
+      "when": "Each script runs --help",
+      "then": "exit 0, usage printed, decoy never imported",
+      "expected": "exit 0",
+      "actual": "9 runs: exit 0, decoy marker absent",
+      "result": "pass",
+      "specSource": "R-098 acceptance",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs:45",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "PYTHONPATH decoy runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-13",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "Each script runs through a symlink, a relative path and python3 -I",
+      "given": "A symlink to each script in another directory; a scratch cwd",
+      "when": "python3 <symlink> --help; python3 <relative path> --help; python3 -I <script> --help",
+      "then": "exit 0 each",
+      "expected": "exit 0",
+      "actual": "9 runs: exit 0. A mutant without the sys.path.insert line fails the -I run",
+      "result": "pass",
+      "specSource": "R-098 acceptance (runs with the cwd outside the skill directory)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs:59",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "symlink, relative and -I runs",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-14",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "next-action.py finds an in-progress slice on its own branch, same as on main",
+      "given": "A ledger repo on main; branch sdlc/S-1 marks S-1 in_progress at phase implement",
+      "when": "next-action.py --repo <repo> --bar-raiser-rounds 0 from a scratch cwd, with the slice skill and with the skill from main",
+      "then": "next.action slice, checkout sdlc/S-1, and output identical to main",
+      "expected": "identical decisions",
+      "actual": "Both: action slice, slice S-1, checkout sdlc/S-1; whole JSON equal after the repo path is masked",
+      "result": "pass",
+      "specSource": "ADR-20261009-024047 (no-regression reading of R-098)",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs:111",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action slice vs main",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-15",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "state-write.py base-branch names the awaiting-merge dependency branch, same as on main",
+      "given": "Stack mode: S-1 awaiting-merge with branch sdlc/S-1 at its own commit, S-2 depends on S-1; plus a direct-mode repo",
+      "when": "state-write.py base-branch --repo <repo> --slice S-2, slice skill and main skill",
+      "then": "Stack: {ok:true, branch:sdlc/S-1}; both outputs equal main",
+      "expected": "identical",
+      "actual": "Stack: {\"ok\": true, \"slice\": \"S-2\", \"branch\": \"sdlc/S-1\"} on both; direct mode equal on both",
+      "result": "pass",
+      "specSource": "ADR-20261009-024047",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs:128",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "base-branch slice",
+          "inline": "$ python3 state-write.py base-branch --repo <scratch>/ledger --slice S-2\nexit: 0\n--- stdout\n{\"ok\": true, \"slice\": \"S-2\", \"branch\": \"sdlc/S-1\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-16",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "janitor.py removes v-branches of a done and an unknown slice and keeps live branches, same as on main",
+      "given": "S-1 done, S-2 in_progress; branches sdlc/S-1-v1, sdlc/S-1, sdlc/S-2-v1, sdlc/S-9-v3, sdlc/run-1",
+      "when": "janitor.py --repo <repo> --days 36500, slice skill and main skill",
+      "then": "removedBranches [sdlc/S-1-v1, sdlc/S-9-v3]; sdlc/S-1 kept; same as main",
+      "expected": "identical sweep",
+      "actual": "Both remove sdlc/S-1-v1 and sdlc/S-9-v3; left: main, sdlc/S-1, sdlc/S-2-v1, sdlc/run-1; notes []",
+      "result": "pass",
+      "specSource": "ADR-20261009-024047",
+      "test": ".sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs:147",
+      "command": "VERIFY_REPO=<worktree> VERIFY_LOG=<log> node --test .sdlc/slices/S-001/verification/r0/tests/cli-1/import.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "janitor slice",
+          "inline": "$ python3 janitor.py --repo <scratch>/ledger --days 36500\nexit: 0\n--- stdout\n{\"removedDirs\": 0, \"removedBranches\": [\"sdlc/S-1-v1\", \"sdlc/S-9-v3\"], \"notes\": []}"
+        },
+        {
+          "kind": "file-tree",
+          "title": "ledger refs",
+          "inline": "- ref:refs/heads/sdlc/S-1-v1\n- ref:refs/heads/sdlc/S-9-v3"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-17",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "The existing next-action, scripts, git-modes and branches suites pass, with no assertion changed",
+      "given": "Branch sdlc/S-001 at de3dd5c",
+      "when": "Run the four suites; diff the suite files against main",
+      "then": "All pass; next-action and scripts suites unchanged; git-modes change is fixture setup only",
+      "expected": "0 failures",
+      "actual": "110 tests: 109 pass, 1 skipped (go not installed), 0 fail. next-action.test.mjs and scripts.test.mjs have no diff. git-modes.test.mjs adds only a BRANCHES_PATH constant and two copyFileSync fixture lines",
+      "result": "pass",
+      "specSource": "ADR-20261009-024047 (existing suites unchanged)",
+      "test": "manual",
+      "command": "cd <worktree> && node --test skills/sdlc/test/next-action.test.mjs skills/sdlc/test/scripts.test.mjs skills/sdlc/test/git-modes.test.mjs skills/sdlc/test/branches.test.mjs",
+      "manual": true,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "suite summary",
+          "path": ".sdlc/slices/S-001/verification/r0/logs/cli-1-suites.txt"
+        },
+        {
+          "kind": "log",
+          "title": "git-modes.test.mjs diff",
+          "inline": "+const BRANCHES_PATH = join(SKILL_DIR, 'branches.py')\n+    copyFileSync(BRANCHES_PATH, join(dir, 'branches.py'))\n+      copyFileSync(BRANCHES_PATH, join(dir, 'branches.py'))"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "branches.py --help and -h exit through SystemExit in main()",
+      "detail": "main(['--help']) and main(['parse','-h']) print argparse usage text on stdout and raise SystemExit(0). An in-process caller of main() gets an exception instead of a return code, and the CLI prints usage text, not one JSON object. The spec does not define --help, so this does not refute.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A UTF-8 BOM in .sdlc/config.json makes every command without --format exit 2",
+      "detail": "load_format opens config.json with encoding utf-8, so a BOM gives 'Unexpected UTF-8 BOM'. Some Windows editors write a BOM. utf-8-sig would accept it. The spec does not name this case.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A valid --format hides a malformed config.json",
+      "detail": "With --format given, load_format is not called, so a command exits 0 while config.json is invalid JSON. Later slices that read other config keys may need to read the config anyway.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A decoy branches.py beside a symlink to a script shadows the real module",
+      "detail": "The scripts insert os.path.dirname(os.path.abspath(__file__)) into sys.path. abspath does not resolve symlinks, so when janitor.py runs through a symlink in a directory that also holds branches.py, that file is imported (manual probe: exit 97 from the decoy). os.path.realpath would close this. The spec names no symlink case.",
+      "file": "skills/sdlc/janitor.py"
+    }
+  ]
+}
