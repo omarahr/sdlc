@@ -1,0 +1,106 @@
+✔ verify security: pattern huge repeat never raises from judge (100.762792ms)
+✔ verify security: pattern huge repeat inner never raises from judge (105.908708ms)
+✔ verify security: pattern huge min max never raises from judge (103.536291ms)
+✔ verify security: pattern lazy huge never raises from judge (122.249167ms)
+✔ verify security: pattern possessive huge never raises from judge (100.732ms)
+✔ verify security: pattern huge group ref never raises from judge (100.121417ms)
+✔ verify security: pattern huge group ref octal never raises from judge (98.981708ms)
+✔ verify security: pattern bad named backref never raises from judge (101.972375ms)
+✔ verify security: pattern bad cond group never raises from judge (103.179375ms)
+✔ verify security: pattern cond huge never raises from judge (101.1975ms)
+✔ verify security: pattern lookbehind variable never raises from judge (109.064917ms)
+✔ verify security: pattern lookbehind huge never raises from judge (110.796208ms)
+✔ verify security: pattern bad flag never raises from judge (104.078166ms)
+✔ verify security: pattern global flag middle never raises from judge (102.879166ms)
+✔ verify security: pattern nul pattern never raises from judge (83.788792ms)
+✔ verify security: pattern unicode escape bad never raises from judge (104.417833ms)
+✔ verify security: pattern unicode name bad never raises from judge (106.574166ms)
+✔ verify security: pattern unicode name huge never raises from judge (142.656417ms)
+✔ verify security: pattern bad range never raises from judge (120.066667ms)
+✔ verify security: pattern bad class escape never raises from judge (104.327375ms)
+✔ verify security: pattern huge class never raises from judge (240.877583ms)
+✔ verify security: pattern many groups never raises from judge (409.419833ms)
+✔ verify security: pattern many alternation never raises from judge (590.165542ms)
+✔ verify security: pattern long literal never raises from judge (3637.271375ms)
+✔ verify security: pattern deep lookahead never raises from judge (118.317958ms)
+✔ verify security: pattern deep cond never raises from judge (101.706542ms)
+✔ verify security: pattern huge repeat counts nested never raises from judge (78.559541ms)
+✔ verify security: pattern lone surrogate never raises from judge (77.971917ms)
+✔ verify security: pattern backslash end never raises from judge (99.234792ms)
+✔ verify security: pattern bad group name never raises from judge (99.942084ms)
+✔ verify security: pattern dup group name never raises from judge (99.369459ms)
+✔ verify security: pattern atomic never raises from judge (86.720625ms)
+✔ verify security: pattern possessive never raises from judge (84.932125ms)
+✔ verify security: pattern unicode group name never raises from judge (102.391375ms)
+✔ verify security: pattern verbose bad never raises from judge (82.043875ms)
+✔ verify security: pattern inline scoped flag bad never raises from judge (101.221958ms)
+✔ verify security: regex_error and evaluate stay total on the same patterns (6447.642ms)
+✔ verify security: hostile sample against a regex rule does not raise (185.308667ms)
+✔ verify security: notes never echo secrets beyond the pattern error (55.361458ms)
+✔ verify security: uncompilable patterns give unevaluated and never raise (640.201833ms)
+✔ verify security: a bad pattern beside a passing rule does not block (52.494792ms)
+✔ verify security: deeply nested balanced pattern does not raise (R-035 never blocks) (50.52025ms)
+✔ verify security: unbalanced deep nesting does not raise (51.011417ms)
+✔ verify security: every invalid ref fails with git check-ref-format and a valid one passes (1135.1765ms)
+✔ verify security: NUL and surrogate samples give Fail or a verdict, not a traceback (70.830958ms)
+✔ verify security: attack corpus samples never produce an exception outcome (5147.954ms)
+✔ verify security: a flag-like sample is never read as a git option (263.84525ms)
+✔ verify security: with git off the PATH the call raises Fail and writes nothing (31.395958ms)
+✖ verify security SEED out-of-scope: the verdict does not depend on repo state for @{-1} (155.367417ms)
+✖ verify security SEED out-of-scope: sample "@" is refused (46.220459ms)
+✔ verify security: a repetition count too large for re gives unevaluated, not OverflowError (R-035 never blocks) (422.447583ms)
+✔ verify security: regex_error and evaluate do not raise on an oversized repetition (63.227ms)
+✔ verify security: very deep nesting stays unevaluated after the r1 fix (433.248ms)
+✔ verify security: a bad rule with no label does not take the label of the git check (34.18025ms)
+ℹ tests 54
+ℹ suites 0
+ℹ pass 52
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14883.302916
+
+✖ failing tests:
+
+test at .sdlc/slices/S-012/verification/r2/tests/security-0/branches.verify-security.test.mjs:89:1
+✖ verify security SEED out-of-scope: the verdict does not depend on repo state for @{-1} (155.367417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'pass' !== 'fail'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r2/tests/security-0/branches.verify-security.test.mjs:94:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'pass',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-012/verification/r2/tests/security-0/branches.verify-security.test.mjs:97:1
+✖ verify security SEED out-of-scope: sample "@" is refused (46.220459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'pass' !== 'fail'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r2/tests/security-0/branches.verify-security.test.mjs:98:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'pass',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

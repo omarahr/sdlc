@@ -1,0 +1,10 @@
+seed 12012 runs 1509 unevaluated 1365 raised 0
+✔ verify contract: VS-1 round 2 property, random regex-like patterns never raise out of judge or regex_error (32578.713417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32627.724291

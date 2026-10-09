@@ -1,0 +1,80 @@
+judge (rules, sample)
+ref_format_error (ref)
+regex_error (pattern)
+evaluate (rule, sample)
+validate_format (fmt)
+
+missing kind note ["cannot evaluate g2: unknown kind None"]
+catastrophic ms 190 {"result":"fail","rule":"cat","notes":[]}
+missing-label first failing rule then labelled one -> {"result":"fail","rule":null,"notes":[]}
+property-run judge seed=12012 runs=1500 violations=0
+odd "@{-1}" ref_format_error return  "fatal: '@{-1}' is not a valid branch name" | judge return  {"result":"fail","rule":"git check-ref-format","notes":[]}
+odd "@{-1}/x" ref_format_error return  "fatal: '@{-1}/x' is not a valid branch name" | judge return  {"result":"fail","rule":"git check-ref-format","notes":[]}
+odd "\u0000" ref_format_error Fail Fail "embedded null byte" | judge Fail Fail "embedded null byte"
+odd "a\u0000b" ref_format_error Fail Fail "embedded null byte" | judge Fail Fail "embedded null byte"
+odd "\ud800" ref_format_error Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not al | judge Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not al
+odd "a\ud800" ref_format_error Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 1: surrogates not al | judge Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 1: surrogates not al
+odd null ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not NoneType" | judge exception TypeError "expected str, bytes or os.PathLike object, not NoneType"
+odd 5 ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not int" | judge exception TypeError "expected str, bytes or os.PathLike object, not int"
+odd [] ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not list" | judge exception TypeError "expected str, bytes or os.PathLike object, not list"
+odd {} ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not dict" | judge exception TypeError "expected str, bytes or os.PathLike object, not dict"
+odd true ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not bool" | judge exception TypeError "expected str, bytes or os.PathLike object, not bool"
+odd 1.5 ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not float" | judge exception TypeError "expected str, bytes or os.PathLike object, not float"
+corpus samples=95 non-return=0 []
+judge disagrees with git oracle on 0
+property-run ref_format_error seed=12012 runs=1000 violations=0 []
+property validate_format: seed=12012 runs=1000 violations=0
+property-run validate_format vs main seed=12012 runs=1000 diffs=0 []
+PR branch:
+Fail: cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 2] No such file or directory: 'git'
+Fail: [Errno 2] No such file or directory: 'git'
+Fail: [Errno 2] No such file or directory: 'git'
+main:
+Fail: cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 2] No such file or directory: 'git'
+
+imports argparse,json,os,re,subprocess,sys,datetime
+re.compile on nested 2000 RecursionError 1000 RecursionError 300 ok  python Python 3.14.7
+deep open2000 return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate deep: the pattern is nested too deeply"]}
+deep balanced1000 return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate deep: the pattern is nested too deeply"]}
+deep balanced300 return  {"result":"fail","rule":"deep","notes":[]}
+re.compile on large repeat counts
+a{4294967296} OverflowError
+a{99999999999999999999} OverflowError
+a{1,99999999999999999999} OverflowError
+a{99999999999999999999,} OverflowError
+
+judge a{4294967296} return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate big: the repetition number is too large"]}
+judge a{99999999999999999999} return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate big: the repetition number is too large"]}
+judge a{1,99999999999999999999} return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate big: the repetition number is too large"]}
+judge a{99999999999999999999,} return  {"result":"unevaluated","rule":null,"notes":["cannot evaluate big: the repetition number is too large"]}
+✔ verify contract: surface lists judge, ref_format_error, regex_error, evaluate (35.939208ms)
+✔ verify contract: VS-1 bad patterns never raise and note equals regex_error (3547.536916ms)
+✔ verify contract: VS-1 bad pattern beside passing rule is unevaluated; unknown kind note (155.0375ms)
+✔ verify contract: VS-1 catastrophic pattern finishes (190.210083ms)
+✔ verify contract: VS-2 combination examples (492.1535ms)
+✔ verify contract: VS-2/VS-4 property judge vs reference model (1500 runs) (39005.937167ms)
+✔ verify contract: judge does not mutate rules and is deterministic (33.165375ms)
+✔ verify contract: VS-3 invalid refs fail with git rule, valid pass (3059.627792ms)
+✔ verify contract: VS-3 @{-1}, NUL, non-string, flag-like never raise a traceback (144.408084ms)
+✔ verify contract: VS-3 flag-like samples are not read as git options (399.782417ms)
+✔ verify contract: VS-3 attack corpus never raises (4445.446375ms)
+✔ verify contract: VS-3 property ref_format_error matches git oracle (1000 runs) (42568.326209ms)
+✔ verify contract: VS-3 no cwd or repo dependence (245.6735ms)
+✔ verify contract: VS-4 forge label wins over git ref check (272.314917ms)
+✔ verify contract: VS-5 validate_format equals main on messages and Fail (721.446375ms)
+✔ verify contract: VS-5 property validate_format has no new exception (1000 runs) and equals main (15397.594084ms)
+✔ verify contract: VS-5 git missing from PATH (262.9075ms)
+✔ verify contract: determinism and no forbidden imports (0.259417ms)
+✔ verify contract: VS-1 deeply nested pattern that re.compile rejects never raises out of judge (145.218916ms)
+✔ verify contract: VS-1 round 1 nested pattern gives a note equal to regex_error, negate true and false (755.082083ms)
+✔ verify contract: VS-1 round 1 nested pattern beside a failing rule and a passing rule (94.991167ms)
+✔ verify contract: VS-1 round 1 repeat counts too large for re.compile never raise out of judge (150.773125ms)
+✔ verify contract: VS-1 round 1 regex_error returns text for every pattern re.compile rejects (36.374708ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112218.842417

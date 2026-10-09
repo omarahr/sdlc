@@ -1,0 +1,267 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 2,
+  "commit": "4ed0399",
+  "environment": "Python 3.14.7, Node test runner, git on PATH, testkit property.mjs; seed 12012; worktree of sdlc/S-012 at 4ed0399",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Surface: judge, ref_format_error, regex_error, evaluate",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "List the module functions.",
+      "then": "The expected functions exist; no extra import.",
+      "expected": "The expected functions exist; no extra import.",
+      "actual": "The expected functions exist; no extra import.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:28",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Uncompilable patterns give unevaluated; note equals regex_error",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge ( , [a-, *, a{2,1} with negate true, false and absent.",
+      "then": "Result unevaluated, rule null, note equal to regex_error.",
+      "expected": "Result unevaluated, rule null, note equal to regex_error.",
+      "actual": "Result unevaluated, rule null, note equal to regex_error.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:40",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Bad pattern beside a passing rule is unevaluated; unknown kind note",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge a bad regex with a passing rule, and an unknown kind.",
+      "then": "Result unevaluated; note reads cannot evaluate <label>: unknown kind <kind>.",
+      "expected": "Result unevaluated; note reads cannot evaluate <label>: unknown kind <kind>.",
+      "actual": "Result unevaluated; note reads cannot evaluate <label>: unknown kind <kind>.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:52",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Catastrophic pattern finishes",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge (a+)+$ on 22 characters.",
+      "then": "The call returns.",
+      "expected": "The call returns.",
+      "actual": "The call returns.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:61",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Deeply nested pattern never raises out of judge",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge 2000 and 1000 nested open parentheses.",
+      "then": "judge returns a dict.",
+      "expected": "judge returns a dict.",
+      "actual": "judge returns a dict.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:254",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Nested pattern gives a note equal to regex_error",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge 500 to 5000 open parentheses, negate true and false.",
+      "then": "Note equals regex_error text.",
+      "expected": "Note equals regex_error text.",
+      "actual": "Note equals regex_error text.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:263",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Nested pattern beside passing and failing rules",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge nested pattern with a passing rule, then a failing rule.",
+      "then": "unevaluated, then fail with the failing label.",
+      "expected": "unevaluated, then fail with the failing label.",
+      "actual": "unevaluated, then fail with the failing label.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:274",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Repeat count too large for re.compile never raises (r1 failure, re-run)",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Judge a{4294967296}, a{99999999999999999999}, a{1,99999999999999999999}, a{99999999999999999999,}.",
+      "then": "Each gives unevaluated with note starting cannot evaluate big: .",
+      "expected": "Each gives unevaluated with note starting cannot evaluate big: .",
+      "actual": "Each gives unevaluated with note starting cannot evaluate big: .",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:281",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "fix",
+          "inline": "4ed0399 catches OverflowError in regex_error and _raw_result"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "regex_error returns text for every pattern re.compile rejects (r1 failure, re-run)",
+      "given": "Branch sdlc/S-012 at commit 4ed0399.",
+      "when": "Call regex_error on a{4294967296}, 2000 open parentheses, (, [a-.",
+      "then": "Each call returns text.",
+      "expected": "Each call returns text.",
+      "actual": "Each call returns text.",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs:291",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node --test output, 23 tests, 0 failures",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Property: 1509 random regex-like patterns never raise out of judge or regex_error",
+      "given": "A seeded generator of atoms: brackets, braces, huge counts, groups, escapes, unicode, NUL; plus 200000-character and 3000-deep patterns.",
+      "when": "Call judge and regex_error on each pattern.",
+      "then": "No exception outcome; every unevaluated note equals cannot evaluate p: <regex_error text>.",
+      "expected": "0 exceptions",
+      "actual": "0 exceptions; 1365 of 1509 unevaluated",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract-r2.test.mjs:9",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r2/tests/contract-0/judge.verify-contract-r2.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "property run",
+          "inline": "property: no exception outcome; seed 12012; runs 1509; result pass; no counterexample",
+          "path": ".sdlc/slices/S-012/verification/r2/logs/contract-0-property.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": []
+}
