@@ -47,18 +47,27 @@ def validate_format(fmt):
         raise Fail(f"the branch format {fmt!r} holds whitespace")
     candidate = name(fmt, "slice", id="S-001")
     try:
+        reason = ref_format_error(candidate)
+    except Fail as e:
+        raise Fail(f"cannot check the branch format {fmt!r} with git check-ref-format: {e}")
+    if reason is not None:
+        raise Fail(f"the branch format {fmt!r} gives {candidate!r}, which git check-ref-format refuses: {reason}")
+    return fmt
+
+
+def ref_format_error(ref):
+    try:
         result = subprocess.run(
-            ["git", "check-ref-format", "--branch", candidate],
+            ["git", "check-ref-format", "--branch", ref],
             capture_output=True,
             text=True,
             errors="replace",
         )
     except (OSError, ValueError) as e:
-        raise Fail(f"cannot check the branch format {fmt!r} with git check-ref-format: {e}")
-    if result.returncode != 0:
-        reason = result.stderr.strip() or f"exit {result.returncode}"
-        raise Fail(f"the branch format {fmt!r} gives {candidate!r}, which git check-ref-format refuses: {reason}")
-    return fmt
+        raise Fail(str(e))
+    if result.returncode == 0:
+        return None
+    return result.stderr.strip() or f"exit {result.returncode}"
 
 
 def regex_error(pattern):
@@ -92,6 +101,31 @@ def evaluate(rule, sample):
     if rule.get("negate"):
         return not result
     return result
+
+
+def judge(rules, sample):
+    failed = None
+    notes = []
+    for rule in rules:
+        label = rule.get("label")
+        outcome = evaluate(rule, sample)
+        if outcome is False:
+            if failed is None:
+                failed = label
+        elif outcome is None:
+            kind = rule.get("kind")
+            if kind == "regex":
+                reason = regex_error(rule.get("pattern"))
+            else:
+                reason = f"unknown kind {kind}"
+            notes.append(f"cannot evaluate {label}: {reason}")
+    if failed is None and ref_format_error(sample) is not None:
+        failed = "git check-ref-format"
+    if failed is not None:
+        return {"result": "fail", "rule": failed, "notes": notes}
+    if notes:
+        return {"result": "unevaluated", "rule": None, "notes": notes}
+    return {"result": "pass", "rule": None, "notes": notes}
 
 
 def _state_tail(parts):
