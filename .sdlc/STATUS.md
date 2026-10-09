@@ -1,5 +1,5 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T16:43:33Z
+Updated: 2026-10-09T16:45:23Z
 
 Requirements: 22/122 done · 1 parked · 0 stubbed · 0 obsolete
 Slices: 5/30 done · current: S-006 lowercase tails and the cross-format round-trip · awaiting merge: none
