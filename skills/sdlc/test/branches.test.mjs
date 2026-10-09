@@ -574,3 +574,77 @@ test('the --format flag wins over a broken config in name and preflight', opts, 
     assertBadInput(['preflight', '--repo', repo, '--mode', 'pr'], `${label}: preflight without --format`)
   }
 })
+
+test('name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds', opts, () => {
+  const repo = gitRepo()
+  const cases = [
+    ['R-003', 'run', ['--n', '1'], 'sdlc/run-1'],
+    ['R-004', 'slice', ['--id', 'S-001'], 'sdlc/S-001'],
+    ['R-005', 'milestone', ['--id', 'M-1'], 'sdlc/M-1'],
+    ['R-006', 'e2e', ['--id', 'M-1'], 'sdlc/M-1-e2e'],
+    ['R-007', 'e2e-area', ['--id', 'M-1', '--area', 'api'], 'sdlc/M-1-e2e-api'],
+  ]
+  for (const [label, kind, extra, branch] of cases) {
+    const r = run(['name', '--repo', repo, '--kind', kind, ...extra])
+    assert.equal(r.status, 0, `${label} ${kind}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+    const out = oneObject(r)
+    assert.deepEqual(Object.keys(out).sort(), ['branch', 'command', 'format', 'kind', 'ok'], `${label} ${kind}: keys of ${r.stdout}`)
+    assert.equal(out.ok, true, `${label} ${kind}: ok`)
+    assert.equal(out.command, 'name', `${label} ${kind}: command`)
+    assert.equal(out.format, 'sdlc/{name}', `${label} ${kind}: format`)
+    assert.equal(out.kind, kind, `${label} ${kind}: kind`)
+    assert.equal(out.branch, branch, `${label} ${kind}: branch`)
+  }
+})
+
+test('tail builds the run, milestone and e2e tails and fails on a missing part', opts, () => {
+  const out = JSON.parse(probe(`${CALL}
+print(json.dumps({
+    "run_1": call(mod.tail, "run", n=1),
+    "run_12": call(mod.tail, "run", n=12),
+    "run_0": call(mod.tail, "run", n=0),
+    "milestone": call(mod.tail, "milestone", id="M-1"),
+    "e2e": call(mod.tail, "e2e", id="M-1"),
+    "run_no_n": call(mod.tail, "run"),
+    "milestone_no_id": call(mod.tail, "milestone"),
+    "milestone_empty_id": call(mod.tail, "milestone", id=""),
+    "e2e_no_id": call(mod.tail, "e2e"),
+}))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.deepEqual(out.run_1, { ret: 'run-1' })
+  assert.deepEqual(out.run_12, { ret: 'run-12' })
+  assert.deepEqual(out.run_0, { ret: 'run-0' })
+  assert.deepEqual(out.milestone, { ret: 'M-1' })
+  assert.deepEqual(out.e2e, { ret: 'M-1-e2e' })
+  for (const [key, part] of [['run_no_n', /\bn\b/], ['milestone_no_id', /\bid\b/], ['milestone_empty_id', /\bid\b/], ['e2e_no_id', /\bid\b/]]) {
+    assert.equal(typeof out[key].fail, 'string', `${key} did not raise Fail: ${JSON.stringify(out[key])}`)
+    assert.match(out[key].fail, part, `${key}: the message does not name the part: ${out[key].fail}`)
+  }
+})
+
+test('name for the run, milestone and e2e kinds follows a prefixed and a lowercased format and fails without its part', opts, () => {
+  const out = JSON.parse(probe(`${CALL}
+print(json.dumps({
+    "milestone": call(mod.name, "feature/PROJ-1-{name}", "milestone", id="M-1"),
+    "e2e_lower": call(mod.name, "feature/PROJ-1-{name:lower}", "e2e", id="M-1"),
+    "run_lower": call(mod.name, "feature/PROJ-1-{name:lower}", "run", n=1),
+}))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.deepEqual(out.milestone, { ret: 'feature/PROJ-1-M-1' })
+  assert.deepEqual(out.e2e_lower, { ret: 'feature/PROJ-1-m-1-e2e' })
+  assert.deepEqual(out.run_lower, { ret: 'feature/PROJ-1-run-1' })
+  const repo = gitRepo()
+  for (const [label, args, part] of [
+    ['run without --n', ['name', '--repo', repo, '--kind', 'run'], /\bn\b/],
+    ['milestone without --id', ['name', '--repo', repo, '--kind', 'milestone'], /\bid\b/],
+    ['e2e without --id', ['name', '--repo', repo, '--kind', 'e2e'], /\bid\b/],
+  ]) {
+    const r = run(args)
+    assert.equal(r.status, 2, `${label}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+    assert.doesNotMatch(r.stderr, /Traceback/, `${label}: traceback on stderr`)
+    const out = oneObject(r)
+    assert.equal(out.ok, false, `${label}: ok is not false`)
+    assert.ok(typeof out.error === 'string' && out.error.length > 0, `${label}: error is empty`)
+    assert.match(out.error, part, `${label}: error does not name the part: ${out.error}`)
+  }
+})
