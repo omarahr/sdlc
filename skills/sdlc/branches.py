@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 
 DEFAULT_FORMAT = "sdlc/{name}"
 KINDS = ("run", "slice", "milestone", "e2e", "e2e-area", "state", "verify", "attempt")
@@ -16,13 +17,13 @@ class Fail(Exception):
     pass
 
 
-def load_format(repo):
+def _config_format(repo):
     path = os.path.join(repo, ".sdlc", "config.json")
     try:
         with open(path, encoding="utf-8") as f:
             config = json.load(f)
     except FileNotFoundError:
-        return DEFAULT_FORMAT
+        return None
     except (ValueError, RecursionError) as e:
         raise Fail(f"{path} is not valid JSON: {type(e).__name__}: {e}")
     except OSError as e:
@@ -30,7 +31,11 @@ def load_format(repo):
     value = config.get("branchFormat") if isinstance(config, dict) else None
     if isinstance(value, str) and value:
         return value
-    return DEFAULT_FORMAT
+    return None
+
+
+def load_format(repo):
+    return _config_format(repo) or DEFAULT_FORMAT
 
 
 def validate_format(fmt):
@@ -56,8 +61,17 @@ def validate_format(fmt):
     return fmt
 
 
+def _state_tail(parts):
+    ts = parts.get("ts")
+    if ts is None or ts == "":
+        ts = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    return f"state-{ts}"
+
+
 TAILS = {
     "slice": (("id",), lambda p: p["id"]),
+    "state": ((), _state_tail),
+    "e2e-area": (("id", "area"), lambda p: f"{p['id']}-e2e-{p['area']}"),
 }
 
 
@@ -137,10 +151,21 @@ def _echo(command, fmt, ns):
     }
 
 
+NAME_PARTS = ("id", "n", "area", "round", "profile", "part")
+
+
 def cmd_name(ns):
     repo = _repo(ns)
+    fmt = _format(ns, repo)
     _kind(ns)
-    return _echo("name", _format(ns, repo), ns)
+    parts = {k: getattr(ns, k) for k in NAME_PARTS if getattr(ns, k) is not None}
+    return {
+        "ok": True,
+        "command": "name",
+        "format": fmt,
+        "kind": ns.kind,
+        "branch": name(fmt, ns.kind, **parts),
+    }
 
 
 def cmd_parse(ns):
@@ -159,7 +184,9 @@ def cmd_preflight(ns):
     modes = load_git_modes()
     if ns.mode not in modes:
         raise Fail(f"--mode {ns.mode!r} is not one of {', '.join(modes)}")
-    return _echo("preflight", _format(ns, repo), ns)
+    result = _echo("preflight", _format(ns, repo), ns)
+    result["given"] = ns.format is not None or _config_format(repo) is not None
+    return result
 
 
 def build_parser():
