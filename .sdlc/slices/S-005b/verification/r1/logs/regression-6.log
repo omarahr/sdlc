@@ -1,0 +1,69 @@
+✔ verify security: the unmutated copy has no ban entry (0.518583ms)
+✔ verify security: the spec GitHub rules read in branches.py changes only the direct and forge pins (582.062958ms)
+✔ verify security: the spec quote import adds a network pin entry and no ban (195.863334ms)
+✔ verify security: gh api -X GET through the next-action run wrapper changes only the forge and wrapper-verb pins (189.328125ms)
+✔ verify security: the spec GitLab push rule read changes only a pin, direct or through run (382.190375ms)
+✖ verify security: a git fetch through the state-write wrapper changes no pin, and a git log adds one known verb (193.543583ms)
+✔ verify security: the guard reads the reads and never runs them (96.996916ms)
+✖ verify security seed: a list item with a space shifts the forge parse, so a POST to pulls gives no forge violation (97.619834ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1878.546709
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:125:1
+✖ verify security: a git fetch through the state-write wrapper changes no pin, and a git log adds one known verb (193.543583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'state-write.py git log',
+  +   'state-write.py git log --format',
+  +   'state-write.py git log -1'
+    ]
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r1/.sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:130:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'state-write.py git log', 'state-write.py git log --format', 'state-write.py git log -1' ],
+    expected: [ 'state-write.py git log' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:150:1
+✖ verify security seed: a list item with a space shifts the forge parse, so a POST to pulls gives no forge violation (97.619834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   "next-action.py _verify_read run(repo, 'gh', 'api', '-H', 'A: --jq', '-X', 'POST', 'repos/o/r/pulls') -- path holds pulls"
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r1/.sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:152:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ "next-action.py _verify_read run(repo, 'gh', 'api', '-H', 'A: --jq', '-X', 'POST', 'repos/o/r/pulls') -- path holds pulls" ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

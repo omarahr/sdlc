@@ -1,0 +1,382 @@
+{
+  "profile": "cli",
+  "part": 1,
+  "round": 0,
+  "commit": "527e86b",
+  "environment": "macOS, node test runner, Python 3.14.7 (/opt/homebrew/bin/python3), git real bare remotes, gh absent from PATH in the script runs. Plan: plan-r0.json (fresh plan for ladder step 4). Earlier cli-1 evidence stays in git history.",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The scanned list is exactly the 13 scripts, and the guard on the real tip equals the guard on a copy",
+      "given": "The branch tip, and a copy of skills/sdlc and hooks without test, fixtures and prompts",
+      "when": "Run push_guard.py on both",
+      "then": "13 .py and .js files; opaque, dynamic, forgeViolations and jsHits are empty; both outputs are equal",
+      "expected": "13 .py and .js files; opaque, dynamic, forgeViolations and jsHits are empty; both outputs are equal",
+      "actual": "13 scripts, 17 files in all; the lists are empty; outputs equal",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:114",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-1:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard transcript on the clean tree",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scanned files (17)",
+          "inline": "13 scripts: hooks/live-poke.py, skills/sdlc/{branches,impact,janitor,next-action,state-write,ste-check,suite-receipt}.py, sdlc-loop.js, tracker/{collect,hub,reports,workflow}.py; plus 4 non-script files"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A new script type, a symlink or a non-UTF-8 source in the scanned tree fails the guard",
+      "given": "A copy of the scanned tree",
+      "when": "Add .sh, .mjs, .cjs, .ts, .pl and extension-less files; symlinks to files and directories; a latin-1 and a cp1252 coding line; invalid UTF-8; a NUL byte; a BOM file",
+      "then": "Each change alters files or opaque (or the pins); a BOM alone alters nothing",
+      "expected": "Each change alters files or opaque (or the pins); a BOM alone alters nothing",
+      "actual": "All 24 cases alter files, opaque or a push pin. Invalid UTF-8 and NUL bytes in a .py file give an opaque entry. The BOM control gives no change.",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:129",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-2:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "24 guard transcripts with changed keys",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "sample",
+          "inline": "new .sh under skills/sdlc -> changed keys: files\nsymlink to a directory under hooks -> opaque\nlatin-1 coding line on janitor.py -> imports, direct, opaque\nNUL byte in a new .py under hooks -> files, opaque\ninvalid UTF-8 byte in impact.py -> imports, direct, wrapperBodies, wrapperVerbs, opaque\nBOM on four wrapper files (control) -> <none>"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A dangling symlink exits non-zero, and a symlink loop is opaque",
+      "given": "A copy with a dangling symlink in hooks, then a loop in skills/sdlc",
+      "when": "Run the guard",
+      "then": "Never a silent pass",
+      "expected": "Never a silent pass",
+      "actual": "Dangling link: exit 1 (FileNotFoundError), so the pin test fails closed. Loop: files and opaque change.",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:187",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-3:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "exit codes and stderr tail",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-10",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Push scripts in test, fixtures and prompts directories stay unscanned (seed S5)",
+      "given": "A copy with evil.py and evil.sh in the three skipped directories",
+      "when": "Run the guard",
+      "then": "Observation only: no key changes by design",
+      "expected": "Observation only: no key changes by design",
+      "actual": "No key changed. Recorded as seed S5.",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:194",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-4:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard transcript",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-11",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A spec-required forge read changes only a pin and hits no ban",
+      "given": "A copy with a new gh or glab read at a wrapper or a direct site",
+      "when": "Run the guard",
+      "then": "forge changes; forgeViolations and opaque stay empty; wrapperBodies is equal",
+      "expected": "forge changes; forgeViolations and opaque stay empty; wrapperBodies is equal",
+      "actual": "All 9 reads (gh pr list, gh pr view, gh api GET with and without -X, glab mr list, glab api push_rule, two direct sites, glab direct) change only forge, wrapperVerbs or direct",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:207",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-5:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "9 guard transcripts",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-11",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A forge read with a graphql path and every forge write hit the ban",
+      "given": "A copy with gh api graphql (4 spellings, 2 sites), glab api graphql, gh pr create, glab mr create, gh api -X POST, -f head=, --method=PATCH",
+      "when": "Run the guard",
+      "then": "forgeViolations or opaque is not empty",
+      "expected": "forgeViolations or opaque is not empty",
+      "actual": "All 10 give forgeViolations. gh pr merge is not banned but changes forge and wrapperVerbs (seed).",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:231",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-6:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "10 guard transcripts plus the gh pr merge observation",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "gh pr merge",
+          "inline": "changed keys: wrapperVerbs, forge\n  + next-action.py gh pr merge\n  + next-action.py _verify_read gh pr merge\nforgeViolations 0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-12",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A verify branch stays local when the CLI scripts run against a real bare remote",
+      "given": "Bare remotes in pr, direct, mr and stack mode, two verify branches made by branches.py name, gh absent from PATH",
+      "when": "Run state-write patch-slice twice, base-branch, status, janitor and next-action",
+      "then": "The remote never holds a verify ref; refs before equal refs after in pr, direct and mr; the verify branches stay local",
+      "expected": "The remote never holds a verify ref; refs before equal refs after in pr, direct and mr; the verify branches stay local",
+      "actual": "Remote refs in stack mode: main, sdlc/M-1, sdlc/run-1 only. No leak in any step.",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:311",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-7:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "remote refs after each step",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-12",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The three push functions of state-write.py push no verify branch (module-loader, real bare remote)",
+      "given": "A bare remote that holds main and sdlc/run-1, a local verify branch, and main moved",
+      "when": "Call advance_run_branch, prune_stale_milestone_branches and ensure_milestone_branch",
+      "then": "pushed(verify branch) is false and no added ref has a -v0- name",
+      "expected": "pushed(verify branch) is false and no added ref has a -v0- name",
+      "actual": "No verify ref reached the remote in all three calls",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:357",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-8:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "three module-loader transcripts with refs before and after",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-12",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "janitor sweep_branches deletes a finished verify branch locally and pushes nothing",
+      "given": "A bare remote and a finished verify branch",
+      "when": "Call sweep_branches",
+      "then": "Returns the branch; no ref added to the remote",
+      "expected": "Returns the branch; no ref added to the remote",
+      "actual": "Returned the branch; refsAdded empty",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:391",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-9:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "module-loader transcript",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-12",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A guard-flagged mutant may push, and no mutant pushes with every key equal",
+      "given": "Nine mutants (two push controls, hidden-option, fsmonitor, late alias, os.path.os.system, two body edits)",
+      "when": "Run the guard, then call the mutant against a bare remote",
+      "then": "No mutant pushes while the guard keys are equal; the controls push and the guard flags them",
+      "expected": "No mutant pushes while the guard keys are equal; the controls push and the guard flags them",
+      "actual": "All 7 mutants that ran pushed and the guard flagged each. The 2 body edits did not import (importError) and the guard flagged them.",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:420",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-10:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "summary",
+          "inline": "control git push in state-write.py: keys wrapperVerbs, pushes; pushed true\ncontrol subprocess push in janitor.py: keys direct, pushes; pushed true\nfetch --upload-pack f-string: keys wrapperVerbs; pushed true\nfetch --upload-pack str() in next-action run: keys wrapperVerbs; pushed true\n-c core.fsmonitor before diff: keys wrapperVerbs, opaque; pushed true\nlate alias import: keys direct, pushes; pushed true\nos.path.os.system: keys direct, pushes; pushed true\nbody edits (2): keys wrapperBodies; importError"
+        },
+        {
+          "kind": "transcript",
+          "title": "full transcripts",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Each guard-miss mutant row of T-R-119e changes a pin, and the named key when one is named",
+      "given": "The 148 rows of the MUTANTS table in skills/sdlc/test/push-guard.test.mjs, loaded from the file, which hold the 95 attempt 1 rows and the 26 \"S-005b r2\" rows",
+      "when": "Apply each row to a copy and run the guard",
+      "then": "Every row changes at least one key; a named key changes",
+      "expected": "Every row changes at least one key; a named key changes",
+      "actual": "148 of 148 rows change a key; 0 rows miss",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:454",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-11:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "counts",
+          "inline": "148 ok, 0 MISS"
+        },
+        {
+          "kind": "transcript",
+          "title": "one line per row with changed keys",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-12",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The guard output is byte-equal across runs, cwd, a symlinked root, a path with spaces and unicode, and hash seeds",
+      "given": "A copy of the tree",
+      "when": "Run twice; from another cwd; with no argument from the root; on a symlinked root; on a copy under \"a b é ü 日本\"; with PYTHONHASHSEED 1 and 12345",
+      "then": "All outputs are byte-equal; the tree is unchanged",
+      "expected": "All outputs are byte-equal; the tree is unchanged",
+      "actual": "All outputs byte-equal",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:472",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-12:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "transcripts",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-13",
+      "scenarioId": "VS-13",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A comment or a blank line in a wrapper body keeps every key",
+      "given": "A copy with a comment and a blank line in the next-action run body and the state-write git body",
+      "when": "Run the guard",
+      "then": "No key changes",
+      "expected": "No key changes",
+      "actual": "No key changed",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:501",
+      "command": "cd /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run && VERIFY_ROOT=$PWD node --test --test-reporter=spec .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs --test-name-pattern=\"TC-cli-13:\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "guard transcript",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-1-plan-r0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "gh pr merge is not a forgeViolation",
+      "detail": "A new gh pr merge call through the run wrapper changes forge and wrapperVerbs only. A reviewer sees it as a pin change. It does not push a verify branch, so it is not a refutation.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S5: test, fixtures and prompts directories are outside the scan",
+      "detail": "A push script in skills/sdlc/test, fixtures or prompts changes no key. This is the stated design. Recorded as seed S5.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "A dangling symlink makes the guard crash with exit 1",
+      "detail": "The traceback ends in FileNotFoundError. The pin test fails closed, but the message does not name the symlink.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "testkit: module-loader cannot import a mutant that edits a wrapper body in place",
+      "detail": "Two body-edit mutants gave importError, so their push behavior is untested. The guard flags both with wrapperBodies.",
+      "file": "skills/sdlc/test/testkit/module-loader.mjs"
+    }
+  ]
+}

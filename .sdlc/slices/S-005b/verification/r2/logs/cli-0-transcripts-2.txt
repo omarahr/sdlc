@@ -1,0 +1,1109 @@
+=== TC-cli-101 --namespace at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-319
+exit: 0 (98 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--namespace=x', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 --namespace at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-321
+exit: 0 (91 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--namespace=x', 'diff'], repo)
+
+=== TC-cli-101 --namespace at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-323
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--namespace=x', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--namespace=x', 'diff'])
+
+=== TC-cli-101 --namespace at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-325
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --namespace=x diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --namespace=x diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --namespace=x diff', shell=True)
+
+=== TC-cli-101 --super-prefix at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-327
+exit: 0 (95 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--super-prefix=x/', 'diff', check=False)
+
+=== TC-cli-101 --super-prefix at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-329
+exit: 0 (94 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '--super-prefix=x/', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 --super-prefix at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-331
+exit: 0 (89 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--super-prefix=x/', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 --super-prefix at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-333
+exit: 0 (87 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--super-prefix=x/', 'diff'], repo)
+
+=== TC-cli-101 --super-prefix at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-335
+exit: 0 (82 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--super-prefix=x/', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--super-prefix=x/', 'diff'])
+
+=== TC-cli-101 --super-prefix at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-337
+exit: 0 (86 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --super-prefix=x/ diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --super-prefix=x/ diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --super-prefix=x/ diff', shell=True)
+
+=== TC-cli-101 --attr-source at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-339
+exit: 0 (88 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--attr-source=HEAD', 'diff', check=False)
+
+=== TC-cli-101 --attr-source at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-341
+exit: 0 (87 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '--attr-source=HEAD', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 --attr-source at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-343
+exit: 0 (89 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--attr-source=HEAD', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 --attr-source at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-345
+exit: 0 (95 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--attr-source=HEAD', 'diff'], repo)
+
+=== TC-cli-101 --attr-source at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-347
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--attr-source=HEAD', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--attr-source=HEAD', 'diff'])
+
+=== TC-cli-101 --attr-source at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-349
+exit: 0 (83 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --attr-source=HEAD diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --attr-source=HEAD diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --attr-source=HEAD diff', shell=True)
+
+=== TC-cli-101 abbreviated --exec-pa at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-351
+exit: 0 (82 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--exec-pa=/tmp/x', 'diff', check=False)
+
+=== TC-cli-101 abbreviated --exec-pa at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-353
+exit: 0 (91 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '--exec-pa=/tmp/x', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 abbreviated --exec-pa at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-355
+exit: 0 (90 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--exec-pa=/tmp/x', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 abbreviated --exec-pa at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-357
+exit: 0 (90 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--exec-pa=/tmp/x', 'diff'], repo)
+
+=== TC-cli-101 abbreviated --exec-pa at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-359
+exit: 0 (94 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--exec-pa=/tmp/x', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--exec-pa=/tmp/x', 'diff'])
+
+=== TC-cli-101 abbreviated --exec-pa at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-361
+exit: 0 (87 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --exec-pa=/tmp/x diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --exec-pa=/tmp/x diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --exec-pa=/tmp/x diff', shell=True)
+
+=== TC-cli-101 abbreviated --conf at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-363
+exit: 0 (97 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;:', 'diff', check=False)
+
+=== TC-cli-101 abbreviated --conf at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-365
+exit: 0 (96 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '--conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;:', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 abbreviated --conf at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-367
+exit: 0 (90 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;:', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 abbreviated --conf at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-369
+exit: 0 (89 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;:', 'diff'], repo)
+
+=== TC-cli-101 abbreviated --conf at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-371
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;:', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;:', 'diff'])
+
+=== TC-cli-101 abbreviated --conf at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-373
+exit: 0 (86 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;: diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;: diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --conf=core.fsmonitor=git push origin sdlc/S-001-v0-cli-0;: diff', shell=True)
+
+=== TC-cli-101 -p at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-375
+exit: 0 (89 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '-p', 'diff', check=False)
+
+=== TC-cli-101 -p at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-377
+exit: 0 (92 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '-p', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 -p at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-379
+exit: 0 (89 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '-p', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 -p at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-381
+exit: 0 (97 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['-p', 'diff'], repo)
+
+=== TC-cli-101 -p at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-383
+exit: 0 (89 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '-p', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '-p', 'diff'])
+
+=== TC-cli-101 -p at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-385
+exit: 0 (88 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' -p diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' -p diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' -p diff', shell=True)
+
+=== TC-cli-101 --paginate at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-387
+exit: 0 (88 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--paginate', 'diff', check=False)
+
+=== TC-cli-101 --paginate at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-389
+exit: 0 (90 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '--paginate', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 --paginate at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-391
+exit: 0 (85 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--paginate', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 --paginate at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-393
+exit: 0 (95 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--paginate', 'diff'], repo)
+
+=== TC-cli-101 --paginate at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-395
+exit: 0 (88 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--paginate', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--paginate', 'diff'])
+
+=== TC-cli-101 --paginate at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-397
+exit: 0 (86 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --paginate diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --paginate diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --paginate diff', shell=True)
+
+=== TC-cli-101 --list-cmds at the state-write git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-399
+exit: 0 (91 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + state-write.py _mutant option git(repo, '--list-cmds=main', 'diff', check=False)
+
+=== TC-cli-101 --list-cmds at the suite-receipt git wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-401
+exit: 0 (87 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + suite-receipt.py _mutant option git(repo, '--list-cmds=main', 'rev-parse', 'HEAD')
+
+=== TC-cli-101 --list-cmds at the next-action run wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-403
+exit: 0 (95 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + next-action.py _mutant option run(repo, 'git', '--list-cmds=main', 'fetch', '-q', 'origin')
+
+=== TC-cli-101 --list-cmds at the impact git_lines wrapper
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-405
+exit: 0 (95 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + impact.py _mutant option git_lines(['--list-cmds=main', 'diff'], repo)
+
+=== TC-cli-101 --list-cmds at the janitor direct list-literal site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-407
+exit: 0 (89 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run(['git', '-C', repo, '--list-cmds=main', 'diff'])
+  opaque (0 -> 1)
+    + janitor.py _mutant option subprocess.run(['git', '-C', repo, '--list-cmds=main', 'diff'])
+
+=== TC-cli-101 --list-cmds at the janitor shell=True site
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-409
+exit: 0 (88 ms) tree unchanged: true
+changed keys: direct, opaque
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.run('git -C ' + repo + ' --list-cmds=main diff', shell=True)
+  opaque (0 -> 2)
+    + janitor.py _mutant option subprocess.run('git -C ' + repo + ' --list-cmds=main diff', shell=True)
+    + janitor.py _mutant shell subprocess.run('git -C ' + repo + ' --list-cmds=main diff', shell=True)
+
+=== TC-cli-105 behavior --no-pager before diff, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-416
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-411/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-414","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-415/result.json
+exit: 0 (69 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-416 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-414", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-411/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-413
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+  --no-pager: keys <none>; pushed false; outcome return value 0
+
+=== TC-cli-105 behavior --no-optional-locks before diff, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-422
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-417/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-420","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-421/result.json
+exit: 0 (75 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-422 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-420", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-417/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-419
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+  --no-optional-locks: keys <none>; pushed false; outcome return value 0
+
+=== TC-cli-105 behavior --literal-pathspecs before diff, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-428
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-423/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-426","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-427/result.json
+exit: 0 (68 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-428 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-426", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-423/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-425
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+  --literal-pathspecs: keys <none>; pushed false; outcome return value 0
+
+=== TC-cli-105 behavior --no-replace-objects before diff, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-434
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-429/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-432","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-433/result.json
+exit: 0 (65 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-434 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-432", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-429/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-431
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+  --no-replace-objects: keys <none>; pushed false; outcome return value 0
+
+=== TC-cli-105 behavior --bare before diff, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-440
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-435/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-438","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-439/result.json
+exit: 0 (60 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-440 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-438", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-435/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-437
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+  --bare: keys <none>; pushed false; outcome return value 129
+
+=== TC-cli-106 bytes -c before diff, state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-441
+exit: 0 (86 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + state-write.py git b'-c'
+
+=== TC-cli-106 bytes -c glued before rev-parse, suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-443
+exit: 0 (89 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 92)
+    + suite-receipt.py git b'-ccore.fsmonitor=git
+
+=== TC-cli-106 bytes --config-env through next-action run
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-445
+exit: 0 (90 ms) tree unchanged: true
+changed keys: wrapperVerbs
+  wrapperVerbs (91 -> 93)
+    + next-action.py git b'--config-env=core.fsmonitor=SDLC_X'
+    + next-action.py git b'--config-env=core.fsmonitor=SDLC_X' -q
+
+=== TC-cli-102 import subprocess as sp after its use, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-447
+exit: 0 (96 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 from subprocess import run as _r after use, state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-449
+exit: 0 (94 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + state-write.py _mutant _r(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + state-write.py _mutant _r(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 import os as _o after use, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-451
+exit: 0 (95 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant _o.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant _o.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-102 import in another function, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-453
+exit: 0 (96 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 import in a try block, state-write.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-455
+exit: 0 (99 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + state-write.py _mutant _p(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + state-write.py <module> value _p
+  pushes (3 -> 4)
+    + state-write.py _mutant _p(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 import in an if block, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-457
+exit: 0 (89 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant _s('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant _s('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-102 import in a class body then a module alias, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-459
+exit: 0 (87 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 2)
+    + janitor.py <module> value _K.sp
+    + janitor.py <module> value sp
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 one name bound to json and to subprocess, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-461
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + janitor.py rebound import sp json subprocess
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 import alias then reassigned to json, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-463
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + janitor.py <module> value sp
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 assignment then import of the same name, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-465
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + janitor.py <module> value sp
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 del of an alias then a fresh import, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-467
+exit: 0 (96 ms) tree unchanged: true
+changed keys: direct, dynamic, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  dynamic (0 -> 1)
+    + janitor.py <module> value sp
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 import in a lambda default via __import__, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-469
+exit: 0 (89 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _mutant __import__('subprocess')
+
+=== TC-cli-102 import inside a comprehension body function, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-471
+exit: 0 (87 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _mutant __import__('os')
+
+=== TC-cli-102 from os import system after use with no alias, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-473
+exit: 0 (89 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-102 import subprocess late in hub.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-475
+exit: 0 (91 ms) tree unchanged: true
+changed keys: imports, direct, pushes
+  imports (22 -> 23)
+    + tracker/hub.py import subprocess
+  direct (11 -> 12)
+    + tracker/hub.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+  pushes (3 -> 4)
+    + tracker/hub.py _mutant sp.run(['git', '-C', repo, 'push', 'origin', b])
+
+=== TC-cli-102 import os late in collect.py as a pure-looking name
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-477
+exit: 0 (95 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + tracker/collect.py _mutant posixpath.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + tracker/collect.py _mutant posixpath.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-107 clean dynamic: []
+
+=== TC-cli-103 os.path.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-479
+exit: 0 (96 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant os.path.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant os.path.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 posixpath.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-481
+exit: 0 (93 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant posixpath.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant posixpath.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 shutil.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-483
+exit: 0 (95 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant shutil.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant shutil.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 pathlib.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-485
+exit: 0 (93 ms) tree unchanged: true
+changed keys: imports, direct, pushes
+  imports (22 -> 23)
+    + janitor.py import pathlib
+  direct (11 -> 12)
+    + janitor.py _mutant pathlib.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant pathlib.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 tempfile._os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-487
+exit: 0 (94 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _mutant private tempfile._os
+
+=== TC-cli-103 json.decoder.re.purge in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-489
+exit: 0 (91 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-103 urllib.request.os.system in collect.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-491
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + tracker/collect.py _mutant urllib.request.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + tracker/collect.py _mutant urllib.request.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 subprocess.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-493
+exit: 0 (96 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant subprocess.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant subprocess.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 glob.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-495
+exit: 0 (87 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant glob.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant glob.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 fnmatch.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-497
+exit: 0 (86 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant fnmatch.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant fnmatch.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 fnmatch.posixpath.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-499
+exit: 0 (85 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant fnmatch.posixpath.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant fnmatch.posixpath.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 mimetypes.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-501
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant mimetypes.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant mimetypes.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 argparse._os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-503
+exit: 0 (88 ms) tree unchanged: true
+changed keys: dynamic
+  dynamic (0 -> 1)
+    + janitor.py _mutant private argparse._os
+
+=== TC-cli-103 branches.os.system in janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-505
+exit: 0 (90 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant branches.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant branches.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 import os.path as osp then osp.os.system, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-507
+exit: 0 (93 ms) tree unchanged: true
+changed keys: imports, direct, pushes
+  imports (22 -> 23)
+    + branches.py import os.path
+  direct (11 -> 12)
+    + branches.py _mutant osp.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant osp.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 from os import path as _p then _p.os.system, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-509
+exit: 0 (96 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant _p.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant _p.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 import shutil as sh then sh.os.system, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-511
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sh.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant sh.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 from shutil import os as o then o.system, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-513
+exit: 0 (88 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant o.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant o.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 import tempfile as _t then _t.os.system, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-515
+exit: 0 (86 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant _t.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant _t.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 from glob import os then os.system under a new name, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-517
+exit: 0 (83 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant g.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant g.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 import subprocess late then sp.os.system, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-519
+exit: 0 (89 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + janitor.py _mutant sp.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + janitor.py _mutant sp.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 asyncio.subprocess chain through an alias, janitor.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-521
+exit: 0 (85 ms) tree unchanged: true
+changed keys: imports, direct, network, pushes
+  imports (22 -> 23)
+    + janitor.py import asyncio
+  direct (11 -> 12)
+    + janitor.py _mutant aio.subprocess.create_subprocess_shell('git -C ' + repo + ' push origin ' + b)
+  network (9 -> 10)
+    + janitor.py import asyncio
+  pushes (3 -> 4)
+    + janitor.py _mutant aio.subprocess.create_subprocess_shell('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-103 from os import path then path.os.system with no alias, branches.py
+$ /opt/homebrew/bin/python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-523
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, pushes
+  direct (11 -> 12)
+    + branches.py _mutant path.os.system('git -C ' + repo + ' push origin ' + b)
+  pushes (3 -> 4)
+    + branches.py _mutant path.os.system('git -C ' + repo + ' push origin ' + b)
+
+=== TC-cli-104 behavior r0 D-1 -c core.fsmonitor before diff, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: wrapperVerbs, opaque
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-530
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-525/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-528","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-529/result.json
+exit: 0 (158 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-530 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-528", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-525/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-527
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r0 TC-cli-17 late alias import subprocess as sp, janitor.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-536
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-531/skills/sdlc/janitor.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-534","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-535/result.json
+exit: 0 (152 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-536 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-534", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-531/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-533
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r0 TC-cli-17 late from subprocess import run as _r, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-542
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-537/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-540","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-541/result.json
+exit: 0 (138 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-542 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-540", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-537/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-539
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r0 TC-cli-17 late import os as _o, branches.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-548
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-543/skills/sdlc/branches.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-546","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-547/result.json
+exit: 0 (144 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-548 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-546", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-543/skills/sdlc/branches.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-545
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r0 TC-cli-18 -c core.fsmonitor with $IFS, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: opaque
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-554
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-549/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-552","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-553/result.json
+exit: 0 (151 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-554 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-552", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-549/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-551
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r0 TC-cli-18 -c core.fsmonitor before rev-parse, suite-receipt.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: opaque
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-560
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-555/skills/sdlc/suite-receipt.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-558","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-559/result.json
+exit: 0 (68 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-560 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-558", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-555/skills/sdlc/suite-receipt.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-557
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+
+=== TC-cli-104 behavior r0 TC-cli-18 -c core.fsmonitor at a direct site, janitor.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: direct, opaque
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-566
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-561/skills/sdlc/janitor.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-564","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-565/result.json
+exit: 0 (173 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-566 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-564", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-561/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-563
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r1 TC-cli-23 -c glued, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: opaque
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-572
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-567/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-570","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-571/result.json
+exit: 0 (62 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-572 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-570", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-567/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-569
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-cli-0: false
+
+=== TC-cli-104 behavior r1 D-1 m1 f-string option, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-578
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-573/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-576","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-577/result.json
+exit: 0 (164 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-578 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-576", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-573/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-575
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r1 D-1 m3 str() option, next-action.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-584
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-579/skills/sdlc/next-action.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-582","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-583/result.json
+exit: 0 (165 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-584 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-582", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-579/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-581
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r1 TC-cli-27 os.path.os.system, janitor.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-590
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-585/skills/sdlc/janitor.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-588","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-589/result.json
+exit: 0 (158 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-590 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-588", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-585/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-587
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r1 TC-cli-27 from os import path as _p, _p.os.system, branches.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-596
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-591/skills/sdlc/branches.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-594","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-595/result.json
+exit: 0 (156 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-596 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-594", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-591/skills/sdlc/branches.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-593
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 behavior r2 TC-cli-37 bytes --upload-pack option, state-write.py
+git version 2.50.1 (Apple Git-155)
+guard changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-602
+$ /opt/homebrew/bin/python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-cli-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-597/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-600","sdlc/S-001-v0-cli-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/loadcall-601/result.json
+exit: 0 (171 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/cwd-602 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/repo-600", "sdlc/S-001-v0-cli-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/tree-597/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-cNcYXo/testkit-cli-i9EugJ/remote-599
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+pushed sdlc/S-001-v0-cli-0: true
+
+=== TC-cli-104 summary (git version 2.50.1 (Apple Git-155))
+r0 D-1 -c core.fsmonitor before diff, state-write.py: guard keys wrapperVerbs, opaque; outcome return; pushed true
+r0 TC-cli-17 late alias import subprocess as sp, janitor.py: guard keys direct, pushes; outcome return; pushed true
+r0 TC-cli-17 late from subprocess import run as _r, state-write.py: guard keys direct, pushes; outcome return; pushed true
+r0 TC-cli-17 late import os as _o, branches.py: guard keys direct, pushes; outcome return; pushed true
+r0 TC-cli-18 -c core.fsmonitor with $IFS, state-write.py: guard keys opaque; outcome return; pushed true
+r0 TC-cli-18 -c core.fsmonitor before rev-parse, suite-receipt.py: guard keys opaque; outcome return; pushed false
+r0 TC-cli-18 -c core.fsmonitor at a direct site, janitor.py: guard keys direct, opaque; outcome return; pushed true
+r1 TC-cli-23 -c glued, state-write.py: guard keys opaque; outcome return; pushed false
+r1 D-1 m1 f-string option, state-write.py: guard keys wrapperVerbs; outcome return; pushed true
+r1 D-1 m3 str() option, next-action.py: guard keys wrapperVerbs; outcome return; pushed true
+r1 TC-cli-27 os.path.os.system, janitor.py: guard keys direct, pushes; outcome return; pushed true
+r1 TC-cli-27 from os import path as _p, _p.os.system, branches.py: guard keys direct, pushes; outcome return; pushed true
+r2 TC-cli-37 bytes --upload-pack option, state-write.py: guard keys <none>; outcome return; pushed true

@@ -1,0 +1,1484 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 1,
+  "commit": "268c8e8",
+  "environment": "macOS Darwin 25.6, Python 3.14.7, Node 24; push_guard.py run on scratch copies of skills/sdlc and hooks at 268c8e8 (worktree sdlc/S-005b-v1-security-0); behavior case uses a local bare git remote only; plan-r0 scenarios VS-4 and VS-7",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A non-constant or opaque form outside a wrapper body changes a pin",
+      "given": "A scratch copy of skills/sdlc and hooks at 268c8e8. A new function in a wrapper file calls the wrapper with a local list spread, a parameter or f-string verb, a variable program, a non-constant -X value, a parameter api path, a variable -c or -C option, keyword and kwargs forms, a rebound wrapper name, a bytes verb, git.exe, env, sh -c and gh -R pr create.",
+      "when": "Run push_guard.py on each of 50 mutants (SA-01 to SA-50).",
+      "then": "Each mutant changes at least one pin (opaque, wrapperValues, wrapperVerbs, pushes, direct, forgeViolations or wrapperBodies).",
+      "expected": "50 of 50 mutants change a pin",
+      "actual": "50 of 50 change a pin. No forwarded-token logic is left to hide a form.",
+      "result": "pass",
+      "specSource": "R-119 scope: \"Outside a pinned wrapper body, every non-constant program, verb, option before the verb, or api path is opaque. No token is forwarded.\"; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229",
+      "command": "VERIFY_REPO=<worktree at 268c8e8> node --test .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "per-attack guard result",
+          "path": ".sdlc/slices/S-005b/verification/r1/logs/security-0-attacks.txt"
+        },
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-005b/verification/r1/logs/security-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A process, network or dynamic-code form reached by alias, value, attribute chain, import or dynamic code changes a pin",
+      "given": "A scratch copy at 268c8e8. Mutants use import aliases bound in a function, from-import aliases, shutil.os.system, glob.os.system, branches.subprocess.run, tempfile._os, posix, nt, _posixsubprocess, _socket, _winapi, runpy, code, codeop, modules as values (rebind, default parameter, walrus, list, dict, lambda, decorator, base class), os.__dict__, vars(os), getattr on os, eval, exec, compile, __import__, importlib, globals, locals, vars(), __builtins__, builtins, breakpoint, urllib.request, http.client, socket, ctypes, os.popen, os.posix_spawnp, os.startfile, os.forkpty, pty, asyncio subprocess, shell=True, star import and module-level code.",
+      "when": "Run push_guard.py on each of 70 mutants (SB-01 to SB-65 and SC-07, SC-08).",
+      "then": "Each mutant changes at least one pin.",
+      "expected": "70 of 70 change a pin",
+      "actual": "70 of 70 change a pin.",
+      "result": "pass",
+      "specSource": "R-119 scope (aliases, values, attribute chains through a watched module, private attributes, dynamic code, native modules); ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234",
+      "command": "VERIFY_REPO=<worktree at 268c8e8> node --test .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "per-attack guard result",
+          "path": ".sdlc/slices/S-005b/verification/r1/logs/security-0-attacks.txt"
+        },
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-005b/verification/r1/logs/security-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The guard run has no side effect",
+      "given": "A mutant whose module-level code would run os.system(\"touch <marker>\") and write the marker file.",
+      "when": "Run push_guard.py on the mutant.",
+      "then": "The guard flags the mutant and the marker file does not exist. The cli-runner tree diff of the mutant tree is empty.",
+      "expected": "marker absent; tree unchanged",
+      "actual": "marker absent; treeUnchanged true on every scan",
+      "result": "pass",
+      "specSource": "R-119 acceptance: a source check",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:250",
+      "command": "VERIFY_REPO=<worktree at 268c8e8> node --test .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "file-tree",
+          "title": "marker file after the scan",
+          "inline": "existsSync(MARKER) = false\ntreeUnchanged = true for all 130 scans"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The clean tree equals every pin",
+      "given": "A copy of skills/sdlc and hooks at 268c8e8.",
+      "when": "Run push_guard.py once.",
+      "then": "No pin differs. opaque and forgeViolations are empty.",
+      "expected": "no breach",
+      "actual": "no breach",
+      "result": "pass",
+      "specSource": "R-119 scope; T-R-119a, T-R-119b",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:272",
+      "command": "VERIFY_REPO=<worktree at 268c8e8> node --test .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "clean scan",
+          "inline": "clean\tNO PIN CHANGED (the log prints this for an empty breach list)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A getattr or vars lookup of a watched module through a pure module changes a pin",
+      "given": "A scratch copy at 268c8e8. janitor.py already imports branches and shutil. branches re-exports subprocess and os. The mutant calls getattr(branches, \"subprocess\").run([\"git\", \"push\", \"origin\", b]).",
+      "when": "Run push_guard.py on 7 mutants (SD-01 to SD-07): getattr with a literal name, vars(branches)[\"subprocess\"], getattr(shutil, \"os\").system, getattr with a variable name, object.__getattribute__, getattr(branches, \"os\").popen, getattr(hub, \"http\").client.",
+      "then": "Each mutant changes a pin, as the attribute chain branches.subprocess.run does.",
+      "expected": "7 of 7 change a pin",
+      "actual": "0 of 7 change a pin. The getattr check reads only a base that is itself a watched module. A pure module such as branches is not watched. vars(x) with an argument is allowed.",
+      "result": "fail",
+      "specSource": "R-119 scope: \"An attribute chain through a watched module, such as shutil.os.system or branches.subprocess.run, is read as the watched module call\"; ADR-20261009-062930-decision-judge-S-005-388e: a new form in neither list is covered when it is a process or network call in a scanned file",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239",
+      "command": "VERIFY_REPO=<worktree at 268c8e8> node --test .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "SD-01 to SD-07",
+          "inline": "SD-01 no pin changed\nSD-02 no pin changed\nSD-03 no pin changed\nSD-04 no pin changed\nSD-05 no pin changed\nSD-06 no pin changed\nSD-07 no pin changed"
+        },
+        {
+          "kind": "attack",
+          "title": "SD-01 source",
+          "inline": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(branches, \"subprocess\").run([\"git\", \"push\", \"origin\", b])"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The getattr form pushes a verify branch to a bare remote while every pin is equal",
+      "given": "The SD-01 mutant of janitor.py with \"-C\", repo added to the argv, and a local bare remote created by module-loader.",
+      "when": "Call janitor._verify_sec(repo, \"sdlc/S-9-v1-security-0\", \"s\") through module-loader. Run push_guard.py on the same tree.",
+      "then": "The guard changes a pin or the remote gets no ref.",
+      "expected": "guard hit or no ref on the remote",
+      "actual": "The remote gains refs/heads/sdlc/S-9-v1-security-0 and the guard output equals every pin.",
+      "result": "fail",
+      "specSource": "R-119 acceptance: \"A verify branch stays local\" and a source check that finds no git push; ADR-20261009-062930-decision-judge-S-005-388e",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:260",
+      "command": "VERIFY_REPO=<worktree at 268c8e8> node --test .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "bare remote refs after the call",
+          "inline": "behavior pins changed: [] pushed=true refsAdded=[\"refs/heads/sdlc/S-9-v1-security-0\"]"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "SA-01",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    extra = [\"push\", \"origin\", b]\n    return git(repo, *extra)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-02",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, verb)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-03",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, f\"{slug}\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-04",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, f\"pu{slug}\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-05",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"pu\" + slug)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-06",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"push\".strip(), \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-07",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"push\" if slug else \"status\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-08",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, (\"push\",)[0], \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-09",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"%s\" % \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-10",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, *map(str, [\"push\", \"origin\", b]))",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-11",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, prog, \"pr\", \"create\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-12",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/suite-receipt.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(*extra)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-13",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"gh\", \"api\", \"-X\", method, \"repos/o/r/issues\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,forge,forgeViolations",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-14",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"gh\", \"api\", path)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-15",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"-c\", cfg, \"status\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-16",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"-C\", d, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-17",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(extra, \".\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-18",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git_lines(extra, repo)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-19",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git_lines(args=[\"push\", \"origin\", b], repo=\".\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-20",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git_lines(repo=\".\", args=[\"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-21",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(cwd=\".\", args=[\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-22",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(**{\"args\": [\"git\", \"push\", \"origin\", b], \"cwd\": \".\"})",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-23",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/impact.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git_lines(**{\"args\": [\"push\", \"origin\", b], \"repo\": \".\"})",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-24",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo=repo, cmd=(\"git\", \"push\", \"origin\", b))",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-25",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(**{\"repo\": repo})",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-26",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: g = git\n\ndef _verify_sec(repo, b):\n    return g(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperValues",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-27",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, f=git):\n    return f(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperValues",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-28",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b):\n    return [git][0](repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperValues",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-29",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: class _K:\n    g = git\n\ndef _verify_sec(repo, b):\n    return _K.g(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperValues",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-30",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b):\n    return (g := git)(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperValues",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-31",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b):\n    return globals()[\"git\"](repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-32",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b):\n    return git.__call__(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperValues",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-33",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: fwd = lambda *a: git(*a)\n\ndef _verify_sec(repo, b):\n    return fwd(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-34",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/suite-receipt.py: def git(repo, *args):\n    return None",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperBodies",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-35",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, b\"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-36",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"git.exe\", \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-37",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"env\", \"git\", \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-38",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"/usr/bin/git\", \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-39",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"sh\", \"-c\", \"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-40",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"-c\", \"alias.x=push\", \"x\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-41",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"--exec-path=/tmp/x\", \"show\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-42",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"-C/tmp\", \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-43",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"-ccore.x=1\", \"status\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-44",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"\uff50ush\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-45",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"push \", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-46",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, *(\"push\", \"origin\", b))",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-47",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, git=None):\n    return git(repo, \"push\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-48",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"send-pack\", \"origin\", b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-49",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/state-write.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return git(repo, \"remote\", \"update\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SA-50",
+      "scenarioId": "VS-4",
+      "charter": "Explore a new function in each wrapper file with non-constant program, verb, option and api path to find a push or forge write that leaves every pin equal",
+      "input": "skills/sdlc/next-action.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return run(repo, \"gh\", \"-R\", \"o/r\", \"pr\", \"create\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: wrapperVerbs,forge,forgeViolations",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:229"
+    },
+    {
+      "id": "SB-01",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import subprocess as sp\n\ndef _verify_sec(repo, b):\n    return sp.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-02",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: from subprocess import run as rr\n\ndef _verify_sec(repo, b):\n    return rr([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-03",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: from os import system as sy\n\ndef _verify_sec(repo, b):\n    return sy(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-04",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return shutil.os.system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-05",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import glob\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return glob.os.system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-06",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return branches.subprocess.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-07",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return tempfile._os.system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-08",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import posix\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return posix.system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,direct,dynamic,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-09",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import nt",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-10",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import _posixsubprocess",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-11",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import _socket\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return _socket.socket()",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,network,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-12",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import runpy\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return runpy.run_path(\"x.py\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-13",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import code",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-14",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import codeop",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-15",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import _winapi",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-16",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    m = subprocess\n    return m.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-17",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(b, m=subprocess):\n    return m.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-18",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(b):\n    return (m := os).system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-19",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(b):\n    return [subprocess][0].run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-20",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: class _P(subprocess.Popen):\n    pass",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-21",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: RUNNER = subprocess.run",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-22",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(b):\n    f = os.system\n    return f(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-23",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: TABLE = {\"k\": subprocess}",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-24",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: GET = lambda: subprocess",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-25",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: @os.system\ndef _verify_dec():\n    pass",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-26",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(b):\n    return print(subprocess)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-27",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return os.__dict__[\"system\"](\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-28",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return vars(os)[\"system\"](\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-29",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(os, \"system\")(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-30",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(os, \"sys\" + \"tem\")(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-31",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    g = getattr\n    return g(os, \"system\")(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-32",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return eval(\"__import__('os').system('x')\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-33",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    exec(\"import os\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-34",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return compile(\"1\", \"x\", \"eval\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-35",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return __import__(\"os\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-36",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import importlib\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return importlib.import_module(\"os\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-37",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return globals()[\"os\"]",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-38",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return locals()",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-39",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return vars()",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-40",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return __builtins__",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-41",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    e = eval\n    return e(\"1\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-42",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import builtins\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return builtins.exec(\"1\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-43",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    breakpoint()",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-44",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import urllib.request\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return urllib.request.urlopen(\"http://127.0.0.1:9/\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-45",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: from branches import subprocess as pp\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return pp.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-46",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import http.client\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return http.client.HTTPConnection(\"127.0.0.1\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-47",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import socket\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return socket.create_connection((\"127.0.0.1\", 9))",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-48",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import ctypes\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return ctypes.CDLL(None).system(b\"x\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,direct,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-49",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return os.popen(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-50",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return os.posix_spawnp(\"git\", [\"git\", \"push\"], {})",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-51",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return os.startfile(\"x\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-52",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return os.forkpty()",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-53",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import pty\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return pty.spawn([\"git\", \"push\"])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,direct,network,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-54",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import asyncio\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return asyncio.create_subprocess_exec(\"git\", \"push\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,direct,network,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-55",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return subprocess.run(\"git push origin \" + b, shell=True)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-56",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: from os import *",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-57",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import json as os",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-58",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/tracker/hub.py: import subprocess as zz\n\ndef _verify_sec(b):\n    return zz.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: imports,direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-59",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import sys\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return sys._getframe().f_globals",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-61",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: import branches as bb\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return bb.subprocess.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-62",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    p = branches.subprocess\n    return p.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-63",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return branches.os.system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-64",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/tracker/collect.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return hub.http.client.HTTPConnection(\"127.0.0.1\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-65",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/tracker/hub.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return urllib.request.urlopen(\"http://127.0.0.1:9/\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SB-60",
+      "scenarioId": "VS-7",
+      "charter": "Explore aliases, values, attribute chains, imports and dynamic code to find a process or network call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: os.system(\"git push origin x\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:234"
+    },
+    {
+      "id": "SD-01",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(branches, \"subprocess\").run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SD-02",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return vars(branches)[\"subprocess\"].run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SD-03",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(shutil, \"os\").system(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SD-04",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(branches, slug).run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SD-05",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return object.__getattribute__(branches, \"subprocess\").run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SD-06",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(branches, \"os\").popen(\"git push origin \" + b)",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SD-07",
+      "scenarioId": "VS-7",
+      "charter": "Explore getattr and vars lookups on pure modules that re-export a watched module to find a process call that leaves every pin equal",
+      "input": "skills/sdlc/tracker/collect.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return getattr(hub, \"http\").client.HTTPConnection(\"127.0.0.1\")",
+      "expected": "a pin changes (guard hit)",
+      "observed": "no pin changed",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239"
+    },
+    {
+      "id": "SC-04",
+      "scenarioId": "VS-7",
+      "charter": "Probe the attribute walks that the scope names as seeds",
+      "input": "skills/sdlc/janitor.py: import sys\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return sys.modules[\"subprocess\"].run([\"git\", \"push\", \"origin\", b])",
+      "expected": "seed S3: never a refutation (ADR-388e)",
+      "observed": "no pin changed",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "SC-05",
+      "scenarioId": "VS-7",
+      "charter": "Probe the attribute walks that the scope names as seeds",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return ().__class__.__base__.__subclasses__()",
+      "expected": "seed S3: never a refutation (ADR-388e)",
+      "observed": "no pin changed",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "SC-06",
+      "scenarioId": "VS-7",
+      "charter": "Probe the attribute walks that the scope names as seeds",
+      "input": "skills/sdlc/tracker/collect.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return hub.ThreadingHTTPServer((\"127.0.0.1\", 0), hub.BaseHTTPRequestHandler)",
+      "expected": "seed S3/S5: a listening server class is not egress; recorded only",
+      "observed": "no pin changed",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "SC-07",
+      "scenarioId": "VS-7",
+      "charter": "Probe the attribute walks that the scope names as seeds",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return __loader__.load_module.__globals__",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "SC-09",
+      "scenarioId": "VS-7",
+      "charter": "Probe the attribute walks that the scope names as seeds",
+      "input": "skills/sdlc/janitor.py: def _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return print.__self__.__import__(\"os\").system(\"git push origin \" + b)",
+      "expected": "seed S3: never a refutation (ADR-388e)",
+      "observed": "no pin changed",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "SC-08",
+      "scenarioId": "VS-7",
+      "charter": "Probe the attribute walks that the scope names as seeds",
+      "input": "skills/sdlc/janitor.py: from branches import *\n\ndef _verify_sec(repo, b, slug, verb=None, extra=(), path=None, prog=None, method=None, cfg=None, d=None):\n    return subprocess.run([\"git\", \"push\", \"origin\", b])",
+      "expected": "a pin changes (guard hit)",
+      "observed": "guard hit: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:244"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "S3: sys.modules lookup reaches any module",
+      "detail": "sys.modules[\"subprocess\"].run([... push ...]) leaves every pin equal (SC-04). The plan names sys.modules[...] as seed S3.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3: subclasses walk",
+      "detail": "().__class__.__base__.__subclasses__() leaves every pin equal (SC-05). Seed S3.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3: print.__self__ is the builtins module",
+      "detail": "print.__self__.__import__(\"os\").system(...) leaves every pin equal (SC-09), because the private-attribute check needs a base name bound to an import. The walk matches seed S3 (attribute walk to a loader), not a literal named form.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3/S5: a re-exported network class under a pure module name",
+      "detail": "hub.ThreadingHTTPServer((...), hub.BaseHTTPRequestHandler) leaves every pin equal (SC-06). It opens a listening socket and is no egress. Recorded only.",
+      "file": "skills/sdlc/tracker/hub.py"
+    },
+    {
+      "title": "Guard design note for the SD forms",
+      "detail": "The SD-01 to SD-07 gap has one cause: the getattr and vars checks look at watched bases only. A fix is to treat getattr, setattr, delattr, vars and object.__getattribute__ with an imported-module first argument as dynamic, whatever the module.",
+      "file": "skills/sdlc/test/push_guard.py"
+    }
+  ],
+  "blocked": []
+}

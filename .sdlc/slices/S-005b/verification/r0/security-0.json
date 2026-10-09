@@ -1,0 +1,2603 @@
+{
+ "profile": "security",
+ "part": 0,
+ "round": 0,
+ "commit": "527e86b",
+ "environment": "node --test, Python 3.14.7 (macOS), git bare remote in a scratch directory; testkit cli-runner; branch sdlc/S-005b-v0-security-0 at sdlc/S-005b 527e86b",
+ "cases": [
+  {
+   "id": "TC-security-1",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "An edit inside any of the five pinned bodies breaks wrapperBodies",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Each of 35 inserted statements (push tuple, -c remote.origin.push, --no-pager, -X POST, --method=PATCH, -f, --input, graphql, a rebound repo or cwd) and 11 replaced tokens changes wrapperBodies.",
+   "expected": "Each of 35 inserted statements (push tuple, -c remote.origin.push, --no-pager, -X POST, --method=PATCH, -f, --input, graphql, a rebound repo or cwd) and 11 replaced tokens changes wrapperBodies.",
+   "actual": "All edits changed wrapperBodies.",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan.md body pin",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-1 insert and replace rows all list wrapperBodies (logs/security-0-attacks.txt)"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-2",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A changed or extra wrapper definition breaks a pin",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Duplicate def, nested def, class method, async def, def under if or try, decorator, changed default, added parameter, annotations, confusable identifier, f-string and t-string edits, value uses of a wrapper, and a rebind to subprocess.run or os.system each change a pin.",
+   "expected": "Duplicate def, nested def, class method, async def, def under if or try, decorator, changed default, added parameter, annotations, confusable identifier, f-string and t-string edits, value uses of a wrapper, and a rebind to subprocess.run or os.system each change a pin.",
+   "actual": "All forms changed a pin. An identical duplicate def adds a second wrapperBodies entry. Python 3.14.7 only; 3.11 and 3.12 were not on this host.",
+   "result": "pass",
+   "specSource": "R-119 plan: wrapperBodies is not de-duplicated",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-2 rows; Python 3.14.7"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-3",
+   "scenarioId": "VS-4",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A local list, a parameter verb, a parameter api path, a parameter program or a parameter argv gives an opaque or wrapperVerbs value entry",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Nine non-constant forms change opaque or wrapperVerbs.",
+   "expected": "Nine non-constant forms change opaque or wrapperVerbs.",
+   "actual": "All nine changed one of them.",
+   "result": "pass",
+   "specSource": "R-119 plan: outside a body non-constant is opaque",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-4 non-constant rows"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-4",
+   "scenarioId": "VS-4",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A starred first argument to git() in state-write.py or suite-receipt.py, or to run() in next-action.py, with a trailing reviewed verb, leaves every pin equal",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "A push through a pinned wrapper breaks a pin.",
+   "expected": "A push through a pinned wrapper breaks a pin.",
+   "actual": "git(*(repo, \"push\", \"origin\", b), \"show\") in a new function of state-write.py leaves all keys equal. A run against a bare remote created refs/heads/sdlc/S-001-v0-security-0 there. The scanner drops node.args[0] as the repo even when it is a Starred that expands to many tokens, so it reads only the trailing \"show\".",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e (refutation rule) and R-119 acceptance; plan.md: a push through a pinned wrapper in any spelling of the constant arguments",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "def _verify_sec(...): return git(*(repo, \"push\", \"origin\", b), \"show\")\n-> breaches: []\nremote refs after call: refs/heads/sdlc/S-001-v0-security-0, refs/heads/show\nFive forms leave every pin equal: sw tuple, sw list, sw via local, sr ls-tree, na run(*(\".\", \"git\", \"push\", \"origin\", b), \"git\", \"show\"). The gh forms and impact.py forms do break a pin."
+    }
+   ]
+  },
+  {
+   "id": "TC-security-5",
+   "scenarioId": "VS-5",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "Every other push spelling at a direct site or wrapper changes a pin",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Split lines, implicit concat, + of constants, -C, five flag options, -c, -P, shell=True, one-string argv, argv from a variable, os.system, os.popen, os.exec*, os.spawn*, os.posix_spawnp, pty, asyncio, multiprocessing each change a pin.",
+   "expected": "Split lines, implicit concat, + of constants, -C, five flag options, -c, -P, shell=True, one-string argv, argv from a variable, os.system, os.popen, os.exec*, os.spawn*, os.posix_spawnp, pty, asyncio, multiprocessing each change a pin.",
+   "actual": "All 28 spellings changed a pin; ten sampled spellings changed pushes, direct or opaque.",
+   "result": "pass",
+   "specSource": "R-119 plan VS-5 scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-5 rows"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-6",
+   "scenarioId": "VS-6",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "Each forge write form is a forge violation, every unknown shape is opaque, a lowercase get is allowed",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "gh pr create, glab mr create, -X POST, --method PATCH, --method=DELETE, -f, -F, --field, --raw-field, --input, pulls, merge_requests, graphql with and without flags and with -X GET, GRAPHQL upper case, a path with ../graphql, a direct site, -XPOST glued, -fa=b glued, a method after the path give the stated violation.",
+   "expected": "gh pr create, glab mr create, -X POST, --method PATCH, --method=DELETE, -f, -F, --field, --raw-field, --input, pulls, merge_requests, graphql with and without flags and with -X GET, GRAPHQL upper case, a path with ../graphql, a direct site, -XPOST glued, -fa=b glued, a method after the path give the stated violation.",
+   "actual": "All 23 forms gave the stated violation; five unknown shapes gave opaque or a violation; -X get gave none.",
+   "result": "pass",
+   "specSource": "ADR-20261009-063408-decision-judge-S-005-368d; R-119 plan VS-6",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-6 rows"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-7",
+   "scenarioId": "VS-7",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A process or network call reached by an alias, a value, a chain, an import or dynamic code changes a pin",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Aliases, rebinds, defaults, walrus, list, dict, base class, shutil.os.system, branches.subprocess.run, posix, nt, _posixsubprocess, _socket, runpy, code, private attribute, eval, exec, compile, __import__, importlib, globals, locals, vars(), getattr on os, os.execl, ctypes, pickle, http.client, socket, urllib.request, webbrowser, concurrent.futures each change a pin.",
+   "expected": "Aliases, rebinds, defaults, walrus, list, dict, base class, shutil.os.system, branches.subprocess.run, posix, nt, _posixsubprocess, _socket, runpy, code, private attribute, eval, exec, compile, __import__, importlib, globals, locals, vars(), getattr on os, os.execl, ctypes, pickle, http.client, socket, urllib.request, webbrowser, concurrent.futures each change a pin.",
+   "actual": "All 36 forms changed a pin.",
+   "result": "pass",
+   "specSource": "R-119 plan VS-7 scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-7 rows"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-8",
+   "scenarioId": "VS-7",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A process module bound by an import inside a class body and called through self breaks a pin",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "A subprocess call in a scanned file changes direct.",
+   "expected": "A subprocess call in a scanned file changes direct.",
+   "actual": "class _V: import subprocess as sp; def go(self, repo, b): return self.sp.run([\"git\",\"-C\",repo,\"push\",\"origin\",b]) appended to janitor.py leaves all keys equal. A run created the branch in a bare remote. The scanner resolves names bound by import, but not an attribute reached through self.",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e (refutation rule) and R-119 acceptance (a new process call that leaves the output equal to the pins refutes R-119). The loader walk could also count as S3.",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "class _V:\n    import subprocess as sp\n    def go(self, repo, b):\n        return self.sp.run([\"git\",\"-C\",repo,\"push\",\"origin\",b])\n-> breaches: []\nremote refs after call: refs/heads/sdlc/S-001-v0-security-0"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-9",
+   "scenarioId": "VS-7",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "os.startfile in a scanned script breaks a pin",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "A process call changes direct.",
+   "expected": "A process call changes direct.",
+   "actual": "os.startfile(\"push.bat\") in a new janitor.py function leaves every pin equal. This repeats r2 TC-security-4 and is still open.",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e (refutation rule) and R-119 acceptance",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "def _verify_sec(...): os.startfile(\"push.bat\")\n-> breaches: []"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-10",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "Each banned identifier in sdlc-loop.js, in code, in a string or as a \\u escape, reports a hit; the three allowlist lines stay pinned",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "jsHits or jsAllowed change for 27 forms.",
+   "expected": "jsHits or jsAllowed change for 27 forms.",
+   "actual": "All forms changed a pin. Removing one allowlist line changes jsAllowed.",
+   "result": "pass",
+   "specSource": "R-119 plan VS-8 scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-8 rows"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-11",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A new script type, a symlink or a non-UTF-8 source in the scanned tree changes a pin; the scanned list is exact",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Ten new file kinds, seven encodings and seven symlink shapes change a pin; the clean tree equals every pin and scans 13 files.",
+   "expected": "Ten new file kinds, seven encodings and seven symlink shapes change a pin; the clean tree equals every pin and scans 13 files.",
+   "actual": "All changed a pin. A dangling symlink makes push_guard.py exit 1 with FileNotFoundError, so the guard test fails closed, but it gives a traceback and not an opaque entry. An unreadable file does the same.",
+   "result": "pass",
+   "specSource": "R-119 plan VS-10 scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-10 rows; dangling symlink: GUARD CRASH exit 1 FileNotFoundError"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-12",
+   "scenarioId": "VS-11",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A new gh or glab read with a constant verb changes forge and hits no ban",
+   "given": "A scratch copy of skills/sdlc and hooks with one edit.",
+   "when": "Run push_guard.py on the copy and compare every key with the pins in push-guard.test.mjs.",
+   "then": "Six read forms change forge, and give no violation and no opaque entry.",
+   "expected": "Six read forms change forge, and give no violation and no opaque entry.",
+   "actual": "All six did.",
+   "result": "pass",
+   "specSource": "R-119 plan VS-11",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1",
+   "command": "VERIFY_REPO=<worktree at 527e86b> node --test .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack log",
+     "inline": "VS-11 rows"
+    }
+   ]
+  }
+ ],
+ "attacks": [
+  {
+   "id": "ATK-1",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sw insert args = (\"push\", \"-q\", \"origin\", \"x\")",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-2",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sw insert args = (\"-c\", \"remote.origin.push=x\") + args",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-3",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sw insert args = (\"--no-pager\",) + args",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-4",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sw insert repo = \".\"",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-5",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sw insert args = (\"push\",) + tuple(args[1:])",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-6",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sw insert args = args[:0] + (\"send-pack\",)",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-7",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sr insert args = (\"push\", \"origin\", \"x\")",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-8",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sr insert args = (\"-c\", \"remote.origin.push=x\") + args",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-9",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sr insert repo = \".\"",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-10",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 sr insert args = (\"--no-pager\",) + args",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-11",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"gh\", \"pr\", \"create\")",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-12",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"gh\", \"api\", \"-X\", \"POST\") + cmd",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-13",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"gh\", \"api\", \"--method=PATCH\", *cmd)",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-14",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"gh\", \"api\", \"-f\", \"ref=x\") + cmd",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-15",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"gh\", \"api\", \"--input\", \"-\") + cmd",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-16",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"git\", \"push\", \"origin\", \"x\")",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-17",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert repo = \".\"",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-18",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 na insert cmd = (\"gh\", \"api\", \"graphql\") + cmd",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-19",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 imr insert args = [\"git\", \"push\"]",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-20",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 imr insert args = [\"gh\", \"pr\", \"create\"]",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-21",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 imr insert args = list(args) + [\"push\"]",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-22",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 imr insert cwd = \".\"",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-23",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 img insert args = [\"push\"]",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-24",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 img insert repo = \".\"",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-25",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 img insert args = [\"-c\", \"remote.origin.push=x\"] + list(args)",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-26",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/state-write.py \"-C\", repo",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-27",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/state-write.py capture_output=True, text=True)",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-28",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/state-write.py if check and r.returncode != 0:",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-29",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/state-write.py return r",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-30",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/suite-receipt.py [\"git\", \"-C\", repo, *args]",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-31",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/suite-receipt.py return r.stdout",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-32",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/next-action.py cwd=repo, capture_output=True",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-33",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/next-action.py timeout=120",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-34",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/next-action.py subprocess.run(cmd,",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-35",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/impact.py return subprocess.run(args, cwd=cwd, capture_output=True, text=True)",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-36",
+   "charter": "Explore VS-1 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-1 replace skills/sdlc/impact.py [\"git\"] + args",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-37",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 identical duplicate def sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-38",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 second def with push sr",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-39",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 nested def in other function sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\",\"wrapperValues\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-40",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 class method run na",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-41",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 class method git_lines im",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-42",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 async def git sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-43",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 async def run na",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-44",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 def under if sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-45",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 def under try na",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-46",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 decorator on run im",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-47",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 decorator with call on git sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-48",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 changed default sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-49",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 added kwonly param na",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-50",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 return annotation sr",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-51",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 parameter annotation im",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-52",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 unicode confusable name in body sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-53",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 rebind wrapper name to subprocess.run sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-54",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 rebind wrapper name to os.system na",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-55",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 alias of wrapper then call sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperValues\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-56",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 partial of wrapper sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"wrapperValues\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-57",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 wrapper in list na",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperValues\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-58",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 wrapper via globals sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-59",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 wrapper default param sr",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperValues\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-60",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 wrapper as base class attr sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperValues\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-61",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 f-string body change sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-62",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 nested f-string same quote body change sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-63",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 t-string added to body sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-64",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 f-string format spec change sw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-65",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 semicolon statement in body im",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-66",
+   "charter": "Explore VS-2 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-2 duplicate",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperBodies\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-67",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 sw starred repo tuple then show",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-68",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 sw starred repo list then show",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-69",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 sw starred via local then show",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-70",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 sr starred repo then ls-tree",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-71",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 na starred dot git push then git show",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-72",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 na starred dot gh pr create then gh pr list",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-73",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 na starred repo only gh api post",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-74",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 im starred argv then cwd",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-75",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 im git_lines starred",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-76",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 class-body import then self.sp.run",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal; a run pushed the branch to a bare remote",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-77",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 os.startfile",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-78",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 local list spread into git",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-79",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 param verb into git",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-80",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 param api path",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-81",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 param verb into run gh",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-82",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 param program into run",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-83",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 method param into gh api",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-84",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 cmd list into run",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-85",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 im argv param",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-86",
+   "charter": "Explore VS-4 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-4 im git_lines param",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-87",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git split across lines",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-88",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git implicit concat",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-89",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git plus constants",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-90",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git -C before verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-91",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git five flags before verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-92",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git -c before verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-93",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git --exec-path before verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-94",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git -P before verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-95",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git double dash",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-96",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 shell true",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-97",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 shell true popen",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-98",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 one string argv",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-99",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 argv from var",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-100",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 os.system push",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-101",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 os.popen push",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-102",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 os.execvp push",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-103",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 os.spawnlp push",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-104",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 os.posix_spawnp push",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-105",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 pty.spawn push",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"network\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-106",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 asyncio subprocess exec",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"network\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-107",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 multiprocessing Process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"network\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-108",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git case Git",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-109",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git.exe",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-110",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git tab verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-111",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git newline verb",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-112",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git push with verb after refspec options",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-113",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git push-via-remote helper",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-114",
+   "charter": "Explore VS-5 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-5 git ls-remote push-url",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-115",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh pr create",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-116",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 glab mr create",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-117",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api -X POST",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-118",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api --method PATCH",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-119",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api --method=DELETE",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-120",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api -f",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-121",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api -F",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-122",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api --field",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-123",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api --raw-field",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-124",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api --input",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-125",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api pulls path",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-126",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 glab api merge_requests path",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-127",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api graphql",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-128",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api graphql with -f",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-129",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api -X GET graphql",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-130",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api graphql with paginate",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-131",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 glab api graphql",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-132",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api path prefix graphql",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-133",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api post at direct site",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-134",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api -XPOST glued",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-135",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api -fa=b glued",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-136",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api method after path",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-137",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api GRAPHQL upper",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-138",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 api path no prefix",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-139",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 api path param only with -X",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-140",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh verb param",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-141",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh unknown leading option",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-142",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 gh api mixed-case Post",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\",\"forgeViolations\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-143",
+   "charter": "Explore VS-6 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-6 lowercase get",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-144",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 import os as alias in function",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-145",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 from os import system",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-146",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 from subprocess import run late",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-147",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 import subprocess as sp at module end",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-148",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 subprocess as value default",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-149",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 walrus",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-150",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 list element",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-151",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 base class",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-152",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 dict value",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-153",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 conditional expression",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-154",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 shutil.os.system",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-155",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 branches.subprocess.run",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"pushes\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-156",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 posix.system",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-157",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 nt.system",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-158",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 _posixsubprocess",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-159",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 _socket",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"network\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-160",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 runpy",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-161",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 code module",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-162",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 private attribute",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-163",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 eval",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-164",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 exec",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-165",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 compile",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-166",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 __import__",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-167",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 importlib import_module",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-168",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 globals",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-169",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 locals",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-170",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 vars none",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-171",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 getattr on os",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"dynamic\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-172",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 os.execl",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-173",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 ctypes",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"direct\",\"network\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-174",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 pickle import",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-175",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 http.client conn",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"network\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-176",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 socket create",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"network\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-177",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 urllib.request via existing import",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"network\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-178",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 webbrowser",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\",\"network\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-179",
+   "charter": "Explore VS-7 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-7 concurrent futures import",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"imports\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-180",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 require",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-181",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 string with process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-182",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 unicode escape process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-183",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 braced escape process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-184",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 fetch call",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-185",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 globalThis",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-186",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 global double quote",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-187",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 global template",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-188",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 global in comment",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-189",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 Function ctor",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-190",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 eval",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-191",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 import dynamic",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-192",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 Deno",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-193",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 Bun",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-194",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 navigator",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-195",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 WebSocket",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-196",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 spawn",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-197",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 exec word",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-198",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 fork",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-199",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 execFileSync",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-200",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 Worker",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-201",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 global with allowed on same line",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\",\"jsAllowed\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-202",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 allowed literal twice and bare",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\",\"jsAllowed\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-203",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 surrogate pair escape",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-204",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 line separator comment",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-205",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 process in regex",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-206",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 process.env member",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-207",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 identifier via computed unicode",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-208",
+   "charter": "Explore VS-8 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-8 removing one allowlist line",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"jsAllowed\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-209",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file hooks/x.sh",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-210",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.mjs",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-211",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.cjs",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-212",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.ts",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-213",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.pyw",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-214",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.ps1",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-215",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/Makefile",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-216",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.py.txt",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-217",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file hooks/.hidden.py",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"imports\",\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-218",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 file skills/sdlc/x.PY",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-219",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 latin-1 coding line",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-220",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 invalid utf-8",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-221",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 NUL byte",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-222",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 utf-16 bom",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-223",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 utf-8 bom file",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"imports\",\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-224",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 js invalid utf-8",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"jsHits\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-225",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 cp1252 coding line",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-226",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 symlink to file",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"imports\",\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-227",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 symlink to directory",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-228",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 symlink to outside file",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-229",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 dangling symlink",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "guard exits 1 with a traceback (fails closed)",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-230",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 symlink replacing a scanned file",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-231",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 symlink in hooks",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"imports\",\"direct\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-232",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 symlink to skipped dir",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"extensions\",\"opaque\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-233",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 dir named test2",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"files\",\"imports\",\"direct\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-234",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 clean",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-235",
+   "charter": "Explore VS-11 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-11 gh pr view const",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-236",
+   "charter": "Explore VS-11 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-11 gh issue list",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-237",
+   "charter": "Explore VS-11 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-11 gh api repos get",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-238",
+   "charter": "Explore VS-11 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-11 glab mr list",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-239",
+   "charter": "Explore VS-11 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-11 glab api push_rule",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"wrapperVerbs\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-240",
+   "charter": "Explore VS-11 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-11 gh direct list",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "pin keys changed: [\"direct\",\"forge\"]",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-241",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS S3 sys.modules wrapper call",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-242",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS S3 sys.modules os system",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-243",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS S2 os.environ GIT_SSH_COMMAND",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-244",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS os.kill is not a process start",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-245",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS rebind wrapper to a non-process function",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-246",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS rebind wrapper to lambda",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-247",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS JS capital P escape is not process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-248",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS JS zero width joiner is not process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-249",
+   "charter": "Explore the threat-model edge with a mutant tree to find a form that leaves every pin equal",
+   "input": "OOS JS cyrillic lookalike is not process",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "every pin equal",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  },
+  {
+   "id": "ATK-250",
+   "charter": "Explore VS-10 with a mutant tree to find a form that leaves every pin equal",
+   "input": "VS-10 unreadable file",
+   "expected": "at least one pin key changes, or the guard fails closed",
+   "observed": "guard exits 1 with a traceback (fails closed)",
+   "result": "held",
+   "test": ".sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs"
+  }
+ ],
+ "seeds": [
+  {
+   "title": "Starred first argument to a wrapper hides the verb",
+   "detail": "See TC-security-4. wrapper_call() takes node.args[1:] for git-args and program-args. A fix reads a Starred or a non-constant first argument as opaque.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "Process module reached through a class attribute and self",
+   "detail": "See TC-security-8. An import in a class body used as self.sp.run escapes. Make any import inside a class body a dynamic entry, or resolve an Attribute call on self or cls.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "os.startfile and other process starters are not in is_process()",
+   "detail": "Open since r2. Add os.startfile, or ban every os.* call outside a short allowed list.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "Dangling symlink or unreadable file crashes push_guard.py",
+   "detail": "main() catches SyntaxError, UnicodeDecodeError and ValueError only. OSError gives a traceback and exit 1. The test fails closed, but the spec says a symlink is opaque.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "Sets de-duplicate an identical second call",
+   "detail": "pushes, direct and opaque are sorted sets. A second identical push line in the same function leaves every key equal. This is S1 territory.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "Indentation is not part of the body pin",
+   "detail": "body_text() drops INDENT, DEDENT and NEWLINE tokens. Moving a statement out of an if block keeps the pin. No push results because callers supply the verb. Seed only.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "Store of a wrapper name is not recorded",
+   "detail": "git = lambda ... or run = _other leaves every pin equal. A new process call in the target still changes direct. Seed only (S1).",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "testkit: no Python 3.11 or 3.12 on this host",
+   "detail": "The body_text f-string and t-string parity claim was tested on 3.14.7 only.",
+   "file": "skills/sdlc/test/testkit/README.md"
+  }
+ ]
+}

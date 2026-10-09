@@ -2486,7 +2486,7 @@
     "specRef": "§1",
     "quote": "| `verify` | `<sliceId>-v<round>-<profile>-<part>` | `sdlc/S-001-v0-http-api-0` | never |",
     "acceptance": "A source check over `sdlc-loop.js` and the skill scripts finds no `git push` or pull-request creation for a branch whose parsed kind is `verify`. A verify branch stays local.",
-    "status": "todo",
+    "status": "parked",
     "flags": [],
     "adrs": [],
     "evidence": {

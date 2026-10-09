@@ -1,0 +1,322 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "527e86b",
+  "environment": "macOS, Python 3.14.7 (3.9.6 spot check; 3.11 and 3.12 not installed), Node 24.19.0, real push_guard.py on scratch copies of skills/sdlc and hooks; cli-runner from the testkit",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-1: 20 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "20 mutants put a push, a gh api -X/--method/-f/--input form, a -c remote.origin.push option, a changed string, f-string expression, timeout or return, a docstring or a global statement inside the five wrapper bodies",
+      "then": "Each mutant changes wrapperBodies",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each mutant changes wrapperBodies",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:83",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-1 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-2: 14 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "14 mutants: a duplicate def (state-write git, impact run), a nested def, a class method, an async def, a changed default, a reordered signature, two decorators, a return annotation, a lambda rebind, a def added to janitor.py",
+      "then": "Each mutant changes wrapperBodies, direct or wrapperValues; the rebind of git to a pure function changes no key (no process site, not a push path)",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each mutant changes wrapperBodies, direct or wrapperValues; the rebind of git to a pure function changes no key (no process site, not a push path)",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:109",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-2 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-3: a comment or a blank line keeps every key",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "Comments and blank lines (with quote, single quote and hash characters, backslash end, tab indent, shebang-like text, trailing comment on the def line) in all five bodies; a two-space re-indent with trailing spaces",
+      "then": "All 14 keys equal the clean output",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "All 14 keys equal the clean output",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:130",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-3 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-4: 26 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "26 forms outside a body: local list spread, parameter api path, variable and suffixed verbs, ternary, call, subscript, variable option, variable program, rebinds of git in a name, list, map and default parameter, unpacked first argument, keyword argv, globals() lookup, bytes and int verbs",
+      "then": "Each form changes opaque, wrapperValues, wrapperVerbs, dynamic or forgeViolations. getattr(sys.modules[__name__], 'git') leaves every key equal (seed S3)",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each form changes opaque, wrapperValues, wrapperVerbs, dynamic or forgeViolations. getattr(sys.modules[__name__], 'git') leaves every key equal (seed S3)",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:157",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-4 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-5: 35 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "35 spellings of a new git push or process site: quotes, triple quotes, implicit and plus concatenation, split lines, -C, --no-pager, --bare, -c, --git-dir, stuck -C, all wrappers, direct subprocess forms, shell=True, os.system, os.popen, os.exec, os.spawn, non-literal argv, send-pack; edits to the three reviewed pushes",
+      "then": "Each form changes pushes, opaque, direct or wrapperVerbs. A quote-style change of a reviewed push leaves every key equal (same token text)",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each form changes pushes, opaque, direct or wrapperVerbs. A quote-style change of a reviewed push leaves every key equal (same token text)",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:189",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-5 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-6: 41 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "41 forge forms: gh pr create, glab mr create, pr merge/edit, issue create, release create, gh api with -X, --method, -XPOST, --method=, -f, -F, --field, --raw-field, -fref, --input, pulls, PULLS, graphql in six spellings with and without flags, glab api, a path from a variable, an unknown leading option, git push -o merge_request.create, curl",
+      "then": "Each form changes forgeViolations, opaque, wrapperVerbs, direct or pushes; a lowercase get method changes only forge",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each form changes forgeViolations, opaque, wrapperVerbs, direct or pushes; a lowercase get method changes only forge",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:234",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-6 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-7: 75 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "75 forms: import aliases bound late or in try, from-imports, shutil/tempfile/glob/fnmatch/mimetypes/posixpath/branches/hub/reports/workflow chains to os, modules as values (dict, tuple, argument, lambda, walrus, default, base class, class attribute), vars/getattr/__dict__, network modules, posix, nt, _socket, _posixsubprocess, _winapi, runpy, code, codeop, private attributes, eval, exec, compile, __import__, breakpoint, importlib, globals, locals, vars(), __builtins__, multiprocessing, ctypes, pty, asyncio, os.fork family, star imports",
+      "then": "Each in-scope form changes a pin. sys.modules chain, print.__self__ walk and __subclasses__ walk leave every key equal (seed S3)",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each in-scope form changes a pin. sys.modules chain, print.__self__ walk and __subclasses__ walk leave every key equal (seed S3)",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:282",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-7 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-8: 46 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of skills/sdlc and hooks (test, fixtures, prompts, node_modules and __pycache__ skipped), and the clean push_guard.py output as the baseline",
+      "when": "46 JS lines: each banned identifier in code, in a double-quoted string, in a template, in a comment, as \\uXXXX and \\u{...} escapes, double-escaped, with the allowed literal on the same line; a fourth 'global' literal; hex and octal escapes, concatenation, this walk, SharedWorker/importScripts/WebTransport/RTCPeerConnection",
+      "then": "Each in-scope line changes jsHits or jsAllowed. Hex or octal escapes, concatenation, this walk and browser-only names leave every key equal (seed S3)",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "Each in-scope line changes jsHits or jsAllowed. Hex or octal escapes, concatenation, this walk and browser-only names leave every key equal (seed S3)",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:364",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-8 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-9: 7 mutants run against the real push_guard.py on a scratch copy of the plugin tree",
+      "given": "A scratch copy of the suite with sdlc-loop.js mutated",
+      "when": "Run T-R-119d from a scratch copy of the suite against 7 mutated sdlc-loop.js: a log line, the toolsmith, the verifier lens, a new line, a name rebuilt by template, an alias on the collector line",
+      "then": "T-R-119d fails on a new reference on its own line (4 of 4). It passes when the alias is made on the collector line or the name is rebuilt by template (seeds)",
+      "expected": "Every in-scope form changes at least one key; comments and blanks change none",
+      "actual": "T-R-119d fails on a new reference on its own line (4 of 4). It passes when the alias is made on the collector line or the name is rebuilt by template (seeds)",
+      "result": "pass",
+      "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e; ADR-20261009-063408-decision-judge-S-005-368d",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:424",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-9 transcripts (command line, exit code, changed keys)",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "VS-3: re-indent and trailing spaces keep every key",
+      "given": "state-write.py git body",
+      "when": "Re-indent to two spaces and add three trailing spaces to each line",
+      "then": "All keys equal the clean output",
+      "expected": "No change",
+      "actual": "No change",
+      "result": "pass",
+      "specSource": "R-119 scope (a comment or a blank line does not break a pin)",
+      "test": ".sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:145",
+      "command": "node --test .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-3b",
+          "path": ".sdlc/slices/S-005b/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Clean tree: byte-equal output twice, from a symlinked root, and under Python 3.9.6",
+      "given": "The clean tree",
+      "when": "Run push_guard.py twice, on a symlinked root, and with /usr/bin/python3 (3.9.6)",
+      "then": "cmp reports equal output for the first two; the 3.9 output equals the 3.14.7 output on all 14 keys",
+      "expected": "No drift",
+      "actual": "No drift. Python 3.11 and 3.12 are not installed here",
+      "result": "pass",
+      "specSource": "R-119 scope; plan Risks (Python version drift)",
+      "test": "",
+      "command": "python3 skills/sdlc/test/push_guard.py . | cmp - clean.json; /usr/bin/python3 skills/sdlc/test/push_guard.py .",
+      "manual": true,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "cmp and key diff",
+          "inline": "byte-equal\nsymlink-root-equal\n[] (no key differs under Python 3.9.6)"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "S3: sys.modules chain reaches a wrapper or subprocess unseen",
+      "detail": "getattr(sys.modules[__name__], 'git')(repo, 'push', 'origin') in state-write.py, and sys.modules['subprocess'].run([...]) in janitor.py, leave all 14 keys equal. Plan S3 lists sys.modules[...] as a seed.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3: print.__self__.__import__ builtins walk",
+      "detail": "print.__self__.__import__('subprocess').run([...]) leaves all keys equal: the attribute __import__ and __self__ of a builtin name are not read. It is an attribute walk the scanner does not name (S3).",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3: JS hex and octal escapes and concatenation",
+      "detail": "'\\x70rocess', '\\160rocess' and 'pro' + 'cess' in sdlc-loop.js leave jsHits empty. The scanner decodes only \\u escapes. They are strings, not a loader.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S3: browser-only names outside the JS list",
+      "detail": "SharedWorker, importScripts, WebTransport and RTCPeerConnection are not in the banned list. A Node workflow runtime does not define them.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "S1: variable pushed by a reviewed call can change",
+      "detail": "A for loop that rebinds want before the reviewed git(repo, 'push', '-q', '-u', 'origin', want) leaves all keys equal. A duplicate line with the same text also leaves all keys equal (pins are sets).",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "S5: python files in nested fixtures or test directories are not scanned",
+      "detail": "skills/sdlc/tracker/fixtures/x.py and skills/sdlc/tracker/test/x.py with a subprocess push leave all keys equal. The skip list matches a directory name at any depth.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "T-R-119d counts lines, not references",
+      "detail": "const _l = branch; added on the collector line leaves T-R-119d green, and the alias _l can reach another agent. A branch name rebuilt by template in the toolsmith call also passes. tests.md says the test fails on a new branch reference in verifyPhase. The loop has no process access (T-R-119c), so this is not a push path.",
+      "file": "skills/sdlc/test/push-guard.test.mjs"
+    }
+  ]
+}

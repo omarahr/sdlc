@@ -6,3 +6,4 @@
 {"ts":"2026-10-09T06:22:27Z","type":"slice-escalated","slice":"S-005","detail":"step 1 replan: three fix rounds ended with T-R-119 still refuted; attempt archived as sdlc/S-005-attempt-1"}
 {"ts":"2026-10-09T07:42:15Z","type":"slice-escalated","slice":"S-005","detail":"step 2 split into S-005a (R-008, R-009, R-010) and S-005b (R-119); R-093 moved to S-027 per ADR-7fbd; attempt archived as sdlc/S-005-attempt-2"}
 {"ts":"2026-10-09T08:09:33Z","type":"slice-merged","slice":"S-005a","detail":"tails: state, verify, attempt; R-008, R-009, R-010 done"}
+{"ts":"2026-10-09T16:40:22Z","type":"slice-escalated","slice":"S-005b","detail":"step 5 park: attempt 3 failed three fix rounds (bytes and int argument forms leave every pin equal); attempt archived as sdlc/S-005b-attempt-3"}

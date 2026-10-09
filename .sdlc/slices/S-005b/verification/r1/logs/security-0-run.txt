@@ -1,0 +1,66 @@
+✔ verify security: TC-security-1 VS-4 a non-constant or opaque form outside a wrapper body changes a pin (4812.141875ms)
+✔ verify security: TC-security-2 VS-7 a process, network or dynamic-code form changes a pin (6261.495ms)
+✖ verify security: TC-security-6 VS-7 a getattr or vars lookup of a watched module through a pure module changes a pin (671.569167ms)
+✔ verify security: TC-security-3 VS-7 attribute walks that the scope names as seeds are recorded (580.847583ms)
+✔ verify security: TC-security-4 the scan has no side effect: a mutant that would write a marker never runs (96.709875ms)
+✖ verify security: TC-security-7 VS-7 the getattr form really pushes a verify branch to a bare remote while every pin is equal (593.534667ms)
+✔ verify security: TC-security-5 the clean tree equals every pin (95.22825ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13334.990292
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:239:1
+✖ verify security: TC-security-6 VS-7 a getattr or vars lookup of a watched module through a pure module changes a pin (671.569167ms)
+  AssertionError [ERR_ASSERTION]: forms that leave every pin equal: SD-01 getattr on a re-exporting pure module reaches subprocess.run | SD-02 vars on a re-exporting pure module reaches subprocess.run | SD-03 getattr on shutil reaches os.system | SD-04 getattr with a variable name on a pure module | SD-05 object.__getattribute__ on a pure module | SD-06 getattr on a pure module reaches os.popen | SD-07 getattr on hub reaches the http package
+  + actual - expected
+  
+  + [
+  +   'SD-01 getattr on a re-exporting pure module reaches subprocess.run',
+  +   'SD-02 vars on a re-exporting pure module reaches subprocess.run',
+  +   'SD-03 getattr on shutil reaches os.system',
+  +   'SD-04 getattr with a variable name on a pure module',
+  +   'SD-05 object.__getattribute__ on a pure module',
+  +   'SD-06 getattr on a pure module reaches os.popen',
+  +   'SD-07 getattr on hub reaches the http package'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:241:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'SD-01 getattr on a re-exporting pure module reaches subprocess.run', 'SD-02 vars on a re-exporting pure module reaches subprocess.run', 'SD-03 getattr on shutil reaches os.system', 'SD-04 getattr with a variable name on a pure module', 'SD-05 object.__getattribute__ on a pure module', 'SD-06 getattr on a pure module reaches os.popen', 'SD-07 getattr on hub reaches the http package' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:260:1
+✖ verify security: TC-security-7 VS-7 the getattr form really pushes a verify branch to a bare remote while every pin is equal (593.534667ms)
+  AssertionError [ERR_ASSERTION]: a verify branch reached the remote and the guard pins stayed equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:269:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

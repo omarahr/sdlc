@@ -1,0 +1,115 @@
+{
+  "profile": "cli",
+  "part": 1,
+  "round": 1,
+  "commit": "e71f8c8",
+  "environment": "git 2.50.1 (Apple Git-155), Python 3.14.7, macOS",
+  "cases": [
+    {
+      "id": "TC-cli-101",
+      "scenarioId": "VS-14",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Verify git options before the verb (not run)",
+      "given": "Slice commit e71f8c8 and the clean guard output",
+      "when": "The cli verifier starts the scenario",
+      "then": "No case ran",
+      "expected": "A guard result for each form",
+      "actual": "A safety classifier stopped the verifier session before it built any mutant",
+      "result": "blocked",
+      "specSource": "R-119 scope and ADR-388e",
+      "test": "",
+      "command": "python3 skills/sdlc/test/push_guard.py .",
+      "manual": true,
+      "unblock": "Re-run the scenario in a new session, or let a human run it",
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "clean guard run",
+          "inline": "python3 skills/sdlc/test/push_guard.py . -> exit 0; dynamic, opaque, forgeViolations and wrapperValues are empty; 17 files; 5 wrapperBodies entries"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-102",
+      "scenarioId": "VS-15",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Verify import alias binding (not run)",
+      "given": "Slice commit e71f8c8 and the clean guard output",
+      "when": "The cli verifier starts the scenario",
+      "then": "No case ran",
+      "expected": "A guard result for each form",
+      "actual": "A safety classifier stopped the verifier session before it built any mutant",
+      "result": "blocked",
+      "specSource": "R-119 scope and ADR-388e",
+      "test": "",
+      "command": "python3 skills/sdlc/test/push_guard.py .",
+      "manual": true,
+      "unblock": "Re-run the scenario in a new session, or let a human run it",
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "clean guard run",
+          "inline": "python3 skills/sdlc/test/push_guard.py . -> exit 0; dynamic, opaque, forgeViolations and wrapperValues are empty; 17 files; 5 wrapperBodies entries"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-103",
+      "scenarioId": "VS-16",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Verify submodule attribute chains (not run)",
+      "given": "Slice commit e71f8c8 and the clean guard output",
+      "when": "The cli verifier starts the scenario",
+      "then": "No case ran",
+      "expected": "A guard result for each form",
+      "actual": "A safety classifier stopped the verifier session before it built any mutant",
+      "result": "blocked",
+      "specSource": "R-119 scope and ADR-388e",
+      "test": "",
+      "command": "python3 skills/sdlc/test/push_guard.py .",
+      "manual": true,
+      "unblock": "Re-run the scenario in a new session, or let a human run it",
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "clean guard run",
+          "inline": "python3 skills/sdlc/test/push_guard.py . -> exit 0; dynamic, opaque, forgeViolations and wrapperValues are empty; 17 files; 5 wrapperBodies entries"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-104",
+      "scenarioId": "VS-17",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Verify guard-miss mutants against a bare remote (not run)",
+      "given": "Slice commit e71f8c8 and the clean guard output",
+      "when": "The cli verifier starts the scenario",
+      "then": "No case ran",
+      "expected": "A guard result for each form",
+      "actual": "A safety classifier stopped the verifier session before it built any mutant",
+      "result": "blocked",
+      "specSource": "R-119 scope and ADR-388e",
+      "test": "",
+      "command": "python3 skills/sdlc/test/push_guard.py .",
+      "manual": true,
+      "unblock": "Re-run the scenario in a new session, or let a human run it",
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "clean guard run",
+          "inline": "python3 skills/sdlc/test/push_guard.py . -> exit 0; dynamic, opaque, forgeViolations and wrapperValues are empty; 17 files; 5 wrapperBodies entries"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": []
+}

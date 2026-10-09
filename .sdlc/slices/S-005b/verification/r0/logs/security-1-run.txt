@@ -1,0 +1,35 @@
+✔ baseline: the unmutated tree has no forge violation and no opaque call (0.553625ms)
+✔ verify security A-1: S-013 GitHub read as T-R-119f writes it changes only the direct, forge and wrapperVerbs keys (88.2865ms)
+✔ verify security A-2: S-013 GitHub read with owner and repo split changes only the direct, forge and wrapperVerbs keys (88.162292ms)
+✔ verify security A-3: S-013 GitHub read with an Accept header, --jq and --paginate changes only the direct, forge and wrapperVerbs keys (88.857417ms)
+✔ verify security A-4: S-013 GitHub read with the path built by + concatenation changes only the direct, forge and wrapperVerbs keys (90.5975ms)
+✔ verify security A-5: S-013 GitHub read split over lines with implicit concatenation changes only the direct, forge and wrapperVerbs keys (92.474667ms)
+✔ verify security A-6: gh api -X GET through run changes only the direct, forge and wrapperVerbs keys (92.945875ms)
+✔ verify security A-7: gh api -X get in lower case through run changes only the direct, forge and wrapperVerbs keys (87.694083ms)
+✔ verify security A-8: gh api --method GET through run changes only the direct, forge and wrapperVerbs keys (93.725166ms)
+✔ verify security A-9: gh api --method=GET through run changes only the direct, forge and wrapperVerbs keys (93.529125ms)
+✔ verify security A-10: gh api -XGET glued through run changes only the direct, forge and wrapperVerbs keys (90.933875ms)
+✔ verify security A-11: gh api --method get in lower case through run changes only the direct, forge and wrapperVerbs keys (93.492959ms)
+✔ verify security A-12: gh api -X Get in mixed case after the path changes only the direct, forge and wrapperVerbs keys (92.650625ms)
+✔ verify security A-13: S-013 GitLab push rule read through run changes only the direct, forge and wrapperVerbs keys (91.760542ms)
+✔ verify security A-14: S-013 GitLab push rule read at a direct site changes only the direct, forge and wrapperVerbs keys (94.685666ms)
+✔ verify security A-15: the S-013 GitHub read with its import of urllib.parse in branches.py hits no ban (94.713333ms)
+✔ verify security A-16: the S-013 GitHub read with from urllib.parse import quote in branches.py hits no ban (92.136667ms)
+✔ verify security N-1: gh api -X POST on the rules path is a forge violation (90.885208ms)
+✔ verify security N-2: gh api --method=patch on the rules path is a forge violation (88.879875ms)
+✔ verify security N-3: gh api -X GET with a -f field is a forge violation (94.0735ms)
+✔ verify security N-4: gh api -X GET then -X POST is a forge violation (87.980459ms)
+✔ verify security N-5: gh api -X with a non-constant method is a forge violation (91.57525ms)
+✔ verify security N-6: gh api -X with a Cyrillic E confusable of GET is a forge violation (92.707208ms)
+✔ verify security N-7: gh api -X GET with --input is a forge violation (81.565834ms)
+✔ verify security N-8: gh api graphql with -X GET is a forge violation (84.626416ms)
+✔ verify security N-9: gh api -X GET on a pulls path is a forge violation (91.002417ms)
+✔ verify security N-10: gh api --method GET with --raw-field is a forge violation (91.10775ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2502.832708

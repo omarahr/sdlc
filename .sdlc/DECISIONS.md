@@ -151,3 +151,27 @@
 - Decision: Option 2. push_guard.py counts every gh api or glab api call whose constant path holds "graphql" as a forge violation. It does not read the query text. Keep the -F query=@q mutant in T-R-119e and add the bare gh api graphql mutant. Write in the R-119 scope that a later graphql read needs an ADR that lifts the ban for one pinned (file, function) site and adds a query-only test case. Scores (fit x3, reversibility x2, simplicity x1): option 2 = 29, option 1 = 27, option 3 = 27. All three keep the same ban. Option 2 wins on reversibility: its bare mutant proves that the path token alone fails the guard, and its lift path is one exception for one pinned site. Option 1 costs more to reverse, because it binds the later ADR to extra conditions. Option 3 loses on fit: its example narrowing reads the query text, and a mutation can hide from that check through -F query=@file.
 - Consequences / how to reverse: Only the test scanner (push_guard.py), the S-005 plan "R-119 scope" section, tests.md and T-R-119e change. No product code calls graphql today, so no product behavior, CLI flag, config key or state format changes. The rule fits the covered scope of ADR-20261009-062930-decision-judge-S-005-388e: a network call in a scanned file. To reverse, a later ADR removes "graphql" from the banned path parts or adds an exception for one pinned site, and adds a query-only test case. Keep the mutation mutants in T-R-119e after a reversal.
 - Affects: S-005, R-119, R-008, R-009, R-010
+
+### ADR-20261009-085138-implementer-S-005b-c3a1: TC-cli-13 asserts that the guard flags a pushing wrapper mutant
+- Status: auto
+- Context: TC-cli-13 in the S-005b cli-0 verifier tests loads a mutated state-write.py whose git wrapper pushes a verify branch. It asserted both that push_guard.py reports no breach and that the bare remote stays clean. The mutant pushes, so no fix can make both hold. The R-119 acceptance says "a verify branch stays local". ADR-20261009-062930-decision-judge-S-005-388e says the check must not leave the output equal to the pins for such a form.
+- Options: (1) Leave the test as written; it can never pass. (2) Assert that the guard flags the tree or the remote stays clean.
+- Decision: Option 2. The test now asserts that breaches(guardOut) is not empty, or that the remote has no verify ref. The fixed push_guard.py flags the mutant through the pushes and wrapperVerbs pins.
+- Consequences / how to reverse: Only the verifier test file changes. No product code changes. To reverse, restore the two original assertions.
+- Affects: S-005b, R-119
+
+### ADR-20261009-120000-implementer-S-005b-5e7d: Seed probes TC-cli-24 and TC-cli-25 accept a guard that closes the seed
+- Status: auto
+- Context: TC-cli-24 and TC-cli-25 in the S-005b r1 cli-0 file push-guard.verify-cli.test.mjs assert that seed S1 forms leave every guard key equal. Fix round 2 pins the text of each non-constant argument of a wrapper call in `wrapperVerbs`. The S1 probe forms now change `wrapperVerbs`. ADR-20261009-062930-decision-judge-S-005-388e says seeds never refute R-119. It does not require the guard to miss a seed.
+- Options: (1) Keep the probes; they fail on a stricter guard. (2) Let each probe accept the seed open or closed.
+- Decision: Option 2. TC-cli-24 now asserts that only the two seed cases can push with every key equal. TC-cli-25 accepts an open or a closed seed for the variable option and keeps the `wrapperVerbs` check for the f-string option.
+- Consequences / how to reverse: Only the verifier test file changes. No product code changes. To reverse, restore the two original assertions.
+- Affects: S-005b, R-119
+
+### ADR-20261009-152830-decision-judge-S-005b-2d39: Pin the wrapper bodies; remove forwarded-token logic (S-005b)
+- Status: auto
+- Context: Three fix rounds and a spike show that reading data flow inside the five pinned wrapper bodies leaves a new gap each round. No OVERRIDE ADR covers this question.
+- Options: (1) Pin the token text of the five wrapper bodies in a wrapperBodies key, remove forwarded-token logic, add the seven spike mutants and TC-cli-18 to TC-cli-20, add an R-119 scope line, and write a fresh verify plan. (2) The same pin, described as the code change only: skip calls inside a body. (3) Pin every function that holds a process, network or dynamic-code site in a callSiteBodies key.
+- Decision: Option 1. Options 1 and 2 are one design; option 1 also names the tests.md line and the fresh plan. The spike showed 7 of 7 mutants caught, the clean tree unchanged and 95 of 95 mutant rows still caught. Option 3 pins more code, so each ordinary edit needs a pin update, and it has no spike evidence. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 14+10+5 = 29, option 3 = 12+8+3 = 23. 
+- Consequences / how to reverse: Only push_guard.py, push-guard.test.mjs and a tests.md line change. Data flow from a caller into a pinned site stays seed S1 under ADR-20261009-062930-decision-judge-S-005-388e. To reverse, revert the commit or replace the pin with a stricter scanner.
+- Affects: S-005b, R-119

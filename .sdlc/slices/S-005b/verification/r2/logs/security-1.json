@@ -1,0 +1,7 @@
+{
+  "profile": "security", "part": 1, "round": 2, "commit": "39aa68f",
+  "environment": "macOS Darwin 25.6, Python 3.14.7, Node 24; read-only review of push_guard.py at 39aa68f",
+  "cases": [],
+  "attacks": [],
+  "seeds": [{"title": "security session stopped again", "detail": "A safety classifier stopped the session before any attack ran. No case ran for VS-5, VS-6, VS-7, VS-8, VS-10 and VS-11. The cli profile covers each scenario.", "file": "skills/sdlc/test/push_guard.py"}]
+}

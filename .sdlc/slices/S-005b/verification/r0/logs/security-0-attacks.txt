@@ -1,0 +1,1069 @@
+### VS-1 sw insert args = ("push", "-q", "origin", "x")
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sw insert args = ("-c", "remote.origin.push=x") + args
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sw insert args = ("--no-pager",) + args
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sw insert repo = "."
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sw insert args = ("push",) + tuple(args[1:])
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sw insert args = args[:0] + ("send-pack",)
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sr insert args = ("push", "origin", "x")
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sr insert args = ("-c", "remote.origin.push=x") + args
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sr insert repo = "."
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 sr insert args = ("--no-pager",) + args
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("gh", "pr", "create")
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("gh", "api", "-X", "POST") + cmd
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("gh", "api", "--method=PATCH", *cmd)
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("gh", "api", "-f", "ref=x") + cmd
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("gh", "api", "--input", "-") + cmd
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("git", "push", "origin", "x")
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert repo = "."
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 na insert cmd = ("gh", "api", "graphql") + cmd
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 imr insert args = ["git", "push"]
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 imr insert args = ["gh", "pr", "create"]
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 imr insert args = list(args) + ["push"]
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 imr insert cwd = "."
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 img insert args = ["push"]
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 img insert repo = "."
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 img insert args = ["-c", "remote.origin.push=x"] + list(args)
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/state-write.py "-C", repo
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/state-write.py capture_output=True, text=True)
+    if check
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/state-write.py if check and r.returncode != 0:
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/state-write.py return r
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/suite-receipt.py ["git", "-C", repo, *args]
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/suite-receipt.py return r.stdout
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/next-action.py cwd=repo, capture_output=True
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/next-action.py timeout=120
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/next-action.py subprocess.run(cmd,
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/impact.py return subprocess.run(args, cwd=cwd, capture_output=True, text=True)
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-1 replace skills/sdlc/impact.py ["git"] + args
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 identical duplicate def sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 second def with push sr
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 nested def in other function sw
+breaches: ["direct","wrapperBodies","wrapperValues"]
+opaque: []
+violations: []
+### VS-2 class method run na
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 class method git_lines im
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 async def git sw
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 async def run na
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 def under if sw
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 def under try na
+breaches: ["direct","wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 decorator on run im
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 decorator with call on git sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 changed default sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 added kwonly param na
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 return annotation sr
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 parameter annotation im
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 unicode confusable name in body sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 rebind wrapper name to subprocess.run sw
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-2 rebind wrapper name to os.system na
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-2 alias of wrapper then call sw
+breaches: ["wrapperValues"]
+opaque: []
+violations: []
+### VS-2 partial of wrapper sw
+breaches: ["imports","wrapperValues"]
+opaque: []
+violations: []
+### VS-2 wrapper in list na
+breaches: ["wrapperValues"]
+opaque: []
+violations: []
+### VS-2 wrapper via globals sw
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-2 wrapper default param sr
+breaches: ["wrapperValues"]
+opaque: []
+violations: []
+### VS-2 wrapper as base class attr sw
+breaches: ["wrapperValues"]
+opaque: []
+violations: []
+### VS-2 f-string body change sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 nested f-string same quote body change sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 t-string added to body sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 f-string format spec change sw
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 semicolon statement in body im
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-2 duplicate
+breaches: ["wrapperBodies"]
+opaque: []
+violations: []
+### VS-4 sw starred repo tuple then show
+breaches: []
+opaque: []
+violations: []
+### VS-4 sw starred repo list then show
+breaches: []
+opaque: []
+violations: []
+### VS-4 sw starred via local then show
+breaches: []
+opaque: []
+violations: []
+### VS-4 sr starred repo then ls-tree
+breaches: []
+opaque: []
+violations: []
+### VS-4 na starred dot git push then git show
+breaches: []
+opaque: []
+violations: []
+### VS-4 na starred dot gh pr create then gh pr list
+breaches: ["forge"]
+opaque: []
+violations: []
+### VS-4 na starred repo only gh api post
+breaches: ["forge"]
+opaque: []
+violations: []
+### VS-4 im starred argv then cwd
+breaches: ["wrapperVerbs","pushes"]
+opaque: []
+violations: []
+### VS-4 im git_lines starred
+breaches: ["wrapperVerbs","pushes"]
+opaque: []
+violations: []
+### VS-4 behavior sw starred
+breaches: []
+opaque: []
+violations: []
+### behavior sw starred
+guard breaches []
+remote refs after: refs/heads/sdlc/S-001-v0-security-0
+refs/heads/show
+call: $ cd sdlc-test-cTMQO6/testkit-cli-qGrjbP/repo-154
+$ python3 -c 'import importlib.util, sys; sys.path.insert(0, "sdlc-test-cTMQO6/testkit-cli-qGrjbP/tree-151/skills/sdlc"); s = importlib.util.spec_from_file_location("m", "sdlc-test-cTMQO6/testkit-cli-qGrjbP/tree-151/skills/sdlc/state-write.py"); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); m._verify_sec("sdlc-test-cTMQO6/testkit-cli-qGrjbP/repo-154", "sdlc/S-001-v0-security-0", None, None, None, None, None, None)'
+exit: 0 (159 ms)
+--- stdout
+--- stderr
+### VS-7 behavior class body import
+breaches: []
+opaque: []
+violations: []
+### behavior class-body import
+guard breaches []
+remote refs after: refs/heads/sdlc/S-001-v0-security-0
+call: $ cd sdlc-test-cTMQO6/testkit-cli-qGrjbP/repo-161
+$ python3 -c 'import importlib.util, sys; sys.path.insert(0, "sdlc-test-cTMQO6/testkit-cli-qGrjbP/tree-158/skills/sdlc"); s = importlib.util.spec_from_file_location("m", "sdlc-test-cTMQO6/testkit-cli-qGrjbP/tree-158/skills/sdlc/janitor.py"); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); m._V().go("sdlc-test-cTMQO6/testkit-cli-qGrjbP/repo-161", "sdlc/S-001-v0-security-0")'
+exit: 0 (145 ms)
+--- stdout
+--- stderr
+To sdlc-test-cTMQO6/testkit-cli-qGrjbP/remote.git-159
+ * [new branch]      sdlc/S-001-v0-security-0 -> sdlc/S-001-v0-security-0
+### VS-7 os.startfile
+breaches: []
+opaque: []
+violations: []
+### VS-4 local list spread into git
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["state-write.py _verify_sec verb git(repo, *x)"]
+violations: []
+### VS-4 param verb into git
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["state-write.py _verify_sec verb git(repo, verb, 'origin', b)"]
+violations: []
+### VS-4 param api path
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec path run(repo, 'gh', 'api', path)"]
+violations: []
+### VS-4 param verb into run gh
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec verb run(repo, 'gh', verb)"]
+violations: []
+### VS-4 param program into run
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec program run(repo, verb, 'push')"]
+violations: []
+### VS-4 method param into gh api
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-X', method, 'repos/o/r/rules') -- method is not constant"]
+### VS-4 cmd list into run
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec program run(repo, *cmd)"]
+violations: []
+### VS-4 im argv param
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["impact.py _verify_sec program run(cmd, '.')"]
+violations: []
+### VS-4 im git_lines param
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["impact.py _verify_sec verb git_lines(cmd, '.')"]
+violations: []
+### VS-5 git split across lines
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git implicit concat
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git plus constants
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git -C before verb
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git five flags before verb
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git -c before verb
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec option subprocess.run(['git', '-c', 'x=y', 'push'])"]
+violations: []
+### VS-5 git --exec-path before verb
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec option subprocess.run(['git', '--exec-path=/x', 'push'])"]
+violations: []
+### VS-5 git -P before verb
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec option subprocess.run(['git', '-P', 'push'])"]
+violations: []
+### VS-5 git double dash
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec option subprocess.run(['git', '--', 'push'])"]
+violations: []
+### VS-5 shell true
+breaches: ["direct","pushes","opaque"]
+opaque: ["janitor.py _verify_sec shell subprocess.run('git push', shell=True)"]
+violations: []
+### VS-5 shell true popen
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec argv subprocess.Popen(cmd, shell=True)","janitor.py _verify_sec shell subprocess.Popen(cmd, shell=True)"]
+violations: []
+### VS-5 one string argv
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec argv subprocess.run('git push origin x'.split())"]
+violations: []
+### VS-5 argv from var
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec argv subprocess.run(cmd)"]
+violations: []
+### VS-5 os.system push
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 os.popen push
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 os.execvp push
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 os.spawnlp push
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 os.posix_spawnp push
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 pty.spawn push
+breaches: ["imports","direct","network","pushes"]
+opaque: []
+violations: []
+### VS-5 asyncio subprocess exec
+breaches: ["imports","direct","network","pushes"]
+opaque: []
+violations: []
+### VS-5 multiprocessing Process
+breaches: ["imports","direct","network"]
+opaque: []
+violations: []
+### VS-5 git case Git
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 git.exe
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 git tab verb
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git newline verb
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git push with verb after refspec options
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 git push-via-remote helper
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 git ls-remote push-url
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-5 detail git split across lines
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 detail git implicit concat
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 detail git plus constants
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 detail git -C before verb
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 detail git five flags before verb
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-5 detail git -c before verb
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec option subprocess.run(['git', '-c', 'x=y', 'push'])"]
+violations: []
+### VS-5 detail git -P before verb
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec option subprocess.run(['git', '-P', 'push'])"]
+violations: []
+### VS-5 detail shell true
+breaches: ["direct","pushes","opaque"]
+opaque: ["janitor.py _verify_sec shell subprocess.run('git push', shell=True)"]
+violations: []
+### VS-5 detail one string argv
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec argv subprocess.run('git push origin x'.split())"]
+violations: []
+### VS-5 detail argv from var
+breaches: ["direct","opaque"]
+opaque: ["janitor.py _verify_sec argv subprocess.run(cmd)"]
+violations: []
+### VS-6 gh pr create
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'pr', 'create') -- verb pr create"]
+### VS-6 glab mr create
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'glab', 'mr', 'create') -- verb mr create"]
+### VS-6 gh api -X POST
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-X', 'POST', 'repos/o/r/issues') -- method POST"]
+### VS-6 gh api --method PATCH
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '--method', 'PATCH', 'repos/o/r/issues/1') -- method PATCH"]
+### VS-6 gh api --method=DELETE
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '--method=DELETE', 'repos/o/r/issues/1') -- method DELETE"]
+### VS-6 gh api -f
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-f', 'a=b', 'repos/o/r/issues') -- field -f"]
+### VS-6 gh api -F
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-F', 'a=b', 'repos/o/r/issues') -- field -F"]
+### VS-6 gh api --field
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '--field', 'a=b', 'repos/o/r/issues') -- field --field"]
+### VS-6 gh api --raw-field
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '--raw-field', 'a=b', 'repos/o/r/issues') -- field --raw-field"]
+### VS-6 gh api --input
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '--input', 'x.json', 'repos/o/r/issues') -- field --input"]
+### VS-6 gh api pulls path
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', 'repos/o/r/pulls') -- path holds pulls"]
+### VS-6 glab api merge_requests path
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'glab', 'api', 'projects/1/merge_requests') -- path holds merge_requests"]
+### VS-6 gh api graphql
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', 'graphql') -- path holds graphql"]
+### VS-6 gh api graphql with -f
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', 'graphql', '-f', 'query=x') -- field -f","next-action.py _verify_sec run(repo, 'gh', 'api', 'graphql', '-f', 'query=x') -- path holds graphql"]
+### VS-6 gh api -X GET graphql
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-X', 'GET', 'graphql') -- path holds graphql"]
+### VS-6 gh api graphql with paginate
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '--paginate', 'graphql') -- path holds graphql"]
+### VS-6 glab api graphql
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'glab', 'api', 'graphql') -- path holds graphql"]
+### VS-6 gh api path prefix graphql
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', 'repos/o/r/../../graphql') -- path holds graphql"]
+### VS-6 gh api post at direct site
+breaches: ["direct","forge","forgeViolations"]
+opaque: []
+violations: ["janitor.py _verify_sec subprocess.run(['gh', 'api', '-X', 'POST', 'repos/o/r/issues']) -- method POST"]
+### VS-6 gh api -XPOST glued
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-XPOST', 'repos/o/r/issues') -- method POST"]
+### VS-6 gh api -fa=b glued
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-fa=b', 'repos/o/r/issues') -- field -f"]
+### VS-6 gh api method after path
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', 'repos/o/r/issues', '-X', 'POST') -- method POST"]
+### VS-6 gh api GRAPHQL upper
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', 'GRAPHQL') -- path holds graphql"]
+### VS-6 api path no prefix
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec path run(repo, 'gh', 'api', path)"]
+violations: []
+### VS-6 api path param only with -X
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec path run(repo, 'gh', 'api', '-X', 'GET', path)"]
+violations: []
+### VS-6 gh verb param
+breaches: ["wrapperVerbs","opaque"]
+opaque: ["next-action.py _verify_sec verb run(repo, 'gh', verb, 'create')"]
+violations: []
+### VS-6 gh unknown leading option
+breaches: ["opaque"]
+opaque: ["next-action.py _verify_sec option run(repo, 'gh', '--hostname', 'h', 'pr', 'create')"]
+violations: []
+### VS-6 gh api mixed-case Post
+breaches: ["wrapperVerbs","forge","forgeViolations"]
+opaque: []
+violations: ["next-action.py _verify_sec run(repo, 'gh', 'api', '-X', 'Post', 'repos/o/r/issues') -- method Post"]
+### VS-6 lowercase get
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+violations: []
+### VS-7 import os as alias in function
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-7 from os import system
+breaches: ["direct","dynamic"]
+opaque: []
+violations: []
+### VS-7 from subprocess import run late
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-7 import subprocess as sp at module end
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-7 subprocess as value default
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 walrus
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 list element
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 base class
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 dict value
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 conditional expression
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 shutil.os.system
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-7 branches.subprocess.run
+breaches: ["direct","pushes"]
+opaque: []
+violations: []
+### VS-7 posix.system
+breaches: ["imports","direct","dynamic"]
+opaque: []
+violations: []
+### VS-7 nt.system
+breaches: ["imports","direct","dynamic"]
+opaque: []
+violations: []
+### VS-7 _posixsubprocess
+breaches: ["imports","direct","dynamic"]
+opaque: []
+violations: []
+### VS-7 _socket
+breaches: ["imports","network","dynamic"]
+opaque: []
+violations: []
+### VS-7 runpy
+breaches: ["imports","dynamic"]
+opaque: []
+violations: []
+### VS-7 code module
+breaches: ["imports","dynamic"]
+opaque: []
+violations: []
+### VS-7 private attribute
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 eval
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 exec
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 compile
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 __import__
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 importlib import_module
+breaches: ["imports","dynamic"]
+opaque: []
+violations: []
+### VS-7 globals
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 locals
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 vars none
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 getattr on os
+breaches: ["dynamic"]
+opaque: []
+violations: []
+### VS-7 os.execl
+breaches: ["direct"]
+opaque: []
+violations: []
+### VS-7 ctypes
+breaches: ["imports","direct","network"]
+opaque: []
+violations: []
+### VS-7 pickle import
+breaches: ["imports"]
+opaque: []
+violations: []
+### VS-7 http.client conn
+breaches: ["imports","network"]
+opaque: []
+violations: []
+### VS-7 socket create
+breaches: ["imports","network"]
+opaque: []
+violations: []
+### VS-7 urllib.request via existing import
+breaches: ["network"]
+opaque: []
+violations: []
+### VS-7 webbrowser
+breaches: ["imports","network"]
+opaque: []
+violations: []
+### VS-7 concurrent futures import
+breaches: ["imports"]
+opaque: []
+violations: []
+### VS-8 require
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 string with process
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 unicode escape process
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 braced escape process
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 fetch call
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 globalThis
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 global double quote
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 global template
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 global in comment
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 Function ctor
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 eval
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 import dynamic
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 Deno
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 Bun
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 navigator
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 WebSocket
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 spawn
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 exec word
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 fork
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 execFileSync
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 Worker
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 global with allowed on same line
+breaches: ["jsHits","jsAllowed"]
+opaque: []
+violations: []
+### VS-8 allowed literal twice and bare
+breaches: ["jsHits","jsAllowed"]
+opaque: []
+violations: []
+### VS-8 surrogate pair escape
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 line separator comment
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 process in regex
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 process.env member
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 identifier via computed unicode
+breaches: ["jsHits"]
+opaque: []
+violations: []
+### VS-8 removing one allowlist line
+breaches: ["jsAllowed"]
+opaque: []
+violations: []
+### VS-10 file hooks/x.sh
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.mjs
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.cjs
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.ts
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.pyw
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.ps1
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/Makefile
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.py.txt
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 file hooks/.hidden.py
+breaches: ["files","imports","direct"]
+opaque: []
+violations: []
+### VS-10 file skills/sdlc/x.PY
+breaches: ["extensions"]
+opaque: []
+violations: []
+### VS-10 latin-1 coding line
+breaches: ["files","opaque"]
+opaque: ["skills/sdlc/x.py parse encoding iso-8859-1"]
+violations: []
+### VS-10 invalid utf-8
+breaches: ["files","opaque"]
+opaque: ["skills/sdlc/x.py parse SyntaxError"]
+violations: []
+### VS-10 NUL byte
+breaches: ["files","opaque"]
+opaque: ["skills/sdlc/x.py parse SyntaxError"]
+violations: []
+### VS-10 utf-16 bom
+breaches: ["files","opaque"]
+opaque: ["skills/sdlc/x.py parse SyntaxError"]
+violations: []
+### VS-10 utf-8 bom file
+breaches: ["files","imports","direct"]
+opaque: []
+violations: []
+### VS-10 js invalid utf-8
+breaches: ["files","jsHits"]
+opaque: []
+violations: []
+### VS-10 cp1252 coding line
+breaches: ["files","opaque"]
+opaque: ["hooks/y.py parse encoding cp1252"]
+violations: []
+### VS-10 symlink to file
+breaches: ["files","imports","direct","opaque"]
+opaque: ["skills/sdlc/linkfile.py symlink"]
+violations: []
+### VS-10 symlink to directory
+breaches: ["opaque"]
+opaque: ["skills/sdlc/linkdir symlink"]
+violations: []
+### VS-10 symlink to outside file
+breaches: ["files","opaque"]
+opaque: ["skills/sdlc/out.py parse SyntaxError","skills/sdlc/out.py symlink"]
+violations: []
+### VS-10 dangling symlink
+GUARD CRASH exit 1: FileNotFoundError: [Errno 2] No such file or directory: 'sdlc-test-cTMQO6/testkit-cli-qGrjbP/tree-489/skills/sdlc/dangling.py'
+### VS-10 symlink replacing a scanned file
+breaches: ["direct","opaque"]
+opaque: ["skills/sdlc/janitor.py symlink"]
+violations: []
+### VS-10 symlink in hooks
+breaches: ["files","imports","direct","opaque"]
+opaque: ["hooks/link.py symlink"]
+violations: []
+### VS-10 symlink to skipped dir
+breaches: ["extensions","opaque"]
+opaque: ["skills/sdlc/linkprompts symlink"]
+violations: []
+### VS-10 dir named test2
+breaches: ["files","imports","direct"]
+opaque: []
+violations: []
+### VS-10 clean
+breaches: []
+opaque: []
+violations: []
+### VS-11 gh pr view const
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+violations: []
+### VS-11 gh issue list
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+violations: []
+### VS-11 gh api repos get
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+violations: []
+### VS-11 glab mr list
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+violations: []
+### VS-11 glab api push_rule
+breaches: ["wrapperVerbs","forge"]
+opaque: []
+violations: []
+### VS-11 gh direct list
+breaches: ["direct","forge"]
+opaque: []
+violations: []
+### OOS S3 sys.modules wrapper call
+breaches: []
+opaque: []
+violations: []
+OOS RESULT S3 sys.modules wrapper call: []
+### OOS S3 sys.modules os system
+breaches: []
+opaque: []
+violations: []
+OOS RESULT S3 sys.modules os system: []
+### OOS S2 os.environ GIT_SSH_COMMAND
+breaches: []
+opaque: []
+violations: []
+OOS RESULT S2 os.environ GIT_SSH_COMMAND: []
+### OOS os.kill is not a process start
+breaches: []
+opaque: []
+violations: []
+OOS RESULT os.kill is not a process start: []
+### OOS rebind wrapper to a non-process function
+breaches: []
+opaque: []
+violations: []
+OOS RESULT rebind wrapper to a non-process function: []
+### OOS rebind wrapper to lambda
+breaches: []
+opaque: []
+violations: []
+OOS RESULT rebind wrapper to lambda: []
+### OOS JS capital P escape is not process
+breaches: []
+opaque: []
+violations: []
+OOS RESULT JS capital P escape is not process: []
+### OOS JS zero width joiner is not process
+breaches: []
+opaque: []
+violations: []
+OOS RESULT JS zero width joiner is not process: []
+### OOS JS cyrillic lookalike is not process
+breaches: []
+opaque: []
+violations: []
+OOS RESULT JS cyrillic lookalike is not process: []
+### VS-10 unreadable file
+GUARD CRASH exit 1: PermissionError: [Errno 13] Permission denied: 'sdlc-test-cTMQO6/testkit-cli-qGrjbP/tree-532/skills/sdlc/janitor.py'

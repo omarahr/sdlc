@@ -1,0 +1,459 @@
+✔ verify security: clean tree equals the pins (control) (97.907958ms)
+✔ verify security: VS-7 alias-local-import-sp import alias bound in a function body (97.625625ms)
+✔ verify security: VS-7 alias-from-import-run from-import alias (97.571084ms)
+✔ verify security: VS-7 alias-os-system import os as alias (100.345334ms)
+✔ verify security: VS-7 alias-os-system-late alias bound after use (98.769541ms)
+✔ verify security: VS-7 alias-from-os-system from os import system (97.959584ms)
+✔ verify security: VS-7 alias-from-os-star star import of os (97.616334ms)
+✔ verify security: VS-7 alias-from-subprocess-star star import of subprocess (97.491084ms)
+✔ verify security: VS-7 alias-os-popen-fork os.popen and os.execvp (96.722083ms)
+✔ verify security: VS-7 alias-os-spawn os.spawnlp (97.52425ms)
+✔ verify security: VS-7 alias-os-posix-spawn os.posix_spawnp (97.008917ms)
+✔ verify security: VS-7 alias-os-forkpty os.forkpty (88.082917ms)
+✔ verify security: VS-7 alias-pty-spawn pty.spawn (97.299167ms)
+✔ verify security: VS-7 alias-asyncio-shell asyncio subprocess (97.309375ms)
+✔ verify security: VS-7 alias-multiprocessing multiprocessing.Process (99.374ms)
+✔ verify security: VS-7 alias-ctypes-system ctypes libc system (99.168209ms)
+✔ verify security: VS-7 value-rebind module rebind (96.981541ms)
+✔ verify security: VS-7 value-func-rebind function rebind (97.257833ms)
+✔ verify security: VS-7 value-default-param default parameter (101.083917ms)
+✔ verify security: VS-7 value-walrus walrus (95.495875ms)
+✔ verify security: VS-7 value-list-element list element (97.296583ms)
+✔ verify security: VS-7 value-base-class base class (97.4095ms)
+✔ verify security: VS-7 value-class-attr class attribute (96.282958ms)
+✔ verify security: VS-7 value-decorator decorator (97.905542ms)
+✔ verify security: VS-7 value-map map over os.system (100.815708ms)
+✔ verify security: VS-7 value-lambda-arg lambda taking module (95.790875ms)
+✔ verify security: VS-7 value-os-bare bare os as value (99.1595ms)
+✔ verify security: VS-7 value-os-environ-ok-then-popen ternary (97.324125ms)
+✔ verify security: VS-7 chain-shutil-os shutil.os.system (100.024334ms)
+✔ verify security: VS-7 chain-tempfile-os tempfile.os.system (97.393708ms)
+✔ verify security: VS-7 chain-glob-os glob.os.system (98.417083ms)
+✔ verify security: VS-7 chain-mimetypes-os mimetypes.os.system (97.168ms)
+✔ verify security: VS-7 chain-fnmatch-os fnmatch.os (96.399917ms)
+✔ verify security: VS-7 chain-posixpath-os posixpath.os (97.144291ms)
+✔ verify security: VS-7 chain-alias-shutil import shutil as sh (94.833917ms)
+✔ verify security: VS-7 chain-from-shutil-os from shutil import os (96.893459ms)
+✔ verify security: VS-7 chain-branches-subprocess branches.subprocess.run (97.103083ms)
+✔ verify security: VS-7 chain-branches-os branches.os.system (97.580958ms)
+✔ verify security: VS-7 chain-hub-os hub.os.system (96.978125ms)
+✔ verify security: VS-7 chain-workflow-subprocess workflow.subprocess (97.779291ms)
+✖ verify security: VS-7 chain-sys-modules sys.modules (S3) (97.584375ms)
+✖ verify security: VS-7 chain-param-shutil pure module passed as parameter (96.383333ms)
+✖ verify security: VS-7 chain-rebind-shutil pure module rebound to a local (95.501042ms)
+✖ verify security: VS-7 chain-getattr-rebind getattr on a rebound pure module (99.591875ms)
+✔ verify security: VS-7 native-posix import posix (96.476125ms)
+✔ verify security: VS-7 native-nt import nt (98.886208ms)
+✔ verify security: VS-7 native-posixsubprocess _posixsubprocess (97.982084ms)
+✔ verify security: VS-7 native-from-posixsubprocess from _posixsubprocess import (104.522791ms)
+✔ verify security: VS-7 native-socket _socket (97.599375ms)
+✔ verify security: VS-7 native-ssl _ssl (98.873041ms)
+✔ verify security: VS-7 native-winapi _winapi (99.525708ms)
+✔ verify security: VS-7 native-runpy runpy (99.307375ms)
+✔ verify security: VS-7 native-code code (101.308833ms)
+✔ verify security: VS-7 native-codeop codeop (102.781041ms)
+✔ verify security: VS-7 native-underscore-import any underscore module (102.844375ms)
+✔ verify security: VS-7 network-socket-call socket.create_connection (97.269834ms)
+✔ verify security: VS-7 network-from-socket from socket import socket (101.385458ms)
+✔ verify security: VS-7 network-collect-urlopen new urlopen in collect.py (97.523958ms)
+✔ verify security: VS-7 network-from-urllib-request from urllib import request (100.895667ms)
+✔ verify security: VS-7 network-http-client http.client alias (97.539541ms)
+✔ verify security: VS-7 network-urllib-parse-only urllib.request reached through urllib.parse import (100.05075ms)
+✔ verify security: VS-7 network-ssl ssl context wrap (92.666875ms)
+✔ verify security: VS-7 network-webbrowser webbrowser.open (100.695083ms)
+✔ verify security: VS-7 network-smtplib smtplib (100.551209ms)
+✔ verify security: VS-7 network-hub-http-server http.server alias value (99.269709ms)
+✔ verify security: VS-7 dyn-eval eval (97.937667ms)
+✔ verify security: VS-7 dyn-exec exec (96.47725ms)
+✔ verify security: VS-7 dyn-compile compile (99.016292ms)
+✔ verify security: VS-7 dyn-dunder-import __import__ (97.300042ms)
+✔ verify security: VS-7 dyn-importlib importlib.import_module (98.17925ms)
+✔ verify security: VS-7 dyn-importlib-from from importlib import import_module (97.040042ms)
+✔ verify security: VS-7 dyn-globals globals() (95.255833ms)
+✔ verify security: VS-7 dyn-locals locals() (95.051541ms)
+✔ verify security: VS-7 dyn-vars-noarg vars() (100.357708ms)
+✔ verify security: VS-7 dyn-vars-arg-module vars(module) (103.321833ms)
+✔ verify security: VS-7 dyn-getattr-os getattr(os, ...) (98.172ms)
+✔ verify security: VS-7 dyn-getattr-alias getattr bound to another name (96.939875ms)
+✖ verify security: VS-7 dyn-getattr-map getattr passed as a value (98.052458ms)
+✔ verify security: VS-7 dyn-builtins __builtins__ (98.386375ms)
+✔ verify security: VS-7 dyn-builtins-import import builtins (96.260959ms)
+✔ verify security: VS-7 dyn-dict-os os.__dict__ (89.598875ms)
+✔ verify security: VS-7 dyn-private-os os._exit private (96.445625ms)
+✔ verify security: VS-7 dyn-private-json json._default_encoder (99.354292ms)
+✖ verify security: VS-7 dyn-private-alias-from from json import _default_encoder (99.036209ms)
+✔ verify security: VS-7 dyn-getattribute object.__getattribute__ (98.990208ms)
+✔ verify security: VS-7 dyn-globals-subscript-call globals()["f"]() (99.625958ms)
+✔ verify security: VS-7 dyn-operator-attrgetter operator.attrgetter (92.338375ms)
+✔ verify security: VS-7 dyn-functools-partial functools.partial (97.633208ms)
+✖ verify security: VS-7 dyn-globals-fn function __globals__ walk (S3) (93.958917ms)
+✖ verify security: VS-7 dyn-loader __loader__ (S3) (97.348917ms)
+✖ verify security: VS-7 dyn-type-subclasses subclass walk (S3) (97.662916ms)
+✖ verify security: VS-7 dyn-help help() builtin pager (99.320625ms)
+✔ verify security: VS-7 dyn-breakpoint breakpoint() (103.357625ms)
+✔ verify security: VS-7 dyn-pipes-import pipes import (102.085875ms)
+✔ verify security: VS-7 dyn-pydoc-import pydoc import (101.01425ms)
+✔ verify security: VS-7 dyn-rebound-two-imports one name two modules (98.997084ms)
+✔ verify security: VS-7 dyn-rebound-os-shutil os rebound to shutil.os (92.583167ms)
+✔ verify security: VS-7 dyn-star-shutil from shutil import * (98.770625ms)
+✖ verify security: VS-7 dyn-star-tempfile from tempfile import * (98.727875ms)
+✔ verify security: VS-7 dyn-from-branches-star from branches import * (96.752ms)
+✔ verify security: VS-7 dyn-from-branches-import-subprocess from branches import subprocess (100.714291ms)
+✔ verify security: VS-7 dyn-from-branches-import-os from branches import os (91.221542ms)
+✔ verify security: VS-7 dyn-from-hub-os from hub import os (93.331292ms)
+✖ verify security: VS-7 dyn-from-sys-modules from sys import modules (S3) (97.29825ms)
+✖ verify security: VS-7 dyn-from-tempfile-private-os from tempfile import _os (98.618625ms)
+✖ verify security: VS-7 dyn-from-tempfile-private-os-alias from tempfile import _os as o (94.763041ms)
+✖ verify security: VS-7 dyn-from-argparse-private-os from argparse import _os (101.210917ms)
+✖ verify security: VS-7 dyn-from-shutil-private from shutil import _ntuple_diskusage (98.974125ms)
+✖ verify security: VS-7 dyn-import-private-submodule import tempfile._os-like private via import-as (103.150708ms)
+✔ verify security: VS-7 dyn-from-glob-os from glob import os (105.31175ms)
+✔ verify security: VS-7 dyn-sys-exit-ok control: harmless sys.exit (106.961209ms)
+ℹ tests 111
+ℹ suites 0
+ℹ pass 94
+ℹ fail 17
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11095.653708
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 chain-sys-modules sys.modules (S3) (97.584375ms)
+  AssertionError [ERR_ASSERTION]: chain-sys-modules: guard output equals every pin for: import sys
+  def _v():
+      sys.modules["subprocess"].run(["git","push"])
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 chain-param-shutil pure module passed as parameter (96.383333ms)
+  AssertionError [ERR_ASSERTION]: chain-param-shutil: guard output equals every pin for: import shutil
+  def _v(m):
+      return m.os.system("git push")
+  _v(shutil)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 chain-rebind-shutil pure module rebound to a local (95.501042ms)
+  AssertionError [ERR_ASSERTION]: chain-rebind-shutil: guard output equals every pin for: import shutil
+  def _v():
+      m = shutil
+      return m.os.system("git push")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 chain-getattr-rebind getattr on a rebound pure module (99.591875ms)
+  AssertionError [ERR_ASSERTION]: chain-getattr-rebind: guard output equals every pin for: import shutil
+  def _v():
+      m = shutil
+      return getattr(m, "os").system("git push")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-getattr-map getattr passed as a value (98.052458ms)
+  AssertionError [ERR_ASSERTION]: dyn-getattr-map: guard output equals every pin for: import shutil
+  def _v():
+      return list(map(getattr, [shutil], ["os"]))
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-private-alias-from from json import _default_encoder (99.036209ms)
+  AssertionError [ERR_ASSERTION]: dyn-private-alias-from: guard output equals every pin for: from json import _default_encoder
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-globals-fn function __globals__ walk (S3) (93.958917ms)
+  AssertionError [ERR_ASSERTION]: dyn-globals-fn: guard output equals every pin for: def _v():
+      return (lambda: 0).__globals__["__builtins__"]["__import__"]("subprocess")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-loader __loader__ (S3) (97.348917ms)
+  AssertionError [ERR_ASSERTION]: dyn-loader: guard output equals every pin for: def _v():
+      return __loader__.load_module("subprocess")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-type-subclasses subclass walk (S3) (97.662916ms)
+  AssertionError [ERR_ASSERTION]: dyn-type-subclasses: guard output equals every pin for: def _v():
+      return ().__class__.__base__.__subclasses__()
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-help help() builtin pager (99.320625ms)
+  AssertionError [ERR_ASSERTION]: dyn-help: guard output equals every pin for: def _v():
+      help("modules")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-star-tempfile from tempfile import * (98.727875ms)
+  AssertionError [ERR_ASSERTION]: dyn-star-tempfile: guard output equals every pin for: from tempfile import *
+  def _v():
+      _os.system("git push")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-from-sys-modules from sys import modules (S3) (97.29825ms)
+  AssertionError [ERR_ASSERTION]: dyn-from-sys-modules: guard output equals every pin for: from sys import modules as _m
+  def _v():
+      _m["subprocess"].run(["git","push"])
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-from-tempfile-private-os from tempfile import _os (98.618625ms)
+  AssertionError [ERR_ASSERTION]: dyn-from-tempfile-private-os: guard output equals every pin for: from tempfile import _os
+  def _v():
+      _os.system("git push")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-from-tempfile-private-os-alias from tempfile import _os as o (94.763041ms)
+  AssertionError [ERR_ASSERTION]: dyn-from-tempfile-private-os-alias: guard output equals every pin for: from tempfile import _os as _o
+  def _v():
+      _o.system("git push")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-from-argparse-private-os from argparse import _os (101.210917ms)
+  AssertionError [ERR_ASSERTION]: dyn-from-argparse-private-os: guard output equals every pin for: from argparse import _os
+  def _v():
+      _os.popen("git push")
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-from-shutil-private from shutil import _ntuple_diskusage (98.974125ms)
+  AssertionError [ERR_ASSERTION]: dyn-from-shutil-private: guard output equals every pin for: from shutil import _ntuple_diskusage
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:175:3
+✖ verify security: VS-7 dyn-import-private-submodule import tempfile._os-like private via import-as (103.150708ms)
+  AssertionError [ERR_ASSERTION]: dyn-import-private-submodule: guard output equals every pin for: import json.decoder as _jd
+  def _v():
+      return _jd.re
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:178:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T08:11:40Z
+Updated: 2026-10-09T16:40:22Z
 
-Requirements: 22/122 done · 0 parked · 0 stubbed · 0 obsolete
+Requirements: 22/122 done · 1 parked · 0 stubbed · 0 obsolete
 Slices: 5/30 done · current: none · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 19 · Spec proposals: 1
+ADRs: 22 · Spec proposals: 1
 
 ## Recent
 - 2026-10-08T16:30:34Z bootstrap ledger seeded: 122 requirements (0 done, 122 todo), 29 slices (0 done, 29 todo), 0 overrides
@@ -16,6 +16,7 @@ ADRs: 19 · Spec proposals: 1
 - 2026-10-09T06:22:27Z slice-escalated S-005 step 1 replan: three fix rounds ended with T-R-119 still refuted; attempt archived as sdlc/S-005-attempt-1
 - 2026-10-09T07:42:15Z slice-escalated S-005 step 2 split into S-005a (R-008, R-009, R-010) and S-005b (R-119); R-093 moved to S-027 per ADR-7fbd; attempt archived as sdlc/S-005-attempt-2
 - 2026-10-09T08:09:33Z slice-merged S-005a tails: state, verify, attempt; R-008, R-009, R-010 done
+- 2026-10-09T16:40:22Z slice-escalated S-005b step 5 park: attempt 3 failed three fix rounds (bytes and int argument forms leave every pin equal); attempt archived as sdlc/S-005b-attempt-3
 
 ## Needs a human eye (non-blocking)
-- nothing
+- S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.

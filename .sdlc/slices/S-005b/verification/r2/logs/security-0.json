@@ -1,0 +1,410 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 2,
+  "commit": "639556c",
+  "environment": "macOS Darwin 25.6, Python 3.14.7, Node 24; push_guard.py run on scratch copies of skills/sdlc and hooks at 639556c (worktree sdlc/S-005b-v2-security-0); behavior cases use a local bare git remote only",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A push or pr create carried in a non-verb wrapper parameter breaks a pin",
+      "given": "A scratch copy of skills/sdlc and hooks at 639556c. A pinned wrapper body gains one recursive call that passes a non-verb parameter (repo or cwd) as the verb, bare or starred. A new function calls the wrapper with a pinned verb and puts the push argv in that parameter.",
+      "when": "Run push_guard.py on each of 7 mutants (next-action.py run, impact.py run and git_lines, state-write.py git, suite-receipt.py git).",
+      "then": "Each mutant breaks a pin or adds an opaque entry or a violation.",
+      "expected": "7 of 7 mutants break a pin.",
+      "actual": "0 of 7 break a pin. The body call holds only a forwarded token, so classify() and forge() hide it. The caller's verb is a pinned verb. The push argv sits in the first argument, which wrapper_call does not read.",
+      "result": "fail",
+      "specSource": "tests.md R-119 scope (forwarded token rule of fix round 2; 'A verb, program or option before the verb that is not a constant string makes the call opaque'); ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "mutant na-run-repo-list-push",
+          "inline": "def run(repo, *cmd):\n    if isinstance(repo, list):\n        return run(\".\", *repo)\n...\ndef _verify_sec(repo, b, slug):\n    return run([\"git\", \"push\", \"origin\", b], \"git\", \"show\")\n-> guard breaches: []  opaque: []  pushes: 3 (pinned)"
+        },
+        {
+          "kind": "attack",
+          "title": "mutant sw-git-repo-verb-push",
+          "inline": "def git(repo, *args, check=True):\n    if check is None:\n        return git(\".\", repo)\n...\n    return git(\"push\", \"show\", check=None)\n-> guard breaches: []"
+        },
+        {
+          "kind": "log",
+          "title": "guard results per mutant",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The next-action.py bypass pushes a verify branch to a bare remote while the guard reports no breach",
+      "given": "The na-run-repo-list-push mutant tree. A scratch repo with branch sdlc/S-001-v0-security-0 and a local bare remote as origin.",
+      "when": "Load the mutant next-action.py and call _verify_sec(None, 'sdlc/S-001-v0-security-0', None) in the scratch repo.",
+      "then": "The guard reports a breach, or the bare remote holds no verify ref.",
+      "expected": "A guard breach or a clean remote.",
+      "actual": "Guard breaches []. The bare remote holds refs/heads/sdlc/S-001-v0-security-0. Exit 0.",
+      "result": "fail",
+      "specSource": "tests.md R-119 scope (forwarded token rule of fix round 2; 'A verb, program or option before the verb that is not a constant string makes the call opaque'); ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:134",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "behavior run",
+          "inline": "### behavior na-run-repo-list-push\nbreaches: []\nopaque: []\npushes: 3 forgeViolations: 0\n$ python3 -c '<load next-action.py>; m._verify_sec(None, \"sdlc/S-001-v0-security-0\", None)'\nexit: 0\nremote refs: refs/heads/sdlc/S-001-v0-security-0"
+        },
+        {
+          "kind": "db-diff",
+          "title": "bare remote refs before and after",
+          "inline": "before: (none)\nafter:  refs/heads/sdlc/S-001-v0-security-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The state-write.py bypass pushes a verify branch to a bare remote while the guard reports no breach",
+      "given": "The sw-git-repo-starred-push mutant tree: the git body gains `if check is None: return git(\".\", *repo)`. A scratch repo with a local bare remote.",
+      "when": "Call _verify_sec(<repo>, 'sdlc/S-001-v0-security-0', None), which calls git([\"push\", \"origin\", b], \"show\", check=None).",
+      "then": "The guard reports a breach, or the bare remote holds no verify ref.",
+      "expected": "A guard breach or a clean remote.",
+      "actual": "Guard breaches []. The bare remote holds refs/heads/sdlc/S-001-v0-security-0.",
+      "result": "fail",
+      "specSource": "tests.md R-119 scope (forwarded token rule of fix round 2; 'A verb, program or option before the verb that is not a constant string makes the call opaque'); ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:144",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "behavior run",
+          "inline": "### behavior sw-git-repo-starred-push\nbreaches: []\nopaque: []\npushes: 3 forgeViolations: 0\nexit: 0\nremote refs: refs/heads/sdlc/S-001-v0-security-0"
+        },
+        {
+          "kind": "db-diff",
+          "title": "bare remote refs before and after",
+          "inline": "before: (none)\nafter:  refs/heads/sdlc/S-001-v0-security-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "os.startfile in a scanned script breaks a pin",
+      "given": "janitor.py gains `os.startfile(\"push.bat\")` in a new function.",
+      "when": "Run push_guard.py on the copy.",
+      "then": "The direct or dynamic pin changes.",
+      "expected": "A pin breaks.",
+      "actual": "Every pin stays equal. is_process() does not list os.startfile. The call starts a process on Windows only.",
+      "result": "fail",
+      "specSource": "ADR-20261009-062930-decision-judge-S-005-388e: a new process call that leaves the output equal to the pins refutes R-119",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:154",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "mutant",
+          "inline": "def _verify_sec(repo, b, slug):\n    os.startfile(\"push.bat\")\n-> guard breaches: []"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "80 push, forge, process, network and loop forms each break a pin",
+      "given": "One mutant per form: 21 push spellings (VS-2), 21 forge forms (VS-3), 30 process and network forms (VS-4), 8 sdlc-loop.js forms (VS-5).",
+      "when": "Run push_guard.py on each mutant.",
+      "then": "Each mutant breaks a pin.",
+      "expected": "80 of 80 break a pin.",
+      "actual": "80 of 80 break a pin.",
+      "result": "pass",
+      "specSource": "tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:244",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "per-mutant breaches",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Corpus values before push in a wrapper call each break a pin",
+      "given": "The first 40 argv-safe entries of the flag-like-values, injection and unicode-whitespace corpus families.",
+      "when": "Put each value before \"push\" in a state-write.py git call and run the guard.",
+      "then": "Each mutant breaks a pin.",
+      "expected": "40 of 40.",
+      "actual": "40 of 40 break a pin.",
+      "result": "pass",
+      "specSource": "tests.md R-119 scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:252",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "corpus breaches",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A new script type, a symlink or a latin-1 source breaks a pin",
+      "given": "hooks/x.sh, skills/sdlc/x.mjs, x.cjs, a file with no extension, a latin-1 janitor.py, a symlinked directory and a symlinked file.",
+      "when": "Run push_guard.py on each tree.",
+      "then": "Each tree breaks the files, extensions or opaque pin.",
+      "expected": "7 of 7.",
+      "actual": "7 of 7 break a pin.",
+      "result": "pass",
+      "specSource": "tests.md R-119 scope (scanned files, symlink opaque, encoding opaque)",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:262",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "file kind breaches",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-8",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The unmutated tree equals every pin",
+      "given": "A clean copy of skills/sdlc and hooks at 639556c.",
+      "when": "Run push_guard.py.",
+      "then": "No breach.",
+      "expected": "breaches [].",
+      "actual": "breaches []. pushes holds the 3 reviewed state-write.py pushes.",
+      "result": "pass",
+      "specSource": "T-R-119a, T-R-119b",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:286",
+      "command": "VERIFY_REPO=<worktree at 639556c> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "clean tree",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "A-1",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "next-action.py run body: run(\".\", *repo); caller run([\"git\",\"push\",\"origin\",b], \"git\", \"show\")",
+      "expected": "pin breaks",
+      "observed": "all pins equal; a real push lands on a bare remote",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-2",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "next-action.py run body: run(\".\", *repo); caller run([\"gh\",\"pr\",\"create\",\"--fill\",\"--head\",b], \"git\", \"show\")",
+      "expected": "forge violation",
+      "observed": "all pins equal",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-3",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "impact.py git_lines body: run(repo, \".\"); caller git_lines([\"diff\"], [\"git\",\"push\",\"origin\",b])",
+      "expected": "pin breaks",
+      "observed": "all pins equal",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-4",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "impact.py run body: run(cwd, \".\"); caller run([\"git\",\"diff\"], [\"git\",\"push\",\"origin\",b])",
+      "expected": "pin breaks",
+      "observed": "all pins equal",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-5",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "state-write.py git body: git(\".\", *repo); caller git([\"push\",\"origin\",b], \"show\", check=None)",
+      "expected": "pin breaks",
+      "observed": "all pins equal; a real push lands on a bare remote",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-6",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "state-write.py git body: git(\".\", repo); caller git(\"push\", \"show\", check=None)",
+      "expected": "pin breaks",
+      "observed": "all pins equal",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-7",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "suite-receipt.py git body: git(\".\", *repo); caller git([\"push\",\"origin\",b], \"ls-tree\")",
+      "expected": "pin breaks",
+      "observed": "all pins equal",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:110"
+    },
+    {
+      "id": "A-8",
+      "charter": "Explore the push guard with forwarded wrapper parameters to find a push the guard hides",
+      "input": "suite-receipt.py git body: git(\".\", repo) when no args; caller git(\"push\")",
+      "expected": "pin breaks",
+      "observed": "wrapperVerbs gains 'suite-receipt.py git ' (held only because the caller has no pinned verb)",
+      "result": "held",
+      "test": "manual probe"
+    },
+    {
+      "id": "A-9",
+      "charter": "Explore process APIs with names outside is_process() to find a process call the guard misses",
+      "input": "os.startfile(\"push.bat\") in janitor.py",
+      "expected": "direct pin breaks",
+      "observed": "all pins equal",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:154"
+    },
+    {
+      "id": "A-10",
+      "charter": "Explore push spellings outside T-R-119e",
+      "input": "starred tuple, f-string, bytes decode, % format, join, Alias upper case, one-string verb, tab and NBSP in -C, --git-dir=, send-pack, subtree push, keyword repo, dict splat, direct tuple, args=, check_output, /usr/bin/git, env, sh -c, xargs",
+      "expected": "pin breaks",
+      "observed": "each breaks pushes, opaque, direct or wrapperVerbs",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "A-11",
+      "charter": "Explore forge write forms",
+      "input": "-Xpost, --method=PATCH, --raw-field=, -F attached, --input after path, pr Create, pr new, pr merge, alias set, user alias, glab mr create, GraphQL, method override header, -X after path, %6C path, --hostname, /usr/local/bin/gh, --repo=, -R attached, --, workflow run",
+      "expected": "violation or pin change",
+      "observed": "each breaks forge, forgeViolations, wrapperVerbs or opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "A-12",
+      "charter": "Explore aliases, attribute chains and values",
+      "input": "os alias, getoutput alias, execvpe, shutil.os, tempfile._os, tempfile.os, branches.subprocess, branches.os, globmod.os, glob.os, mimetypes.os, hub.subprocess, hub.socketserver, socketserver.socket, ThreadingHTTPServer(), urllib.request.Request, getattr built name, operator.attrgetter, webbrowser, smtplib, urlopen alias, http.client, platform.os, forkpty, lambda default, decorator, metaclass, with Popen, annotation default, match capture, second def run, __builtins__",
+      "expected": "pin breaks",
+      "observed": "each breaks a pin",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "A-13",
+      "charter": "Explore sdlc-loop.js banned identifiers",
+      "input": "globalThis bracket, \\u0070rocess, im\\u{70}ort, \"global\", `global`, 'global'['constructor'], CR line, U+2028 line",
+      "expected": "jsHits or jsAllowed changes",
+      "observed": "each changes jsHits or jsAllowed",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:244"
+    },
+    {
+      "id": "A-14",
+      "charter": "Explore corpus values as git options before push",
+      "input": "40 entries of flag-like-values, injection, unicode-whitespace",
+      "expected": "pin breaks",
+      "observed": "40 of 40 break a pin",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:252"
+    },
+    {
+      "id": "A-15",
+      "charter": "Explore new file kinds in the scanned tree",
+      "input": "x.sh, x.mjs, x.cjs, no extension, latin-1 coding line, symlinked dir and file",
+      "expected": "pin breaks",
+      "observed": "7 of 7 break a pin",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:262"
+    },
+    {
+      "id": "A-16",
+      "charter": "Explore pure-module reflection",
+      "input": "getattr(shutil, \"os\").system(...) in janitor.py; sys.modules[\"os\"].system(...) in hub.py",
+      "expected": "pin breaks",
+      "observed": "all pins equal",
+      "result": "out-of-scope",
+      "test": "manual probe"
+    },
+    {
+      "id": "A-17",
+      "charter": "Explore git config through -c with constant values",
+      "input": "git(repo, \"-c\", \"remote.origin.mirror=true\", \"fetch\"); git(repo, \"fetch\", \"ext::sh -c ...\")",
+      "expected": "pin breaks",
+      "observed": "all pins equal; wrapperVerbs git fetch is pinned",
+      "result": "out-of-scope",
+      "test": "manual probe"
+    },
+    {
+      "id": "A-18",
+      "charter": "Explore JS string building with no banned identifier",
+      "input": "'\\x70rocess', '\\160rocess', 'pro'+'cess', String.fromCharCode, (()=>{}).constructor, Reflect.get(this), module.createRequire, zero-width and Cyrillic names",
+      "expected": "jsHits",
+      "observed": "all pins equal; none of these reach a process alone",
+      "result": "out-of-scope",
+      "test": "manual probe"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "getattr on a pure module reaches os",
+      "detail": "getattr(shutil, \"os\").system(...) leaves every pin equal. The getattr rule fires only when the target is a watched module. ADR-388e S3 covers attribute walks, so this is a seed.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "git -c with constant config values and ext:: transport",
+      "detail": "-c accepts any constant key except alias.*. Keys such as core.hooksPath, core.sshCommand or protocol.ext.allow change what a pinned verb (fetch, commit) runs. A constant ext:: URL on a pinned fetch runs a command when the protocol is allowed. S2 territory.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "JS global object through a constructor walk",
+      "detail": "(()=>{}).constructor plus a built string such as 'pro'+'cess' reaches process with no banned identifier. S3 seed already named in tests.md.",
+      "file": "skills/sdlc/sdlc-loop.js"
+    }
+  ]
+}

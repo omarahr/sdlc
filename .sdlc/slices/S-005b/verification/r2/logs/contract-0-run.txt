@@ -1,0 +1,353 @@
+{"mode": "r1", "seed": 20261009, "runs": 1000, "python": "3.14.7", "kinds": {"fstring-leading-var": {"runs": 64, "hits": 64}, "format-call": {"runs": 66, "hits": 66}, "join-call": {"runs": 71, "hits": 71}, "str-call": {"runs": 75, "hits": 75}, "whitespace-pad": {"runs": 69, "hits": 69}, "two-tokens": {"runs": 63, "hits": 63}, "strip-call": {"runs": 57, "hits": 57}, "starred-list": {"runs": 70, "hits": 70}, "concat-const": {"runs": 49, "hits": 49}, "const": {"runs": 64, "hits": 64}, "variable": {"runs": 65, "hits": 65}, "confusable-dash": {"runs": 69, "hits": 16}, "percent": {"runs": 79, "hits": 79}, "concat-var-first": {"runs": 63, "hits": 63}, "fstring-leading-expr": {"runs": 76, "hits": 76}}, "failureCount": 0, "failures": [], "observations": [{"run": 23, "kind": "confusable-dash", "call": "git(repo, 'fetch', 'origin', '\u2013config=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}, {"run": 68, "kind": "confusable-dash", "call": "git(repo, 'commit', 'origin', '\u2012upl=git push origin sdlc/S-001-v0-cli-0;:', check=False)"}]}
+changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-T0JCMc/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-dkzd2k/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-T0JCMc/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-T0JCMc/loadcall-3/result.json
+exit: 0 (165 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-T0JCMc/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-T0JCMc/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-dkzd2k/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-T0JCMc/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z0NKiS/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-Kce46g/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z0NKiS/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z0NKiS/loadcall-3/result.json
+exit: 0 (170 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z0NKiS/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z0NKiS/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-Kce46g/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z0NKiS/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-loaSVB/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-D8v2GO/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-loaSVB/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-loaSVB/loadcall-3/result.json
+exit: 0 (172 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-loaSVB/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-loaSVB/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-D8v2GO/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-loaSVB/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-lpX4g2/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-H1kYzd/skills/sdlc/next-action.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-lpX4g2/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-lpX4g2/loadcall-3/result.json
+exit: 0 (178 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-lpX4g2/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-lpX4g2/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-H1kYzd/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-lpX4g2/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-jCmeVZ/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-cjr9PB/skills/sdlc/next-action.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-jCmeVZ/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-jCmeVZ/loadcall-3/result.json
+exit: 0 (179 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-jCmeVZ/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-jCmeVZ/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-cjr9PB/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-jCmeVZ/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+entries: 91; option entries: 37; value entries: 28
+impact.py git diff
+impact.py git diff --name-only
+impact.py git ls-files
+impact.py git value main f'{a.base}...{a.head}'
+impact.py go list
+impact.py go list -f
+next-action.py gh pr list
+next-action.py gh value load_prs PR_FIELDS
+next-action.py git branch
+next-action.py git branch --show-current
+next-action.py git fetch
+next-action.py git fetch -q
+next-action.py git for-each-ref
+next-action.py git for-each-ref --format
+next-action.py git merge-base
+next-action.py git merge-base --is-ancestor
+next-action.py git rev-parse
+next-action.py git rev-parse --verify
+next-action.py git rev-parse -q
+next-action.py git show
+next-action.py git value Source.read f'{self.branch}:{rel}'
+next-action.py git value decide default
+next-action.py git value decide f'origin/{default}'
+next-action.py git value decide f'refs/remotes/origin/{default}'
+state-write.py git add
+state-write.py git branch
+state-write.py git branch --show-current
+state-write.py git branch -d
+state-write.py git checkout
+state-write.py git checkout --no-track
+state-write.py git checkout -b
+state-write.py git checkout -q
+state-write.py git commit
+state-write.py git commit -m
+state-write.py git commit -q
+state-write.py git diff
+state-write.py git diff --cached
+state-write.py git diff --name-only
+state-write.py git diff --quiet
+state-write.py git fetch
+state-write.py git fetch --prune
+state-write.py git fetch -q
+state-write.py git for-each-ref
+state-write.py git for-each-ref --format
+state-write.py git ls-tree
+state-write.py git ls-tree --
+state-write.py git merge
+state-write.py git merge --abort
+state-write.py git merge --ff-only
+state-write.py git merge --no-edit
+state-write.py git merge -q
+state-write.py git merge-base
+state-write.py git push
+state-write.py git push --force-with-lease
+state-write.py git push -q
+state-write.py git push -u
+state-write.py git rev-parse
+state-write.py git rev-parse --absolute-git-dir
+state-write.py git rev-parse --quiet
+state-write.py git rev-parse --short
+state-write.py git rev-parse --verify
+state-write.py git rev-parse -q
+state-write.py git show
+state-write.py git update-ref
+state-write.py git update-ref -d
+state-write.py git value advance_run_branch run
+state-write.py git value advance_run_branch upstream
+state-write.py git value branch_exists f'refs/heads/{name}'
+state-write.py git value branch_run f'{branch}:.sdlc/config.json'
+state-write.py git value ensure_milestone_branch want
+state-write.py git value ensure_slice_branch base
+state-write.py git value ensure_slice_branch f'refs/remotes/origin/{base}'
+state-write.py git value ensure_slice_branch want
+state-write.py git value patch_slice subject(config, 'chore', f"state {slice_id} {' '.join(sorted(patch))} [{slice_id}]")
+state-write.py git value prune_stale_milestone_branches branch
+state-write.py git value prune_stale_milestone_branches f'--force-with-lease=refs/heads/{branch}:{lease}'
+state-write.py git value prune_stale_milestone_branches f':{branch}'
+state-write.py git value prune_stale_milestone_branches f'refs/heads/{branch}'
+state-write.py git value prune_stale_milestone_branches sha
+state-write.py git value prune_stale_milestone_branches upstream
+state-write.py git value remote_sha_to_lease f'refs/remotes/origin/{branch}'
+state-write.py git value shipped_into branch
+state-write.py git value shipped_into default
+state-write.py git value shipped_into forked.stdout.strip()
+state-write.py git value shipped_into path
+state-write.py git worktree
+state-write.py git worktree --porcelain
+suite-receipt.py git ls-tree
+suite-receipt.py git rev-parse
+suite-receipt.py git value code_id ref
+suite-receipt.py git value main a.ref
+{"mode": "r2", "seed": 20261009, "runs": 1000, "python": "3.14.7", "kinds": {"bytes-decode": {"runs": 72, "hits": 72}, "starred-const-tuple": {"runs": 67, "hits": 67}, "newline-pad": {"runs": 87, "hits": 87}, "ifexp": {"runs": 92, "hits": 92}, "fspath": {"runs": 84, "hits": 84}, "subscript": {"runs": 86, "hits": 86}, "bytes-two-tokens": {"runs": 110, "hits": 24}, "walrus": {"runs": 76, "hits": 76}, "tab-pad": {"runs": 79, "hits": 79}, "starred-const-list": {"runs": 76, "hits": 76}, "bytes-const": {"runs": 92, "hits": 16}, "nbsp-pad": {"runs": 79, "hits": 79}}, "failureCount": 162, "failures": [{"run": 11, "kind": "bytes-two-tokens", "file": "skills/sdlc/state-write.py", "call": "git(repo, 'checkout', 'origin', b'-u', b'git push origin sdlc/S-001-v0-cli-0;:', check=False)", "changed": []}, {"run": 21, "kind": "bytes-const", "file": "skills/sdlc/suite-receipt.py", "call": "git(repo, 'rev-parse', 'origin', b'--config=git push origin sdlc/S-001-v0-cli-0;:')", "changed": []}], "observations": []}
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-hWGR46/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-77N7zW/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-hWGR46/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-hWGR46/loadcall-3/result.json
+exit: 0 (173 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-hWGR46/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-hWGR46/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-77N7zW/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-hWGR46/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-CJbzdh/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-259PWH/skills/sdlc/state-write.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-CJbzdh/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-CJbzdh/loadcall-3/result.json
+exit: 0 (173 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-CJbzdh/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-CJbzdh/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-259PWH/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-CJbzdh/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-nj7UIa/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-1TCD8L/skills/sdlc/suite-receipt.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-nj7UIa/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-nj7UIa/loadcall-3/result.json
+exit: 1 (170 ms)
+--- stdout
+
+--- stderr
+Traceback (most recent call last):
+  File "/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py", line 33, in main
+    value = fn(*json.loads(args_json))
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-1TCD8L/skills/sdlc/suite-receipt.py", line 226, in _verify_mutant
+    return bool(git(repo, "fetch", "origin", b"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:"))
+                ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-1TCD8L/skills/sdlc/suite-receipt.py", line 54, in git
+    raise SystemExit(json.dumps({"ok": False, "valid": False, "error": f"git {' '.join(args)}: {r.stderr.strip()}"}))
+                                                                              ~~~~~~~~^^^^^^
+TypeError: sequence item 2: expected str instance, bytes found
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-nj7UIa/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-nj7UIa/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-1TCD8L/skills/sdlc/suite-receipt.py
+outcome: exception TypeError: sequence item 2: expected str instance, bytes found
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-nj7UIa/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+changed keys: <none>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z4NjRW/cwd-4
+$ python3 -I /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v2-contract-0/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-gEiSmh/skills/sdlc/next-action.py _verify_mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z4NjRW/repo-2"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z4NjRW/loadcall-3/result.json
+exit: 0 (170 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z4NjRW/cwd-4 (unchanged)
+--- call _verify_mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z4NjRW/repo-2") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-contract-gEiSmh/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-Z1Uu9R/testkit-cli-z4NjRW/remote-1
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-cli-0
+refs added: refs/heads/sdlc/S-001-v0-cli-0
+✔ verify contract TC-contract-29 VS-13: a literal option after a known wrapper verb, in any spelling, changes wrapperVerbs, opaque or pushes (property) (6487.684167ms)
+✔ verify contract TC-contract-30 VS-13: m1 f-string with a leading expression in state-write.py pushes a verify branch only when the guard flags it (668.841792ms)
+✔ verify contract TC-contract-30 VS-13: m2 strip call in state-write.py pushes a verify branch only when the guard flags it (542.0105ms)
+✔ verify contract TC-contract-30 VS-13: format call in state-write.py pushes a verify branch only when the guard flags it (534.965458ms)
+✔ verify contract TC-contract-30 VS-13: m3 str call in next-action.py pushes a verify branch only when the guard flags it (537.389542ms)
+✔ verify contract TC-contract-30 VS-13: join call in next-action.py pushes a verify branch only when the guard flags it (551.4825ms)
+✔ verify contract TC-contract-31 VS-13: the clean tree has no opaque entry and no command-running option in wrapperVerbs (0.559458ms)
+✖ verify contract TC-contract-35 VS-13: more literal option spellings after a known wrapper verb change wrapperVerbs, opaque or pushes (property) (6384.491875ms)
+✖ verify contract TC-contract-36 VS-13: bytes option on fetch in state-write.py pushes a verify branch only when the guard flags it (542.917334ms)
+✖ verify contract TC-contract-36 VS-13: bytes option split in two tokens on fetch in state-write.py pushes a verify branch only when the guard flags it (538.887625ms)
+✔ verify contract TC-contract-36 VS-13: bytes option on fetch in suite-receipt.py pushes a verify branch only when the guard flags it (529.765667ms)
+✖ verify contract TC-contract-36 VS-13: bytes option on fetch in next-action.py pushes a verify branch only when the guard flags it (533.555916ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 8
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18057.644125
+
+✖ failing tests:
+
+test at tests/contract-0/options.verify-contract.test.mjs:86:1
+✖ verify contract TC-contract-35 VS-13: more literal option spellings after a known wrapper verb change wrapperVerbs, opaque or pushes (property) (6384.491875ms)
+  AssertionError [ERR_ASSERTION]: [
+   {
+    "run": 11,
+    "kind": "bytes-two-tokens",
+    "file": "skills/sdlc/state-write.py",
+    "call": "git(repo, 'checkout', 'origin', b'-u', b'git push origin sdlc/S-001-v0-cli-0;:', check=False)",
+    "changed": []
+   },
+   {
+    "run": 21,
+    "kind": "bytes-const",
+    "file": "skills/sdlc/suite-receipt.py",
+    "call": "git(repo, 'rev-parse', 'origin', b'--config=git push origin sdlc/S-001-v0-cli-0;:')",
+    "changed": []
+   }
+  ]
+  
+  162 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:88:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 162,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/contract-0/options.verify-contract.test.mjs:99:3
+✖ verify contract TC-contract-36 VS-13: bytes option on fetch in state-write.py pushes a verify branch only when the guard flags it (542.917334ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at mutantCase (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:51:10)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:100:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/contract-0/options.verify-contract.test.mjs:99:3
+✖ verify contract TC-contract-36 VS-13: bytes option split in two tokens on fetch in state-write.py pushes a verify branch only when the guard flags it (538.887625ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at mutantCase (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:51:10)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:100:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/contract-0/options.verify-contract.test.mjs:99:3
+✖ verify contract TC-contract-36 VS-13: bytes option on fetch in next-action.py pushes a verify branch only when the guard flags it (533.555916ms)
+  AssertionError [ERR_ASSERTION]: guard output equals the clean output and the remote holds sdlc/S-001-v0-cli-0
+      at mutantCase (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:51:10)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:100:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

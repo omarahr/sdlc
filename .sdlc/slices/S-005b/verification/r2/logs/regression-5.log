@@ -1,0 +1,36 @@
+✔ verify security: TC-security-1 a push or pr create carried in a non-verb wrapper parameter breaks a pin (694.4025ms)
+✔ verify security: TC-security-2 the next-action.py mutant pushes a verify branch while the guard reports no breach (494.080625ms)
+✔ verify security: TC-security-3 the state-write.py mutant pushes a verify branch while the guard reports no breach (411.61675ms)
+✖ verify security: TC-security-4 os.startfile in a scanned script breaks a pin (93.183167ms)
+✔ verify security: TC-security-5 each held push, forge, process, network and loop form breaks a pin (7964.589917ms)
+✔ verify security: TC-security-6 a corpus value before push in a wrapper call breaks a pin (3404.597292ms)
+✔ verify security: TC-security-7 a new script type, a symlink or a latin-1 source breaks a pin (706.722625ms)
+✔ verify security: TC-security-8 the unmutated tree equals every pin (96.980375ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14091.017791
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:154:1
+✖ verify security: TC-security-4 os.startfile in a scanned script breaks a pin (93.183167ms)
+  AssertionError [ERR_ASSERTION]: os.startfile left every pin equal
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r2/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard.verify-security.test.mjs:156:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

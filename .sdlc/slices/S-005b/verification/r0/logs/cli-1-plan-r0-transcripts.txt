@@ -1,0 +1,1193 @@
+push_guard.py verify-cli plan r0 transcripts, root /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run
+
+=== TC-cli-1 scanned files (17)
+hooks/hooks.json
+hooks/live-poke.py
+skills/sdlc/SKILL.md
+skills/sdlc/branches.py
+skills/sdlc/git-modes.json
+skills/sdlc/impact.py
+skills/sdlc/janitor.py
+skills/sdlc/next-action.py
+skills/sdlc/sdlc-loop.js
+skills/sdlc/state-write.py
+skills/sdlc/ste-check.py
+skills/sdlc/suite-receipt.py
+skills/sdlc/tracker/collect.py
+skills/sdlc/tracker/hub.py
+skills/sdlc/tracker/reports.py
+skills/sdlc/tracker/template.html
+skills/sdlc/tracker/workflow.py
+guard on the real tip: exit 0, 93 ms
+
+=== TC-cli-2 new .sh under skills/sdlc
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-5
+exit: 0 (91 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + skills/sdlc/x.sh
+
+=== TC-cli-2 new .sh under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-7
+exit: 0 (89 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + hooks/x.sh
+
+=== TC-cli-2 new .mjs under skills/sdlc
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-9
+exit: 0 (90 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + skills/sdlc/x.mjs
+
+=== TC-cli-2 new .cjs under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-11
+exit: 0 (91 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + hooks/x.cjs
+
+=== TC-cli-2 new .ts under tracker
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-13
+exit: 0 (90 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + skills/sdlc/tracker/x.ts
+
+=== TC-cli-2 new extension-less executable under skills/sdlc
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-15
+exit: 0 (93 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + skills/sdlc/pre-push
+
+=== TC-cli-2 new extension-less executable under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-17
+exit: 0 (92 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + hooks/post-checkout
+
+=== TC-cli-2 new .pl under skills/sdlc
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-19
+exit: 0 (91 ms) tree unchanged: true
+changed keys: files
+  files (17 -> 18)
+    + skills/sdlc/x.pl
+
+=== TC-cli-2 symlink to a directory under skills/sdlc
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-21
+exit: 0 (90 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + skills/sdlc/lib symlink
+
+=== TC-cli-2 symlink to a directory under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-23
+exit: 0 (90 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + hooks/lib symlink
+
+=== TC-cli-2 symlink to a file under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-25
+exit: 0 (92 ms) tree unchanged: true
+changed keys: files, imports, direct, pushes, opaque
+  files (17 -> 18)
+    + hooks/y.py
+  imports (22 -> 23)
+    + hooks/y.py import subprocess
+  direct (11 -> 12)
+    + hooks/y.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  pushes (3 -> 4)
+    + hooks/y.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  opaque (0 -> 1)
+    + hooks/y.py symlink
+
+=== TC-cli-2 symlink to a file under skills/sdlc/tracker
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-27
+exit: 0 (91 ms) tree unchanged: true
+changed keys: files, opaque
+  files (17 -> 18)
+    + skills/sdlc/tracker/y.sh
+  opaque (0 -> 1)
+    + skills/sdlc/tracker/y.sh symlink
+
+=== TC-cli-2 wrapper file replaced by a symlink
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-29
+exit: 0 (91 ms) tree unchanged: true
+changed keys: opaque
+  opaque (0 -> 1)
+    + skills/sdlc/state-write.py symlink
+
+=== TC-cli-2 latin-1 coding line on janitor.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-32
+exit: 0 (91 ms) tree unchanged: true
+changed keys: imports, direct, opaque
+  imports (22 -> 20)
+    - janitor.py import os
+    - janitor.py import subprocess
+  direct (11 -> 8)
+    - janitor.py sweep_branches subprocess.run(['git', '-C', repo, 'branch', '-D', name], capture_output=True, text=True)
+    - janitor.py sweep_branches subprocess.run(['git', '-C', repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads'], capture_output=True, text=True)
+    - janitor.py sweep_branches subprocess.run(['git', '-C', repo, 'worktree', 'prune'], capture_output=True, text=True)
+  opaque (0 -> 1)
+    + skills/sdlc/janitor.py parse encoding iso-8859-1
+
+=== TC-cli-2 latin-1 coding line on a new file under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-34
+exit: 0 (91 ms) tree unchanged: true
+changed keys: files, opaque
+  files (17 -> 18)
+    + hooks/x.py
+  opaque (0 -> 1)
+    + hooks/x.py parse encoding iso-8859-1
+
+=== TC-cli-2 cp1252 coding line on suite-receipt.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-36
+exit: 0 (92 ms) tree unchanged: true
+changed keys: imports, direct, wrapperBodies, wrapperVerbs, opaque
+  imports (22 -> 20)
+    - suite-receipt.py import os
+    - suite-receipt.py import subprocess
+  direct (11 -> 10)
+    - suite-receipt.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True)
+  wrapperBodies (5 -> 4)
+    - suite-receipt.py git def git ( repo , * args ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if r . returncode != 0 : raise SystemExit ( json . dumps ( { "ok" : False , "valid" : False , "error" : f"git {' '.join(args)}: {r.stderr.strip()}" } ) ) r
+  wrapperVerbs (91 -> 87)
+    - suite-receipt.py git ls-tree
+    - suite-receipt.py git rev-parse
+    - suite-receipt.py git value code_id ref
+    - suite-receipt.py git value main a.ref
+  opaque (0 -> 1)
+    + skills/sdlc/suite-receipt.py parse encoding cp1252
+
+=== TC-cli-2 invalid UTF-8 byte 0xff in a new .py under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-38
+exit: 0 (92 ms) tree unchanged: true
+changed keys: files, opaque
+  files (17 -> 18)
+    + hooks/x.py
+  opaque (0 -> 1)
+    + hooks/x.py parse SyntaxError
+
+=== TC-cli-2 invalid UTF-8 byte 0xc3 0x28 in a new .py under skills/sdlc/tracker
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-40
+exit: 0 (92 ms) tree unchanged: true
+changed keys: files, opaque
+  files (17 -> 18)
+    + skills/sdlc/tracker/x.py
+  opaque (0 -> 1)
+    + skills/sdlc/tracker/x.py parse SyntaxError
+
+=== TC-cli-2 NUL byte in a new .py under hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-42
+exit: 0 (91 ms) tree unchanged: true
+changed keys: files, opaque
+  files (17 -> 18)
+    + hooks/x.py
+  opaque (0 -> 1)
+    + hooks/x.py parse SyntaxError
+
+=== TC-cli-2 NUL byte in branches.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-44
+exit: 0 (87 ms) tree unchanged: true
+changed keys: imports, direct, opaque
+  imports (22 -> 20)
+    - branches.py import os
+    - branches.py import subprocess
+  direct (11 -> 10)
+    - branches.py validate_format subprocess.run(['git', 'check-ref-format', '--branch', candidate], capture_output=True, text=True, errors='replace')
+  opaque (0 -> 1)
+    + skills/sdlc/branches.py parse SyntaxError
+
+=== TC-cli-2 invalid UTF-8 byte in impact.py
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-46
+exit: 0 (88 ms) tree unchanged: true
+changed keys: imports, direct, wrapperBodies, wrapperVerbs, opaque
+  imports (22 -> 20)
+    - impact.py import os
+    - impact.py import subprocess
+  direct (11 -> 10)
+    - impact.py run subprocess.run(args, cwd=cwd, capture_output=True, text=True)
+  wrapperBodies (5 -> 3)
+    - impact.py git_lines def git_lines ( args , repo ) : try : r = run ( [ "git" ] + args , repo ) except OSError : return None return r . stdout . splitlines ( ) if r . returncode == 0 else None
+    - impact.py run def run ( args , cwd ) : return subprocess . run ( args , cwd = cwd , capture_output = True , text = True )
+  wrapperVerbs (91 -> 85)
+    - impact.py git diff
+    - impact.py git diff --name-only
+    - impact.py git ls-files
+    - impact.py git value main f'{a.base}...{a.head}'
+    - impact.py go list
+    - impact.py go list -f
+  opaque (0 -> 1)
+    + skills/sdlc/impact.py parse SyntaxError
+
+=== TC-cli-2 new BOM Python file with a push
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-48
+exit: 0 (93 ms) tree unchanged: true
+changed keys: files, imports, direct, pushes
+  files (17 -> 18)
+    + skills/sdlc/x.py
+  imports (22 -> 23)
+    + x.py import subprocess
+  direct (11 -> 12)
+    + x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+  pushes (3 -> 4)
+    + x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-http-api-0'])
+
+=== TC-cli-2 BOM on state-write.py with a new verify push
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-50
+exit: 0 (92 ms) tree unchanged: true
+changed keys: pushes
+  pushes (3 -> 4)
+    + state-write.py _m git(repo, 'push', 'origin', 'sdlc/S-001-v0-http-api-0')
+
+=== TC-cli-2 BOM only on the four wrapper files (control)
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-52
+exit: 0 (91 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-3 dangling symlink in hooks
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-54
+exit: 1 (38 ms)
+  stderr tail: FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-54/hooks/dangling.py'
+
+=== TC-cli-3 symlink loop in skills/sdlc
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-56
+exit: 0 (85 ms) tree unchanged: true
+changed keys: files, opaque
+  files (17 -> 18)
+    + skills/sdlc/loop
+  opaque (0 -> 1)
+    + skills/sdlc/loop symlink
+
+=== TC-cli-4 (seed S5) push scripts in test, fixtures and prompts directories
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-58
+exit: 0 (92 ms) tree unchanged: true
+changed keys: <none>
+
+=== TC-cli-5 gh pr list through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-60
+exit: 0 (93 ms) tree unchanged: true
+changed keys: forge
+  forge (1 -> 2)
+    + next-action.py _verify_read gh pr list
+
+=== TC-cli-5 gh pr view through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-62
+exit: 0 (98 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh pr view
+  forge (1 -> 2)
+    + next-action.py _verify_read gh pr view
+
+=== TC-cli-5 gh api GET through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-64
+exit: 0 (92 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api repos/o/r/rules/branches/main
+
+=== TC-cli-5 gh api with no method through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-66
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api repos/o/r/rules/branches/main
+
+=== TC-cli-5 glab mr list through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-68
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs (91 -> 92)
+    + next-action.py glab mr list
+  forge (1 -> 2)
+    + next-action.py _verify_read glab mr list
+
+=== TC-cli-5 glab api push_rule through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-70
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs (91 -> 92)
+    + next-action.py glab api
+  forge (1 -> 2)
+    + next-action.py _verify_read glab api projects/:fullpath/push_rule
+
+=== TC-cli-5 gh pr list at a new direct site
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-72
+exit: 0 (90 ms) tree unchanged: true
+changed keys: direct, forge
+  direct (11 -> 12)
+    + branches.py _verify_read subprocess.run(['gh', 'pr', 'list', '--json', 'number'], capture_output=True, text=True)
+  forge (1 -> 2)
+    + branches.py _verify_read gh pr list
+
+=== TC-cli-5 gh api GET at a new direct site
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-74
+exit: 0 (91 ms) tree unchanged: true
+changed keys: direct, forge
+  direct (11 -> 12)
+    + branches.py _verify_read subprocess.run(['gh', 'api', '-X', 'GET', f'repos/{slug}/rules/branches/main'], capture_output=True, text=True)
+  forge (1 -> 2)
+    + branches.py _verify_read gh api repos/
+
+=== TC-cli-5 glab api GET at a new direct site
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-76
+exit: 0 (92 ms) tree unchanged: true
+changed keys: direct, forge
+  direct (11 -> 12)
+    + branches.py _verify_read subprocess.run(['glab', 'api', 'projects/x/push_rule'], capture_output=True, text=True)
+  forge (1 -> 2)
+    + branches.py _verify_read glab api projects/x/push_rule
+
+=== TC-cli-6 gh api graphql through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-78
+exit: 0 (89 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api graphql
+  forgeViolations (0 -> 2)
+    + next-action.py _verify_read run(repo, 'gh', 'api', 'graphql', '-f', 'query=query{viewer{login}}') -- field -f
+    + next-action.py _verify_read run(repo, 'gh', 'api', 'graphql', '-f', 'query=query{viewer{login}}') -- path holds graphql
+
+=== TC-cli-6 gh api -X GET graphql through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-80
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _verify_read run(repo, 'gh', 'api', '-X', 'GET', 'graphql') -- path holds graphql
+
+=== TC-cli-6 gh api /graphql through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-82
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api /graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _verify_read run(repo, 'gh', 'api', '/graphql') -- path holds graphql
+
+=== TC-cli-6 glab api graphql through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-84
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py glab api
+  forge (1 -> 2)
+    + next-action.py _verify_read glab api graphql
+  forgeViolations (0 -> 1)
+    + next-action.py _verify_read run(repo, 'glab', 'api', 'graphql') -- path holds graphql
+
+=== TC-cli-6 gh api graphql at a direct site
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-86
+exit: 0 (86 ms) tree unchanged: true
+changed keys: direct, forge, forgeViolations
+  direct (11 -> 12)
+    + branches.py _verify_read subprocess.run(['gh', 'api', 'graphql'], capture_output=True, text=True)
+  forge (1 -> 2)
+    + branches.py _verify_read gh api graphql
+  forgeViolations (0 -> 1)
+    + branches.py _verify_read subprocess.run(['gh', 'api', 'graphql'], capture_output=True, text=True) -- path holds graphql
+
+=== TC-cli-6 gh pr create through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-88
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh pr create
+  forge (1 -> 2)
+    + next-action.py _verify_read gh pr create
+  forgeViolations (0 -> 1)
+    + next-action.py _verify_read run(repo, 'gh', 'pr', 'create', '--head', 'x') -- verb pr create
+
+=== TC-cli-6 glab mr create through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-90
+exit: 0 (90 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py glab mr create
+  forge (1 -> 2)
+    + next-action.py _verify_read glab mr create
+  forgeViolations (0 -> 1)
+    + next-action.py _verify_read run(repo, 'glab', 'mr', 'create') -- verb mr create
+
+=== TC-cli-6 gh api -X POST through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-92
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api repos/o/r/pulls
+  forgeViolations (0 -> 2)
+    + next-action.py _verify_read run(repo, 'gh', 'api', '-X', 'POST', 'repos/o/r/pulls') -- method POST
+    + next-action.py _verify_read run(repo, 'gh', 'api', '-X', 'POST', 'repos/o/r/pulls') -- path holds pulls
+
+=== TC-cli-6 gh api -f head= through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-94
+exit: 0 (90 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api repos/o/r/pulls
+  forgeViolations (0 -> 2)
+    + next-action.py _verify_read run(repo, 'gh', 'api', 'repos/o/r/pulls', '-f', 'head=sdlc/S-001-v0-http-api-0') -- field -f
+    + next-action.py _verify_read run(repo, 'gh', 'api', 'repos/o/r/pulls', '-f', 'head=sdlc/S-001-v0-http-api-0') -- path holds pulls
+
+=== TC-cli-6 gh api --method=PATCH through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-96
+exit: 0 (91 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge, forgeViolations
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh api
+  forge (1 -> 2)
+    + next-action.py _verify_read gh api repos/o/r/pulls/1
+  forgeViolations (0 -> 2)
+    + next-action.py _verify_read run(repo, 'gh', 'api', '--method=PATCH', 'repos/o/r/pulls/1') -- method PATCH
+    + next-action.py _verify_read run(repo, 'gh', 'api', '--method=PATCH', 'repos/o/r/pulls/1') -- path holds pulls
+
+=== TC-cli-6 observation (seed): gh pr merge through run
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-98
+exit: 0 (93 ms) tree unchanged: true
+changed keys: wrapperVerbs, forge
+  wrapperVerbs (91 -> 92)
+    + next-action.py gh pr merge
+  forge (1 -> 2)
+    + next-action.py _verify_read gh pr merge
+observation: gh pr merge is not a forgeViolation; it changes wrapperVerbs, forge; forgeViolations 0
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 (unchanged)
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 (unchanged)
+
+=== TC-cli-7 pr patch-slice in_progress
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-100 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-105 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 --slice S-001
+exit: 0 (283 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "f6132e9"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001
+- src/sdlc_S-001-v0-cli-0.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 pr patch-slice second run
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-100 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-105 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 --slice S-001
+exit: 0 (169 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "0dea314"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+~ .sdlc/slices.json
+~ ref:refs/heads/sdlc/S-001
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 pr base-branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-100 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-105 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py base-branch --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 --slice S-001
+exit: 0 (47 ms)
+--- stdout
+{"ok": true, "slice": "S-001", "branch": "main"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107 (unchanged)
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 pr status
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-100 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-105 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py status --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+exit: 0 (46 ms)
+--- stdout
+{"ok": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-107
+~ .sdlc/STATUS.md
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 (unchanged)
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 (unchanged)
+
+=== TC-cli-7 direct patch-slice in_progress
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-108 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-113 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 --slice S-001
+exit: 0 (285 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "9c26e5f"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001
+- src/sdlc_S-001-v0-cli-0.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 direct patch-slice second run
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-108 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-113 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 --slice S-001
+exit: 0 (168 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "0b521ac"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+~ .sdlc/slices.json
+~ ref:refs/heads/sdlc/S-001
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 direct base-branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-108 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-113 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py base-branch --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 --slice S-001
+exit: 0 (46 ms)
+--- stdout
+{"ok": true, "slice": "S-001", "branch": "main"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 (unchanged)
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 direct status
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-108 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-113 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py status --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115
+exit: 0 (45 ms)
+--- stdout
+{"ok": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-115 (unchanged)
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 (unchanged)
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 (unchanged)
+
+=== TC-cli-7 mr patch-slice in_progress
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-116 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-121 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 --slice S-001
+exit: 0 (206 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "fb48f39"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001
+- src/sdlc_S-001-v0-cli-0.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 mr patch-slice second run
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-116 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-121 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 --slice S-001
+exit: 0 (161 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "71aed16"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+~ .sdlc/STATUS.md
+~ .sdlc/slices.json
+~ ref:refs/heads/sdlc/S-001
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 mr base-branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-116 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-121 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py base-branch --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 --slice S-001
+exit: 0 (50 ms)
+--- stdout
+{"ok": true, "slice": "S-001", "branch": "main"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 (unchanged)
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 mr status
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-116 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-121 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py status --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123
+exit: 0 (44 ms)
+--- stdout
+{"ok": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-123 (unchanged)
+--- bare remote refs after
+refs/heads/main
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 (unchanged)
+
+=== TC-cli-7 branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 (unchanged)
+
+=== TC-cli-7 stack patch-slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-124 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-129 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 --slice S-014
+exit: 0 (625 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-014", "commit": "4172c26"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/M-1
++ ref:refs/heads/sdlc/S-014
++ ref:refs/remotes/origin/HEAD
++ ref:refs/remotes/origin/sdlc/M-1
+- src/sdlc_S-001-v0-cli-0.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-1
+refs/heads/sdlc/run-1
+
+=== TC-cli-7 stack patch-slice again
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-124 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-129 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 --slice S-014
+exit: 0 (163 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-014", "commit": "7498941"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+~ .sdlc/slices.json
+~ ref:refs/heads/sdlc/S-014
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-1
+refs/heads/sdlc/run-1
+
+=== TC-cli-7 janitor
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-124 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-129 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/janitor.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 --days 36500
+exit: 0 (110 ms)
+--- stdout
+{"removedDirs": 0, "removedBranches": ["sdlc/S-002a-v3-security-1"], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+- ref:refs/heads/sdlc/S-002a-v3-security-1
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-1
+refs/heads/sdlc/run-1
+
+=== TC-cli-7 next-action with gh absent
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/nogh-124 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tmpdir-129 python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131
+exit: 0 (170 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "gh pr list failed, so open pull requests are unknown: [Errno 2] No such file or directory: 'gh'"
+  }
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-131 (unchanged)
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-1
+refs/heads/sdlc/run-1
+
+=== TC-cli-8 advance_run_branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-136
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy-132/state-write.py advance_run_branch '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-134",{"gitMode":"stack","defaultBranch":"main","runBranch":"sdlc/run-1"},"sdlc/run-1"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-135/result.json
+exit: 0 (236 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-136 (unchanged)
+--- call advance_run_branch("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-134", {"gitMode":"stack","defaultBranch":"main","runBranch":"sdlc/run-1"}, "sdlc/run-1") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy-132/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-133
+refs before: refs/heads/main refs/heads/sdlc/run-1
+refs after: refs/heads/main refs/heads/sdlc/run-1
+refs added: <none>
+pushed sdlc/S-001-v0-http-api-0: false
+
+=== TC-cli-8 prune_stale_milestone_branches
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-140
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy-132/state-write.py prune_stale_milestone_branches '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-138",{"gitMode":"stack","defaultBranch":"main","runBranch":"sdlc/run-1"},"sdlc/M-9"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-139/result.json
+exit: 0 (194 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-140 (unchanged)
+--- call prune_stale_milestone_branches("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-138", {"gitMode":"stack","defaultBranch":"main","runBranch":"sdlc/run-1"}, "sdlc/M-9") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy-132/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-137
+refs before: refs/heads/main refs/heads/sdlc/run-1
+refs after: refs/heads/main refs/heads/sdlc/run-1
+refs added: <none>
+pushed sdlc/S-001-v0-http-api-0: false
+
+=== TC-cli-8 ensure_milestone_branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-144
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy-132/state-write.py ensure_milestone_branch '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-142",{"gitMode":"stack","defaultBranch":"main","runBranch":"sdlc/run-1"},[{"id":"M-1","status":"pending","slices":[],"fixSlices":[]}],"M-1"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-143/result.json
+exit: 0 (548 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-144 (unchanged)
+--- call ensure_milestone_branch("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-142", {"gitMode":"stack","defaultBranch":"main","runBranch":"sdlc/run-1"}, [{"id":"M-1","status":"pending","slices":[],"fixSlices":[]}], "M-1") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy-132/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-141
+refs before: refs/heads/main refs/heads/sdlc/run-1
+refs after: refs/heads/main refs/heads/sdlc/M-1 refs/heads/sdlc/run-1
+refs added: refs/heads/sdlc/M-1
+pushed sdlc/S-001-v0-http-api-0: false
+
+=== TC-cli-9 sweep_branches
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-149
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy2-145/janitor.py sweep_branches '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-147",{"S-001":"done"},[]]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-148/result.json
+exit: 0 (122 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-149 (unchanged)
+--- call sweep_branches("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-147", {"S-001":"done"}, []) in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/skill-copy2-145/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-146
+refs before: refs/heads/main
+refs after: refs/heads/main
+refs added: <none>
+local branches: * main
+
+=== TC-cli-10 behavior control: plain git push in state-write.py
+guard changed keys: wrapperVerbs, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-155
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-150/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-153","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-154/result.json
+exit: 0 (143 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-155 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-153", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-150/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-152
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior control: subprocess push in janitor.py
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-161
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-156/skills/sdlc/janitor.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-159","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-160/result.json
+exit: 0 (148 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-161 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-159", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-156/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-158
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior fetch --upload-pack f-string option, state-write.py
+guard changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-167
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-162/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-165","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-166/result.json
+exit: 0 (174 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-167 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-165", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-162/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-164
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior fetch --upload-pack str() through next-action run
+guard changed keys: wrapperVerbs
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-173
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-168/skills/sdlc/next-action.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-171","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-172/result.json
+exit: 0 (167 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-173 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-171", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-168/skills/sdlc/next-action.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-170
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior -c core.fsmonitor before diff, state-write.py
+guard changed keys: wrapperVerbs, opaque
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-179
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-174/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-177","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-178/result.json
+exit: 0 (166 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-179 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-177", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-174/skills/sdlc/state-write.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-176
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior late alias import subprocess as sp, janitor.py
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-185
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-180/skills/sdlc/janitor.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-183","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-184/result.json
+exit: 0 (141 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-185 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-183", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-180/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-182
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior os.path.os.system, janitor.py
+guard changed keys: direct, pushes
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-191
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-186/skills/sdlc/janitor.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-189","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-190/result.json
+exit: 0 (150 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-191 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-189", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-186/skills/sdlc/janitor.py
+outcome: return
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-188
+refs before: <none>
+refs after: refs/heads/sdlc/S-001-v0-http-api-0
+refs added: refs/heads/sdlc/S-001-v0-http-api-0
+pushed sdlc/S-001-v0-http-api-0: true
+
+=== TC-cli-10 behavior forwarded cmd with gh api -X POST in next-action run body
+guard changed keys: wrapperBodies
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-197
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-192/skills/sdlc/next-action.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-195","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-196/result.json
+exit: 3 (53 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-197 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-195", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-192/skills/sdlc/next-action.py
+outcome: importError AttributeError: _mutant is not callable
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-194
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-http-api-0: false
+
+=== TC-cli-10 behavior push inside the state-write git body
+guard changed keys: wrapperBodies
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-203
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/testkit/loadcall.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-198/skills/sdlc/state-write.py _mutant '["/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-201","sdlc/S-001-v0-http-api-0"]' /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/loadcall-202/result.json
+exit: 3 (46 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/cwd-203 (unchanged)
+--- call _mutant("/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/repo-201", "sdlc/S-001-v0-http-api-0") in /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-198/skills/sdlc/state-write.py
+outcome: importError AttributeError: _mutant is not callable
+--- remote /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/remote-200
+refs before: <none>
+refs after: <none>
+refs added: <none>
+pushed sdlc/S-001-v0-http-api-0: false
+
+=== TC-cli-10 summary
+control: plain git push in state-write.py: guard keys wrapperVerbs, pushes; outcome return; pushed true
+control: subprocess push in janitor.py: guard keys direct, pushes; outcome return; pushed true
+fetch --upload-pack f-string option, state-write.py: guard keys wrapperVerbs; outcome return; pushed true
+fetch --upload-pack str() through next-action run: guard keys wrapperVerbs; outcome return; pushed true
+-c core.fsmonitor before diff, state-write.py: guard keys wrapperVerbs, opaque; outcome return; pushed true
+late alias import subprocess as sp, janitor.py: guard keys direct, pushes; outcome return; pushed true
+os.path.os.system, janitor.py: guard keys direct, pushes; outcome return; pushed true
+forwarded cmd with gh api -X POST in next-action run body: guard keys wrapperBodies; outcome importError; pushed false
+push inside the state-write git body: guard keys wrapperBodies; outcome importError; pushed false
+
+=== TC-cli-11 rows replayed: 148
+ok   r0 verify name built on an earlier line -> wrapperVerbs, pushes [86 ms]
+ok   r0 push split over two lines -> wrapperVerbs, pushes [88 ms]
+ok   r1 single-quoted push -> wrapperVerbs, pushes [89 ms]
+ok   r1 push with another repo name -> wrapperVerbs, pushes [95 ms]
+ok   r1 direct subprocess push in janitor -> direct, pushes [92 ms]
+ok   r1 os.system push -> direct, pushes [92 ms]
+ok   r1 shell=True push -> direct, pushes, opaque [94 ms]
+ok   r1 gh pr create with an option before the verb -> wrapperVerbs, forge, forgeViolations [95 ms]
+ok   r1 push in tracker/collect.py -> direct, pushes [95 ms]
+ok   r1 bare execFileSync -> jsHits [93 ms]
+ok   r1 execFileSync with require -> jsHits [93 ms]
+ok   r1 bare spawnSync -> jsHits [89 ms]
+ok   r1 spawnSync with require -> jsHits [92 ms]
+ok   r2 path between git and push -> wrapperVerbs, pushes [92 ms]
+ok   r2 quoted path with a space between git and push -> wrapperVerbs [89 ms]
+ok   r2 shell-quoted path between git and push -> direct, pushes [90 ms]
+ok   r2 verb built by concatenation -> wrapperVerbs, pushes [90 ms]
+ok   r2 more than 80 characters between git and push -> wrapperVerbs, pushes [90 ms]
+ok   r2 shell string split over two lines -> direct, pushes, opaque [92 ms]
+ok   r2 gh api path holds pulls -> wrapperVerbs, forge, forgeViolations [91 ms]
+ok   r2 bare execSync -> jsHits [92 ms]
+ok   r2 execSync with require -> jsHits [91 ms]
+ok   js global.process.mainModule -> jsHits [93 ms]
+ok   js global with a built key -> jsHits [92 ms]
+ok   js a fourth global literal -> jsAllowed [90 ms]
+ok   A-11 verb in a variable -> wrapperVerbs, opaque [93 ms]
+ok   aliased subprocess import -> direct, dynamic, pushes [93 ms]
+ok   urllib in janitor -> imports, network [91 ms]
+ok   wrapper used as a value -> wrapperValues [92 ms]
+ok   importlib loads subprocess -> imports, dynamic [91 ms]
+ok   git alias option before the verb -> wrapperVerbs, opaque [91 ms]
+ok   gh api -X POST pulls -> wrapperVerbs, forge, forgeViolations [94 ms]
+ok   gh api --method put -> wrapperVerbs, forge, forgeViolations [94 ms]
+ok   gh api -f field -> wrapperVerbs, forge, forgeViolations [94 ms]
+ok   gh api --input -> wrapperVerbs, forge, forgeViolations [85 ms]
+ok   gh api graphql with -F -> wrapperVerbs, forge, forgeViolations [93 ms]
+ok   gh api graphql bare -> wrapperVerbs, forge, forgeViolations [93 ms]
+ok   glab api graphql bare -> direct, forge, forgeViolations [93 ms]
+ok   glab mr create -> wrapperVerbs, forge, forgeViolations [89 ms]
+ok   glab api -X POST merge_requests -> direct, forge, forgeViolations [90 ms]
+ok   gh api with a path in a variable -> wrapperVerbs, opaque [91 ms]
+ok   TC-cli-40 module bound to a local name -> dynamic [92 ms]
+ok   TC-cli-40 module as a default parameter value -> dynamic [89 ms]
+ok   TC-cli-40 module through a walrus -> dynamic [91 ms]
+ok   TC-cli-40 module through a list subscript -> dynamic [95 ms]
+ok   TC-cli-40 os bound to a local name -> dynamic [93 ms]
+ok   TC-cli-41 posix.system -> imports, direct, dynamic, pushes [90 ms]
+ok   TC-cli-41 posix.posix_spawnp -> imports, direct, dynamic [83 ms]
+ok   TC-cli-42 unicode_escape cookie hides a push -> imports, direct, opaque [87 ms]
+ok   TC-cli-43 urllib.request bound to a local name -> dynamic [89 ms]
+ok   TC-cli-43 _socket in janitor -> imports, network, dynamic [90 ms]
+ok   TC-cli-44 escaped globalThis -> jsHits [91 ms]
+ok   TC-cli-44 escaped Function -> jsHits [94 ms]
+ok   TC-cli-44 escaped eval -> jsHits [93 ms]
+ok   TC-cli-55 subprocess.Popen bound to a local name -> dynamic [91 ms]
+ok   TC-cli-55 a subclass of subprocess.Popen -> dynamic [88 ms]
+ok   TC-cli-55 subprocess.Popen as a default parameter value -> dynamic [90 ms]
+ok   TC-cli-55 subprocess.Popen in a list subscript -> dynamic [87 ms]
+ok   TC-cli-56 globals() subscript then attribute -> dynamic [89 ms]
+ok   TC-cli-56 globals().get then attribute -> dynamic [89 ms]
+ok   TC-cli-57 exec bound to a local name -> dynamic [88 ms]
+ok   TC-cli-57 __import__ bound to a local name -> dynamic [88 ms]
+ok   TC-cli-57 eval as a default parameter value -> dynamic [89 ms]
+ok   TC-cli-58 pydoc.pipepager in ste-check.py -> imports [89 ms]
+ok   TC-cli-58 pydoc.tempfilepager -> imports [89 ms]
+ok   TC-cli-58 logging.handlers.HTTPHandler -> imports [89 ms]
+ok   TC-security-1 --work-tree before the git verb -> wrapperVerbs, opaque [90 ms]
+ok   TC-security-2 --work-tree through next-action run -> wrapperVerbs, opaque [92 ms]
+ok   TC-security-3 --work-tree through impact git_lines -> wrapperVerbs, opaque [91 ms]
+ok   TC-security-4 gh pr --milestone list create -> wrapperVerbs, opaque [89 ms]
+ok   TC-security-7 uuid._get_command_stdout -> imports, dynamic [93 ms]
+ok   TC-security-8 xml.dom.minidom.parse -> imports [89 ms]
+ok   S3 shutil.os.system -> direct, pushes [92 ms]
+ok   S3 tempfile._os.system -> dynamic [92 ms]
+ok   S3 branches.subprocess.run -> direct, pushes [87 ms]
+ok   S-005b cli-0 recursive push inside the state-write git wrapper -> wrapperBodies [90 ms]
+ok   S-005b cli-0 recursive push inside the suite-receipt git wrapper -> wrapperBodies [91 ms]
+ok   S-005b cli-0 push through run inside the impact git_lines wrapper -> wrapperBodies [90 ms]
+ok   S-005b cli-0 push through git_lines inside the impact run wrapper -> wrapperBodies [91 ms]
+ok   S-005b cli-0 push through run inside the next-action run wrapper -> wrapperBodies [90 ms]
+ok   S-005b cli-0 gh pr create inside the next-action run wrapper -> wrapperBodies [91 ms]
+ok   S-005b cli-0 new ThreadingHTTPServer call in hub.py -> network [90 ms]
+ok   S-005b cli-0 new socketserver.TCPServer call in hub.py -> network [91 ms]
+ok   S-005b cli-0 new socketserver.UDPServer call in hub.py -> network [90 ms]
+ok   S-005b r1 -c value from a parameter before push inside the state-write git wrapper -> wrapperBodies [89 ms]
+ok   S-005b r1 --git-dir built from a parameter before push inside the state-write git wrapper -> wrapperBodies [90 ms]
+ok   S-005b r1 --work-tree built from a parameter before push inside the suite-receipt git wrapper -> wrapperBodies [92 ms]
+ok   S-005b r1 --repo built from a parameter before pr create inside the next-action run wrapper -> wrapperBodies [90 ms]
+ok   S-005b r1 -c value from a parameter before push inside the impact git_lines wrapper -> wrapperBodies [91 ms]
+ok   S-005b r1 conditional verb on the check parameter inside the state-write git wrapper -> wrapperBodies [91 ms]
+ok   S-005b r1 starred tuple concat with an empty args slice inside the suite-receipt git wrapper -> wrapperBodies [91 ms]
+ok   S-005b r1 gh program guarded by cmd inside the next-action run wrapper -> wrapperBodies [90 ms]
+ok   S-005b r1 pr create sub-verb guarded by cmd inside the next-action run wrapper -> wrapperBodies [91 ms]
+ok   S-005b r1 pr create before forwarded parameters inside the next-action run wrapper -> wrapperBodies [90 ms]
+ok   S-005b r1 forwarded parameters before push inside the state-write git wrapper -> wrapperBodies [89 ms]
+ok   S-005b r2 D-1 m1 gh api -X POST before forwarded cmd in the next-action run body -> wrapperBodies (want wrapperBodies) [93 ms]
+ok   S-005b r2 D-1 m2 gh api -f head and -f base before forwarded cmd in the next-action run body -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 D-1 m3 gh api --method=POST before forwarded cmd in the next-action run body -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 TC-cli-18 git(repo, check) in the state-write git body -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 TC-cli-18 -c remote.origin.push before check in the state-write git body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-18 --no-pager before check in the state-write git body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-18 git(".", repo) in the state-write git body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-18 git(".", "-c", ..., repo) in the suite-receipt git body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-18 run(["git", repo], ".") in the impact git_lines body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-18 git_lines([repo], ".") in the impact git_lines body -> wrapperBodies (want wrapperBodies) [88 ms]
+ok   S-005b r2 TC-cli-18 run(["git", cwd], ".") in the impact run body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-18 run(".", "git", repo) in the next-action run body -> wrapperBodies (want wrapperBodies) [94 ms]
+ok   S-005b r2 TC-cli-20 gh api -X POST before forwarded cmd with a constant cwd in the next-action run body -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 TC-cli-20 gh api --method=PATCH before forwarded cmd in the next-action run body -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 TC-cli-20 gh api -f ref before forwarded cmd in the next-action run body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-20 gh api --input - before forwarded cmd in the next-action run body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-20 run(".", "gh", "pr", repo) in the next-action run body -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 TC-cli-20 run(".", "gh", "-R", "o/r", repo) in the next-action run body -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 TC-cli-20 run(".", "gh", "api", repo) in the next-action run body -> wrapperBodies (want wrapperBodies) [92 ms]
+ok   S-005b r2 nested def with a push in the state-write git body -> wrapperBodies (want wrapperBodies) [88 ms]
+ok   S-005b r2 decorator added to the impact run wrapper -> wrapperBodies (want wrapperBodies) [90 ms]
+ok   S-005b r2 check=False default in the state-write git signature -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 second identical def git appended to suite-receipt.py -> wrapperBodies (want wrapperBodies) [92 ms]
+ok   S-005b r2 class with a run method appended to next-action.py -> wrapperBodies (want wrapperBodies) [91 ms]
+ok   S-005b r2 local list spread into git outside a wrapper body -> wrapperVerbs, opaque (want opaque) [91 ms]
+ok   S-005b r2 gh api path from a parameter outside a wrapper body -> wrapperVerbs, opaque (want opaque) [89 ms]
+ok   S-005b r3 TC-cli-17 import subprocess as sp after a function that calls sp.run, janitor.py -> direct, pushes (want direct) [90 ms]
+ok   S-005b r3 TC-cli-17 from subprocess import run as _r after its use, state-write.py -> direct, pushes (want direct) [91 ms]
+ok   S-005b r3 TC-cli-17 import os as _o after its use, branches.py -> direct, pushes (want direct) [90 ms]
+ok   S-005b r3 one name bound to json and to subprocess by two imports -> direct, dynamic, pushes (want dynamic) [90 ms]
+ok   S-005b r3 D-1 -c core.fsmonitor with $IFS before diff in state-write.py -> opaque (want opaque) [90 ms]
+ok   S-005b r3 TC-cli-18 -c core.fsmonitor push before diff, built by concatenation, state-write.py -> opaque (want opaque) [91 ms]
+ok   S-005b r3 TC-cli-18 -c core.fsmonitor push before diff, one constant, state-write.py -> opaque (want opaque) [91 ms]
+ok   S-005b r3 TC-cli-18 -c core.fsmonitor push before rev-parse in suite-receipt.py -> opaque (want opaque) [92 ms]
+ok   S-005b r3 TC-cli-18 -c core.fsmonitor at a direct site in janitor.py -> direct, opaque (want opaque) [90 ms]
+ok   S-005b r3 TC-cli-18 -c core.fsmonitor with $IFS before rev-parse in suite-receipt.py -> opaque (want opaque) [90 ms]
+ok   S-005b r3 -c core.sshCommand before fetch through the next-action run wrapper -> opaque (want opaque) [91 ms]
+ok   S-005b r3 fetch --upload-pack runs a push through the state-write git wrapper -> wrapperVerbs (want wrapperVerbs) [88 ms]
+ok   S-005b r3 fetch --upload-pack as a separate value through the next-action run wrapper -> wrapperVerbs (want wrapperVerbs) [86 ms]
+ok   S-005b r3 an abbreviated --upl option before diff through the impact git_lines wrapper -> wrapperVerbs (want wrapperVerbs) [90 ms]
+ok   S-005b r4 D-1 m1 an f-string that starts with an expression hides --upload-pack after fetch, state-write.py -> wrapperVerbs (want wrapperVerbs) [89 ms]
+ok   S-005b r4 TC-cli-32 m2 a .strip() call hides --upload-pack after fetch, state-write.py -> wrapperVerbs (want wrapperVerbs) [90 ms]
+ok   S-005b r4 D-1 m3 a str() call hides --upload-pack through the next-action run wrapper -> wrapperVerbs (want wrapperVerbs) [91 ms]
+ok   S-005b r4 TC-cli-32 a local list spread after fetch, state-write.py -> wrapperVerbs (want wrapperVerbs) [90 ms]
+ok   S-005b r4 TC-cli-32 a .format() call hides --upload-pack through the next-action run wrapper -> wrapperVerbs (want wrapperVerbs) [91 ms]
+ok   S-005b r4 TC-cli-32 a % format hides --upload-pack after fetch, state-write.py -> wrapperVerbs (want wrapperVerbs) [91 ms]
+ok   S-005b r4 TC-cli-32 a join call hides --upl after diff through the impact git_lines wrapper -> wrapperVerbs (want wrapperVerbs) [89 ms]
+ok   S-005b r4 a str() option added to the reviewed fetch in next-action.py decide -> wrapperVerbs (want wrapperVerbs) [89 ms]
+ok   S-005b r4 an f-string option after gh pr list through the next-action run wrapper -> wrapperVerbs, forge (want wrapperVerbs) [90 ms]
+ok   S-005b r4 D-2 os.path.os.system in janitor.py -> direct, pushes (want direct) [90 ms]
+ok   S-005b r4 TC-cli-27 from os import path as _p, then _p.os.system, branches.py -> direct, pushes (want direct) [90 ms]
+ok   S-005b r4 shutil.os.system in janitor.py -> direct, pushes (want direct) [90 ms]
+ok   S-005b r4 tempfile.os.system through an alias in janitor.py -> direct, pushes (want direct) [90 ms]
+
+=== TC-cli-12 symlinked root
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/linkparent-504/rootlink
+exit 0; equal true
+
+runs equal: true; cwd equal: true; symlink root equal: true; spaced path equal: true
+
+=== TC-cli-13 comment and blank line in two wrapper bodies
+$ /opt/homebrew/bin/python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-9hXkSt/testkit-cli-0cSYmf/tree-510
+exit: 0 (95 ms) tree unchanged: true
+changed keys: <none>

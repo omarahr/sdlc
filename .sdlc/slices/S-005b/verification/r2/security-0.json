@@ -1,0 +1,1198 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 2,
+  "commit": "80f5b0c",
+  "environment": "macOS Darwin 25.6, Python 3.14.7 and 3.12.14, Node 24; push_guard.py run on scratch copies of skills/sdlc and hooks at 80f5b0c (worktree sdlc/S-005b-v2-security-0); mutants appended in a scratch tree, no network, no remote",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A process call reached by an import alias fails the guard",
+      "given": "Scratch copy of skills/sdlc and hooks at 80f5b0c; one mutant appended to reports.py, janitor-style files or live-poke.py.",
+      "when": "Run push_guard.py on each import-alias mutant: local alias, from-import, star import, late-bound alias, os.exec*, os.spawn*, os.posix_spawn*, os.forkpty, pty, asyncio, multiprocessing, ctypes.",
+      "then": "Each mutant breaks at least one pin.",
+      "expected": "15 of 15 mutants break a pin.",
+      "actual": "15 of 15 break a pin on Python 3.14.7 and 3.12.14.",
+      "result": "pass",
+      "specSource": "R-119 scope (tests.md): aliases, values, attribute chains, imports and dynamic code are process or network sites; ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:58",
+      "command": "VERIFY_REPO=<worktree at 80f5b0c> VERIFY_PY=<python3.14|python3.12> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "pins broken per mutant (python 3.14.7, same on 3.12.14)",
+          "inline": "alias-local-import-sp: breaks ['imports', 'direct', 'pushes']\nalias-from-import-run: breaks ['imports', 'direct', 'pushes']\nalias-os-system: breaks ['direct', 'pushes']\nalias-os-system-late: breaks ['direct', 'pushes']\nalias-from-os-system: breaks ['direct', 'pushes']\nalias-from-os-star: breaks ['dynamic']\nalias-from-subprocess-star: breaks ['imports', 'dynamic']\nalias-os-popen-fork: breaks ['direct']\nalias-os-spawn: breaks ['direct']\nalias-os-posix-spawn: breaks ['direct']\nalias-os-forkpty: breaks ['direct']\nalias-pty-spawn: breaks ['imports', 'direct', 'network', 'pushes']\nalias-asyncio-shell: breaks ['imports', 'direct', 'network', 'pushes']\nalias-multiprocessing: breaks ['imports', 'direct', 'network']\nalias-ctypes-system: breaks ['imports', 'direct', 'network']"
+        },
+        {
+          "kind": "log",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-vs7-py314.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A watched module used as a value, and attribute chains through a watched module, fail the guard",
+      "given": "As TC-security-1.",
+      "when": "Run the guard on rebind, default parameter, walrus, list element, base class, class attribute, decorator, map and lambda-argument mutants; on shutil.os, tempfile.os, glob.os, mimetypes.os, fnmatch.os, posixpath.os, import-as, from-import, branches.subprocess, branches.os, hub.os and workflow.subprocess chains.",
+      "then": "Each mutant breaks at least one pin.",
+      "expected": "24 of 24 mutants break a pin.",
+      "actual": "24 of 24 break a pin.",
+      "result": "pass",
+      "specSource": "R-119 scope (tests.md): aliases, values, attribute chains, imports and dynamic code are process or network sites; ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:73",
+      "command": "VERIFY_REPO=<worktree at 80f5b0c> VERIFY_PY=<python3.14|python3.12> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "pins broken per mutant (python 3.14.7, same on 3.12.14)",
+          "inline": "value-rebind: breaks ['imports', 'dynamic']\nvalue-func-rebind: breaks ['imports', 'dynamic']\nvalue-default-param: breaks ['imports', 'dynamic']\nvalue-walrus: breaks ['imports', 'dynamic']\nvalue-list-element: breaks ['imports', 'dynamic']\nvalue-base-class: breaks ['imports', 'dynamic']\nvalue-class-attr: breaks ['imports', 'dynamic']\nvalue-decorator: breaks ['dynamic']\nvalue-map: breaks ['dynamic']\nvalue-lambda-arg: breaks ['imports', 'dynamic']\nvalue-os-bare: breaks ['dynamic']\nvalue-os-environ-ok-then-popen: breaks ['imports', 'dynamic']\nchain-shutil-os: breaks ['direct', 'pushes']\nchain-tempfile-os: breaks ['direct', 'pushes']\nchain-glob-os: breaks ['direct', 'pushes']\nchain-mimetypes-os: breaks ['direct', 'pushes']\nchain-fnmatch-os: breaks ['direct', 'pushes']\nchain-posixpath-os: breaks ['direct', 'pushes']\nchain-alias-shutil: breaks ['direct', 'pushes']\nchain-from-shutil-os: breaks ['direct', 'pushes']\nchain-branches-subprocess: breaks ['direct', 'pushes']\nchain-branches-os: breaks ['direct', 'pushes']\nchain-hub-os: breaks ['direct', 'pushes']\nchain-workflow-subprocess: breaks ['direct', 'pushes']"
+        },
+        {
+          "kind": "log",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-vs7-py314.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Native modules, network modules and new imports fail the guard",
+      "given": "As TC-security-1.",
+      "when": "Run the guard on posix, nt, _posixsubprocess, _socket, _ssl, _winapi, runpy, code, codeop, any underscore module, socket, ssl, http.client, urllib.request (also through from-import and through a file that imports only urllib.parse), smtplib and webbrowser mutants.",
+      "then": "Each mutant breaks at least one pin.",
+      "expected": "21 of 21 mutants break a pin.",
+      "actual": "21 of 21 break a pin.",
+      "result": "pass",
+      "specSource": "R-119 scope (tests.md): aliases, values, attribute chains, imports and dynamic code are process or network sites; ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:101",
+      "command": "VERIFY_REPO=<worktree at 80f5b0c> VERIFY_PY=<python3.14|python3.12> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "pins broken per mutant (python 3.14.7, same on 3.12.14)",
+          "inline": "native-posix: breaks ['imports', 'direct', 'dynamic', 'pushes']\nnative-nt: breaks ['imports', 'dynamic']\nnative-posixsubprocess: breaks ['imports', 'direct', 'dynamic']\nnative-from-posixsubprocess: breaks ['imports', 'dynamic']\nnative-socket: breaks ['imports', 'network', 'dynamic']\nnative-ssl: breaks ['imports', 'dynamic']\nnative-winapi: breaks ['imports', 'direct', 'dynamic']\nnative-runpy: breaks ['imports', 'dynamic']\nnative-code: breaks ['imports', 'dynamic']\nnative-codeop: breaks ['imports', 'dynamic']\nnative-underscore-import: breaks ['imports', 'dynamic']\nnetwork-socket-call: breaks ['imports', 'network']\nnetwork-from-socket: breaks ['imports', 'network']\nnetwork-collect-urlopen: breaks ['network']\nnetwork-from-urllib-request: breaks ['imports', 'network']\nnetwork-http-client: breaks ['imports', 'network']\nnetwork-urllib-parse-only: breaks ['network']\nnetwork-ssl: breaks ['imports', 'network']\nnetwork-webbrowser: breaks ['imports', 'network']\nnetwork-smtplib: breaks ['imports', 'network']\nnetwork-hub-http-server: breaks ['imports', 'network']"
+        },
+        {
+          "kind": "log",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-vs7-py314.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Dynamic code fails the guard",
+      "given": "As TC-security-1.",
+      "when": "Run the guard on eval, exec, compile, __import__, importlib (also from-import), globals, locals, vars(), vars(module), getattr on a module, getattr bound to another name, __builtins__, os.__dict__, private module attributes, __getattribute__, operator.attrgetter, functools.partial, breakpoint, pipes and pydoc imports, rebound imports and star imports of branches or hub.",
+      "then": "Each mutant breaks at least one pin; the harmless control sys.exit keeps every pin.",
+      "expected": "32 of 32 mutants break a pin.",
+      "actual": "32 of 32 break a pin.",
+      "result": "pass",
+      "specSource": "R-119 scope (tests.md): aliases, values, attribute chains, imports and dynamic code are process or network sites; ADR-20261009-062930-decision-judge-S-005-388e refutation rule",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:122",
+      "command": "VERIFY_REPO=<worktree at 80f5b0c> VERIFY_PY=<python3.14|python3.12> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "pins broken per mutant (python 3.14.7, same on 3.12.14)",
+          "inline": "dyn-eval: breaks ['dynamic']\ndyn-exec: breaks ['dynamic']\ndyn-compile: breaks ['dynamic']\ndyn-dunder-import: breaks ['dynamic']\ndyn-importlib: breaks ['imports', 'dynamic']\ndyn-importlib-from: breaks ['imports', 'dynamic']\ndyn-globals: breaks ['dynamic']\ndyn-locals: breaks ['dynamic']\ndyn-vars-noarg: breaks ['dynamic']\ndyn-vars-arg-module: breaks ['dynamic']\ndyn-getattr-os: breaks ['dynamic']\ndyn-getattr-alias: breaks ['dynamic']\ndyn-builtins: breaks ['dynamic']\ndyn-builtins-import: breaks ['imports', 'opaque']\ndyn-dict-os: breaks ['dynamic']\ndyn-private-os: breaks ['dynamic']\ndyn-private-json: breaks ['dynamic']\ndyn-getattribute: breaks ['dynamic']\ndyn-globals-subscript-call: breaks ['dynamic']\ndyn-operator-attrgetter: breaks ['imports', 'dynamic']\ndyn-functools-partial: breaks ['imports', 'dynamic']\ndyn-breakpoint: breaks ['dynamic']\ndyn-pipes-import: breaks ['imports']\ndyn-pydoc-import: breaks ['imports']\ndyn-rebound-two-imports: breaks ['imports', 'dynamic']\ndyn-rebound-os-shutil: breaks ['dynamic']\ndyn-star-shutil: breaks ['direct', 'pushes']\ndyn-from-branches-star: breaks ['direct', 'pushes']\ndyn-from-branches-import-subprocess: breaks ['direct', 'pushes']\ndyn-from-branches-import-os: breaks ['direct', 'pushes']"
+        },
+        {
+          "kind": "log",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-vs7-py314.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A pure module that holds a process module, passed as a parameter or rebound, fails the guard",
+      "given": "Scratch copy at 80f5b0c. reports.py gains import shutil and one function.",
+      "when": "Run the guard on four mutants: def _v(m): return m.os.system(...) then _v(shutil); m = shutil then m.os.system(...); getattr(m, 'os').system(...) with m = shutil; map(getattr, [shutil], ['os']).",
+      "then": "Each mutant breaks at least one pin, as shutil.os.system does.",
+      "expected": "0 of 4 break a pin.",
+      "actual": "0 of 4 break a pin. The scanner resolves a chain only from an imported name. A local name bound to a pure module hides the os attribute. The same call runs in a real interpreter: python3.14 and 3.12 print REACHED for both m.os.system forms.",
+      "result": "fail",
+      "specSource": "R-119 scope: 'An attribute chain through a watched module, such as shutil.os.system ... is read as the watched module call'; 'a process call or a network call in a scanned file' refutes when the output stays equal (ADR-388e)",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:98",
+      "command": "VERIFY_REPO=<worktree at 80f5b0c> VERIFY_PY=<python3.14|python3.12> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "pins broken per mutant (python 3.14.7, same on 3.12.14)",
+          "inline": "chain-param-shutil: breaks []\nchain-rebind-shutil: breaks []\nchain-getattr-rebind: breaks []\ndyn-getattr-map: breaks []"
+        },
+        {
+          "kind": "log",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-vs7-py314.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A private module name imported with from-import fails the guard",
+      "given": "Scratch copy at 80f5b0c. reports.py gains from tempfile import _os (or argparse _os) and one function that calls _os.system or _os.popen.",
+      "when": "Run the guard on four mutants: from tempfile import _os; from tempfile import _os as _o; from argparse import _os; from shutil import _ntuple_diskusage.",
+      "then": "Each mutant breaks the dynamic pin ('A private attribute (a name that starts with _) of an imported module') or the direct pin.",
+      "expected": "0 of 4 break a pin.",
+      "actual": "0 of 4 break a pin. visit_ImportFrom flags private names only for modules whose top name starts with underscore or is watched. canon() reads _os.system, which is_process() does not match. The call runs in a real interpreter: python3.14 prints REACHED4.",
+      "result": "fail",
+      "specSource": "R-119 scope: 'A private attribute (a name that starts with _) of an imported module' is a dynamic site; process call in a scanned file refutes (ADR-388e)",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:161",
+      "command": "VERIFY_REPO=<worktree at 80f5b0c> VERIFY_PY=<python3.14|python3.12> node --test .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "pins broken per mutant (python 3.14.7, same on 3.12.14)",
+          "inline": "dyn-from-argparse-private-os: breaks []\ndyn-from-shutil-private: breaks []\ndyn-from-tempfile-private-os: breaks []\ndyn-from-tempfile-private-os-alias: breaks []"
+        },
+        {
+          "kind": "log",
+          "title": "all runs",
+          "path": ".sdlc/slices/S-005b/verification/r2/logs/security-0-vs7-py314.jsonl"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "AT-alias-local-import-sp",
+      "charter": "import alias bound in a function body",
+      "input": "def _v():\n    import subprocess as sp\n    return sp.run([\"git\", \"push\", \"origin\", \"x\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:58"
+    },
+    {
+      "id": "AT-alias-from-import-run",
+      "charter": "from-import alias",
+      "input": "from subprocess import run as _r\ndef _v():\n    return _r([\"git\", \"push\", \"origin\", \"x\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:59"
+    },
+    {
+      "id": "AT-alias-os-system",
+      "charter": "import os as alias",
+      "input": "import os as _o\ndef _v():\n    return _o.system(\"git push origin x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:60"
+    },
+    {
+      "id": "AT-alias-os-system-late",
+      "charter": "alias bound after use",
+      "input": "def _v():\n    return _q.system(\"git push\")\nimport os as _q",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:61"
+    },
+    {
+      "id": "AT-alias-from-os-system",
+      "charter": "from os import system",
+      "input": "from os import system as _s\ndef _v():\n    return _s(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:62"
+    },
+    {
+      "id": "AT-alias-from-os-star",
+      "charter": "star import of os",
+      "input": "from os import *\ndef _v():\n    return system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:63"
+    },
+    {
+      "id": "AT-alias-from-subprocess-star",
+      "charter": "star import of subprocess",
+      "input": "from subprocess import *\ndef _v():\n    return run([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:64"
+    },
+    {
+      "id": "AT-alias-os-popen-fork",
+      "charter": "os.popen and os.execvp",
+      "input": "import os\ndef _v():\n    os.execvp(\"git\", [\"git\", \"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:65"
+    },
+    {
+      "id": "AT-alias-os-spawn",
+      "charter": "os.spawnlp",
+      "input": "def _v():\n    return os.spawnlp(os.P_WAIT, \"git\", \"git\", \"push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:66"
+    },
+    {
+      "id": "AT-alias-os-posix-spawn",
+      "charter": "os.posix_spawnp",
+      "input": "def _v():\n    return os.posix_spawnp(\"git\", [\"git\",\"push\"], {})",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:67"
+    },
+    {
+      "id": "AT-alias-os-forkpty",
+      "charter": "os.forkpty",
+      "input": "def _v():\n    return os.forkpty()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:68"
+    },
+    {
+      "id": "AT-alias-pty-spawn",
+      "charter": "pty.spawn",
+      "input": "import pty\ndef _v():\n    return pty.spawn([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,network,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:69"
+    },
+    {
+      "id": "AT-alias-asyncio-shell",
+      "charter": "asyncio subprocess",
+      "input": "import asyncio\nasync def _v():\n    return await asyncio.create_subprocess_shell(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,network,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:70"
+    },
+    {
+      "id": "AT-alias-multiprocessing",
+      "charter": "multiprocessing.Process",
+      "input": "import multiprocessing\ndef _v():\n    return multiprocessing.Process(target=print).start()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:71"
+    },
+    {
+      "id": "AT-alias-ctypes-system",
+      "charter": "ctypes libc system",
+      "input": "import ctypes\ndef _v():\n    return ctypes.CDLL(None).system(b\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:72"
+    },
+    {
+      "id": "AT-value-rebind",
+      "charter": "module rebind",
+      "input": "import subprocess\n_x = subprocess\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:73"
+    },
+    {
+      "id": "AT-value-func-rebind",
+      "charter": "function rebind",
+      "input": "import subprocess\n_x = subprocess.run\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:74"
+    },
+    {
+      "id": "AT-value-default-param",
+      "charter": "default parameter",
+      "input": "import subprocess\ndef _v(f=subprocess.run):\n    return f([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:75"
+    },
+    {
+      "id": "AT-value-walrus",
+      "charter": "walrus",
+      "input": "import subprocess\nif (_w := subprocess.Popen):\n    pass",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:76"
+    },
+    {
+      "id": "AT-value-list-element",
+      "charter": "list element",
+      "input": "import subprocess\n_l = [subprocess.run]\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:77"
+    },
+    {
+      "id": "AT-value-base-class",
+      "charter": "base class",
+      "input": "import subprocess\nclass _C(subprocess.Popen):\n    pass",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:78"
+    },
+    {
+      "id": "AT-value-class-attr",
+      "charter": "class attribute",
+      "input": "import subprocess\nclass _C:\n    f = subprocess.run",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:79"
+    },
+    {
+      "id": "AT-value-decorator",
+      "charter": "decorator",
+      "input": "import os\n@os.system\ndef _d():\n    pass",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:80"
+    },
+    {
+      "id": "AT-value-map",
+      "charter": "map over os.system",
+      "input": "import os\nlist(map(os.system, [\"git push\"]))",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:81"
+    },
+    {
+      "id": "AT-value-lambda-arg",
+      "charter": "lambda taking module",
+      "input": "import subprocess\n(lambda m: m.run([\"git\",\"push\"]))(subprocess)",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:82"
+    },
+    {
+      "id": "AT-value-os-bare",
+      "charter": "bare os as value",
+      "input": "import os\n_o = os\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:83"
+    },
+    {
+      "id": "AT-value-os-environ-ok-then-popen",
+      "charter": "ternary",
+      "input": "import os, subprocess\n_f = (os if False else subprocess)\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:84"
+    },
+    {
+      "id": "AT-chain-shutil-os",
+      "charter": "shutil.os.system",
+      "input": "import shutil\ndef _v():\n    shutil.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:85"
+    },
+    {
+      "id": "AT-chain-tempfile-os",
+      "charter": "tempfile.os.system",
+      "input": "import tempfile\ndef _v():\n    tempfile.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:86"
+    },
+    {
+      "id": "AT-chain-glob-os",
+      "charter": "glob.os.system",
+      "input": "import glob\ndef _v():\n    glob.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:87"
+    },
+    {
+      "id": "AT-chain-mimetypes-os",
+      "charter": "mimetypes.os.system",
+      "input": "import mimetypes\ndef _v():\n    mimetypes.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:88"
+    },
+    {
+      "id": "AT-chain-fnmatch-os",
+      "charter": "fnmatch.os",
+      "input": "import fnmatch\ndef _v():\n    fnmatch.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:89"
+    },
+    {
+      "id": "AT-chain-posixpath-os",
+      "charter": "posixpath.os",
+      "input": "import posixpath\ndef _v():\n    posixpath.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:90"
+    },
+    {
+      "id": "AT-chain-alias-shutil",
+      "charter": "import shutil as sh",
+      "input": "import shutil as sh\ndef _v():\n    sh.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:91"
+    },
+    {
+      "id": "AT-chain-from-shutil-os",
+      "charter": "from shutil import os",
+      "input": "from shutil import os as _o\ndef _v():\n    _o.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:92"
+    },
+    {
+      "id": "AT-chain-branches-subprocess",
+      "charter": "branches.subprocess.run",
+      "input": "import branches\ndef _v():\n    branches.subprocess.run([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:93"
+    },
+    {
+      "id": "AT-chain-branches-os",
+      "charter": "branches.os.system",
+      "input": "import branches\ndef _v():\n    branches.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:94"
+    },
+    {
+      "id": "AT-chain-hub-os",
+      "charter": "hub.os.system",
+      "input": "import hub\ndef _v():\n    hub.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:95"
+    },
+    {
+      "id": "AT-chain-workflow-subprocess",
+      "charter": "workflow.subprocess",
+      "input": "import workflow\ndef _v():\n    workflow.subprocess.run([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:96"
+    },
+    {
+      "id": "AT-chain-sys-modules",
+      "charter": "sys.modules (S3)",
+      "input": "import sys\ndef _v():\n    sys.modules[\"subprocess\"].run([\"git\",\"push\"])",
+      "expected": "seed S3",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:97"
+    },
+    {
+      "id": "AT-chain-param-shutil",
+      "charter": "pure module passed as parameter",
+      "input": "import shutil\ndef _v(m):\n    return m.os.system(\"git push\")\n_v(shutil)",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:98"
+    },
+    {
+      "id": "AT-chain-rebind-shutil",
+      "charter": "pure module rebound to a local",
+      "input": "import shutil\ndef _v():\n    m = shutil\n    return m.os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:99"
+    },
+    {
+      "id": "AT-chain-getattr-rebind",
+      "charter": "getattr on a rebound pure module",
+      "input": "import shutil\ndef _v():\n    m = shutil\n    return getattr(m, \"os\").system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:100"
+    },
+    {
+      "id": "AT-native-posix",
+      "charter": "import posix",
+      "input": "import posix\ndef _v():\n    posix.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,dynamic,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:101"
+    },
+    {
+      "id": "AT-native-nt",
+      "charter": "import nt",
+      "input": "import nt\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:102"
+    },
+    {
+      "id": "AT-native-posixsubprocess",
+      "charter": "_posixsubprocess",
+      "input": "import _posixsubprocess\ndef _v():\n    _posixsubprocess.fork_exec()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:103"
+    },
+    {
+      "id": "AT-native-from-posixsubprocess",
+      "charter": "from _posixsubprocess import",
+      "input": "from _posixsubprocess import fork_exec\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:104"
+    },
+    {
+      "id": "AT-native-socket",
+      "charter": "_socket",
+      "input": "import _socket\ndef _v():\n    return _socket.socket()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:105"
+    },
+    {
+      "id": "AT-native-ssl",
+      "charter": "_ssl",
+      "input": "import _ssl\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:106"
+    },
+    {
+      "id": "AT-native-winapi",
+      "charter": "_winapi",
+      "input": "import _winapi\ndef _v():\n    _winapi.CreateProcess()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,direct,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:107"
+    },
+    {
+      "id": "AT-native-runpy",
+      "charter": "runpy",
+      "input": "import runpy\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:108"
+    },
+    {
+      "id": "AT-native-code",
+      "charter": "code",
+      "input": "import code\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:109"
+    },
+    {
+      "id": "AT-native-codeop",
+      "charter": "codeop",
+      "input": "from codeop import compile_command\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:110"
+    },
+    {
+      "id": "AT-native-underscore-import",
+      "charter": "any underscore module",
+      "input": "import _posixshmem\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:111"
+    },
+    {
+      "id": "AT-network-socket-call",
+      "charter": "socket.create_connection",
+      "input": "import socket\ndef _v():\n    return socket.create_connection((\"example.com\", 80))",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:112"
+    },
+    {
+      "id": "AT-network-from-socket",
+      "charter": "from socket import socket",
+      "input": "from socket import socket as _S\ndef _v():\n    return _S()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:113"
+    },
+    {
+      "id": "AT-network-collect-urlopen",
+      "charter": "new urlopen in collect.py",
+      "input": "def _v():\n    return urllib.request.urlopen(\"http://example.com/x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:114"
+    },
+    {
+      "id": "AT-network-from-urllib-request",
+      "charter": "from urllib import request",
+      "input": "from urllib import request as _rq\ndef _v():\n    return _rq.urlopen(\"http://example.com/x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:115"
+    },
+    {
+      "id": "AT-network-http-client",
+      "charter": "http.client alias",
+      "input": "import http.client as _h\ndef _v():\n    return _h.HTTPSConnection(\"example.com\").request(\"POST\", \"/\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:116"
+    },
+    {
+      "id": "AT-network-urllib-parse-only",
+      "charter": "urllib.request reached through urllib.parse import",
+      "input": "def _v():\n    return urllib.request.urlopen(\"http://example.com/x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:117"
+    },
+    {
+      "id": "AT-network-ssl",
+      "charter": "ssl context wrap",
+      "input": "import ssl\ndef _v():\n    return ssl.create_default_context()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:118"
+    },
+    {
+      "id": "AT-network-webbrowser",
+      "charter": "webbrowser.open",
+      "input": "import webbrowser\ndef _v():\n    webbrowser.open(\"http://x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:119"
+    },
+    {
+      "id": "AT-network-smtplib",
+      "charter": "smtplib",
+      "input": "import smtplib\ndef _v():\n    smtplib.SMTP(\"x\").sendmail(\"a\",\"b\",\"c\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:120"
+    },
+    {
+      "id": "AT-network-hub-http-server",
+      "charter": "http.server alias value",
+      "input": "from http import server as _sv\n_s = _sv.HTTPServer\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,network",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:121"
+    },
+    {
+      "id": "AT-dyn-eval",
+      "charter": "eval",
+      "input": "def _v():\n    return eval(\"__import__(\\'os\\')\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:122"
+    },
+    {
+      "id": "AT-dyn-exec",
+      "charter": "exec",
+      "input": "def _v():\n    exec(\"import os\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:123"
+    },
+    {
+      "id": "AT-dyn-compile",
+      "charter": "compile",
+      "input": "def _v():\n    return compile(\"1\", \"x\", \"eval\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:124"
+    },
+    {
+      "id": "AT-dyn-dunder-import",
+      "charter": "__import__",
+      "input": "def _v():\n    return __import__(\"subprocess\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:125"
+    },
+    {
+      "id": "AT-dyn-importlib",
+      "charter": "importlib.import_module",
+      "input": "import importlib\ndef _v():\n    return importlib.import_module(\"subprocess\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:126"
+    },
+    {
+      "id": "AT-dyn-importlib-from",
+      "charter": "from importlib import import_module",
+      "input": "from importlib import import_module as _im\ndef _v():\n    return _im(\"subprocess\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:127"
+    },
+    {
+      "id": "AT-dyn-globals",
+      "charter": "globals()",
+      "input": "def _v():\n    return globals()[\"x\"]",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:128"
+    },
+    {
+      "id": "AT-dyn-locals",
+      "charter": "locals()",
+      "input": "def _v():\n    return locals()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:129"
+    },
+    {
+      "id": "AT-dyn-vars-noarg",
+      "charter": "vars()",
+      "input": "def _v():\n    return vars()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:130"
+    },
+    {
+      "id": "AT-dyn-vars-arg-module",
+      "charter": "vars(module)",
+      "input": "import os\ndef _v():\n    return vars(os)[\"system\"](\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:131"
+    },
+    {
+      "id": "AT-dyn-getattr-os",
+      "charter": "getattr(os, ...)",
+      "input": "import os\ndef _v():\n    return getattr(os, \"sys\" + \"tem\")(\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:132"
+    },
+    {
+      "id": "AT-dyn-getattr-alias",
+      "charter": "getattr bound to another name",
+      "input": "import os\ndef _v():\n    g = getattr\n    return g(os, \"system\")(\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:133"
+    },
+    {
+      "id": "AT-dyn-getattr-map",
+      "charter": "getattr passed as a value",
+      "input": "import shutil\ndef _v():\n    return list(map(getattr, [shutil], [\"os\"]))",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:134"
+    },
+    {
+      "id": "AT-dyn-builtins",
+      "charter": "__builtins__",
+      "input": "def _v():\n    return __builtins__[\"__import__\"](\"os\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:135"
+    },
+    {
+      "id": "AT-dyn-builtins-import",
+      "charter": "import builtins",
+      "input": "import builtins\ndef _v():\n    return builtins.__dict__[\"exec\"]]",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,opaque",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:136"
+    },
+    {
+      "id": "AT-dyn-dict-os",
+      "charter": "os.__dict__",
+      "input": "import os\ndef _v():\n    return os.__dict__[\"system\"](\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:137"
+    },
+    {
+      "id": "AT-dyn-private-os",
+      "charter": "os._exit private",
+      "input": "import os\ndef _v():\n    os._exit(0)",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:138"
+    },
+    {
+      "id": "AT-dyn-private-json",
+      "charter": "json._default_encoder",
+      "input": "import json\n_e = json._default_encoder\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:139"
+    },
+    {
+      "id": "AT-dyn-private-alias-from",
+      "charter": "from json import _default_encoder",
+      "input": "from json import _default_encoder\n",
+      "expected": "no process or network call, or not a scanner-covered form (seed)",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:140"
+    },
+    {
+      "id": "AT-dyn-getattribute",
+      "charter": "object.__getattribute__",
+      "input": "import os\ndef _v():\n    return object.__getattribute__(os, \"system\")(\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:141"
+    },
+    {
+      "id": "AT-dyn-globals-subscript-call",
+      "charter": "globals()[\"f\"]()",
+      "input": "def _v():\n    return globals()[\"os\"].system(\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:142"
+    },
+    {
+      "id": "AT-dyn-operator-attrgetter",
+      "charter": "operator.attrgetter",
+      "input": "import operator, os\ndef _v():\n    return operator.attrgetter(\"system\")(os)(\"x\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:143"
+    },
+    {
+      "id": "AT-dyn-functools-partial",
+      "charter": "functools.partial",
+      "input": "import functools, os\n_p = functools.partial(os.system, \"git push\")\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:144"
+    },
+    {
+      "id": "AT-dyn-globals-fn",
+      "charter": "function __globals__ walk (S3)",
+      "input": "def _v():\n    return (lambda: 0).__globals__[\"__builtins__\"][\"__import__\"](\"subprocess\")",
+      "expected": "seed S3",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:145"
+    },
+    {
+      "id": "AT-dyn-loader",
+      "charter": "__loader__ (S3)",
+      "input": "def _v():\n    return __loader__.load_module(\"subprocess\")",
+      "expected": "seed S3",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:146"
+    },
+    {
+      "id": "AT-dyn-type-subclasses",
+      "charter": "subclass walk (S3)",
+      "input": "def _v():\n    return ().__class__.__base__.__subclasses__()",
+      "expected": "seed S3",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:147"
+    },
+    {
+      "id": "AT-dyn-help",
+      "charter": "help() builtin pager",
+      "input": "def _v():\n    help(\"modules\")",
+      "expected": "no process or network call, or not a scanner-covered form (seed)",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:148"
+    },
+    {
+      "id": "AT-dyn-breakpoint",
+      "charter": "breakpoint()",
+      "input": "def _v():\n    breakpoint()",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:149"
+    },
+    {
+      "id": "AT-dyn-pipes-import",
+      "charter": "pipes import",
+      "input": "import pipes\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:150"
+    },
+    {
+      "id": "AT-dyn-pydoc-import",
+      "charter": "pydoc import",
+      "input": "import pydoc\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:151"
+    },
+    {
+      "id": "AT-dyn-rebound-two-imports",
+      "charter": "one name two modules",
+      "input": "import json as _z\nimport subprocess as _z\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: imports,dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:152"
+    },
+    {
+      "id": "AT-dyn-rebound-os-shutil",
+      "charter": "os rebound to shutil.os",
+      "input": "import os\nfrom shutil import os\n",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: dynamic",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:153"
+    },
+    {
+      "id": "AT-dyn-star-shutil",
+      "charter": "from shutil import *",
+      "input": "from shutil import *\ndef _v():\n    os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:154"
+    },
+    {
+      "id": "AT-dyn-star-tempfile",
+      "charter": "from tempfile import *",
+      "input": "from tempfile import *\ndef _v():\n    _os.system(\"git push\")",
+      "expected": "no process or network call, or not a scanner-covered form (seed)",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:155"
+    },
+    {
+      "id": "AT-dyn-from-branches-star",
+      "charter": "from branches import *",
+      "input": "from branches import *\ndef _v():\n    subprocess.run([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:156"
+    },
+    {
+      "id": "AT-dyn-from-branches-import-subprocess",
+      "charter": "from branches import subprocess",
+      "input": "from branches import subprocess as _sp\ndef _v():\n    _sp.run([\"git\",\"push\"])",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:157"
+    },
+    {
+      "id": "AT-dyn-from-branches-import-os",
+      "charter": "from branches import os",
+      "input": "from branches import os as _o\ndef _v():\n    _o.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:158"
+    },
+    {
+      "id": "AT-dyn-from-hub-os",
+      "charter": "from hub import os",
+      "input": "from hub import os as _o\ndef _v():\n    _o.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:159"
+    },
+    {
+      "id": "AT-dyn-from-sys-modules",
+      "charter": "from sys import modules (S3)",
+      "input": "from sys import modules as _m\ndef _v():\n    _m[\"subprocess\"].run([\"git\",\"push\"])",
+      "expected": "seed S3",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:160"
+    },
+    {
+      "id": "AT-dyn-from-tempfile-private-os",
+      "charter": "from tempfile import _os",
+      "input": "from tempfile import _os\ndef _v():\n    _os.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:161"
+    },
+    {
+      "id": "AT-dyn-from-tempfile-private-os-alias",
+      "charter": "from tempfile import _os as o",
+      "input": "from tempfile import _os as _o\ndef _v():\n    _o.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:162"
+    },
+    {
+      "id": "AT-dyn-from-argparse-private-os",
+      "charter": "from argparse import _os",
+      "input": "from argparse import _os\ndef _v():\n    _os.popen(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:163"
+    },
+    {
+      "id": "AT-dyn-from-shutil-private",
+      "charter": "from shutil import _ntuple_diskusage",
+      "input": "from shutil import _ntuple_diskusage\n",
+      "expected": "at least one pin breaks",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:164"
+    },
+    {
+      "id": "AT-dyn-import-private-submodule",
+      "charter": "import tempfile._os-like private via import-as",
+      "input": "import json.decoder as _jd\ndef _v():\n    return _jd.re\n",
+      "expected": "no process or network call, or not a scanner-covered form (seed)",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:165"
+    },
+    {
+      "id": "AT-dyn-from-glob-os",
+      "charter": "from glob import os",
+      "input": "from glob import os as _g\ndef _v():\n    _g.system(\"git push\")",
+      "expected": "at least one pin breaks",
+      "observed": "pins broken: direct,pushes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:166"
+    },
+    {
+      "id": "AT-dyn-sys-exit-ok",
+      "charter": "control: harmless sys.exit",
+      "input": "import sys\ndef _v():\n    sys.exit(0)",
+      "expected": "every pin stays equal (control)",
+      "observed": "every pin stays equal (python 3.14.7 and 3.12)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:167"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "S3 loader reached by an unnamed walk",
+      "detail": "sys.modules['subprocess'].run, from sys import modules, (lambda: 0).__globals__['__builtins__']['__import__'], __loader__.load_module and ().__class__.__base__.__subclasses__() leave every pin equal. The spec lists S3 as a seed.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "help() builtin",
+      "detail": "help('modules') can start a pager process. The scanner does not flag the name help. A seed: it needs a tty and is no direct process call.",
+      "file": "skills/sdlc/test/push_guard.py"
+    },
+    {
+      "title": "Private from-import of a harmless name",
+      "detail": "from json import _default_encoder and import json.decoder as _jd keep every pin. The names run no process. They show that private from-imports are not flagged, which TC-security-6 uses.",
+      "file": "skills/sdlc/test/push_guard.py"
+    }
+  ]
+}

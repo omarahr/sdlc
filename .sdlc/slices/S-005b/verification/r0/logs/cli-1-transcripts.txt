@@ -1,0 +1,1207 @@
+===== baseline on the slice tip
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-1 unicode path
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-1 unicode path
+breaches: []
+
+===== TC-cli-2 hooks/x.sh
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-2 hooks/x.sh
+breaches: ["extensions"]
+extensions: +hooks/x.sh
+===== TC-cli-2 skills/sdlc/x.sh
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-2 skills/sdlc/x.sh
+breaches: ["extensions"]
+extensions: +skills/sdlc/x.sh
+===== TC-cli-2 skills/sdlc/x.mjs
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 skills/sdlc/x.mjs
+breaches: ["extensions"]
+extensions: +skills/sdlc/x.mjs
+===== TC-cli-2 hooks/x.mjs
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 hooks/x.mjs
+breaches: ["extensions"]
+extensions: +hooks/x.mjs
+===== TC-cli-2 skills/sdlc/x.cjs
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-2 skills/sdlc/x.cjs
+breaches: ["extensions"]
+extensions: +skills/sdlc/x.cjs
+===== TC-cli-2 skills/sdlc/tracker/x.ts
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-2 skills/sdlc/tracker/x.ts
+breaches: ["extensions"]
+extensions: +skills/sdlc/tracker/x.ts
+===== TC-cli-2 skills/sdlc/pre-push
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 skills/sdlc/pre-push
+breaches: ["extensions"]
+extensions: +skills/sdlc/pre-push
+===== TC-cli-2 hooks/post-checkout
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (86 ms)
+
+===== TC-cli-2 hooks/post-checkout
+breaches: ["extensions"]
+extensions: +hooks/post-checkout
+===== TC-cli-2 skills/sdlc/x.PY
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-2 skills/sdlc/x.PY
+breaches: ["extensions"]
+extensions: +skills/sdlc/x.PY
+===== TC-cli-2 skills/sdlc/x.pyw
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 skills/sdlc/x.pyw
+breaches: ["extensions"]
+extensions: +skills/sdlc/x.pyw
+===== TC-cli-2 skills/sdlc/x.pyc
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 skills/sdlc/x.pyc
+breaches: ["extensions"]
+extensions: +skills/sdlc/x.pyc
+===== TC-cli-2 hooks/x.bash
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-2 hooks/x.bash
+breaches: ["extensions"]
+extensions: +hooks/x.bash
+===== TC-cli-2 skills/sdlc/.hidden.sh
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-2 skills/sdlc/.hidden.sh
+breaches: ["extensions"]
+extensions: +skills/sdlc/.hidden.sh
+===== TC-cli-2 skills/sdlc/.x.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-2 skills/sdlc/.x.py
+breaches: ["files","imports","direct","pushes"]
+files: +skills/sdlc/.x.py
+imports: +.x.py import subprocess -0 removed
+direct: +.x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+pushes: +.x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+===== TC-cli-2 skills/sdlc/tracker/a/b/x.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 skills/sdlc/tracker/a/b/x.py
+breaches: ["files","imports","direct","pushes"]
+files: +skills/sdlc/tracker/a/b/x.py
+imports: +tracker/a/b/x.py import subprocess -0 removed
+direct: +tracker/a/b/x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+pushes: +tracker/a/b/x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+===== TC-cli-2 skills/sdlc/push ü.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-2 skills/sdlc/push ü.py
+breaches: ["files","imports","direct","pushes"]
+files: +skills/sdlc/push ü.py
+imports: +push ü.py import subprocess -0 removed
+direct: +push ü.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+pushes: +push ü.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+===== TC-cli-2 skills/sdlc/helper.js
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (79 ms)
+
+===== TC-cli-2 skills/sdlc/helper.js
+breaches: ["files","jsHits"]
+files: +skills/sdlc/helper.js
+jsHits: +helper.js:1 child_process require('child_process').execSync('git push origin sdlc/S-001-v0-cli-0') | helper.js:1 execSync require('child_process').execSync('git push origin sdlc/S-001-v0-cli-0') | helper.js:1 require require('child_process').execSync('git push origin sdlc/S-001-v0-cli-0') -0 removed
+===== TC-cli-3 directory under skills/sdlc
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (77 ms)
+
+===== TC-cli-3 directory under skills/sdlc
+breaches: ["opaque"]
+opaque: +skills/sdlc/lib symlink -0 removed
+===== TC-cli-3 directory under hooks
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-3 directory under hooks
+breaches: ["opaque"]
+opaque: +hooks/lib symlink -0 removed
+===== TC-cli-3 directory under tracker
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (85 ms)
+
+===== TC-cli-3 directory under tracker
+breaches: ["opaque"]
+opaque: +skills/sdlc/tracker/lib symlink -0 removed
+===== TC-cli-3 new py file
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-3 new py file
+breaches: ["files","imports","direct","pushes","opaque"]
+files: +hooks/y.py
+imports: +hooks/y.py import subprocess -0 removed
+direct: +hooks/y.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+pushes: +hooks/y.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+opaque: +hooks/y.py symlink -0 removed
+===== TC-cli-3 new md name to a shell script
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-3 new md name to a shell script
+breaches: ["opaque"]
+opaque: +skills/sdlc/notes.md symlink -0 removed
+===== TC-cli-3 relative link inside the tree
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (89 ms)
+
+===== TC-cli-3 relative link inside the tree
+breaches: ["files","imports","direct","opaque"]
+files: +skills/sdlc/sw.py
+imports: +sw.py import os | sw.py import subprocess -0 removed
+direct: +sw.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True) -0 removed
+opaque: +skills/sdlc/sw.py symlink | sw.py git verb subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True) -0 removed
+===== TC-cli-3 existing script replaced by a link
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-3 existing script replaced by a link
+breaches: ["imports","direct","pushes","opaque"]
+imports: +hooks/live-poke.py import subprocess -0 removed
+direct: +hooks/live-poke.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+pushes: +hooks/live-poke.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+opaque: +hooks/live-poke.py symlink -0 removed
+===== TC-cli-3 wrapper script replaced by a link
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-3 wrapper script replaced by a link
+breaches: ["opaque"]
+opaque: +skills/sdlc/state-write.py symlink -0 removed
+===== TC-cli-14 dangling skills/sdlc/gone.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 1
+--- stderr tail
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tree-58/skills/sdlc/gone.py'
+===== TC-cli-14 dangling hooks/gone.js
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 1
+--- stderr tail
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tree-60/hooks/gone.js'
+===== TC-cli-14 dangling skills/sdlc/gone.sh
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0
+--- stderr tail
+
+===== TC-cli-14 dangling skills/sdlc/gone.sh
+breaches: ["extensions","opaque"]
+extensions: +skills/sdlc/gone.sh
+opaque: +skills/sdlc/gone.sh symlink -0 removed
+===== TC-cli-14 summary
+{
+ "skills/sdlc/gone.py": "exit 1",
+ "hooks/gone.js": "exit 1",
+ "skills/sdlc/gone.sh": [
+  "extensions",
+  "opaque"
+ ]
+}
+===== TC-cli-4 latin-1 cookie on line 1 of janitor.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-4 latin-1 cookie on line 1 of janitor.py
+breaches: ["imports","direct","opaque"]
+imports: + -2 removed
+direct: + -3 removed
+opaque: +skills/sdlc/janitor.py parse encoding iso-8859-1 -0 removed
+===== TC-cli-4 latin-1 cookie after the shebang of live-poke.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (77 ms)
+
+===== TC-cli-4 latin-1 cookie after the shebang of live-poke.py
+breaches: ["imports","opaque"]
+imports: + -1 removed
+opaque: +hooks/live-poke.py parse encoding iso-8859-1 -0 removed
+===== TC-cli-4 iso-8859-1 cookie on state-write.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (71 ms)
+
+===== TC-cli-4 iso-8859-1 cookie on state-write.py
+breaches: ["imports","direct","wrapperBodies","wrapperVerbs","pushes","opaque"]
+imports: + -2 removed
+direct: + -1 removed
+wrapperBodies: + -1 removed
+wrapperVerbs: + -15 removed
+pushes: + -3 removed
+opaque: +skills/sdlc/state-write.py parse encoding iso-8859-1 -0 removed
+===== TC-cli-4 vim fileencoding cp1252 on impact.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (75 ms)
+
+===== TC-cli-4 vim fileencoding cp1252 on impact.py
+breaches: ["imports","direct","wrapperBodies","wrapperVerbs","opaque"]
+imports: + -2 removed
+direct: + -1 removed
+wrapperBodies: + -2 removed
+wrapperVerbs: + -3 removed
+opaque: +skills/sdlc/impact.py parse encoding cp1252 -0 removed
+===== TC-cli-4 utf-16 cookie on branches.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-4 utf-16 cookie on branches.py
+breaches: ["imports","direct","opaque"]
+imports: + -2 removed
+direct: + -1 removed
+opaque: +skills/sdlc/branches.py parse SyntaxError -0 removed
+===== TC-cli-4 invalid UTF-8 bytes with no cookie on next-action.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (73 ms)
+
+===== TC-cli-4 invalid UTF-8 bytes with no cookie on next-action.py
+breaches: ["imports","direct","wrapperBodies","wrapperVerbs","forge","opaque"]
+imports: + -2 removed
+direct: + -1 removed
+wrapperBodies: + -1 removed
+wrapperVerbs: + -7 removed
+forge: + -1 removed
+opaque: +skills/sdlc/next-action.py parse SyntaxError -0 removed
+===== TC-cli-4 new latin-1 file
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-4 new latin-1 file
+breaches: ["files","opaque"]
+files: +skills/sdlc/x.py
+opaque: +skills/sdlc/x.py parse encoding iso-8859-1 -0 removed
+===== TC-cli-4 new latin-1 file under hooks
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (79 ms)
+
+===== TC-cli-4 new latin-1 file under hooks
+breaches: ["files","opaque"]
+files: +hooks/x.py
+opaque: +hooks/x.py parse encoding iso-8859-1 -0 removed
+===== TC-cli-5 new BOM file
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (84 ms)
+
+===== TC-cli-5 new BOM file
+breaches: ["files","imports","direct","pushes"]
+files: +skills/sdlc/x.py
+imports: +x.py import subprocess -0 removed
+direct: +x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+pushes: +x.py <module> subprocess.run(['git', 'push', 'origin', 'sdlc/S-001-v0-cli-0']) -0 removed
+===== TC-cli-5 BOM state-write.py with a verify push
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-5 BOM state-write.py with a verify push
+breaches: ["pushes"]
+pushes: +state-write.py _verify git(repo, 'push', 'origin', 'sdlc/S-001-v0-cli-0') -0 removed
+===== TC-cli-5 BOM state-write.py with a changed wrapper default
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-5 BOM state-write.py with a changed wrapper default
+breaches: ["wrapperBodies"]
+wrapperBodies: +state-write.py git def git ( repo , * args , check = False ) : r = subprocess . run ( [ "git" , "-C" , repo , * args ] , capture_output = True , text = True ) if check and r . returncode != 0 : raise Fail ( f"git {' '.join(args)}: {(r.stderr or r.stdout).strip()}" ) return r -1 removed
+===== TC-cli-5 BOM only on the four wrapper files
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (80 ms)
+
+===== TC-cli-5 BOM only on the four wrapper files
+breaches: []
+
+===== TC-cli-6 S5 tracker/test dir
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-6 S5 tracker/test dir
+breaches: []
+
+===== TC-cli-6 S5 hooks/node_modules
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-6 S5 hooks/node_modules
+breaches: []
+
+===== TC-cli-6 S5 skills/sdlc/__pycache__ bytecode
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (86 ms)
+
+===== TC-cli-6 S5 skills/sdlc/__pycache__ bytecode
+breaches: []
+
+===== TC-cli-6 md file with a shebang
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (76 ms)
+
+===== TC-cli-6 md file with a shebang
+breaches: []
+
+===== TC-cli-6 json file with a shebang
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-6 json file with a shebang
+breaches: []
+
+===== TC-cli-6 html page with a forge POST
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (79 ms)
+
+===== TC-cli-6 html page with a forge POST
+breaches: []
+
+===== TC-cli-6 summary
+{
+ "S5 tracker/test dir": [],
+ "S5 hooks/node_modules": [],
+ "S5 skills/sdlc/__pycache__ bytecode": [],
+ "md file with a shebang": [],
+ "json file with a shebang": [],
+ "html page with a forge POST": []
+}
+===== TC-cli-7 gh pr list through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-7 gh pr list through run
+breaches: ["forge"]
+forge: +next-action.py _verify_read gh pr list -0 removed
+===== TC-cli-7 gh pr list through run new forge entries
+["next-action.py _verify_read gh pr list"]
+===== TC-cli-7 gh pr view through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (84 ms)
+
+===== TC-cli-7 gh pr view through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py gh pr view -0 removed
+forge: +next-action.py _verify_read gh pr view -0 removed
+===== TC-cli-7 gh pr view through run new forge entries
+["next-action.py _verify_read gh pr view"]
+===== TC-cli-7 gh pr view -R through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-7 gh pr view -R through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py gh pr view -0 removed
+forge: +next-action.py _verify_read gh pr view -0 removed
+===== TC-cli-7 gh pr view -R through run new forge entries
+["next-action.py _verify_read gh pr view"]
+===== TC-cli-7 gh pr checks through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (82 ms)
+
+===== TC-cli-7 gh pr checks through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py gh pr checks -0 removed
+forge: +next-action.py _verify_read gh pr checks -0 removed
+===== TC-cli-7 gh pr checks through run new forge entries
+["next-action.py _verify_read gh pr checks"]
+===== TC-cli-7 gh api GET through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (79 ms)
+
+===== TC-cli-7 gh api GET through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py gh api -0 removed
+forge: +next-action.py _verify_read gh api repos/o/r/branches/main/protection -0 removed
+===== TC-cli-7 gh api GET through run new forge entries
+["next-action.py _verify_read gh api repos/o/r/branches/main/protection"]
+===== TC-cli-7 gh api no method through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (80 ms)
+
+===== TC-cli-7 gh api no method through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py gh api -0 removed
+forge: +next-action.py _verify_read gh api repos/o/r/rules/branches/main -0 removed
+===== TC-cli-7 gh api no method through run new forge entries
+["next-action.py _verify_read gh api repos/o/r/rules/branches/main"]
+===== TC-cli-7 gh api --method=get through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (77 ms)
+
+===== TC-cli-7 gh api --method=get through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py gh api -0 removed
+forge: +next-action.py _verify_read gh api repos/o/r/rules/branches/main -0 removed
+===== TC-cli-7 gh api --method=get through run new forge entries
+["next-action.py _verify_read gh api repos/o/r/rules/branches/main"]
+===== TC-cli-7 glab mr list through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (83 ms)
+
+===== TC-cli-7 glab mr list through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py glab mr list -0 removed
+forge: +next-action.py _verify_read glab mr list -0 removed
+===== TC-cli-7 glab mr list through run new forge entries
+["next-action.py _verify_read glab mr list"]
+===== TC-cli-7 glab mr view through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-7 glab mr view through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py glab mr view -0 removed
+forge: +next-action.py _verify_read glab mr view -0 removed
+===== TC-cli-7 glab mr view through run new forge entries
+["next-action.py _verify_read glab mr view"]
+===== TC-cli-7 glab api push_rule through run
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-7 glab api push_rule through run
+breaches: ["wrapperVerbs","forge"]
+wrapperVerbs: +next-action.py glab api -0 removed
+forge: +next-action.py _verify_read glab api projects/:fullpath/push_rule -0 removed
+===== TC-cli-7 glab api push_rule through run new forge entries
+["next-action.py _verify_read glab api projects/:fullpath/push_rule"]
+===== TC-cli-7 gh pr list at a new direct site in state-write.py
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (80 ms)
+
+===== TC-cli-7 gh pr list at a new direct site in state-write.py
+breaches: ["direct","forge"]
+direct: +state-write.py _verify_read subprocess.run(['gh', 'pr', 'list', '--json', 'number'], capture_output=True, text=True) -0 removed
+forge: +state-write.py _verify_read gh pr list -0 removed
+===== TC-cli-7 gh pr list at a new direct site in state-write.py new forge entries
+["state-write.py _verify_read gh pr list"]
+===== TC-cli-7 gh pr view at a direct site
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-7 gh pr view at a direct site
+breaches: ["direct","forge"]
+direct: +branches.py _verify_read subprocess.run(['gh', 'pr', 'view', '12', '--json', 'state'], capture_output=True, text=True) -0 removed
+forge: +branches.py _verify_read gh pr view -0 removed
+===== TC-cli-7 gh pr view at a direct site new forge entries
+["branches.py _verify_read gh pr view"]
+===== TC-cli-7 glab mr list at a direct site
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-7 glab mr list at a direct site
+breaches: ["direct","forge"]
+direct: +branches.py _verify_read subprocess.run(['glab', 'mr', 'list'], capture_output=True, text=True) -0 removed
+forge: +branches.py _verify_read glab mr list -0 removed
+===== TC-cli-7 glab mr list at a direct site new forge entries
+["branches.py _verify_read glab mr list"]
+===== TC-cli-7 gh api GET at a direct site
+$ python3 skills/sdlc/test/push_guard.py <scratch copy>
+exit: 0 (81 ms)
+
+===== TC-cli-7 gh api GET at a direct site
+breaches: ["direct","forge"]
+direct: +branches.py _verify_read subprocess.run(['gh', 'api', '-X', 'GET', f'repos/{slug}/rules/branches/main'], capture_output=True, text=True) -0 removed
+forge: +branches.py _verify_read gh api repos/ -0 removed
+===== TC-cli-7 gh api GET at a direct site new forge entries
+["branches.py _verify_read gh api repos/"]
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 (unchanged)
+===== TC-cli-8 stack patch-slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-128:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-129 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 --slice S-014
+exit: 0 (686 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-014", "commit": "c7df75e"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/M-1
++ ref:refs/heads/sdlc/S-014
++ ref:refs/remotes/origin/sdlc/M-1
+- src/sdlc_S-001-v0-cli-0.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+~ ref:refs/heads/sdlc/run-1
+~ ref:refs/remotes/origin/sdlc/run-1
+~ src/app.txt
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-1
+refs/heads/sdlc/run-1
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1
+sdlc/M-1-v0-cli-0
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+sdlc/S-014
+sdlc/run-1
+===== TC-cli-8 stack patch-slice second run
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-128:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-129 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131 --slice S-014
+exit: 0 (198 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-014", "commit": "ccafc11"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-131
++ .sdlc/STATUS.md
+- src/sdlc_S-001-v1-http-api-2.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+~ ref:refs/heads/sdlc/S-014
+~ src/app.txt
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-1
+refs/heads/sdlc/run-1
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1
+sdlc/M-1-v0-cli-0
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+sdlc/S-014
+sdlc/run-1
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 (unchanged)
+===== TC-cli-9 stack prune
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-133:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-134 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136 --slice S-001
+exit: 0 (925 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "8a2cdd8"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-136
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/M-2
++ ref:refs/heads/sdlc/S-001
++ ref:refs/remotes/origin/HEAD
++ ref:refs/remotes/origin/sdlc/M-2
++ src/m1.txt
+- ref:refs/heads/sdlc/M-1
+- ref:refs/remotes/origin/sdlc/M-1
+~ .sdlc/slices.json
+~ ref:HEAD
+~ ref:refs/heads/sdlc/run-2
+~ ref:refs/remotes/origin/main
+~ ref:refs/remotes/origin/sdlc/run-2
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/M-2
+refs/heads/sdlc/run-2
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/M-2
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+sdlc/run-2
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (57 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 (unchanged)
+===== TC-cli-10 pr patch-slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-138:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-139 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 --slice S-001
+exit: 0 (270 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "1f8f75f"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001
+- src/sdlc_S-002a-v3-security-1.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-10 pr base-branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-138:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-139 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py base-branch --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 --slice S-001
+exit: 0 (42 ms)
+--- stdout
+{"ok": true, "slice": "S-001", "branch": "main"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 (unchanged)
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-10 pr status
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-138:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-139 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py status --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141
+exit: 0 (43 ms)
+--- stdout
+{"ok": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-141 (unchanged)
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (61 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 (unchanged)
+===== TC-cli-10 direct patch-slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-142:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-143 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 --slice S-001
+exit: 0 (282 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "340fcbb"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001
+- src/sdlc_S-002a-v3-security-1.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-10 direct base-branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-142:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-143 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py base-branch --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 --slice S-001
+exit: 0 (42 ms)
+--- stdout
+{"ok": true, "slice": "S-001", "branch": "main"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 (unchanged)
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-10 direct status
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-142:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-143 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py status --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145
+exit: 0 (44 ms)
+--- stdout
+{"ok": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-145 (unchanged)
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (58 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 (unchanged)
+===== TC-cli-10 mr patch-slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-146:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-147 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 --slice S-001
+exit: 0 (220 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-001", "commit": "b7022c6"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001
+- src/sdlc_S-002a-v3-security-1.txt
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-10 mr base-branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-146:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-147 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py base-branch --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 --slice S-001
+exit: 0 (47 ms)
+--- stdout
+{"ok": true, "slice": "S-001", "branch": "main"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 (unchanged)
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-10 mr status
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-146:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-147 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py status --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149
+exit: 0 (47 ms)
+--- stdout
+{"ok": true}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-149 (unchanged)
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (81 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 (unchanged)
+===== TC-cli-11 janitor
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-150:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-151 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/janitor.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153 --days 36500
+exit: 0 (157 ms)
+--- stdout
+{"removedDirs": 0, "removedBranches": ["sdlc/M-1-v0-cli-0", "sdlc/S-001-v0-cli-0", "sdlc/S-001-v1-http-api-2"], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-153
+- ref:refs/heads/sdlc/M-1-v0-cli-0
+- ref:refs/heads/sdlc/S-001-v0-cli-0
+- ref:refs/heads/sdlc/S-001-v1-http-api-2
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/S-002a-v3-security-1
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162 (unchanged)
+===== TC-cli-12 next-action gh absent
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/nogh-155 TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-160 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
+exit: 0 (230 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "gh pr list failed, so open pull requests are unknown: [Errno 2] No such file or directory: 'gh'"
+  }
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-162
++ ref:refs/remotes/origin/HEAD
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+(empty)
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 --kind verify --id S-001 --round 0 --profile cli --part 0
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 --kind verify --id S-001 --round 1 --profile http-api --part 2
+exit: 0 (93 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-001-v1-http-api-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 --kind verify --id S-002a --round 3 --profile security --part 1
+exit: 0 (80 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-002a-v3-security-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 (unchanged)
+===== branches.py name --kind verify
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 --kind verify --id M-1 --round 0 --profile cli --part 0
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/M-1-v0-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166 (unchanged)
+===== TC-cli-12 next-action gh faked
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-163:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-164 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
+exit: 0 (612 ms)
+--- stdout
+{
+  "next": {
+    "action": "bootstrap",
+    "reason": "A: the spec spec.md changed since the last bootstrap"
+  }
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-166
++ ref:refs/remotes/origin/HEAD
+--- bare remote refs after
+refs/heads/main
+--- fake forge log
+gh pr list --state open --limit 200 --json number,headRefName,url,mergeable,reviewDecision,statusCheckRollup
+gh pr list --state merged --limit 200 --json number,headRefName,url
+
+--- local branches
+main
+sdlc/M-1-v0-cli-0
+sdlc/S-001-v0-cli-0
+sdlc/S-001-v1-http-api-2
+sdlc/S-002a-v3-security-1
+===== TC-cli-13 seed probe milestone id shaped like a verify name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-170
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/fakebin-167:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' TMPDIR=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/tmpdir-168 python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-v0-cli-1/skills/sdlc/state-write.py patch-slice --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-170 --slice S-014
+exit: 0 (628 ms)
+--- stdout
+{"ok": true, "branch": "sdlc/S-014", "commit": "b11ce34"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PaCjIO/testkit-cli-dP845k/repo-170
++ .sdlc/STATUS.md
++ ref:refs/heads/sdlc/S-001-v0-cli-0
++ ref:refs/heads/sdlc/S-014
++ ref:refs/remotes/origin/HEAD
++ ref:refs/remotes/origin/sdlc/S-001-v0-cli-0
+~ .sdlc/slices.json
+~ ref:HEAD
+--- bare remote refs after
+refs/heads/main
+refs/heads/sdlc/S-001-v0-cli-0
+refs/heads/sdlc/run-1

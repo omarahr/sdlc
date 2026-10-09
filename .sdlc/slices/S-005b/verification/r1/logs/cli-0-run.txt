@@ -1,0 +1,78 @@
+✔ verify cli TC-cli-13: every covered git push spelling outside a body breaks a pin (1993.673083ms)
+✔ verify cli TC-cli-14: corpus spellings of the push verb break a pin or are not a push (4350.815ms)
+✔ verify cli TC-cli-16: a process or network call reached by an alias, a value or dynamic code breaks a pin (3258.5945ms)
+✔ verify cli TC-cli-17: an import alias bound after its use in the file breaks a pin (303.598208ms)
+✔ verify cli TC-cli-18: a git -c option that runs a command before a constant verb breaks a pin (620.583166ms)
+✔ verify cli TC-cli-19: the TC-cli-17 and TC-cli-18 mutants push a verify branch to a bare remote (1091.249333ms)
+✖ verify cli TC-cli-22: an import alias bound late, in another scope or through a chain breaks a pin (1235.893834ms)
+✔ verify cli TC-cli-23: every git option before the verb other than -C and the five flags is opaque (1017.30575ms)
+✔ verify cli TC-cli-24: seed probe S1: a fetch run in the remote copies a verify branch into it with every key equal (1013.69925ms)
+✔ verify cli TC-cli-25: seed probe S1: a variable option after a known wrapper verb leaves every key equal (199.20275ms)
+✔ verify cli TC-cli-26: seed probe S3: a process module reached through a class attribute leaves every key equal (101.382125ms)
+✖ verify cli TC-cli-27: the os.path.os.system mutant pushes a verify branch to a bare remote while the guard output equals the pins (986.679791ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 10
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16543.509709
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:260:1
+✖ verify cli TC-cli-22: an import alias bound late, in another scope or through a chain breaks a pin (1235.893834ms)
+  AssertionError [ERR_ASSERTION]: the guard output equals the pins for:
+  from os import path as _p then _p.os.system, branches.py
+  os.path.os.system chain, janitor.py
+  + actual - expected
+  
+  + [
+  +   'from os import path as _p then _p.os.system, branches.py',
+  +   'os.path.os.system chain, janitor.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:280:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'from os import path as _p then _p.os.system, branches.py', 'os.path.os.system chain, janitor.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:349:1
+✖ verify cli TC-cli-27: the os.path.os.system mutant pushes a verify branch to a bare remote while the guard output equals the pins (986.679791ms)
+  AssertionError [ERR_ASSERTION]: the guard passed these mutants, and each pushed sdlc/S-001-v0-http-api-0 to the bare remote:
+  os.path.os.system in janitor.py
+  from os import path as _p, _p.os.system in branches.py
+  + actual - expected
+  
+  + [
+  +   'os.path.os.system in janitor.py',
+  +   'from os import path as _p, _p.os.system in branches.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:366:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'os.path.os.system in janitor.py', 'from os import path as _p, _p.os.system in branches.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

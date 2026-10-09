@@ -1,0 +1,185 @@
+✔ verify security VS-1: every inserted statement at the start of a pinned body breaks a pin (2405.047625ms)
+✔ verify security VS-1: a replaced token inside a pinned body breaks wrapperBodies (1039.131292ms)
+✔ verify security VS-2: each changed or extra wrapper definition breaks a pin (2772.686708ms)
+✔ verify security VS-2: an identical duplicate wrapper def adds a second wrapperBodies entry (96.192458ms)
+✖ verify security VS-4: starred first argument, sw starred repo tuple then show, breaks a pin (96.046709ms)
+✖ verify security VS-4: starred first argument, sw starred repo list then show, breaks a pin (97.043708ms)
+✖ verify security VS-4: starred first argument, sw starred via local then show, breaks a pin (95.03925ms)
+✖ verify security VS-4: starred first argument, sr starred repo then ls-tree, breaks a pin (95.724917ms)
+✖ verify security VS-4: starred first argument, na starred dot git push then git show, breaks a pin (97.31775ms)
+✔ verify security VS-4: starred first argument, na starred dot gh pr create then gh pr list, breaks a pin (97.359542ms)
+✔ verify security VS-4: starred first argument, na starred repo only gh api post, breaks a pin (96.457458ms)
+✔ verify security VS-4: starred first argument, im starred argv then cwd, breaks a pin (97.293834ms)
+✔ verify security VS-4: starred first argument, im git_lines starred, breaks a pin (94.884875ms)
+✖ verify security VS-4: the starred-first mutant in state-write.py pushes a verify branch to a remote while the guard reports no breach (511.352125ms)
+✖ verify security VS-7: a process module bound by import inside a class body and called through self breaks a pin (427.753833ms)
+✖ verify security VS-7: os.startfile in a scanned script breaks a pin (92.611791ms)
+✔ verify security VS-4: a non-constant program, verb or path outside a body gives an opaque entry or a value entry (865.974083ms)
+✔ verify security VS-5: each new push or process spelling changes a pin (2665.794542ms)
+✔ verify security VS-5: a push at a direct site changes pushes, direct or opaque (947.657375ms)
+✔ verify security VS-6: each forge write form is a forge violation (2177.069584ms)
+✔ verify security VS-6: an unknown forge shape is opaque or a violation (470.919375ms)
+✔ verify security VS-6: a lowercase get method is allowed and gives no violation (95.163125ms)
+✔ verify security VS-7: each alias, value, chain, import or dynamic-code form changes a pin (3405.516459ms)
+✔ verify security VS-8: each banned identifier form in sdlc-loop.js reports a hit or a pin change (2651.853083ms)
+✔ verify security VS-8: the three decisionPanel allowlist lines stay pinned (93.496208ms)
+✔ verify security VS-10: new script types, symlinks and non-UTF-8 sources change a pin (2322.399167ms)
+✔ verify security VS-10: the scanned list is exact and the clean tree equals every pin (95.989333ms)
+✔ verify security VS-11: a forge read with a constant verb changes forge and hits no ban (569.520125ms)
+✔ verify security: out-of-scope attacks are recorded (863.020291ms)
+✔ verify security VS-10: an unreadable scanned file fails closed (69.630708ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 22
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25908.823208
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:190:3
+✖ verify security VS-4: starred first argument, sw starred repo tuple then show, breaks a pin (96.046709ms)
+  AssertionError [ERR_ASSERTION]: sw starred repo tuple then show leaves every pin equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:192:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:190:3
+✖ verify security VS-4: starred first argument, sw starred repo list then show, breaks a pin (97.043708ms)
+  AssertionError [ERR_ASSERTION]: sw starred repo list then show leaves every pin equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:192:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:190:3
+✖ verify security VS-4: starred first argument, sw starred via local then show, breaks a pin (95.03925ms)
+  AssertionError [ERR_ASSERTION]: sw starred via local then show leaves every pin equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:192:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:190:3
+✖ verify security VS-4: starred first argument, sr starred repo then ls-tree, breaks a pin (95.724917ms)
+  AssertionError [ERR_ASSERTION]: sr starred repo then ls-tree leaves every pin equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:192:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:190:3
+✖ verify security VS-4: starred first argument, na starred dot git push then git show, breaks a pin (97.31775ms)
+  AssertionError [ERR_ASSERTION]: na starred dot git push then git show leaves every pin equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:192:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:206:1
+✖ verify security VS-4: the starred-first mutant in state-write.py pushes a verify branch to a remote while the guard reports no breach (511.352125ms)
+  AssertionError [ERR_ASSERTION]: guard breaches []; remote refs: refs/heads/sdlc/S-001-v0-security-0
+  refs/heads/show
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:214:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:217:1
+✖ verify security VS-7: a process module bound by import inside a class body and called through self breaks a pin (427.753833ms)
+  AssertionError [ERR_ASSERTION]: guard breaches []; remote refs: refs/heads/sdlc/S-001-v0-security-0
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:225:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:228:1
+✖ verify security VS-7: os.startfile in a scanned script breaks a pin (92.611791ms)
+  AssertionError [ERR_ASSERTION]: os.startfile leaves every pin equal
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:230:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,902 @@
+{
+ "profile": "contract",
+ "part": 0,
+ "round": 1,
+ "commit": "1fa953b",
+ "environment": "macOS, node --test, git 2.50.1, python 3.14.7 (homebrew), 3.12.14 (uv), 3.9.6 (/usr/bin); scratch copies of skills and hooks; module-loader with a local bare remote. Product commit e71f8c8.",
+ "surface": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-surface.txt",
+ "cases": [
+  {
+   "id": "TC-contract-1",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A conditional verb added in the state-write.py git body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:50",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-2",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A parameter rebind before the call in the state-write.py git body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:51",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-3",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A try/finally push in the next-action.py run body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:52",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-4",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A with block push in the impact.py run body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:53",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-5",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A lambda push in the suite-receipt.py git body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:54",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-6",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A comprehension push in the next-action.py run body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:55",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-7",
+   "scenarioId": "VS-1",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A call to an outside helper from the impact.py git_lines body changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:56",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-8",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A new decorator on suite-receipt.py git changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:57",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-9",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A changed default check=False on state-write.py git changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:58",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-10",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A new keyword-only parameter on state-write.py git changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:59",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-11",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A return annotation on impact.py run changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:60",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-12",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A duplicate module-level def run in impact.py changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:61",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-13",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A nested def git in another state-write.py function changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:62",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-14",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A class method run in next-action.py changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:63",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-15",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "An async def git in suite-receipt.py changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:64",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-16",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A shadowing def git after the pinned one in state-write.py changes wrapperBodies",
+   "given": "A scratch copy of skills and hooks at the slice commit 1fa953b",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "The wrapperBodies key differs from the clean output",
+   "expected": "wrapperBodies changes",
+   "actual": "wrapperBodies changes",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (wrapper body pin)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:65",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-17",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A wrapper name rebound by a lambda, then a push call in a new function breaks another pin",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "imports, pushes, wrapperValues, opaque or direct differs from the clean output",
+   "expected": "another pin breaks",
+   "actual": "another pin breaks",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:76",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-18",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A wrapper name bound by an import alias, then a push call in a new function breaks another pin",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "imports, pushes, wrapperValues, opaque or direct differs from the clean output",
+   "expected": "another pin breaks",
+   "actual": "another pin breaks",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:77",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-19",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A comment line in each wrapper body keeps every key",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "Every output key equals the clean output",
+   "expected": "no key changes",
+   "actual": "no key changes",
+   "result": "pass",
+   "specSource": "plan R-119 scope (a comment or a blank line does not change the text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:98",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-20",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A blank line and a trailing comment in each wrapper body keeps every key",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "Every output key equals the clean output",
+   "expected": "no key changes",
+   "actual": "no key changes",
+   "result": "pass",
+   "specSource": "plan R-119 scope (a comment or a blank line does not change the text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:98",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-21",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A changed existing comment in impact.py git_lines keeps every key",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "Every output key equals the clean output",
+   "expected": "no key changes",
+   "actual": "no key changes",
+   "result": "pass",
+   "specSource": "plan R-119 scope (a comment or a blank line does not change the text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:98",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-22",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A backslash continuation in the next-action.py run body keeps every key",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "Every output key equals the clean output",
+   "expected": "no key changes",
+   "actual": "no key changes",
+   "result": "pass",
+   "specSource": "plan R-119 scope (a comment or a blank line does not change the text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:98",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-23",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "CRLF line ends in all four wrapper files keeps every key",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "Every output key equals the clean output",
+   "expected": "no key changes",
+   "actual": "no key changes",
+   "result": "pass",
+   "specSource": "plan R-119 scope (a comment or a blank line does not change the text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:98",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-24",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A tab indent in the impact.py run body keeps every key",
+   "given": "A scratch copy of skills and hooks",
+   "when": "The edit is applied and push_guard.py scans the copy",
+   "then": "Every output key equals the clean output",
+   "expected": "no key changes",
+   "actual": "no key changes",
+   "result": "pass",
+   "specSource": "plan R-119 scope (a comment or a blank line does not change the text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:98",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-25",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A comment between decorators keeps the body text",
+   "given": "Two copies with two decorators on impact.py run",
+   "when": "One copy adds a comment and a blank line between the decorators",
+   "then": "wrapperBodies is equal in both copies",
+   "expected": "equal",
+   "actual": "equal",
+   "result": "pass",
+   "specSource": "plan R-119 scope",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:111",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-26",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The clean output is equal on Python 3.14.7, 3.12.14 and 3.9.6",
+   "given": "The slice tree",
+   "when": "push_guard.py runs under each local python",
+   "then": "The full JSON output is equal, wrapperBodies included",
+   "expected": "equal on every version",
+   "actual": "equal on every version",
+   "result": "pass",
+   "specSource": "plan Risks (version drift in the body text)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:120",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-27",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A re-quoted string changes the body text",
+   "given": "The impact.py git_lines body",
+   "when": "\"git\" is re-quoted as 'git'",
+   "then": "Only wrapperBodies changes",
+   "expected": "observation: a token-equal reformat breaks the pin",
+   "actual": "only wrapperBodies changes",
+   "result": "pass",
+   "specSource": "plan VS-3 notes (record the token-equal case)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:125",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-28",
+   "scenarioId": "VS-3",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "body_text keeps its text under neutral edits and changes it under a code edit",
+   "given": "The five pinned bodies",
+   "when": "1000 seeded runs apply 1 to 4 neutral edits (comment, blank, trailing comment, CRLF), then one code statement",
+   "then": "The neutral text equals the clean text, and the code edit changes it",
+   "expected": "0 violations on each python",
+   "actual": "0 violations on 3.14.7, 3.12.14 and 3.9.6",
+   "result": "pass",
+   "specSource": "plan R-119 scope",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:130",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run, 28 of 28 pass",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run.txt"
+    },
+    {
+     "kind": "property-run",
+     "title": "body_text property",
+     "inline": "property: neutral edit keeps body_text, code edit changes it\nseed=20261009 runs=1000 per python\n3.14.7: 0 failures\n3.12.14: 0 failures\n3.9.6: 0 failures\nkinds: blank 828, comment 553, trailing 403, crlf 501\nshrunk counterexample: none"
+    },
+    {
+     "kind": "file-tree",
+     "title": "scanner surface listing",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-surface.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-29",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A literal option after a known wrapper verb, in any spelling, changes wrapperVerbs, opaque or pushes",
+   "given": "state-write.py and next-action.py at 1fa953b, and a reference model from the VS-13 title: each option token after a wrapper verb is recorded or opaque",
+   "when": "A seeded generator appends a new function with one wrapper call: a known verb, then an option (--upload-pack, --receive-pack, --exec, -u, --upl, --upload-p, --config) in 15 spellings; the scanner runs on the file",
+   "then": "wrapperVerbs, opaque or pushes differs from the clean scan of that file",
+   "expected": "0 counterexamples among the literal spellings",
+   "actual": "412 counterexamples in 1000 runs. Every f-string with a leading expression, .strip(), str(), .format(), join() and % spelling leaves every key equal. The plain constant, the two-token, the + of two constants and the whitespace-padded spellings are recorded.",
+   "result": "fail",
+   "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e (a new form that is a process call refutes when the output stays equal to the pins)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:42",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs --test-name-pattern TC-contract-29",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "option spellings after a known verb",
+     "inline": "seed 20261009, runs 1000, python 3.14.7 / 3.12.14 / 3.9.6: failures 412 on each\nkinds (runs/hits): const 60/60, two-tokens 61/61, concat-const 67/67, whitespace-pad 72/72\nfstring-leading-expr 78/0, strip-call 66/0, str-call 61/0, format-call 84/0, join-call 55/0, percent 68/0\nfirst counterexample: git(repo, 'checkout', 'origin', f\"{''}--receive-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False) -> changed keys []\nseed S1 (data flow, not counted): variable, starred-list, fstring-leading-var, concat-var-first: 0 hits\nobservation (not counted): confusable dash 77/0; git does not read it as an option"
+    },
+    {
+     "kind": "log",
+     "title": "property on three pythons",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-pythons.txt"
+    },
+    {
+     "kind": "log",
+     "title": "node test run of the new cases, 9 pass, 6 fail",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run-new-cases.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-30",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "Five hidden-option mutants push a verify branch to a bare remote while the guard output equals the clean output",
+   "given": "A scratch copy of skills and hooks at 1fa953b, and a work repo with a bare origin and a local branch sdlc/S-001-v0-cli-0",
+   "when": "A function with one wrapper call (m1, m2, a format call, m3, a join call) is appended to state-write.py or next-action.py; push_guard.py scans the copy; module-loader calls the function on the work repo",
+   "then": "The guard output differs from the clean output, or the bare remote holds no verify ref",
+   "expected": "A changed key, or no refs/heads/sdlc/S-001-v0-cli-0 on the remote",
+   "actual": "All five mutants leave every key equal, and each one creates refs/heads/sdlc/S-001-v0-cli-0 on the bare remote",
+   "result": "fail",
+   "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e (a new form that is a process call refutes when the output stays equal to the pins); spec-fidelity r1 D-1",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:55",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs --test-name-pattern TC-contract-30",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "guard keys and remote refs per mutant",
+     "inline": "git 2.50.1 (Apple Git-155); bare origin, local branch sdlc/S-001-v0-cli-0\nm1 state-write.py git(repo, \"fetch\", \"origin\", f\"{''}--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)\n   changed keys: <none>; outcome: return; refs added: refs/heads/sdlc/S-001-v0-cli-0\nm2 state-write.py ... \"--upload-pack=...\".strip()  -> changed keys: <none>; refs added: refs/heads/sdlc/S-001-v0-cli-0\n   state-write.py ... \"{}\".format(\"--upload-pack=...\") -> changed keys: <none>; refs added: refs/heads/sdlc/S-001-v0-cli-0\nm3 next-action.py run(repo, \"git\", \"fetch\", \"origin\", str(\"--upload-pack=...\")) -> changed keys: <none>; refs added: refs/heads/sdlc/S-001-v0-cli-0\n   next-action.py ... \"\".join([\"--upload-pack=...\"]) -> changed keys: <none>; refs added: refs/heads/sdlc/S-001-v0-cli-0"
+    },
+    {
+     "kind": "log",
+     "title": "node test run of the new cases, 9 pass, 6 fail",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run-new-cases.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-31",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The clean tree has no opaque entry and no command-running option in wrapperVerbs",
+   "given": "The clean tree at 1fa953b",
+   "when": "push_guard.py scans it",
+   "then": "opaque is empty, and no option entry in wrapperVerbs is a command-running option",
+   "expected": "opaque [], 0 command-running options",
+   "actual": "opaque []; 63 wrapperVerbs entries, none names --upload-pack, --receive-pack, --exec, --config, -c or -u outside push",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan-r1 VS-13 notes",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:71",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs --test-name-pattern TC-contract-31",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run of the new cases, 9 pass, 6 fail",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run-new-cases.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-32",
+   "scenarioId": "VS-15",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "An import alias bound anywhere in a module resolves to the watched module",
+   "given": "janitor.py, branches.py and tracker/collect.py at 1fa953b",
+   "when": "A seeded generator appends a function that calls an alias (10 subprocess and os targets, 9 alias names) and binds the alias after the use: at module end, in another function, try, except, if, while, with, a class body or a nested function",
+   "then": "direct, dynamic or imports differs from the clean scan",
+   "expected": "0 counterexamples",
+   "actual": "0 counterexamples in 1000 runs on python 3.14.7, 3.12.14 and 3.9.6",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (any import alias)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:79",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs --test-name-pattern TC-contract-32",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "late alias binding",
+     "inline": "seed 20261009, runs 1000, failures 0 on 3.14.7, 3.12.14, 3.9.6\nplaces (runs/hits): if 119/119, other-function 121/121, class-body 93/93, except 117/117, module-end 114/114, while 101/101, nested 109/109, with 111/111, try 115/115"
+    },
+    {
+     "kind": "log",
+     "title": "property on three pythons",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-pythons.txt"
+    },
+    {
+     "kind": "log",
+     "title": "node test run of the new cases, 9 pass, 6 fail",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run-new-cases.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-33",
+   "scenarioId": "VS-15",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A rebound, reassigned or deleted alias breaks a pin",
+   "given": "A scratch copy at 1fa953b",
+   "when": "Six tails are appended to janitor.py: json and subprocess under one name (two placements), import then sp = json, sp = subprocess, del then a late rebind, a lambda default with __import__",
+   "then": "The expected key (dynamic or direct) changes",
+   "expected": "dynamic or direct changes in each tail",
+   "actual": "Each tail changes the expected key",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan R-119 scope (alias, value, dynamic code)",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:95",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs --test-name-pattern TC-contract-33",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "new entries per tail",
+     "inline": "dynamic: janitor.py rebound import sp json subprocess; direct: janitor.py _b sp.run([...])\ndynamic: janitor.py rebound import sp json subprocess (late); direct as above\ndirect: janitor.py _b sp.run([...]) (import then sp = json)\ndynamic: janitor.py <module> value subprocess\ndynamic: janitor.py <module> value _r\ndynamic: janitor.py <module> __import__('subprocess')"
+    },
+    {
+     "kind": "log",
+     "title": "node test run of the new cases, 9 pass, 6 fail",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run-new-cases.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-34",
+   "scenarioId": "VS-15",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The clean tree has no dynamic entry, so no file has a rebound name",
+   "given": "The clean tree at 1fa953b",
+   "when": "push_guard.py scans it",
+   "then": "dynamic is empty",
+   "expected": "[]",
+   "actual": "[]",
+   "result": "pass",
+   "specSource": "plan-r1 VS-15 notes",
+   "test": ".sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:106",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs --test-name-pattern TC-contract-34",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "node test run of the new cases, 9 pass, 6 fail",
+     "path": ".sdlc/slices/S-005b/verification/r1/logs/contract-0-run-new-cases.txt"
+    }
+   ]
+  }
+ ],
+ "attacks": [],
+ "seeds": []
+}

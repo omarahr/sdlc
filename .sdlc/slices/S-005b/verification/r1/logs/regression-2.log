@@ -1,0 +1,47 @@
+✔ verify cli: TC-cli-1 the guard on the slice tip prints output equal to every pin (92.470833ms)
+✔ verify cli: TC-cli-4 each push spelling in a scanned script breaks a pin or holds a violation (3487.41925ms)
+✔ verify cli: TC-cli-5 each pull-request and forge write form breaks a pin or holds a violation (2205.174292ms)
+✖ verify cli: TC-cli-6 each forge write form holds a forge violation or an opaque entry (1730.511584ms)
+✔ verify cli: TC-cli-13 the recursive wrapper push that the guard misses pushes a verify branch to a real remote (660.979042ms)
+✔ verify cli: TC-cli-14 a non-constant push verb inside a pinned wrapper body breaks a pin or holds a violation (675.94325ms)
+✔ verify cli: TC-cli-15 a non-constant pull-request verb inside the next-action run wrapper breaks a pin or holds a violation (291.725333ms)
+✔ verify cli: TC-cli-16 a wrapper-body push that the guard passes sends a verify branch to a real remote (593.728292ms)
+✔ verify cli: TC-cli-18 a bare wrapper parameter that is not the forwarded argument list, used as the push verb in a wrapper body, breaks a pin or holds a violation (883.121625ms)
+✔ verify cli: TC-cli-19 a wrapper-body push with the check parameter as the verb sends a verify branch to a real remote while the guard passes (537.691375ms)
+✔ verify cli: TC-cli-20 a forge write with a bare wrapper parameter in the last place inside the next-action run wrapper breaks a pin or holds a violation (763.67625ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12126.005791
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:179:1
+✖ verify cli: TC-cli-6 each forge write form holds a forge violation or an opaque entry (1730.511584ms)
+  AssertionError [ERR_ASSERTION]: no violation and no opaque entry for:
+  recursive gh pr create inside the next-action run wrapper
+  + actual - expected
+  
+  + [
+  +   'recursive gh pr create inside the next-action run wrapper'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005b-regression-r1/.sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:186:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'recursive gh pr create inside the next-action run wrapper' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

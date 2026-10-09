@@ -1,0 +1,182 @@
+{
+ "profile": "contract",
+ "part": 0,
+ "round": 2,
+ "commit": "39aa68f",
+ "environment": "macOS, node --test, git 2.50.1 (Apple Git-155), python 3.14.7 (homebrew), 3.12.14 (uv), 3.9.6 (/usr/bin); scratch copies of skills and hooks; module-loader with a local bare remote",
+ "cases": [
+  {
+   "id": "TC-contract-29",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A literal option after a known wrapper verb, in any spelling, changes wrapperVerbs, opaque or pushes",
+   "given": "state-write.py, suite-receipt.py and next-action.py at 39aa68f, and a reference model from the VS-13 title: each option token after a wrapper verb is recorded or opaque",
+   "when": "A seeded generator appends a new function with one wrapper call: a known verb, then an option in 15 spellings; the scanner runs on the file",
+   "then": "wrapperVerbs, opaque or pushes differs from the clean scan of that file",
+   "expected": "0 counterexamples",
+   "actual": "0 counterexamples in 1000 runs on python 3.14.7, 3.12.14 and 3.9.6. The 412 round 1 counterexamples (f-string, strip, str, format, join, percent) now change wrapperVerbs. The seed S1 forms (variable, starred list, leading variable) also change wrapperVerbs.",
+   "result": "pass",
+   "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e (a new form that is a process call refutes when the output stays equal to the pins); spec-fidelity r1 D-1",
+   "test": ".sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:54",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs --test-name-pattern TC-contract-29",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "r1 option spellings after a known verb",
+     "inline": "seed 20261009, runs 1000, python 3.14.7 / 3.12.14 / 3.9.6: failures 0 on each\nall literal kinds hit on every run: const, two-tokens, concat-const, whitespace-pad, fstring-leading-expr, strip-call, str-call, format-call, join-call, percent\nseed S1 kinds (not counted): variable 65/65, starred-list 70/70, fstring-leading-var 64/64, concat-var-first 63/63\nobservation (not counted): confusable dash 69/16; git does not read it as an option"
+    },
+    {
+     "kind": "log",
+     "title": "property on three pythons",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-pythons.txt"
+    },
+    {
+     "kind": "log",
+     "title": "node test run, 8 pass, 4 fail",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-30",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "Five hidden-option mutants push a verify branch only when the guard flags them",
+   "given": "A scratch copy of skills and hooks at 39aa68f, and a work repo with a bare origin and a local branch sdlc/S-001-v0-cli-0",
+   "when": "A function with one wrapper call (m1, m2, a format call, m3, a join call) is appended to state-write.py or next-action.py; push_guard.py scans the copy; module-loader calls the function",
+   "then": "The guard output differs from the clean output, or the bare remote holds no verify ref",
+   "expected": "A changed key, or no verify ref on the remote",
+   "actual": "Each mutant still pushes the verify ref, but each one now changes wrapperVerbs, so the guard fails",
+   "result": "pass",
+   "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e (a new form that is a process call refutes when the output stays equal to the pins); spec-fidelity r1 D-1",
+   "test": ".sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:68",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs --test-name-pattern TC-contract-30",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "guard keys and remote refs per mutant",
+     "inline": "git 2.50.1 (Apple Git-155); python 3.14.7\nm1 state-write.py f\"{''}--upload-pack=...\" -> changed keys: wrapperVerbs; refs added: refs/heads/sdlc/S-001-v0-cli-0\nm2 state-write.py \"--upload-pack=...\".strip() -> changed keys: wrapperVerbs; refs added: refs/heads/sdlc/S-001-v0-cli-0\n   state-write.py \"{}\".format(...) -> changed keys: wrapperVerbs; refs added: refs/heads/sdlc/S-001-v0-cli-0\nm3 next-action.py str(\"--upload-pack=...\") -> changed keys: wrapperVerbs; refs added: refs/heads/sdlc/S-001-v0-cli-0\n   next-action.py \"\".join([...]) -> changed keys: wrapperVerbs; refs added: refs/heads/sdlc/S-001-v0-cli-0"
+    },
+    {
+     "kind": "log",
+     "title": "node test run, 8 pass, 4 fail",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-31",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The clean tree has no opaque entry and no command-running option in wrapperVerbs",
+   "given": "The clean tree at 39aa68f",
+   "when": "push_guard.py scans it",
+   "then": "opaque is empty; no option entry and no value entry in wrapperVerbs names a command-running option",
+   "expected": "opaque [], 0 command-running options",
+   "actual": "opaque []; 91 wrapperVerbs entries (was 63): the new entries are value pins of existing non-constant arguments; none names --upload-pack, --receive-pack, --exec, --config, -c, or -u outside push",
+   "result": "pass",
+   "specSource": "R-119 acceptance; plan-r1 VS-13 notes",
+   "test": ".sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:75",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs --test-name-pattern TC-contract-31",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "surface listing at 39aa68f",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-surface.txt"
+    },
+    {
+     "kind": "log",
+     "title": "node test run, 8 pass, 4 fail",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-35",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "More literal option spellings after a known wrapper verb change wrapperVerbs, opaque or pushes",
+   "given": "state-write.py, suite-receipt.py and next-action.py at 39aa68f, and the same reference model as TC-contract-29",
+   "when": "A seeded generator appends a new function with one wrapper call: a known verb, then an option in 12 new spellings (bytes literal, bytes in two tokens, starred constant list and tuple, conditional, subscript, walrus, bytes decode, os.fspath, tab, newline and no-break-space padding)",
+   "then": "wrapperVerbs, opaque or pushes differs from the clean scan of that file",
+   "expected": "0 counterexamples",
+   "actual": "162 counterexamples in 1000 runs on each python. Every one is a bytes literal: bytes-const 76 of 92 leave every key equal, bytes-two-tokens 86 of 110. The hits are runs whose verb is new for the file or is push. All other new spellings change wrapperVerbs.",
+   "result": "fail",
+   "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e (a new form that is a process call refutes when the output stays equal to the pins); plan-r1 VS-13 (a new option after a known wrapper verb, in any spelling)",
+   "test": ".sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:86",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs --test-name-pattern TC-contract-35",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "property-run",
+     "title": "r2 option spellings after a known verb",
+     "inline": "seed 20261009, runs 1000, python 3.14.7 / 3.12.14 / 3.9.6: failures 162 on each\nkinds (runs/hits): bytes-const 92/16, bytes-two-tokens 110/24\nstarred-const-list 76/76, starred-const-tuple 67/67, ifexp 92/92, subscript 86/86, walrus 76/76\nbytes-decode 72/72, fspath 84/84, tab-pad 79/79, newline-pad 87/87, nbsp-pad 79/79\nfirst counterexample: git(repo, 'checkout', 'origin', b'-u', b'git push origin sdlc/S-001-v0-cli-0;:', check=False) -> changed keys []\nsecond: suite-receipt.py git(repo, 'rev-parse', 'origin', b'--config=git push origin sdlc/S-001-v0-cli-0;:') -> changed keys []\ncause: pieces() reads a bytes Constant as const text \"b'--...'\"; value_nodes() skips it and classify() sees no leading dash"
+    },
+    {
+     "kind": "log",
+     "title": "property on three pythons",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-pythons.txt"
+    },
+    {
+     "kind": "log",
+     "title": "node test run, 8 pass, 4 fail",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-contract-36",
+   "scenarioId": "VS-13",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A bytes option after a known wrapper verb pushes a verify branch while the guard output equals the clean output",
+   "given": "A scratch copy of skills and hooks at 39aa68f, and a work repo with a bare origin and a local branch sdlc/S-001-v0-cli-0",
+   "when": "A function with one wrapper call that passes b\"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\" after fetch is appended; push_guard.py scans the copy; module-loader calls the function",
+   "then": "The guard output differs from the clean output, or the bare remote holds no verify ref",
+   "expected": "A changed key, or no verify ref on the remote",
+   "actual": "Three of four mutants leave every key equal and create refs/heads/sdlc/S-001-v0-cli-0 on the bare remote: state-write.py one token, state-write.py two tokens, next-action.py one token. The suite-receipt.py mutant changes wrapperVerbs only because fetch is a new verb in that file.",
+   "result": "fail",
+   "specSource": "R-119 acceptance; ADR-20261009-062930-decision-judge-S-005-388e (a new form that is a process call refutes when the output stays equal to the pins); plan-r1 VS-13 (a form that pushes a verify branch with every key equal refutes R-119)",
+   "test": ".sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:99",
+   "command": "VERIFY_ROOT=<slice worktree> node --test .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs --test-name-pattern TC-contract-36",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "guard keys and remote refs per bytes mutant",
+     "inline": "git 2.50.1 (Apple Git-155); python 3.14.7\nstate-write.py git(repo, \"fetch\", \"origin\", b\"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\", check=False)\n   changed keys: <none>; outcome: return; refs added: refs/heads/sdlc/S-001-v0-cli-0\nstate-write.py git(repo, \"fetch\", b\"--upload-pack\", b\"git push origin sdlc/S-001-v0-cli-0;:\", \"origin\", check=False)\n   changed keys: <none>; outcome: return; refs added: refs/heads/sdlc/S-001-v0-cli-0\nsuite-receipt.py git(repo, \"fetch\", \"origin\", b\"--upload-pack=...\")\n   changed keys: wrapperVerbs (new verb fetch); outcome: exception TypeError; refs added: refs/heads/sdlc/S-001-v0-cli-0\nnext-action.py run(repo, \"git\", \"fetch\", \"origin\", b\"--upload-pack=git push origin sdlc/S-001-v0-cli-0;:\")\n   changed keys: <none>; outcome: return; refs added: refs/heads/sdlc/S-001-v0-cli-0"
+    },
+    {
+     "kind": "log",
+     "title": "node test run, 8 pass, 4 fail",
+     "path": ".sdlc/slices/S-005b/verification/r2/logs/contract-0-run.txt"
+    }
+   ]
+  }
+ ],
+ "attacks": [],
+ "seeds": [
+  {
+   "title": "push_guard.py: value pins dedupe on (function, expression) text",
+   "detail": "wrapperVerbs value entries are keyed by file, program, function name and argument text. A new wrapper call in an existing function that reuses a pinned argument text (for example a new git(repo, 'fetch', 'origin', path) in shipped_into, where 'path' is already pinned) adds no new entry. A rebind of that name before the call is seed S1 (data flow), so it does not refute. Not run as a behavior case.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "suite-receipt.py and state-write.py git(): error path joins args with ' '.join",
+   "detail": "A bytes argument raises TypeError in the error message path. This is product robustness only; no product code passes bytes today.",
+   "file": "skills/sdlc/suite-receipt.py"
+  }
+ ]
+}

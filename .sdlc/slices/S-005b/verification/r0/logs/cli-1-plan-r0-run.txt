@@ -1,0 +1,21 @@
+✔ verify cli TC-cli-1: the scanned list is exactly the 13 scripts and the clean tree reports no drift (93.929875ms)
+✔ verify cli TC-cli-2: a new script type, a symlink or a non-UTF-8 source in the scanned tree fails the guard (2332.509292ms)
+✔ verify cli TC-cli-3: a dangling symlink exits non-zero or is opaque, never silent (135.215667ms)
+✔ verify cli TC-cli-4: files outside the scan (test, fixtures, prompts) stay unscanned (seed S5) (99.058875ms)
+✔ verify cli TC-cli-5: a spec-required forge read changes only a pin and hits no ban (884.027792ms)
+✔ verify cli TC-cli-6: a forge read with a graphql path and every forge write hit the ban (1066.083458ms)
+✔ verify cli TC-cli-7: a verify branch stays local when the push-capable scripts run against a real bare remote (7725.939083ms)
+✔ verify cli TC-cli-8: module-loader calls of the three push functions and the janitor sweep send no verify branch (3040.784125ms)
+✔ verify cli TC-cli-9: janitor sweep_branches deletes a finished verify branch locally and pushes nothing (452.130875ms)
+✔ verify cli TC-cli-10: a guard-flagged mutant may push, and no mutant pushes with every key equal (3775.563875ms)
+✔ verify cli TC-cli-11: each guard-miss mutant row of T-R-119e changes a pin, and the named key when one is named (14269.797834ms)
+✔ verify cli TC-cli-12: the guard output is byte-equal across runs, cwd, a symlinked root and a path with spaces and unicode (755.323041ms)
+✔ verify cli TC-cli-13: a comment, a blank line or a line continuation in a wrapper body keeps every pin (101.293208ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35267.07175
