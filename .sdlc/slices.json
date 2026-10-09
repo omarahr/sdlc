@@ -286,12 +286,150 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-002",
     "pr": "",
     "risk": "medium",
     "riskReason": "validate_format calls git check-ref-format; a wrong pass admits formats whose names the forge rejects.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Branch formats with shell characters pass validation",
+        "detail": "validate_format accepts 'sdlc/{name}$(id)' and 'sdlc/{name};rm' because git allows these characters. I ran both. The spec delegates validity to git and the forge, so this is not a defect in S-002. Later slices that put a branch name into a shell string must quote it, or use an argument list.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "name() does not check the tail",
+        "detail": "An id such as '../x' gives 'sdlc/../x'. Today only validate_format and the tests call name, with a fixed id. Slices that feed ledger ids or CLI input into name (S-004 and later) must check the result before git or a path uses it.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Invisible characters pass validation",
+        "detail": "validate_format accepts U+200B because git allows it. I ran 'sdlc/​{name}' and it passed. Such a format gives names that look the same as other names. The spec gives this job to git and the forge rules, so this note is for information only.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "KINDS and TAILS list the branch kinds twice",
+        "detail": "KINDS and TAILS both list the branch kinds. _kind accepts a kind that tail refuses until S-004 to S-006 add all rows. Fix: when the table is complete, derive KINDS from TAILS, or assert in a test that the two sets are equal.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "TAILS constant sits between functions",
+        "detail": "TAILS sits between validate_format and tail. The module keeps its other constants at the top. Fix: move TAILS next to KINDS and PLACEHOLDERS.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "T-012 name promises a whitespace case it does not test",
+        "detail": "The case sdlc/{ name } holds no placeholder, so it fails at the placeholder count, not at the whitespace check. T-018 now pins the whitespace check, so only the name is wrong. Fix: replace the case with 'sdlc/ {name}', or rename the test to say it covers a malformed placeholder.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-018 tab case does not match the test name",
+        "detail": "Git refuses 'sdlc/\\tS-001' (exit 128), but the test name says 'Unicode whitespace that git accepts'. Git accepts U+00A0, U+3000 and U+2028. Fix: drop the tab case, or rename the test to 'rejects Unicode and control whitespace'.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Whitespace branch of validate_format has no direct Python test",
+        "detail": "sdlc/{ name } fails at the placeholder count, not at the whitespace check. The whitespace branch is reached only by the S-001 CLI case 'sdlc/ {name}'. Add a direct Python case such as 'sdlc /{name}' to pin it.",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      },
+      {
+        "title": "tail accepts extra parts silently",
+        "detail": "tail('slice', id='S-1', extra=1) returns 'S-1' and does not raise Fail. The spec does not say whether extra parts are an error.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A git binary on PATH decides the format verdict",
+        "detail": "validate_format runs the first git on PATH. A fake git that exits 0 admits sdlc/{name}.. (TC-cli-11). The spec does not pin the git binary.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Zero-width characters pass validate_format",
+        "detail": "U+200B, U+200D and U+FEFF do not match Python \\s, and git accepts them, so a​b/{name} is valid (TC-cli-5). The branch names then look the same as names without these characters.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Control characters U+001C to U+001F are reported as whitespace",
+        "detail": "Python \\s matches U+001C to U+001F, so a\\x1f/{name} fails with 'holds whitespace', not with the git reason. The verdict is correct, but the message names the wrong cause.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: cli-runner has no per-run absolute python option",
+        "detail": "A test that isolates PATH must build a second runner with cliRunner({ python: <abs path> }), because python3 is found through the child PATH.",
+        "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+      },
+      {
+        "title": "Zero-width and BOM characters pass validate_format",
+        "detail": "validate_format accepts formats with U+200B, U+200C, U+200D, U+FEFF and U+180E. These characters are not Unicode whitespace, and git accepts them, so a branch name can hold an invisible character. The spec forbids only whitespace. Consider refusing Unicode format characters (category Cf).",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "The first git on PATH decides the validate_format verdict",
+        "detail": "A fake git on PATH that exits 0 makes validate_format accept sdlc/{name}... The spec does not define which git runs. Consider naming the git binary in the pre-flight output.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Control characters U+001C to U+001F fail as whitespace",
+        "detail": "Python re \\s matches U+001C to U+001F. validate_format therefore refuses a\\x1f/{name} with the message 'holds whitespace', not with the git control-character reason. The verdict is correct. Only the message text is misleading.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "name accepts a non-string id and stringifies it",
+        "detail": "name(\"sdlc/{name}\", \"slice\", id=False) gives sdlc/False, id=[] gives sdlc/[] and id={} gives sdlc/{}. tail checks only None and the empty string. A Fail for an id that is not a str keeps such names out of git.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "name does not check the id text against git",
+        "detail": "name gives sdlc/.., 'sdlc/ ' and sdlc/S-001.lock without Fail. validate_format checks only the sample id S-001. A caller that passes an operator id gets a name that git check-ref-format refuses later.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "an unhashable kind raises TypeError, not Fail",
+        "detail": "tail uses TAILS.get(kind), so a list or a dict kind raises TypeError. Every other unknown kind raises Fail. An isinstance check on kind makes the Fail contract total.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: pycall cannot pass keyword arguments",
+        "detail": "callPython calls fn(*args) only. name and tail take **parts, so the verifier wrote a shim module with name_kw(fmt, kind, parts). A kwargs field in the pycall request removes the shim.",
+        "file": "skills/sdlc/test/testkit/pycall.py"
+      },
+      {
+        "title": "Invisible and terminal-control characters pass the format check",
+        "detail": "validate_format accepts U+200B, U+200C, U+200D, U+FEFF, U+2060, U+180E and C1 U+009B (CSI) in the literal part, because git accepts them. A branch name can then look the same as another name or carry a terminal escape. The spec delegates this check to git, so it is not a defect.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Formats that start with refs/heads/, HEAD or @ pass",
+        "detail": "refs/heads/{name}, refs/{name}, HEAD{name} and @{name} pass git check-ref-format --branch. refs/heads/{name} gives the branch refs/heads/refs/heads/S-001, which is ambiguous with refs.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A lone surrogate in a Python-side format passes",
+        "detail": "validate_format('a\\udc80/{name}') returns the format. Python passes byte 0x80 to git, and git accepts it. The format is not valid Unicode, so later JSON or forge calls can treat it differently.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "S-001 TC-* evidence tests are missing",
+        "detail": "The evidence.tests of R-014, R-016 and R-098 list TC-* tests under .sdlc/slices/S-001/verification/r1/tests/. Those files exist in neither the branch nor the main tree, so no lens can run them again.",
+        "file": ".sdlc/requirements.json"
+      },
+      {
+        "title": "T-012 whitespace case reaches the placeholder check, not the whitespace check",
+        "detail": "The T-012 case sdlc/{ name } raises Fail at the placeholder count (found 0). T-018 now covers the whitespace branch, so only the T-012 case name is misleading.",
+        "file": "skills/sdlc/test/branches.test.mjs"
+      },
+      {
+        "title": "tail accepts extra parts",
+        "detail": "tail('slice', id='S-1', extra=1) returns S-1 and raises no Fail. The spec does not say whether extra parts are an error.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -307,6 +445,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0

@@ -1,0 +1,126 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "An operator sets a valid branch format and the loop accepts it unchanged",
+      "requirementIds": [
+        "R-001",
+        "R-017"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Call validate_format through the module path and the four CLI commands. Try sdlc/{name}, sdlc/{name:lower}, feature/PROJ-1-{name}, {name}, a/b/c-{name}-x, and a unicode letter prefix that git accepts. The return value must be the exact input string, never a normalized copy. The CLI must exit 0 for --format and for config.json branchFormat. A valid format must never be refused because of the cwd, a non-repo cwd, or GIT_DIR in the environment."
+    },
+    {
+      "id": "VS-2",
+      "title": "An operator sets a structurally malformed format and the loop refuses it",
+      "requirementIds": [
+        "R-001",
+        "R-017",
+        "R-071"
+      ],
+      "profiles": [
+        "contract",
+        "cli",
+        "security"
+      ],
+      "notes": "Cases: no placeholder (sdlc/), two placeholders ({name}{name}, {name}{name:lower}), a stray { or } ({{name}, {name}}, {}), whitespace (sdlc/{ name }, a tab, a newline, unicode whitespace such as U+00A0 and U+3000), {NAME}, {name:upper}, and a non-string. Each one must raise Fail, never another exception, and the CLI must exit 2 with one JSON object. Check zero-width characters (U+200B, U+FEFF): \\s does not match them, so git alone decides. Report what happens."
+    },
+    {
+      "id": "VS-3",
+      "title": "An operator sets a format whose sample name git refuses, and the error carries git's reason",
+      "requirementIds": [
+        "R-017",
+        "R-071"
+      ],
+      "profiles": [
+        "contract",
+        "cli",
+        "security"
+      ],
+      "notes": "Cases: sdlc/{name}.., sdlc/{name}.lock, -{name}, /{name}, {name}/, a//{name}, a~/{name}, a^/{name}, a:/{name}, a?/{name}, a*/{name}, a[/{name}, a\\/{name}, @/{name}, a/.b/{name}, control characters, DEL, and a NUL. Each must raise Fail with check-ref-format and git's reason in the message. A leading dash must not reach git as an option. The format goes to git as one argv item; no shell must expand $(...), backticks or ; in it. Compare each verdict with a direct git check-ref-format --branch call on the same sample name."
+    },
+    {
+      "id": "VS-4",
+      "title": "The loop checks a format on a machine where git is missing or broken",
+      "requirementIds": [
+        "R-017"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Run with PATH set to an empty directory, and with PATH set to a directory that holds a fake git that exits 1 with empty stderr or exits 0. A missing git must give Fail that names git, and the CLI must exit 2 with one JSON object, never a traceback. A fake git that exits non-zero must give Fail with an exit-code reason. Note that a shadowed git on PATH decides the verdict; report this as a seed, not a defect, unless the spec says otherwise."
+    },
+    {
+      "id": "VS-5",
+      "title": "A caller splits a format into its prefix, suffix and lower flag",
+      "requirementIds": [
+        "R-020"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "split(\"a/{name}.x\") must be (\"a/\", \".x\", False) and split(\"a/{name:lower}\") must be (\"a/\", \"\", True). Try {name}, {name:lower}, a prefix or suffix with the text name or lower, and formats with zero or two placeholders, which must raise Fail. Property: prefix + placeholder + suffix equals the input for every format with one placeholder."
+    },
+    {
+      "id": "VS-6",
+      "title": "A caller builds a slice branch name, and only the tail is lowercased",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "name(\"sdlc/{name}\", \"slice\", id=\"S-001\") must be sdlc/S-001. Under {name:lower} the literal prefix and suffix must keep their case: FEATURE/PROJ-1-{name:lower}.X gives FEATURE/PROJ-1-s-001.X. Property: stripping the split prefix and suffix from the name gives the tail, lowercased under {name:lower}. Try unicode ids where lower() changes length (for example the dotted capital I). The parse-back clause of R-019 is out of scope; it closes in S-007."
+    },
+    {
+      "id": "VS-7",
+      "title": "A caller asks for a name without the parts the kind needs, or for an unknown kind",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "name(fmt, \"slice\") without id, with id=\"\", and with id=None must raise Fail. An unknown kind must raise Fail. A non-string id such as 7 is converted by str(); report the result. Do not assert that kinds other than slice fail, because S-004 to S-006 add those rows (ADR-20261009-034220)."
+    },
+    {
+      "id": "VS-8",
+      "title": "A format from config.json that git refuses stops every branches.py command with one JSON error",
+      "requirementIds": [
+        "R-017"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Write branchFormat into .sdlc/config.json of a scratch repo and run name, parse, list and preflight without --format. Each must exit 2 with exactly one JSON object on stdout, ok false, and an error that contains is not a valid branch name. The command must not change the repo tree or its refs. Repeat with --format overriding a valid config, and with a valid --format overriding an invalid config."
+    }
+  ],
+  "tools": [
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Generated formats and parts for validate_format, split and name properties through pycall.py",
+      "exists": true
+    },
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py in a scratch repo with a controlled env, PATH and config.json, and record exit code, JSON stdout and tree changes",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Control characters, NUL, flag-like values, injection, traversal and unicode whitespace entries for the format argument",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "validate_format starts git with operator text, so a wrong verdict admits a format whose branch names the forge refuses.",
+  "notes": "The diff against main also holds S-001, because S-001 is not yet on main. This plan covers only the S-002 changes in skills/sdlc/branches.py: validate_format with git check-ref-format, TAILS, tail, split and name. The CLI name handler still echoes its arguments by design (ADR-20261009-034215), so the CLI scenarios check the format verdict only. No requirement states a number, so the limits profile is not tagged; one git process per call is a cost concern, not a stated limit. Round 1 follows a review fix. Commit 1b90e38 adds only a committed test for Unicode whitespace in validate_format. It does not change product code, and VS-2 already covers that behavior. So this round adds no scenarios."
+}
