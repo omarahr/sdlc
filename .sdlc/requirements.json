@@ -1736,7 +1736,7 @@
     "specRef": "§4",
     "quote": "`fmt` is `--format` when given, else `load_format(repo)`; `given` is whether a format came from the flag or the config. `validate_format(fmt)` or exit 2.",
     "acceptance": "With `--format`, given is true and `format` is the flag value. With a config branchFormat and no flag, given is true. With neither, given is false. An invalid format exits 2.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1751,7 +1751,7 @@
     "specRef": "§4",
     "quote": "Samples, by mode: `pr`: `slice` (`S-001`), `state` (a generated timestamp), `e2e` (`M-1-e2e`); `stack`: `run` (`run-1`), `milestone` (`M-1`), `slice`; `mr` and `direct`: none of the loop's kinds.",
     "acceptance": "`--mode pr` samples slice, state, e2e. `--mode stack` samples run, milestone, slice. `--mode mr` and `--mode direct` sample none of the loop's kinds.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1766,7 +1766,7 @@
     "specRef": "§4",
     "quote": "In `mr` mode only, `--branch CURRENT` adds the user's working branch as one more sample of kind `working`, evaluated as it is, because that is the branch the loop pushes in `mr` mode: this folds the existing `mr`-mode push-rule check into the same verdict. In every other mode `--branch` is ignored; the user's branch already exists and is never pushed by the loop.",
     "acceptance": "`--mode mr --branch X` adds a `working` sample named X, evaluated as given. `--mode pr --branch X` adds no `working` sample.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1781,7 +1781,7 @@
     "specRef": "§4",
     "quote": "When every sample passes or is unevaluated or unchecked: `ok` is `true` with `fmt`.",
     "acceptance": "With no rules, preflight prints `ok: true` with the default format and exits 0. Samples that pass, are `unevaluated`, or are `unchecked` never block.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1826,7 +1826,7 @@
     "specRef": "§4",
     "quote": "`result` is `pass`, `fail`, `unevaluated` or `unchecked`; `rule` is the label of the first failing rule. Exit 0 when `ok`, 1 when not, 2 on bad input.",
     "acceptance": "Every sample object carries `kind`, `name`, `result`, `rule`. The output carries `ok`, `format`, `derived`, `forge`, `rules`, `samples`, `notes`, `suggestion`. A failed sample names the first failing rule's label. Exit codes are 0, 1, and 2 for ok, not ok, and bad input.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

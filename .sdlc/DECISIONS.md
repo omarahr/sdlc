@@ -407,3 +407,43 @@
 - Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+8+4 = 27, option 2 = 6+10+5 = 21, option 3 = 12+10+3 = 25. Option 1 follows ADR 74ec. Treat T-R-084b as a test for a slice requirement. Do not change the R-084 status; S-015 closes R-084. The planner does not edit slices.json. This ADR's Affects line is the link; the slicer or integrator applies it.
 - Consequences / how to reverse: The link is one list entry in slices.json. Remove it to undo it. No code depends on it.
 - Affects: S-014, R-084
+
+### ADR-20261010-000000-planner-S-015-3a7c: S-015 keeps the echo keys and leaves derivation to S-016
+- Status: auto
+- Context: Spec section 4 lists the output keys without `command`, `args` or `given`. Earlier tests need those three keys. Derivation and the suggestion text belong to R-042 and R-043 in S-016.
+- Options: (1) Keep the three keys, set `derived` false and `suggestion` empty in S-015. (2) Remove the keys and edit the old tests. (3) Build derivation in S-015.
+- Decision: Option 1. It is the easiest to reverse and breaks no test.
+- Consequences / how to reverse: S-016 fills `derived` and `suggestion`. Remove the extra keys later if the spec stays without them.
+- Affects: R-044, S-015, S-016
+
+### ADR-20261009-215604-decision-judge-S-015-ba66: Keep command, args and given in the S-015 preflight output
+- Status: auto
+- Context: Spec section 4 lists the output keys without command, args and given. Earlier tests need those three keys. ADR 3a7c keeps them. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the three keys; set derived false and suggestion empty in S-015; S-016 fills both. (2) The same, with a shorter rationale. (3) The same, with the spec read as an example output.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+4 = 29, option 3 = 15+10+4 = 29. The three proposals describe one design. Choose option 1 because it ties its rationale to the spec goal and to ADR 3a7c. Section 4 shows an example output and does not forbid extra keys.
+- Consequences / how to reverse: Delete three fields from the output builder and update the tests that read them. S-016 changes only the values of derived and suggestion.
+- Affects: S-015, S-016, R-044
+
+### ADR-20261009-215607-decision-judge-S-015-251f: R-084 stays with S-015 as the preflight half
+- Status: auto
+- Context: The spec test list names a test where preflight with a gh shim that exits 1 gives ok. requirements.json may already show R-084 as done. ADR 74ec gives S-015 the preflight half. No OVERRIDE ADR covers this question.
+- Options: (1) Keep R-084 with S-015; keep T-R-084a for both forges; leave the status done; the ADR Affects line is the link. (2) The same, with no slices.json edit and no new link. (3) The same, citing ADR 74ec and ADR 8081 as the link.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+5 = 30, option 3 = 15+10+4 = 29. Option 2 wins by simplicity but drops the explicit link that ADR 8081 set for S-014. Take option 1 for that reason. Keep T-R-084a for both forges and the gh-shim-exits-1 preflight test. Do not reopen R-084 and do not change its status. The judge does not edit slices.json; the integrator copies the link.
+- Consequences / how to reverse: The link is one list entry and one test. Remove them to undo it. No code depends on the link.
+- Affects: S-015, R-084
+
+### ADR-20261010-000100-planner-S-015-r1f0: Ref-format failure beats unchecked
+- Status: auto
+- Context: Spec section 3 says every sample must pass `git check-ref-format --branch`. It also says that no forge, or a failed forge read, makes samples unchecked and that unchecked never blocks.
+- Options: (1) Run the ref-format check always; an invalid name gives fail. (2) Skip the check when samples are unchecked.
+- Decision: Option 1. The check is local and git refuses the name, so no push can succeed. Unchecked applies to the forge rules only.
+- Consequences / how to reverse: Call `judge` only for checked samples. Update tests T-R-044e and T-R-044f.
+- Affects: S-015, R-044
+
+### ADR-20261009-215738-decision-judge-S-015-33cd: Invalid ref name gives fail when forge rules are unknown
+- Status: auto
+- Context: Spec section 3 says every sample must pass git check-ref-format. It also says unchecked never blocks. The question is which verdict an invalid ref name gets when the forge rules are unknown. No OVERRIDE ADR covers this question.
+- Options: (1) Fail on an invalid ref name. Run the ref-format check on every sample, whatever the forge state. Use unchecked only when the forge rules are unknown. (2) Fail on an invalid ref name. Run the ref-format check first. Give unchecked only to the forge-rule part. (3) Same as option 2, with the cost argument: a false block is cheap to fix and a wrong pass fails at push.
+- Decision: Option 1. The three options give the same verdict and match ADR-20261010-000100-planner-S-015-r1f0. The ref-format check is local and needs no forge. Git refuses the name, so no push can succeed. The spec text on unchecked speaks only of the forge rules.
+- Consequences / how to reverse: Skip the ref-format step when the forge is unknown, and update tests T-R-044e and T-R-044f. No state or data format depends on this choice.
+- Affects: S-015, R-044, R-084

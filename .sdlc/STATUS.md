@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T21:52:03Z
+Updated: 2026-10-09T21:58:51Z
 
 Requirements: 56/122 done · 1 parked · 0 stubbed · 0 obsolete
-Slices: 14/30 done · current: none · awaiting merge: none
+Slices: 14/30 done · current: S-015 preflight tests the mode's branch names and prints a verdict · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 51 · Spec proposals: 4
+ADRs: 56 · Spec proposals: 4
 
 ## Recent
 - 2026-10-09T17:54:51Z slice-merged S-008 R-102, R-103, R-104, R-105, R-070 done
