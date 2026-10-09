@@ -126,6 +126,9 @@ PARSE_ROWS = (
 )
 INTEGER_PARTS = ("n", "round", "part")
 
+if hasattr(sys, "set_int_max_str_digits"):
+    sys.set_int_max_str_digits(0)
+
 
 def parse(fmt, branch, ids=None):
     prefix, suffix, lower = split(fmt)

@@ -1128,3 +1128,10 @@ test('T-R-120b a planted e2e-area push is caught', () => {
   assert.ok(findE2eAreaPushViolations(wrapped).violations.length >= 1)
   assert.deepEqual(findE2eAreaPushViolations('# git push e2e-area\n').violations, [])
 })
+
+test('T-R-102b a run number beyond the int string limit still parses to one JSON object', opts, () => {
+  const digits = '9'.repeat(5000)
+  const out = cliParse(DEFAULT_FMT, `sdlc/run-${digits}`)
+  assert.equal(out.kind, 'run')
+  assert.equal(out.tail, `run-${digits}`)
+})
