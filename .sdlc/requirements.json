@@ -1767,7 +1767,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:89 (Format resolves from flag, config or default (property))",
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:134 (Spec examples and corner formats)"
       ],
-      "commit": "pending"
+      "commit": "260794a"
     },
     "notes": ""
   },
@@ -1807,7 +1807,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:162 (build_samples follows the mode (property))",
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:187 (Preflight samples per mode with prefix and lowercase formats)"
       ],
-      "commit": "pending"
+      "commit": "260794a"
     },
     "notes": ""
   },
@@ -1859,7 +1859,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:261 (21 invalid ref names x (no forge, rules, rules unknown))",
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:281 (spec example a..b, exact samples array)"
       ],
-      "commit": "pending"
+      "commit": "260794a"
     },
     "notes": ""
   },
@@ -1918,7 +1918,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:400 (working branch .. and . reach gh as repos/{owner}/{repo}/rules/branches/.. and /.)",
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:413 (forge regex ^(a+)+$ against a 41-character working branch)"
       ],
-      "commit": "pending"
+      "commit": "260794a"
     },
     "notes": ""
   },
@@ -2025,7 +2025,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:380 (a..b with gh missing)",
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:421 (gh stderr holding a token is echoed into notes)"
       ],
-      "commit": "pending"
+      "commit": "260794a"
     },
     "notes": ""
   },
