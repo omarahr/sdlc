@@ -527,6 +527,139 @@ def verdict(repo, fmt, mode, current):
     }
 
 
+DERIVE_FORMATS = {
+    "starts_with": lambda pattern: f"{pattern}sdlc/{{name}}",
+    "ends_with": lambda pattern: f"sdlc/{{name}}{pattern}",
+    "contains": lambda pattern: f"sdlc/{pattern}/{{name}}",
+}
+
+
+def derive(rules):
+    if len(rules) != 1:
+        return None
+    rule = rules[0]
+    build = DERIVE_FORMATS.get(rule.get("kind"))
+    pattern = rule.get("pattern")
+    if build is None or rule.get("negate") or not isinstance(pattern, str) or not pattern:
+        return None
+    return build(pattern)
+
+
+try:
+    from re import _parser as _sre_parse
+except ImportError:
+    import sre_parse as _sre_parse
+
+CATEGORY_CHARS = {
+    "CATEGORY_DIGIT": "0",
+    "CATEGORY_WORD": "a",
+    "CATEGORY_SPACE": " ",
+}
+
+
+def _class_char(items):
+    if not items:
+        return None
+    op, value = items[0]
+    kind = str(op)
+    if kind == "LITERAL":
+        return chr(value)
+    if kind == "RANGE":
+        return chr(value[0])
+    if kind == "CATEGORY":
+        return CATEGORY_CHARS.get(str(value))
+    return None
+
+
+def _shortest(nodes):
+    out = []
+    for op, value in nodes:
+        kind = str(op)
+        if kind == "LITERAL":
+            out.append(chr(value))
+        elif kind == "ANY":
+            out.append("a")
+        elif kind == "AT":
+            continue
+        elif kind == "IN":
+            char = _class_char(value)
+            if char is None:
+                return None
+            out.append(char)
+        elif kind == "BRANCH":
+            inner = _shortest(value[1][0])
+            if inner is None:
+                return None
+            out.append(inner)
+        elif kind == "SUBPATTERN":
+            inner = _shortest(value[-1])
+            if inner is None:
+                return None
+            out.append(inner)
+        elif kind in ("MAX_REPEAT", "MIN_REPEAT"):
+            inner = _shortest(value[2])
+            if inner is None:
+                return None
+            out.append(inner * value[0])
+        else:
+            return None
+    return "".join(out)
+
+
+def _regex_literal(rule):
+    try:
+        built = _shortest(_sre_parse.parse(rule["pattern"]))
+        if not built:
+            return None
+        cuts = [i for i, char in enumerate(built) if char == "/"] or [len(built)]
+        for cut in cuts:
+            candidate = built[:cut]
+            if not candidate or evaluate(rule, candidate + "/S-001") is not True:
+                continue
+            try:
+                validate_format(candidate + "/{name}")
+            except Fail:
+                continue
+            return candidate
+    except Exception:
+        return None
+    return None
+
+
+def _format_line(rules, derived):
+    if derived is not None:
+        return f'--branch-format "{derived}"'
+    labels = [rule.get("label") for rule in rules]
+    if len(rules) == 1 and rules[0].get("kind") == "regex" and not rules[0].get("negate"):
+        rule = rules[0]
+        literal = _regex_literal(rule)
+        where = f'rule "{rule.get("label")}": regex "{rule.get("pattern")}"'
+        if literal is not None:
+            return f'--branch-format "{literal}/{{name}}" ({where})'
+        return (
+            f'--branch-format "<literal>/{{name}}" ({where}; '
+            "choose a literal that the pattern accepts before S-001)"
+        )
+    must = "; ".join(str(label) for label in labels) or "git check-ref-format"
+    return f'--branch-format "<prefix>{{name}}<suffix>" (every branch name must pass: {must})'
+
+
+def suggest(rules, rows, derived):
+    lines = []
+    failed = [row for row in rows if row.get("result") == "fail"]
+    if any(row.get("kind") != "working" for row in failed):
+        lines.append(_format_line(rules, derived))
+    for row in failed:
+        if row.get("kind") == "working":
+            branch = row.get("name")
+            lines.append(
+                f'rename the branch "{branch}" (rule "{row.get("rule")}"), '
+                f"for example: git branch -m {branch} <new-name>"
+            )
+            break
+    return "\n".join(lines)
+
+
 def cmd_preflight(ns):
     repo = _repo(ns)
     modes = load_git_modes()
@@ -534,10 +667,30 @@ def cmd_preflight(ns):
         raise Fail(f"--mode {ns.mode!r} is not one of {', '.join(modes)}")
     fmt = _format(ns, repo)
     result = _echo("preflight", fmt, ns)
-    result["given"] = ns.format is not None or _config_format(repo) is not None
+    given = ns.format is not None or _config_format(repo) is not None
+    result["given"] = given
     result["derived"] = False
     result["suggestion"] = ""
-    result.update(verdict(repo, fmt, ns.mode, ns.branch))
+    first = verdict(repo, fmt, ns.mode, ns.branch)
+    result.update(first)
+    if first["ok"]:
+        return result
+    derived = derive(first["rules"])
+    loop_failed = any(
+        row["result"] == "fail" and row["kind"] != "working" for row in first["samples"]
+    )
+    if derived is not None and not given and loop_failed:
+        try:
+            validate_format(derived)
+            second = verdict(repo, derived, ns.mode, ns.branch)
+        except Fail:
+            second = None
+        if second is not None and second["ok"]:
+            result["format"] = derived
+            result["derived"] = True
+            result.update(second)
+            return result
+    result["suggestion"] = suggest(first["rules"], first["samples"], derived)
     return result
 
 

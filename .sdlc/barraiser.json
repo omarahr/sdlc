@@ -1529,6 +1529,141 @@
       "title": "testkit: attack-corpus has no ref-name family",
       "detail": "The corpus lacks git ref-name attacks (@{-1}, refs/heads/ prefix, trailing dot, .lock, bracket, backslash). A15 and A17 define their lists inline.",
       "file": "skills/sdlc/test/testkit/attack-corpus/"
+    },
+    {
+      "title": "Open round 1 notes remain",
+      "detail": "branches.py is unchanged since round 1. Cap the built length in _shortest, quote the suggestion value with shlex.quote, and suppress parser warnings. Rule text comes from the repo admin, so the risk is low.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Regex parser import sits mid-file",
+      "detail": "Move the try/except ImportError for re._parser to the import block at the top of branches.py.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "labels built too early in _format_line",
+      "detail": "Move the labels line below the regex branch, where it is first used.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Plan text differs from code",
+      "detail": "plan.md says preflight does not call validate_format on the derived format. The code does. Update the plan.",
+      "file": ".sdlc/slices/S-016/plan.md"
+    },
+    {
+      "title": "Private re._parser dependency",
+      "detail": "The regex literal builder uses private re._parser. Move it to its own module if S-017 grows it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "T-R-042i overlaps T-R-042e",
+      "detail": "Both use the same a..b contains rule and assert the same suggestion. Merge the sample and rule assertions of T-R-042i into T-R-042e.",
+      "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "T-R-042h pins the call count of a faked verdict",
+      "detail": "The test replaces mod.verdict and asserts the number of calls, which is an implementation detail. T-R-042g already pins the behavior. Keep the pr-mode case and drop the call count.",
+      "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "Regex literal fails for patterns with a case-sensitive tail",
+      "detail": "The S-001 tail is the only tail tried. A pattern such as ^(feat|fix)/[a-z0-9-]+$ gets the text fallback, although the user could still rename the tail rule. The spec does not require more.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "preflight crashes with a traceback on a non-string rule pattern",
+      "detail": "A list, null, number or object pattern makes _raw_result raise TypeError (re.compile too for regex); preflight exits 1 with a traceback and no JSON. Code is S-015's, not in the S-016 diff. TC-cli-6.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "preflight hangs on a catastrophic regex rule",
+      "detail": "Nested-star regex (((...(a*)*...)*b on sdlc/state-<14 digits> does not finish in 10 s; preflight hit the 30 s timeout. The cause is re.search in S-015's _raw_result. See logs/cli-0-probes.txt.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "rename suggestion puts the branch name unquoted into a shell line",
+      "detail": "git branch -m <name> <new-name> uses the raw name. $(id) and backtick names run if pasted; quotes, spaces and backslashes read back wrong; a newline splits the suggestion into three lines.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "_regex_literal builds an unbounded string for nested counted repeats",
+      "detail": "((a{1000}){1000}){1000} took 19 s and 5.9 GB peak RSS; ((a{1000}){1000}){100} took 1.9 s and 637 MB. A cap on the built length would remove the risk.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "suggestion holds raw CR or LF from a rule pattern, rule label or branch name",
+      "detail": "A pattern, label or --branch value with a line break is copied into the suggestion, so it splits into several lines. A forged second line can start with 'rename the branch'. The JSON stays valid. 26 runs are listed in cli-1-seeds.txt. The spec states no single-line rule for hostile input.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "_regex_literal expands nested repeats without a size limit",
+      "detail": "^((a{1000}){1000}){1000}/x$ takes 14.7 s through preflight. ^((a{10000}){10000}){10000}/x$ made the process get killed (exit 137 after 71 s) in a direct probe. The pattern comes from a forge rule. The spec states no time or size limit for this slice. A cap on the built string length would close it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "_regex_literal builds a huge string for large repeat counts",
+      "detail": "a{999999999} took 17.5 s and 5.7 GB; ((a{1000}){1000}){1000} took 18.6 s and 5.9 GB; (?:x{65535}){65535} did not finish in 40 s. Through the CLI, preflight took about 20 s on ^a{999999999}/. The spec states no limit.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A derived format that validate_format refuses is reported as ok",
+      "detail": "A starts_with, ends_with or contains rule with the pattern { or } or {x} gives ok true, derived true and a format such as {sdlc/{name}. validate_format refuses it, so the next run that reads it exits 2.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Rename line puts the branch name unquoted after git branch -m",
+      "detail": "A name with a space, a leading dash or $(...) gives a command that breaks or runs differently when pasted.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A pattern with a newline splits the suggestion into two lines",
+      "detail": "A newline in a starts_with pattern gives a two-line suggestion. A double quote in a regex pattern or label is not escaped.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A non-string pattern in a rule crashes preflight with a traceback",
+      "detail": "A starts_with rule with a list pattern gives TypeError in _raw_result (S-015 code, not in the S-016 diff). derive itself refuses it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "An empty-prefix regex candidate is skipped",
+      "detail": "For ^a*/S-1$ the only candidate is empty, so the text fallback appears although a/S-1 would pass the rule.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A bare --branch value that starts with a dash is refused by argparse",
+      "detail": "--branch -x exits 2; --branch=-x works.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "suggestion line embeds rule text unescaped",
+      "detail": "A pattern or affix with a newline gives a multi-line suggestion that can start a second --branch-format line. A quote or $(id) in a derived affix or regex literal is printed raw inside double quotes, so a pasted line runs a command. The rule text comes from the repo admin, a trusted party. Quote the value and keep the suggestion to one line.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "non-string rule pattern crashes preflight with a traceback",
+      "detail": "A GitHub rule whose pattern is null, a list, a number or a dict raises TypeError in evaluate (startswith, endswith, contains). Exit is 1 with no JSON. The crash is in S-015 code. Treat a non-string pattern as an unevaluated rule with a note.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "verify-limits: regex literal builder expands repeat counts in memory",
+      "detail": "_shortest multiplies the inner string by the minimum repeat count. A 35 byte pattern such as ^(a{99999}){99999}$ uses 4 GB to 10 GB. ^a{999999999}$ takes 13 s. The spec states no limit. Cap the built length and return None above it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "FutureWarning on stderr for a regex with a nested set",
+      "detail": "The pattern ^[[:alpha:]]+/ makes re._parser warn 'Possible nested set' on stderr. It is not a traceback. Suppress warnings around the parse.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Stale verification tests fail",
+      "detail": "50 old verify-cli and verify-security tests pin earlier source states (push guard pins) and already fail on the base. They are not part of npm test.",
+      "file": ".sdlc/slices"
+    },
+    {
+      "title": "No test carries the exact spec title for R-073",
+      "detail": "The spec Testing section lists the title 'derive follows the table and refuses regex, negate and several rules'. The deletion of T-R-073a removed the only test with that title. The behavior is covered by T-R-042b, T-R-042c and T-R-042f. A tracker that matches by title would miss it.",
+      "file": "skills/sdlc/test/branches.test.mjs"
     }
   ]
 }

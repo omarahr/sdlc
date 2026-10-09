@@ -2204,7 +2204,7 @@ test('T-R-044b a failed sample names the first failing rule', opts, () => {
 
 test('T-R-044c the exit code follows the verdict', opts, () => {
   const repo = githubRepo()
-  const shim = ghShim({ body: [startsWith('zzz only', 'zzz/')] })
+  const shim = ghShim({ body: [regexRule('zzz only', '^zzz/')] })
   const failing = preflight(repo, ['--mode', 'pr'], shim)
   assert.equal(failing.status, 1)
   assert.equal(failing.out.ok, false)
@@ -2264,5 +2264,285 @@ test('T-R-084a preflight with no gh and no glab gives unchecked samples and one 
     assert.match(out.notes[0], new RegExp(`^rules unknown on ${forge}:`))
     assert.equal(out.samples.length, 3, forge)
     assert.ok(out.samples.every((s) => s.result === 'unchecked'), forge)
+  }
+})
+
+const gh = (...rules) => ghShim({ body: rules })
+const endsWith = (label, pattern) => ghObj({ name: label, operator: 'ends_with', pattern })
+const containsRule = (label, pattern, negate = false) => ghObj({ name: label, operator: 'contains', pattern, negate })
+const regexRule = (label, pattern) => ghObj({ name: label, operator: 'regex', pattern })
+const prRun = (rule, extra = [], repo = githubRepo()) => preflight(repo, ['--mode', 'pr', ...extra], gh(...[].concat(rule)))
+const formatLine = /^--branch-format "[^"\n]*\{name\}[^"\n]*"/
+
+const SPEC_RULE_PY = `
+def rule(kind, pattern, negate=False, label="r"):
+    return mod.make_rule("github", kind, pattern, negate, label)
+`
+
+const probeJson = (code, args = []) => JSON.parse(probe(`${LOAD}${SPEC_RULE_PY}${code}`, [BRANCHES, ...args], { cwd: scratch('sdlc-branches-cwd-') }))
+
+function literalOf(suggestion) {
+  const m = /^--branch-format "([^"\n]*)\/\{name\}"/.exec(suggestion)
+  assert.ok(m, `no literal in suggestion: ${suggestion}`)
+  return m[1]
+}
+
+test('T-R-042a one starts_with rule derives the format and passes', opts, () => {
+  const { status, out } = prRun(startsWith('feature only', 'feature/'))
+  assert.equal(status, 0, JSON.stringify(out))
+  assert.equal(out.ok, true)
+  assert.equal(out.format, 'feature/sdlc/{name}')
+  assert.equal(out.derived, true)
+  assert.equal(sampleOf(out, 'slice').name, 'feature/sdlc/S-001')
+  for (const sample of out.samples) {
+    assert.equal(sample.result, 'pass', JSON.stringify(sample))
+    assert.ok(sample.name.startsWith('feature/sdlc/'), sample.name)
+  }
+})
+
+test('T-R-042b ends_with and contains derive their table formats', opts, () => {
+  const ends = prRun(endsWith('suffix', '-x'))
+  assert.equal(ends.status, 0, JSON.stringify(ends.out))
+  assert.equal(ends.out.ok, true)
+  assert.equal(ends.out.derived, true)
+  assert.equal(ends.out.format, 'sdlc/{name}-x')
+  const has = prRun(containsRule('team', 'team'))
+  assert.equal(has.status, 0, JSON.stringify(has.out))
+  assert.equal(has.out.ok, true)
+  assert.equal(has.out.derived, true)
+  assert.equal(has.out.format, 'sdlc/team/{name}')
+})
+
+test('T-R-042c no derivation when the format is given, the rule is negated or regex, or two rules exist', opts, () => {
+  const cases = [
+    ['--format given', startsWith('f', 'feature/'), ['--format', 'team/{name}'], githubRepo(), 'team/{name}'],
+    ['config format', startsWith('f', 'feature/'), [], withConfig({ gitMode: 'pr', forge: 'github', branchFormat: 'team/{name}' }), 'team/{name}'],
+    ['negated', containsRule('n', 'sdlc', true), [], githubRepo(), 'sdlc/{name}'],
+    ['regex', regexRule('re', '^feature/'), [], githubRepo(), 'sdlc/{name}'],
+    ['two rules', [startsWith('a', 'feature/'), endsWith('b', '-x')], [], githubRepo(), 'sdlc/{name}'],
+  ]
+  for (const [label, rule, extra, repo, format] of cases) {
+    const { status, out } = prRun(rule, extra, repo)
+    assert.equal(status, 1, `${label}: ${JSON.stringify(out)}`)
+    assert.equal(out.ok, false, label)
+    assert.equal(out.derived, false, label)
+    assert.equal(out.format, format, label)
+    assert.ok(out.suggestion.length > 0, label)
+  }
+})
+
+test('T-R-042d a rule the default format passes gives no derivation', opts, () => {
+  const { status, out } = prRun(startsWith('sdlc only', 'sdlc/'))
+  assert.equal(status, 0)
+  assert.equal(out.ok, true)
+  assert.equal(out.derived, false)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.suggestion, '')
+})
+
+test('T-R-042e a derived format that git refuses is a failed verdict with exit 1', opts, () => {
+  const { status, out } = prRun(containsRule('dots', 'a..b'))
+  assert.equal(status, 1, JSON.stringify(out))
+  assert.equal(out.ok, false)
+  assert.equal(out.derived, false)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.suggestion, '--branch-format "sdlc/a..b/{name}"')
+})
+
+test('T-R-042f derive returns the table formats and None for every other input', opts, () => {
+  const got = probeJson(`
+import json
+print(json.dumps({
+  "starts": mod.derive([rule("starts_with", "feature/")]),
+  "ends": mod.derive([rule("ends_with", "-x")]),
+  "contains": mod.derive([rule("contains", "team")]),
+  "regex": mod.derive([rule("regex", "^a")]),
+  "negate": mod.derive([rule("starts_with", "a/", True)]),
+  "two": mod.derive([rule("starts_with", "a/"), rule("ends_with", "-x")]),
+  "zero": mod.derive([]),
+  "unknown": mod.derive([rule("weird", "a")]),
+  "pattern": mod.derive([rule("starts_with", 5)]),
+}))
+`)
+  assert.deepEqual(got, {
+    starts: 'feature/sdlc/{name}',
+    ends: 'sdlc/{name}-x',
+    contains: 'sdlc/team/{name}',
+    regex: null,
+    negate: null,
+    two: null,
+    zero: null,
+    unknown: null,
+    pattern: null,
+  })
+})
+
+test('T-R-042g mr mode has no loop-kind sample, so a failed working branch derives nothing', opts, () => {
+  const repo = withConfig({ gitMode: 'mr', forge: 'github' })
+  const { status, out } = preflight(repo, ['--mode', 'mr', '--branch', 'bad-name'], gh(startsWith('feature only', 'feature/')))
+  assert.equal(status, 1, JSON.stringify(out))
+  assert.equal(out.ok, false)
+  assert.equal(out.derived, false)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.deepEqual(kinds(out), ['working'])
+  assert.ok(out.suggestion.startsWith('rename the branch "bad-name"'), out.suggestion)
+  assert.equal(out.suggestion.split('\n').length, 1)
+})
+
+test('T-R-042h the loop-kind guard derives in pr mode and not for a working failure alone', opts, () => {
+  const got = probeJson(`
+import argparse, json, sys
+repo = sys.argv[2]
+r = rule("starts_with", "feature/")
+calls = []
+def fake(repo_, fmt, mode, current):
+    calls.append(fmt)
+    if len(calls) == 1:
+        samples = [{"kind": "slice", "name": "sdlc/S-001", "result": "fail", "rule": "r"}] if mode == "pr" else [{"kind": "working", "name": "bad", "result": "fail", "rule": "r"}]
+        return {"ok": False, "forge": "github", "rules": [r], "samples": samples, "notes": []}
+    return {"ok": True, "forge": "github", "rules": [r], "samples": [{"kind": "slice", "name": "feature/sdlc/S-001", "result": "pass", "rule": None}], "notes": []}
+mod.verdict = fake
+out = {}
+for mode in ("pr", "mr"):
+    calls.clear()
+    ns = argparse.Namespace(command="preflight", repo=repo, mode=mode, format=None, branch="bad")
+    res = mod.cmd_preflight(ns)
+    out[mode] = {"derived": res["derived"], "calls": len(calls), "format": res["format"]}
+print(json.dumps(out))
+`, [withConfig({ gitMode: 'pr' })])
+  assert.deepEqual(got.pr, { derived: true, calls: 2, format: 'feature/sdlc/{name}' })
+  assert.equal(got.mr.derived, false)
+  assert.equal(got.mr.calls, 1)
+  assert.equal(got.mr.format, 'sdlc/{name}')
+})
+
+test('T-R-042i a failed derivation keeps the first-verdict samples and rules', opts, () => {
+  const { out } = prRun(containsRule('dots', 'a..b'))
+  assert.equal(out.samples.length, 3)
+  assert.deepEqual(normalize(names(out)), ['sdlc/S-001', 'sdlc/state-TS', 'sdlc/M-1-e2e'])
+  for (const n of names(out)) assert.ok(!n.includes('a..b'), n)
+  assert.deepEqual(out.rules.map((r) => r.label), ['dots'])
+  for (const sample of out.samples) assert.equal(sample.result, 'fail')
+  assert.equal(out.suggestion, '--branch-format "sdlc/a..b/{name}"')
+})
+
+test('T-R-087a an ends_with .lock rule gives the derived format as the suggestion', opts, () => {
+  const { status, out } = prRun(endsWith('lock', '.lock'))
+  assert.equal(status, 1, JSON.stringify(out))
+  assert.equal(out.ok, false)
+  assert.equal(out.derived, false)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.suggestion, '--branch-format "sdlc/{name}.lock"')
+})
+
+test('T-R-043a the suggestion starts with --branch-format', opts, () => {
+  const { out } = prRun(endsWith('lock', '.lock'))
+  assert.ok(out.suggestion.startsWith('--branch-format'), out.suggestion)
+})
+
+test('T-R-043b a regex rule gives a --branch-format line that quotes the pattern', opts, () => {
+  const { status, out } = prRun(regexRule('feat', '^feat/.*$'))
+  assert.equal(status, 1)
+  assert.ok(out.suggestion.startsWith('--branch-format "feat/{name}"'), out.suggestion)
+  assert.ok(out.suggestion.includes('^feat/.*$'), out.suggestion)
+})
+
+test('T-R-043c mr mode with a GitLab regex gives one rename line', opts, () => {
+  const repo = withConfig({ gitMode: 'mr', forge: 'gitlab' })
+  const { status, out } = preflight(repo, ['--mode', 'mr', '--branch', 'bad-name'], glabShim({ body: { branch_name_regex: '^feat/' } }))
+  assert.equal(status, 1)
+  assert.equal(out.ok, false)
+  assert.equal(out.suggestion.split('\n').length, 1)
+  assert.match(out.suggestion, /^rename the branch "bad-name"/)
+  assert.ok(!out.suggestion.includes('--branch-format'), out.suggestion)
+})
+
+test('T-R-043d two rules give a generic --branch-format line that names both labels', opts, () => {
+  const { out } = prRun([startsWith('alpha', 'feature/'), endsWith('beta', '-x')])
+  assert.match(out.suggestion, formatLine)
+  assert.ok(out.suggestion.includes('alpha'), out.suggestion)
+  assert.ok(out.suggestion.includes('beta'), out.suggestion)
+})
+
+test('T-R-043e a given format still gets the derived suggestion', opts, () => {
+  const { status, out } = prRun(startsWith('rel', 'release/'), ['--format', 'feature-x/{name}'])
+  assert.equal(status, 1)
+  assert.equal(out.ok, false)
+  assert.equal(out.derived, false)
+  assert.equal(out.format, 'feature-x/{name}')
+  assert.equal(out.suggestion, '--branch-format "release/sdlc/{name}"')
+})
+
+test('T-R-043f a negated rule gives a generic line that names the label', opts, () => {
+  const { out } = prRun(ghObj({ name: 'not sdlc', operator: 'starts_with', pattern: 'sdlc/', negate: true }))
+  assert.match(out.suggestion, formatLine)
+  assert.ok(out.suggestion.includes('not sdlc'), out.suggestion)
+})
+
+test('T-R-043g suggest puts the format line first and the rename line second', opts, () => {
+  const got = probeJson(`
+import json
+rules = [rule("regex", "^(feature|bugfix)/[A-Z]+-\\\\d+$", False, "branch rule")]
+slice_row = {"kind": "slice", "name": "sdlc/S-001", "result": "fail", "rule": "branch rule"}
+work_row = {"kind": "working", "name": "bad-name", "result": "fail", "rule": "branch rule"}
+print(json.dumps({
+  "both": mod.suggest(rules, [slice_row, work_row], None),
+  "only": mod.suggest(rules, [work_row], None),
+}))
+`)
+  const lines = got.both.split('\n')
+  assert.equal(lines.length, 2, got.both)
+  assert.ok(lines[0].startsWith('--branch-format "feature/{name}"'), lines[0])
+  assert.equal(lines[1], 'rename the branch "bad-name" (rule "branch rule"), for example: git branch -m bad-name <new-name>')
+  assert.equal(got.only, lines[1])
+})
+
+test('T-R-043h suggest with no rules names git check-ref-format', opts, () => {
+  const got = probeJson(`
+import json
+row = {"kind": "slice", "name": "sdlc/S-001.lock", "result": "fail", "rule": "git check-ref-format"}
+print(json.dumps(mod.suggest([], [row], None)))
+`)
+  assert.match(got, formatLine)
+  assert.ok(got.includes('git check-ref-format'), got)
+})
+
+function assertLiteralAccepts(pattern, extra = []) {
+  const { out } = preflight(githubRepo(), ['--mode', extra[0] ?? 'pr'], gh(regexRule('shape', pattern)))
+  const literal = literalOf(out.suggestion)
+  assert.ok(new RegExp(pattern).test(`${literal}/S-001`), `${pattern} rejects ${literal}/S-001`)
+  return out
+}
+
+test('T-R-122a a regex with a group and a repeat gives an accepted literal', opts, () => {
+  const out = assertLiteralAccepts('^(feature|bugfix)/[A-Z]+-\\d+$')
+  assert.ok(out.suggestion.includes('--branch-format "feature/{name}"'), out.suggestion)
+})
+
+test('T-R-122b other patterns give an accepted literal in pr and stack mode', opts, () => {
+  assertLiteralAccepts('^(user|team)-[a-z]+/.*')
+  assertLiteralAccepts('^[a-z]+/S-\\d+$')
+  assertLiteralAccepts('^(user|team)-[a-z]+/.*', ['stack'])
+})
+
+test('T-R-122c a pattern with no accepted literal gives the text fallback', opts, () => {
+  for (const pattern of ['^[a-z]+$', '^(?=feature/)[a-z]+/.*']) {
+    const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], gh(regexRule('shape', pattern)))
+    assert.equal(status, 1, pattern)
+    assert.ok(out.suggestion.includes('--branch-format "<literal>/{name}"'), out.suggestion)
+    assert.ok(out.suggestion.includes(pattern), out.suggestion)
+  }
+})
+
+test('T-R-073b a derived format with a brace or whitespace is not reported as ok', opts, () => {
+  for (const pattern of ['{', '}', 'a\u00a0b', '\u3000']) {
+    for (const make of [startsWith, endsWith, containsRule]) {
+      const { status, out } = prRun(make('s', pattern))
+      assert.equal(status, 1, `${pattern} ${JSON.stringify(out)}`)
+      assert.equal(out.ok, false)
+      assert.equal(out.derived, false)
+      assert.equal(out.format, 'sdlc/{name}')
+      assert.match(out.suggestion, /--branch-format/)
+    }
   }
 })
