@@ -23,5 +23,5 @@ All tests are in `skills/sdlc/test/branches.test.mjs`.
 - T-R-122a — R-122 — suggestion is empty, so no literal exists
 - T-R-122b — R-122 — suggestion is empty, so no literal exists
 - T-R-122c — R-122 — suggestion is empty, so no fallback text exists
-- T-R-073a — R-073 — derivation is missing, so the derived formats are not produced
+- R-073 — covered by T-R-042b, T-R-042c and T-R-042f. T-R-073a was a duplicate and is deleted.
 - T-R-073b — R-042 — a derived format that validate_format refuses stays a failed derivation (promoted from verify-security TC-security-4)

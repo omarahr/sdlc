@@ -2546,33 +2546,3 @@ test('T-R-073b a derived format with a brace or whitespace is not reported as ok
     }
   }
 })
-
-test('T-R-073a derive follows the table and refuses regex, negate and several rules', opts, () => {
-  const table = [
-    [startsWith('s', 'feature/'), 'feature/sdlc/{name}'],
-    [endsWith('e', '-x'), 'sdlc/{name}-x'],
-    [containsRule('c', 'team'), 'sdlc/team/{name}'],
-  ]
-  for (const [rule, format] of table) {
-    const { status, out } = prRun(rule)
-    assert.equal(status, 0, JSON.stringify(out))
-    assert.equal(out.format, format)
-    assert.equal(out.derived, true)
-  }
-  const refused = [
-    regexRule('re', '^feature/'),
-    ghObj({ name: 'neg', operator: 'starts_with', pattern: 'sdlc/', negate: true }),
-    [startsWith('a', 'feature/'), endsWith('b', '-x')],
-  ]
-  for (const rule of refused) {
-    const { status, out } = prRun(rule)
-    assert.equal(status, 1)
-    assert.equal(out.derived, false)
-    assert.equal(out.format, 'sdlc/{name}')
-  }
-  const got = probeJson(`
-import json
-print(json.dumps([mod.derive([rule("regex", "^a")]), mod.derive([rule("contains", "a", True)]), mod.derive([rule("contains", "a"), rule("contains", "b")])]))
-`)
-  assert.deepEqual(got, [null, null, null])
-})
