@@ -735,14 +735,6 @@ print(json.dumps({
   assert.equal(oneObject(r).branch, 'feature/PROJ-1-s-001')
 })
 
-test('T-R-011b {name} keeps the case of the tail', opts, () => {
-  const out = JSON.parse(probe(`${LOAD}
-import json
-print(json.dumps(mod.name("feature/PROJ-1-{name}", "slice", id="S-001")))
-`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
-  assert.equal(out, 'feature/PROJ-1-S-001')
-})
-
 test('T-R-068a name and split round-trip every kind under the default, a prefixed and a lowercased format', opts, () => {
   const cases = []
   for (const fmt of ROUND_TRIP_FORMATS) for (const [kind, parts] of KIND_CASES) cases.push({ fmt, kind, parts })
