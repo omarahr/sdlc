@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T19:45:16Z
+Updated: 2026-10-09T19:50:12Z
 
 Requirements: 45/122 done · 1 parked · 0 stubbed · 0 obsolete
-Slices: 11/30 done · current: none · awaiting merge: none
+Slices: 11/30 done · current: S-012 sample verdicts, bad patterns and check-ref-format · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 41 · Spec proposals: 2
+ADRs: 43 · Spec proposals: 2
 
 ## Recent
 - 2026-10-09T16:40:22Z slice-escalated S-005b step 5 park: attempt 3 failed three fix rounds (bytes and int argument forms leave every pin equal); attempt archived as sdlc/S-005b-attempt-3

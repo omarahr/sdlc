@@ -1326,7 +1326,7 @@
     "specRef": "§3",
     "quote": "A pattern `re.compile` rejects gives `None`, and the sample is `unevaluated` with the note `cannot evaluate <label>: <re.error>`; it never blocks.",
     "acceptance": "A rule whose pattern Python cannot compile gives None. The sample is `unevaluated` with a note starting `cannot evaluate`. The preflight still returns `ok: true` when nothing else fails.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1341,7 +1341,7 @@
     "specRef": "§3",
     "quote": "A sample `fails` when any rule evaluates to `False` for it; it `passes` when every rule evaluates to `True`; it is `unevaluated` when no rule failed and at least one was `None`.",
     "acceptance": "One False makes the sample fail. All True makes it pass. No failure plus one None makes it `unevaluated`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1356,7 +1356,7 @@
     "specRef": "§3",
     "quote": "Besides the forge's rules, every sample must pass `git check-ref-format --branch <sample>`, which catches a literal part that makes an invalid ref (`..`, `~`, `^`, `:`, `?`, `*`, `[`, `\\`, a leading `/`, a trailing `.lock`). That failure is reported as the rule `git check-ref-format`.",
     "acceptance": "A sample with an invalid ref name, such as a `working` sample named `bad..name`, fails with rule `git check-ref-format`. A valid sample passes it.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

@@ -327,3 +327,19 @@
 - Decision: Option 3. S-014 finishes read_rules for both sources, so one test can check every rule shape.
 - Consequences / how to reverse: Edit the requirements lists of S-011 and S-014 in slices.json. S-013 tests may also assert the rule keys.
 - Affects: S-011, S-014, R-026
+
+### ADR-20261009-194831-decision-judge-S-012-8681: S-015 owns the preflight half of R-035
+- Status: auto
+- Context: R-035 is owned by S-012, but cmd_preflight is only a stub until S-015. S-012 tests the judge half (T-R-035a to d). The clause "the preflight still returns ok: true" has no owner test. No OVERRIDE ADR covers this question.
+- Options: (1) S-015 owns the preflight half; require a named test on a fixture repo with one bad regex and nothing else failing. (2) S-012 tests judge only; S-015 adds an unnamed test. (3) Add test id T-R-035e to the S-015 plan; keep ownership with S-012.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 12+10+5 = 27, option 3 = 15+10+4 = 29. Options 1 and 3 tie; option 1 states the test content (ok: true and one "cannot evaluate" note), so the clause cannot be lost. S-012 adds no preflight stub test. R-035 stays todo until S-015 passes that test.
+- Consequences / how to reverse: The S-015 planner must add the named test. Move the test to another slice by editing the S-015 plan. No product code depends on it.
+- Affects: S-012, S-015, R-035
+
+### ADR-20261009-194834-decision-judge-S-012-f284: A forge rule label wins over git check-ref-format
+- Status: auto
+- Context: Spec section 3 says the ref check applies besides the forge rules. Section 4 says rule is the label of the first failing rule. The plan puts git check-ref-format last. A sample can fail both. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the plan order; forge label wins; report the ref check only when no forge rule failed. (2) Same rule, stated as the first failure in a fixed list. (3) Same rule, with the wording "passed or was unevaluated".
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+5 = 30, option 3 = 15+10+3 = 28. Option 2 scores highest on simplicity, but it leaves out why the ref check is an addition. Option 1 gives that reason and matches the plan. Use option 1.
+- Consequences / how to reverse: Move the ref check call to the front of the list and update one test. No stored data depends on it.
+- Affects: S-012
