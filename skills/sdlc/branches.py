@@ -61,6 +61,39 @@ def validate_format(fmt):
     return fmt
 
 
+def regex_error(pattern):
+    try:
+        re.compile(pattern)
+    except re.error as e:
+        return str(e)
+    return None
+
+
+def _raw_result(kind, pattern, sample):
+    if kind == "starts_with":
+        return sample.startswith(pattern)
+    if kind == "ends_with":
+        return sample.endswith(pattern)
+    if kind == "contains":
+        return pattern in sample
+    if kind == "regex":
+        try:
+            compiled = re.compile(pattern)
+        except re.error:
+            return None
+        return compiled.search(sample) is not None
+    return None
+
+
+def evaluate(rule, sample):
+    result = _raw_result(rule.get("kind"), rule.get("pattern"), sample)
+    if result is None:
+        return None
+    if rule.get("negate"):
+        return not result
+    return result
+
+
 def _state_tail(parts):
     ts = parts.get("ts")
     if ts is None or ts == "":

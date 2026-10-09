@@ -1225,13 +1225,49 @@
     "specRef": "§3",
     "quote": "`starts_with`: `sample.startswith(pattern)`; `ends_with`: `sample.endswith(pattern)`; `contains`: `pattern in sample`; all case-sensitive, as git refs are.\n- `regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "evaluate applies each operator to the sample. The comparisons are case-sensitive: `Feature/` does not match `feature/x` under starts_with. The regex kind matches with `re.search`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261008-162858-slicer-S-001-d9f4",
+      "ADR-20261009-191759-decision-judge-S-011-6e23",
+      "ADR-20261009-191800-decision-judge-S-011-b582",
+      "ADR-20261009-191805-decision-judge-S-011-6a5c",
+      "ADR-20261009-191845-decision-judge-S-011-8da6",
+      "ADR-20261010-r026-open",
+      "ADR-20261009-191959-decision-judge-S-011-77b2",
+      "ADR-20261009-192109-planner-S-011-4032",
+      "ADR-20261009-192242-escalator-S-011-9094"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-033a",
+        "T-R-033b",
+        "T-R-033c",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:6",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:13",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:18",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:25",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:44",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:69",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:23",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:40",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:99",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:119",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:135",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:77",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:150",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:141",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:180",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:214",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:222",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:235"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -1240,13 +1276,48 @@
     "specRef": "§3",
     "quote": "`negate` flips `True` and `False`; `None` stays `None`.",
     "acceptance": "A negated starts_with rule that matched returns False. A None result stays None under negate.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261008-162858-slicer-S-001-d9f4",
+      "ADR-20261009-191759-decision-judge-S-011-6e23",
+      "ADR-20261009-191800-decision-judge-S-011-b582",
+      "ADR-20261009-191805-decision-judge-S-011-6a5c",
+      "ADR-20261009-191845-decision-judge-S-011-8da6",
+      "ADR-20261010-r026-open",
+      "ADR-20261009-191959-decision-judge-S-011-77b2",
+      "ADR-20261009-192109-planner-S-011-4032",
+      "ADR-20261009-192242-escalator-S-011-9094"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-034a",
+        "T-R-034b",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:6",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:13",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:18",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:25",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:44",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:69",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:23",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:40",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:99",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:119",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:135",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:77",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:150",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:141",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:180",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:214",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:222",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:235"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -1890,13 +1961,47 @@
     "specRef": "§Testing",
     "quote": "`evaluate follows each operator, negate flips, and a bad regex gives null`.",
     "acceptance": "The branches test asserts each operator's result, the negate flip, and null for an uncompilable pattern.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261008-162858-slicer-S-001-d9f4",
+      "ADR-20261009-191759-decision-judge-S-011-6e23",
+      "ADR-20261009-191800-decision-judge-S-011-b582",
+      "ADR-20261009-191805-decision-judge-S-011-6a5c",
+      "ADR-20261009-191845-decision-judge-S-011-8da6",
+      "ADR-20261010-r026-open",
+      "ADR-20261009-191959-decision-judge-S-011-77b2",
+      "ADR-20261009-192109-planner-S-011-4032",
+      "ADR-20261009-192242-escalator-S-011-9094"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-072a",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:6",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:13",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:18",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:25",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:44",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:69",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:23",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:40",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:99",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:119",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:135",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:77",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:150",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:141",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:180",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:214",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:222",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:235"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2292,13 +2397,48 @@
     "specRef": "§3",
     "quote": "`starts_with`: `sample.startswith(pattern)`; `ends_with`: `sample.endswith(pattern)`; `contains`: `pattern in sample`; all case-sensitive, as git refs are.\n- `regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "`ends_with` and `contains` are case-sensitive: the pattern `-E2E` does not match a sample ending `e2e`, and the pattern `Feature` is not in `feature/x`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261008-162858-slicer-S-001-d9f4",
+      "ADR-20261009-191759-decision-judge-S-011-6e23",
+      "ADR-20261009-191800-decision-judge-S-011-b582",
+      "ADR-20261009-191805-decision-judge-S-011-6a5c",
+      "ADR-20261009-191845-decision-judge-S-011-8da6",
+      "ADR-20261010-r026-open",
+      "ADR-20261009-191959-decision-judge-S-011-77b2",
+      "ADR-20261009-192109-planner-S-011-4032",
+      "ADR-20261009-192242-escalator-S-011-9094"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-095a",
+        "T-R-095b",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:6",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:13",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:18",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:25",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:44",
+        ".sdlc/slices/S-011/verification/r0/tests/security-0/evaluate.verify-security.test.mjs:69",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:23",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:40",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:99",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:119",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:135",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:77",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:150",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:141",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:180",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:214",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:222",
+        ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:235"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },

@@ -1694,7 +1694,6 @@
     "id": "S-011",
     "title": "evaluate applies one rule to a sample",
     "requirements": [
-      "R-026",
       "R-033",
       "R-095",
       "R-034",
@@ -1704,24 +1703,118 @@
       "S-001"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-011",
     "pr": "",
     "risk": "medium",
     "riskReason": "evaluate feeds the pre-flight verdict; a wrong True launches names a rule rejects.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Non-string pattern or odd regex raises instead of None",
+        "detail": "Forge rules cross a trust boundary. A missing or non-string pattern raises TypeError. RecursionError or OverflowError from re.compile also escapes. Catch these in _raw_result and return None, or have S-012 catch them, to keep the never-block rule of R-035.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Regex backtracking can hang evaluate",
+        "detail": "A pattern with catastrophic backtracking runs without limit. The plan accepts this risk because patterns come from the forge. Record it for S-012 to S-014.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Rule helpers sit in the name section",
+        "detail": "Move evaluate and regex_error next to the rule code that S-012 and S-014 add, away from the name builders.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Pattern compiles twice",
+        "detail": "regex_error and _raw_result each compile the pattern. Share one compile helper if it matters later.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Non-string pattern raises TypeError",
+        "detail": "evaluate does not guard a rule whose pattern is not a string. Rules come from read_rules, so the risk is low.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "T-R-072a overlaps T-R-033a and T-R-034a",
+        "detail": "T-R-072a repeats the hit and miss checks of the four operators and the negate flip that T-R-033a and T-R-034a already pin. Its unique parts are the two bad patterns and the negate flip for regex. The spec names this test for R-072, so keeping it is acceptable. Optional fix: leave the bad-pattern cases here and drop the repeated operator cases.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "No gap for exotic regex errors",
+        "detail": "No test covers a pattern that raises RecursionError or OverflowError. The plan accepts this risk. No action needed.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "evaluate raises on a rule with a missing or non-string pattern",
+        "detail": "A starts_with rule with pattern None raises TypeError. A non-string sample also raises. The spec defines no such input, and the callers build rules. S-013 and S-014 should check that read_rules always gives string patterns.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "evaluate raises OverflowError and RecursionError for some regex patterns",
+        "detail": "x{99999999999999999999} raises OverflowError and 100000 nested groups raise RecursionError out of evaluate and regex_error on Python 3.14. The plan accepts this because only re.error is caught. S-012 and S-013 must catch them or the pre-flight crashes. A forge RE2 ruleset never holds such a pattern, so the risk is low.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "evaluate raises on non-string pattern, sample or rule",
+        "detail": "None or number patterns and samples raise TypeError or AttributeError. contains with a list sample returns True. The slice promises None for an unknown kind only. read_rules in S-014 must make rules with string patterns.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "regex rules have no time limit",
+        "detail": "The pattern (a+)+$ on 27 a characters then ! takes 4.8 s, and the time doubles per extra character. Branch samples are short and patterns come from the forge, so the risk is low.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "One 120 s timeout in the first run of the hostile-input test did not reproduce",
+        "detail": "Two later runs of the same payload finished in 40 ms. The cause is unknown and probably host load. No claim is made about it.",
+        "file": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs"
+      },
+      {
+        "title": "evaluate can hang on a nested-quantifier regex",
+        "detail": "(a+)+$ on 40 'a' plus 'b' did not finish in 8 s. Plan accepts this; the spec states no limit. Hand to verify-limits.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "evaluate raises on non-string input or a non-dict rule",
+        "detail": "TypeError for non-string pattern or sample (38 of 40 calls), AttributeError for a non-dict rule, TypeError for regex without pattern. S-013 and S-014 callers must pass strings or wrap evaluate.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
-    "notes": "",
+    "notes": "Re-plan from scratch with the simplest approach; read failures.md. R-026 moved to S-014.",
     "counters": {
       "planRevisions": 0,
       "fixRounds": 0,
-      "ladderStep": 0,
+      "ladderStep": 1,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-012",
@@ -1792,7 +1885,8 @@
     "requirements": [
       "R-030",
       "R-031",
-      "R-032"
+      "R-032",
+      "R-026"
     ],
     "dependsOn": [
       "S-013"

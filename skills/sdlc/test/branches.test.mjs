@@ -1404,3 +1404,114 @@ test('T-R-094b the attempt sort is not a string sort', opts, () => {
   assert.deepEqual(names, ['sdlc/S-001-attempt-2', 'sdlc/S-001-attempt-10'])
   assert.ok(listCli(repo, 'attempt').branches.every((b) => typeof b.n === 'number' && Number.isInteger(b.n)))
 })
+
+const rule = (kind, pattern, negate = false) => ({ source: 'gitlab', kind, pattern, negate, label: 'push rule' })
+
+function evaluateEach(cases) {
+  const results = JSON.parse(probe(`${CALL}
+fn = getattr(mod, "evaluate", None) or (lambda *a: (_ for _ in ()).throw(AttributeError("evaluate is missing")))
+print(json.dumps([call(fn, r, sample) for r, sample in json.loads(sys.argv[2])]))
+`, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
+  return results.map((res, i) => {
+    assert.ok('ret' in res, `evaluate(${JSON.stringify(cases[i])}) did not return: ${JSON.stringify(res)}`)
+    return res.ret
+  })
+}
+
+const evaluateOne = (r, sample) => evaluateEach([[r, sample]])[0]
+
+test('T-R-033a each operator follows its definition', opts, () => {
+  const got = evaluateEach([
+    [rule('starts_with', 'feature/'), 'feature/x'],
+    [rule('starts_with', 'feature/'), 'bugfix/x'],
+    [rule('ends_with', '-e2e'), 'sdlc/M-1-e2e'],
+    [rule('ends_with', '-e2e'), 'sdlc/M-1'],
+    [rule('contains', '/S-'), 'sdlc/S-001'],
+    [rule('contains', '/S-'), 'sdlc/M-1'],
+  ])
+  assert.deepEqual(got, [true, false, true, false, true, false])
+})
+
+test('T-R-033b starts_with is case-sensitive', opts, () => {
+  assert.equal(evaluateOne(rule('starts_with', 'Feature/'), 'feature/x'), false)
+})
+
+test('T-R-033c regex uses search, not match', opts, () => {
+  const got = evaluateEach([
+    [rule('regex', '^sdlc/'), 'sdlc/S-001'],
+    [rule('regex', 'S-001'), 'sdlc/S-001'],
+    [rule('regex', '^S-001'), 'sdlc/S-001'],
+  ])
+  assert.deepEqual(got, [true, true, false])
+})
+
+test('T-R-095a ends_with is case-sensitive', opts, () => {
+  const got = evaluateEach([
+    [rule('ends_with', '-E2E'), 'sdlc/M-1-e2e'],
+    [rule('ends_with', '-E2E'), 'sdlc/M-1-E2E'],
+  ])
+  assert.deepEqual(got, [false, true])
+})
+
+test('T-R-095b contains is case-sensitive', opts, () => {
+  const got = evaluateEach([
+    [rule('contains', 'Feature'), 'feature/x'],
+    [rule('contains', 'Feature'), 'Feature/x'],
+  ])
+  assert.deepEqual(got, [false, true])
+})
+
+test('T-R-034a negate flips a boolean', opts, () => {
+  const got = evaluateEach([
+    [rule('starts_with', 'feature/', true), 'feature/x'],
+    [rule('starts_with', 'feature/', true), 'bugfix/x'],
+  ])
+  assert.deepEqual(got, [false, true])
+})
+
+test('T-R-034b negate keeps None', opts, () => {
+  const got = evaluateEach([
+    [rule('regex', '('), 'sdlc/S-001'],
+    [rule('regex', '(', true), 'sdlc/S-001'],
+  ])
+  assert.deepEqual(got, [null, null])
+})
+
+test('T-U-001 an unknown kind gives None and does not raise', opts, () => {
+  const got = evaluateEach([
+    [rule('equals', 'sdlc/S-001'), 'sdlc/S-001'],
+    [rule('equals', 'sdlc/S-001', true), 'sdlc/S-001'],
+  ])
+  assert.deepEqual(got, [null, null])
+})
+
+test('T-U-002 regex_error gives the compile error', opts, () => {
+  const results = callEach('regex_error', ['(', '^a'])
+  assert.ok('ret' in results[0], `regex_error("(") did not return: ${JSON.stringify(results[0])}`)
+  assert.equal(typeof results[0].ret, 'string')
+  assert.notEqual(results[0].ret, '')
+  assert.deepEqual(results[1], { ret: null })
+})
+
+test('T-R-072a evaluate follows each operator, negate flips, and a bad regex gives null', opts, () => {
+  const kinds = [
+    ['starts_with', 'feature/', 'feature/x', 'bugfix/x'],
+    ['ends_with', '-e2e', 'sdlc/M-1-e2e', 'sdlc/M-1'],
+    ['contains', '/S-', 'sdlc/S-001', 'sdlc/M-1'],
+    ['regex', '^sdlc/', 'sdlc/S-001', 'feature/x'],
+  ]
+  const cases = []
+  for (const [kind, pattern, hit, miss] of kinds) {
+    cases.push([rule(kind, pattern), hit], [rule(kind, pattern), miss])
+    cases.push([rule(kind, pattern, true), hit], [rule(kind, pattern, true), miss])
+  }
+  cases.push([rule('regex', '('), 'a'], [rule('regex', '[a-'), 'a'], [rule('regex', '[a-', true), 'a'])
+  const got = evaluateEach(cases)
+  assert.deepEqual(got, [
+    true, false, false, true,
+    true, false, false, true,
+    true, false, false, true,
+    true, false, false, true,
+    null, null, null,
+  ])
+})
