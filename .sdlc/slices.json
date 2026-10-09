@@ -662,7 +662,7 @@
       "S-003"
     ],
     "kind": "spec",
-    "status": "in_progress",
+    "status": "done",
     "phase": "integrate",
     "branch": "sdlc/S-004",
     "pr": "",
