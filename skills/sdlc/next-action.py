@@ -30,6 +30,9 @@ import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import branches  # noqa: E402
+
 FINISHED = ("done", "parked")
 SATISFIED = ("done", "awaiting-merge", "parked")
 PARK_CYCLE_LIMIT = 3
