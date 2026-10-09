@@ -1,0 +1,1 @@
+- parse compares prefix and suffix without case under {name:lower}, as the spec example needs. See ADR-20261009-171409-implementer-S-007-f520.

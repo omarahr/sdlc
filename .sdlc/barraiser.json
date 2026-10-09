@@ -684,6 +684,126 @@
       "title": "R-120 scan uses kind name, not parsed kind",
       "detail": "A push that builds an e2e-area branch through a variable is not caught. Tighten the scan once parse exists (S-007, S-009).",
       "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "Huge digit run crashes parse CLI",
+      "detail": "int() on a digit run over 4300 digits raises ValueError, and the parse command prints a traceback, not JSON. Catch ValueError in parse and return None, or cap the digit count. Real git refs rarely reach this length.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "Trailing newline matches row regexes",
+      "detail": "The row regexes end in $, which matches before a trailing newline. The spec gives the same text. Callers must not pass names with a newline.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "Case-fold logic is spelled twice in parse",
+      "detail": "parse lowercases head, foot, prefix and suffix by hand, and lowercases again in the ids lookup. A small helper such as fold(text, lower) would remove the repeats. This is a style point only. Behavior matches spec section 2.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "T-R-069a overlaps T-R-021a and T-R-024a",
+      "detail": "T-R-069a repeats the three null cases of T-R-021a and the ids case of T-R-024a. R-069 requires a named test, so keep it. Optionally link the cases to cut the overlap.",
+      "file": "skills/sdlc/test/branches.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Non-ASCII digits not pinned",
+      "detail": "No test pins behavior for non-ASCII digits in run, state and verify tails. The plan records this risk and accepts it.",
+      "file": "skills/sdlc/test/branches.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Lowercase length change in prefix gives wrong null",
+      "detail": "Under {name:lower}, parse reassigns prefix to prefix.lower() before it slices the tail. A prefix with a character whose lowercase form is longer (for example İ) shifts the slice, and parse('İ/{name:lower}', 'İ/s-001') gives None. validate_format accepts that format. The spec does not cover this case.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Trailing newline accepted in a tail",
+      "detail": "parse('sdlc/{name}', 'sdlc/S-001\\n') returns a slice with tail 'S-001\\n', because $ matches before a final newline. This follows the spec regex with re.search; a stricter match is a hardening choice.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "plan note for VS-4 is wrong about run-2",
+      "detail": "Row 1 is the lowercase literal run-, so run-2 classifies under the plain format too. No product defect.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "a branch starting with a dash cannot pass as '--branch -x'",
+      "detail": "argparse reads it as a flag and exits 2 with ok:false. '--branch=-x' works. Git refuses such branch names, so this is cosmetic.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "slice row accepts any S- tail",
+      "detail": "Row 8 is ^(S-[A-Za-z0-9-]+)$ as in the spec. Tails such as S-001-v-x-0 or S-001-attempt- classify as a slice with the whole tail as id.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "spec text silent on case of prefix and suffix under lower",
+      "detail": "Code compares prefix and suffix without case under {name:lower}; spec only says the row regexes get re.IGNORECASE. Plan notes say this is intended. Tests TC-contract-6 and 7 pin it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "row 6 takes attempt-like tails as verify",
+      "detail": "S-001-v0-x-0-attempt-4 parses as verify (profile x-0-attempt, part 4) because row 6 precedes row 7. This follows the table order; no live branch name is affected.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises ValueError for a run number of more than 4300 digits",
+      "detail": "sdlc/run-<5000 digits> matches row 1. int() then raises ValueError (Python digit limit). The parse command would end with a traceback. The spec states no limit.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises AttributeError for non-string ledger ids under {name:lower}",
+      "detail": "ids=[5,'S-001'] or [None] under a lower format raises AttributeError. Under a plain format it does not raise. ids=5 raises TypeError. A bare string iterates characters. These inputs are out of contract.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "row 6 regex backtracks quadratically on long tails",
+      "detail": "A tail a-v1-a-v1-... followed by '!' costs about 45 ms at 8000 characters and about 1.1 s at 40000 (1.98 s under lower). A real git branch name is far shorter. The spec states no limit.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "non-ASCII digits and a trailing newline classify",
+      "detail": "sdlc/run-<ARABIC-INDIC 3> gives run n=3. sdlc/run-2<LF> gives run n=2 with the newline in tail. Both follow the spec regex text. A stricter reader may want them rejected.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "U+017F folds to s under re.IGNORECASE",
+      "detail": "Under {name:lower}, sdlc/<U+017F>-001 classifies as a slice with that id. The prefix and suffix compare uses str.lower(), which folds differently from the regex. This follows the spec text.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a branch with a final newline",
+      "detail": "Row regexes end in $ and use re.search, so run-2 plus a newline classifies as run. Git refs cannot hold a newline.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts non-ASCII digits",
+      "detail": "\\d matches Arabic-Indic and fullwidth digits and int() converts them: run-٣ gives n 3.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises ValueError on digit runs over 4300 characters",
+      "detail": "int() hits the Python limit for run n, verify round and part, and attempt n. Low risk: a git ref cannot hold such a branch.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "verify row backtracks quadratically on long tails",
+      "detail": "100000 characters of v0-a- repeated took 7.6 s; 200000 took 30 s. Send to verify-limits. The spec states no limit.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises on non-string items in ids",
+      "detail": "None or a list as an ids item raises AttributeError from .lower(). A bare string as ids iterates by character.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "verify id accepts NUL and any character",
+      "detail": "Table row 6 uses (.+) for the id, so a NUL in the tail goes into the id.",
+      "file": "skills/sdlc/branches.py"
     }
   ]
 }

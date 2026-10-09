@@ -114,6 +114,53 @@ def name(fmt, kind, **parts):
     return prefix + middle + suffix
 
 
+PARSE_ROWS = (
+    ("run", r"^run-(\d+)$", ("n",)),
+    ("milestone", r"^(M-\d+)$", ("id",)),
+    ("e2e", r"^(M-\d+)-e2e$", ("id",)),
+    ("e2e-area", r"^(M-\d+)-e2e-(.+)$", ("id", "area")),
+    ("state", r"^state-(\d{14})$", ("ts",)),
+    ("verify", r"^(.+)-v(\d+)-([a-z0-9-]+?)-(\d+)$", ("id", "round", "profile", "part")),
+    ("attempt", r"^(.+)-attempt-(\d+)$", ("id", "n")),
+    ("slice", r"^(S-[A-Za-z0-9-]+)$", ("id",)),
+)
+INTEGER_PARTS = ("n", "round", "part")
+
+
+def parse(fmt, branch, ids=None):
+    prefix, suffix, lower = split(fmt)
+    if not isinstance(branch, str):
+        return None
+    if len(branch) < len(prefix) + len(suffix):
+        return None
+    head = branch[:len(prefix)]
+    foot = branch[len(branch) - len(suffix):] if suffix else ""
+    if lower:
+        head, foot, prefix, suffix = head.lower(), foot.lower(), prefix.lower(), suffix.lower()
+    if head != prefix or foot != suffix:
+        return None
+    middle = branch[len(prefix):len(branch) - len(suffix)]
+    flags = re.IGNORECASE if lower else 0
+    for kind, pattern, names in PARSE_ROWS:
+        match = re.search(pattern, middle, flags)
+        if match is None:
+            continue
+        result = {"kind": kind, "tail": middle}
+        for part, value in zip(names, match.groups()):
+            result[part] = int(value) if part in INTEGER_PARTS else value
+        result["known"] = None
+        if ids is not None and "id" in result:
+            wanted = result["id"].lower() if lower else result["id"]
+            result["known"] = False
+            for candidate in ids:
+                if (candidate.lower() if lower else candidate) == wanted:
+                    result["id"] = candidate
+                    result["known"] = True
+                    break
+        return result
+    return None
+
+
 def load_git_modes(path=GIT_MODES_PATH):
     try:
         with open(path, encoding="utf-8") as f:
@@ -178,7 +225,14 @@ def cmd_name(ns):
 
 def cmd_parse(ns):
     repo = _repo(ns)
-    return _echo("parse", _format(ns, repo), ns)
+    fmt = _format(ns, repo)
+    parsed = parse(fmt, ns.branch)
+    result = {"ok": True, "command": "parse", "format": fmt, "branch": ns.branch}
+    if parsed is None:
+        result["kind"] = None
+        return result
+    result.update(parsed)
+    return result
 
 
 def cmd_list(ns):

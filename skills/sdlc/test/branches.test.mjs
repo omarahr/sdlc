@@ -71,9 +71,10 @@ print(json.dumps({
   "split": callable(getattr(mod, "split", None)),
   "name": callable(getattr(mod, "name", None)),
   "tail": callable(getattr(mod, "tail", None)),
+  "parse": callable(getattr(mod, "parse", None)),
 }))
 `, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
-  assert.deepEqual(out, { Fail: true, load_format: true, validate_format: true, main: true, split: true, name: true, tail: true })
+  assert.deepEqual(out, { Fail: true, load_format: true, validate_format: true, main: true, split: true, name: true, tail: true, parse: true })
 })
 
 test('branches.py imports only standard library modules', opts, () => {
@@ -746,12 +747,19 @@ rows = []
 for c in cases:
     branch = mod.name(c["fmt"], c["kind"], **c["parts"])
     prefix, suffix, lower = mod.split(c["fmt"])
-    rows.append({"branch": branch, "prefix": prefix, "suffix": suffix, "lower": lower, "tail": mod.tail(c["kind"], **c["parts"])})
+    ids = [c["parts"]["id"]] if "id" in c["parts"] else None
+    parsed = mod.parse(c["fmt"], branch, ids=ids if lower else None)
+    rows.append({"branch": branch, "prefix": prefix, "suffix": suffix, "lower": lower, "tail": mod.tail(c["kind"], **c["parts"]), "parsed": parsed})
 print(json.dumps(rows))
 `, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
   const repo = gitRepo()
   out.forEach((row, i) => {
     const label = `${cases[i].fmt} ${cases[i].kind}`
+    assert.ok(row.parsed, `${label}: parse returned null`)
+    assert.equal(row.parsed.kind, cases[i].kind, `${label}: parsed kind`)
+    for (const [key, value] of Object.entries(cases[i].parts)) {
+      assert.equal(row.parsed[key], value, `${label}: parsed ${key}`)
+    }
     assert.ok(row.branch.startsWith(row.prefix), `${label}: prefix`)
     assert.ok(row.branch.endsWith(row.suffix), `${label}: suffix`)
     const middle = row.branch.slice(row.prefix.length, row.branch.length - row.suffix.length)
@@ -782,6 +790,210 @@ print(json.dumps([mod.name(c["fmt"], c["kind"], **c["parts"]) for c in cases]))
     }
     assert.equal(oneObject(r).branch, expected[i], `${fmt} ${kind}`)
   })
+})
+
+const PARSE_PROBE = `${LOAD}
+import json
+cases = json.loads(sys.argv[2])
+rows = []
+for c in cases:
+    ids = c.get("ids")
+    if ids is not None and c.get("as") == "iter":
+        ids = iter(ids)
+    elif ids is not None and c.get("as") == "tuple":
+        ids = tuple(ids)
+    rows.append(mod.parse(c["fmt"], c["branch"], ids=ids) if ids is not None else mod.parse(c["fmt"], c["branch"]))
+print(json.dumps(rows))
+`
+
+const pyParse = (cases) =>
+  JSON.parse(probe(PARSE_PROBE, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
+
+const DEFAULT_FMT = 'sdlc/{name}'
+const LOWER_FMT = 'feature/PROJ-1-{name:lower}'
+const PLAIN_FMT = 'feature/PROJ-1-{name}'
+
+const cliParse = (fmt, branch) => {
+  const r = run(['parse', '--repo', gitRepo(), '--format', fmt, '--branch', branch])
+  assert.equal(r.status, 0, `${fmt} ${branch}: ${r.stderr}${r.stdout}`)
+  return oneObject(r)
+}
+
+test('T-R-021a parse returns null for a foreign branch', opts, () => {
+  const cases = [
+    { fmt: DEFAULT_FMT, branch: 'main' },
+    { fmt: PLAIN_FMT, branch: 'feature/PROJ-1-foo' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/feature-x' },
+  ]
+  assert.deepEqual(pyParse(cases), [null, null, null])
+  for (const { fmt, branch } of cases) {
+    const out = cliParse(fmt, branch)
+    assert.equal(out.kind, null, `${branch}: kind`)
+    assert.equal(out.ok, true)
+    assert.equal(out.branch, branch)
+  }
+})
+
+test('T-R-021b a branch that passes the prefix and suffix test but matches no row gives null', opts, () => {
+  const cases = [
+    { fmt: DEFAULT_FMT, branch: 'sdlc/feature-x' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/run-' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/run-x' },
+    { fmt: '{name}-wip', branch: 'S-001' },
+    { fmt: '{name}-wip', branch: 'S-001-wip' },
+    { fmt: 'a/{name}-wip', branch: 'a/-wip' },
+  ]
+  const out = pyParse(cases)
+  assert.deepEqual(out.slice(0, 5), [null, null, null, null, null])
+  assert.equal(out[5].kind, 'slice')
+  assert.equal(out[5].id, 'S-001')
+  assert.equal(out[5].tail, 'S-001')
+  assert.equal(out[6], null)
+})
+
+test('T-R-022a classification follows rows 1 to 8', opts, () => {
+  const cases = [
+    'sdlc/run-3',
+    'sdlc/M-1',
+    'sdlc/M-1-e2e',
+    'sdlc/M-1-e2e-api',
+    'sdlc/state-20261008101500',
+    'sdlc/S-001-v0-http-api-0',
+    'sdlc/S-001-attempt-3',
+    'sdlc/S-001',
+    'sdlc/S-fix-M-1-2',
+    'sdlc/M-1-e2e-a-b',
+  ].map((branch) => ({ fmt: DEFAULT_FMT, branch }))
+  const out = pyParse(cases)
+  assert.deepEqual(out.map((r) => r.kind), [
+    'run', 'milestone', 'e2e', 'e2e-area', 'state', 'verify', 'attempt', 'slice', 'slice', 'e2e-area',
+  ])
+  assert.equal(out[8].id, 'S-fix-M-1-2')
+  assert.equal(out[3].id, 'M-1')
+  assert.equal(out[3].area, 'api')
+  assert.equal(out[5].id, 'S-001')
+  assert.equal(out[5].profile, 'http-api')
+  assert.equal(out[5].round, 0)
+  assert.equal(out[5].part, 0)
+  assert.equal(out[9].id, 'M-1')
+  assert.equal(out[9].area, 'a-b')
+})
+
+test('T-R-022b under {name:lower} the regexes ignore case', opts, () => {
+  const tails = ['s-001', 'm-1-e2e-api', 'run-2']
+  const lower = pyParse(tails.map((t) => ({ fmt: LOWER_FMT, branch: `feature/PROJ-1-${t}` })))
+  assert.deepEqual(lower.map((r) => r && r.kind), ['slice', 'e2e-area', 'run'])
+  const plain = pyParse(tails.map((t) => ({ fmt: PLAIN_FMT, branch: `feature/PROJ-1-${t}` })))
+  assert.equal(plain[0], null)
+  assert.equal(plain[1], null)
+  assert.equal(plain[2].kind, 'run')
+})
+
+test('T-R-023a the result holds the parts that apply', opts, () => {
+  const out = pyParse([
+    'sdlc/run-2',
+    'sdlc/state-20261008101500',
+    'sdlc/S-001-v0-http-api-0',
+    'sdlc/M-1-e2e-api',
+    'sdlc/S-001-attempt-3',
+  ].map((branch) => ({ fmt: DEFAULT_FMT, branch })))
+  const keys = out.map((r) => Object.keys(r).sort())
+  assert.deepEqual(keys, [
+    ['kind', 'known', 'n', 'tail'],
+    ['kind', 'known', 'tail', 'ts'],
+    ['id', 'kind', 'known', 'part', 'profile', 'round', 'tail'],
+    ['area', 'id', 'kind', 'known', 'tail'],
+    ['id', 'kind', 'known', 'n', 'tail'],
+  ].map((k) => k.sort()))
+  assert.equal(out[0].n, 2)
+  assert.equal(out[0].tail, 'run-2')
+  assert.equal(out[1].ts, '20261008101500')
+  assert.equal(out[2].tail, 'S-001-v0-http-api-0')
+  assert.equal(out[3].area, 'api')
+  assert.equal(out[4].n, 3)
+  assert.equal(out[4].id, 'S-001')
+  for (const r of out) assert.equal(r.known, null)
+})
+
+test('T-R-023b the CLI prints the same result', opts, () => {
+  const branches = [
+    'sdlc/run-2',
+    'sdlc/state-20261008101500',
+    'sdlc/S-001-v0-http-api-0',
+    'sdlc/M-1-e2e-api',
+    'sdlc/S-001-attempt-3',
+  ]
+  const expected = pyParse(branches.map((branch) => ({ fmt: DEFAULT_FMT, branch })))
+  branches.forEach((branch, i) => {
+    const out = cliParse(DEFAULT_FMT, branch)
+    for (const key of ['ok', 'command', 'format', 'branch']) assert.ok(key in out, `${branch}: ${key}`)
+    assert.equal(out.command, 'parse')
+    assert.equal(out.format, DEFAULT_FMT)
+    assert.equal(out.branch, branch)
+    for (const [key, value] of Object.entries(expected[i])) {
+      assert.deepEqual(out[key], value, `${branch}: ${key}`)
+    }
+    for (const key of ['n', 'round', 'part']) {
+      if (key in expected[i]) assert.ok(Number.isInteger(out[key]), `${branch}: ${key} is an integer`)
+    }
+  })
+})
+
+test('T-R-024a ids resolve the ledger spelling', opts, () => {
+  const branch = 'feature/proj-1-s-001'
+  const out = pyParse([
+    { fmt: LOWER_FMT, branch, ids: ['S-001'] },
+    { fmt: LOWER_FMT, branch, ids: ['S-002'] },
+    { fmt: LOWER_FMT, branch },
+    { fmt: LOWER_FMT, branch, ids: ['S-001'], as: 'iter' },
+    { fmt: LOWER_FMT, branch, ids: ['S-001'], as: 'tuple' },
+    { fmt: LOWER_FMT, branch, ids: ['S-001', 's-001'] },
+    { fmt: LOWER_FMT, branch, ids: ['s-001', 'S-001'] },
+  ])
+  assert.equal(out[0].id, 'S-001')
+  assert.equal(out[0].known, true)
+  assert.equal(out[1].id, 's-001')
+  assert.equal(out[1].known, false)
+  assert.equal(out[2].known, null)
+  assert.equal(out[3].id, 'S-001')
+  assert.equal(out[3].known, true)
+  assert.equal(out[4].id, 'S-001')
+  assert.equal(out[4].known, true)
+  assert.equal(out[5].id, 'S-001')
+  assert.equal(out[6].id, 's-001')
+})
+
+test('T-R-024b case-insensitive matching only under lower', opts, () => {
+  const out = pyParse([
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001', ids: ['s-001'] },
+    { fmt: LOWER_FMT, branch: 'feature/PROJ-1-s-001', ids: ['s-001'] },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001', ids: ['S-001'] },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/run-2', ids: ['S-001'] },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/state-20261008101500', ids: ['S-001'] },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/M-1', ids: ['M-1'] },
+  ])
+  assert.equal(out[0].known, false)
+  assert.equal(out[1].known, true)
+  assert.equal(out[2].known, true)
+  assert.equal(out[3].known, null)
+  assert.equal(out[4].known, null)
+  assert.equal(out[5].known, true)
+})
+
+test('T-R-069a parse returns null for a foreign branch and resolves ids against the ledger', opts, () => {
+  const out = pyParse([
+    { fmt: DEFAULT_FMT, branch: 'main' },
+    { fmt: PLAIN_FMT, branch: 'feature/PROJ-1-foo' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/feature-x' },
+    { fmt: LOWER_FMT, branch: 'feature/proj-1-s-001', ids: ['S-001'] },
+  ])
+  assert.equal(out[0], null)
+  assert.equal(out[1], null)
+  assert.equal(out[2], null)
+  assert.equal(out[3].kind, 'slice')
+  assert.equal(out[3].id, 'S-001')
+  assert.equal(out[3].known, true)
 })
 
 const LOOP_SOURCES = ['sdlc-loop.js', 'next-action.py', 'state-write.py', 'janitor.py', 'suite-receipt.py', 'impact.py']
