@@ -1,0 +1,200 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "789c21e",
+  "environment": "Python 3 with -I, git, Node 24, scratch cwd, branches.py at 789c21e",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Uncompilable patterns give unevaluated with the note, negate or not",
+      "given": "judge and ref_format_error loaded by path in python3 -I from a scratch cwd",
+      "when": "Uncompilable patterns give unevaluated with the note, negate or not",
+      "then": "unevaluated with note 'cannot evaluate ruleset 7: <re.error>', no exception",
+      "expected": "unevaluated with note 'cannot evaluate ruleset 7: <re.error>', no exception",
+      "actual": "held for (, [a-, *, a{2,1}, (?P<, backslash; bad pattern beside a passing rule is unevaluated",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:14",
+      "command": "node --test .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "result",
+          "inline": "judge([regex '('],'sdlc/S-001') -> {'result':'unevaluated','rule':None,'notes':['cannot evaluate x: missing ), unterminated subpattern at position 0']}"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Pattern nested 900 deep leaves the sample unevaluated and does not raise",
+      "given": "judge and ref_format_error loaded by path in python3 -I from a scratch cwd",
+      "when": "Pattern nested 900 deep leaves the sample unevaluated and does not raise",
+      "then": "judge returns a dict",
+      "expected": "judge returns a dict",
+      "actual": "judge raises RecursionError (maximum recursion depth exceeded); also for 5000 open parentheses",
+      "result": "fail",
+      "specSource": "R-035 quote: it never blocks",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:30",
+      "command": "node --test .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "result",
+          "inline": "judge([regex '('*900+')'*900],'sdlc/S-001') -> RecursionError. regex_error and _raw_result catch only re.error. At depth 400 judge returns pass."
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Invalid ref names fail with git check-ref-format; valid refs pass",
+      "given": "judge and ref_format_error loaded by path in python3 -I from a scratch cwd",
+      "when": "Invalid ref names fail with git check-ref-format; valid refs pass",
+      "then": "fail, rule git check-ref-format, for 19 invalid samples; pass for 2 valid",
+      "expected": "fail, rule git check-ref-format, for 19 invalid samples; pass for 2 valid",
+      "actual": "all as expected, including a leading dash, empty string, space and control character",
+      "result": "pass",
+      "specSource": "R-037 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:41",
+      "command": "node --test .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "result",
+          "inline": "'bad..name' -> fatal: 'bad..name' is not a valid branch name; 'sdlc/S-001' -> None"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "NUL, surrogate, flag-like and corpus samples give Fail or a verdict; git missing gives Fail; nothing is written",
+      "given": "judge and ref_format_error loaded by path in python3 -I from a scratch cwd",
+      "when": "NUL, surrogate, flag-like and corpus samples give Fail or a verdict; git missing gives Fail; nothing is written",
+      "then": "no traceback; no option read; no file written",
+      "expected": "no traceback; no option read; no file written",
+      "actual": "NUL and lone surrogate give Fail; --help, -h, --version, -x are refused as names; PATH without git gives Fail; scratch cwd stays empty",
+      "result": "pass",
+      "specSource": "R-037 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:51",
+      "command": "node --test .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "result",
+          "inline": "a\\x00b -> Fail: embedded null byte; PATH=/nonexistent -> Fail: [Errno 2] No such file or directory: 'git'"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "AT-1",
+      "charter": "(",
+      "input": "regex ( [a-  * a{2,1} (?P< \\ with negate true and false",
+      "expected": "unevaluated, note equals re.error text",
+      "observed": "as expected",
+      "result": "held",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:14"
+    },
+    {
+      "id": "AT-2",
+      "charter": "deep nesting",
+      "input": "regex of 900 balanced pairs, and 5000 open parentheses",
+      "expected": "unevaluated, no exception",
+      "observed": "RecursionError raised out of judge",
+      "result": "broke",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:30"
+    },
+    {
+      "id": "AT-3",
+      "charter": "flag injection",
+      "input": "samples --help -h --version -x - passed to git check-ref-format --branch",
+      "expected": "refused as ref names",
+      "observed": "refused",
+      "result": "held",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:70"
+    },
+    {
+      "id": "AT-4",
+      "charter": "NUL and surrogate",
+      "input": "sample with NUL, lone surrogate",
+      "expected": "Fail or fail verdict",
+      "observed": "Fail",
+      "result": "held",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:51"
+    },
+    {
+      "id": "AT-5",
+      "charter": "git off PATH",
+      "input": "PATH=/nonexistent",
+      "expected": "Fail, no write",
+      "observed": "Fail, scratch cwd empty",
+      "result": "held",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:78"
+    },
+    {
+      "id": "AT-6",
+      "charter": "catastrophic regex",
+      "input": "(a+)+$ against 28 a then !",
+      "expected": "spec accepts long run",
+      "observed": "9.9 seconds, returned fail",
+      "result": "out-of-scope",
+      "test": ""
+    },
+    {
+      "id": "AT-7",
+      "charter": "repo state",
+      "input": "sample @{-1} inside a repo with a previous branch",
+      "expected": "fail as outside a repo",
+      "observed": "pass: git expands @{-1} to a branch name",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:89"
+    },
+    {
+      "id": "AT-8",
+      "charter": "ref alias",
+      "input": "sample @",
+      "expected": "fail: @ is not a valid ref",
+      "observed": "pass: git accepts @ as an alias for HEAD",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:97"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "@{-1} and @ pass the ref check",
+      "detail": "git check-ref-format --branch expands @{-1} to the previous branch inside a repo, and accepts @. A working sample named @ or @{-1} passes where R-037 intends a refusal. The plan lists this risk. Fix: reject a sample that starts with @ or equals @, or run git check-ref-format without --branch.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "catastrophic regex blocks judge",
+      "detail": "(a+)+$ against a 28 character sample ran 9.9 seconds in re. The spec accepts this. A preflight over many samples could stall. Send to verify-limits.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "judge raises TypeError for a non-string sample",
+      "detail": "ref_format_error(None) and (5) raise TypeError from subprocess. Samples are strings by contract, so this is outside the threat model.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

@@ -1,0 +1,462 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "789c21e",
+  "environment": "Python 3.14.7, Node test runner, git on PATH, testkit property.mjs and attack-corpus.mjs; seed 12012",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Surface: judge(rules, sample), ref_format_error(ref), regex_error(pattern), evaluate(rule, sample), validate_format(fmt)",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "Functions exist with these signatures",
+      "expected": "Functions exist with these signatures",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-035/R-036/R-037 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:28",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "surface",
+          "inline": "judge (rules, sample)\nref_format_error (ref)\nregex_error (pattern)\nevaluate (rule, sample)\nvalidate_format (fmt)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Uncompilable patterns give unevaluated with note equal to regex_error, negate true, false and absent",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "unevaluated, rule null, notes ['cannot evaluate push rule: <re.error>']",
+      "expected": "unevaluated, rule null, notes ['cannot evaluate push rule: <re.error>']",
+      "actual": "as expected for (, [a-, *, a{2,1}, (?P<, (?P<n>, backslash, (?<=a*)b, (?i, +, ?, a**, \\1, (?P=x)",
+      "result": "pass",
+      "specSource": "R-035 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:40",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "bad patterns",
+          "inline": "14 patterns x 3 negate values; Python 3.14.7"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Bad pattern beside a passing rule is unevaluated; unknown kind note",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "unevaluated; 'cannot evaluate g1: unknown kind glob'",
+      "expected": "unevaluated; 'cannot evaluate g1: unknown kind glob'",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-035 acceptance; plan approach (ADR 8da6)",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:52",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "missing kind",
+          "inline": "cannot evaluate g2: unknown kind None"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "Catastrophic pattern (a+)+$ on 22 chars finishes",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "judge returns",
+      "expected": "judge returns",
+      "actual": "returned fail in 194 ms",
+      "result": "pass",
+      "specSource": "plan risk (spec accepts)",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:61",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "measurement",
+          "title": "time",
+          "inline": "catastrophic ms 194"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-035"
+      ],
+      "title": "A deeply nested pattern that re.compile rejects never raises out of judge",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "judge returns a dict with result unevaluated and a note, as for any pattern re.compile rejects",
+      "expected": "judge returns a dict with result unevaluated and a note, as for any pattern re.compile rejects",
+      "actual": "judge raised RecursionError: maximum recursion depth exceeded, for '('*2000 and for '('*1000+'a'+')'*1000. re.compile raises RecursionError, which evaluate and regex_error do not catch. 300 levels return normally.",
+      "result": "fail",
+      "specSource": "R-035 quote: a pattern re.compile rejects gives None; it never blocks",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:254",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "nested pattern output",
+          "inline": "re.compile on nested 2000 RecursionError 1000 RecursionError 300 ok  python Python 3.14.7\ndeep open2000 exception RecursionError \"maximum recursion depth exceeded\"\ndeep balanced1000 exception RecursionError \"maximum recursion depth exceeded\"\ndeep balanced300 return  {\"result\":\"fail\",\"rule\":\"deep\",\"notes\":[]}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-036"
+      ],
+      "title": "Combination examples: one False fails with first label; all True passes; empty passes; True+None unevaluated; None+False fails; negate; return keys",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "per notes",
+      "expected": "per notes",
+      "actual": "as expected; keys are exactly result, rule, notes; duplicate labels give the label",
+      "result": "pass",
+      "specSource": "R-036 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:68",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "missing label",
+          "inline": "missing-label first failing rule then labelled one -> {\"result\":\"fail\",\"rule\":\"b\",\"notes\":[]}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-036",
+        "R-037"
+      ],
+      "title": "Property: judge equals a reference model written from the spec (1500 runs, 0-5 rules, negate, bad regex, invalid refs, git as oracle)",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "0 violations",
+      "expected": "0 violations",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-036 quote; R-037 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:111",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "judge vs model",
+          "inline": "property-run judge seed=12012 runs=1500 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-036"
+      ],
+      "title": "judge does not mutate rules and is deterministic",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "same output, rules unchanged",
+      "expected": "same output, rules unchanged",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-036 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:129",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Invalid refs fail with git check-ref-format; valid refs pass; ref_format_error gives text or None",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "fail/git check-ref-format for 23 invalid refs; pass for 5 valid",
+      "expected": "fail/git check-ref-format for 23 invalid refs; pass for 5 valid",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-037 acceptance",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:139",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "@{-1}, NUL, lone surrogate and non-string samples",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "no traceback",
+      "expected": "no traceback",
+      "actual": "@{-1} gives fail. NUL and lone surrogate raise Fail. Non-string samples raise TypeError (seed, not blocking)",
+      "result": "pass",
+      "specSource": "plan VS-3 notes",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:153",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "odd inputs",
+          "inline": "odd \"\\u0000\" judge Fail 'embedded null byte'\nodd null judge exception TypeError\nodd 5 judge exception TypeError"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Flag-like samples (--, -h, --help, -1, --format=x, --stdin) are not read as git options",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "fail with git check-ref-format",
+      "expected": "fail with git check-ref-format",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-037 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:165",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Attack corpus (95 strings) never raises and agrees with git",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "0 non-return, 0 disagreements",
+      "expected": "0 non-return, 0 disagreements",
+      "actual": "0 and 0",
+      "result": "pass",
+      "specSource": "R-037 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:172",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "corpus",
+          "inline": "corpus samples=95 non-return=0; judge disagrees with git oracle on 0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Property: ref_format_error equals git (1000 runs)",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "0 violations",
+      "expected": "0 violations",
+      "actual": "0 violations",
+      "result": "pass",
+      "specSource": "R-037 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:183",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "ref_format_error",
+          "inline": "property-run ref_format_error seed=12012 runs=1000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-14",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "No dependence on cwd or repo (cwd /, /var/empty, TMPDIR)",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "same verdicts",
+      "expected": "same verdicts",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "plan approach",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:196",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    },
+    {
+      "id": "TC-contract-15",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-036",
+        "R-037"
+      ],
+      "title": "Forge label wins over git ref check; bad regex plus invalid ref gives git rule; no rules still checks",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "per notes",
+      "expected": "per notes",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "ADR f284; R-037 quote",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:204",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    },
+    {
+      "id": "TC-contract-16",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "validate_format messages equal main for 18 formats",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "equal",
+      "expected": "equal",
+      "actual": "equal",
+      "result": "pass",
+      "specSource": "plan: existing messages stay",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:212",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    },
+    {
+      "id": "TC-contract-17",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Property: validate_format has no exception outcome and equals main (1000 runs)",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "0 violations, 0 diffs",
+      "expected": "0 violations, 0 diffs",
+      "actual": "0 and 0",
+      "result": "pass",
+      "specSource": "plan: existing messages stay",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:218",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "validate_format",
+          "inline": "property validate_format: seed=12012 runs=1000 violations=0\nproperty-run validate_format vs main seed=12012 runs=1000 diffs=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-18",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "git missing from PATH: validate_format message equals main",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "Fail 'cannot check the branch format ...: [Errno 2] ... git'",
+      "expected": "Fail 'cannot check the branch format ...: [Errno 2] ... git'",
+      "actual": "equal to main",
+      "result": "pass",
+      "specSource": "plan: existing messages stay",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:227",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "no git",
+          "inline": "Fail: cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 2] No such file or directory: 'git'"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-19",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-037"
+      ],
+      "title": "Imports unchanged against main",
+      "given": "judge and ref_format_error loaded by path in python3 -I",
+      "when": "the function is called with the inputs named in the title",
+      "then": "same import list",
+      "expected": "same import list",
+      "actual": "argparse,json,os,re,subprocess,sys,datetime",
+      "result": "pass",
+      "specSource": "plan",
+      "test": ".sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:245",
+      "command": "VERIFY_WT=<worktree of sdlc/S-012> VERIFY_MAIN_MODULE=<main branches.py> TESTKIT_SEED=12012 node --test .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": []
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "judge: first failing rule without a label is overwritten by the next failing rule",
+      "detail": "judge uses 'failed is None' to detect the first failure. A failing rule with no label stores None, so a later failing rule replaces it. A forge rule always has a label, so this is low risk.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "judge and ref_format_error raise Fail or TypeError for NUL, lone surrogate and non-string samples",
+      "detail": "NUL and lone surrogate raise Fail ('embedded null byte', a utf-8 encode error). None, int, list, dict, bool and float raise TypeError. Callers pass strings built from a validated format, so this is low risk. A NUL sample could give a fail verdict instead.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "judge: a rule with a missing kind gets the note 'unknown kind None'",
+      "detail": "The note is accurate but unhelpful. Low risk.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

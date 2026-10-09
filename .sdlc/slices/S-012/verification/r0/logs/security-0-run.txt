@@ -1,0 +1,120 @@
+✔ verify security: uncompilable patterns give unevaluated and never raise (774.346625ms)
+✔ verify security: a bad pattern beside a passing rule does not block (60.559167ms)
+✖ verify security: deeply nested balanced pattern does not raise (R-035 never blocks) (39.547125ms)
+✖ verify security: unbalanced deep nesting does not raise (35.320708ms)
+✔ verify security: every invalid ref fails with git check-ref-format and a valid one passes (1282.341791ms)
+✔ verify security: NUL and surrogate samples give Fail or a verdict, not a traceback (79.92ms)
+✔ verify security: attack corpus samples never produce an exception outcome (5450.47925ms)
+✔ verify security: a flag-like sample is never read as a git option (263.536917ms)
+✖ verify security: with git off the PATH the call raises Fail and writes nothing (0.534708ms)
+✖ verify security: the verdict does not depend on repo state for @{-1} (164.805791ms)
+✖ verify security: sample "@" is refused (54.101416ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 6
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8261.377417
+
+✖ failing tests:
+
+test at .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:30:1
+✖ verify security: deeply nested balanced pattern does not raise (R-035 never blocks) (39.547125ms)
+  AssertionError [ERR_ASSERTION]: RecursionError: maximum recursion depth exceeded
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:33:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:36:1
+✖ verify security: unbalanced deep nesting does not raise (35.320708ms)
+  AssertionError [ERR_ASSERTION]: RecursionError: maximum recursion depth exceeded
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:38:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:78:1
+✖ verify security: with git off the PATH the call raises Fail and writes nothing (0.534708ms)
+  TypeError: Cannot read properties of undefined (reading 'trim')
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:85:25)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:89:1
+✖ verify security: the verdict does not depend on repo state for @{-1} (164.805791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'pass' !== 'fail'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:94:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'pass',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:97:1
+✖ verify security: sample "@" is refused (54.101416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'pass' !== 'fail'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/security-0/branches.verify-security.test.mjs:98:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'pass',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

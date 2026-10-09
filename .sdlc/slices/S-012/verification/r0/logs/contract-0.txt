@@ -1,0 +1,93 @@
+judge (rules, sample)
+ref_format_error (ref)
+regex_error (pattern)
+evaluate (rule, sample)
+validate_format (fmt)
+
+missing kind note ["cannot evaluate g2: unknown kind None"]
+catastrophic ms 195 {"result":"fail","rule":"cat","notes":[]}
+missing-label first failing rule then labelled one -> {"result":"fail","rule":"b","notes":[]}
+property-run judge seed=12012 runs=1500 violations=0
+odd "@{-1}" ref_format_error return  "fatal: '@{-1}' is not a valid branch name" | judge return  {"result":"fail","rule":"git check-ref-format","notes":[]}
+odd "@{-1}/x" ref_format_error return  "fatal: '@{-1}/x' is not a valid branch name" | judge return  {"result":"fail","rule":"git check-ref-format","notes":[]}
+odd "\u0000" ref_format_error Fail Fail "embedded null byte" | judge Fail Fail "embedded null byte"
+odd "a\u0000b" ref_format_error Fail Fail "embedded null byte" | judge Fail Fail "embedded null byte"
+odd "\ud800" ref_format_error Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not al | judge Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not al
+odd "a\ud800" ref_format_error Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 1: surrogates not al | judge Fail Fail "'utf-8' codec can't encode character '\\ud800' in position 1: surrogates not al
+odd null ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not NoneType" | judge exception TypeError "expected str, bytes or os.PathLike object, not NoneType"
+odd 5 ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not int" | judge exception TypeError "expected str, bytes or os.PathLike object, not int"
+odd [] ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not list" | judge exception TypeError "expected str, bytes or os.PathLike object, not list"
+odd {} ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not dict" | judge exception TypeError "expected str, bytes or os.PathLike object, not dict"
+odd true ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not bool" | judge exception TypeError "expected str, bytes or os.PathLike object, not bool"
+odd 1.5 ref_format_error exception TypeError "expected str, bytes or os.PathLike object, not float" | judge exception TypeError "expected str, bytes or os.PathLike object, not float"
+corpus samples=95 non-return=0 []
+judge disagrees with git oracle on 0
+property-run ref_format_error seed=12012 runs=1000 violations=0 []
+property validate_format: seed=12012 runs=1000 violations=0
+property-run validate_format vs main seed=12012 runs=1000 diffs=0 []
+PR branch:
+Fail: cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 2] No such file or directory: 'git'
+Fail: [Errno 2] No such file or directory: 'git'
+Fail: [Errno 2] No such file or directory: 'git'
+main:
+Fail: cannot check the branch format 'sdlc/{name}' with git check-ref-format: [Errno 2] No such file or directory: 'git'
+
+imports argparse,json,os,re,subprocess,sys,datetime
+re.compile on nested 2000 RecursionError 1000 RecursionError 300 ok  python Python 3.14.7
+deep open2000 exception RecursionError "maximum recursion depth exceeded"
+deep balanced1000 exception RecursionError "maximum recursion depth exceeded"
+deep balanced300 return  {"result":"fail","rule":"deep","notes":[]}
+✔ verify contract: surface lists judge, ref_format_error, regex_error, evaluate (33.984292ms)
+✔ verify contract: VS-1 bad patterns never raise and note equals regex_error (3788.23475ms)
+✔ verify contract: VS-1 bad pattern beside passing rule is unevaluated; unknown kind note (174.549208ms)
+✔ verify contract: VS-1 catastrophic pattern finishes (194.581458ms)
+✔ verify contract: VS-2 combination examples (545.295083ms)
+✔ verify contract: VS-2/VS-4 property judge vs reference model (1500 runs) (41595.456041ms)
+✔ verify contract: judge does not mutate rules and is deterministic (35.517ms)
+✔ verify contract: VS-3 invalid refs fail with git rule, valid pass (3269.922459ms)
+✔ verify contract: VS-3 @{-1}, NUL, non-string, flag-like never raise a traceback (176.972542ms)
+✔ verify contract: VS-3 flag-like samples are not read as git options (431.517791ms)
+✔ verify contract: VS-3 attack corpus never raises (4351.754041ms)
+✔ verify contract: VS-3 property ref_format_error matches git oracle (1000 runs) (43886.081417ms)
+✔ verify contract: VS-3 no cwd or repo dependence (251.0255ms)
+✔ verify contract: VS-4 forge label wins over git ref check (264.493708ms)
+✔ verify contract: VS-5 validate_format equals main on messages and Fail (687.636584ms)
+✔ verify contract: VS-5 property validate_format has no new exception (1000 runs) and equals main (15944.983417ms)
+✔ verify contract: VS-5 git missing from PATH (259.041875ms)
+✔ verify contract: determinism and no forbidden imports (0.259875ms)
+✖ verify contract: VS-1 deeply nested pattern that re.compile rejects never raises out of judge (95.994167ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 18
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 116052.668917
+
+✖ failing tests:
+
+test at .sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:254:1
+✖ verify contract: VS-1 deeply nested pattern that re.compile rejects never raises out of judge (95.994167ms)
+  AssertionError [ERR_ASSERTION]: open2000: RecursionError maximum recursion depth exceeded
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:260:47
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-012/verification/r0/tests/contract-0/judge.verify-contract.test.mjs:260:22)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
