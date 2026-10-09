@@ -1765,7 +1765,7 @@
     "specRef": "§Testing",
     "quote": "`parse keeps the table's precedence`: `S-fix-M-1-2` is a slice, `M-1-e2e-api` is an e2e area, `S-001-v0-http-api-0` is a verify branch with profile `http-api`.",
     "acceptance": "The branches test asserts the three classifications.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2386,7 +2386,7 @@
     "specRef": "§2",
     "quote": "| 1 | `run` | `^run-(\\d+)$` | `n` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/run-3') returns kind 'run' with n 3. 'sdlc/run-x' returns None.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2401,7 +2401,7 @@
     "specRef": "§2",
     "quote": "| 2 | `milestone` | `^(M-\\d+)$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2') returns kind 'milestone' with id 'M-2'. 'sdlc/M-2-e2e' does not match this row.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2416,7 +2416,7 @@
     "specRef": "§2",
     "quote": "| 3 | `e2e` | `^(M-\\d+)-e2e$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2-e2e') returns kind 'e2e' with id 'M-2'. 'sdlc/M-2-e2e-api' does not match this row.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2431,7 +2431,7 @@
     "specRef": "§2",
     "quote": "| 4 | `e2e-area` | `^(M-\\d+)-e2e-(.+)$` | `id`, `area` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2-e2e-api-v2') returns kind 'e2e-area', id 'M-2', area 'api-v2'. A dashed area stays whole. Areas never contain '/'. ",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

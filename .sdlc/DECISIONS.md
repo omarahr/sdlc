@@ -231,3 +231,11 @@
 - Decision: Under `{name:lower}`, compare the prefix and suffix without case. Other formats compare exactly.
 - Consequences / how to reverse: Restore the exact startswith and endswith test and change the spec example.
 - Affects: R-021, R-024, R-069, S-007
+
+### ADR-20261009-173303-decision-judge-S-008-a88a: parse keeps the e2e-area tail as is and does not reject a slash
+- Status: auto
+- Context: Spec section 2 row 4 uses (.+), which matches a slash. R-105 and the edge-case list say areas never contain a slash. The spec gives no check. No OVERRIDE ADR covers this question.
+- Options: (1) Add no slash check; keep the S-007 behavior; add no test. (2) The same rule, worded as "do not reject". (3) The same rule, with the note that e2e-area branches are never pushed. All three proposals describe one design.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie. The edge-case line states a fact about inputs, not a rule for parse. A reject rule would add behavior the spec does not describe.
+- Consequences / how to reverse: To reject a slash, add one guard after the row 4 match in parse and one test. No stored data depends on the current behavior.
+- Affects: S-008, R-105
