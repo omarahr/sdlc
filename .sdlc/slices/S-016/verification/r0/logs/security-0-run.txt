@@ -1,0 +1,236 @@
+✔ verify security VS-2: refusals derive nothing and have no side effect (3520.882167ms)
+✔ verify security VS-2: unknown kind, zero rules and negated rule never derive and never crash (2798.847583ms)
+✔ verify security VS-2: mr and direct mode never derive a format (673.235042ms)
+⚠ verify security VS-2 todo: a non-string pattern in a forge rule does not crash preflight (503.52025ms) # seed: crash is in S-015 evaluate, outside S-016 scope
+✔ verify security VS-4: failed derivation keeps the first verdict and suggests the derived format (90209.782458ms)
+✖ verify security VS-4: ok true with derived true only for a format validate_format accepts (93614.411792ms)
+✔ verify security VS-6 (pr): regex literal accepted by the rule before S-001, pattern quoted (20493.516292ms)
+✔ verify security VS-6 (stack): regex literal accepted by the rule before S-001, pattern quoted (20517.932208ms)
+✔ verify security VS-6: invalid, deep, long and catastrophic patterns do not hang or raise (10869.828667ms)
+✔ verify security VS-7: hostile corpus in a rule pattern never crashes preflight (238482.083125ms)
+✔ verify security VS-7: hostile rule label never crashes preflight (31263.892417ms)
+✔ verify security VS-7: hostile --branch in mr mode and hostile --format never crash (61847.019ms)
+✔ verify security VS-7: hostile config branchFormat exits 0, 1 or 2 without a traceback (19812.290666ms)
+✔ verify security VS-7: a rename line holds one line for a branch name without line breaks (404.301958ms)
+⚠ verify security VS-7 todo: a pattern with a line break cannot start a second suggestion line (515.627292ms) # seed: suggestion embeds the pattern unescaped
+⚠ verify security VS-7 todo: quote and command substitution in a derived suggestion are escaped (675.4805ms) # seed: suggestion is not shell-quoted
+ℹ tests 16
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 3
+ℹ duration_ms 600515.949792
+
+✖ failing tests:
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:95:1
+⚠ verify security VS-2 todo: a non-string pattern in a forge rule does not crash preflight (503.52025ms) # seed: crash is in S-015 evaluate, outside S-016 scope
+  AssertionError [ERR_ASSERTION]: starts_with null
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:100:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:137:1
+✖ verify security VS-4: ok true with derived true only for a format validate_format accepts (93614.411792ms)
+  AssertionError [ERR_ASSERTION]: preflight printed ok true for a format that validate_format refuses
+  + actual - expected
+  
+  + [
+  +   {
+  +     affix: '{',
+  +     format: '{sdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: '}',
+  +     format: '}sdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: ' ',
+  +     format: ' sdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: ' ',
+  +     format: ' sdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: '\x85',
+  +     format: '\x85sdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: '　',
+  +     format: '　sdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: 'a b',
+  +     format: 'a bsdlc/{name}',
+  +     nameExit: 2,
+  +     op: 'starts_with'
+  +   },
+  +   {
+  +     affix: '{',
+  +     format: 'sdlc/{name}{',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: '}',
+  +     format: 'sdlc/{name}}',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: ' ',
+  +     format: 'sdlc/{name} ',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: ' ',
+  +     format: 'sdlc/{name} ',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: '\x85',
+  +     format: 'sdlc/{name}\x85',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: '　',
+  +     format: 'sdlc/{name}　',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: 'a b',
+  +     format: 'sdlc/{name}a b',
+  +     nameExit: 2,
+  +     op: 'ends_with'
+  +   },
+  +   {
+  +     affix: '{',
+  +     format: 'sdlc/{/{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   },
+  +   {
+  +     affix: '}',
+  +     format: 'sdlc/}/{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   },
+  +   {
+  +     affix: ' ',
+  +     format: 'sdlc/ /{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   },
+  +   {
+  +     affix: ' ',
+  +     format: 'sdlc/ /{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   },
+  +   {
+  +     affix: '\x85',
+  +     format: 'sdlc/\x85/{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   },
+  +   {
+  +     affix: '　',
+  +     format: 'sdlc/　/{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   },
+  +   {
+  +     affix: 'a b',
+  +     format: 'sdlc/a b/{name}',
+  +     nameExit: 2,
+  +     op: 'contains'
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:149:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { op: 'starts_with', affix: '{', format: '{sdlc/{name}', nameExit: 2 }, { op: 'starts_with', affix: '}', format: '}sdlc/{name}', nameExit: 2 }, { op: 'starts_with', affix: ' ', format: ' sdlc/{name}', nameExit: 2 }, { op: 'starts_with', affix: ' ', format: ' sdlc/{name}', nameExit: 2 }, { op: 'starts_with', affix: '\x85', format: '\x85sdlc/{name}', nameExit: 2 }, { op: 'starts_with', affix: '　', format: '　sdlc/{name}', nameExit: 2 }, { op: 'starts_with', affix: 'a b', format: 'a bsdlc/{name}', nameExit: 2 }, { op: 'ends_with', affix: '{', format: 'sdlc/{name}{', nameExit: 2 }, { op: 'ends_with', affix: '}', format: 'sdlc/{name}}', nameExit: 2 }, { op: 'ends_with', affix: ' ', format: 'sdlc/{name} ', nameExit: 2 }, { op: 'ends_with', affix: ' ', format: 'sdlc/{name} ', nameExit: 2 }, { op: 'ends_with', affix: '\x85', format: 'sdlc/{name}\x85', nameExit: 2 }, { op: 'ends_with', affix: '　', format: 'sdlc/{name}　', nameExit: 2 }, { op: 'ends_with', affix: 'a b', format: 'sdlc/{name}a b', nameExit: 2 }, { op: 'contains', affix: '{', format: 'sdlc/{/{name}', nameExit: 2 }, { op: 'contains', affix: '}', format: 'sdlc/}/{name}', nameExit: 2 }, { op: 'contains', affix: ' ', format: 'sdlc/ /{name}', nameExit: 2 }, { op: 'contains', affix: ' ', format: 'sdlc/ /{name}', nameExit: 2 }, { op: 'contains', affix: '\x85', format: 'sdlc/\x85/{name}', nameExit: 2 }, { op: 'contains', affix: '　', format: 'sdlc/　/{name}', nameExit: 2 }, { op: 'contains', affix: 'a b', format: 'sdlc/a b/{name}', nameExit: 2 } ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:294:1
+⚠ verify security VS-7 todo: a pattern with a line break cannot start a second suggestion line (515.627292ms) # seed: suggestion embeds the pattern unescaped
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:299:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:302:1
+⚠ verify security VS-7 todo: quote and command substitution in a derived suggestion are escaped (675.4805ms) # seed: suggestion is not shell-quoted
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(!/\$\(/.test(x.j.suggestion))
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-016/verification/r0/tests/security-0/branch-derive.verify-security.test.mjs:305:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

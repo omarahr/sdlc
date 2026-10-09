@@ -1,0 +1,417 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "e55f687",
+  "environment": "Python 3.14.7, Node 24.19.0, cli-runner (scratch HOME and git repo per case), stub-server gh shim and glab-stub on PATH, branches.py of sdlc/S-016 at e55f687 run as a script",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-042",
+        "R-073"
+      ],
+      "title": "starts_with, ends_with and contains derive the table format in pr and stack mode",
+      "given": "gh stub returns one non-negated rule; no format given",
+      "when": "branches.py preflight --mode pr|stack",
+      "then": "ok true, derived true, table format, every sample pass, exit 0",
+      "expected": "ok true, derived true, table format, every sample pass, exit 0",
+      "actual": "Formats feature/sdlc/{name}, featuresdlc/{name} skipped as odd, sdlc/{name}-x, sdlc/team/{name}, a/b/sdlc/{name} observed; exit 0",
+      "result": "pass",
+      "specSource": "R-042 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:28",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-042"
+      ],
+      "title": "The derived names are the ones asked of gh and the output holds second-verdict samples",
+      "given": "same",
+      "when": "preflight, then read the gh call log",
+      "then": "gh asked for feature%2Fsdlc%2FS-001; samples all start feature/sdlc/",
+      "expected": "gh asked for feature%2Fsdlc%2FS-001; samples all start feature/sdlc/",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-042 quote",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:48",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-042"
+      ],
+      "title": "A rule the default format passes does not derive",
+      "given": "starts_with sdlc/",
+      "when": "preflight",
+      "then": "ok true, derived false, format sdlc/{name}",
+      "expected": "ok true, derived false, format sdlc/{name}",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-042 quote",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:56",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-042",
+        "R-073"
+      ],
+      "title": "Given format (flag and config), negated rule, regex rule and two rules refuse derivation",
+      "given": "each refusal input",
+      "when": "preflight",
+      "then": "exit 1, derived false, original format, non-empty suggestion",
+      "expected": "exit 1, derived false, original format, non-empty suggestion",
+      "actual": "as expected for all seven inputs",
+      "result": "pass",
+      "specSource": "R-042 acceptance, R-073",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:61",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-042"
+      ],
+      "title": "Zero rules, unknown kind, null kind, empty pattern and string negate never derive and never crash",
+      "given": "degenerate rule lists",
+      "when": "preflight",
+      "then": "exit 0 or 1, derived false, no traceback",
+      "expected": "exit 0 or 1, derived false, no traceback",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-042 quote",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:83",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-042"
+      ],
+      "title": "Non-string patterns (list, null, number, object, regex list) never derive",
+      "given": "pattern is not a string",
+      "when": "preflight",
+      "then": "derived false and exit not 0",
+      "expected": "derived false and exit not 0",
+      "actual": "derived false, exit 1 with a Python traceback on stderr in all five inputs (seed 1)",
+      "result": "pass",
+      "specSource": "R-042 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:99",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-042"
+      ],
+      "title": "Guard: mr and direct mode with a bad --branch do not derive; pr and stack with a loop-kind failure derive",
+      "given": "starts_with feature/ rule",
+      "when": "preflight --mode mr|direct|pr|stack",
+      "then": "mr: ok false, one rename line, no format change; direct: no samples; pr, stack: derived",
+      "expected": "mr: ok false, one rename line, no format change; direct: no samples; pr, stack: derived",
+      "actual": "as expected (direct reports ok true with an empty samples list, since no sample exists)",
+      "result": "pass",
+      "specSource": "R-042 quote, ADR d001",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:108",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-087",
+        "R-042"
+      ],
+      "title": "A derived format that still fails keeps the first verdict (19 git-unsafe affixes in pr and stack)",
+      "given": "ends_with .lock, contains a..b, space, ~, ^, :, trailing dot, ?, *, [, backslash, @{, leading dash, leading dot, /., //, trailing slash, tab, leading slash",
+      "when": "preflight",
+      "then": "exit 1 (not 2), derived false, format sdlc/{name}, suggestion equals the --branch-format line with the derived format, one rule",
+      "expected": "exit 1 (not 2), derived false, format sdlc/{name}, suggestion equals the --branch-format line with the derived format, one rule",
+      "actual": "as expected for all 38 runs",
+      "result": "pass",
+      "specSource": "R-087 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:126",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-087"
+      ],
+      "title": "samples, rules and notes of a failed derivation equal those of the first verdict",
+      "given": "ends_with .lock",
+      "when": "compare with a run under --format sdlc/{name}",
+      "then": "same samples (timestamps normalised), rules and notes",
+      "expected": "same samples (timestamps normalised), rules and notes",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "ADR b19f",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:141",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-087"
+      ],
+      "title": "Format-like affixes ({name}, {, }, {0}, %s, $(id)) do not crash",
+      "given": "24 affix and operator pairs",
+      "when": "preflight",
+      "then": "exit 0 or 1, no traceback",
+      "expected": "exit 0 or 1, no traceback",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-042 quote",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:150",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-043"
+      ],
+      "title": "A failing verdict carries a suggestion: negated rule, two rules, given format, mr working failure",
+      "given": "see title",
+      "when": "preflight",
+      "then": "--branch-format line naming labels, derived format for a given format, rename line in mr mode",
+      "expected": "--branch-format line naming labels, derived format for a given format, rename line in mr mode",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-043 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:158",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-12",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-043"
+      ],
+      "title": "Rename line for hostile branch names stays on a failing exit 1 without a traceback",
+      "given": "--branch=<name> for quote, space, dash, double quote, $(id), backtick, newline, backslash",
+      "when": "preflight --mode mr",
+      "then": "exit 1, suggestion names the rename",
+      "expected": "exit 1, suggestion names the rename",
+      "actual": "exit 1 for all. The rename line puts the name in unquoted (seed 3)",
+      "result": "pass",
+      "specSource": "R-043 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:171",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-13",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-122",
+        "R-043"
+      ],
+      "title": "A regex rule gives a --branch-format literal the rule accepts before S-001, in pr and stack mode",
+      "given": "14 patterns incl. alternation, class, group, repeat min 0, dot, anchors, lookahead, backreference, flags",
+      "when": "preflight",
+      "then": "literal/S-001 matches the pattern (checked with python re)",
+      "expected": "literal/S-001 matches the pattern (checked with python re)",
+      "actual": "as expected; lookahead, backreference, (a|b)*, \\w+ and counted-group patterns fall back to text with the pattern quoted",
+      "result": "pass",
+      "specSource": "R-122 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:191",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-14",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-122"
+      ],
+      "title": "No-candidate, invalid, long and counted-repeat patterns fall back to text without hang or raise",
+      "given": "^[a-z]+$, (, [, *, (a+)+$, 5000 chars, 300 parens, ^(a{1000}){1000}$, ^.{0,99999999}x/, a{99999999999}, backslash, unicode",
+      "when": "preflight",
+      "then": "exit 0 or 1, no traceback, under 20 s, text fallback quotes the pattern",
+      "expected": "exit 0 or 1, no traceback, under 20 s, text fallback quotes the pattern",
+      "actual": "as expected for these inputs (but see seeds 2 and 4 for others)",
+      "result": "pass",
+      "specSource": "R-122 quote",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:209",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-15",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-122",
+        "R-043"
+      ],
+      "title": "GitLab push-rule regex in pr, mr and stack mode",
+      "given": "glab stub regex rule",
+      "when": "preflight --branch bad-name",
+      "then": "exit 1; pr, stack: --branch-format \"feature/{name}\" with quoted pattern; mr: rename line",
+      "expected": "exit 1; pr, stack: --branch-format \"feature/{name}\" with quoted pattern; mr: rename line",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-122 acceptance",
+      "test": ".sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs:223",
+      "command": "KIT=<worktree>/skills/sdlc/test/testkit VLOG=.sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt node --test .sdlc/slices/S-016/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-016/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "title": "hostile affixes and branch names",
+      "detail": "19 git-unsafe affixes, format-like affixes, 9 hostile branch names, 30 regex patterns incl. very long and nested. Findings are seeds 1 to 4."
+    }
+  ],
+  "seeds": [
+    {
+      "title": "preflight crashes with a traceback on a non-string rule pattern",
+      "detail": "A forge rule whose pattern is a list, null, number or object makes _raw_result raise TypeError (startswith/endswith/in) or re.compile raise TypeError for regex. preflight exits 1 with a Python traceback on stderr and no JSON on stdout. The code is S-015's, not in the S-016 diff; derive() itself returns None for these. See TC-cli-6.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "preflight hangs on a catastrophic regex rule",
+      "detail": "Rule regex (((((((((((((((((((((a*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*b evaluated on sdlc/state-20261010120000 does not finish in 10 s; preflight hit the 30 s runner timeout. Short samples like sdlc/S-001 return at once. Code is in S-015's _raw_result (re.search on a forge-supplied pattern). See logs/cli-0-probes.txt.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "rename suggestion puts the branch name unquoted into a shell line",
+      "detail": "suggest() writes git branch -m <name> <new-name> with the raw name. For --branch '$(id)' or a backtick name, pasting the line runs the command. A name with a quote, space or backslash is read back wrong by sh. A name with a newline splits the suggestion into three lines. Names are user supplied, so the risk is low. See VS-5b lines in logs/cli-0-transcripts.txt.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "_regex_literal builds an unbounded string for nested counted repeats",
+      "detail": "_shortest multiplies repeat counts as strings. Pattern ((a{1000}){1000}){1000} (25 characters) took 19 s and 5.9 GB peak RSS in _regex_literal; ((a{1000}){1000}){100} took 1.9 s and 637 MB. A larger count can exhaust memory. A forge admin supplies the pattern. A cap on the built length would remove the risk. See logs/cli-0-probes.txt.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
