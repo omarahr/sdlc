@@ -447,3 +447,35 @@
 - Decision: Option 1. The three options give the same verdict and match ADR-20261010-000100-planner-S-015-r1f0. The ref-format check is local and needs no forge. Git refuses the name, so no push can succeed. The spec text on unchecked speaks only of the forge rules.
 - Consequences / how to reverse: Skip the ref-format step when the forge is unknown, and update tests T-R-044e and T-R-044f. No state or data format depends on this choice.
 - Affects: S-015, R-044, R-084
+
+### ADR-20261009-223042-decision-judge-S-016-d001: Working-only failure in mr mode does not derive a format
+- Status: auto
+- Context: Spec section 4 step 5 does not say what happens in mr mode when only the working sample fails. A format cannot change the user's own branch. No OVERRIDE ADR covers this question.
+- Options: (1) Do not derive. Return ok false with the rename suggestion. (2) Derive only when a loop-kind sample fails. Otherwise return ok false with the rename suggestion. (3) Same as option 2, with the argument that a derived format would leave the push failing.
+- Decision: Option 1. All three options give the same verdict. Step 6 already names the rename for a working failure. Step 5 would re-check the working sample and fail again, so a derived format could never give ok true. When a loop-kind sample also fails, the planner derives as step 5 says, and the working failure still blocks.
+- Consequences / how to reverse: Remove one guard in the planner derive step and update one test. No state, config or format depends on this choice.
+- Affects: S-016, R-042, R-043, R-087, R-122, R-073
+
+### ADR-20261009-223044-decision-judge-S-016-b19f: Failed derivation reports the original format and first-verdict samples
+- Status: auto
+- Context: The spec is silent on the failed output when derivation was tried and still failed. Section 4 step 6 says suggestion holds the derived format. Step 5 sets derived true only on success. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the original format, derived false, first-verdict samples and rules; derived format only in suggestion. (2) The same, with suggestion as a --branch-format line. (3) The same, and state that second-evaluation samples are never output.
+- Decision: Option 1. The three proposals describe one design and match the plan. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 15+10+4 = 29, option 3 = 15+10+4 = 29. Write suggestion as a --branch-format line, and omit second-evaluation samples. Both details are compatible with option 1.
+- Consequences / how to reverse: Only the failure branch of the output builder and its tests change. No state depends on it. To change it, swap in the second-evaluation values.
+- Affects: S-016, R-042, R-043, R-087, R-122, R-073
+
+### ADR-20261009-223051-decision-judge-S-016-13d6: Regex suggestion literal comes from one helper checked with evaluate
+- Status: auto
+- Context: Spec says only that the suggestion holds a literal that the rule accepts. The plan builds the shortest match from the parsed pattern and tries prefixes cut at slashes. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the plan's method; fallback text "<literal>/{name}" with the quoted pattern. (2) One helper _regex_literal; return None on parse error or when no candidate passes; the suggestion is a --branch-format line with the quoted pattern. (3) The plan's method with prefixes tried longest first.
+- Decision: Option 2. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+5 = 30, option 3 = 12+10+4 = 26. Try candidates shortest first, then the whole string. Use evaluate on all samples for each candidate. Never print an unchecked literal as valid. The --branch-format line matches ADR-20261009-223044-decision-judge-S-016-b19f. Option 3 is lower because longest first keeps less of the "{name}" tail free.
+- Consequences / how to reverse: The helper is one private function in branches.py. Only the suggestion text depends on it. Replace the helper, or reduce it to the fallback text, with no format or config change.
+- Affects: S-016, R-044
+
+### ADR-20261009-223305-planner-S-016-1227: Suggestion text for each failing cause
+- Status: auto
+- Context: Spec section 4 step 6 names the suggestion for a derivable rule, a regex rule and a working failure. It is silent on a given format, a negated rule, several rules, a regex rule with a working failure, and a derived format that git refuses.
+- Options: (1) Give each case a defined --branch-format line, with a placeholder text where no literal exists. (2) Leave the suggestion empty in those cases.
+- Decision: Option 1. A derivable rule gives its table format as the suggestion, also when a format was given. A derived format that git refuses is a failed derivation with exit 1. A regex literal is checked only against the S-001 tail. Other cases give a placeholder line that names the rule labels. A working failure adds a rename line.
+- Consequences / how to reverse: Only the suggest function and its tests change. No state depends on the text.
+- Affects: S-016, R-042, R-043, R-087, R-122

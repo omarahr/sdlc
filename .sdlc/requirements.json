@@ -1927,7 +1927,7 @@
     "specRef": "§4",
     "quote": "Otherwise, when `given` is false and the rules are exactly one rule with `negate` false and `kind` in `starts_with`, `ends_with`, `contains`: derive `fmt2` from the table below, evaluate the samples again under it, and when they all pass, `ok` is `true` with `fmt2` and `derived` `true`.\n\n| Rule | Derived format |\n|---|---|\n| `starts_with P` | `P` + `sdlc/{name}` |\n| `ends_with S` | `sdlc/{name}` + `S` |\n| `contains C` | `sdlc/` + `C` + `/{name}` |",
     "acceptance": "A single `starts_with feature/` rule with no format given derives `feature/sdlc/{name}`, sets `derived: true`, and exits 0 when the samples pass under it. The three operators map per the table. A given format, a negated rule, a regex rule, or more than one rule never derives.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1942,7 +1942,7 @@
     "specRef": "§4",
     "quote": "Otherwise `ok` is `false`, and `suggestion` is a `--branch-format` line: for a derivable rule whose derivation still failed, the derived format; for a `regex` rule, `--branch-format \"<literal that your rule accepts>/{name}\"` with the pattern quoted beside it; for a `working` failure, the rename the user has to do.",
     "acceptance": "A failing verdict prints `ok: false` and exits 1, and carries a suggestion. A regex failure's suggestion names `--branch-format` and quotes the pattern. A `working` failure's suggestion names the rename.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2568,7 +2568,7 @@
     "specRef": "§Testing",
     "quote": "`derive follows the table and refuses regex, negate and several rules`.",
     "acceptance": "The branches test asserts the three derived formats and the three refusals.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2796,7 +2796,7 @@
     "specRef": "§4",
     "quote": "for a derivable rule whose derivation still failed, the derived format",
     "acceptance": "One simple rule, no format given, the derivation applied, and the samples still fail under the derived format: the verdict prints `ok: false` and `suggestion` is the derived format string.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3733,7 +3733,7 @@
     "specRef": "§4",
     "quote": "for a `regex` rule, `--branch-format \"<literal that your rule accepts>/{name}\"` with the pattern quoted beside it",
     "acceptance": "A regex rule the default format fails, no format given: the suggestion carries a `--branch-format` line of the shape `<literal>/{name}`. Substituting the tail `S-001` into the literal gives a name that passes the failing regex rule.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
