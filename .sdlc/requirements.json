@@ -227,7 +227,7 @@
         "skills/sdlc/test/branches.test.mjs :: branches.py imports only standard library modules",
         "skills/sdlc/test/branches.test.mjs :: every command runs and prints one JSON object"
       ],
-      "commit": "pending"
+      "commit": "d3cd6f2a45ac26814b59264a4cf3658d7079c48f"
     },
     "notes": ""
   },
@@ -294,7 +294,7 @@
         "TC-contract-13: .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:162",
         "TC-contract-14: .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:205"
       ],
-      "commit": "pending"
+      "commit": "d3cd6f2a45ac26814b59264a4cf3658d7079c48f"
     },
     "notes": ""
   },
@@ -367,7 +367,7 @@
         "TC-contract-13: .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:162",
         "TC-contract-15: .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:223"
       ],
-      "commit": "pending"
+      "commit": "d3cd6f2a45ac26814b59264a4cf3658d7079c48f"
     },
     "notes": ""
   },
@@ -1483,7 +1483,7 @@
         "skills/sdlc/test/branches.test.mjs :: every command runs and prints one JSON object",
         "skills/sdlc/test/branches.test.mjs :: a flag that a command does not name is bad input"
       ],
-      "commit": "pending"
+      "commit": "d3cd6f2a45ac26814b59264a4cf3658d7079c48f"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -1682,7 +1682,7 @@
         "TC-security-25: .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:117",
         "TC-security-26: .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:133"
       ],
-      "commit": "pending"
+      "commit": "d3cd6f2a45ac26814b59264a4cf3658d7079c48f"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
