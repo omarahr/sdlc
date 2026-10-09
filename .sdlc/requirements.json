@@ -37,15 +37,31 @@
     "specRef": "§1",
     "quote": "The default is `sdlc/{name}`.",
     "acceptance": "load_format on a repo whose `.sdlc/config.json` has no branchFormat returns `sdlc/{name}`. A fresh run records `branchFormat: \"sdlc/{name}\"` in `config.json`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-041704-decision-judge-S-003-9e7b",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-041833-decision-judge-S-003-7312",
+      "ADR-20261009-041711-decision-judge-S-003-4882"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: load_format returns the config value or the default",
+        "skills/sdlc/test/branches.test.mjs :: preflight reports the resolved format and whether it was given",
+        "TC-cli-6: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:138",
+        "TC-cli-7: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:163",
+        "TC-cli-19: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:292",
+        "TC-contract-12: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:211",
+        "TC-contract-16: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:288"
+      ],
+      "commit": "pending"
     },
-    "notes": ""
+    "notes": "fresh-run config clause closes in S-027"
   },
   {
     "id": "R-003",
@@ -187,13 +203,29 @@
     "specRef": "§1",
     "quote": "The format is resolved like `commitFormat`: the `--branch-format` flag, else `config.branchFormat` on resume, else the pre-flight's derivation (section 4), else the default.",
     "acceptance": "preflight with `--format` reports that format with given true. With no flag it reads `config.branchFormat`. With neither it derives or falls back to `sdlc/{name}`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-041704-decision-judge-S-003-9e7b",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-041833-decision-judge-S-003-7312",
+      "ADR-20261009-041711-decision-judge-S-003-4882"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: preflight reports the resolved format and whether it was given",
+        "TC-cli-16: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:267",
+        "TC-cli-17: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:277",
+        "TC-cli-18: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:286",
+        "TC-cli-19: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:292",
+        "TC-cli-20: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:303",
+        "TC-cli-21: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:309"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -321,13 +353,38 @@
     "specRef": "§2",
     "quote": "`--format` overrides the repo's `config.branchFormat`; without either, the default applies. `--repo` is the target repo, whose `.sdlc/config.json` holds the format once a run exists.",
     "acceptance": "A repo with `branchFormat: \"feature/PROJ-1-{name}\"` and `--format \"sdlc/{name}\"` names `sdlc/S-001`. Without `--format` it names `feature/PROJ-1-S-001`. Without either it names `sdlc/S-001`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-041704-decision-judge-S-003-9e7b",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-041833-decision-judge-S-003-7312",
+      "ADR-20261009-041711-decision-judge-S-003-4882"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: name takes the format from the flag, then the config, then the default",
+        "skills/sdlc/test/branches.test.mjs :: the --format flag wins over a broken config in name and preflight",
+        "TC-cli-6: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:138",
+        "TC-cli-7: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:163",
+        "TC-cli-8: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:185",
+        "TC-cli-9: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:193",
+        "TC-cli-10: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:200",
+        "TC-cli-11: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:206",
+        "TC-cli-12: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:214",
+        "TC-cli-14: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:238",
+        "TC-contract-12: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:211",
+        "TC-contract-13: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:231",
+        "TC-contract-14: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:239",
+        "TC-contract-15: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:250",
+        "TC-contract-16: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:288",
+        "TC-contract-17: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:307"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -453,13 +510,51 @@
     "specRef": "§2",
     "quote": "`tail(kind, **parts)`: the tail from the table in section 1. `state` without `ts` generates the timestamp. A missing part is a `Fail`.",
     "acceptance": "`tail(\"slice\", id=\"S-001\")` is `S-001`. `tail(\"state\")` is 14 digits. `tail(\"e2e-area\", id=\"M-1\")` raises Fail because area is missing.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-034220-decision-judge-S-002-3cc6",
+      "ADR-20261009-041704-decision-judge-S-003-9e7b",
+      "ADR-20261009-041711-decision-judge-S-003-4882",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-041833-decision-judge-S-003-7312"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: tail builds the slice, state and e2e-area tails and fails on a missing part",
+        "skills/sdlc/test/branches.test.mjs :: the state tail is the current UTC time",
+        "TC-cli-1: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:94",
+        "TC-cli-2: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:106",
+        "TC-cli-4: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:119",
+        "TC-cli-12: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:214",
+        "TC-cli-13: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:230",
+        "TC-cli-101: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:57",
+        "TC-cli-102: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:77",
+        "TC-cli-103: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:93",
+        "TC-cli-110: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:193",
+        "TC-cli-111: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:214",
+        "TC-cli-112: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:231",
+        "TC-contract-1: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:81",
+        "TC-contract-2: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:86",
+        "TC-contract-3: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:94",
+        "TC-contract-4: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:102",
+        "TC-contract-5: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:118",
+        "TC-contract-6: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:123",
+        "TC-contract-7: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:138",
+        "TC-contract-8: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:143",
+        "TC-contract-9: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:163",
+        "TC-contract-10: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:184",
+        "TC-contract-11: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:195",
+        "TC-contract-15: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:250",
+        "TC-security-1: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:58",
+        "TC-security-4: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:85",
+        "TC-security-5: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:99"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -1803,13 +1898,50 @@
     "specRef": "§2",
     "quote": "A missing part is a `Fail`.",
     "acceptance": "`branches.py name --kind e2e-area --id M-1` with no `--area` exits 2 and prints one JSON object with `ok: false` and a non-empty `error`. No traceback appears.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-041704-decision-judge-S-003-9e7b",
+      "ADR-20261009-041713-decision-judge-S-003-c3ba",
+      "ADR-20261009-041833-decision-judge-S-003-7312",
+      "ADR-20261009-041711-decision-judge-S-003-4882"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: name without a required part exits 2 with one JSON error and no traceback",
+        "TC-cli-3: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:111",
+        "TC-cli-4: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:119",
+        "TC-cli-5: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:130",
+        "TC-cli-8: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:185",
+        "TC-cli-15: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:248",
+        "TC-cli-20: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:303",
+        "TC-cli-21: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:309",
+        "TC-cli-101: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:57",
+        "TC-cli-102: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:77",
+        "TC-cli-103: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:93",
+        "TC-cli-104: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:113",
+        "TC-cli-105: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:138",
+        "TC-cli-106: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:162",
+        "TC-cli-107: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:177",
+        "TC-cli-110: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:193",
+        "TC-cli-111: .sdlc/slices/S-003/verification/r0/tests/cli-1/hostile-parts.verify-cli.test.mjs:214",
+        "TC-contract-10: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:184",
+        "TC-security-1: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:58",
+        "TC-security-2: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:69",
+        "TC-security-3: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:76",
+        "TC-security-4: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:85",
+        "TC-security-6: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:121",
+        "TC-security-7: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:142",
+        "TC-security-8: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:153",
+        "TC-security-9: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:163",
+        "TC-security-10: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:180",
+        "TC-security-11: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:194"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },

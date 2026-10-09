@@ -98,7 +98,7 @@ print(json.dumps({"names": sorted(names), "foreign": sorted(n for n in names if 
 test('every command runs and prints one JSON object', opts, () => {
   const repo = gitRepo()
   const calls = {
-    name: ['--repo', repo, '--kind', 'verify', '--id', 'S-001', '--n', '1', '--area', 'api', '--round', '0', '--profile', 'http-api', '--part', '0', '--format', 'feature/{name}'],
+    name: ['--repo', repo, '--kind', 'slice', '--id', 'S-001', '--n', '1', '--area', 'api', '--round', '0', '--profile', 'http-api', '--part', '0', '--format', 'feature/{name}'],
     parse: ['--repo', repo, '--branch', 'sdlc/S-001', '--format', 'sdlc/{name}'],
     list: ['--repo', repo, '--kind', 'slice', '--format', 'sdlc/{name}'],
     preflight: ['--repo', repo, '--mode', 'mr', '--format', 'sdlc/{name}', '--branch', 'main'],
@@ -243,7 +243,7 @@ test('a missing or malformed git-modes.json fails preflight with one JSON error,
     assert.equal(error.ok, false, `${label}: preflight ok is not false`)
     assert.ok(typeof error.error === 'string' && error.error.length > 0, `${label}: preflight error is empty`)
     for (const [command, args] of [
-      ['name', ['--kind', 'slice']],
+      ['name', ['--kind', 'slice', '--id', 'S-001']],
       ['parse', ['--branch', 'x']],
       ['list', ['--kind', 'slice']],
     ]) {
@@ -431,4 +431,146 @@ print(json.dumps(call(mod.validate_format, "sdlc/{name}")))
 `, [BRANCHES, empty], { cwd: scratch('sdlc-branches-cwd-') }))
   assert.equal(typeof out.fail, 'string', `validate_format without git did not raise Fail: ${JSON.stringify(out)}`)
   assert.match(out.fail, /git/, `the message does not name git: ${out.fail}`)
+})
+
+test('tail builds the slice, state and e2e-area tails and fails on a missing part', opts, () => {
+  const out = JSON.parse(probe(`${CALL}
+print(json.dumps({
+    "slice": call(mod.tail, "slice", id="S-001"),
+    "state": call(mod.tail, "state"),
+    "state_ts": call(mod.tail, "state", ts="20261008101500"),
+    "area": call(mod.tail, "e2e-area", id="M-1", area="api"),
+    "no_area": call(mod.tail, "e2e-area", id="M-1"),
+    "empty_area": call(mod.tail, "e2e-area", id="M-1", area=""),
+    "no_id": call(mod.tail, "e2e-area", area="api"),
+}))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.deepEqual(out.slice, { ret: 'S-001' })
+  assert.equal(typeof out.state.ret, 'string', `tail("state") did not return a string: ${JSON.stringify(out.state)}`)
+  assert.match(out.state.ret, /^state-\d{14}$/)
+  assert.deepEqual(out.state_ts, { ret: 'state-20261008101500' })
+  assert.deepEqual(out.area, { ret: 'M-1-e2e-api' })
+  for (const key of ['no_area', 'empty_area']) {
+    assert.equal(typeof out[key].fail, 'string', `${key} did not raise Fail: ${JSON.stringify(out[key])}`)
+    assert.match(out[key].fail, /\barea\b/, `${key}: the message does not name area: ${out[key].fail}`)
+  }
+  assert.equal(typeof out.no_id.fail, 'string', `no_id did not raise Fail: ${JSON.stringify(out.no_id)}`)
+  assert.match(out.no_id.fail, /\bid\b/, `no_id: the message does not name id: ${out.no_id.fail}`)
+})
+
+test('the state tail is the current UTC time', opts, () => {
+  const utc = () => new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
+  const before = utc()
+  const out = JSON.parse(probe(`${CALL}
+print(json.dumps(call(mod.tail, "state")))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-'), env: { ...process.env, TZ: 'Pacific/Kiritimati' } }))
+  const after = utc()
+  assert.equal(typeof out.ret, 'string', `tail("state") did not return a string: ${JSON.stringify(out)}`)
+  const m = /^state-(\d{14})$/.exec(out.ret)
+  assert.ok(m, `tail("state") is ${out.ret}`)
+  assert.ok(m[1] >= before && m[1] <= after, `state timestamp ${m[1]} is not between ${before} and ${after} UTC`)
+})
+
+test('name without a required part exits 2 with one JSON error and no traceback', opts, () => {
+  const repo = gitRepo()
+  for (const [label, args, part] of [
+    ['e2e-area without --area', ['name', '--repo', repo, '--kind', 'e2e-area', '--id', 'M-1'], /\barea\b/],
+    ['slice without --id', ['name', '--repo', repo, '--kind', 'slice'], /\bid\b/],
+  ]) {
+    const r = run(args)
+    assert.equal(r.status, 2, `${label}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+    assert.doesNotMatch(r.stderr, /Traceback/, `${label}: traceback on stderr`)
+    const out = oneObject(r)
+    assert.equal(out.ok, false, `${label}: ok is not false`)
+    assert.ok(typeof out.error === 'string' && out.error.length > 0, `${label}: error is empty`)
+    assert.match(out.error, part, `${label}: error does not name the part: ${out.error}`)
+  }
+})
+
+test('name takes the format from the flag, then the config, then the default', opts, () => {
+  const configured = withConfig({ gitMode: 'pr', branchFormat: 'feature/PROJ-1-{name}' })
+  const bare = gitRepo()
+  const named = args => {
+    const r = run(['name', ...args])
+    assert.equal(r.status, 0, `exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+    const out = oneObject(r)
+    assert.deepEqual(Object.keys(out).sort(), ['branch', 'command', 'format', 'kind', 'ok'], `keys of ${r.stdout}`)
+    assert.equal(out.ok, true)
+    assert.equal(out.command, 'name')
+    return out
+  }
+  const cases = [
+    [['--repo', configured, '--kind', 'slice', '--id', 'S-001', '--format', 'sdlc/{name}'], 'sdlc/{name}', 'sdlc/S-001'],
+    [['--repo', configured, '--kind', 'slice', '--id', 'S-001'], 'feature/PROJ-1-{name}', 'feature/PROJ-1-S-001'],
+    [['--repo', bare, '--kind', 'slice', '--id', 'S-001'], 'sdlc/{name}', 'sdlc/S-001'],
+  ]
+  for (const [args, format, branch] of cases) {
+    const out = named(args)
+    assert.equal(out.kind, 'slice')
+    assert.equal(out.format, format)
+    assert.equal(out.branch, branch)
+  }
+  const area = named(['--repo', bare, '--kind', 'e2e-area', '--id', 'M-1', '--area', 'api'])
+  assert.equal(area.kind, 'e2e-area')
+  assert.equal(area.format, 'sdlc/{name}')
+  assert.equal(area.branch, 'sdlc/M-1-e2e-api')
+  const state = named(['--repo', bare, '--kind', 'state'])
+  assert.equal(state.kind, 'state')
+  assert.equal(state.format, 'sdlc/{name}')
+  assert.match(state.branch, /^sdlc\/state-\d{14}$/)
+})
+
+test('preflight reports the resolved format and whether it was given', opts, () => {
+  const cases = [
+    ['flag over config', withConfig({ gitMode: 'pr', branchFormat: 'feature/{name}' }), ['--format', 'team/{name}'], 'team/{name}', true],
+    ['config value', withConfig({ gitMode: 'pr', branchFormat: 'feature/{name}' }), [], 'feature/{name}', true],
+    ['config equal to the default', withConfig({ gitMode: 'pr', branchFormat: 'sdlc/{name}' }), [], 'sdlc/{name}', true],
+    ['empty config value', withConfig({ gitMode: 'pr', branchFormat: '' }), [], 'sdlc/{name}', false],
+    ['no config key', withConfig({ gitMode: 'pr' }), [], 'sdlc/{name}', false],
+    ['no config file', gitRepo(), [], 'sdlc/{name}', false],
+  ]
+  for (const [label, repo, extra, format, given] of cases) {
+    const r = run(['preflight', '--repo', repo, '--mode', 'pr', ...extra])
+    assert.equal(r.status, 0, `${label}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+    const out = oneObject(r)
+    assert.equal(out.ok, true, `${label}: ok is not true`)
+    assert.equal(out.format, format, `${label}: format`)
+    assert.equal(out.given, given, `${label}: given is ${out.given}`)
+  }
+})
+
+function brokenConfigRepos() {
+  const repos = {}
+  const add = (label, write) => {
+    const repo = gitRepo()
+    mkdirSync(join(repo, '.sdlc'))
+    write(join(repo, '.sdlc', 'config.json'))
+    repos[label] = repo
+  }
+  add('invalid JSON', path => writeFileSync(path, '{"branchFormat": "feature/{name}"'))
+  add('deep nesting', path => writeFileSync(path, '['.repeat(200000) + ']'.repeat(200000)))
+  add('invalid UTF-8', path => writeFileSync(path, Buffer.from([0x7b, 0x22, 0xff, 0xfe, 0x22, 0x3a, 0x31, 0x7d])))
+  add('directory', path => { mkdirSync(path); writeFileSync(join(path, 'keep'), '') })
+  if (process.getuid?.() !== 0) {
+    add('unreadable', path => { writeFileSync(path, JSON.stringify({ branchFormat: 'feature/{name}' })); chmodSync(path, 0o000) })
+  }
+  return repos
+}
+
+test('the --format flag wins over a broken config in name and preflight', opts, () => {
+  for (const [label, repo] of Object.entries(brokenConfigRepos())) {
+    const named = run(['name', '--repo', repo, '--kind', 'slice', '--id', 'S-001', '--format', 'team/{name}'])
+    assert.equal(named.status, 0, `${label}: name exit ${named.status}, stdout ${named.stdout}, stderr ${named.stderr}`)
+    const out = oneObject(named)
+    assert.equal(out.ok, true, `${label}: name ok`)
+    assert.equal(out.format, 'team/{name}', `${label}: name format`)
+    assert.equal(out.branch, 'team/S-001', `${label}: name branch`)
+    const checked = run(['preflight', '--repo', repo, '--mode', 'pr', '--format', 'team/{name}'])
+    assert.equal(checked.status, 0, `${label}: preflight exit ${checked.status}, stdout ${checked.stdout}, stderr ${checked.stderr}`)
+    const pre = oneObject(checked)
+    assert.equal(pre.ok, true, `${label}: preflight ok`)
+    assert.equal(pre.format, 'team/{name}', `${label}: preflight format`)
+    assert.equal(pre.given, true, `${label}: preflight given is ${pre.given}`)
+    assertBadInput(['preflight', '--repo', repo, '--mode', 'pr'], `${label}: preflight without --format`)
+  }
 })

@@ -479,24 +479,174 @@
       "S-002"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-003",
     "pr": "",
     "risk": "medium",
     "riskReason": "The resolution order decides which format every branch gets; a wrong order silently renames future branches.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "name does not check the parts it puts in the branch name",
+        "detail": "Carried from round 0. `name --kind slice --id=-c --format '{name}'` prints the branch `-c` with exit 0, and git can read it as an option. `name --kind e2e-area --id M-1 --area '../x y'` prints `sdlc/M-1-e2e-../x y` with exit 0. validate_format checks only the S-001 sample. The spec does not ask for a part check, and the parts come from ledger ids, so this is hardening. Fix: in cmd_name, run the built branch through `git check-ref-format --branch`. Consumers must put `--` before a branch name in git commands.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "cmd_preflight reads config twice; given depends on operand order",
+        "detail": "_format reads config.json through load_format, and given reads it again through _config_format. Swapping the operands of the given expression makes preflight with --format fail on a broken config. T-024 now guards this. Fix: read _config_format(repo) one time only when --format is absent, and derive fmt and given from that one value.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "NAME_PARTS repeats the name sub-parser part flags",
+        "detail": "A new part flag must change two places. Fix: build the name sub-parser part flags from NAME_PARTS, or keep the two side by side.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "brokenConfigRepos overlaps existing broken-config fixtures",
+        "detail": "The new fixture builds invalid JSON and deep-nesting configs that the deep-nesting test and withConfig also build. Fix: when a later slice needs broken configs, reuse brokenConfigRepos instead of a new fixture.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-024 does not restore the mode of the unreadable config",
+        "detail": "The git-modes test restores the file mode to 0o644 in a finally block. T-024 leaves config.json at mode 000. Scratch cleanup still removes it, so nothing fails now, but the two tests are not consistent. Restore the mode in a finally block.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-019 still has no case for an empty ts",
+        "detail": "Round 0 reported this gap. The plan says the state tail treats an empty ts as absent. Add tail(\"state\", ts=\"\") to T-019 and assert ^state-\\d{14}$.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Fail message article",
+        "detail": "tail's Fail message reads 'a e2e-area branch name needs a non-empty ...'. The article before a vowel is wrong. The spec does not define this text.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py --help prints argparse text, not JSON",
+        "detail": "branches.py name --help prints the argparse usage text and exits 0. The spec does not define --help, so this is not a defect. A caller that parses stdout as JSON gets text here.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "preflight output still echoes an interim args object",
+        "detail": "preflight prints {ok, command, format, args, given}. The args echo holds the absolute repo path. A later slice that defines the preflight output must decide whether args stays.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "The missing-part error says 'a e2e-area branch name'",
+        "detail": "The message puts the article 'a' before every kind. The meaning is correct, but the text reads badly for e2e-area.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "name gives a branch that git refuses for a part with git-unsafe characters",
+        "detail": "validate_format checks only the format, with the sample id S-001. name does not run git check-ref-format on the full name. The ids ../x, 'a b', x..y, x~1, a:b, x.lock, * and @{1} give branches that git refuses, and name still exits 0. The spec validates only the format. A later slice that creates branches from these names must check them. Transcripts: .sdlc/slices/S-003/verification/r0/logs/cli-1-seeds.txt.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "the integer flags take unicode digits, padded values and underscores",
+        "detail": "argparse type=int uses Python int(). So --n=٣, --n=１２, --n=' 3 ', --n=1_000, --n=+1 and --n=9223372036854775808 all exit 0. No S-003 row consumes these parts. When the verify and attempt rows land in S-004 to S-006, --n=٣ and --n=3 will give the same branch. Decide whether that is the intended result. List: .sdlc/slices/S-003/verification/r0/logs/cli-1-TC-cli-105-accepted.txt.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "name --help prints plain help text and exits 0, not one JSON object",
+        "detail": "branches.py name --help prints the argparse usage text and exits 0. Every other path prints one JSON object. The spec does not define --help. A caller that parses stdout as JSON fails on this output. A flag-like part value never reaches this path (TC-cli-104).",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py exposes helpers the spec does not name",
+        "detail": "cmd_name, cmd_parse, cmd_list, cmd_preflight, build_parser, JsonArgumentParser, NAME_PARTS, TAILS and the imported datetime and timezone are public names. The spec API names only load_format, validate_format, tail, name, split, parse, list_kind, read_rules, evaluate and derive. Prefix the helpers with an underscore, or declare __all__.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "load_format accepts the non-standard JSON values NaN and Infinity",
+        "detail": "A config.json whose text is NaN or Infinity, or {\"branchFormat\": NaN}, gives the default and not a Fail. A config file with a UTF-8 BOM gives a Fail. No requirement covers these shapes.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: callPython has no keyword arguments and no TZ control",
+        "detail": "callPython passes positional arguments only and fixes the environment. tail and name take keyword parts, and the state check needs TZ. The contract tests use a small local consumer helper. Add kwargs and env options to callPython.",
+        "file": "skills/sdlc/test/testkit/property.mjs"
+      },
+      {
+        "title": "tail accepts a non-string part and a non-digit ts",
+        "detail": "tail('slice', id=0) returns '0', and tail('state', ts='abc') returns 'state-abc'. The later parse() reads state tails with ^state-(\\d{14})$, so it does not classify a branch made from a non-digit ts.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "name gives git-invalid branch names for hostile parts",
+        "detail": "name does not run git check-ref-format on the full name. --id '../..', 'a b', 'HEAD@{1}', '*' or a tab give exit 0 with branches that git check-ref-format --branch refuses. The spec validates only the format.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "integer flags accept unicode digits, padding and underscores",
+        "detail": "argparse type=int uses Python int(), so '٣', '１２', ' 3 ', NBSP-padded 3 and '1_000' are accepted. When n, round or part reach a branch name in S-004 to S-006, the name can differ from the operator's text.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "invalid UTF-8 in a part gives lone surrogate escapes in the JSON output",
+        "detail": "Raw bytes \\xff\\xfe in --id give branch 'sdlc/\\udcff\\udcfe' with exit 0. Strict JSON readers can refuse or replace lone surrogates.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "argparse error echoes an oversized value in full",
+        "detail": "--round with 100000 digits gives one JSON error that holds all the digits. The spec states no limit, so this seed goes to verify-limits.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: cli-runner cannot pass raw bytes in argv",
+        "detail": "Node spawn takes only strings, so a test with invalid UTF-8 argv needs a Python relay. A run option for byte arguments would remove that relay.",
+        "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+      },
+      {
+        "title": "Done-requirement evidence points at pruned verification tests",
+        "detail": "requirements.json evidence.tests for R-001, R-014, R-016, R-017, R-019, R-020, R-071 and R-098 cite TC-* files under .sdlc/slices/S-00x/verification/. The retention prune deleted those files, so later regression runs cannot re-run that evidence.",
+        "file": ".sdlc/requirements.json"
+      },
+      {
+        "title": "Wrong article in the missing-part Fail message",
+        "detail": "The message reads 'a e2e-area branch name needs ...'. The spec does not define the message text.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
       "planRevisions": 0,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "a04f40b6d8d8b444e2915332c3f2938a6f61d8a2"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-004",
