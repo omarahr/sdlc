@@ -1,0 +1,927 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 1,
+  "commit": "35e4a69",
+  "environment": "Python 3.14.7, Node test runner, gh shim on PATH (testkit stub-server), one scratch git repo per case, worktree of sdlc/S-016 at 35e4a69",
+  "cases": [
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-087",
+        "R-042"
+      ],
+      "title": "Failed derivation keeps the first verdict and suggests the derived format",
+      "given": "One starts_with, ends_with or contains rule with 44 hostile affixes, no format given, pr mode",
+      "when": "preflight runs",
+      "then": "ok false: exit 1, derived false, original format, suggestion equals the derived --branch-format line, first-verdict samples and rules",
+      "expected": "exit 1, never 2",
+      "actual": "All 132 operator and affix pairs held. No stderr, no write, gh calls read-only.",
+      "result": "pass",
+      "specSource": "R-087 acceptance; ADR b19f",
+      "test": ".sdlc/slices/S-016/verification/r1/tests/security-0/branch-derive.verify-security.test.mjs:138",
+      "command": "REPO_UNDER_TEST=<worktree of sdlc/S-016> node --test --test-name-pattern='VS-4' .sdlc/slices/S-016/verification/r1/tests/security-0/branch-derive.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "matrix run",
+          "path": ".sdlc/slices/S-016/verification/r1/logs/security-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-042"
+      ],
+      "title": "A derived ok true format passes validate_format (r0 failure re-run)",
+      "given": "Every affix with all three operators, including braces, NBSP, U+0085, U+2003, U+3000",
+      "when": "preflight derives, then branches.py name --format <derived> runs",
+      "then": "ok true only when the name command exits 0",
+      "expected": "no derived format rejected",
+      "actual": "0 derived formats rejected. The r0 failure no longer reproduces.",
+      "result": "pass",
+      "specSource": "R-042; plan risk for VS-2 and VS-4",
+      "test": ".sdlc/slices/S-016/verification/r1/tests/security-0/branch-derive.verify-security.test.mjs:137",
+      "command": "REPO_UNDER_TEST=<worktree of sdlc/S-016> node --test --test-name-pattern='VS-4' .sdlc/slices/S-016/verification/r1/tests/security-0/branch-derive.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "validity attack",
+          "path": ".sdlc/slices/S-016/verification/r1/logs/security-0-attacks.json"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "ATK-1",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a bsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-2",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a~\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a~sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-3",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a^\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a^sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-4",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a:\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a:sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-5",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \".lock\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\".locksdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-6",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a..b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a..bsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-7",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a@{\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a@{sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-8",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a?\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a?sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-9",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a*\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a*sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-10",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a[\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a[sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-11",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a\\\\\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a\\\\sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-12",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a\\nb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a\\nbsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-13",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a\\tb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a\\tbsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-14",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a\u007fb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a\u007fbsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-15",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"-x\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"-xsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-16",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"/sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-17",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"//\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"//sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-18",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"{name}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"{name}sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-19",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"{name:lower}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"{name:lower}sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-20",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"{\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"{sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-21",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"}sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-22",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \".\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\".sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-23",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"..\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"..sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-24",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a/.b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a/.bsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-25",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \".hidden\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\".hiddensdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-26",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a.lock/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a.lock/sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-27",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a//b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a//bsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-28",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"\u00a0\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"\u00a0sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-29",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"\u2003\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"\u2003sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-30",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"\u0085\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"\u0085sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-31",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"\u3000\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"\u3000sdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-32",
+      "charter": "VS-4 failed derivation",
+      "input": "starts_with \"a\u00a0b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"a\u00a0bsdlc/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-33",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a b\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-34",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a~\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a~\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-35",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a^\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a^\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-36",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a:\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a:\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-37",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a.\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a.\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-38",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \".lock\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}.lock\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-39",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a..b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a..b\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-40",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a@{\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a@{\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-41",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a?\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a?\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-42",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a*\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a*\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-43",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a[\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a[\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-44",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a\\\\\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a\\\\\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-45",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a\\nb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a\\nb\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-46",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a\\tb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a\\tb\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-47",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a\u007fb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a\u007fb\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-48",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}/\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-49",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"x/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}x/\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-50",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"//\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}//\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-51",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"{name}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-52",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"{name:lower}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}{name:lower}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-53",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"{\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}{\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-54",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-55",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \".\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}.\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-56",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"..\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}..\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-57",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a/.b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a/.b\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-58",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a.lock/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a.lock/\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-59",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a//b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a//b\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-60",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"\u00a0\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}\u00a0\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-61",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"\u2003\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}\u2003\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-62",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"\u0085\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}\u0085\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-63",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"\u3000\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}\u3000\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-64",
+      "charter": "VS-4 failed derivation",
+      "input": "ends_with \"a\u00a0b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}a\u00a0b\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-65",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a b/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-66",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a~\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a~/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-67",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a^\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a^/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-68",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a:\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a:/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-69",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \".lock\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/.lock/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-70",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a..b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a..b/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-71",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a@{\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a@{/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-72",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a?\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a?/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-73",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a*\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a*/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-74",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a[\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a[/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-75",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a\\\\\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a\\\\/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-76",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a\\nb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a\\nb/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-77",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a\\tb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a\\tb/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-78",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a\u007fb\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a\u007fb/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-79",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"x/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/x//{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-80",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"//\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc////{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-81",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"{name}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name}/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-82",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"{name:lower}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{name:lower}/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-83",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"{\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/{/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-84",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"}\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/}/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-85",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \".\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/./{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-86",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"..\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/../{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-87",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a/.b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a/.b/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-88",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \".hidden\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/.hidden/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-89",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a.lock/\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a.lock//{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-90",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a//b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a//b/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-91",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"\u00a0\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/\u00a0/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-92",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"\u2003\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/\u2003/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-93",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"\u0085\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/\u0085/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-94",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"\u3000\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/\u3000/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-95",
+      "charter": "VS-4 failed derivation",
+      "input": "contains \"a\u00a0b\"",
+      "expected": "ok false, exit 1, original format, suggestion is the derived format, first-verdict samples",
+      "observed": "exit 1 derived false suggestion \"--branch-format \\\"sdlc/a\u00a0b/{name}\\\"\"",
+      "result": "held",
+      "test": "VS-4 matrix"
+    },
+    {
+      "id": "ATK-96",
+      "charter": "VS-4 derived format validity",
+      "input": "all affixes x three operators",
+      "expected": "a derived ok true format passes validate_format",
+      "observed": "none",
+      "result": "held",
+      "test": "VS-4 derived validity"
+    }
+  ],
+  "seeds": []
+}

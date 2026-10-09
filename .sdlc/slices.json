@@ -2453,7 +2453,7 @@
     "notes": "",
     "counters": {
       "planRevisions": 2,
-      "fixRounds": 1,
+      "fixRounds": 2,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
@@ -2467,6 +2467,13 @@
         "outcome": "refuted",
         "refutations": 1,
         "failingTests": 1
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
       }
     ]
   },
