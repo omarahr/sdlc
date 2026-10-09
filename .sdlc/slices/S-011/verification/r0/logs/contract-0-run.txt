@@ -1,0 +1,50 @@
+property-run text-operators seed=3741308202 runs=1500 violations=0
+property-run negate seed=3741308203 runs=1500 violations=0
+property-run regex-search seed=3741308204 runs=1500 violations=0
+property-run bad-regex seed=3741308205 runs=400 violations=0
+overflow-repeat: exception OverflowError
+regex pattern None: exception TypeError: first argument must be string or compiled pattern
+regex pattern 5: exception TypeError: first argument must be string or compiled pattern
+regex pattern list: exception TypeError: cannot use 'tuple' as a dict key (unhashable type: 'list')
+regex sample None: exception TypeError: expected string or bytes-like object, got 'NoneType'
+regex sample 5: exception TypeError: expected string or bytes-like object, got 'int'
+starts_with pattern None: exception TypeError: startswith first arg must be str or a tuple of str, not NoneType
+starts_with sample None: exception AttributeError: 'NoneType' object has no attribute 'startswith'
+contains pattern 5: exception TypeError: 'in <string>' requires string as left operand, not int
+contains sample list: return true
+ends_with sample 5: exception AttributeError: 'int' object has no attribute 'endswith'
+pattern absent: exception TypeError: first argument must be string or compiled pattern
+rule None: exception AttributeError: 'NoneType' object has no attribute 'get'
+rule string: exception AttributeError: 'str' object has no attribute 'get'
+NUL in regex pattern: return true
+NUL in text pattern: return true
+nested quantifier deep: return true
+nested group 100000: exception RecursionError: maximum recursion depth exceeded
+huge repeat: exception OverflowError: the repetition number is too large
+huge repeat overflow: exception OverflowError: the repetition number is too large
+huge repeat 4e9: return false
+lone surrogate sample: return true
+emoji pattern: return true
+backtracking (a+)+$ on a*27+! : status=0 stdout=False ms=4786 signal=null
+property-run regex-error seed=3741308206 runs=1500 violations=0
+✔ verify contract: text operators match a reference model (property) (46.032791ms)
+✔ verify contract: fixed examples from the spec and the plan (35.497917ms)
+✔ verify contract: negate on every kind flips booleans (property over match and non-match) (82.739208ms)
+✔ verify contract: regex rule agrees with escaped-literal reference and search semantics (44.994416ms)
+✔ verify contract: uncompilable patterns give None, never raise (property) (77.22325ms)
+✔ verify contract: a huge repeat count raises OverflowError instead of giving None (observation) (37.586333ms)
+✔ verify contract: unknown or malformed kind gives None and never raises (36.797875ms)
+✔ verify contract: negate with non-boolean values follows truthiness and never raises (32.82525ms)
+✔ verify contract: evaluate is deterministic, pure and writes nothing (116.119667ms)
+✔ verify contract: non-string and hostile inputs (observation, record outcome) (37.325ms)
+✔ verify contract: catastrophic backtracking sample is bounded (observation) (4785.838708ms)
+✔ verify contract: regex_error text equals the re.error text evaluate hides, None for good patterns (112.545209ms)
+✔ verify contract: regex_error property over generated patterns agrees with evaluate None (91.547125ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5585.713083

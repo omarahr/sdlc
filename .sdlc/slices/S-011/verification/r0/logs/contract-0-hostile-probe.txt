@@ -1,0 +1,5 @@
+deep300 deep300 True | secs 0.0
+nest100000 nest100000 RAISED RecursionError maximum recursion depth exceeded | secs 0.0
+huge1 huge1 RAISED OverflowError the repetition number is too large | secs 0.0
+huge2 huge2 RAISED OverflowError the repetition number is too large | secs 0.0
+big big False | secs 0.0

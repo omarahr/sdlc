@@ -1,0 +1,23 @@
+regex pattern None           exception TypeError: first argument must be string or compiled pattern 
+regex pattern 5              exception TypeError: first argument must be string or compiled pattern 
+regex pattern list           exception TypeError: cannot use 'tuple' as a dict key (unhashable type: 'list') 
+regex sample None            exception TypeError: expected string or bytes-like object, got 'NoneType' 
+regex sample 5               exception TypeError: expected string or bytes-like object, got 'int' 
+starts_with pattern None     exception TypeError: startswith first arg must be str or a tuple of str, not NoneType 
+starts_with sample None      exception AttributeError: 'NoneType' object has no attribute 'startswith' 
+contains pattern 5           exception TypeError: 'in <string>' requires string as left operand, not int 
+contains sample list         return true 
+ends_with sample 5           exception AttributeError: 'int' object has no attribute 'endswith' 
+pattern absent               exception TypeError: first argument must be string or compiled pattern 
+starts_with pattern absent   exception TypeError: startswith first arg must be str or a tuple of str, not NoneType 
+rule None                    exception AttributeError: 'NoneType' object has no attribute 'get' 
+rule string                  exception AttributeError: 'str' object has no attribute 'get' 
+NUL regex                    return true 
+NUL text                     return true 
+deep300                      return true 
+nest100000                   exception RecursionError: maximum recursion depth exceeded 
+huge1                        exception OverflowError: the repetition number is too large 
+huge2                        exception OverflowError: the repetition number is too large 
+big                          return false 
+lone surrogate               return true 
+emoji                        return true 

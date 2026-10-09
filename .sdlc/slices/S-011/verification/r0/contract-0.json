@@ -1,0 +1,362 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "fd13f4a",
+  "environment": "Python 3.14.7 (python3 -I), Node test runner, macOS; seeded property toolkit; no network",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-033",
+        "R-095"
+      ],
+      "title": "starts_with, ends_with and contains match a reference model",
+      "given": "1500 generated (kind, pattern, sample, negate) with case pairs, dotless i, sharp s, combining marks and emoji",
+      "when": "evaluate(rule, sample)",
+      "then": "equals the JS startsWith/endsWith/includes result, flipped by negate",
+      "expected": "equals the JS startsWith/endsWith/includes result, flipped by negate",
+      "actual": "1500 runs, 0 violations",
+      "result": "pass",
+      "specSource": "R-033 acceptance; R-095 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:23",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "text operators",
+          "inline": "property text-operators: seed=3741308202 runs=1500 violations=0 (log: .sdlc/slices/S-011/verification/r0/logs/contract-0-run.txt)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-033",
+        "R-095"
+      ],
+      "title": "Spec and plan examples are case-sensitive and handle empty strings",
+      "given": "the plan examples plus empty pattern, empty sample, pattern equal to sample, \u0131 vs I, \u00df vs SS",
+      "when": "evaluate each",
+      "then": "Feature/ vs feature/x False; -E2E vs e2e False; Feature in feature/x False; empty pattern True; \u0131 and \u00df never fold",
+      "expected": "Feature/ vs feature/x False; -E2E vs e2e False; Feature in feature/x False; empty pattern True; \u0131 and \u00df never fold",
+      "actual": "30 fixed cases all as expected",
+      "result": "pass",
+      "specSource": "R-095 acceptance; R-033 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:40",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "fixed examples",
+          "inline": "verify contract: fixed examples from the spec and the plan: pass (30 cases)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-033"
+      ],
+      "title": "regex rule uses search, not match",
+      "given": "regex rules ^sdlc/, S-001, ^S-001 on sdlc/S-001; 1500 generated escaped literals with ^, $ or no anchor",
+      "when": "evaluate",
+      "then": "True, True, False; generated results equal startswith/endswith/includes",
+      "expected": "True, True, False; generated results equal startswith/endswith/includes",
+      "actual": "examples pass; 1500 runs, 0 violations",
+      "result": "pass",
+      "specSource": "R-033 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:99",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "regex search",
+          "inline": "property regex-search: seed=3741308204 runs=1500 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-072"
+      ],
+      "title": "Uncompilable patterns give None",
+      "given": "patterns (, [a-, a lone backslash and 20 other bad patterns, negate true and false",
+      "when": "evaluate",
+      "then": "return None, no raise",
+      "expected": "return None, no raise",
+      "actual": "examples and 400 generated runs: all None",
+      "result": "pass",
+      "specSource": "R-072 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:119",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "bad regex",
+          "inline": "property bad-regex: seed=3741308205 runs=400 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-072"
+      ],
+      "title": "A huge repeat count raises OverflowError, not None",
+      "given": "pattern x{99999999999999999999}",
+      "when": "evaluate(regex rule, x)",
+      "then": "None, because re.compile rejects the pattern (R-072: a bad regex gives null)",
+      "expected": "None, because re.compile rejects the pattern (R-072: a bad regex gives null)",
+      "actual": "raises OverflowError: the repetition number is too large. RecursionError also escapes for 100000 nested groups. The plan and the spec say only re.error is caught, so this is recorded as an observation and a seed, not a failure.",
+      "result": "pass",
+      "specSource": "R-072 acceptance (not in scope per plan: evaluate catches only re.error)",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:135",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "escaping exceptions",
+          "path": ".sdlc/slices/S-011/verification/r0/logs/contract-0-hostile.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-034",
+        "R-072"
+      ],
+      "title": "Negate flips booleans for all four kinds and keeps None",
+      "given": "1500 generated matching and non-matching rules of all four kinds; negated uncompilable regex",
+      "when": "evaluate with negate true and false",
+      "then": "negated value is the boolean opposite; None stays None",
+      "expected": "negated value is the boolean opposite; None stays None",
+      "actual": "1500 runs, 0 violations; negated ( gives None",
+      "result": "pass",
+      "specSource": "R-034 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:77",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "negate",
+          "inline": "property negate: seed=3741308203 runs=1500 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-034"
+      ],
+      "title": "Non-boolean negate values follow truthiness and never raise",
+      "given": "negate in 0, 1, null, \"x\", \"\", [], [1], {}, -1 and absent",
+      "when": "evaluate on match, non-match and bad regex",
+      "then": "flip by Python truthiness; bad regex stays None",
+      "expected": "flip by Python truthiness; bad regex stays None",
+      "actual": "all as expected",
+      "result": "pass",
+      "specSource": "R-034 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:150",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "truthiness",
+          "inline": "verify contract: negate with non-boolean values follows truthiness and never raises: pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-033",
+        "R-034"
+      ],
+      "title": "Unknown or malformed kind gives None, prints nothing",
+      "given": "kinds equals, empty, Starts_With, STARTS_WITH, regexp, padded names, null, 5, list, absent, with negate true and false",
+      "when": "evaluate",
+      "then": "None, empty stdout and stderr, no exception",
+      "expected": "None, empty stdout and stderr, no exception",
+      "actual": "23 calls all None, no output",
+      "result": "pass",
+      "specSource": "ADR-6e23",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:141",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "unknown kinds",
+          "inline": "verify contract: unknown or malformed kind gives None and never raises: pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-033"
+      ],
+      "title": "evaluate is deterministic, writes nothing and does not mutate the rule",
+      "given": "50 repeated calls in a clean scratch cwd; a rule dict compared before and after",
+      "when": "evaluate twice",
+      "then": "same output; scratch directory empty; rule unchanged",
+      "expected": "same output; scratch directory empty; rule unchanged",
+      "actual": "identical; no files; unchanged",
+      "result": "pass",
+      "specSource": "ADR-6e23 (no side effects)",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:165",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "purity",
+          "inline": "verify contract: evaluate is deterministic, pure and writes nothing: pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-033",
+        "R-034"
+      ],
+      "title": "Non-string pattern, sample or rule raises (observation)",
+      "given": "pattern or sample None, 5 or list; rule None or a string; absent pattern",
+      "when": "evaluate",
+      "then": "observation only: the slice promises None for an unknown kind only",
+      "expected": "observation only: the slice promises None for an unknown kind only",
+      "actual": "raises TypeError or AttributeError in 12 of 14 cases; contains with a list sample returns True; NUL, emoji and lone surrogate inputs work",
+      "result": "pass",
+      "specSource": "observation, not in scope",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:180",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "hostile inputs",
+          "path": ".sdlc/slices/S-011/verification/r0/logs/contract-0-hostile.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-072"
+      ],
+      "title": "Nested quantifiers on a 28 character sample finish",
+      "given": "pattern (a+)+$ on a*27 + !",
+      "when": "evaluate in a fresh python3 -I",
+      "then": "returns",
+      "expected": "returns",
+      "actual": "returns False in 4.8 s; time doubles per extra character, so 33 characters would take minutes (plan adds no timeout)",
+      "result": "pass",
+      "specSource": "observation, not in scope",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:214",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "measurement",
+          "title": "backtracking",
+          "inline": "backtracking (a+)+$ on a*27+! : status=0 stdout=False ms=4786"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-072"
+      ],
+      "title": "regex_error returns the re.error text or None",
+      "given": "bad: ( [a- \\ ) * a{2,1} (?P<n [z-a]; good: ^a, empty, a|b, \\d+, .*, (?i)x",
+      "when": "regex_error(p)",
+      "then": "non-empty string equal to str(re.error) for bad; None for good; evaluate gives None for the same bad patterns",
+      "expected": "non-empty string equal to str(re.error) for bad; None for good; evaluate gives None for the same bad patterns",
+      "actual": "all equal to the str of the re.error from python3 -I",
+      "result": "pass",
+      "specSource": "R-072 acceptance; ADR-b582",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:222",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "regex_error",
+          "inline": "verify contract: regex_error text equals the re.error text evaluate hides, None for good patterns: pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-072"
+      ],
+      "title": "regex_error None exactly when evaluate gives a boolean",
+      "given": "1500 generated pattern strings from regex metacharacters, NUL and \u00e9",
+      "when": "regex_error and evaluate on each",
+      "then": "regex_error is None iff evaluate is not None; neither raises",
+      "expected": "regex_error is None iff evaluate is not None; neither raises",
+      "actual": "1500 runs, 0 violations",
+      "result": "pass",
+      "specSource": "R-072 acceptance",
+      "test": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs:235",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-011> node --test .sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "regex_error",
+          "inline": "property regex-error: seed=3741308206 runs=1500 violations=0"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "evaluate raises OverflowError and RecursionError for some regex patterns",
+      "detail": "x{99999999999999999999} raises OverflowError and 100000 nested groups raise RecursionError out of evaluate and regex_error on Python 3.14. The plan accepts this (only re.error is caught). S-012 and S-013 must catch them or the pre-flight crashes. A forge RE2 ruleset never holds such a pattern, so the risk is low. A bare except Exception around compile would give None.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "evaluate raises on non-string pattern, sample or rule",
+      "detail": "None or number patterns and samples raise TypeError or AttributeError; contains with a list sample returns True. The slice promises None for an unknown kind only. read_rules (S-014) must make rules with string patterns.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "regex rules have no time limit",
+      "detail": "(a+)+$ on 27 a characters then ! takes 4.8 s and doubles per character. Branch samples are short and rule patterns come from the forge, so the risk is low.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "one 120 s timeout in the first run of the hostile-input test did not reproduce",
+      "detail": "The first run of the non-string test hit the 120 s pycall limit. Two later runs of the same payload finished in 40 ms each, alone and in the full file. The cause is unknown and probably host load. No claim is made about it.",
+      "file": ".sdlc/slices/S-011/verification/r0/tests/contract-0/evaluate.verify-contract.test.mjs"
+    }
+  ]
+}
