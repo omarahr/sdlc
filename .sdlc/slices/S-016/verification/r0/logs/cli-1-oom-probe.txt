@@ -1,5 +1,0 @@
-manual probe, Python 3.14.7, skills/sdlc/branches.py at e55f687
-_regex_literal({"kind":"regex","pattern":"^((a{10000}){10000}){10000}/x$"}) and ^(a{65535}){65535}/x$
-ulimit -t 60; python3 -I probe.py
-result: no output, process killed (exit 137) after 71 s wall time
-Through the CLI: pattern ^((a{1000}){1000}){1000}/x$ gives exit 1 after 14.7 s (suggestion falls back to the text form).

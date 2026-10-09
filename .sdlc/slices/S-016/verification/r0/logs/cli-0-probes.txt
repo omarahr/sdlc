@@ -1,9 +1,0 @@
-# manual probes, python3 3.14.7, branches.py at e55f687
-## ReDoS in evaluate (S-015 code, branches.py:_raw_result): pattern (((((((((((((((((((((a*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*)*b
-sdlc/S-001 False 0.0002s
-sdlc/M-1-e2e False 0.00002s
-sdlc/state-20261010120000 -> no result after 10 s (faulthandler timeout, frame _raw_result line 210 re.search)
-preflight --mode pr with the same rule: killed by the 30 s runner timeout (spawnSync ETIMEDOUT, signal SIGTERM)
-## _regex_literal memory (S-016 code)
-pattern ((a{1000}){1000}){100}   -> 1.9 s, 637 MB max RSS
-pattern ((a{1000}){1000}){1000}  -> 19.3 s, 5.89 GB max RSS
