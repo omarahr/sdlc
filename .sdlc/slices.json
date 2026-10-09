@@ -1463,8 +1463,8 @@
       "S-008"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-009",
     "pr": "",
     "risk": "medium",

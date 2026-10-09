@@ -2578,7 +2578,7 @@
     "specRef": "§2",
     "quote": "| 5 | `state` | `^state-(\\d{14})$` | `ts` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/state-20261008101500') returns kind 'state' with ts '20261008101500'. A 13-digit tail returns None.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2593,7 +2593,7 @@
     "specRef": "§2",
     "quote": "| 6 | `verify` | `^(.+)-v(\\d+)-([a-z0-9-]+?)-(\\d+)$` | `id`, `round`, `profile`, `part` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/S-001-v0-http-api-0') returns kind 'verify', id 'S-001', round 0, profile 'http-api', part 0.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2608,7 +2608,7 @@
     "specRef": "§2",
     "quote": "| 7 | `attempt` | `^(.+)-attempt-(\\d+)$` | `id`, `n` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/S-001-attempt-2') returns kind 'attempt', id 'S-001', n 2.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2623,7 +2623,7 @@
     "specRef": "§2",
     "quote": "| 8 | `slice` | `^(S-[A-Za-z0-9-]+)$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/S-001') returns kind 'slice', id 'S-001'. 'sdlc/S-fix-M-1-2' parses as a slice with id 'S-fix-M-1-2'.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
