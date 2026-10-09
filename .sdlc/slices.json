@@ -1828,24 +1828,154 @@
       "S-011"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-012",
     "pr": "",
     "risk": "medium",
     "riskReason": "A wrong aggregation passes a sample that a rule or check-ref-format rejects.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Sample '@' passes the ref check",
+        "detail": "git check-ref-format --branch expands '@' and '@{-1}', so judge passes them. Run check-ref-format without --branch, or reject '@' and samples that start with '@{'. A later slice can do this.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Catastrophic regex can run long",
+        "detail": "A pattern such as (a+)+$ can take seconds on a short sample. The spec accepts this. Send it to verify-limits.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Regex compile errors are caught in two places",
+        "detail": "regex_error and _raw_result each compile the pattern and list the exceptions (re.error, OverflowError, RecursionError) by hand. Round 1 and round 2 each had to fix both places, which shows the cost. Add one helper, for example compile_pattern(pattern) that returns (compiled, reason), and call it from both. A later new exception type then changes one place. Non-blocking because behavior is correct and tested (T-R-035e to T-R-035g).",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "judge reason text depends on a second compile",
+        "detail": "When evaluate returns None for a regex rule, judge calls regex_error to recompile and read the reason. If the helper in the previous finding returns the reason together with the result, judge needs no second compile and cannot print 'None' as the reason. Non-blocking.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "A failing rule with no label passes the sample",
+        "detail": "judge uses failed is None as the no-failure test. A failing rule whose label is None leaves failed as None, so the sample passes. A rule without a label gives pass. Use a separate flag for failure.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "judge raises Fail for a sample that git cannot take",
+        "detail": "A sample with a NUL character makes subprocess raise ValueError. ref_format_error turns it into Fail, so judge raises instead of returning fail. The spec does not say what to do.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "judge: first failing rule without a label is overwritten by the next failing rule",
+        "detail": "judge uses 'failed is None' to detect the first failure. A failing rule with no label stores None, so a later failing rule replaces it. A forge rule always has a label, so this is low risk.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "judge and ref_format_error raise Fail or TypeError for NUL, lone surrogate and non-string samples",
+        "detail": "NUL and lone surrogate raise Fail. None, int, list, dict, bool and float raise TypeError. Callers pass strings built from a validated format, so this is low risk. A NUL sample could give a fail verdict instead.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "judge: a rule with a missing kind gets the note 'unknown kind None'",
+        "detail": "The note is accurate but unhelpful. Low risk.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "@{-1} and @ pass the ref check",
+        "detail": "git check-ref-format --branch expands @{-1} inside a repo and accepts @. R-037 intends a refusal. Reject a sample that starts with @ or equals @.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "catastrophic regex blocks judge",
+        "detail": "(a+)+$ against a 28 character sample ran 9.9 seconds. The spec accepts this. Send to verify-limits.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "judge raises TypeError for a non-string sample",
+        "detail": "ref_format_error(None) and (5) raise TypeError. Samples are strings by contract.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "regex_error and _raw_result catch exception types one by one",
+        "detail": "The round 0 fix added RecursionError. re.compile also raises OverflowError for a repeat count above the C limit. One handler for the exceptions re.compile raises on bad input would close the class. MemoryError is not reproduced.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "@{-1} and @ pass the ref check",
+        "detail": "git check-ref-format --branch expands @{-1} inside a repo and accepts @. Reject a sample that is @ or starts with @{, or run git check-ref-format without --branch.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "catastrophic regex blocks judge",
+        "detail": "(a+)+$ against a 28 character sample ran 9.9 seconds in r0. The spec accepts this. Send to verify-limits.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "non-string pattern or sample raises TypeError",
+        "detail": "judge with a null pattern or a non-string sample raises TypeError. Samples are strings by contract, so this is outside the threat model.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "@{-1} and @ pass the ref check",
+        "detail": "git check-ref-format --branch expands @{-1} inside a repo and accepts @. Two seed tests fail. Reject a sample that is @ or starts with @{, or run git check-ref-format without --branch.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "catastrophic regex blocks judge",
+        "detail": "(a+)+$ against a 28 character sample ran 9.9 seconds in r0. The spec accepts this. Send to verify-limits.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "non-string sample or pattern raises TypeError",
+        "detail": "judge with a null pattern or a non-string sample raises TypeError. Rules come from the forge reader and samples are strings by contract, so this is outside the threat model.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
-      "planRevisions": 0,
-      "fixRounds": 0,
+      "planRevisions": 1,
+      "fixRounds": 2,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "cc4c80bcc375c586157e92f0d8bab5f3c8debb2b"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
+      },
+      {
+        "kind": "verify",
+        "round": 2,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-013",

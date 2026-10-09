@@ -1515,3 +1515,157 @@ test('T-R-072a evaluate follows each operator, negate flips, and a bad regex giv
     null, null, null,
   ])
 })
+
+const labelled = (label, kind, pattern, negate = false) => ({ ...rule(kind, pattern, negate), label })
+const PASS_RULE = (label) => labelled(label, 'starts_with', 'sdlc/')
+const FAIL_RULE = (label) => labelled(label, 'starts_with', 'zzz/')
+const BAD_RULE = (label = 'push rule') => labelled(label, 'regex', '(')
+
+function judgeEach(cases) {
+  const results = JSON.parse(probe(`${CALL}
+fn = getattr(mod, "judge", None) or (lambda *a: (_ for _ in ()).throw(AttributeError("judge is missing")))
+print(json.dumps([call(fn, rules, sample) for rules, sample in json.loads(sys.argv[2])]))
+`, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
+  return results.map((res, i) => {
+    assert.ok('ret' in res, `judge(${JSON.stringify(cases[i])}) did not return: ${JSON.stringify(res)}`)
+    return res.ret
+  })
+}
+
+const compileError = (pattern) => callEach('regex_error', [pattern])[0].ret
+
+test('T-R-035a a pattern Python cannot compile gives an unevaluated sample', opts, () => {
+  const [got] = judgeEach([[[rule('regex', '(')], 'sdlc/S-001']])
+  assert.equal(got.result, 'unevaluated')
+  assert.equal(got.rule, null)
+  assert.deepEqual(got.notes, [`cannot evaluate push rule: ${compileError('(')}`])
+})
+
+test('T-R-035b the note carries the rule label', opts, () => {
+  const [got] = judgeEach([[[labelled('ruleset 7', 'regex', '[a-')], 'sdlc/S-001']])
+  assert.equal(got.result, 'unevaluated')
+  assert.deepEqual(got.notes, [`cannot evaluate ruleset 7: ${compileError('[a-')}`])
+})
+
+test('T-R-035c a bad pattern never blocks', opts, () => {
+  const got = judgeEach([
+    [[PASS_RULE('a'), BAD_RULE()], 'sdlc/S-001'],
+    [[BAD_RULE(), PASS_RULE('a')], 'sdlc/S-001'],
+    [[labelled('neg', 'regex', '(', true)], 'sdlc/S-001'],
+  ])
+  assert.deepEqual(got.map((g) => g.result), ['unevaluated', 'unevaluated', 'unevaluated'])
+})
+
+test('T-R-035d judge does not raise on a bad pattern', opts, () => {
+  const results = JSON.parse(probe(`${CALL}
+fn = getattr(mod, "judge", None) or (lambda *a: (_ for _ in ()).throw(AttributeError("judge is missing")))
+print(json.dumps([call(fn, [{"source": "gitlab", "kind": "regex", "pattern": p, "negate": False, "label": "push rule"}], "sdlc/S-001") for p in json.loads(sys.argv[2])]))
+`, [BRANCHES, JSON.stringify(['(', '[a-', '*'])], { cwd: scratch('sdlc-branches-cwd-') }))
+  results.forEach((res, i) => {
+    assert.ok('ret' in res, `judge did not return for pattern ${i}: ${JSON.stringify(res)}`)
+    assert.equal(typeof res.ret, 'object')
+  })
+})
+
+test('T-R-036a one False fails the sample', opts, () => {
+  const got = judgeEach([
+    [[PASS_RULE('first'), FAIL_RULE('second'), PASS_RULE('third')], 'sdlc/S-001'],
+    [[PASS_RULE('first'), FAIL_RULE('second'), FAIL_RULE('third')], 'sdlc/S-001'],
+  ])
+  assert.equal(got[0].result, 'fail')
+  assert.equal(got[0].rule, 'second')
+  assert.equal(got[1].result, 'fail')
+  assert.equal(got[1].rule, 'second')
+})
+
+test('T-R-036b all True passes', opts, () => {
+  const got = judgeEach([
+    [[PASS_RULE('a'), PASS_RULE('b'), PASS_RULE('c')], 'sdlc/S-001'],
+    [[], 'sdlc/S-001'],
+  ])
+  got.forEach((g) => {
+    assert.equal(g.result, 'pass')
+    assert.equal(g.rule, null)
+    assert.deepEqual(g.notes, [])
+  })
+})
+
+test('T-R-036c no failure plus one None is unevaluated', opts, () => {
+  const [got] = judgeEach([[[PASS_RULE('a'), BAD_RULE()], 'sdlc/S-001']])
+  assert.equal(got.result, 'unevaluated')
+})
+
+test('T-R-036d a failure beats a None', opts, () => {
+  const [got] = judgeEach([[[BAD_RULE(), FAIL_RULE('hard')], 'sdlc/S-001']])
+  assert.equal(got.result, 'fail')
+  assert.equal(got.rule, 'hard')
+})
+
+test('T-R-036e negate counts', opts, () => {
+  const got = judgeEach([
+    [[labelled('neg', 'starts_with', 'sdlc/', true)], 'sdlc/S-001'],
+    [[labelled('neg', 'starts_with', 'zzz/', true)], 'sdlc/S-001'],
+  ])
+  assert.equal(got[0].result, 'fail')
+  assert.equal(got[0].rule, 'neg')
+  assert.equal(got[1].result, 'pass')
+})
+
+test('T-R-037a an invalid ref fails with the git rule', opts, () => {
+  const samples = ['bad..name', 'a~b', 'a^b', 'a:b', 'a?b', 'a*b', 'a[b', 'a\\b', '/lead', 'x.lock']
+  const got = judgeEach(samples.map((s) => [[], s]))
+  got.forEach((g, i) => {
+    assert.equal(g.result, 'fail', `sample ${samples[i]}`)
+    assert.equal(g.rule, 'git check-ref-format', `sample ${samples[i]}`)
+  })
+})
+
+test('T-R-037b a valid sample passes the ref check', opts, () => {
+  const got = judgeEach([
+    [[], 'sdlc/S-001'],
+    [[], 'feature/PROJ-1-sdlc-foo'],
+  ])
+  got.forEach((g) => assert.equal(g.result, 'pass'))
+  const refs = callEach('ref_format_error', ['sdlc/S-001', 'feature/PROJ-1-sdlc-foo', 'bad..name'])
+  assert.deepEqual(refs[0], { ret: null })
+  assert.deepEqual(refs[1], { ret: null })
+  assert.equal(typeof refs[2].ret, 'string')
+  assert.notEqual(refs[2].ret, '')
+})
+
+test('T-R-037c a forge rule keeps the first label', opts, () => {
+  const got = judgeEach([
+    [[labelled('forge', 'starts_with', 'feature/')], 'bad..name'],
+    [[labelled('forge', 'starts_with', 'bad')], 'bad..name'],
+  ])
+  assert.equal(got[0].result, 'fail')
+  assert.equal(got[0].rule, 'forge')
+  assert.equal(got[1].result, 'fail')
+  assert.equal(got[1].rule, 'git check-ref-format')
+})
+
+test('T-R-035e a deeply nested pattern never blocks and never raises', opts, () => {
+  const nested = ['('.repeat(2000), '('.repeat(1000) + 'a' + ')'.repeat(1000)]
+  const got = judgeEach(nested.flatMap((p) => [
+    [[PASS_RULE('a'), labelled('deep', 'regex', p)], 'sdlc/S-001'],
+    [[labelled('deep', 'regex', p, true)], 'sdlc/S-001'],
+  ]))
+  assert.deepEqual(got.map((g) => g.result), ['unevaluated', 'unevaluated', 'unevaluated', 'unevaluated'])
+  assert.ok(got.every((g) => g.rule === null && g.notes.length === 1 && g.notes[0].startsWith('cannot evaluate deep: ')))
+})
+
+test('T-R-035g a pattern with a repeat count too large never blocks and never raises', opts, () => {
+  const pats = ['a{4294967296}', 'a{99999999999999999999}', 'a{1,99999999999999999999}', '(ab){4294967296}']
+  const got = judgeEach(pats.flatMap((p) => [
+    [[PASS_RULE('a'), labelled('big', 'regex', p)], 'sdlc/S-001'],
+    [[labelled('big', 'regex', p, true)], 'sdlc/S-001'],
+  ]))
+  assert.ok(got.every((g) => g.result === 'unevaluated' && g.rule === null))
+  assert.ok(got.every((g) => g.notes.length === 1 && g.notes[0].startsWith('cannot evaluate big: ')))
+})
+
+test('T-R-035f a first failing rule without a label is not replaced by a later one', opts, () => {
+  const [got] = judgeEach([[[{ ...FAIL_RULE('x'), label: null }, FAIL_RULE('later')], 'sdlc/S-001']])
+  assert.equal(got.result, 'fail')
+  assert.equal(got.rule, null)
+})

@@ -1,14 +1,13 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T19:45:16Z
+Updated: 2026-10-09T20:33:37Z
 
-Requirements: 45/122 done · 1 parked · 0 stubbed · 0 obsolete
-Slices: 11/30 done · current: none · awaiting merge: none
+Requirements: 48/122 done · 1 parked · 0 stubbed · 0 obsolete
+Slices: 12/30 done · current: none · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 41 · Spec proposals: 2
+ADRs: 43 · Spec proposals: 2
 
 ## Recent
-- 2026-10-09T16:40:22Z slice-escalated S-005b step 5 park: attempt 3 failed three fix rounds (bytes and int argument forms leave every pin equal); attempt archived as sdlc/S-005b-attempt-3
 - 2026-10-09T16:40:38Z note no CI checks on state PR
 - 2026-10-09T17:02:40Z slice-merged S-006 R-011 and R-120 done; R-068 in progress until S-007 adds parse
 - 2026-10-09T17:28:10Z slice-merged S-007 R-021, R-022, R-023, R-024, R-069 done; R-068 parse half closed
@@ -18,6 +17,7 @@ ADRs: 41 · Spec proposals: 2
 - 2026-10-09T19:16:29Z note S-010 no CI checks on state PR
 - 2026-10-09T19:22:42Z slice-escalated S-011 step 1 replan: plan refuted 3 times; R-026 moved to S-014
 - 2026-10-09T19:40:19Z slice-merged S-011 R-033, R-034, R-072, R-095 done
+- 2026-10-09T20:33:33Z slice-merged S-012 R-035, R-036, R-037 done
 
 ## Needs a human eye (non-blocking)
 - S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.
