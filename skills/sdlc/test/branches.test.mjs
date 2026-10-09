@@ -1135,3 +1135,147 @@ test('T-R-102b a run number beyond the int string limit still parses to one JSON
   assert.equal(out.kind, 'run')
   assert.equal(out.tail, `run-${digits}`)
 })
+
+test('T-R-106a row 5 state', opts, () => {
+  const out = parseOne('sdlc/state-20261008101500')
+  assert.equal(out.kind, 'state')
+  assert.equal(out.ts, '20261008101500')
+  assert.equal(typeof out.ts, 'string')
+  assert.equal(out.tail, 'state-20261008101500')
+  assert.equal('id' in out, false)
+  const cli = cliParse(DEFAULT_FMT, 'sdlc/state-20261008101500')
+  assert.equal(cli.kind, 'state')
+  assert.equal(cli.ts, '20261008101500')
+})
+
+test('T-R-106b state needs exactly 14 digits', opts, () => {
+  for (const branch of [
+    'sdlc/state-2026100810150',
+    'sdlc/state-202610081015000',
+    'sdlc/state-',
+    'sdlc/state-2026100810150x',
+    'sdlc/state-2026100x810150',
+  ]) {
+    assert.equal(parseOne(branch), null, branch)
+  }
+})
+
+test('T-R-107a row 6 verify', opts, () => {
+  const out = parseOne('sdlc/S-001-v0-http-api-0')
+  assert.equal(out.kind, 'verify')
+  assert.equal(out.id, 'S-001')
+  assert.equal(out.round, 0)
+  assert.equal(out.profile, 'http-api')
+  assert.equal(out.part, 0)
+  const second = parseOne('sdlc/S-001-v12-cli-3')
+  assert.equal(second.round, 12)
+  assert.equal(second.profile, 'cli')
+  assert.equal(second.part, 3)
+  const cli = cliParse(DEFAULT_FMT, 'sdlc/S-001-v12-cli-3')
+  assert.equal(cli.kind, 'verify')
+  assert.equal(cli.id, 'S-001')
+  assert.equal(cli.round, 12)
+  assert.equal(cli.profile, 'cli')
+  assert.equal(cli.part, 3)
+})
+
+test('T-R-107b verify beats slice', opts, () => {
+  const out = pyParse([
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001-v0-http-api-0' },
+    { fmt: '{name}', branch: 'S-001-v0-http-api-0' },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-fix-M-1-2-v1-cli-0' },
+  ])
+  assert.equal(out[0].kind, 'verify')
+  assert.equal(out[1].kind, 'verify')
+  assert.equal(out[2].kind, 'verify')
+  assert.equal(out[2].id, 'S-fix-M-1-2')
+})
+
+test('T-R-107c verify boundaries', opts, () => {
+  for (const branch of ['sdlc/S-001-v0-http-api', 'sdlc/S-001-v-cli-0', 'sdlc/S-001-v0--0']) {
+    const out = parseOne(branch)
+    assert.notEqual(out && out.kind, 'verify', branch)
+  }
+  const dashed = parseOne('sdlc/S-001-v0-a-b-c-0')
+  assert.equal(dashed.kind, 'verify')
+  assert.equal(dashed.profile, 'a-b-c')
+  assert.equal(dashed.part, 0)
+})
+
+test('T-R-108a row 7 attempt', opts, () => {
+  const out = parseOne('sdlc/S-001-attempt-2')
+  assert.equal(out.kind, 'attempt')
+  assert.equal(out.id, 'S-001')
+  assert.equal(out.n, 2)
+  assert.equal(parseOne('sdlc/S-005b-attempt-10').n, 10)
+  assert.equal(parseOne('sdlc/S-005b-attempt-10').id, 'S-005b')
+  const cli = cliParse(DEFAULT_FMT, 'sdlc/S-001-attempt-2')
+  assert.equal(cli.kind, 'attempt')
+  assert.equal(cli.id, 'S-001')
+  assert.equal(cli.n, 2)
+})
+
+test('T-R-108b attempt beats slice', opts, () => {
+  assert.equal(parseOne('sdlc/S-001-attempt-2').kind, 'attempt')
+  assert.equal(parseOne('S-001-attempt-2', '{name}').kind, 'attempt')
+  for (const branch of ['sdlc/S-001-attempt-', 'sdlc/S-001-attempt-x']) {
+    const out = parseOne(branch)
+    assert.notEqual(out && out.kind, 'attempt', branch)
+  }
+})
+
+test('T-R-109a row 8 slice', opts, () => {
+  const out = parseOne('sdlc/S-001')
+  assert.equal(out.kind, 'slice')
+  assert.equal(out.id, 'S-001')
+  assert.equal(parseOne('sdlc/S-fix-M-1-2').kind, 'slice')
+  assert.equal(parseOne('sdlc/S-fix-M-1-2').id, 'S-fix-M-1-2')
+  assert.equal(parseOne('sdlc/S-005b').id, 'S-005b')
+  const cli = cliParse(DEFAULT_FMT, 'sdlc/S-001')
+  assert.equal(cli.kind, 'slice')
+  assert.equal(cli.id, 'S-001')
+})
+
+test('T-R-109b slice boundaries', opts, () => {
+  for (const branch of ['sdlc/S-', 'sdlc/X-001', 'sdlc/s-001', 'sdlc/S-001/x']) {
+    assert.equal(parseOne(branch), null, branch)
+  }
+  const lower = parseOne('feature/PROJ-1-s-001', LOWER_FMT)
+  assert.equal(lower.kind, 'slice')
+  assert.equal(lower.id, 's-001')
+})
+
+test('T-R-109c rows 5 to 8 under prefixed and suffixed formats', opts, () => {
+  for (const fmt of [PLAIN_FMT, SUFFIX_FMT]) {
+    const wrap = (tail) => fmt.replace('{name}', tail)
+    const out = pyParse([
+      { fmt, branch: wrap('state-20261008101500') },
+      { fmt, branch: wrap('S-001-v0-http-api-0') },
+      { fmt, branch: wrap('S-001-attempt-2') },
+      { fmt, branch: wrap('S-001') },
+    ])
+    assert.deepEqual(out.map((r) => r.kind), ['state', 'verify', 'attempt', 'slice'], fmt)
+    assert.equal(out[0].ts, '20261008101500', fmt)
+    assert.equal(out[1].part, 0, fmt)
+    assert.equal(out[2].n, 2, fmt)
+    assert.equal(out[3].id, 'S-001', fmt)
+  }
+  assert.equal(parseOne('S-001-v0-http-api-0-wip', SUFFIX_FMT).kind, 'verify')
+  assert.equal(parseOne('S-001-v0-http-api-0-wip', SUFFIX_FMT).part, 0)
+})
+
+test('T-R-109d ledger ids on the last four rows', opts, () => {
+  const ids = ['S-001']
+  const out = pyParse([
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001', ids },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001-attempt-2', ids },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-001-v0-http-api-0', ids },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/S-002', ids },
+    { fmt: DEFAULT_FMT, branch: 'sdlc/state-20261008101500', ids },
+  ])
+  assert.equal(out[0].known, true)
+  assert.equal(out[1].known, true)
+  assert.equal(out[2].known, true)
+  assert.equal(out[3].known, false)
+  assert.equal(out[4].known, null)
+})
