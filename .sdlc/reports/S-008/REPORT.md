@@ -353,7 +353,7 @@ Profiles: security, cli. A crash or an extra kind on a hostile tail would break 
 </details>
 
 ## How it was attacked
-One security session ran at round 0 on commit 3ce4bff. The charter: explore `parse` rows 1 to 4 with hostile tails to find a tail that gains a kind a clean tail would not get. The threat model treats branch names from the local repo and from forge pull request heads as untrusted text. The session tried 8 attacks. Three held (A-3, A-6, A-8) and none broke a clean-tail guarantee. Five were out of scope: newline tails, unicode digits, huge integers (two attacks) and a slash in an area. The huge integer attack led to the blocking defect that round 1 fixed.
+One security session ran at round 0 on commit 3ce4bff. The charter: send hostile tails to rows 1 to 4. Look for a tail that gains a kind that a clean tail lacks. The threat model treats branch names from the local repo and from forge pull request heads as untrusted text. The session tried 8 attacks. Three held (A-3, A-6, A-8) and none broke a clean-tail guarantee. Five were out of scope: newline tails, unicode digits, huge integers (two attacks) and a slash in an area. The huge integer attack led to the blocking defect that round 1 fixed.
 
 <details>
 <summary>Attack table (8 attacks)</summary>
