@@ -1767,7 +1767,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:89 (Format resolves from flag, config or default (property))",
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:134 (Spec examples and corner formats)"
       ],
-      "commit": "260794a"
+      "commit": "260794a8fa47d68d13881c1a3f574c6bb61f3b7e"
     },
     "notes": ""
   },
@@ -1807,7 +1807,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:162 (build_samples follows the mode (property))",
         ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:187 (Preflight samples per mode with prefix and lowercase formats)"
       ],
-      "commit": "260794a"
+      "commit": "260794a8fa47d68d13881c1a3f574c6bb61f3b7e"
     },
     "notes": ""
   },
@@ -1859,7 +1859,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:261 (21 invalid ref names x (no forge, rules, rules unknown))",
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:281 (spec example a..b, exact samples array)"
       ],
-      "commit": "260794a"
+      "commit": "260794a8fa47d68d13881c1a3f574c6bb61f3b7e"
     },
     "notes": ""
   },
@@ -1918,7 +1918,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:400 (working branch .. and . reach gh as repos/{owner}/{repo}/rules/branches/.. and /.)",
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:413 (forge regex ^(a+)+$ against a 41-character working branch)"
       ],
-      "commit": "260794a"
+      "commit": "260794a8fa47d68d13881c1a3f574c6bb61f3b7e"
     },
     "notes": ""
   },
@@ -2025,7 +2025,7 @@
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:380 (a..b with gh missing)",
         ".sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:421 (gh stderr holding a token is echoed into notes)"
       ],
-      "commit": "260794a"
+      "commit": "260794a8fa47d68d13881c1a3f574c6bb61f3b7e"
     },
     "notes": ""
   },
