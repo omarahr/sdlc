@@ -753,11 +753,18 @@
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
+      "gateCommit": "c0be01d26fcb436899a3cdb0cf453a60db34305a"
     },
     "ledger": [
       {
         "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
         "round": 0,
         "outcome": "verified",
         "refutations": 0,
