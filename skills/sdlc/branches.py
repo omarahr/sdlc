@@ -75,6 +75,8 @@ def regex_error(pattern):
         re.compile(pattern)
     except re.error as e:
         return str(e)
+    except RecursionError:
+        return "the pattern is nested too deeply"
     return None
 
 
@@ -88,7 +90,7 @@ def _raw_result(kind, pattern, sample):
     if kind == "regex":
         try:
             compiled = re.compile(pattern)
-        except re.error:
+        except (re.error, RecursionError):
             return None
         return compiled.search(sample) is not None
     return None
@@ -105,12 +107,14 @@ def evaluate(rule, sample):
 
 def judge(rules, sample):
     failed = None
+    has_failed = False
     notes = []
     for rule in rules:
         label = rule.get("label")
         outcome = evaluate(rule, sample)
         if outcome is False:
-            if failed is None:
+            if not has_failed:
+                has_failed = True
                 failed = label
         elif outcome is None:
             kind = rule.get("kind")
@@ -119,9 +123,10 @@ def judge(rules, sample):
             else:
                 reason = f"unknown kind {kind}"
             notes.append(f"cannot evaluate {label}: {reason}")
-    if failed is None and ref_format_error(sample) is not None:
+    if not has_failed and ref_format_error(sample) is not None:
+        has_failed = True
         failed = "git check-ref-format"
-    if failed is not None:
+    if has_failed:
         return {"result": "fail", "rule": failed, "notes": notes}
     if notes:
         return {"result": "unevaluated", "rule": None, "notes": notes}

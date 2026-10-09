@@ -1643,3 +1643,19 @@ test('T-R-037c a forge rule keeps the first label', opts, () => {
   assert.equal(got[1].result, 'fail')
   assert.equal(got[1].rule, 'git check-ref-format')
 })
+
+test('T-R-035e a deeply nested pattern never blocks and never raises', opts, () => {
+  const nested = ['('.repeat(2000), '('.repeat(1000) + 'a' + ')'.repeat(1000)]
+  const got = judgeEach(nested.flatMap((p) => [
+    [[PASS_RULE('a'), labelled('deep', 'regex', p)], 'sdlc/S-001'],
+    [[labelled('deep', 'regex', p, true)], 'sdlc/S-001'],
+  ]))
+  assert.deepEqual(got.map((g) => g.result), ['unevaluated', 'unevaluated', 'unevaluated', 'unevaluated'])
+  assert.ok(got.every((g) => g.rule === null && g.notes.length === 1 && g.notes[0].startsWith('cannot evaluate deep: ')))
+})
+
+test('T-R-035f a first failing rule without a label is not replaced by a later one', opts, () => {
+  const [got] = judgeEach([[[{ ...FAIL_RULE('x'), label: null }, FAIL_RULE('later')], 'sdlc/S-001']])
+  assert.equal(got.result, 'fail')
+  assert.equal(got.rule, null)
+})
