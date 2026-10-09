@@ -1,0 +1,189 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-129
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch a.
+exit: 1 (87 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a."}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a.", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-129 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-130
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch x.lock
+exit: 1 (77 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "x.lock"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "x.lock", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-130 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-131
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch a/b.lock
+exit: 1 (77 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a/b.lock"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a/b.lock", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-131 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-132
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a b'
+exit: 1 (82 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-132 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-133
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch $'a\tb'
+exit: 1 (79 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a\tb"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a\tb", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-133 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-134
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch $'a\u0001b'
+exit: 1 (83 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a\u0001b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a\u0001b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-134 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-135
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a~1'
+exit: 1 (84 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a~1"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a~1", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-135 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-136
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a^'
+exit: 1 (81 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a^"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a^", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-136 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-137
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch a:b
+exit: 1 (76 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a:b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a:b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-137 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-138
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a?'
+exit: 1 (89 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a?"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a?", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-138 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-139
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a*'
+exit: 1 (86 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a*"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a*", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-139 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-140
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a['
+exit: 1 (86 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a["}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a[", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-140 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-141
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a\b'
+exit: 1 (77 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a\\b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a\\b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-141 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-142
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch /a
+exit: 1 (83 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "/a"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "/a", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-142 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-143
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch a/
+exit: 1 (78 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a/"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a/", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-143 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-144
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch a//b
+exit: 1 (82 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a//b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a//b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-144 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-145
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch 'a@{b'
+exit: 1 (79 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a@{b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a@{b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-145 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-146
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch .a
+exit: 1 (83 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": ".a"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": ".a", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-146 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-147
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch a/.b
+exit: 1 (79 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a/.b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a/.b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-147 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-148
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch $'é..é'
+exit: 1 (83 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "\u00e9..\u00e9"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "\u00e9..\u00e9", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-148 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-149
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 --mode mr --branch $'ab'
+exit: 1 (84 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128", "mode": "mr", "branch": "a\u007fb"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a\u007fb", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-149 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-128 (unchanged)

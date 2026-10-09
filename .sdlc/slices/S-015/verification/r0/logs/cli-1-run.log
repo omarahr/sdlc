@@ -1,0 +1,187 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-2
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/path-only-NTYL2A python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-1 --mode pr
+exit: 0 (120 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-1", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220828", "result": "unchecked", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unchecked", "rule": null}], "notes": ["rules unknown on github: [Errno 2] No such file or directory: 'gh'"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-1 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-4
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/path-only-NTYL2A python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-3 --mode stack
+exit: 0 (117 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-3", "mode": "stack", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [], "samples": [{"kind": "run", "name": "sdlc/run-1", "result": "unchecked", "rule": null}, {"kind": "milestone", "name": "sdlc/M-1", "result": "unchecked", "rule": null}, {"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}], "notes": ["rules unknown on github: [Errno 2] No such file or directory: 'gh'"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-4 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-3 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-6
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/path-only-NTYL2A python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-5 --mode pr
+exit: 0 (119 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-5", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "gitlab", "rules": [], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220829", "result": "unchecked", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unchecked", "rule": null}], "notes": ["rules unknown on gitlab: [Errno 2] No such file or directory: 'glab'"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-5 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-8
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/path-only-NTYL2A python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-7 --mode stack
+exit: 0 (126 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-7", "mode": "stack", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "gitlab", "rules": [], "samples": [{"kind": "run", "name": "sdlc/run-1", "result": "unchecked", "rule": null}, {"kind": "milestone", "name": "sdlc/M-1", "result": "unchecked", "rule": null}, {"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}], "notes": ["rules unknown on gitlab: [Errno 2] No such file or directory: 'glab'"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-7 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-10
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/path-only-JpaNgL python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-9 --mode mr --branch a..b
+exit: 1 (84 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-9", "mode": "mr", "branch": "a..b"}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [], "samples": [{"kind": "working", "name": "a..b", "result": "fail", "rule": "git check-ref-format"}], "notes": ["rules unknown on github: [Errno 2] No such file or directory: 'gh'"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-10 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-9 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-12
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-2yiakk:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-11 --mode pr
+exit: 0 (286 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-11", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220829", "result": "unchecked", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unchecked", "rule": null}], "notes": ["rules unknown on github: To get started with GitHub CLI, please run:  gh auth login"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-12 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-11 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-14
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-T02Nct:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-13 --mode pr
+exit: 0 (261 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-13", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "gitlab", "rules": [], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220830", "result": "unchecked", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unchecked", "rule": null}], "notes": ["rules unknown on gitlab: glab: 401 Unauthorized"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-14 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-13 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-34
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-Jgchej:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-33 --mode pr
+exit: 0 (316 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-33", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "regex", "pattern": "(", "negate": false, "label": "bad one"}], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unevaluated", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220834", "result": "unevaluated", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unevaluated", "rule": null}], "notes": ["cannot evaluate bad one: missing ), unterminated subpattern at position 0"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-34 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-33 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-36
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-R36Yw2:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-35 --mode pr
+exit: 0 (298 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-35", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "regex", "pattern": "(", "negate": false, "label": "zeta"}, {"source": "github", "kind": "regex", "pattern": "[", "negate": false, "label": "alpha"}], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unevaluated", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220835", "result": "unevaluated", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unevaluated", "rule": null}], "notes": ["cannot evaluate zeta: missing ), unterminated subpattern at position 0", "cannot evaluate alpha: unterminated character set at position 0"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-36 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-35 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-38
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-zmW5de:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-37 --mode stack
+exit: 0 (298 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-37", "mode": "stack", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "weird", "pattern": "x", "negate": false, "label": "odd"}, {"source": "github", "kind": "regex", "pattern": "(?P<", "negate": false, "label": "bad"}], "samples": [{"kind": "run", "name": "sdlc/run-1", "result": "unevaluated", "rule": null}, {"kind": "milestone", "name": "sdlc/M-1", "result": "unevaluated", "rule": null}, {"kind": "slice", "name": "sdlc/S-001", "result": "unevaluated", "rule": null}], "notes": ["cannot evaluate odd: unknown kind weird", "cannot evaluate bad: missing group name at position 4"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-38 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-37 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-40
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-OLQUU9:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-39 --mode stack
+exit: 0 (219 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-39", "mode": "stack", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "gitlab", "rules": [{"source": "gitlab", "kind": "regex", "pattern": "(", "negate": false, "label": "push rule"}], "samples": [{"kind": "run", "name": "sdlc/run-1", "result": "unevaluated", "rule": null}, {"kind": "milestone", "name": "sdlc/M-1", "result": "unevaluated", "rule": null}, {"kind": "slice", "name": "sdlc/S-001", "result": "unevaluated", "rule": null}], "notes": ["cannot evaluate push rule: missing ), unterminated subpattern at position 0"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-40 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-39 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-42
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-RVGkQB:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-41 --mode pr
+exit: 0 (317 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-41", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "unchecked", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220836", "result": "unchecked", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "unchecked", "rule": null}], "notes": ["rules unknown on github: boom"]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-42 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-41 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-44
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-GGizEV:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-43 --mode pr
+exit: 1 (379 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-43", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "starts_with", "pattern": "feature/", "negate": false, "label": "slice only"}], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "fail", "rule": "slice only"}, {"kind": "state", "name": "sdlc/state-20261009220836", "result": "pass", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "pass", "rule": null}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-44 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-43 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-46
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-A07qBj:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-45 --mode pr
+exit: 1 (243 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-45", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "starts_with", "pattern": "sdlc/", "negate": false, "label": "a"}, {"source": "github", "kind": "contains", "pattern": "zzz", "negate": false, "label": "b"}, {"source": "github", "kind": "ends_with", "pattern": "nope", "negate": false, "label": "c"}], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "pass", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220837", "result": "fail", "rule": "b"}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "fail", "rule": "c"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-46 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-45 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-48
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-8HjCEZ:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-47 --mode pr
+exit: 1 (284 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-47", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "contains", "pattern": "S-", "negate": true, "label": "no S"}], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "fail", "rule": "no S"}, {"kind": "state", "name": "sdlc/state-20261009220837", "result": "pass", "rule": null}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "pass", "rule": null}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-48 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-47 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-50
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-Kpai1O:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-49 --mode mr --branch sdlc/S-001
+exit: 1 (196 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-49", "mode": "mr", "branch": "sdlc/S-001"}, "given": false, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "starts_with", "pattern": "feat/", "negate": false, "label": "only feat"}], "samples": [{"kind": "working", "name": "sdlc/S-001", "result": "fail", "rule": "only feat"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-50 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-49 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-52
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-ScGFdN:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-51 --mode pr --format 'team/{name:lower}'
+exit: 0 (303 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "team/{name:lower}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-51", "mode": "pr", "branch": null}, "given": true, "derived": false, "suggestion": "", "forge": "github", "rules": [{"source": "github", "kind": "regex", "pattern": "^team/s-001$", "negate": false, "label": "lower"}], "samples": [{"kind": "slice", "name": "team/s-001", "result": "pass", "rule": null}, {"kind": "state", "name": "team/state-20261009220838", "result": "pass", "rule": null}, {"kind": "e2e", "name": "team/m-1-e2e", "result": "pass", "rule": null}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-52 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-51 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-54
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/stub-bin-RefEg2:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-015-v0-cli-1/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-53 --mode pr
+exit: 1 (231 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-53", "mode": "pr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "gitlab", "rules": [{"source": "gitlab", "kind": "regex", "pattern": "^sdlc/(S|M)-", "negate": false, "label": "push rule"}], "samples": [{"kind": "slice", "name": "sdlc/S-001", "result": "pass", "rule": null}, {"kind": "state", "name": "sdlc/state-20261009220839", "result": "fail", "rule": "push rule"}, {"kind": "e2e", "name": "sdlc/M-1-e2e", "result": "pass", "rule": null}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/cwd-54 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0IOYGl/testkit-cli-HA48dL/repo-53 (unchanged)
+✔ verify cli VS-7: no gh and no glab, python3 and git only (1155.274209ms)
+✔ verify cli VS-7: mr mode with missing tool and a bad ref still fails only the ref (235.64375ms)
+✔ verify cli VS-7: signed-out gh (stderr, exit 4) (439.735417ms)
+✔ verify cli VS-7: signed-out glab (425.155583ms)
+✔ verify cli VS-7: tools that print garbage, empty output, wrong JSON shape, binary (3361.082084ms)
+✔ verify cli VS-7: gh that stalls past timeout is not tested here; gh killed by exit 127 and exit 0 with stderr only (408.206ms)
+✔ verify cli VS-8: same bad regex on every sample gives one cannot evaluate note (467.493959ms)
+✔ verify cli VS-8: distinct bad rules give notes in first-seen order, no duplicates (453.487041ms)
+✔ verify cli VS-8: many samples (stack) with one unknown-kind rule and a bad regex (442.208208ms)
+✔ verify cli VS-8: gitlab single bad push rule gives one note across samples (377.870625ms)
+✔ verify cli VS-8: read_rules note and judge notes never mix on one run (gh fails on call 2) (479.908208ms)
+✔ verify cli VS-9: a rule for one sample does not fail the others (538.0705ms)
+✔ verify cli VS-9: overlapping rules, later sample fails on the second rule only (395.274ms)
+✔ verify cli VS-9: negated rule applies per sample (432.024375ms)
+✔ verify cli VS-9: mr working sample sharing a name with a slice name keeps its own row and rule entry (353.026833ms)
+✔ verify cli VS-9: same flow with a lowercase prefix format, rule judged on formatted name (461.246209ms)
+✔ verify cli VS-9: glab push rule applies to every sample with its own result (383.331708ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10960.669334

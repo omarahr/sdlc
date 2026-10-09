@@ -1,0 +1,72 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-61
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch=-x
+exit: 1 (81 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60", "mode": "mr", "branch": "-x"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "-x", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-61 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-62
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch -x
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "argument --branch: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-62 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-63
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch --format
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --branch: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-63 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-64
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch 'with space'
+exit: 1 (80 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60", "mode": "mr", "branch": "with space"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "with space", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-64 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-65
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch 'semi;colon $(touch pwned)'
+exit: 1 (87 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60", "mode": "mr", "branch": "semi;colon $(touch pwned)"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "semi;colon $(touch pwned)", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-65 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-66
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch $'é-branch'
+exit: 0 (82 ms)
+--- stdout
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60", "mode": "mr", "branch": "\u00e9-branch"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "\u00e9-branch", "result": "unchecked", "rule": null}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-66 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-67
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch $'a\nb'
+exit: 1 (79 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60", "mode": "mr", "branch": "a\nb"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a\nb", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-67 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-68
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 --mode mr --branch 'a@{b'
+exit: 1 (84 ms)
+--- stdout
+{"ok": false, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60", "mode": "mr", "branch": "a@{b"}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [{"kind": "working", "name": "a@{b", "result": "fail", "rule": "git check-ref-format"}], "notes": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-68 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-60 (unchanged)

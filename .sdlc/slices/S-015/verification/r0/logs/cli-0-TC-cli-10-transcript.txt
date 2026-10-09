@@ -1,0 +1,54 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-39
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 --mode ''
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "--mode '' is not one of pr, direct, mr, stack"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-39 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-40
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 --mode PR
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "--mode 'PR' is not one of pr, direct, mr, stack"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-40 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-41
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 --mode 'pr '
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "--mode 'pr ' is not one of pr, direct, mr, stack"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-41 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-42
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 --mode bogus
+exit: 2 (42 ms)
+--- stdout
+{"ok": false, "error": "--mode 'bogus' is not one of pr, direct, mr, stack"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-42 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-43
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 --mode --branch
+exit: 2 (44 ms)
+--- stdout
+{"ok": false, "error": "argument --mode: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-43 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-44
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py preflight --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38
+exit: 2 (43 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: --mode"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/cwd-44 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-5sAdzy/testkit-cli-FN2e6J/repo-38 (unchanged)

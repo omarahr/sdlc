@@ -1,0 +1,191 @@
+✔ verify security VS-3 A1: mr working branch equal to a slice name is kept as given and last (293.142542ms)
+✔ verify security VS-3 A2: other modes ignore --branch, even a hostile one (1149.950083ms)
+✔ verify security VS-3 A3: option-like, spaced and empty working branches never become git or gh options (4170.173875ms)
+✔ verify security VS-3 A3b: --branch with a separate option-like value is a clean exit 2 (319.705167ms)
+✔ verify security VS-3 A4: attack corpus as the working branch never crashes, never mutates, is kept verbatim (14439.620458ms)
+✔ verify security VS-4 A5: no forge gives ok true, unchecked, no outbound call (758.177875ms)
+✔ verify security VS-4 A6: matching rule passes; uncompilable regex is unevaluated with a note; neither blocks (836.527166ms)
+✔ verify security VS-4 A7: failing gh gives unchecked and one rules-unknown note, exit 0 (2022.784208ms)
+⚠ verify security VS-4 A8: malformed rule shapes from the forge never crash preflight (3754.441166ms) # seed, outside the stated spec
+✔ verify security VS-4 A9: glab push rule malformed shapes never crash (2437.253917ms)
+✔ verify security VS-5 A10: output keys, exit 1 with one JSON object, first failing rule label (412.3305ms)
+✔ verify security VS-5 A11: hostile rule labels stay inside one JSON line (2001.580208ms)
+✔ verify security VS-5 A12: ok never true when a sample fails (hostile negate and operator values) (1605.251459ms)
+✔ verify security VS-5 A13: bad input exits 2 with one error object and no side effect (1328.084667ms)
+✔ verify security VS-5 A14: formats from the attack corpus never crash and never reach gh unquoted (19259.934833ms)
+✔ verify security VS-6 A15: invalid ref names fail with git check-ref-format with no forge, with rules, with rules unknown (19925.981583ms)
+✔ verify security VS-6 A16: the literal spec example a..b under each setup, exact output (239.225125ms)
+⚠ verify security VS-6 A17: refs the git command expands (@{-1}, @{-2}) are refused when the cwd repo has history (657.844584ms) # seed, outside the stated spec
+⚠ verify security VS-6 A18: the verdict does not depend on the cwd repo (563.00425ms) # seed, outside the stated spec
+✔ verify security VS-6 A19: valid names that look odd are not refused (1181.663542ms)
+✔ verify security VS-7 A20: no gh or glab on PATH does not crash or block (1530.443458ms)
+✔ verify security VS-7 A21: signed-out tool, garbage output, huge stderr and a stalled tool (2456.106833ms)
+✔ verify security VS-7 A22: gitlab signed-out and garbage (1200.612541ms)
+✔ verify security VS-7 A23: invalid working branch still fails when gh is missing (230.527542ms)
+✔ verify security VS-7 A24: a forge CLI planted in the repo is not run via a relative PATH entry (493.920667ms)
+⚠ verify security VS-4 A25: gh path quoting for dot names (seed: .. and . reach a different endpoint) (565.633834ms) # seed, outside the stated spec
+⚠ verify security VS-4 A26: a forge rule regex that backtracks catastrophically does not hang preflight (8151.730083ms) # seed, outside the stated spec
+⚠ verify security VS-5 A27: forge CLI stderr containing a token is not echoed into the output (424.509666ms) # seed, outside the stated spec
+ℹ tests 28
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 6
+ℹ duration_ms 93166.011416
+
+✖ failing tests:
+
+test at .sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:150:1
+⚠ verify security VS-4 A8: malformed rule shapes from the forge never crash preflight (3754.441166ms) # seed, outside the stated spec
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   '[{"type":"branch_name_pattern","parameters":{"operator":"starts_with","pattern":null,"name":"p"}}] -> exit 1, TypeError: startswith first arg must be str or a tuple of str, not NoneType',
+  +   `[{"type":"branch_name_pattern","parameters":{"operator":"contains","pattern":5,"name":"p"}}] -> exit 1, TypeError: 'in <string>' requires string as left operand, not int`,
+  +   '[{"type":"branch_name_pattern","parameters":{"operator":"regex","pattern":5,"name":"p"}}] -> exit 1, TypeError: first argument must be string or compiled pattern',
+  +   `[{"type":"branch_name_pattern","parameters":{"operator":"regex","pattern":["a"],"name":"p"}}] -> exit 1, TypeError: cannot use 'tuple' as a dict key (unhashable type: 'list')`,
+  +   '[{"type":"branch_name_pattern","parameters":{"operator":"ends_with","pattern":{},"name":"p"}}] -> exit 1, TypeError: endswith first arg must be str or a tuple of str, not dict',
+  +   '[{"type":"branch_name_pattern","parameters":{"operator":"regex","pattern":null,"name":"p"}}] -> exit 1, TypeError: first argument must be string or compiled pattern'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:171:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '[{"type":"branch_name_pattern","parameters":{"operator":"starts_with","pattern":null,"name":"p"}}] -> exit 1, TypeError: startswith first arg must be str or a tuple of str, not NoneType', `[{"type":"branch_name_pattern","parameters":{"operator":"contains","pattern":5,"name":"p"}}] -> exit 1, TypeError: 'in <string>' requires string as left operand, not int`, '[{"type":"branch_name_pattern","parameters":{"operator":"regex","pattern":5,"name":"p"}}] -> exit 1, TypeError: first argument must be string or compiled pattern', `[{"type":"branch_name_pattern","parameters":{"operator":"regex","pattern":["a"],"name":"p"}}] -> exit 1, TypeError: cannot use 'tuple' as a dict key (unhashable type: 'list')`, '[{"type":"branch_name_pattern","parameters":{"operator":"ends_with","pattern":{},"name":"p"}}] -> exit 1, TypeError: endswith first arg must be str or a tuple of str, not dict', '[{"type":"branch_name_pattern","parameters":{"operator":"regex","pattern":null,"name":"p"}}] -> exit 1, TypeError: first argument must be string or compiled pattern' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:289:1
+⚠ verify security VS-6 A17: refs the git command expands (@{-1}, @{-2}) are refused when the cwd repo has history (657.844584ms) # seed, outside the stated spec
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   '@{-1}': 'unchecked',
+  +   '@{-2}': 'unchecked'
+  -   '@{-1}': 'fail',
+  -   '@{-2}': 'fail'
+    }
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:301:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { '@{-1}': 'unchecked', '@{-2}': 'unchecked' },
+    expected: { '@{-1}': 'fail', '@{-2}': 'fail' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:304:1
+⚠ verify security VS-6 A18: the verdict does not depend on the cwd repo (563.00425ms) # seed, outside the stated spec
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'unchecked'
+  - 'fail'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:313:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'unchecked',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:400:1
+⚠ verify security VS-4 A25: gh path quoting for dot names (seed: .. and . reach a different endpoint) (565.633834ms) # seed, outside the stated spec
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   '.': [
+  +     'repos/{owner}/{repo}/rules/branches/.'
+  +   ],
+  +   '..': [
+  +     'repos/{owner}/{repo}/rules/branches/..'
+  +   ]
+  -   '.': [],
+  -   '..': []
+    }
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:410:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { '..': [ 'repos/{owner}/{repo}/rules/branches/..' ], '.': [ 'repos/{owner}/{repo}/rules/branches/.' ] },
+    expected: { '..': [], '.': [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:413:1
+⚠ verify security VS-4 A26: a forge rule regex that backtracks catastrophically does not hang preflight (8151.730083ms) # seed, outside the stated spec
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:418:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:421:1
+⚠ verify security VS-5 A27: forge CLI stderr containing a token is not echoed into the output (424.509666ms) # seed, outside the stated spec
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-015/verification/r0/tests/security-0/preflight.verify-security.test.mjs:426:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

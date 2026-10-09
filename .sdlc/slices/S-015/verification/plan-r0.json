@@ -1,0 +1,152 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "Format resolves from flag, config or default",
+      "requirementIds": [
+        "R-038"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Flag beats a broken config; config alone gives given true; neither gives given false and sdlc/{name}; invalid format exits 2 with ok false and an error. Try {name:lower}, empty, braces, unicode."
+    },
+    {
+      "id": "VS-2",
+      "title": "Samples follow the mode",
+      "requirementIds": [
+        "R-039"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "pr gives slice, state, e2e; stack gives run, milestone, slice; mr and direct give none. The state name has 14 digits. Names follow the format transform. Try a format with a prefix and a lowercase transform."
+    },
+    {
+      "id": "VS-3",
+      "title": "The mr working branch is judged as given",
+      "requirementIds": [
+        "R-040"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Only mr mode adds a working sample, last in the list. Other modes ignore --branch. The name is never renamed. Try a name equal to a slice name, option-like names, spaces, empty value."
+    },
+    {
+      "id": "VS-4",
+      "title": "Passing, unevaluated and unchecked samples never block",
+      "requirementIds": [
+        "R-041"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "No forge gives ok true and unchecked samples. A matching rule gives pass. An uncompilable regex gives unevaluated and a cannot evaluate note. A failing gh gives unchecked and a rules unknown note. Exit 0 in all cases."
+    },
+    {
+      "id": "VS-5",
+      "title": "A failing sample blocks and names its rule",
+      "requirementIds": [
+        "R-044"
+      ],
+      "profiles": [
+        "cli",
+        "contract",
+        "security"
+      ],
+      "notes": "Exit codes 0, 1, 2. Output keys ok, format, derived, forge, rules, samples, notes, suggestion. Sample keys kind, name, result, rule. The rule is the label of the first failing rule. One JSON object only on exit 1."
+    },
+    {
+      "id": "VS-6",
+      "title": "An invalid git ref name fails even without forge rules",
+      "requirementIds": [
+        "R-044",
+        "R-040"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "The name a..b gives fail with rule git check-ref-format with no forge, with rules, and with rules unknown. Other samples stay unchecked or pass. Try trailing dot, .lock, control characters, lone @."
+    },
+    {
+      "id": "VS-7",
+      "title": "Missing gh or glab does not crash or block",
+      "requirementIds": [
+        "R-084",
+        "R-041"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "PATH holds python3 and git only. Github and gitlab repos give ok true, one rules unknown note, every sample unchecked. Try a signed-out tool and a tool that prints garbage."
+    },
+    {
+      "id": "VS-8",
+      "title": "Notes merge without duplicates in first-seen order",
+      "requirementIds": [
+        "R-041",
+        "R-044"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Same bad regex on two samples gives one cannot evaluate note. A read_rules note comes before judge notes. Try many samples and distinct bad rules."
+    },
+    {
+      "id": "VS-9",
+      "title": "Each sample is judged against its own rules",
+      "requirementIds": [
+        "R-044",
+        "R-041"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "A rule that applies to one sample name must not fail another. The working sample with the same name as a slice shares one rule entry and keeps its own row. Try overlapping rules and a duplicate name."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run preflight in scratch repos with a controlled env and PATH",
+      "exists": true
+    },
+    {
+      "id": "stub-server",
+      "profile": "cli",
+      "purpose": "Serve forge rule responses for gh and glab shims",
+      "exists": true
+    },
+    {
+      "id": "glab-stub",
+      "profile": "cli",
+      "purpose": "Stub glab output for the gitlab cases",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Supply hostile branch names and formats",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Generate formats, modes and branch names; check the output shape",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "Preflight gates launch at one command boundary; a wrong ok lets a push hit a forge rejection that the push reports.",
+  "notes": "Tag order is cli, contract, security. The medium cap of 4 profiles keeps all three. The limits profile does not apply because the spec states no number. A gh shim on PATH comes from cli-runner and the existing tests."
+}

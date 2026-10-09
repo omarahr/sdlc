@@ -1,0 +1,255 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "7f87721",
+  "environment": "python3 branches.py on macOS, node test runner, testkit property seeded generator, fake gh via monkeypatch in-process and stub-server shim for CLI runs",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-038"
+      ],
+      "title": "Format resolves from flag, config or default (property)",
+      "given": "1000 random repos: config absent or holding strings, empty, null, number, bad formats; flag absent or random",
+      "when": "preflight runs through main()",
+      "then": "Flag beats config beats default; given is true for flag or config; a format git or the placeholder rules refuse gives exit 2 with a one-object error",
+      "expected": "Flag beats config beats default; given is true for flag or config; a format git or the placeholder rules refuse gives exit 2 with a one-object error",
+      "actual": "1000 runs, 0 violations against the reference model (placeholder count, braces, Python whitespace set, git check-ref-format)",
+      "result": "pass",
+      "specSource": "R-038 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:89",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "format resolution",
+          "inline": "property: format resolution against reference model; seed=424242 runs=1000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-038"
+      ],
+      "title": "Spec examples and corner formats",
+      "given": "Broken config JSON with --format; config only; neither; 12 invalid and 4 valid corner formats (empty, {name}{name}, spaces, a..b, .lock, leading slash, NBSP, ideographic space, emoji, accents)",
+      "when": "preflight runs",
+      "then": "Flag wins over a broken config; given false and sdlc/{name} for neither; invalid formats exit 2 with ok false and error",
+      "expected": "Flag wins over a broken config; given false and sdlc/{name} for neither; invalid formats exit 2 with ok false and error",
+      "actual": "as expected for every example",
+      "result": "pass",
+      "specSource": "R-038 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:134",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "examples",
+          "inline": "result pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-039"
+      ],
+      "title": "build_samples follows the mode (property)",
+      "given": "1000 random valid formats, modes pr, stack, mr, direct and an unknown mode, working branch values",
+      "when": "build_samples is called through the module",
+      "then": "pr: slice, state, e2e; stack: run, milestone, slice; mr adds working last only when a name is given; other modes none; names follow the format and the lower transform",
+      "expected": "pr: slice, state, e2e; stack: run, milestone, slice; mr adds working last only when a name is given; other modes none; names follow the format and the lower transform",
+      "actual": "1000 runs, 0 violations; every sample has exactly kind and name; every state name holds 14 digits",
+      "result": "pass",
+      "specSource": "R-039 acceptance, R-040 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:162",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "build_samples",
+          "inline": "property: build_samples against reference model; seed=424243 runs=1000 violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-039"
+      ],
+      "title": "Preflight samples per mode with prefix and lowercase formats",
+      "given": "4 formats (sdlc/{name}, feature/{name:lower}, pre-{name}, {name}) in 4 modes; --branch in direct and pr",
+      "when": "preflight runs",
+      "then": "Sample kinds and names equal the reference; state timestamp is current UTC; --branch adds nothing in pr and direct",
+      "expected": "Sample kinds and names equal the reference; state timestamp is current UTC; --branch adds nothing in pr and direct",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-039 acceptance, R-040 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:187",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "per-mode samples",
+          "inline": "result pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-044",
+        "R-041"
+      ],
+      "title": "Verdict rows, first failing rule, exit code, per-sample rules (property)",
+      "given": "1000 cases: github repo, random formats, modes, working branches (valid and invalid refs), per-sample rule sets of 4 operators with negate, bad regexes, unknown kinds, noise objects, and gh errors",
+      "when": "main() runs with a fake gh",
+      "then": "Each row result and rule equal the model; the rule is the label of the first failing rule; ok false exactly when a row fails; exit 1 then, else 0; gh call list equals the model; output holds all required keys; row keys are exactly kind, name, result, rule",
+      "expected": "Each row result and rule equal the model; the rule is the label of the first failing rule; ok false exactly when a row fails; exit 1 then, else 0; gh call list equals the model; output holds all required keys; row keys are exactly kind, name, result, rule",
+      "actual": "1000 runs, 0 violations; 396 cases had a failing row and 86 had an unevaluated row",
+      "result": "pass",
+      "specSource": "R-044 acceptance, R-041 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:249",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "verdict model",
+          "inline": "property: verdict model; seed=424244 runs=1000 violations=0 casesWithFail=396 casesWithUnevaluated=86 notesSeen=267"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-041",
+        "R-044"
+      ],
+      "title": "Notes merge without duplicates in first-seen order",
+      "given": "Same bad regex on three samples; two bad rules in mixed order; unknown kind; gh error on the second sample",
+      "when": "preflight runs with a fake gh",
+      "then": "One cannot evaluate note for the same rule; order is first seen; a rules unknown note stands alone and all samples are unchecked",
+      "expected": "One cannot evaluate note for the same rule; order is first seen; a rules unknown note stands alone and all samples are unchecked",
+      "actual": "notes: one note for the repeated rule; bad-two before bad-one; one note for the unknown kind; one rules unknown note. The property test also checks no duplicate notes in 1000 cases",
+      "result": "pass",
+      "specSource": "R-041 acceptance, spec section 3",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:337",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "notes",
+          "inline": "see logs/contract-0-results.jsonl (VS-8 row)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-044",
+        "R-041"
+      ],
+      "title": "Each sample is judged against its own rules",
+      "given": "gh returns different rules per sample; overlapping rules A, B, C on all samples; a duplicate-name pair (white-box probe)",
+      "when": "preflight and verdict run",
+      "then": "A rule for one sample fails only that sample; overlapping rules give the first failing label per sample; the union rules list is deduplicated; a duplicate name shares one gh call and keeps two rows",
+      "expected": "A rule for one sample fails only that sample; overlapping rules give the first failing label per sample; the union rules list is deduplicated; a duplicate name shares one gh call and keeps two rows",
+      "actual": "as expected; replacing by_sample with the union rules makes this test and the property fail",
+      "result": "pass",
+      "specSource": "R-044 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:375",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "per-sample rules",
+          "inline": "result pass; mutation check: union rules -> VS-9 test fails and property gives 357 violations"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-044"
+      ],
+      "title": "Consumer view: CLI process with a gh shim",
+      "given": "Scratch git repo with forge github, gh shim, cwd outside the repo",
+      "when": "python3 branches.py preflight runs for pr, stack, bogus mode, mr with a..b",
+      "then": "Exit 1 with one JSON line and empty stderr when a sample fails; exit 0 when all pass; exit 2 with ok false for a bad mode; a..b fails with git check-ref-format; repo tree unchanged",
+      "expected": "Exit 1 with one JSON line and empty stderr when a sample fails; exit 0 when all pass; exit 2 with ok false for a bad mode; a..b fails with git check-ref-format; repo tree unchanged",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-044 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:404",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI runs",
+          "inline": "see logs/contract-0-results.jsonl (VS-5 consumer-view row)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-044"
+      ],
+      "title": "Hostile --branch values keep the output shape",
+      "given": "17 hostile names: option-like, empty, spaces, unicode, 5000 characters, tab, bidi mark, @{-1}, @, double slash, .lock, backslash",
+      "when": "preflight runs in mr mode",
+      "then": "Exit is 0, 1 or 2; non-error output holds every required key; the working sample name equals the input",
+      "expected": "Exit is 0, 1 or 2; non-error output holds every required key; the working sample name equals the input",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-044 acceptance",
+      "test": ".sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs:429",
+      "command": "VERIFY_WT=<worktree> VERIFY_MAIN=<repo> TESTKIT_SEED=424242 node --test .sdlc/slices/S-015/verification/r0/tests/contract-0/preflight.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "hostile branches",
+          "inline": "result pass"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "--branch with an empty value is ignored in mr mode",
+      "detail": "`--mode mr --branch \"\"` gives no working sample and exit 0, because build_samples tests the value for truth. The spec says only that --branch CURRENT adds the sample. An empty value cannot be a branch, so this is likely right, but no requirement states it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "No real mode can give two samples with one name",
+      "detail": "Duplicate names reach verdict only through a patched build_samples. The shared-entry design in the plan is dead code for now. The verifier covered it with a white-box probe.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Preflight output carries command, args and given beyond the spec keys",
+      "detail": "The plan keeps them for earlier tests. The spec lists eight keys. A strict consumer that compares key sets sees three extra keys.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

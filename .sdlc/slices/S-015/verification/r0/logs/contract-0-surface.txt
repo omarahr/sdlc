@@ -1,0 +1,49 @@
+{
+  "verdict": "(repo, fmt, mode, current)",
+  "build_samples": "(fmt, mode, current)",
+  "cmd_preflight": "(ns)",
+  "_sample_row": "(sample, rules, notes)",
+  "main": "(argv=None)",
+  "SAMPLE_KINDS": {
+    "pr": [
+      [
+        "slice",
+        {
+          "id": "S-001"
+        }
+      ],
+      [
+        "state",
+        {}
+      ],
+      [
+        "e2e",
+        {
+          "id": "M-1"
+        }
+      ]
+    ],
+    "stack": [
+      [
+        "run",
+        {
+          "n": 1
+        }
+      ],
+      [
+        "milestone",
+        {
+          "id": "M-1"
+        }
+      ],
+      [
+        "slice",
+        {
+          "id": "S-001"
+        }
+      ]
+    ],
+    "mr": [],
+    "direct": []
+  }
+}
