@@ -175,3 +175,27 @@
 - Decision: Option 1. Options 1 and 2 are one design; option 1 also names the tests.md line and the fresh plan. The spike showed 7 of 7 mutants caught, the clean tree unchanged and 95 of 95 mutant rows still caught. Option 3 pins more code, so each ordinary edit needs a pin update, and it has no spike evidence. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 14+10+5 = 29, option 3 = 12+8+3 = 23. 
 - Consequences / how to reverse: Only push_guard.py, push-guard.test.mjs and a tests.md line change. Data flow from a caller into a pinned site stays seed S1 under ADR-20261009-062930-decision-judge-S-005-388e. To reverse, revert the commit or replace the pin with a stricter scanner.
 - Affects: S-005b, R-119
+
+### ADR-20261009-164238-decision-judge-S-006-a3a8: R-068 stays in S-006 as in_progress; S-007 adds the parse assertion and closes it
+- Status: auto
+- Context: R-068 requires name and parse to round-trip every kind. Parse arrives in S-007, which depends on S-006. The S-006 tests can prove only the name and split half. No OVERRIDE ADR covers this question.
+- Options: (1) Keep R-068 in S-006 as partial evidence. The integrator sets in_progress with the note "parse half closes in S-007". The state-writer adds R-068 to S-007. S-007 adds the parse assertion to the same round-trip test and closes R-068. (2) The same plan, worded as a repeat of ADR-20261009-034229 for R-019. (3) The same plan, with no parse stub in S-006. A fourth path, to move R-068 to S-007 only, was also considered.
+- Decision: Option 1. The three proposals describe one design; option 1 names the note text, the ledger edits and the closing slice. S-006 adds no parse stub and never marks R-068 done. S-007 closes R-068 only after the parse assertion runs. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29. Moving R-068 to S-007 only = 12+10+5 = 27, because it hides the S-006 evidence and breaks the R-019 precedent.
+- Consequences / how to reverse: Only the R-068 status and the S-007 requirements list change. No product code, test or signature changes. To reverse, remove R-068 from S-006 and keep it only in S-007. The S-006 tests stay valid in both cases.
+- Affects: S-006, S-007, R-068, R-019, R-002
+
+### ADR-20261009-164239-decision-judge-S-006-ec63: Scan by kind name and -e2e- tail satisfies R-120 for S-006
+- Status: auto
+- Context: R-120 asks for a source check by parsed kind e2e-area. The parse function does not exist yet. The S-005b push guard is parked. No OVERRIDE ADR covers this question.
+- Options: (1) Scan by kind name and -e2e- tail with a planted-violation test; record that S-009 and S-021 to S-024 must tighten it to the parsed kind. (2) The same scan, with no record of the later tightening. (3) The same scan; record the later tightening in the plan.
+- Decision: Option 1. The scan checks the push and pull-request sites in sdlc-loop.js and the skill scripts for the e2e-area kind name and the -e2e- tail. Keep the planted-violation test T-R-120b so the scan can fail. Record in the slice notes that S-009 and S-021 to S-024 must tighten the scan to the parsed kind. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 3 = 15+10+4 = 29, option 2 = 12+10+5 = 27. Option 1 wins the tie because the slice notes are where the next slices look first. Known gap: a branch built through a variable that the scan cannot read passes.
+- Consequences / how to reverse: Only one helper and its tests in branches.test.mjs change. No product code changes. To reverse, replace the name match with a parse call once parse exists. Keep the planted-violation test.
+- Affects: S-006, R-120
+
+### ADR-20261009-164239-decision-judge-S-006-db35: Build S-006 on main without S-005b; the dependency is soft
+- Status: auto
+- Context: S-006 dependsOn S-005b, which is parked after failed fix rounds. The S-006 plan branches from origin/main, which holds S-005a. The plan does not use push_guard.py. No OVERRIDE ADR covers this question.
+- Options: (1) Build S-006 on main with S-005a only; treat the S-005b link as soft; record that R-120 does not use the push guard. (2) The same build, described as a tests-only slice; seed gaps in R-120 stay in the plan Risks. (3) Build on main now, keep the dependsOn link, and add a note that the push guard may tighten R-120 later.
+- Decision: Option 1. The plan needs only name, split and the eight TAILS rows, which S-002 to S-005a supply. Its R-120 check is a source scan that does not call push_guard.py. S-005b guards R-119, a different requirement. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 15+10+3 = 28. Options 1 and 2 are one design; option 1 wins the tie. Option 3 keeps a dependency link that no longer blocks anything and so misleads the scheduler.
+- Consequences / how to reverse: Only tests in branches.test.mjs change. No product code, flag or state format changes. If S-005b lands later, a follow-up can add a push-guard cross-check to R-120. To reverse, restore the dependency note and rebase onto S-005b.
+- Affects: S-006, R-011, R-068, R-120, S-005b

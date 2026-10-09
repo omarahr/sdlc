@@ -436,7 +436,7 @@
     "specRef": "§1",
     "quote": "`{name:lower}` lowercases the tail, for rules that forbid uppercase.",
     "acceptance": "`name(\"feature/PROJ-1-{name:lower}\", \"slice\", id=\"S-001\")` is `feature/PROJ-1-s-001`. The literal text keeps its case.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1580,7 +1580,7 @@
     "specRef": "§Testing",
     "quote": "`name and parse round-trip every kind under the default, a prefixed and a lowercased format`: for each kind and the formats `sdlc/{name}`, `feature/PROJ-1-{name}`, `feature/PROJ-1-{name:lower}`.",
     "acceptance": "`skills/sdlc/test/branches.test.mjs` is new. It runs `branches.py` through execFileSync and imports it in a probe for the Python API. Its round-trip test covers all eight kinds under the three formats.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2501,7 +2501,7 @@
     "specRef": "§1",
     "quote": "| `e2e-area` | `<milestoneId>-e2e-<area>` | `sdlc/M-1-e2e-api` | never |",
     "acceptance": "A source check over `sdlc-loop.js` and the skill scripts finds no `git push` or pull-request creation for a branch whose parsed kind is `e2e-area`. An e2e-area branch stays local.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

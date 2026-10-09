@@ -991,8 +991,8 @@
       "S-005b"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-006",
     "pr": "",
     "risk": "medium",
