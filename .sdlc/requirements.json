@@ -184,7 +184,7 @@
     "specRef": "§2",
     "quote": "Python 3 standard library only. Importable (`next-action.py`, `state-write.py` and `janitor.py` insert the script directory into `sys.path` and import it) and runnable.",
     "acceptance": "`skills/sdlc/branches.py` exists. A probe imports it and finds the public functions. It imports only stdlib modules. `python3 branches.py <command>` runs.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -199,7 +199,7 @@
     "specRef": "§2",
     "quote": "Every command prints one JSON object; exit 2 with `{\"ok\": false, \"error\": \"...\"}` on bad input.",
     "acceptance": "`name`, `parse`, `list` and `preflight` accept the documented flags and print exactly one JSON object on stdout. Bad input, such as an invalid `--format` on preflight, exits 2 with `{\"ok\": false, \"error\": ...}`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -229,7 +229,7 @@
     "specRef": "§2",
     "quote": "`load_format(repo)`: `config.branchFormat` when `.sdlc/config.json` has a non-empty one, else `\"sdlc/{name}\"`.",
     "acceptance": "load_format returns the config value when it is non-empty. It returns `sdlc/{name}` when the key is missing, empty, or the file is absent.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1309,7 +1309,7 @@
     "specRef": "§2",
     "quote": "branches.py name     --repo DIR --kind KIND [--id ID] [--n N] [--area A] [--round R] [--profile P] [--part K] [--format F]\nbranches.py parse    --repo DIR --branch NAME [--format F]\nbranches.py list     --repo DIR --kind KIND [--format F]\nbranches.py preflight --repo DIR --mode MODE [--format F] [--branch CURRENT]",
     "acceptance": "Each command accepts the flags its line names. `name` takes --repo, --kind and optional --id, --n, --area, --round, --profile, --part, --format. `parse` takes --repo, --branch, --format. `list` takes --repo, --kind, --format. `preflight` takes --repo, --mode, --format, --branch. A test runs every command with its flags and reads one JSON object.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1459,7 +1459,7 @@
     "specRef": "§2",
     "quote": "Importable (`next-action.py`, `state-write.py` and `janitor.py` insert the script directory into `sys.path` and import it) and runnable.",
     "acceptance": "Each of `next-action.py`, `state-write.py` and `janitor.py` runs with the working directory outside the skill directory, and its branch recognition still resolves. The `branches` import resolves through the script directory on `sys.path`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

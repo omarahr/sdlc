@@ -2,11 +2,17 @@
   {
     "id": "S-001",
     "title": "branches.py skeleton: importable CLI, JSON contract, load_format",
-    "requirements": ["R-013", "R-098", "R-014", "R-088", "R-016"],
+    "requirements": [
+      "R-013",
+      "R-098",
+      "R-014",
+      "R-088",
+      "R-016"
+    ],
     "dependsOn": [],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-001",
     "pr": "",
     "risk": "medium",
@@ -14,13 +20,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-002",
     "title": "validate_format, split and name",
-    "requirements": ["R-017", "R-001", "R-019", "R-020", "R-071"],
-    "dependsOn": ["S-001"],
+    "requirements": [
+      "R-017",
+      "R-001",
+      "R-019",
+      "R-020",
+      "R-071"
+    ],
+    "dependsOn": [
+      "S-001"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -31,13 +53,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-003",
     "title": "tail contract and format resolution order",
-    "requirements": ["R-018", "R-099", "R-015", "R-012", "R-002"],
-    "dependsOn": ["S-002"],
+    "requirements": [
+      "R-018",
+      "R-099",
+      "R-015",
+      "R-012",
+      "R-002"
+    ],
+    "dependsOn": [
+      "S-002"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -48,13 +86,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-004",
     "title": "tails: run, slice, milestone, e2e, e2e-area",
-    "requirements": ["R-003", "R-004", "R-005", "R-006", "R-007"],
-    "dependsOn": ["S-003"],
+    "requirements": [
+      "R-003",
+      "R-004",
+      "R-005",
+      "R-006",
+      "R-007"
+    ],
+    "dependsOn": [
+      "S-003"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -65,13 +119,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-005",
     "title": "tails: state, verify, attempt",
-    "requirements": ["R-008", "R-009", "R-010", "R-119", "R-093"],
-    "dependsOn": ["S-004"],
+    "requirements": [
+      "R-008",
+      "R-009",
+      "R-010",
+      "R-119",
+      "R-093"
+    ],
+    "dependsOn": [
+      "S-004"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -82,13 +152,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-006",
     "title": "lowercase tails and the cross-format round-trip",
-    "requirements": ["R-011", "R-120", "R-068"],
-    "dependsOn": ["S-005"],
+    "requirements": [
+      "R-011",
+      "R-120",
+      "R-068"
+    ],
+    "dependsOn": [
+      "S-005"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -99,13 +183,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-007",
     "title": "parse classifies a branch tail",
-    "requirements": ["R-021", "R-022", "R-023", "R-024", "R-069"],
-    "dependsOn": ["S-006"],
+    "requirements": [
+      "R-021",
+      "R-022",
+      "R-023",
+      "R-024",
+      "R-069"
+    ],
+    "dependsOn": [
+      "S-006"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -116,13 +216,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-008",
     "title": "parse precedence: run, milestone, e2e, e2e-area rows",
-    "requirements": ["R-102", "R-103", "R-104", "R-105", "R-070"],
-    "dependsOn": ["S-007"],
+    "requirements": [
+      "R-102",
+      "R-103",
+      "R-104",
+      "R-105",
+      "R-070"
+    ],
+    "dependsOn": [
+      "S-007"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -133,13 +249,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-009",
     "title": "parse precedence: state, verify, attempt, slice rows",
-    "requirements": ["R-106", "R-107", "R-108", "R-109"],
-    "dependsOn": ["S-008"],
+    "requirements": [
+      "R-106",
+      "R-107",
+      "R-108",
+      "R-109"
+    ],
+    "dependsOn": [
+      "S-008"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -150,13 +281,26 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-010",
     "title": "list enumerates local branches of one kind",
-    "requirements": ["R-025", "R-094"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-025",
+      "R-094"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -167,13 +311,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-011",
     "title": "evaluate applies one rule to a sample",
-    "requirements": ["R-026", "R-033", "R-095", "R-034", "R-072"],
-    "dependsOn": ["S-001"],
+    "requirements": [
+      "R-026",
+      "R-033",
+      "R-095",
+      "R-034",
+      "R-072"
+    ],
+    "dependsOn": [
+      "S-001"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -184,13 +344,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-012",
     "title": "sample verdicts, bad patterns and check-ref-format",
-    "requirements": ["R-035", "R-036", "R-037"],
-    "dependsOn": ["S-011"],
+    "requirements": [
+      "R-035",
+      "R-036",
+      "R-037"
+    ],
+    "dependsOn": [
+      "S-011"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -201,13 +375,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-013",
     "title": "read_rules reads GitHub branch name patterns",
-    "requirements": ["R-027", "R-028", "R-029", "R-084"],
-    "dependsOn": ["S-012"],
+    "requirements": [
+      "R-027",
+      "R-028",
+      "R-029",
+      "R-084"
+    ],
+    "dependsOn": [
+      "S-012"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -218,13 +407,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-014",
     "title": "read_rules reads the GitLab push rule and the no-forge case",
-    "requirements": ["R-030", "R-031", "R-032"],
-    "dependsOn": ["S-013"],
+    "requirements": [
+      "R-030",
+      "R-031",
+      "R-032"
+    ],
+    "dependsOn": [
+      "S-013"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -235,13 +438,30 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-015",
     "title": "preflight tests the mode's branch names and prints a verdict",
-    "requirements": ["R-038", "R-039", "R-040", "R-041", "R-044"],
-    "dependsOn": ["S-010", "S-014"],
+    "requirements": [
+      "R-038",
+      "R-039",
+      "R-040",
+      "R-041",
+      "R-044"
+    ],
+    "dependsOn": [
+      "S-010",
+      "S-014"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -252,13 +472,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-016",
     "title": "preflight derives a format from one simple rule",
-    "requirements": ["R-042", "R-043", "R-087", "R-122", "R-073"],
-    "dependsOn": ["S-015"],
+    "requirements": [
+      "R-042",
+      "R-043",
+      "R-087",
+      "R-122",
+      "R-073"
+    ],
+    "dependsOn": [
+      "S-015"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -269,13 +505,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-017",
     "title": "preflight edge cases and the forge shim suite",
-    "requirements": ["R-091", "R-092", "R-100", "R-074"],
-    "dependsOn": ["S-016"],
+    "requirements": [
+      "R-091",
+      "R-092",
+      "R-100",
+      "R-074"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -286,13 +537,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-018",
     "title": "SKILL.md: the flag, the pre-flight bullet and the launch arg",
-    "requirements": ["R-045", "R-046", "R-097", "R-048", "R-049"],
-    "dependsOn": ["S-017"],
+    "requirements": [
+      "R-045",
+      "R-046",
+      "R-097",
+      "R-048",
+      "R-049"
+    ],
+    "dependsOn": [
+      "S-017"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -303,13 +570,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-019",
     "title": "SKILL.md names the run branch and checks the user's branch",
-    "requirements": ["R-047", "R-121", "R-118", "R-101"],
-    "dependsOn": ["S-018"],
+    "requirements": [
+      "R-047",
+      "R-121",
+      "R-118",
+      "R-101"
+    ],
+    "dependsOn": [
+      "S-018"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -320,13 +602,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-020",
     "title": "sdlc-loop.js names branches through the format",
-    "requirements": ["R-050", "R-051", "R-052", "R-116", "R-075"],
-    "dependsOn": ["S-005"],
+    "requirements": [
+      "R-050",
+      "R-051",
+      "R-052",
+      "R-116",
+      "R-075"
+    ],
+    "dependsOn": [
+      "S-005"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -337,13 +635,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-021",
     "title": "next-action.py recognizes branches through parse",
-    "requirements": ["R-053", "R-054", "R-055", "R-076", "R-077"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-053",
+      "R-054",
+      "R-055",
+      "R-076",
+      "R-077"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -354,13 +668,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-022",
     "title": "state-write.py names and classifies branches through the module",
-    "requirements": ["R-056", "R-096", "R-057", "R-058", "R-078"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-056",
+      "R-096",
+      "R-057",
+      "R-058",
+      "R-078"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -371,13 +701,26 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-023",
     "title": "state-write.py threads the format through its remaining paths",
-    "requirements": ["R-059", "R-083"],
-    "dependsOn": ["S-022"],
+    "requirements": [
+      "R-059",
+      "R-083"
+    ],
+    "dependsOn": [
+      "S-022"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -388,13 +731,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-024",
     "title": "janitor.py sweeps only verify branches through parse",
-    "requirements": ["R-060", "R-085", "R-086", "R-079"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-060",
+      "R-085",
+      "R-086",
+      "R-079"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -405,13 +763,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-025",
     "title": "_common.md: the Branch names section and the first placeholders",
-    "requirements": ["R-062", "R-117", "R-089", "R-090", "R-110"],
-    "dependsOn": ["S-010"],
+    "requirements": [
+      "R-062",
+      "R-117",
+      "R-089",
+      "R-090",
+      "R-110"
+    ],
+    "dependsOn": [
+      "S-010"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -422,13 +796,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-026",
     "title": "_common.md completes the placeholder table",
-    "requirements": ["R-111", "R-112", "R-113", "R-114", "R-115"],
-    "dependsOn": ["S-025"],
+    "requirements": [
+      "R-111",
+      "R-112",
+      "R-113",
+      "R-114",
+      "R-115"
+    ],
+    "dependsOn": [
+      "S-025"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -439,13 +829,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-027",
     "title": "every prompt replaces its branch literals with placeholders",
-    "requirements": ["R-063", "R-061", "R-064", "R-065", "R-080"],
-    "dependsOn": ["S-026"],
+    "requirements": [
+      "R-063",
+      "R-061",
+      "R-064",
+      "R-065",
+      "R-080"
+    ],
+    "dependsOn": [
+      "S-026"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -456,13 +862,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-028",
     "title": "prompt tests guard the placeholders and the format records",
-    "requirements": ["R-081", "R-082"],
-    "dependsOn": ["S-027", "S-018"],
+    "requirements": [
+      "R-081",
+      "R-082"
+    ],
+    "dependsOn": [
+      "S-027",
+      "S-018"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -473,13 +893,26 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-029",
     "title": "README documents the flag and the branch names",
-    "requirements": ["R-066", "R-067"],
-    "dependsOn": ["S-028"],
+    "requirements": [
+      "R-066",
+      "R-067"
+    ],
+    "dependsOn": [
+      "S-028"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -490,6 +923,14 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   }
 ]
