@@ -1797,7 +1797,7 @@
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
       ],
-      "commit": "pending"
+      "commit": "70826e025604ba62eb08b55c8fc728b00863312f"
     },
     "notes": ""
   },
@@ -2444,7 +2444,7 @@
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
       ],
-      "commit": "pending"
+      "commit": "70826e025604ba62eb08b55c8fc728b00863312f"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2485,7 +2485,7 @@
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
       ],
-      "commit": "pending"
+      "commit": "70826e025604ba62eb08b55c8fc728b00863312f"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2526,7 +2526,7 @@
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
       ],
-      "commit": "pending"
+      "commit": "70826e025604ba62eb08b55c8fc728b00863312f"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2569,7 +2569,7 @@
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:72",
         ".sdlc/slices/S-008/verification/r1/tests/cli-0/parse-fix.verify-cli.test.mjs:86"
       ],
-      "commit": "pending"
+      "commit": "70826e025604ba62eb08b55c8fc728b00863312f"
     },
     "notes": "added by the completeness critic (structures)"
   },
