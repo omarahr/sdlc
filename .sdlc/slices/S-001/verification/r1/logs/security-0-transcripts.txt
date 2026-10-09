@@ -1,0 +1,701 @@
+skill directory under test: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc
+
+### TC-security-17 decoy cwd+PYTHONPATH next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-pp-2 python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/next-action.py --help
+exit: 0 (53 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1 (unchanged)
+
+### TC-security-17 relative path next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-pp-2 python3 ../../../sdlc-S-001-v1-security-0/skills/sdlc/next-action.py --help
+exit: 0 (58 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1 (unchanged)
+
+### TC-security-17 shadow PYTHONSAFEPATH next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/shadow-pp-3 PYTHONSAFEPATH=1 python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/next-action.py --help
+exit: 0 (49 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1 (unchanged)
+
+### TC-security-17 python -I next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1
+$ python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/next-action.py --help
+exit: 0 (54 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-1 (unchanged)
+
+### TC-security-17 decoy cwd+PYTHONPATH state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-pp-5 python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/state-write.py --help
+exit: 0 (46 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4 (unchanged)
+
+### TC-security-17 relative path state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-pp-5 python3 ../../../sdlc-S-001-v1-security-0/skills/sdlc/state-write.py --help
+exit: 0 (49 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4 (unchanged)
+
+### TC-security-17 shadow PYTHONSAFEPATH state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/shadow-pp-6 PYTHONSAFEPATH=1 python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/state-write.py --help
+exit: 0 (46 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4 (unchanged)
+
+### TC-security-17 python -I state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4
+$ python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/state-write.py --help
+exit: 0 (50 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-4 (unchanged)
+
+### TC-security-17 decoy cwd+PYTHONPATH janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-pp-8 python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/janitor.py --help
+exit: 0 (45 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7 (unchanged)
+
+### TC-security-17 relative path janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-pp-8 python3 ../../../sdlc-S-001-v1-security-0/skills/sdlc/janitor.py --help
+exit: 0 (50 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7 (unchanged)
+
+### TC-security-17 shadow PYTHONSAFEPATH janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/shadow-pp-9 PYTHONSAFEPATH=1 python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/janitor.py --help
+exit: 0 (48 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7 (unchanged)
+
+### TC-security-17 python -I janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7
+$ python3 -I /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/janitor.py --help
+exit: 0 (49 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-cwd-7 (unchanged)
+
+### TC-security-18 importlib next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-10
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-pp-11 python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/next-action.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (45 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-10 (unchanged)
+
+### TC-security-18 importlib state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-12
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-pp-13 python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/state-write.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (37 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-12 (unchanged)
+
+### TC-security-18 importlib janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-14
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-pp-15 python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/janitor.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (44 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/decoy-import-14 (unchanged)
+
+### TC-security-19 symlink clean next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-17
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/link-clean-16/next-action.py --help
+exit: 0 (51 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-17 (unchanged)
+
+### TC-security-19 symlink clean state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-19
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/link-clean-18/state-write.py --help
+exit: 0 (48 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-19 (unchanged)
+
+### TC-security-19 symlink clean janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-21
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/link-clean-20/janitor.py --help
+exit: 0 (50 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-21 (unchanged)
+
+### TC-security-20 symlink with decoy beside the link next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-23
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/link-decoy-22/next-action.py --help
+exit: 0 (50 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-23 (unchanged)
+
+### TC-security-20 symlink with decoy beside the link state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-25
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/link-decoy-24/state-write.py --help
+exit: 0 (48 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-25 (unchanged)
+
+### TC-security-20 symlink with decoy beside the link janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-27
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/link-decoy-26/janitor.py --help
+exit: 0 (45 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-27 (unchanged)
+
+### TC-security-23 symlink chain next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-28
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-28/next-action.py --help
+exit: 0 (52 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-28 (unchanged)
+
+### TC-security-23 symlink chain state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-30
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-30/state-write.py --help
+exit: 0 (47 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-30 (unchanged)
+
+### TC-security-23 symlink chain janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-32
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-32/janitor.py --help
+exit: 0 (48 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/chain-a-32 (unchanged)
+
+### TC-security-24 relative symlink next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-34
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-pkg-35 python3 ./next-action.py --help
+exit: 0 (52 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-34 (unchanged)
+
+### TC-security-24 relative symlink state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-36
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-pkg-37 python3 ./state-write.py --help
+exit: 0 (47 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-36 (unchanged)
+
+### TC-security-24 relative symlink janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-38
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-pkg-39 python3 ./janitor.py --help
+exit: 0 (48 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/rel-link-38 (unchanged)
+
+### TC-security-25 symlinked skill directory next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-40
+$ python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-40/skill/next-action.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (45 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-40 (unchanged)
+
+### TC-security-25 symlinked skill directory run next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-40
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-40/skill/next-action.py --help
+exit: 0 (52 ms)
+--- stdout
+usage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC]
+                      [--bar-raiser-rounds BAR_RAISER_ROUNDS] [--prs PRS]
+
+Decide the next sdlc-loop action from .sdlc/ state
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --main-root MAIN_ROOT
+  --spec SPEC
+  --bar-raiser-rounds BAR_RAISER_ROUNDS
+  --prs PRS
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-40 (unchanged)
+
+### TC-security-25 symlinked skill directory state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-41
+$ python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-41/skill/state-write.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (41 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-41 (unchanged)
+
+### TC-security-25 symlinked skill directory run state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-41
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-41/skill/state-write.py --help
+exit: 0 (51 ms)
+--- stdout
+usage: state-write.py [-h]
+                      {patch-slice,status,base-branch,add-requirements} ...
+
+Deterministic writes to a repo's .sdlc/ state, so an agent makes one call
+instead of a dozen.
+
+positional arguments:
+  {patch-slice,status,base-branch,add-requirements}
+    base-branch         print the branch a slice is cut from, and change
+                        nothing
+
+options:
+  -h, --help            show this help message and exit
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-41 (unchanged)
+
+### TC-security-25 symlinked skill directory janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-42
+$ python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-42/skill/janitor.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (40 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-42 (unchanged)
+
+### TC-security-25 symlinked skill directory run janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-42
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-42/skill/janitor.py --help
+exit: 0 (49 ms)
+--- stdout
+usage: janitor.py [-h] [--repo REPO] [--days DAYS]
+
+Reap stale scratch dirs and leftover slice branches.
+
+options:
+  -h, --help   show this help message and exit
+  --repo REPO
+  --days DAYS  scratch age in days; default janitorDays from config.json, else
+               7
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/dir-link-42 (unchanged)
+
+### TC-security-26 importlib through symlink next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-43
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-43 python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-43/next-action.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (44 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-43 (unchanged)
+
+### TC-security-26 importlib through symlink state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-44
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-44 python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-44/state-write.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (48 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-44 (unchanged)
+
+### TC-security-26 importlib through symlink janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-45
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-45 python3 -c $'import importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-45/janitor.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (45 ms)
+--- stdout
+/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/import-link-45 (unchanged)
+
+### A-hardlink observe next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-47
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/hardlink-46/next-action.py --help
+exit: 97 (43 ms)
+--- stdout
+
+--- stderr
+DECOY branches IMPORTED
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-47 (unchanged)
+
+### A-hardlink observe state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-49
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/hardlink-48/state-write.py --help
+exit: 97 (39 ms)
+--- stdout
+
+--- stderr
+DECOY branches IMPORTED
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-49 (unchanged)
+
+### A-hardlink observe janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-51
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/hardlink-50/janitor.py --help
+exit: 97 (38 ms)
+--- stdout
+
+--- stderr
+DECOY branches IMPORTED
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-51 (unchanged)
+
+### A-preloaded observe next-action.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-53
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/preloaded-52 python3 -c $'import branches\nimport importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/next-action.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (43 ms)
+--- stdout
+/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/preloaded-52/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-53 (unchanged)
+
+### A-preloaded observe state-write.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-55
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/preloaded-54 python3 -c $'import branches\nimport importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/state-write.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (43 ms)
+--- stdout
+/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/preloaded-54/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-55 (unchanged)
+
+### A-preloaded observe janitor.py
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-57
+$ PYTHONPATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/preloaded-56 python3 -c $'import branches\nimport importlib.util\nspec=importlib.util.spec_from_file_location(\"m\", \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-001-v1-security-0/skills/sdlc/janitor.py\")\nm=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(m)\nprint(m.branches.__file__)'
+exit: 0 (45 ms)
+--- stdout
+/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/preloaded-56/branches.py
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-G7zdpD/testkit-cli-OG84Sm/cwd-57 (unchanged)
+

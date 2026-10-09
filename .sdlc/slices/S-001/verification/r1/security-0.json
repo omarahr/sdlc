@@ -1,0 +1,314 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 1,
+  "commit": "4434d71",
+  "environment": "macOS (Darwin 25.6), Python 3.14.7, Node 24.19.0; local CLI only; testkit cli-runner and attack-corpus (plantDecoy) from skills/sdlc/test/testkit at 4434d71; worktree of sdlc/S-001 at 4434d71",
+  "threatModel": "The spec states no threat model. Trusted: the files inside the skill directory and the Python interpreter. Untrusted: the cwd, PYTHONPATH and the path (symlink, relative path) through which a caller starts or loads a script. Attacks that need a write into the skill directory or control of the caller's own process are out of scope.",
+  "charters": [
+    "Explore the branches import in next-action.py, state-write.py and janitor.py with decoy modules in the cwd, on PYTHONPATH and beside symlinks, to find a start path where a module other than skills/sdlc/branches.py binds, which breaks R-098 ('The branches import resolves through the script directory on sys.path')."
+  ],
+  "cases": [
+    {
+      "id": "TC-security-17",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A decoy branches.py in the cwd or on PYTHONPATH never wins",
+      "given": "A decoy branches.py (exits 97) in the cwd and one on PYTHONPATH; a shadow decoy on PYTHONPATH with PYTHONSAFEPATH=1.",
+      "when": "Run each of next-action.py, state-write.py and janitor.py with --help by absolute path, by a relative path, and with python3 -I.",
+      "then": "Exit 0, no traceback, and no decoy import recorded.",
+      "expected": "Exit 0, no traceback, and no decoy import recorded.",
+      "actual": "All 12 runs exit 0. No decoy marker file exists.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:31",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a decoy branches.py in the cwd\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "decoy in cwd and on PYTHONPATH",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "decoy markers",
+          "inline": "decoyFired(cwd decoy) = null\ndecoyFired(PYTHONPATH decoy) = null\ndecoyFired(shadow decoy) = null"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-18",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A script loaded by path through importlib from a decoy cwd binds the real module",
+      "given": "A decoy branches.py in the cwd and on PYTHONPATH.",
+      "when": "python3 -c loads each script with spec_from_file_location and prints mod.branches.__file__.",
+      "then": "The printed path is skills/sdlc/branches.py; no decoy import.",
+      "expected": "The printed path is skills/sdlc/branches.py; no decoy import.",
+      "actual": "All three print skills/sdlc/branches.py. No decoy marker exists.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:54",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a script loaded by path through importlib from a decoy cwd\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "importlib from a decoy cwd",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-19",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A script run through a symlink without a decoy still runs",
+      "given": "A symlink to each script in a scratch directory.",
+      "when": "Run python3 <link> --help.",
+      "then": "Exit 0.",
+      "expected": "Exit 0.",
+      "actual": "All three exit 0 and print their usage.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:67",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a script run through a symlink without\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "clean symlink",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-20",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A script run through a symlink imports branches from the script directory, not the symlink directory",
+      "given": "A directory that holds a symlink to the script and a decoy branches.py (exits 97).",
+      "when": "Run python3 <dir>/<script> --help for next-action.py, state-write.py and janitor.py.",
+      "then": "Exit 0; no decoy import.",
+      "expected": "Exit 0; no decoy import.",
+      "actual": "All three exit 0 and print their usage. No decoy marker exists. Round 0 failed here with exit 97; the fix in 4434d71 inserts os.path.dirname(os.path.realpath(__file__)).",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:77",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a script run through a symlink imports\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "symlink with a decoy beside the link",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt",
+          "inline": "$ python3 <scratch>/link-decoy-22/next-action.py --help\nexit: 0 (50 ms)\n--- stdout\nusage: next-action.py [-h] --repo REPO [--main-root MAIN_ROOT] [--spec SPEC] ...\n--- tree <scratch>/cwd-23 (unchanged)"
+        },
+        {
+          "kind": "file-tree",
+          "title": "decoy marker",
+          "inline": "decoyFired(link-decoy decoy) = null for all three scripts"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-23",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A chain of two symlinks with a decoy beside each link resolves to the real script directory",
+      "given": "Directory a holds a link to b/<script>; directory b holds a link to the real script. Each directory holds a decoy branches.py. The cwd is a.",
+      "when": "Run python3 a/<script> --help.",
+      "then": "Exit 0; neither decoy is imported.",
+      "expected": "Exit 0; neither decoy is imported.",
+      "actual": "All three exit 0. Neither decoy marker exists.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:90",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a chain of symlinks\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "symlink chain",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-24",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A relative symlink run by a relative path from a decoy cwd resolves to the real module",
+      "given": "The cwd holds a relative symlink to the script and a decoy branches.py. PYTHONPATH holds a decoy branches package (__init__.py exits 97).",
+      "when": "Run python3 ./<script> --help from that cwd.",
+      "then": "Exit 0; neither decoy is imported.",
+      "expected": "Exit 0; neither decoy is imported.",
+      "actual": "All three exit 0. Neither decoy marker exists.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:104",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a relative symlink\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "relative symlink, decoy module and decoy package",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-25",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A script reached through a symlinked skill directory binds the real module",
+      "given": "A directory holds a symlink to the whole skill directory and a decoy branches.py.",
+      "when": "Load each script through the linked directory with importlib and print mod.branches.__file__; also run it with --help.",
+      "then": "The bound file resolves to skills/sdlc/branches.py; exit 0; no decoy import.",
+      "expected": "The bound file resolves to skills/sdlc/branches.py; exit 0; no decoy import.",
+      "actual": "All three bind the real branches.py and exit 0. No decoy marker exists.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:117",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a script reached through a symlinked skill directory\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "symlinked skill directory",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-26",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-098"
+      ],
+      "title": "A script loaded through importlib by a symlink path with a decoy beside the link binds the real module",
+      "given": "A directory holds a symlink to the script and a decoy branches.py; the cwd and PYTHONPATH are that directory.",
+      "when": "python3 -c loads <dir>/<script> with spec_from_file_location and prints mod.branches.__file__.",
+      "then": "The bound file resolves to skills/sdlc/branches.py; no decoy import.",
+      "expected": "The bound file resolves to skills/sdlc/branches.py; no decoy import.",
+      "actual": "All three bind the real branches.py. No decoy marker exists.",
+      "result": "pass",
+      "specSource": "R-098 quote ('insert the script directory into sys.path and import it') and acceptance ('The branches import resolves through the script directory on sys.path')",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:133",
+      "command": "SDLC_VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern=\"VS-9 a script loaded through importlib by a symlink path\" .sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "importlib through a symlink",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/security-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "A-23",
+      "charter": "VS-9 re-run of TC-security-17: decoy in cwd, on PYTHONPATH, shadow with PYTHONSAFEPATH, python -I",
+      "input": "decoy branches.py (exit 97 and shadow)",
+      "expected": "real module wins",
+      "observed": "exit 0, no decoy import",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:31"
+    },
+    {
+      "id": "A-24",
+      "charter": "VS-9 re-run of TC-security-18: importlib load from a decoy cwd",
+      "input": "decoy branches.py in cwd and on PYTHONPATH",
+      "expected": "mod.branches is the real file",
+      "observed": "real file bound",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:54"
+    },
+    {
+      "id": "A-25",
+      "charter": "VS-9 re-run of TC-security-20: decoy beside a symlink to the script",
+      "input": "<dir>/branches.py decoy, <dir>/<script> symlink",
+      "expected": "real module wins",
+      "observed": "exit 0, no decoy import (round 0: exit 97)",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:77"
+    },
+    {
+      "id": "A-26",
+      "charter": "VS-9 chain of two symlinks with decoys beside each link",
+      "input": "a/<script> -> b/<script> -> skills/sdlc/<script>",
+      "expected": "real module wins",
+      "observed": "exit 0, no decoy import",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:90"
+    },
+    {
+      "id": "A-27",
+      "charter": "VS-9 relative symlink run as ./<script>, decoy module in cwd, decoy package on PYTHONPATH",
+      "input": "./<script> (relative link), branches.py, branches/__init__.py",
+      "expected": "real module wins",
+      "observed": "exit 0, no decoy import",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:104"
+    },
+    {
+      "id": "A-28",
+      "charter": "VS-9 symlinked skill directory with decoy beside the link",
+      "input": "<dir>/skill -> skills/sdlc",
+      "expected": "real module wins",
+      "observed": "real file bound, exit 0",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:117"
+    },
+    {
+      "id": "A-29",
+      "charter": "VS-9 importlib load through a symlink path with decoy beside the link and on PYTHONPATH",
+      "input": "spec_from_file_location(<dir>/<script>)",
+      "expected": "real module wins",
+      "observed": "real file bound",
+      "result": "held",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:133"
+    },
+    {
+      "id": "A-30",
+      "charter": "VS-9 hard link to a script with a decoy beside it",
+      "input": "<dir>/<script> hard link, <dir>/branches.py decoy",
+      "expected": "none stated: a hard link is a second directory entry, and its directory is the script directory",
+      "observed": "all three exit 97; the decoy beside the hard link is imported",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:145"
+    },
+    {
+      "id": "A-31",
+      "charter": "VS-9 a process that already imported another branches module loads a script by path",
+      "input": "import branches (shadow decoy from PYTHONPATH), then importlib load of the script",
+      "expected": "none stated: the caller controls its own process",
+      "observed": "exit 0; mod.branches is the preloaded decoy from sys.modules",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/security-0/import.verify-security.test.mjs:164"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "An in-process caller with a cached branches module binds it, not the skill's module",
+      "detail": "When a process already holds sys.modules['branches'], a script loaded through importlib binds that cached module and ignores the sys.path line (A-31). A test harness that imports a fixture or an older branches.py and then loads next-action.py in the same process tests the wrong module. Callers in the repo load each script in a new process, so nothing breaks today. Keep that rule for later probes.",
+      "file": "skills/sdlc/next-action.py"
+    }
+  ]
+}

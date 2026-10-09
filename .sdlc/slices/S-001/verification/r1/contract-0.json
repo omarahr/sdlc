@@ -1,0 +1,212 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 1,
+  "commit": "4434d71",
+  "environment": "macOS (Darwin 25.6), Python 3.14.7, Node 24.19.0, git; module loaded by path with python3 -I from a scratch cwd; testkit property and cli-runner from skills/sdlc/test/testkit at 4434d71",
+  "cases": [
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "load_format resolves each named config state, and a read error raises Fail",
+      "given": "15 scratch repos: branchFormat feature/{name}, key missing, empty string, file absent, no .sdlc, null, number, list, top-level list, top-level string, BOM, invalid JSON, directory, mode 000, 200000 nested [",
+      "when": "load_format(repo) is called in one python3 -I process through the testkit pycall.py",
+      "then": "each state gives the config value, sdlc/{name}, or Fail; no other exception",
+      "expected": "feature/{name} for the first state, sdlc/{name} for the 9 fallback states, Fail for the 5 error states",
+      "actual": "15 of 15 as expected. Deep nesting now raises Fail: '<path> is not valid JSON: RecursionError: ...'",
+      "result": "pass",
+      "specSource": "R-016 acceptance; R-014 quote; VS-6 note (a read error must raise Fail)",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:54",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-6 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "file-tree",
+          "title": "surface listing",
+          "inline": "branches.py loaded by path (python3 -I, scratch cwd), commit 4434d71:\nDEFAULT_FORMAT = 'sdlc/{name}'\nFail(Exception)\nload_format(repo)\nvalidate_format(fmt)\nload_git_modes(path=<skill>/git-modes.json)\nmain(argv=None)\nbuild_parser(), cmd_name/cmd_parse/cmd_list/cmd_preflight(ns), JsonArgumentParser\nKINDS, PLACEHOLDERS, GIT_MODES_PATH\nUnchanged from round 0 (TC-contract-1)."
+        },
+        {
+          "kind": "property-run",
+          "title": "named states (re-run of the round 0 failure)",
+          "inline": "deep nesting -> outcome Fail, type Fail\nmessage: <repo>/.sdlc/config.json is not valid JSON: RecursionError: maximum recursion depth exceeded ...\nall other 14 rows unchanged from round 0"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-001/verification/r1/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "Property: load_format returns the config string, the default, or Fail, and never another exception",
+      "given": "arb.configShape from the testkit: absent, no .sdlc, directory, valid and non-object JSON, invalid text, deep nesting, invalid UTF-8, symlinks, unreadable files",
+      "when": "load_format is called 1000 times with seed 20261009",
+      "then": "no outcome is a raw exception; JSON shapes match the reference model written from R-016",
+      "expected": "0 violations",
+      "actual": "0 violations. Distribution: json:return 301, absent:return 66, no-sdlc-dir:return 71, bytes:Fail 69, dir:Fail 70, text:Fail 183, dangling-symlink:return 76, symlink-loop:Fail 72, text:return 27, unreadable:Fail 65",
+      "result": "pass",
+      "specSource": "R-016 acceptance; R-014 quote; VS-6 note",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:83",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-7 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "load_format property",
+          "inline": "property load_format: seed=20261009 runs=1000 violations=0\nround 0 had 34 RecursionError violations at the same seed\nno shrinking (testkit has none); no counterexample"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "A command without --format uses the config format, --format wins, and a bad config exits 2 with one JSON error",
+      "given": "repos with config feature/{name}, feature/x, 'a {name}', truncated JSON, and 200000 nested [",
+      "when": "parse, list and name run through the testkit cli-runner with and without --format",
+      "then": "the config value or the flag value is the format; a bad config without the flag exits 2 with one JSON error",
+      "expected": "11 of 11 rows as expected",
+      "actual": "11 of 11 pass. parse and name on the deeply nested config now exit 2 with one JSON line, ok false, and empty stderr. Malformed config plus a valid --format exits 0 (recorded, as in round 0)",
+      "result": "pass",
+      "specSource": "R-014 quote; R-016 acceptance",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:105",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-8 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "CLI rows",
+          "inline": "parse config            0 feature/{name}\nlist config             0 feature/{name}\nparse flag wins         0 sdlc/{name}\nlist flag wins          0 sdlc/{name}\ninvalid config          2 ok:false\ninvalid config + flag   0 sdlc/{name}\nspaced config           2 ok:false\nmalformed config        2 ok:false\nmalformed config + flag 0 sdlc/{name}\ndeeply nested config    2 ok:false, 1 line, stderr ''\ndeeply nested, name     2 ok:false, 1 line, stderr ''"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "title": "load_format turns every parse and read error near the fix into Fail, and still reads valid nested JSON",
+      "given": "12 config texts: deep arrays, deep objects, deep mixed, deep under branchFormat, 100000 closed arrays, 400-deep valid nesting beside branchFormat, a 5000-digit integer, invalid UTF-8, an empty file, a NaN literal, a duplicate key, a non-ASCII format",
+      "when": "load_format(repo) is called through pycall.py",
+      "then": "each error gives Fail with no stdout and no stderr; each valid JSON gives the model value",
+      "expected": "Fail for the 4 unclosed deep texts, the huge integer, invalid UTF-8 and the empty file; sdlc/{name} for the closed top-level list; a/{name}, a/{name}, b/{name}, é/{name} for the rest",
+      "actual": "12 of 12 as expected. Messages name the cause: RecursionError, ValueError (int digits limit), UnicodeDecodeError, JSONDecodeError",
+      "result": "pass",
+      "specSource": "R-016 acceptance; R-014 quote; VS-6 note",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:139",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-12 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "fix-adjacent states",
+          "inline": "deep arrays              Fail RecursionError\ndeep objects             Fail RecursionError\ndeep mixed               Fail RecursionError\ndeep under branchFormat  Fail RecursionError\ndeep closed arrays       return sdlc/{name}\nnested 400 with format   return a/{name}\nhuge integer             Fail ValueError\ninvalid utf-8            Fail UnicodeDecodeError\nempty file               Fail JSONDecodeError\nNaN literal              return a/{name}\nduplicate key            return b/{name}\nunicode format           return é/{name}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-014",
+        "R-016"
+      ],
+      "title": "main(argv) in-process returns 2 with one JSON error for each deep config, and the next call still works",
+      "given": "a module loaded by path; repos with 200000 nested [, 100000 nested {\"a\":, and feature/{name}",
+      "when": "main() runs parse, name, list, preflight on the deep repos, then parse on the good repo and parse with --format on a deep repo, in one process",
+      "then": "no exception escapes; each call prints one JSON line; later calls are not damaged by the earlier RecursionError",
+      "expected": "rc 2 2 2 2 2 0 0; formats feature/{name} and sdlc/{name} for the last two; empty stderr",
+      "actual": "rc 2 2 2 2 2 0 0; exc none; one line each; formats feature/{name}, sdlc/{name}; stderr ''",
+      "result": "pass",
+      "specSource": "R-014 quote; R-013 (main callable by an importer)",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:162",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-13 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "in-process calls",
+          "inline": "parse     rc 2 ok false\nname      rc 2 ok false\nlist      rc 2 ok false\npreflight rc 2 ok false\nparse     rc 2 ok false\nparse     rc 0 ok true format feature/{name}\nparse     rc 0 ok true format sdlc/{name} (--format given, config not read)\nstderr: ''"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-14",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-014"
+      ],
+      "title": "The CLI gives one JSON error with exit 2 for each deep config on all four commands",
+      "given": "repos with 200000 nested [ and 100000 nested {\"a\":",
+      "when": "name, parse, list and preflight run through the testkit cli-runner without --format",
+      "then": "exit 2, one JSON line, ok false, empty stderr, no file change",
+      "expected": "8 of 8 rows exit 2 with one JSON error",
+      "actual": "8 of 8 as expected; stderr empty; tree unchanged",
+      "result": "pass",
+      "specSource": "R-014 quote",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:205",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-14 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "CLI rows",
+          "inline": "arrays parse/name/list/preflight   2 ok:false 1 line stderr ''\nobjects parse/name/list/preflight  2 ok:false 1 line stderr ''"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-15",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-016"
+      ],
+      "title": "load_format gives the same outcome for the same config across two processes",
+      "given": "arb.configShape with seed 20261010",
+      "when": "two separate batches of 300 load_format calls run on identical materialized configs",
+      "then": "each pair has the same outcome, value and type",
+      "expected": "0 differences, 0 violations",
+      "actual": "0 differences, 0 violations in either batch",
+      "result": "pass",
+      "specSource": "Contract profile determinism corner; R-016",
+      "test": ".sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs:223",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-001 at 4434d71> node --test --test-name-pattern \"TC-contract-15 \" .sdlc/slices/S-001/verification/r1/tests/contract-0/branches.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "determinism",
+          "inline": "seed=20261010 runs=300 differences=0 violationsA=0 violationsB=0"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "branches.py: load_format reports a NUL in the repo path as invalid JSON",
+      "detail": "An in-process caller that passes a repo path with a NUL gets Fail with '<path> is not valid JSON: ValueError: embedded null byte'. The file is never read, so the message names the wrong cause. The CLI cannot receive a NUL in argv. Catch the path error before the JSON parse, or word the message by cause.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py: a config.json with an integer over 4300 digits is refused",
+      "detail": "Valid JSON with a 5000-digit integer in any key makes load_format raise Fail (Python int digits limit, ValueError). The branchFormat key is valid, but the whole config is refused. This is an unlikely config; record it for the bar raiser.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
