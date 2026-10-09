@@ -2613,7 +2613,7 @@
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:96",
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:108"
       ],
-      "commit": "pending"
+      "commit": "58aba0554d246e14a22629bf32189d98662af471"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2658,7 +2658,7 @@
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:96",
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:108"
       ],
-      "commit": "pending"
+      "commit": "58aba0554d246e14a22629bf32189d98662af471"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2702,7 +2702,7 @@
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:96",
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:108"
       ],
-      "commit": "pending"
+      "commit": "58aba0554d246e14a22629bf32189d98662af471"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -2747,7 +2747,7 @@
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:96",
         ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:108"
       ],
-      "commit": "pending"
+      "commit": "58aba0554d246e14a22629bf32189d98662af471"
     },
     "notes": "added by the completeness critic (structures)"
   },
