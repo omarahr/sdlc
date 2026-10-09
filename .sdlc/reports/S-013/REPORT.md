@@ -31,7 +31,7 @@ The committed tests `T-R-027a` to `T-R-084a` in `skills/sdlc/test/branches.test.
 
 ## Scenarios
 ### VS-1 · read_rules makes one gh call per sample with every slash encoded as %2F
-Profiles: contract, security. Risk: Samples sdlc/S-001, M-1-e2e, and odd ones (space, %, ?, #, .
+Profiles: contract, security. Risk: A hostile sample could add a path segment or an argv item.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
@@ -126,7 +126,7 @@ Profiles: contract, security. Risk: Samples sdlc/S-001, M-1-e2e, and odd ones (s
 </details>
 
 ### VS-2 · only branch_name_pattern objects become rules, with the five-key shape and field mapping
-Profiles: contract. Risk: Mixed rule types; missing parameters; non-dict items; negate absent, true, non-bool; label falls back name, ruleset id, branch_name_pattern; empty name.
+Profiles: contract. Risk: A wrong mapping could hide an active rule.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
@@ -166,7 +166,7 @@ Profiles: contract. Risk: Mixed rule types; missing parameters; non-dict items; 
 </details>
 
 ### VS-3 · rules stay with their own sample and the union has no duplicates
-Profiles: contract. Risk: Two or more samples with different, overlapping and empty bodies.
+Profiles: contract. Risk: A rule could judge a sample it does not apply to.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
@@ -198,7 +198,7 @@ Profiles: contract. Risk: Two or more samples with different, overlapping and em
 </details>
 
 ### VS-4 · a failing gh gives one note and unchecked samples
-Profiles: contract, security. Risk: Exit 1 with stderr, exit 1 with empty stderr, non-JSON output, JSON object not list, huge or deeply nested JSON, hung gh (timeout), failure on the second sample.
+Profiles: contract, security. Risk: A failed read could pass as a clean read.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
@@ -314,7 +314,7 @@ Profiles: contract, security. Risk: Exit 1 with stderr, exit 1 with empty stderr
 </details>
 
 ### VS-5 · gh absent from PATH does not crash the read
-Profiles: contract. Risk: PATH holds python3 and git only.
+Profiles: contract. Risk: A missing gh could crash the run.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
@@ -346,7 +346,7 @@ Profiles: contract. Risk: PATH holds python3 and git only.
 </details>
 
 ### VS-6 · config problems keep one message and the old format loader still works
-Profiles: contract. Risk: forge absent, empty, wrong type, invalid JSON, directory, unreadable config, missing .
+Profiles: contract. Risk: A config change could break the old format loader.
 
 | Case | What it proves | Result | Test |
 |---|---|---|---|
