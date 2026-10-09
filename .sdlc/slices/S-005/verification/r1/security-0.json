@@ -1,0 +1,795 @@
+{
+ "profile": "security",
+ "part": 0,
+ "round": 1,
+ "commit": "112b45b",
+ "environment": "macOS (Darwin 25.6.0), Python 3.14.7, Node test runner, git 2.50.1, gh 2.97.0; scratch copies of skills/sdlc and hooks; local bare git remote and a 127.0.0.1 HTTP stub",
+ "cases": [
+  {
+   "id": "TC-security-1",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "git --work-tree <pinned verb> push through the state-write.py git wrapper hides a push",
+   "given": "a copy of skills/sdlc and hooks at commit 112b45b",
+   "when": "append git(repo, \"--work-tree\", \"fetch\", \"push\", \"origin\", \"sdlc/S-001-v0-http-api-0\") to state-write.py and run push_guard.py",
+   "then": "the output must differ from the pins",
+   "expected": "pushes or wrapperVerbs changes",
+   "actual": "the output equals the pins: the scanner skips --work-tree as a flag and reads its value fetch as the verb; fetch is already pinned",
+   "result": "fail",
+   "specSource": "tests.md R-119 scope: a push through a pinned wrapper counts in any spelling of the constant arguments, options before the verb included; ADR-20261009-062930-decision-judge-S-005-388e (constant-folded wrapper verbs, pinned push calls)",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:80",
+   "command": "node --test --test-name-pattern 'TC-security-1:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "git(repo, '--work-tree', 'fetch', 'push', 'origin', VERIFY)\n-> breaches() = []  (pushes, wrapperVerbs, opaque unchanged)\ncause: classify() skips only -C and -c values; --work-tree, --git-dir, --namespace and --config-env take a separate value in git"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-2",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "git --work-tree show push through the next-action.py run wrapper hides a push",
+   "given": "the same copy",
+   "when": "append run(repo, \"git\", \"--work-tree\", \"show\", \"push\", \"origin\", VERIFY) to next-action.py",
+   "then": "the output must differ from the pins",
+   "expected": "a pin changes",
+   "actual": "the output equals the pins; the verb reads as show",
+   "result": "fail",
+   "specSource": "tests.md R-119 scope: a push through a pinned wrapper counts in any spelling of the constant arguments, options before the verb included; ADR-20261009-062930-decision-judge-S-005-388e (constant-folded wrapper verbs, pinned push calls)",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:81",
+   "command": "node --test --test-name-pattern 'TC-security-2:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "run(repo, 'git', '--work-tree', 'show', 'push', 'origin', VERIFY) -> breaches() = []"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-3",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "git --work-tree diff push through the impact.py git_lines wrapper hides a push",
+   "given": "the same copy",
+   "when": "append git_lines([\"--work-tree\", \"diff\", \"push\", \"origin\", VERIFY], repo) to impact.py",
+   "then": "the output must differ from the pins",
+   "expected": "a pin changes",
+   "actual": "the output equals the pins; the verb reads as diff",
+   "result": "fail",
+   "specSource": "tests.md R-119 scope: a push through a pinned wrapper counts in any spelling of the constant arguments, options before the verb included; ADR-20261009-062930-decision-judge-S-005-388e (constant-folded wrapper verbs, pinned push calls)",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:82",
+   "command": "node --test --test-name-pattern 'TC-security-3:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "git_lines(['--work-tree', 'diff', 'push', 'origin', VERIFY], repo) -> breaches() = []"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-4",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "gh pr --milestone list create inside load_prs creates a pull request and keeps every pin",
+   "given": "the same copy",
+   "when": "insert run(repo, \"gh\", \"pr\", \"--milestone\", \"list\", \"create\", \"--fill\", \"--head\", b) as the first line of load_prs in next-action.py",
+   "then": "forgeViolations must hold verb pr create, or a pin must change",
+   "expected": "a forge violation",
+   "actual": "the output equals the pins: --milestone is not in GH_VALUE_OPTS, so its value list becomes the sub-verb and the call reads as the pinned gh pr list",
+   "result": "fail",
+   "specSource": "tests.md R-119 scope: a gh or glab call that creates a pull request is covered in any spelling, options before the verb included; forge rule bans the verb pr create",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:83",
+   "command": "node --test --test-name-pattern 'TC-security-4:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "run(repo, 'gh', 'pr', '--milestone', 'list', 'create', '--fill', '--head', b) in load_prs -> breaches() = []\nother value flags missing from GH_VALUE_OPTS: -m, -r/--reviewer, --recover"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-5",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "pydoc.pipepager runs a shell command and the scanner does not see it",
+   "given": "the same copy",
+   "when": "append import pydoc; pydoc.pipepager(\"\", \"git push origin sdlc/S-001-v0-http-api-0\") to janitor.py",
+   "then": "a process call must change the direct pin",
+   "expected": "direct changes",
+   "actual": "the output equals the pins; pydoc is not a watched module",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e: a new form in neither list is covered when it is a process or network call in a scanned file",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:84",
+   "command": "node --test --test-name-pattern 'TC-security-5:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "pydoc.pipepager('', 'git push origin ' + VERIFY) -> breaches() = []\npipepager calls subprocess.Popen(cmd, shell=True); TC-security-10 proves it runs"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-6",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "logging.handlers.HTTPHandler POSTs to the pulls API and the scanner does not see it",
+   "given": "the same copy",
+   "when": "append HTTPHandler(\"api.github.com\", \"/repos/o/r/pulls\", method=\"POST\", secure=True).emit(None) to janitor.py",
+   "then": "a network call must change the network pin",
+   "expected": "network changes",
+   "actual": "the output equals the pins; logging is not a watched module",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e: a new form in neither list is covered when it is a process or network call in a scanned file",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:85",
+   "command": "node --test --test-name-pattern 'TC-security-6:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "logging.handlers.HTTPHandler(..., '/repos/o/r/pulls', method='POST') -> breaches() = []"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-7",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "uuid._get_command_stdout runs git push and the scanner does not see it",
+   "given": "the same copy, Python 3.14.7",
+   "when": "append import uuid; uuid._get_command_stdout(\"git\", \"push\", \"origin\", VERIFY) to janitor.py",
+   "then": "a process call must change the direct pin",
+   "expected": "direct changes",
+   "actual": "the output equals the pins",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e: a new form in neither list is covered when it is a process or network call in a scanned file",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:86",
+   "command": "node --test --test-name-pattern 'TC-security-7:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "uuid._get_command_stdout('git', 'push', 'origin', VERIFY) -> breaches() = []\nthe helper calls subprocess.Popen((executable,) + args)"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-8",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "xml.dom.minidom.parse fetches a URL and the scanner does not see it",
+   "given": "the same copy",
+   "when": "append xml.dom.minidom.parse(\"https://api.github.com/repos/o/r/pulls\") to janitor.py",
+   "then": "a network call must change the network pin",
+   "expected": "network changes",
+   "actual": "the output equals the pins",
+   "result": "fail",
+   "specSource": "ADR-20261009-062930-decision-judge-S-005-388e: a new form in neither list is covered when it is a process or network call in a scanned file; a GET only, so it cannot create a pull request",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:87",
+   "command": "node --test --test-name-pattern 'TC-security-8:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "xml.dom.minidom.parse('https://api.github.com/...') -> breaches() = []"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-9",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "git --work-tree fetch push really pushes a verify branch to a remote",
+   "given": "a scratch repo with branch sdlc/S-001-v0-http-api-0 and a local bare remote",
+   "when": "run git -C w --work-tree fetch push origin sdlc/S-001-v0-http-api-0",
+   "then": "the remote gets the verify ref",
+   "expected": "the push succeeds",
+   "actual": "exit 0; the bare remote holds refs/heads/sdlc/S-001-v0-http-api-0",
+   "result": "pass",
+   "specSource": "proof for TC-security-1 to 3",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:97",
+   "command": "node --test --test-name-pattern 'TC-security-9:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "db-diff",
+     "title": "remote refs before and after",
+     "inline": "before: (none)\nafter:  refs/heads/sdlc/S-001-v0-http-api-0"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-10",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "pydoc.pipepager runs a command and HTTPHandler sends a POST",
+   "given": "a stub HTTP server on 127.0.0.1",
+   "when": "emit a record through HTTPHandler and call pydoc.pipepager with touch <marker>",
+   "then": "the stub sees one POST and the marker exists",
+   "expected": "both side effects occur",
+   "actual": "[[\"POST\",\"/repos/o/r/pulls\"]] and the marker file exists",
+   "result": "pass",
+   "specSource": "proof for TC-security-5 and 6",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:112",
+   "command": "node --test --test-name-pattern 'TC-security-10:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "http-exchange",
+     "title": "stub server",
+     "inline": "POST /repos/o/r/pulls\n-> 201"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-11",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "gh routes pr --milestone list create to the pr create command",
+   "given": "gh 2.97.0",
+   "when": "run gh pr --milestone list create --help",
+   "then": "the create help prints",
+   "expected": "gh reads create as the sub-verb",
+   "actual": "\"Create a pull request on GitHub.\"",
+   "result": "pass",
+   "specSource": "proof for TC-security-4",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:134",
+   "command": "node --test --test-name-pattern 'TC-security-11:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "gh help",
+     "inline": "$ gh pr --milestone list create --help\nCreate a pull request on GitHub."
+    }
+   ]
+  },
+  {
+   "id": "TC-security-12",
+   "scenarioId": "VS-9",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "35 VS-9 plan forms each break a pin",
+   "given": "the same copy",
+   "when": "apply each form: import aliases, posix_spawn, execvp, pty, asyncio, starred, tuple and args= argv, f-string verb, lambda, partial, -c alias, -C value, --git-dir=, gh api -X post, --method=POST, -XPOST, --field=, -ftitle=x, pulls split by +, graphql, glab mr create, gh pr create, getattr, __import__, importlib, and seven JS global forms",
+   "then": "each output differs from the pins",
+   "expected": "no form missed",
+   "actual": "no form missed",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope: a push through a pinned wrapper counts in any spelling of the constant arguments, options before the verb included; ADR-20261009-062930-decision-judge-S-005-388e (constant-folded wrapper verbs, pinned push calls)",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:177",
+   "command": "node --test --test-name-pattern 'TC-security-12:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "35 forms, 0 missed; see the HELD table in the test file"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-13",
+   "scenarioId": "VS-11",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "new, unreadable and odd files fail closed",
+   "given": "the same copy",
+   "when": "add a syntax error, invalid UTF-8, a BOM, a latin-1 cookie, a NUL byte, a new subdirectory, a symlinked .py file, hooks/x.sh, x.mjs, x.cjs, a shebang file with no extension and x.PY",
+   "then": "each case breaks a pin or exits non-zero",
+   "expected": "no case missed",
+   "actual": "no case missed",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope: scanned files and the pinned file list; ADR-20261009-062930-decision-judge-S-005-388e",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:184",
+   "command": "node --test --test-name-pattern 'TC-security-13:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "12 cases, 0 missed"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-14",
+   "scenarioId": "VS-11",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "a crash of push_guard.py is a non-zero exit, not an empty report",
+   "given": "janitor.py with mode 000",
+   "when": "run push_guard.py",
+   "then": "a non-zero exit with no stdout",
+   "expected": "PermissionError",
+   "actual": "exit 1, empty stdout, PermissionError on stderr; the T-R-119 guard() helper asserts exit 0, so the suite fails",
+   "result": "pass",
+   "specSource": "tests.md R-119 scope",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:213",
+   "command": "node --test --test-name-pattern 'TC-security-14:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "stderr",
+     "inline": "PermissionError: [Errno 13] Permission denied: '.../skills/sdlc/janitor.py'"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-15",
+   "scenarioId": "VS-11",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "a .py file under a symlinked directory is skipped and the output equals the pins",
+   "given": "the same copy with skills/sdlc/lib a symlink to a directory that holds x.py with a subprocess push; janitor.py imports lib.x",
+   "when": "run push_guard.py",
+   "then": "the file is scanned or reported, or the guard exits non-zero",
+   "expected": "files or direct changes",
+   "actual": "exit 0 and the output equals the pins: os.walk does not follow directory links, so skills/sdlc/lib/x.py is never listed",
+   "result": "fail",
+   "specSource": "tests.md R-119 scope: scanned files are every file under skills/sdlc and hooks; ADR-20261009-062930-decision-judge-S-005-388e covers the pinned list of scanned files. The link target lives outside the tree, so a judge can read this as S5",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:223",
+   "command": "node --test --test-name-pattern 'TC-security-15:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "attack",
+     "inline": "symlink skills/sdlc/lib -> <tmp>/lib (x.py holds subprocess.run(['git','push',...]))\nimport lib.x appended to janitor.py\n-> exit 0, breaches() = []"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-16",
+   "scenarioId": "VS-4",
+   "requirementIds": [
+    "R-009",
+    "R-010"
+   ],
+   "title": "hostile id and profile values never crash and stay under the prefix",
+   "given": "a scratch git repo",
+   "when": "run name --kind verify and --kind attempt with each argv-safe entry of traversal, control-chars, flag-like-values, unicode-whitespace, unicode-confusables, injection and format-strings as --id or --profile",
+   "then": "exit 0 or 2, one JSON line, no traceback, no tree change, and every name under sdlc/",
+   "expected": "all hold",
+   "actual": "all hold; 36 entries give a ref-unsafe name (seed)",
+   "result": "pass",
+   "specSource": "R-009 and R-010 acceptance; the plan's VS-4 and VS-6 notes",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:248",
+   "command": "node --test --test-name-pattern 'TC-security-16:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "file-tree",
+     "title": "tree diff",
+     "inline": "treeUnchanged = true for every run"
+    },
+    {
+     "kind": "log",
+     "title": "run log",
+     "path": ".sdlc/slices/S-005/verification/r1/logs/security-0-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-17",
+   "scenarioId": "VS-6",
+   "requirementIds": [
+    "R-009",
+    "R-010"
+   ],
+   "title": "malformed round, part and n exit 2 or give an ASCII name",
+   "given": "a scratch git repo",
+   "when": "run integer-forms, huge-integers and unicode-digits as --round, --part and --n",
+   "then": "exit 0 or 2, one JSON line, no traceback, no tree change, ASCII names",
+   "expected": "all hold",
+   "actual": "all hold; 63 values are accepted, negatives give S-001-v-1-http-api-0 and S-001-attempt--1",
+   "result": "pass",
+   "specSource": "R-009 and R-010 acceptance",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:270",
+   "command": "node --test --test-name-pattern 'TC-security-17:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "file-tree",
+     "title": "tree diff",
+     "inline": "treeUnchanged = true for every run"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-18",
+   "scenarioId": "VS-6",
+   "requirementIds": [
+    "R-009",
+    "R-010"
+   ],
+   "title": "a missing part exits 2 with one JSON error that names the part",
+   "given": "a scratch git repo",
+   "when": "drop each of --id, --round, --profile, --part for verify, and --id or --n for attempt; pass --ts for state",
+   "then": "exit 2 and an error that names the part; --ts exits 2",
+   "expected": "all hold",
+   "actual": "all hold",
+   "result": "pass",
+   "specSource": "R-009 and R-010 acceptance; tests.md T-R-009c and T-R-010c",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:291",
+   "command": "node --test --test-name-pattern 'TC-security-18:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "transcript",
+     "title": "one example",
+     "inline": "name --kind verify (no --profile)\n-> exit 2 {\"ok\": false, \"error\": \"a verify branch name needs a non-empty profile\"}"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-19",
+   "scenarioId": "VS-2",
+   "requirementIds": [
+    "R-008"
+   ],
+   "title": "an explicit state ts is used as given, and empty or None generates one",
+   "given": "branches.py loaded by path",
+   "when": "call name(fmt, 'state', ts=...) for '20261008101500', '', None, 0 and hostile values",
+   "then": "the explicit ts is used as given; empty and None give 14 digits",
+   "expected": "all hold",
+   "actual": "sdlc/state-20261008101500 and feature/PROJ-1-state-20261008101500; ts 0 gives sdlc/state-0; ts '../../x' is used as given",
+   "result": "pass",
+   "specSource": "R-008 acceptance",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:315",
+   "command": "node --test --test-name-pattern 'TC-security-19:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "API results",
+     "inline": "ts 0 -> sdlc/state-0\nts '../../x' -> sdlc/state-../../x\nts 'a@{1} b\\x01' -> used as given"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-20",
+   "scenarioId": "VS-8",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "the three pinned pushes target the run branch and milestone branches only",
+   "given": "the slice tree at 112b45b",
+   "when": "run push_guard.py and read the three push sites in state-write.py; run node --test skills/sdlc/test/push-guard.test.mjs",
+   "then": "three pushes: advance_run_branch (config.runBranch), ensure_milestone_branch (sdlc/<milestone id>) and prune_stale_milestone_branches (^sdlc/M-\\d+$); one forge read; T-R-119a to e2 pass",
+   "expected": "all hold",
+   "actual": "all hold; push-guard.test.mjs passes 6 of 6",
+   "result": "pass",
+   "specSource": "R-119 acceptance",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:355",
+   "command": "node --test --test-name-pattern 'TC-security-20:' .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "log",
+     "title": "push-guard.test.mjs run",
+     "path": ".sdlc/slices/S-005/verification/r1/logs/security-0-vs8.txt"
+    }
+   ]
+  }
+ ],
+ "attacks": [
+  {
+   "id": "A-1",
+   "charter": "VS-9",
+   "input": "append git(repo, \"--work-tree\", \"fetch\", \"push\", \"origin\", \"sdlc/S-001-v0-http-api-0\") to state-write.py and run push_guard.py",
+   "expected": "pushes or wrapperVerbs changes",
+   "observed": "the output equals the pins: the scanner skips --work-tree as a flag and reads its value fetch as the verb; fetch is already pinned",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:80"
+  },
+  {
+   "id": "A-2",
+   "charter": "VS-9",
+   "input": "append run(repo, \"git\", \"--work-tree\", \"show\", \"push\", \"origin\", VERIFY) to next-action.py",
+   "expected": "a pin changes",
+   "observed": "the output equals the pins; the verb reads as show",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:81"
+  },
+  {
+   "id": "A-3",
+   "charter": "VS-9",
+   "input": "append git_lines([\"--work-tree\", \"diff\", \"push\", \"origin\", VERIFY], repo) to impact.py",
+   "expected": "a pin changes",
+   "observed": "the output equals the pins; the verb reads as diff",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:82"
+  },
+  {
+   "id": "A-4",
+   "charter": "VS-9",
+   "input": "insert run(repo, \"gh\", \"pr\", \"--milestone\", \"list\", \"create\", \"--fill\", \"--head\", b) as the first line of load_prs in next-action.py",
+   "expected": "a forge violation",
+   "observed": "the output equals the pins: --milestone is not in GH_VALUE_OPTS, so its value list becomes the sub-verb and the call reads as the pinned gh pr list",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:83"
+  },
+  {
+   "id": "A-5",
+   "charter": "VS-9",
+   "input": "append import pydoc; pydoc.pipepager(\"\", \"git push origin sdlc/S-001-v0-http-api-0\") to janitor.py",
+   "expected": "direct changes",
+   "observed": "the output equals the pins; pydoc is not a watched module",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:84"
+  },
+  {
+   "id": "A-6",
+   "charter": "VS-9",
+   "input": "append HTTPHandler(\"api.github.com\", \"/repos/o/r/pulls\", method=\"POST\", secure=True).emit(None) to janitor.py",
+   "expected": "network changes",
+   "observed": "the output equals the pins; logging is not a watched module",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:85"
+  },
+  {
+   "id": "A-7",
+   "charter": "VS-9",
+   "input": "append import uuid; uuid._get_command_stdout(\"git\", \"push\", \"origin\", VERIFY) to janitor.py",
+   "expected": "direct changes",
+   "observed": "the output equals the pins",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:86"
+  },
+  {
+   "id": "A-8",
+   "charter": "VS-9",
+   "input": "append xml.dom.minidom.parse(\"https://api.github.com/repos/o/r/pulls\") to janitor.py",
+   "expected": "network changes",
+   "observed": "the output equals the pins",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:87"
+  },
+  {
+   "id": "A-9",
+   "charter": "VS-9",
+   "input": "run git -C w --work-tree fetch push origin sdlc/S-001-v0-http-api-0",
+   "expected": "the push succeeds",
+   "observed": "exit 0; the bare remote holds refs/heads/sdlc/S-001-v0-http-api-0",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:97"
+  },
+  {
+   "id": "A-10",
+   "charter": "VS-9",
+   "input": "emit a record through HTTPHandler and call pydoc.pipepager with touch <marker>",
+   "expected": "both side effects occur",
+   "observed": "[[\"POST\",\"/repos/o/r/pulls\"]] and the marker file exists",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:112"
+  },
+  {
+   "id": "A-11",
+   "charter": "VS-9",
+   "input": "run gh pr --milestone list create --help",
+   "expected": "gh reads create as the sub-verb",
+   "observed": "\"Create a pull request on GitHub.\"",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:134"
+  },
+  {
+   "id": "A-12",
+   "charter": "VS-9",
+   "input": "apply each form: import aliases, posix_spawn, execvp, pty, asyncio, starred, tuple and args= argv, f-string verb, lambda, partial, -c alias, -C value, --git-dir=, gh api -X post, --method=POST, -XPOST, --field=, -ftitle=x, pulls split by +, graphql, glab mr create, gh pr create, getattr, __import__, importlib, and seven JS global forms",
+   "expected": "no form missed",
+   "observed": "no form missed",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:177"
+  },
+  {
+   "id": "A-13",
+   "charter": "VS-11",
+   "input": "add a syntax error, invalid UTF-8, a BOM, a latin-1 cookie, a NUL byte, a new subdirectory, a symlinked .py file, hooks/x.sh, x.mjs, x.cjs, a shebang file with no extension and x.PY",
+   "expected": "no case missed",
+   "observed": "no case missed",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:184"
+  },
+  {
+   "id": "A-14",
+   "charter": "VS-11",
+   "input": "run push_guard.py",
+   "expected": "PermissionError",
+   "observed": "exit 1, empty stdout, PermissionError on stderr; the T-R-119 guard() helper asserts exit 0, so the suite fails",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:213"
+  },
+  {
+   "id": "A-15",
+   "charter": "VS-11",
+   "input": "run push_guard.py",
+   "expected": "files or direct changes",
+   "observed": "exit 0 and the output equals the pins: os.walk does not follow directory links, so skills/sdlc/lib/x.py is never listed",
+   "result": "broke",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:223"
+  },
+  {
+   "id": "A-16",
+   "charter": "VS-4",
+   "input": "run name --kind verify and --kind attempt with each argv-safe entry of traversal, control-chars, flag-like-values, unicode-whitespace, unicode-confusables, injection and format-strings as --id or --profile",
+   "expected": "all hold",
+   "observed": "all hold; 36 entries give a ref-unsafe name (seed)",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:248"
+  },
+  {
+   "id": "A-17",
+   "charter": "VS-6",
+   "input": "run integer-forms, huge-integers and unicode-digits as --round, --part and --n",
+   "expected": "all hold",
+   "observed": "all hold; 63 values are accepted, negatives give S-001-v-1-http-api-0 and S-001-attempt--1",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:270"
+  },
+  {
+   "id": "A-18",
+   "charter": "VS-6",
+   "input": "drop each of --id, --round, --profile, --part for verify, and --id or --n for attempt; pass --ts for state",
+   "expected": "all hold",
+   "observed": "all hold",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:291"
+  },
+  {
+   "id": "A-19",
+   "charter": "VS-2",
+   "input": "call name(fmt, 'state', ts=...) for '20261008101500', '', None, 0 and hostile values",
+   "expected": "all hold",
+   "observed": "sdlc/state-20261008101500 and feature/PROJ-1-state-20261008101500; ts 0 gives sdlc/state-0; ts '../../x' is used as given",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:315"
+  },
+  {
+   "id": "A-20",
+   "charter": "VS-8",
+   "input": "run push_guard.py and read the three push sites in state-write.py; run node --test skills/sdlc/test/push-guard.test.mjs",
+   "expected": "all hold",
+   "observed": "all hold; push-guard.test.mjs passes 6 of 6",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:355"
+  },
+  {
+   "id": "A-21",
+   "charter": "VS-9",
+   "input": "import shutil; shutil.os.system('git push origin ' + VERIFY), and os.path.os.system",
+   "expected": "seed only",
+   "observed": "output equals the pins; S3: an attribute walk reaches os through another module",
+   "result": "out-of-scope",
+   "test": ""
+  },
+  {
+   "id": "A-22",
+   "charter": "VS-9",
+   "input": "sdlc-loop.js: (() => 1).constructor('return pro' + 'cess')",
+   "expected": "seed only",
+   "observed": "output equals the pins; S3: an attribute walk reaches Function with no banned identifier",
+   "result": "out-of-scope",
+   "test": ""
+  },
+  {
+   "id": "A-23",
+   "charter": "VS-9",
+   "input": "git(repo, '--exec-path=/tmp/x', 'fetch')",
+   "expected": "seed only",
+   "observed": "output equals the pins; S2: the option changes what a constant verb runs",
+   "result": "out-of-scope",
+   "test": ""
+  },
+  {
+   "id": "A-24",
+   "charter": "VS-11",
+   "input": "skills/sdlc/tracker/test/x.py with a push",
+   "expected": "seed only",
+   "observed": "output equals the pins; S5: test directories are skipped at every depth",
+   "result": "out-of-scope",
+   "test": ""
+  },
+  {
+   "id": "A-25",
+   "charter": "VS-9",
+   "input": "cProfile.run('import subprocess') in janitor.py",
+   "expected": "seed only",
+   "observed": "output equals the pins; other new form: string code execution outside DYNAMIC_NAMES (cProfile, profile, timeit, pdb, trace)",
+   "result": "out-of-scope",
+   "test": ""
+  },
+  {
+   "id": "A-26",
+   "charter": "VS-9",
+   "input": "fetch('https://api.github.com/repos/o/r/pulls', {method: 'POST'}) in tracker/template.html",
+   "expected": "seed only",
+   "observed": "output equals the pins; other new form: browser script in an .html template, not a skill script",
+   "result": "out-of-scope",
+   "test": ""
+  }
+ ],
+ "seeds": [
+  {
+   "title": "S3: os reached through another module's attribute",
+   "detail": "shutil.os.system(...) and os.path.os.system(...) qualify as shutil.os.system and os.path.os.system, so is_process misses them. The output equals the pins.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "S3: JS Function reached through .constructor",
+   "detail": "(() => 1).constructor('return pro' + 'cess') in sdlc-loop.js uses no banned identifier. jsHits stays empty.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "S2: git --exec-path= before a pinned verb",
+   "detail": "git(repo, '--exec-path=/tmp/x', 'fetch') keeps every pin. The option selects another git-fetch binary.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "S5: skipped directory names match at every depth",
+   "detail": "skills/sdlc/tracker/test/x.py is not scanned. A scanned script can import it.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "String code execution outside DYNAMIC_NAMES",
+   "detail": "cProfile.run, profile.run, timeit.timeit, pdb.run and trace run a code string. The scanner does not report them.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "Browser script in tracker/template.html is not scanned",
+   "detail": "A fetch POST in the .html template keeps every pin. The page holds no forge token today.",
+   "file": "skills/sdlc/tracker/template.html"
+  },
+  {
+   "title": "Hostile state ts is used as given",
+   "detail": "name(fmt, 'state', ts='../../x') gives sdlc/state-../../x, and ts 0 gives sdlc/state-0. The name is not checked with git check-ref-format. Negative round, part and n were reported in earlier rounds.",
+   "file": "skills/sdlc/branches.py"
+  },
+  {
+   "title": "testkit: pycall.py takes positional arguments only",
+   "detail": "name(fmt, kind, **parts) and tail(kind, **parts) need keyword arguments. The test loads branches.py with its own script.",
+   "file": "skills/sdlc/test/testkit/pycall.py"
+  }
+ ]
+}

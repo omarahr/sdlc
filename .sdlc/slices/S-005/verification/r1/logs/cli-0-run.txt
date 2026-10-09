@@ -1,0 +1,138 @@
+✔ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (158.570459ms)
+✔ verify cli: TC-cli-13 every round 0 to 2 mutant changes the guard output (2076.575292ms)
+✔ verify cli: TC-cli-15 the new in-scope forms named by the plan change the guard output (2604.67125ms)
+✔ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (834.095042ms)
+✔ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (537.167375ms)
+✔ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (361.790459ms)
+✔ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (160.702542ms)
+✔ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (263.386542ms)
+✔ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (414.834083ms)
+✔ verify cli: TC-cli-52 a new script file or a new script type changes the files pin or the extension check (672.575334ms)
+✔ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (98.517833ms)
+✔ verify cli: seed probes outside the R-119 scope (813.760416ms)
+✖ verify cli: TC-cli-55 a capitalized process API bound to a name hides a real verify push (697.284583ms)
+✖ verify cli: TC-cli-56 a process module reached through a globals() subscript hides a real verify push (616.069125ms)
+✖ verify cli: TC-cli-57 exec, eval or __import__ bound to a name hides a real verify push (604.701375ms)
+✖ verify cli: TC-cli-58 a standard library helper outside the watched modules runs a verify push or a POST (621.771834ms)
+✔ verify cli: TC-cli-59 seed probe: a process module re-exported by another module (615.379458ms)
+✔ verify cli: TC-cli-60 every source encoding cookie either is read as UTF-8 or makes the file opaque (576.904625ms)
+✔ verify cli: TC-cli-61 every unicode escape spelling of a banned loop identifier is a hit (489.228041ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 15
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13579.086667
+
+✖ failing tests:
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:418:1
+✖ verify cli: TC-cli-55 a capitalized process API bound to a name hides a real verify push (697.284583ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: subprocess.Popen bound to a local name; a class that subclasses subprocess.Popen; subprocess.Popen as a default parameter value; subprocess.Popen in a list subscript
+  + actual - expected
+  
+  + [
+  +   'subprocess.Popen bound to a local name',
+  +   'a class that subclasses subprocess.Popen',
+  +   'subprocess.Popen as a default parameter value',
+  +   'subprocess.Popen in a list subscript'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:422:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'subprocess.Popen bound to a local name', 'a class that subclasses subprocess.Popen', 'subprocess.Popen as a default parameter value', 'subprocess.Popen in a list subscript' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:425:1
+✖ verify cli: TC-cli-56 a process module reached through a globals() subscript hides a real verify push (616.069125ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: globals()["subprocess"].run; globals().get("os").system; globals()["os"].system
+  + actual - expected
+  
+  + [
+  +   'globals()["subprocess"].run',
+  +   'globals().get("os").system',
+  +   'globals()["os"].system'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:429:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'globals()["subprocess"].run', 'globals().get("os").system', 'globals()["os"].system' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:432:1
+✖ verify cli: TC-cli-57 exec, eval or __import__ bound to a name hides a real verify push (604.701375ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: exec bound to a local name; __import__ bound to a local name; eval as a default parameter value
+  + actual - expected
+  
+  + [
+  +   'exec bound to a local name',
+  +   '__import__ bound to a local name',
+  +   'eval as a default parameter value'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:436:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'exec bound to a local name', '__import__ bound to a local name', 'eval as a default parameter value' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:439:1
+✖ verify cli: TC-cli-58 a standard library helper outside the watched modules runs a verify push or a POST (621.771834ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: pydoc.pipepager in ste-check.py; pydoc.tempfilepager in janitor.py; logging.handlers.HTTPHandler POST in janitor.py
+  + actual - expected
+  
+  + [
+  +   'pydoc.pipepager in ste-check.py',
+  +   'pydoc.tempfilepager in janitor.py',
+  +   'logging.handlers.HTTPHandler POST in janitor.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:446:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'pydoc.pipepager in ste-check.py', 'pydoc.tempfilepager in janitor.py', 'logging.handlers.HTTPHandler POST in janitor.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

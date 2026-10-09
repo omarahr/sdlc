@@ -1,0 +1,21 @@
+✔ verify cli: TC-cli-1 state name is sdlc/state- plus 14 UTC digits under far time zones (1040.878084ms)
+✔ verify cli: TC-cli-2 state name keeps its tail under custom formats and ignores extra flags (853.198708ms)
+✔ verify cli: TC-cli-3 verify name matches the spec example, the loop builder and every catalog profile (8419.756667ms)
+✔ verify cli: TC-cli-4 verify name with a missing or empty part exits 2 with one JSON error naming it (1039.032709ms)
+✔ verify cli: TC-cli-5 malformed --round and --part are refused or give an ASCII integer (13677.609917ms)
+✔ verify cli: TC-cli-6 hostile --profile and --id values never crash and never escape the format prefix (30359.009875ms)
+✔ verify cli: TC-cli-7 attempt name matches the spec example for plain and fix ids, and extra flags do not leak (847.130125ms)
+✔ verify cli: TC-cli-8 attempt name with a missing or malformed number exits 2 or gives an ASCII integer (6195.503792ms)
+✔ verify cli: TC-cli-9 custom branch formats wrap verify and attempt tails, --format wins, a bad format exits 2 (2839.019875ms)
+✔ verify cli: TC-cli-10 push_guard.py output equals the pins and each pinned push site is in the source (83.5295ms)
+✔ verify cli: TC-cli-11 push-guard.test.mjs passes from the repo root, from another cwd and from a copied path with spaces (12873.395458ms)
+✔ verify cli: TC-cli-19 the loop gives its verify branch builder only to the profile agent and the collector (0.46575ms)
+✔ verify cli: TC-cli-20 the verify prompts hold no push or pull-request command (0.849833ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 78336.183208

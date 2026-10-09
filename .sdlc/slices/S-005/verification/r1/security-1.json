@@ -1,0 +1,268 @@
+{
+ "profile": "security",
+ "part": 1,
+ "round": 1,
+ "commit": "112b45b",
+ "environment": "macOS, Python 3.14.7, Node 24.19.0; push_guard.py run on scratch copies of skills/sdlc and hooks from sdlc/S-005 at 112b45b; gh, glab and git shims on PATH for the no-side-effect case",
+ "charter": [
+  "VS-10: Explore the R-119 forge rule with the spec-required GitHub and GitLab reads and wrapper git reads, to find a read that hits a ban (plan R-119 scope: 'Reads are allowed'; Risks: S-013 and S-014 reads 'hit no ban')."
+ ],
+ "threatModel": "Trusted: the skill scripts' authors and the human who reviews a pin change. Untrusted: a later slice's code change that adds a push or a forge write without a visible ban. Per ADR-20261009-062930-decision-judge-S-005-388e, a form refutes R-119 only when the guard output stays equal to the pins.",
+ "cases": [
+  {
+   "id": "TC-security-101",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The spec GitHub rules read in branches.py changes only the direct and forge pins",
+   "given": "A copy of skills/sdlc and hooks at 112b45b; the unmutated copy has no ban entry",
+   "when": "A new branches.py function calls gh api on repos/{owner}/{repo}/rules/branches/<quoted sample> in six spellings: spec placeholders, slug f-string, constant plus quote, check_output, --paginate/-i/timeout/env, and -XGET, --method=GET, -X get",
+   "then": "Only the direct and forge pins gain entries; forgeViolations, opaque, dynamic, wrapperValues, pushes and jsHits stay as before",
+   "expected": "Only the direct and forge pins gain entries; forgeViolations, opaque, dynamic, wrapperValues, pushes and jsHits stay as before",
+   "actual": "As expected. The forge pin gains 'branches.py _verify_read gh api repos/{owner}/{repo}/rules/branches/' or 'gh api repos/'. No ban entry.",
+   "result": "pass",
+   "specSource": "VS-10 notes; plan R-119 scope (forge rule: reads are allowed); ADR-20261009-062930-decision-judge-S-005-388e",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:70",
+   "command": "cd <worktree at sdlc/S-005 112b45b> && SDLC_VERIFY_ROOT=$PWD node --test .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "probes A, B, F, G, N, S, AB",
+     "path": ".sdlc/slices/S-005/verification/r1/logs/security-1-probes.txt"
+    },
+    {
+     "kind": "log",
+     "title": "test run",
+     "path": ".sdlc/slices/S-005/verification/r1/logs/security-1-run.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-102",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The spec quote import changes the network pin as well, and hits no ban",
+   "given": "The same copy",
+   "when": "The read uses urllib.parse.quote, as spec section 'GitHub' names it, through 'from urllib.parse import quote' or 'import urllib.parse'",
+   "then": "No ban key changes; the extra pin change is recorded",
+   "expected": "No ban key changes; the extra pin change is recorded",
+   "actual": "No ban entry. The network pin gains 'branches.py import urllib.parse', because push_guard.py lists all of urllib in NET_MODULES. The committed VS-10 test omits the import, so it does not show this pin change. Recorded as a seed.",
+   "result": "pass",
+   "specSource": "VS-10 notes; plan R-119 scope (forge rule: reads are allowed); ADR-20261009-062930-decision-judge-S-005-388e",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:87",
+   "command": "cd <worktree at sdlc/S-005 112b45b> && SDLC_VERIFY_ROOT=$PWD node --test .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "probes C, D",
+     "inline": "== C ... from urllib.parse import quote\n   direct [...]\n   network [\"branches.py import urllib.parse\"]\n   forge [\"branches.py _mutant gh api repos/\"]"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-103",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "gh api -X GET through the next-action run wrapper changes only the forge and wrapper-verb pins",
+   "given": "The same copy",
+   "when": "next-action.py gets run(repo, 'gh', 'api', '-X', 'GET', 'repos/o/r/rules/branches/x') and a run with an f-string rules path",
+   "then": "Only forge and wrapperVerbs change; wrapperVerbs gains 'next-action.py gh api'",
+   "expected": "Only forge and wrapperVerbs change; wrapperVerbs gains 'next-action.py gh api'",
+   "actual": "As expected. No ban entry.",
+   "result": "pass",
+   "specSource": "VS-10 notes; plan R-119 scope (forge rule: reads are allowed); ADR-20261009-062930-decision-judge-S-005-388e",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:96",
+   "command": "cd <worktree at sdlc/S-005 112b45b> && SDLC_VERIFY_ROOT=$PWD node --test .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "probes J, AC",
+     "inline": "== J gh -X GET via run\n   wrapperVerbs [\"next-action.py gh api\"]\n   forge [\"next-action.py _mutant gh api repos/o/r/rules/branches/x\"]"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-104",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The spec GitLab push rule read changes only a pin, direct or through run",
+   "given": "The same copy",
+   "when": "branches.py calls glab api projects/:fullpath/push_rule plain, with --hostname, and with -X GET --paginate; next-action.py calls it through run",
+   "then": "Direct calls change direct and forge only; the run call changes forge and wrapperVerbs only",
+   "expected": "Direct calls change direct and forge only; the run call changes forge and wrapperVerbs only",
+   "actual": "As expected. Forge gains '... glab api projects/:fullpath/push_rule'. No ban entry.",
+   "result": "pass",
+   "specSource": "VS-10 notes; plan R-119 scope (forge rule: reads are allowed); ADR-20261009-062930-decision-judge-S-005-388e",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:108",
+   "command": "cd <worktree at sdlc/S-005 112b45b> && SDLC_VERIFY_ROOT=$PWD node --test .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "probes H, I, K, Q, T, AD",
+     "path": ".sdlc/slices/S-005/verification/r1/logs/security-1-probes.txt"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-105",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "A git fetch through the state-write wrapper changes no pin; a git log adds one verb",
+   "given": "The same copy",
+   "when": "state-write.py gets git(repo, 'fetch', ...) alone, then git(repo, 'log', ...) with git(repo, 'fetch', ...)",
+   "then": "git fetch changes nothing, so T-R-119b passes; git log adds only 'state-write.py git log' to wrapperVerbs; pushes stay at three",
+   "expected": "git fetch changes nothing, so T-R-119b passes; git log adds only 'state-write.py git log' to wrapperVerbs; pushes stay at three",
+   "actual": "As expected. The fetch-only tree gives a zero delta. The log tree changes only wrapperVerbs.",
+   "result": "pass",
+   "specSource": "VS-10 notes (T-R-119b verb set); plan Risks ('A new call with a known verb does not fail T-R-119b')",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:125",
+   "command": "cd <worktree at sdlc/S-005 112b45b> && SDLC_VERIFY_ROOT=$PWD node --test .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "probes L, M",
+     "inline": "== L git log and fetch via state-write git\n   wrapperVerbs [\"state-write.py git log\"]\n== M git fetch only via state-write\n(no delta)"
+    }
+   ]
+  },
+  {
+   "id": "TC-security-106",
+   "scenarioId": "VS-10",
+   "requirementIds": [
+    "R-119"
+   ],
+   "title": "The guard reads the forge reads and never runs them",
+   "given": "gh, glab and git shims first on PATH write a marker file; branches.py gets a module-level line that writes a second marker, and two forge reads",
+   "when": "push_guard.py scans the copy",
+   "then": "The forge pin gains two entries; neither marker file exists",
+   "expected": "The forge pin gains two entries; neither marker file exists",
+   "actual": "As expected. No shim call and no module execution: the scan is a pure AST read.",
+   "result": "pass",
+   "specSource": "verify-security step 4 (prove no side effect)",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:134",
+   "command": "cd <worktree at sdlc/S-005 112b45b> && SDLC_VERIFY_ROOT=$PWD node --test .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs",
+   "manual": false,
+   "evidence": [
+    {
+     "kind": "attack",
+     "title": "no side effect",
+     "inline": "forge entries: base + 2\nexistsSync(<shim dir>/called) = false\nexistsSync(<shim dir>/imported) = false"
+    }
+   ]
+  }
+ ],
+ "attacks": [
+  {
+   "id": "VS10-A-1",
+   "charter": "Explore the forge rule with the spec GitHub rules read in many spellings, to find a spec-required read that hits a ban.",
+   "input": "probes A, B, F, G, N, S, AB",
+   "expected": "only direct and forge change",
+   "observed": "only direct and forge change",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:70"
+  },
+  {
+   "id": "VS10-A-2",
+   "charter": "Explore the network pin with the spec's own urllib.parse.quote import.",
+   "input": "probes C, D",
+   "expected": "no ban",
+   "observed": "no ban; network pin gains 'branches.py import urllib.parse'",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:87"
+  },
+  {
+   "id": "VS10-A-3",
+   "charter": "Explore the run wrapper with explicit GET reads.",
+   "input": "probes J, AC",
+   "expected": "forge and wrapperVerbs only",
+   "observed": "forge and wrapperVerbs only",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:96"
+  },
+  {
+   "id": "VS10-A-4",
+   "charter": "Explore the GitLab push rule read, direct and wrapped.",
+   "input": "probes H, I, K, Q, T, AD",
+   "expected": "a pin change only",
+   "observed": "a pin change only",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:108"
+  },
+  {
+   "id": "VS10-A-5",
+   "charter": "Explore T-R-119b with git fetch and git log through the state-write wrapper.",
+   "input": "probes L, M",
+   "expected": "fetch: no delta; log: one new verb",
+   "observed": "as expected",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:125"
+  },
+  {
+   "id": "VS10-A-6",
+   "charter": "Explore whether the guard executes scanned code or forge tools.",
+   "input": "shims for gh, glab, git; module-level marker write",
+   "expected": "no marker",
+   "observed": "no marker",
+   "result": "held",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:134"
+  },
+  {
+   "id": "VS10-A-7",
+   "charter": "Explore read spellings the spec does not fix: a path in a variable, an argv list in a variable, % and .format paths, a helper with *args.",
+   "input": "probes O, P, U, V, W",
+   "expected": "no spec-required spelling is banned",
+   "observed": "each gives an opaque entry; the spec f-string spelling passes, so a later slice can choose it",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005/verification/r1/logs/security-1-probes.txt"
+  },
+  {
+   "id": "VS10-A-8",
+   "charter": "Explore reads with extra options: a GET with -F per_page, a constant sample that holds 'pulls'.",
+   "input": "probes Z, R",
+   "expected": "not spec-required",
+   "observed": "both give a forge violation (fails closed)",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005/verification/r1/logs/security-1-probes.txt"
+  },
+  {
+   "id": "VS10-A-9",
+   "charter": "Explore the forge parse with list items that hold a space, to find a write it reads as a read.",
+   "input": "run(repo, 'gh', 'api', '-H', 'A: --jq', '-X', 'POST', 'repos/o/r/pulls'); gh api -H 'Accept: x' graphql",
+   "expected": "forge violation",
+   "observed": "no forge violation; forge pin shows 'gh api POST' and 'gh api x'. The forge pin still changes, so the refutation rule of ADR-388e does not apply",
+   "result": "out-of-scope",
+   "test": ".sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:150"
+  }
+ ],
+ "seeds": [
+  {
+   "title": "push_guard.py splits list-literal argv items on whitespace, so a POST to pulls gives no forge violation",
+   "detail": "split_tokens splits every constant on whitespace, also one argv list item. A header value 'A: --jq' gives an extra '--jq' token that eats '-X'. run(repo, 'gh', 'api', '-H', 'A: --jq', '-X', 'POST', 'repos/o/r/pulls') then gives no forge violation, and the forge pin reads 'gh api POST'. gh api -H 'Accept: x' graphql escapes the graphql ban the same way. The forge pin still changes, so ADR-388e does not refute. Fix: split shell strings only, and keep each list item as one token.",
+   "file": "skills/sdlc/test/push_guard.py"
+  },
+  {
+   "title": "The spec's urllib.parse.quote import changes the network pin of T-R-119a",
+   "detail": "Spec section GitHub names urllib.parse.quote for the rules read. push_guard.py lists all of urllib in NET_MODULES, so S-013 also changes the network pin. The plan Risks and the committed VS-10 test say only direct and forge change; the test omits the import. Narrow the network import rule to urllib.request, or name the network pin in the plan Risks.",
+   "file": "skills/sdlc/test/push-guard.test.mjs"
+  },
+  {
+   "title": "Read paths built with %, .format or a variable are opaque",
+   "detail": "A rules path built with %, str.format, a local variable, or an argv list in a variable gives an opaque entry. The f-string and '+' spellings pass. S-013 and S-014 must use an f-string or '+' in the call; say so in the R-119 scope so those slices do not weaken the guard.",
+   "file": "skills/sdlc/test/push_guard.py"
+  }
+ ]
+}

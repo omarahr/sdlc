@@ -1,0 +1,27 @@
+✔ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (178.266125ms)
+✔ verify cli: TC-cli-13 every round 0 to 2 mutant changes the guard output (2301.44675ms)
+✔ verify cli: TC-cli-15 the new in-scope forms named by the plan change the guard output (2727.458625ms)
+✔ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (950.646208ms)
+✔ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (581.268334ms)
+✔ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (423.382166ms)
+✔ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (167.127042ms)
+✔ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (283.19075ms)
+✔ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (424.974125ms)
+✔ verify cli: TC-cli-52 a new script file or a new script type changes the files pin or the extension check (690.498084ms)
+✔ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (117.705042ms)
+✔ verify cli: seed probes outside the R-119 scope (919.6975ms)
+✔ verify cli: TC-cli-55 a capitalized process API bound to a name hides a real verify push (796.768083ms)
+✔ verify cli: TC-cli-56 a process module reached through a globals() subscript hides a real verify push (653.360208ms)
+✔ verify cli: TC-cli-57 exec, eval or __import__ bound to a name hides a real verify push (658.727459ms)
+✔ verify cli: TC-cli-58 a standard library helper outside the watched modules runs a verify push or a POST (673.720917ms)
+✔ verify cli: TC-cli-59 seed probe: a process module re-exported by another module (656.25775ms)
+✔ verify cli: TC-cli-60 every source encoding cookie either is read as UTF-8 or makes the file opaque (589.363708ms)
+✔ verify cli: TC-cli-61 every unicode escape spelling of a banned loop identifier is a hit (516.807333ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14663.520042

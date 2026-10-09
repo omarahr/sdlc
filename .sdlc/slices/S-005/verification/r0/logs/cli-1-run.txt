@@ -1,0 +1,152 @@
+✔ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (163.819167ms)
+✔ verify cli: TC-cli-13 every round 0 to 2 mutant changes the guard output (2096.389916ms)
+✔ verify cli: TC-cli-15 the new in-scope forms named by the plan change the guard output (2870.993584ms)
+✖ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (1253.633125ms)
+✖ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (665.305209ms)
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (445.03675ms)
+✖ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (212.30275ms)
+✖ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (308.45175ms)
+✔ verify cli: TC-cli-47 the S-013 gh api rules read in branches.py changes only the direct and forge pins (94.840875ms)
+✔ verify cli: TC-cli-48 a GET read through the next-action run wrapper hits no ban in any spelling (480.699583ms)
+✔ verify cli: TC-cli-49 the glab push_rule read changes only the direct and forge pins (89.237666ms)
+✔ verify cli: TC-cli-50 a git log or git fetch through the state-write wrapper hits no ban (184.098416ms)
+✔ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (428.491ms)
+✔ verify cli: TC-cli-52 a new script file or a new script type changes the files pin or the extension check (738.693792ms)
+✔ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (121.315625ms)
+✔ verify cli: seed probes outside the R-119 scope (876.035334ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 11
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11324.017458
+
+✖ failing tests:
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:228:1
+✖ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (1253.633125ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: module bound to a local name; module as a default parameter value; module through a walrus; module through a list subscript; os bound to a local name
+  + actual - expected
+  
+  + [
+  +   'module bound to a local name',
+  +   'module as a default parameter value',
+  +   'module through a walrus',
+  +   'module through a list subscript',
+  +   'os bound to a local name'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:233:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'module bound to a local name', 'module as a default parameter value', 'module through a walrus', 'module through a list subscript', 'os bound to a local name' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:236:1
+✖ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (665.305209ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: posix.system; posix.posix_spawnp
+  + actual - expected
+  
+  + [
+  +   'posix.system',
+  +   'posix.posix_spawnp'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:241:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'posix.system', 'posix.posix_spawnp' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:244:1
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (445.03675ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:256:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:259:1
+✖ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (212.30275ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: urllib.request bound to a local name in collect.py; _socket in janitor.py
+  + actual - expected
+  
+  + [
+  +   'urllib.request bound to a local name in collect.py',
+  +   '_socket in janitor.py'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:261:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'urllib.request bound to a local name in collect.py', '_socket in janitor.py' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:264:1
+✖ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (308.45175ms)
+  AssertionError [ERR_ASSERTION]: the guard output stays equal to the pins for: glob\u0061lThis; Fun\u0063tion; ev\u0061l
+  + actual - expected
+  
+  + [
+  +   'glob\\u0061lThis',
+  +   'Fun\\u0063tion',
+  +   'ev\\u0061l'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:269:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'glob\\u0061lThis', 'Fun\\u0063tion', 'ev\\u0061l' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

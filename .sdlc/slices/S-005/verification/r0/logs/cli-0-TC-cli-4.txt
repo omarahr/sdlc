@@ -1,0 +1,76 @@
+### without --id
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-67
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 --kind verify --round 0 --profile http-api --part 0
+exit: 2 (67 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-67 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 (unchanged)
+
+### without --round
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-68
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 --kind verify --id S-001 --profile http-api --part 0
+exit: 2 (65 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty round"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-68 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 (unchanged)
+
+### without --profile
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-69
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 --kind verify --id S-001 --round 0 --part 0
+exit: 2 (69 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty profile"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-69 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 (unchanged)
+
+### without --part
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-70
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 --kind verify --id S-001 --round 0 --profile http-api
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty part"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-70 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 (unchanged)
+
+### empty --id
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-71
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 --kind verify --id '' --round 0 --profile http-api --part 0
+exit: 2 (67 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-71 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 (unchanged)
+
+### empty --profile
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-72
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 --kind verify --id S-001 --round 0 --profile '' --part 0
+exit: 2 (70 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty profile"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-72 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-66 (unchanged)
+
+### missing --repo directory
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-73
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/no such dir' --kind verify --id S-001 --round 0 --profile http-api --part 0
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/no such dir' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-73 (unchanged)
+

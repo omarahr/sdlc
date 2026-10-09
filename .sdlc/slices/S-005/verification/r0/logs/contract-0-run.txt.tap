@@ -1,0 +1,160 @@
+TAP version 13
+# surface {"DEFAULT_FORMAT":"'sdlc/{name}'","Fail":"class","GIT_MODES_PATH":"'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-contract-0/skills/sdlc/git-modes.json'","JsonArgumentParser":"(prog=None, usage=None, description=None, epilog=None, parents=[], formatter_class=<class 'argparse.HelpFormatter'>, prefix_chars='-', fromfile_prefix_chars=None, argument_default=None, conflict_handler='error', add_help=True, allow_abbrev=True, exit_on_error=True, *, suggest_on_error=False, color=True)","KINDS":"('run', 'slice', 'milestone', 'e2e', 'e2e-area', 'state', 'verify', 'attempt')","NAME_PARTS":"('id', 'n', 'area', 'round', 'profile', 'part')","PLACEHOLDERS":"('{name}', '{name:lower}')","TAILS":"{'run': (('n',), <function <lambda> at 0x109b741a0>), 'slice': (('id',), <function <lambda> at 0x109b74250>), 'milestone","build_parser":"()","cmd_list":"(ns)","cmd_name":"(ns)","cmd_parse":"(ns)","cmd_preflight":"(ns)","datetime":"class","load_format":"(repo)","load_git_modes":"(path='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-contract-0/skills/sdlc/git-modes.json')","main":"(argv=None)","name":"(fmt, kind, **parts)","split":"(fmt)","tail":"(kind, **parts)","timezone":"class","validate_format":"(fmt)"}
+# modules ["argparse","json","os","re","subprocess","sys"]
+# VS-1 TZ=Pacific/Kiritimati tail=state-20261009065032 window=[20261009065032,20261009065032]
+# VS-1 TZ=America/Adak tail=state-20261009065032 window=[20261009065032,20261009065032]
+# VS-1 TZ=Etc/GMT+12 tail=state-20261009065033 window=[20261009065033,20261009065033]
+# VS-1 TZ=Etc/GMT-14 tail=state-20261009065033 window=[20261009065033,20261009065033]
+# VS-1 TZ=Asia/Kathmandu tail=state-20261009065033 window=[20261009065033,20261009065033]
+# VS-1 TZ=UTC tail=state-20261009065033 window=[20261009065033,20261009065033]
+# property state-utc-window: seed=720361592 runs=2000 violations=0
+# property state-explicit-ts: seed=720361517 runs=2000 violations=0
+# VS-2 corner ts=0 -> return "sdlc/state-0"
+# VS-2 corner ts="0" -> return "sdlc/state-0"
+# VS-2 corner ts=1.5 -> return "sdlc/state-1.5"
+# VS-2 corner ts=true -> return "sdlc/state-True"
+# VS-2 corner ts=false -> return "sdlc/state-False"
+# VS-2 corner ts=["x"] -> return "sdlc/state-['x']"
+# VS-2 corner ts="../../x" -> return "sdlc/state-../../x"
+# VS-2 corner ts="a/b" -> return "sdlc/state-a/b"
+# VS-2 corner ts=" 2026" -> return "sdlc/state- 2026"
+# VS-2 corner ts="2026\\n" -> return "sdlc/state-2026\\n"
+# VS-2 corner ts="\\u001b[31m" -> return "sdlc/state-\\u001b[31m"
+# VS-2 corner ts="@{-1}" -> return "sdlc/state-@{-1}"
+# VS-2 corner ts="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" -> return "sdlc/state-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# VS-2 corner ts="١٢" -> return "sdlc/state-١٢"
+# property verify-template: seed=720361547 runs=2000 violations=0
+# VS-4 missing-part Fail messages: a verify branch name needs a non-empty id | a verify branch name needs a non-empty round | a verify branch name needs a non-empty profile | a verify branch name needs a non-empty part
+# property verify-missing-part: seed=720361532 runs=2000 violations=0
+# VS-4 corner round=-1 -> return "sdlc/s-001-v-1-http-api-0"
+# VS-4 corner round=false -> return "sdlc/s-001-vfalse-http-api-0"
+# VS-4 corner round=1.5 -> return "sdlc/s-001-v1.5-http-api-0"
+# VS-4 corner round="0" -> return "sdlc/s-001-v0-http-api-0"
+# VS-4 corner part=-1 -> return "sdlc/s-001-v0-http-api--1"
+# VS-4 corner profile="../x" -> return "sdlc/s-001-v0-../x-0"
+# VS-4 corner profile="a b" -> return "sdlc/s-001-v0-a b-0"
+# VS-4 corner profile="\\u001b" -> return "sdlc/s-001-v0-\\u001b-0"
+# VS-4 corner id="-x" -> return "sdlc/-x-v0-http-api-0"
+# VS-4 corner id="İ" -> return "sdlc/i̇-v0-http-api-0"
+# property attempt-template: seed=720361502 runs=2000 violations=0
+# VS-6 corner n=-1 -> sdlc/S-001-attempt--1; n=false -> sdlc/S-001-attempt-False; n=1.0 -> sdlc/S-001-attempt-1
+# VS-7 cli: config=feature/PROJ-1-s-001-v0-http-api-0, feature/PROJ-1-s-001-attempt-1 flag=x/S-001-v0-http-api-0/y invalid={"ok": false, "error": "the branch format 'x/{name}{name}' must hold exactly one {name} or {name:lower}, found 2"}
+# VS-2 cli --ts: exit=2 {"ok": false, "error": "unrecognized arguments: --ts 20261008101500"}
+# consumer cli-equals-api: seed=720361487 runs=120 violations=0
+# Subtest: verify contract: surface of branches.py as a consumer imports it
+ok 1 - verify contract: surface of branches.py as a consumer imports it
+  ---
+  duration_ms: 38.795291
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-1 name(fmt, "state") gives state- and 14 UTC digits under far time zones
+ok 2 - verify contract: VS-1 name(fmt, "state") gives state- and 14 UTC digits under far time zones
+  ---
+  duration_ms: 202.435625
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-1 property: state name stays in the UTC window for any extra parts
+ok 3 - verify contract: VS-1 property: state name stays in the UTC window for any extra parts
+  ---
+  duration_ms: 50.178125
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-2 an explicit ts is used as given; empty and None generate one
+ok 4 - verify contract: VS-2 an explicit ts is used as given; empty and None generate one
+  ---
+  duration_ms: 36.113625
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-2 property: any 14-digit ts passes through unchanged
+ok 5 - verify contract: VS-2 property: any 14-digit ts passes through unchanged
+  ---
+  duration_ms: 47.227792
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-2 corner ts values are recorded
+ok 6 - verify contract: VS-2 corner ts values are recorded
+  ---
+  duration_ms: 32.724958
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-3 spec example and table row for verify, round 0 and part 0
+ok 7 - verify contract: VS-3 spec example and table row for verify, round 0 and part 0
+  ---
+  duration_ms: 31.662667
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-3 property: verify name equals the spec template and the loop builder
+ok 8 - verify contract: VS-3 property: verify name equals the spec template and the loop builder
+  ---
+  duration_ms: 67.187458
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-4 a missing, None or empty verify part raises Fail naming the part
+ok 9 - verify contract: VS-4 a missing, None or empty verify part raises Fail naming the part
+  ---
+  duration_ms: 31.550834
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-4 property: dropping any subset of verify parts fails on the first missing part in order
+ok 10 - verify contract: VS-4 property: dropping any subset of verify parts fails on the first missing part in order
+  ---
+  duration_ms: 42.513875
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-4 corner part types through the API are recorded
+ok 11 - verify contract: VS-4 corner part types through the API are recorded
+  ---
+  duration_ms: 33.753625
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-5 spec example and table row for attempt
+ok 12 - verify contract: VS-5 spec example and table row for attempt
+  ---
+  duration_ms: 35.903166
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-5 property: attempt name equals the spec template, extra parts never leak
+ok 13 - verify contract: VS-5 property: attempt name equals the spec template, extra parts never leak
+  ---
+  duration_ms: 52.1145
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-6 a missing, None or empty attempt part raises Fail naming the part
+ok 14 - verify contract: VS-6 a missing, None or empty attempt part raises Fail naming the part
+  ---
+  duration_ms: 63.826
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-7 a custom format wraps verify and attempt tails, lowercasing only the tail
+ok 15 - verify contract: VS-7 a custom format wraps verify and attempt tails, lowercasing only the tail
+  ---
+  duration_ms: 33.699958
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-7 consumer view: --format wins over config.branchFormat, invalid format exits 2
+ok 16 - verify contract: VS-7 consumer view: --format wins over config.branchFormat, invalid format exits 2
+  ---
+  duration_ms: 824.219666
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-2 consumer view: the CLI has no --ts flag and refuses it with one JSON error
+ok 17 - verify contract: VS-2 consumer view: the CLI has no --ts flag and refuses it with one JSON error
+  ---
+  duration_ms: 259.421417
+  type: 'test'
+  ...
+# Subtest: verify contract: VS-3 VS-5 consumer view: the CLI output equals the API name for sampled inputs
+ok 18 - verify contract: VS-3 VS-5 consumer view: the CLI output equals the API name for sampled inputs
+  ---
+  duration_ms: 19503.817625
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 21460.950417

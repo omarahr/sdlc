@@ -1,0 +1,101 @@
+# VS-10 exploratory probes: guard output delta against the unmutated tree at 112b45b
+== A gh rules f-string placeholders branches.py
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', f\"repos/{{owner}}/{{repo}}/rules/branches/{quote(sample, safe='')}\"], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/{owner}/{repo}/rules/branches/"]
+== B gh rules concat
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', 'repos/{owner}/{repo}/rules/branches/' + quote(sample, safe='')], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/{owner}/{repo}/rules/branches/"]
+== C gh rules slug fstring + from urllib.parse import quote
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', f\"repos/{slug}/rules/branches/{quote(s, safe='')}\"], capture_output=True, text=True)"]
+   network ["branches.py import urllib.parse"]
+   forge ["branches.py _mutant gh api repos/"]
+== D gh rules urllib.parse.quote qualified
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', f\"repos/{slug}/rules/branches/{urllib.parse.quote(s, safe='')}\"], capture_output=True, text=True)"]
+   network ["branches.py import urllib.parse"]
+   forge ["branches.py _mutant gh api repos/"]
+== E gh rules with -H accept and --jq
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '-H', 'Accept: application/vnd.github+json', f'repos/{slug}/rules/branches/{s}', '--jq', '[.[] | select(.type == \"branch_name_pattern\")]'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api application/vnd.github+json"]
+== F gh rules --paginate
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '--paginate', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/"]
+== G gh rules --method=GET -XGET
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '--method=GET', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True)", "branches.py _mutant subprocess.run(['gh', 'api', '-X', 'get', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True)", "branches.py _mutant subprocess.run(['gh', 'api', '-XGET', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/"]
+== H glab push_rule direct
+   direct ["branches.py _mutant subprocess.run(['glab', 'api', 'projects/:fullpath/push_rule'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant glab api projects/:fullpath/push_rule"]
+== I glab push_rule via run
+   wrapperVerbs ["next-action.py glab api"]
+   forge ["next-action.py _mutant glab api projects/:fullpath/push_rule"]
+== J gh -X GET via run
+   wrapperVerbs ["next-action.py gh api"]
+   forge ["next-action.py _mutant gh api repos/o/r/rules/branches/x"]
+== K glab --hostname
+   direct ["branches.py _mutant subprocess.run(['glab', 'api', '--hostname', 'gitlab.example.com', 'projects/:fullpath/push_rule'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant glab api projects/:fullpath/push_rule"]
+== L git log and fetch via state-write git
+   wrapperVerbs ["state-write.py git log"]
+== M git fetch only via state-write
+== N gh rules env/timeout kw
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True, timeout=30, env={**os.environ, 'GH_PROMPT_DISABLED': '1'}, check=False)"]
+   forge ["branches.py _mutant gh api repos/"]
+== O gh rules sample in a variable path built before
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', path], capture_output=True, text=True)"]
+   opaque ["branches.py _mutant path subprocess.run(['gh', 'api', path], capture_output=True, text=True)"]
+== P gh rules argv built in a list var
+   direct ["branches.py _mutant subprocess.run(argv, capture_output=True, text=True)"]
+   opaque ["branches.py _mutant argv subprocess.run(argv, capture_output=True, text=True)"]
+== Q glab push_rule with -R? no: glab api --paginate
+   direct ["branches.py _mutant subprocess.run(['glab', 'api', '--paginate', 'projects/:fullpath/push_rule'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant glab api projects/:fullpath/push_rule"]
+== R gh rules with literal sample holding pulls word
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', 'repos/{owner}/{repo}/rules/branches/sdlc%2Fpulls-x'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/{owner}/{repo}/rules/branches/sdlc%2Fpulls-x"]
+   forgeViolations ["branches.py _mutant subprocess.run(['gh', 'api', 'repos/{owner}/{repo}/rules/branches/sdlc%2Fpulls-x'], capture_output=True, text=True) -- path holds pulls"]
+== S gh rules -i include
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '-i', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/"]
+== T glab -X GET
+   direct ["branches.py _mutant subprocess.run(['glab', 'api', '-X', 'GET', 'projects/:fullpath/push_rule'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant glab api projects/:fullpath/push_rule"]
+== U gh rules sample bytes via %
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', 'repos/%s/rules/branches/%s' % (slug, s)], capture_output=True, text=True)"]
+   opaque ["branches.py _mutant path subprocess.run(['gh', 'api', 'repos/%s/rules/branches/%s' % (slug, s)], capture_output=True, text=True)"]
+== V gh rules .format
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', 'repos/{}/rules/branches/{}'.format(slug, s)], capture_output=True, text=True)"]
+   opaque ["branches.py _mutant path subprocess.run(['gh', 'api', 'repos/{}/rules/branches/{}'.format(slug, s)], capture_output=True, text=True)"]
+== W gh read in a helper fn
+   direct ["branches.py validate_format subprocess.run(['git', 'check-ref-format', '--branch', candidate], capture_output=True, text=True, errors='replace')"]
+   opaque ["skills/sdlc/branches.py parse IndentationError"]
+== W gh read in a helper fn
+   direct ["branches.py _mutant.gh subprocess.run(['gh', *args], capture_output=True, text=True)"]
+   opaque ["branches.py _mutant.gh verb subprocess.run(['gh', *args], capture_output=True, text=True)"]
+== X jq with spaces before the path
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '--jq', '.[] | select(.type == \"branch_name_pattern\")', f'repos/{slug}/rules/branches/{s}'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api |"]
+== Y header hides graphql path
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '-H', 'Accept: x', 'graphql'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api x"]
+== Z GET read with query field
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '-X', 'GET', f'repos/{slug}/rules/branches/{s}', '-F', 'per_page=100'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/"]
+   forgeViolations ["branches.py _mutant subprocess.run(['gh', 'api', '-X', 'GET', f'repos/{slug}/rules/branches/{s}', '-F', 'per_page=100'], capture_output=True, text=True) -- field -F"]
+== AA header hides pulls path with field-free GET
+   direct ["branches.py _mutant subprocess.run(['gh', 'api', '-H', 'Accept: repos/o/r/rules/branches/x', 'repos/o/r/pulls'], capture_output=True, text=True)"]
+   forge ["branches.py _mutant gh api repos/o/r/rules/branches/x"]
+== AB check_output read
+   direct ["branches.py _mutant subprocess.check_output(['gh', 'api', f'repos/{slug}/rules/branches/{s}'], text=True)"]
+   forge ["branches.py _mutant gh api repos/"]
+== AC run wrapper gh api with f-string path
+   wrapperVerbs ["next-action.py gh api"]
+   forge ["next-action.py _mutant gh api repos/"]
+== AD glab push_rule in a new function inside read_rules shape
+   direct ["branches.py _mutant subprocess.run(['glab', 'api', 'projects/:fullpath/push_rule'], capture_output=True, text=True, cwd=repo)"]
+   forge ["branches.py _mutant glab api projects/:fullpath/push_rule"]
+== AE header value swallows -X POST
+   wrapperVerbs ["next-action.py gh api"]
+   forge ["next-action.py _mutant gh api POST"]
+== AF jq value swallows -f
+   wrapperVerbs ["next-action.py gh api"]
+   forge ["next-action.py _mutant gh api |"]

@@ -1,0 +1,66 @@
+### repo root
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0
+$ node --test /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/test/push-guard.test.mjs
+exit: 0 (4226 ms)
+--- stdout
+✔ every process and network call in the scripts sits at a pinned site (78.066667ms)
+✔ every wrapper call gives a constant verb, and only the three reviewed calls push (80.286208ms)
+✔ the loop script has no process or network access (237.268083ms)
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.51425ms)
+✔ each known push and pull-request form fails the guard (3518.977375ms)
+✔ a spec-required forge read changes only a pin and hits no ban (161.014125ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4193.364875
+--- stderr
+
+
+### unrelated cwd
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/elsewhere-429
+$ node --test /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/test/push-guard.test.mjs
+exit: 0 (4301 ms)
+--- stdout
+✔ every process and network call in the scripts sits at a pinned site (78.291042ms)
+✔ every wrapper call gives a constant verb, and only the three reviewed calls push (79.883083ms)
+✔ the loop script has no process or network access (239.423875ms)
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.841292ms)
+✔ each known push and pull-request form fails the guard (3570.179542ms)
+✔ a spec-required forge read changes only a pin and hits no ban (179.155542ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4268.677083
+--- stderr
+
+
+### copied tree
+$ cd $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/copy with space ü'
+$ node --test $'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/copy with space ü/skills/sdlc/test/push-guard.test.mjs'
+exit: 0 (4310 ms)
+--- stdout
+✔ every process and network call in the scripts sits at a pinned site (77.739166ms)
+✔ every wrapper call gives a constant verb, and only the three reviewed calls push (78.940459ms)
+✔ the loop script has no process or network access (252.255916ms)
+✔ the loop gives its verify branch builder only to the profile agent and the collector (0.506792ms)
+✔ each known push and pull-request form fails the guard (3585.351209ms)
+✔ a spec-required forge read changes only a pin and hits no ban (167.218416ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4277.646083
+--- stderr
+
+

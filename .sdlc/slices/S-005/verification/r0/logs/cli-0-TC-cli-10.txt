@@ -1,0 +1,102 @@
+### push_guard.py <worktree>
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-428
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0
+exit: 0 (81 ms)
+--- stdout
+{
+ "files": [
+  "hooks/hooks.json",
+  "hooks/live-poke.py",
+  "skills/sdlc/SKILL.md",
+  "skills/sdlc/branches.py",
+  "skills/sdlc/git-modes.json",
+  "skills/sdlc/impact.py",
+  "skills/sdlc/janitor.py",
+  "skills/sdlc/next-action.py",
+  "skills/sdlc/sdlc-loop.js",
+  "skills/sdlc/state-write.py",
+  "skills/sdlc/ste-check.py",
+  "skills/sdlc/suite-receipt.py",
+  "skills/sdlc/tracker/collect.py",
+  "skills/sdlc/tracker/hub.py",
+  "skills/sdlc/tracker/reports.py",
+  "skills/sdlc/tracker/template.html",
+  "skills/sdlc/tracker/workflow.py"
+ ],
+ "direct": [
+  "branches.py validate_format subprocess.run(['git', 'check-ref-format', '--branch', candidate], capture_output=True, text=True, errors='replace')",
+  "impact.py run subprocess.run(args, cwd=cwd, capture_output=True, text=True)",
+  "janitor.py sweep_branches subprocess.run(['git', '-C', repo, 'branch', '-D', name], capture_output=True, text=True)",
+  "janitor.py sweep_branches subprocess.run(['git', '-C', repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads'], capture_output=True, text=True)",
+  "janitor.py sweep_branches subprocess.run(['git', '-C', repo, 'worktree', 'prune'], capture_output=True, text=True)",
+  "next-action.py run subprocess.run(cmd, cwd=repo, capture_output=True, text=True, timeout=120)",
+  "state-write.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True)",
+  "suite-receipt.py git subprocess.run(['git', '-C', repo, *args], capture_output=True, text=True)",
+  "tracker/collect.py ensure_hub subprocess.Popen([sys.executable, os.path.join(HERE, 'hub.py')], stdout=log, stderr=log, stdin=subprocess.DEVNULL, start_new_session=True)",
+  "tracker/collect.py last_commit subprocess.run(['git', '-C', repo, 'log', '-1', '--all', '--format=%cI|%s'], capture_output=True, text=True, timeout=10)",
+  "tracker/collect.py machine subprocess.run(['pmset', '-g', 'log'], capture_output=True, text=True, timeout=20)"
+ ],
+ "network": [
+  "tracker/collect.py call hub_answers urllib.request.urlopen(f'http://127.0.0.1:{hub.hub_port()}/health', timeout=1)",
+  "tracker/collect.py import urllib.error",
+  "tracker/collect.py import urllib.request",
+  "tracker/hub.py import http.server",
+  "tracker/hub.py import socketserver",
+  "tracker/hub.py import urllib.parse"
+ ],
+ "dynamic": [],
+ "wrapperVerbs": [
+  "impact.py git diff",
+  "impact.py git ls-files",
+  "impact.py go list",
+  "next-action.py gh pr list",
+  "next-action.py git branch",
+  "next-action.py git fetch",
+  "next-action.py git for-each-ref",
+  "next-action.py git merge-base",
+  "next-action.py git rev-parse",
+  "next-action.py git show",
+  "state-write.py git add",
+  "state-write.py git branch",
+  "state-write.py git checkout",
+  "state-write.py git commit",
+  "state-write.py git diff",
+  "state-write.py git fetch",
+  "state-write.py git for-each-ref",
+  "state-write.py git ls-tree",
+  "state-write.py git merge",
+  "state-write.py git merge-base",
+  "state-write.py git push",
+  "state-write.py git rev-parse",
+  "state-write.py git show",
+  "state-write.py git update-ref",
+  "state-write.py git worktree",
+  "suite-receipt.py git ls-tree",
+  "suite-receipt.py git rev-parse"
+ ],
+ "pushes": [
+  "state-write.py advance_run_branch git(repo, 'push', '-q', 'origin', run, check=False)",
+  "state-write.py ensure_milestone_branch git(repo, 'push', '-q', '-u', 'origin', want, check=False)",
+  "state-write.py prune_stale_milestone_branches git(repo, 'push', '-q', 'origin', f'--force-with-lease=refs/heads/{branch}:{lease}', f':{branch}', check=False)"
+ ],
+ "forge": [
+  "next-action.py load_prs gh pr list"
+ ],
+ "forgeViolations": [],
+ "opaque": [],
+ "wrapperValues": [],
+ "jsHits": [],
+ "jsAllowed": [
+  "sdlc-loop.js log(`decision panel for ${q.sliceId || 'global'} got no proposals: ${q.question}`)",
+  "sdlc-loop.js return run('decision-judge', { ...q, proposals }, { schema: DECISION, phase: 'Escalate', label: q.sliceId || 'global' })",
+  "sdlc-loop.js run('decision-proposer', { ...q, angle }, { schema: PROPOSAL, phase: 'Escalate', label: `${q.sliceId || 'global'}:${angle}` })))).filter(Boolean)"
+ ]
+}
+--- stderr
+
+
+### state-write.py push lines
+248: git(repo, "push", "-q", "origin", run, check=False)
+425: git(repo, "push", "-q", "origin", f"--force-with-lease=refs/heads/{branch}:{lease}", f":{branch}", check=False)
+464: git(repo, "push", "-q", "-u", "origin", want, check=False)
+

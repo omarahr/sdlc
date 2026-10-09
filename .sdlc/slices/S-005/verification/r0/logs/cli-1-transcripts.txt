@@ -1,0 +1,585 @@
+### TC-cli-12 unchanged worktree
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-12 copy under a path with spaces and unicode
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/copy with spaces ü-4
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-13 r0 verify name built on an earlier line
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-6
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(repo, 'push', 'origin', name)
+### TC-cli-13 r0 push split over two lines
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-8
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(repo, 'push', 'origin', b)
+### TC-cli-13 r0 split gh pr create
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-10
+exit: 0
+changed keys: direct, forge, forgeViolations
+  + direct: janitor.py _mutant subprocess.run(['gh', 'pr', 'create', '--head', b], cwd=repo)
+  + forge: janitor.py _mutant gh pr create
+  + forgeViolations: janitor.py _mutant subprocess.run(['gh', 'pr', 'create', '--head', b], cwd=repo) -- verb pr create
+### TC-cli-13 r1 single-quoted push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-12
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(repo, 'push', 'origin', b)
+### TC-cli-13 r1 push with another repo name
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-14
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(root, 'push', 'origin', b)
+### TC-cli-13 r1 argv list push in janitor
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-16
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant subprocess.run(['git', '-C', repo, 'push', 'origin', b])
+  + pushes: janitor.py _mutant subprocess.run(['git', '-C', repo, 'push', 'origin', b])
+### TC-cli-13 r1 os.system f-string push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-18
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant os.system(f'git -C {repo} push origin {b}')
+  + pushes: janitor.py _mutant os.system(f'git -C {repo} push origin {b}')
+### TC-cli-13 r1 shell=True f-string push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-20
+exit: 0
+changed keys: direct, pushes, opaque
+  + direct: janitor.py _mutant subprocess.run(f'git -C {repo} push origin {b}', shell=True)
+  + pushes: janitor.py _mutant subprocess.run(f'git -C {repo} push origin {b}', shell=True)
+  + opaque: janitor.py _mutant shell subprocess.run(f'git -C {repo} push origin {b}', shell=True)
+### TC-cli-13 r1 gh pr create with --repo before the verb
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-22
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh pr create
+  + forge: next-action.py _mutant gh pr create
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'pr', '--repo', slug, 'create') -- verb pr create
+### TC-cli-13 r1 push in tracker/collect.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-24
+exit: 0
+changed keys: direct, pushes
+  + direct: tracker/collect.py _mutant subprocess.run(['git', '-C', repo, 'push', 'origin', b])
+  + pushes: tracker/collect.py _mutant subprocess.run(['git', '-C', repo, 'push', 'origin', b])
+### TC-cli-13 r1 bare execFileSync
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-26
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 execFileSync const _m = () => execFileSync('git', ['push'])
+### TC-cli-13 r1 execFileSync with require
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-28
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 child_process const { execFileSync: _x } = require('child_process')
+  + jsHits: sdlc-loop.js:1338 execFileSync const { execFileSync: _x } = require('child_process')
+  + jsHits: sdlc-loop.js:1338 require const { execFileSync: _x } = require('child_process')
+### TC-cli-13 r1 bare spawnSync
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-30
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 spawnSync const _m = () => spawnSync('git', ['push'])
+### TC-cli-13 r1 spawnSync with require
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-32
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 child_process const { spawnSync: _y } = require('child_process')
+  + jsHits: sdlc-loop.js:1338 require const { spawnSync: _y } = require('child_process')
+  + jsHits: sdlc-loop.js:1338 spawnSync const { spawnSync: _y } = require('child_process')
+### TC-cli-13 r2 path between git and push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-34
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(repo, '-C', '/tmp/a', 'push', 'origin', b)
+### TC-cli-13 r2 quoted path with a space between git and push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-36
+exit: 0
+changed keys: wrapperVerbs
+  + wrapperVerbs: state-write.py git b
+### TC-cli-13 r2 shell-quoted path between git and push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-38
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant os.system('git -C "/tmp/a" push origin b')
+  + pushes: janitor.py _mutant os.system('git -C "/tmp/a" push origin b')
+### TC-cli-13 r2 shell-quoted repo variable
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-40
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant os.system(f'git -C "{repo}" push origin {b}')
+  + pushes: janitor.py _mutant os.system(f'git -C "{repo}" push origin {b}')
+### TC-cli-13 r2 verb built by concatenation
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-42
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(repo, 'pu' + 'sh', 'origin', b)
+### TC-cli-13 r2 shell string built by concatenation
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-44
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant os.system('git -C x ' + 'push origin ' + b)
+  + pushes: janitor.py _mutant os.system('git -C x ' + 'push origin ' + b)
+### TC-cli-13 r2 more than 80 characters between git and push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-46
+exit: 0
+changed keys: pushes
+  + pushes: state-write.py _mutant git(repo, '-C', '/tmp/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'push', 'origin', b)
+### TC-cli-13 r2 shell string split over two lines
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-48
+exit: 0
+changed keys: direct, pushes, opaque
+  + direct: janitor.py _mutant subprocess.run('git -C x push origin b', shell=True)
+  + pushes: janitor.py _mutant subprocess.run('git -C x push origin b', shell=True)
+  + opaque: janitor.py _mutant shell subprocess.run('git -C x push origin b', shell=True)
+### TC-cli-13 r2 gh api path holds pulls
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-50
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/pulls
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/pulls', '-f', 'title=x') -- field -f
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/pulls', '-f', 'title=x') -- path holds pulls
+### TC-cli-13 r2 bare execSync
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-52
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 execSync const _m = () => execSync("git " + "push")
+### TC-cli-13 r2 execSync with require
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-54
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 child_process const _m = () => require("child_process").execSync("git " + "push")
+  + jsHits: sdlc-loop.js:1338 execSync const _m = () => require("child_process").execSync("git " + "push")
+  + jsHits: sdlc-loop.js:1338 require const _m = () => require("child_process").execSync("git " + "push")
+### TC-cli-15 import subprocess as sp
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-56
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant sp.run(['git', 'push', 'origin', b])
+  + pushes: janitor.py _mutant sp.run(['git', 'push', 'origin', b])
+### TC-cli-15 from os import system as s
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-58
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant s('git push origin ' + b)
+  + pushes: janitor.py _mutant s('git push origin ' + b)
+### TC-cli-15 os.posix_spawn
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-60
+exit: 0
+changed keys: direct
+  + direct: janitor.py _mutant os.posix_spawn('/usr/bin/git', ['git', 'push', 'origin', b], {})
+### TC-cli-15 os.execvp
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-62
+exit: 0
+changed keys: direct
+  + direct: janitor.py _mutant os.execvp('git', ['git', 'push', 'origin', b])
+### TC-cli-15 pty.spawn
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-64
+exit: 0
+changed keys: direct, network, pushes
+  + direct: janitor.py _mutant pty.spawn(['git', 'push', 'origin', b])
+  + network: janitor.py import pty
+  + pushes: janitor.py _mutant pty.spawn(['git', 'push', 'origin', b])
+### TC-cli-15 asyncio.create_subprocess_exec
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-66
+exit: 0
+changed keys: direct, network, pushes
+  + direct: janitor.py _mutant asyncio.create_subprocess_exec('git', 'push', 'origin', b)
+  + network: janitor.py import asyncio
+  + pushes: janitor.py _mutant asyncio.create_subprocess_exec('git', 'push', 'origin', b)
+### TC-cli-15 starred argv
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-68
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant subprocess.run([*['git', 'push'], 'origin', b])
+  + pushes: janitor.py _mutant subprocess.run([*['git', 'push'], 'origin', b])
+### TC-cli-15 tuple argv
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-70
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant subprocess.run(('git', 'push', 'origin', b))
+  + pushes: janitor.py _mutant subprocess.run(('git', 'push', 'origin', b))
+### TC-cli-15 keyword args= argv
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-72
+exit: 0
+changed keys: direct, pushes
+  + direct: janitor.py _mutant subprocess.run(args=['git', 'push', 'origin', b])
+  + pushes: janitor.py _mutant subprocess.run(args=['git', 'push', 'origin', b])
+### TC-cli-15 f-string verb through the wrapper
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-74
+exit: 0
+changed keys: opaque
+  + opaque: state-write.py _mutant verb git(repo, f'pu{v}', 'origin', b)
+### TC-cli-15 wrapper passed through a lambda
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-76
+exit: 0
+changed keys: opaque
+  + opaque: state-write.py _mutant verb git(repo, *a)
+### TC-cli-15 wrapper through functools.partial
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-78
+exit: 0
+changed keys: wrapperValues
+  + wrapperValues: state-write.py _mutant git
+### TC-cli-15 wrapper with -c alias.x=push before the verb
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-80
+exit: 0
+changed keys: opaque
+  + opaque: state-write.py _mutant option git(repo, '-c', 'alias.x=push', 'x', b)
+### TC-cli-15 gh api -X post in lower case
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-82
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/issues
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', '-X', 'post', 'repos/o/r/issues') -- method post
+### TC-cli-15 gh api --method=POST as one token
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-84
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/issues
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', '--method=POST', 'repos/o/r/issues') -- method POST
+### TC-cli-15 gh api -XPOST
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-86
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/issues
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', '-XPOST', 'repos/o/r/issues') -- method POST
+### TC-cli-15 gh api --field=
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-88
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/issues
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', '--field=title=x', 'repos/o/r/issues') -- field --field
+### TC-cli-15 gh api pulls path split by +
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-90
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/pulls
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', 'repos/o/r/pu' + 'lls') -- path holds pulls
+### TC-cli-15 glab mr create through run()
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-92
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py glab mr create
+  + forge: next-action.py _mutant glab mr create
+  + forgeViolations: next-action.py _mutant run(repo, 'glab', 'mr', 'create') -- verb mr create
+### TC-cli-15 gh api graphql with no flags
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-94
+exit: 0
+changed keys: wrapperVerbs, forge, forgeViolations
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api graphql
+  + forgeViolations: next-action.py _mutant run(repo, 'gh', 'api', 'graphql') -- path holds graphql
+### TC-cli-15 gh pr new alias
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-96
+exit: 0
+changed keys: wrapperVerbs, forge
+  + wrapperVerbs: next-action.py gh pr new
+  + forge: next-action.py _mutant gh pr new
+### TC-cli-15 getattr(subprocess, "run")
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-98
+exit: 0
+changed keys: dynamic
+  + dynamic: janitor.py _mutant getattr(subprocess, 'run')
+### TC-cli-15 __import__("subprocess")
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-100
+exit: 0
+changed keys: dynamic
+  + dynamic: janitor.py _mutant __import__('subprocess')
+### TC-cli-15 importlib.import_module
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-102
+exit: 0
+changed keys: dynamic
+  + dynamic: janitor.py _mutant importlib.import_module('subprocess')
+  + dynamic: janitor.py import importlib
+### TC-cli-15 subprocess.run bound to a name
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-104
+exit: 0
+changed keys: dynamic
+  + dynamic: janitor.py _mutant value subprocess.run
+### TC-cli-15 js global.process
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-106
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 global const _m = global.process
+  + jsHits: sdlc-loop.js:1338 process const _m = global.process
+### TC-cli-15 js global['child' + '_process']
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-108
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 global const _m = global['child' + '_process']
+### TC-cli-15 js globalThis
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-110
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 globalThis const _m = globalThis
+### TC-cli-15 js Function('...')
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-112
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 Function const _m = Function('return 1')
+### TC-cli-15 js a fourth 'global' literal
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-114
+exit: 0
+changed keys: jsAllowed
+  + jsAllowed: sdlc-loop.js const _m = 'global'
+### TC-cli-15 js "global" in double quotes
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-116
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 global const _m = "global"
+### TC-cli-15 js global in backticks
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-118
+exit: 0
+changed keys: jsHits
+  + jsHits: sdlc-loop.js:1338 global const _m = `global`
+### TC-cli-40 module bound to a local name
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-120
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-40 module as a default parameter value
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-122
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-40 module through a walrus
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-124
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-40 module through a list subscript
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-126
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-40 os bound to a local name
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-128
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-40 proof mutant
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-130
+exit: 0
+changed keys: (none: output equals the pins)
+### run _m from the mutated janitor.py
+exit: 0
+stderr: To /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/origin-132 |  * [new branch]      sdlc/S-001-v0-http-api-0 -> sdlc/S-001-v0-http-api-0
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+### TC-cli-41 posix.system
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-135
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-41 posix.posix_spawnp
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-137
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-41 proof mutant
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-139
+exit: 0
+changed keys: (none: output equals the pins)
+### run _m from the mutated janitor.py
+exit: 0
+stderr: To /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/origin-141 |  * [new branch]      sdlc/S-001-v0-http-api-0 -> sdlc/S-001-v0-http-api-0
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+### TC-cli-42 janitor.py with a unicode_escape cookie and a hidden push
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/cookie-144
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-42 run the mutated janitor.py --help
+$ VERIFY_REMOTE_REPO=<work repo> python3 <copy>/skills/sdlc/janitor.py --help
+exit: 0
+remote refs after: refs/heads/sdlc/S-001-v0-http-api-0
+### TC-cli-43 urllib.request bound to a local name in collect.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-149
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-43 _socket in janitor.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-151
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-44 node reads the escaped names as the banned identifiers
+$ node -e console.log(glob\u0061lThis === globalThis, Fun\u0063tion === Function, ev\u0061l === eval)
+exit: 0
+stdout: true true true
+### TC-cli-44 glob\u0061lThis
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-154
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-44 Fun\u0063tion
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-156
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-44 ev\u0061l
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-158
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-47 S-013 rules read
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-160
+exit: 0
+changed keys: direct, forge
+  + direct: branches.py _mutant subprocess.run(['gh', 'api', f"repos/{slug}/rules/branches/{quote(s, safe='')}"], capture_output=True, text=True)
+  + forge: branches.py _mutant gh api repos/
+### TC-cli-48 -X GET
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-162
+exit: 0
+changed keys: wrapperVerbs, forge
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/rules/branches/x
+### TC-cli-48 -X get
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-164
+exit: 0
+changed keys: wrapperVerbs, forge
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/rules/branches/x
+### TC-cli-48 --method=GET
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-166
+exit: 0
+changed keys: wrapperVerbs, forge
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/rules/branches/x
+### TC-cli-48 -XGET
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-168
+exit: 0
+changed keys: wrapperVerbs, forge
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/rules/branches/x
+### TC-cli-48 no method
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-170
+exit: 0
+changed keys: wrapperVerbs, forge
+  + wrapperVerbs: next-action.py gh api
+  + forge: next-action.py _mutant gh api repos/o/r/rules/branches/x
+### TC-cli-49 glab api push_rule
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-172
+exit: 0
+changed keys: direct, forge
+  + direct: branches.py _mutant subprocess.run(['glab', 'api', 'projects/:fullpath/push_rule'], capture_output=True, text=True)
+  + forge: branches.py _mutant glab api projects/:fullpath/push_rule
+### TC-cli-50 git log
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-174
+exit: 0
+changed keys: wrapperVerbs
+  + wrapperVerbs: state-write.py git log
+### TC-cli-50 git fetch
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-176
+exit: 0
+changed keys: (none: output equals the pins)
+### TC-cli-51 syntax error in hooks/live-poke.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/parse-178
+exit: 0
+changed keys: opaque
+  + opaque: hooks/live-poke.py parse SyntaxError
+### TC-cli-51 invalid UTF-8 in hooks/live-poke.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/parse-180
+exit: 0
+changed keys: opaque
+  + opaque: hooks/live-poke.py parse UnicodeDecodeError
+### TC-cli-51 NUL byte in hooks/live-poke.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/parse-182
+exit: 0
+changed keys: opaque
+  + opaque: hooks/live-poke.py parse SyntaxError
+### TC-cli-51 latin-1 cookie with a latin-1 byte in hooks/live-poke.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/parse-184
+exit: 0
+changed keys: opaque
+  + opaque: hooks/live-poke.py parse UnicodeDecodeError
+### TC-cli-51 BOM before a hidden push in hooks/live-poke.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-186
+exit: 0
+changed keys: opaque
+  + opaque: hooks/live-poke.py parse SyntaxError
+### TC-cli-52 new .py in a new subdirectory
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-188
+exit: 0
+changed keys: files
+  + files: skills/sdlc/lib/x.py
+### TC-cli-52 symlinked .py file
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-190
+exit: 0
+changed keys: files, direct
+  + files: skills/sdlc/linked.py
+  + direct: linked.py sweep_branches subprocess.run(['git', '-C', repo, 'branch', '-D', name], capture_output=True, text=True)
+  + direct: linked.py sweep_branches subprocess.run(['git', '-C', repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads'], capture_output=True, text=True)
+  + direct: linked.py sweep_branches subprocess.run(['git', '-C', repo, 'worktree', 'prune'], capture_output=True, text=True)
+### TC-cli-52 hooks/x.sh
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-192
+exit: 0
+changed keys: files, extensions
+  + files: hooks/x.sh
+### TC-cli-52 skills/sdlc/x.mjs
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-194
+exit: 0
+changed keys: files, extensions
+  + files: skills/sdlc/x.mjs
+### TC-cli-52 skills/sdlc/x.cjs
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-196
+exit: 0
+changed keys: files, extensions
+  + files: skills/sdlc/x.cjs
+### TC-cli-52 no extension with a shebang
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-198
+exit: 0
+changed keys: files, extensions
+  + files: skills/sdlc/pushit
+### TC-cli-52 x.PY in upper case
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-200
+exit: 0
+changed keys: files, extensions
+  + files: skills/sdlc/x.PY
+### TC-cli-52 x.pyc
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/newfile-202
+exit: 0
+changed keys: files, extensions
+  + files: skills/sdlc/x.pyc
+### TC-cli-54 unreadable .py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/crash-204
+exit: 1
+stderr:     with open(path, encoding="utf-8") as f: |          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^ | PermissionError: [Errno 13] Permission denied: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/crash-204/hooks/live-poke.py'
+### TC-cli-54 unreadable .js
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/crash-206
+exit: 1
+stderr:     with open(path, encoding="utf-8", errors="replace") as f: |          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ | PermissionError: [Errno 13] Permission denied: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/crash-206/skills/sdlc/sdlc-loop.js'
+### seed S1 a second top-level advance_run_branch with the same push text
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-208
+exit: 0
+changed keys: (none: output equals the pins)
+### seed S3 subprocess.__dict__ subscript
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-210
+exit: 0
+changed keys: (none: output equals the pins)
+### seed S3 operator.attrgetter on subprocess
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-212
+exit: 0
+changed keys: (none: output equals the pins)
+### seed S3 js constructor walk
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-214
+exit: 0
+changed keys: (none: output equals the pins)
+### seed seed runpy.run_path
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-216
+exit: 0
+changed keys: (none: output equals the pins)
+### seed seed code.InteractiveInterpreter
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-218
+exit: 0
+changed keys: (none: output equals the pins)
+### seed seed _posixsubprocess import
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-220
+exit: 0
+changed keys: (none: output equals the pins)
+### seed S5 tracker/test/x.py at a deeper level
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/mutant-222
+exit: 0
+changed keys: (none: output equals the pins)
+### seed hooks/hooks.json command that pushes
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/hooksjson-224
+exit: 0
+changed keys: (none: output equals the pins)
+### seed S5 symlinked directory skills/sdlc/lib holding x.py
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-1/skills/sdlc/test/push_guard.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-NPVMiu/testkit-cli-qNtWSN/linkdir-226
+exit: 0
+changed keys: (none: output equals the pins)

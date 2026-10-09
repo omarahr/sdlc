@@ -1,0 +1,3 @@
+const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
+const profileRun = g => run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
+const c = await run('verify-collector', { sliceId: id, round, branches: groups.map(branch) }, { schema: OK, phase: 'Verify', label: `${id}:r${round}` })

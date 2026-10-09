@@ -1,0 +1,129 @@
+✔ verify security: VS-9 T-R-119 passes on the unchanged skill, from the repo root and from a moved copy (228.079084ms)
+✔ verify security: VS-9 the three TC-cli-11 mutants fail T-R-119 (360.099208ms)
+✔ verify security: VS-9 T-R-119 catches a push in the git -C argv form the scripts already use (119.615125ms)
+✔ verify security: VS-9 T-R-119 catches a shell string git -C <repo> push (122.020458ms)
+✔ verify security: VS-9 T-R-119 catches a verify push in a tracker skill script (119.16125ms)
+✔ verify security: VS-9 forms outside the scripts idiom, recorded as blind spots (1088.618417ms)
+✔ verify security: VS-9 forms the guard does catch (865.948166ms)
+✔ verify security: VS-9 the scripts on the slice commit hold no push or request of a verify branch (1.42075ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (236.756416ms)
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (112.466625ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (113.42625ms)
+✔ verify security: VS-9 round 2 forms outside the scripts idiom, recorded as blind spots (617.626083ms)
+✔ verify security: VS-9 round 2 forms the guard does catch (601.051917ms)
+✔ verify security: VS-9 a quote-tolerant scan of every skill file finds no verify push or request (2.108083ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 11
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4862.844708
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:170:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (236.756416ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with git -C "{repo}" push of a verify name:
+  TAP version 13
+  # Subtest: no script pushes a verify branch or opens a pull request for it
+  ok 1 - no script pushes a verify branch or opens a pull request for it
+    ---
+    duration_ms: 7.541042
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 67.547375
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:173:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:177:1
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (112.466625ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a quoted git -C push in a .sh skill script:
+  TAP version 13
+  # Subtest: no script pushes a verify branch or opens a pull request for it
+  ok 1 - no script pushes a verify branch or opens a pull request for it
+    ---
+    duration_ms: 7.515333
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 62.405625
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:179:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:182:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (113.42625ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with "git -C " + repo + " push origin " + vb:
+  TAP version 13
+  # Subtest: no script pushes a verify branch or opens a pull request for it
+  ok 1 - no script pushes a verify branch or opens a pull request for it
+    ---
+    duration_ms: 7.435334
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 63.672042
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:184:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

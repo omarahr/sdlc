@@ -786,19 +786,106 @@
       "S-004"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "rejected",
+    "phase": "implement",
     "branch": "sdlc/S-005",
     "pr": "",
     "risk": "medium",
     "riskReason": "Wrong tails produce wrong state and verify branch names, which breaks recognition and sweeps.",
     "seeds": [],
     "ideaKeys": [],
-    "notes": "",
+    "notes": "split into S-005a, S-005b",
+    "counters": {
+      "planRevisions": 2,
+      "fixRounds": 3,
+      "ladderStep": 1,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    },
+    "splitInto": [
+      "S-005a",
+      "S-005b"
+    ],
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
+      },
+      {
+        "kind": "verify",
+        "round": 2,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 0
+      }
+    ]
+  },
+  {
+    "id": "S-005a",
+    "title": "tails: state, verify, attempt",
+    "requirements": [
+      "R-008",
+      "R-009",
+      "R-010"
+    ],
+    "dependsOn": [
+      "S-004"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-005a",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Wrong tails produce wrong state and verify branch names, which breaks recognition and sweeps.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "Split from S-005; read .sdlc/slices/S-005/failures.md. Reuse the TAILS rows and branches.test.mjs cases from sdlc/S-005-attempt-2; they held in every round.",
     "counters": {
       "planRevisions": 0,
       "fixRounds": 0,
-      "ladderStep": 0,
+      "ladderStep": 2,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-005b",
+    "title": "verify branches stay local: the push guard",
+    "requirements": [
+      "R-119"
+    ],
+    "dependsOn": [
+      "S-005a"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-005b",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "A missed push form lets a verify branch reach the remote.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "Split from S-005; read .sdlc/slices/S-005/failures.md. Start from push_guard.py and push-guard.test.mjs on sdlc/S-005-attempt-2. Keep the R-119 scope of ADR-20261009-062930-decision-judge-S-005-388e. Write a fresh verification plan; the attempt-1 verification files are stale.",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 2,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
@@ -814,7 +901,8 @@
       "R-068"
     ],
     "dependsOn": [
-      "S-005"
+      "S-005a",
+      "S-005b"
     ],
     "kind": "spec",
     "status": "todo",
@@ -1266,7 +1354,8 @@
       "R-075"
     ],
     "dependsOn": [
-      "S-005"
+      "S-005a",
+      "S-005b"
     ],
     "kind": "spec",
     "status": "todo",
@@ -1490,7 +1579,8 @@
       "R-061",
       "R-064",
       "R-065",
-      "R-080"
+      "R-080",
+      "R-093"
     ],
     "dependsOn": [
       "S-026"

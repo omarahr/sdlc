@@ -1,0 +1,44 @@
+### --format feature/PROJ-1-{name}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-8
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-7 --kind state --format 'feature/PROJ-1-{name}'
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name}", "kind": "state", "branch": "feature/PROJ-1-state-20261009065114"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-7 (unchanged)
+
+### --format feature/PROJ-1-{name:lower}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-9
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-7 --kind state --format 'feature/PROJ-1-{name:lower}'
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name:lower}", "kind": "state", "branch": "feature/PROJ-1-state-20261009065114"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-9 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-7 (unchanged)
+
+### --id S-001 --n 7 --round 3 --profile cli --part 2
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-10
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-7 --kind state --id S-001 --n 7 --round 3 --profile cli --part 2
+exit: 0 (81 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261009065114"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-10 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-7 (unchanged)
+
+### config team/{name}/wip
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-12
+$ python3 /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-11 --kind state
+exit: 0 (77 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "team/{name}/wip", "kind": "state", "branch": "team/state-20261009065114/wip"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/cwd-12 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-PGAxUr/testkit-cli-sepX83/repo-11 (unchanged)
+

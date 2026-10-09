@@ -1,0 +1,54 @@
+clean tree from repo root: exit 0 PASSED
+clean copy outside the repo: exit 0 PASSED
+M-1 verify name built on an earlier line, then pushed: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+M-2 git(repo, "push", ...) split over lines: T-R-119 exit 1 FAILED (mutant caught) - a script pushes or opens a request for a verify branch: state-write.py: git(repo, "push", "-q",
+M-3 split create call: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-3 ["git", "-C", repo, "push", "origin", vb]: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-4 shell string git -C {repo} push: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-13 tracker/collect.py git push of a verify name: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-1 single-quoted git(repo, 'push', ...): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-2 receiver other than repo: git(root, "push", ...): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-6 sdlc-loop.js execFileSync('git', ['push', ...]): T-R-119 exit 1 FAILED (mutant caught)
+A-7 sdlc-loop.js spawn(git, [-C, repo, push, ...]): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-8 gh pr create built from a list with flags between parts: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-10 shell string with two spaces: git  push: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-11 push verb in a constant: git(repo, PUSH, ...): T-R-119 exit 0 PASSED (mutant not caught)
+A-12 template text 'git push --delete <branch>' rewritten at run time: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-16 the pinned run-branch push site with run rebound to a verify name: T-R-119 exit 0 PASSED (mutant not caught)
+blind spots that passed T-R-119: A-11, A-16
+A-5 os.system(f"git push origin {vb}"): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-9 git(repo,"push") with no spaces and a new target: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-14 branches.py push of a name built from tail(): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["branches.py: subprocess.run([\"git\", \"push\", \"origin\", t])","next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of call
+A-15 push call whose argument holds a nested call: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+A-17 sdlc-loop.js agent prompt with git push of branch(g): T-R-119 exit 1 FAILED (mutant caught) - a script pushes or opens a request for a verify branch: sdlc-loop.js: const pushIt = g => agent(`git push origin ${branch(g)}`)
+A-18 sdlc-loop.js extra use of branch(g) with no push words: T-R-119 exit 1 FAILED (mutant caught) - the verify branch builder has 4 references, not 3: ["const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`","const publish = g => agent(`publish ${branch(g)} to origin`)","const profileRun = g => run(`verify-
+A-19 glab mr create shell string: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+broad scan hits on the slice commit:
+  state-write.py: "push", "-q", "origin", run, check=False
+  state-write.py: git push --delete <branch>
+  state-write.py: git push --delete <branch>
+  state-write.py: "push", "-q", "origin", f"--force-with-lease=refs/heads/{branch}:{lease}", f":{branch}", check=False
+  state-write.py: "push", "-q", "-u", "origin", want, check=False
+  ste-check.py: "push", "put", "queue", "quit", "raise", "rate", "reach", "read", "record", "refactor", "refuse", "register", "rebase", 
+B-1 shell string with a double-quoted repo path: git -C "{repo}" push: T-R-119 exit 0 PASSED (mutant not caught)
+B-2 shell string with a single-quoted repo path: git -C '{repo}' push: T-R-119 exit 0 PASSED (mutant not caught)
+B-4 new .sh skill script: git -C "$repo" push origin "$vb": T-R-119 exit 0 PASSED (mutant not caught)
+B-3 shell string built by concatenation: "git -C " + repo + " push origin ": T-R-119 exit 0 PASSED (mutant not caught)
+B-6 gh api POST to the pulls endpoint in a shell string: T-R-119 exit 0 PASSED (mutant not caught)
+B-7 git send-pack of a verify name in the git helper: T-R-119 exit 0 PASSED (mutant not caught)
+B-8 git and push more than 80 characters apart in one shell string: T-R-119 exit 0 PASSED (mutant not caught)
+B-9 script in a skipped folder name: tracker/fixtures/publish.py: T-R-119 exit 0 PASSED (mutant not caught)
+B-10 extensionless python script with a shebang: T-R-119 exit 0 PASSED (mutant not caught)
+round 2 blind spots that passed T-R-119: B-6, B-7, B-8, B-9, B-10
+B-5 new .sh skill script: git push with the branch on a continuation line: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+B-11 second copy of the pinned run push line, fed a verify name: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+B-12 push token in a .cjs script: T-R-119 exit 1 FAILED (mutant caught)
+B-13 push in a tracker/template.html script: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+B-14 argv split: "git", "-C", repo, on one line and "push" on the next: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: ["next-action.py: --prs takes {\"open\": [...], \"merged\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).","next-action.py: ok, out = run(repo, \"gh\", \"pr
+quote-tolerant scan hits on the slice commit:
+  state-write.py:248: git(repo, "push", "-q", "origin", run, check=False)
+  state-write.py:344: `git push --delete <branch>` removes whatever the remote points at, which is not what the local proof
+  state-write.py:379: The remote delete is proved separately from the local one. `git push --delete <branch>` removes whatever
+  state-write.py:425: git(repo, "push", "-q", "origin", f"--force-with-lease=refs/heads/{branch}:{lease}", f":{branch}", check=False)
+  state-write.py:464: git(repo, "push", "-q", "-u", "origin", want, check=False)
+  ste-check.py:99: "print", "produce", "promote", "prove", "provide", "publish", "pull", "push", "put",

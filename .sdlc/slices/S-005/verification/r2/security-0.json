@@ -1,0 +1,707 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 2,
+  "commit": "3780ee1",
+  "environment": "macOS (Darwin 25.6), Node v24.19.0, python3; T-R-119 run with node --test on temp copies of skills/sdlc",
+  "cases": [
+    {
+      "id": "TC-security-14",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 passes on the unchanged skill from the repo root and from a moved copy",
+      "given": "The skill at commit 3780ee1.",
+      "when": "Run T-R-119 with cwd at the repo root, then on a copy of skills/sdlc in the temp folder.",
+      "then": "Both runs pass, and branches.test.mjs names no absolute or worktree path.",
+      "expected": "Exit 0 twice; no absolute path.",
+      "actual": "Exit 0 twice; imports resolve through harness.mjs SKILL_DIR.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:56",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "clean runs",
+          "inline": "clean tree from repo root: exit 0 PASSED\nclean copy outside the repo: exit 0 PASSED"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-15",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The three TC-cli-11 mutants fail T-R-119",
+      "given": "A copy of the skill with one mutant in state-write.py.",
+      "when": "Add M-1, M-2 and M-3.",
+      "then": "T-R-119 fails on each mutant.",
+      "expected": "Exit 1 for M-1, M-2, M-3.",
+      "actual": "Exit 1 for each.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:67",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "TC-cli-11 mutants",
+          "inline": "M-1 verify name built on an earlier line, then pushed: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tes\nM-2 git(repo, \"push\", ...) split over lines: T-R-119 exit 1 FAILED (mutant caught) - a script pushes or opens a request for a verify branch: state-write.py: git(repo, \"push\", \"-q\",\nM-3 split create call: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"next-action.py: ok, out ="
+        }
+      ]
+    },
+    {
+      "id": "TC-security-16",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches a verify push in the [\"git\", \"-C\", repo, \"push\", ...] form",
+      "given": "A copy of the skill with subprocess.run([\"git\", \"-C\", repo, \"push\", \"origin\", vb]) in state-write.py.",
+      "when": "Run T-R-119 on the copy.",
+      "then": "T-R-119 fails.",
+      "expected": "Exit 1.",
+      "actual": "Exit 1. The quoted push token is a new site, so the pinned list changes.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:76",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-3",
+          "inline": "A-3 [\"git\", \"-C\", repo, \"push\", \"origin\", vb]: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-17",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches a verify push in a git -C {repo} push shell string",
+      "given": "A copy of the skill with subprocess.run(f\"git -C {repo} push origin {vb}\", shell=True).",
+      "when": "Run T-R-119 on the copy.",
+      "then": "T-R-119 fails.",
+      "expected": "Exit 1.",
+      "actual": "Exit 1.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:81",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-4",
+          "inline": "A-4 shell string git -C {repo} push: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"next-action"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-18",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches a verify push in a tracker skill script",
+      "given": "A copy of the skill with a git push of a verify name in tracker/collect.py.",
+      "when": "Run T-R-119 on the copy.",
+      "then": "T-R-119 fails.",
+      "expected": "Exit 1.",
+      "actual": "Exit 1. T-R-119 now walks every script under skills/sdlc.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:86",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-13",
+          "inline": "A-13 tracker/collect.py git push of a verify name: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)."
+        }
+      ]
+    },
+    {
+      "id": "TC-security-19",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Round 1 blind spots: seven of nine forms are now caught",
+      "given": "The nine round 1 blind-spot mutants.",
+      "when": "Run T-R-119 on each copy.",
+      "then": "Record the forms that still pass.",
+      "expected": "Only A-11 and A-16 pass, as the fix notes state.",
+      "actual": "Only A-11 (push verb built at run time) and A-16 (run rebound to a verify name) pass. Both stay seeds.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "round 1 blind spots",
+          "inline": "A-1 single-quoted git(repo, 'push', ...): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"next-a\nA-2 receiver other than repo: git(root, \"push\", ...): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (test\nA-6 sdlc-loop.js execFileSync('git', ['push', ...]): T-R-119 exit 1 FAILED (mutant caught)\nA-7 sdlc-loop.js spawn(git, [-C, repo, push, ...]): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)\nA-8 gh pr create built from a list with flags between parts: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling g\nA-10 shell string with two spaces: git  push: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"ne\nA-11 push verb in a constant: git(repo, PUSH, ...): T-R-119 exit 0 PASSED (mutant not caught)\nA-12 template text 'git push --delete <branch>' rewritten at run time: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of\nA-16 the pinned run-branch push site with run rebound to a verify name: T-R-119 exit 0 PASSED (mutant not caught)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-20",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches the common push and request forms",
+      "given": "Seven mutants: A-5, A-9, A-14, A-15, A-17, A-18, A-19.",
+      "when": "Run T-R-119 on each copy.",
+      "then": "T-R-119 fails on each.",
+      "expected": "Exit 1 for all seven.",
+      "actual": "Exit 1 for all seven.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "caught forms",
+          "inline": "A-5 os.system(f\"git push origin {vb}\"): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"next-act\nA-9 git(repo,\"push\") with no spaces and a new target: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (test\nA-14 branches.py push of a name built from tail(): T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"branches.py: subprocess.run([\\\"git\\\", \\\"push\\\", \\\"origin\\\", t])\",\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} i\nA-15 push call whose argument holds a nested call: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\nA-17 sdlc-loop.js agent prompt with git push of branch(g): T-R-119 exit 1 FAILED (mutant caught) - a script pushes or opens a request for a verify branch: sdlc-loop.js: const pushIt = g => agent(`git push origin ${branch(g)}`)\nA-18 sdlc-loop.js extra use of branch(g) with no push words: T-R-119 exit 1 FAILED (mutant caught) - the verify branch builder has 4 references, not 3: [\"const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`\",\"const publish = g => agent(`publish ${\nA-19 glab mr create shell string: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"next-action.py"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-21",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "The scripts on the slice commit hold no push or request of a verify branch",
+      "given": "Every .py, .js, .mjs and .sh file under skills/sdlc, tests excluded.",
+      "when": "Scan with the round 1 broad pattern.",
+      "then": "No hit names a verify branch.",
+      "expected": "Only the run, milestone and remote-delete sites and the ste-check.py word list.",
+      "actual": "As expected.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:147",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "broad scan",
+          "path": ".sdlc/slices/S-005/verification/r2/logs/security-0-mutants.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-22",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches a git -C shell string with a quoted repo path",
+      "given": "A copy of the skill. state-write.py gets subprocess.run(f'git -C \"{repo}\" push origin {vb}', shell=True) (B-1), or os.system(f\"git -C '{repo}' push origin {vb}\") (B-2). vb is a verify name.",
+      "when": "Run T-R-119 on each copy.",
+      "then": "T-R-119 fails: this is the plan's 'shell string with git -C x push' form with a quoted path.",
+      "expected": "Exit 1 for B-1 and B-2.",
+      "actual": "Exit 0 for both. The pattern \\bgit\\b[^\"'`\\n]{0,80}?\\bpush\\b stops at the first quote character, so a quoted path between git and push hides the push.",
+      "result": "fail",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:170",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "B-1, B-2",
+          "inline": "B-1 shell string with a double-quoted repo path: git -C \"{repo}\" push: T-R-119 exit 0 PASSED (mutant not caught)\nB-2 shell string with a single-quoted repo path: git -C '{repo}' push: T-R-119 exit 0 PASSED (mutant not caught)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-23",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches git -C \"$repo\" push in a new .sh skill script",
+      "given": "A copy of the skill with a new publish.sh: git -C \"$repo\" push origin \"$vb\", with vb=\"sdlc/$2-v$3-$4-$5\".",
+      "when": "Run T-R-119 on the copy.",
+      "then": "T-R-119 fails: the fix adds .sh to the scanned scripts, and this is the standard quoted shell form.",
+      "expected": "Exit 1.",
+      "actual": "Exit 0. The quoted \"$repo\" stops the git ... push pattern, and push has no quote next to it.",
+      "result": "fail",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:177",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "B-4",
+          "inline": "B-4 new .sh skill script: git -C \"$repo\" push origin \"$vb\": T-R-119 exit 0 PASSED (mutant not caught)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-24",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches a git -C x push shell string built by concatenation",
+      "given": "A copy of the skill. state-write.py gets os.system(\"git -C \" + repo + \" push origin \" + vb).",
+      "when": "Run T-R-119 on the copy.",
+      "then": "T-R-119 fails.",
+      "expected": "Exit 1.",
+      "actual": "Exit 0. The closing quote after -C stops the git ... push pattern.",
+      "result": "fail",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:182",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "B-3",
+          "inline": "B-3 shell string built by concatenation: \"git -C \" + repo + \" push origin \": T-R-119 exit 0 PASSED (mutant not caught)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-25",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "Round 2 forms outside the scripts idiom pass T-R-119 (recorded blind spots)",
+      "given": "Five mutants: gh api POST to /pulls, git send-pack, git and push over 80 characters apart, a script in a folder named fixtures, an extensionless script.",
+      "when": "Run T-R-119 on each copy.",
+      "then": "Record which pass. The test asserts the exact list.",
+      "expected": "The five forms pass T-R-119.",
+      "actual": "All five pass. They go to seeds: no requirement names them.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:187",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "round 2 blind spots",
+          "inline": "B-6 gh api POST to the pulls endpoint in a shell string: T-R-119 exit 0 PASSED (mutant not caught)\nB-7 git send-pack of a verify name in the git helper: T-R-119 exit 0 PASSED (mutant not caught)\nB-8 git and push more than 80 characters apart in one shell string: T-R-119 exit 0 PASSED (mutant not caught)\nB-9 script in a skipped folder name: tracker/fixtures/publish.py: T-R-119 exit 0 PASSED (mutant not caught)\nB-10 extensionless python script with a shebang: T-R-119 exit 0 PASSED (mutant not caught)"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-26",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "T-R-119 catches the round 2 forms near the fix",
+      "given": "Five mutants: a .sh push with a continuation line, a second copy of the pinned run push line, a .cjs execFileSync push, a push token in tracker/template.html, an argv with push on the next line.",
+      "when": "Run T-R-119 on each copy.",
+      "then": "T-R-119 fails on each.",
+      "expected": "Exit 1 for all five.",
+      "actual": "Exit 1 for all five. The row-keyed site set catches a copy of a pinned line.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "round 2 caught forms",
+          "inline": "B-5 new .sh skill script: git push with the branch on a continuation line: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instea\nB-11 second copy of the pinned run push line, fed a verify name: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calli\nB-12 push token in a .cjs script: T-R-119 exit 1 FAILED (mutant caught)\nB-13 push in a tracker/template.html script: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests).\",\"nex\nB-14 argv split: \"git\", \"-C\", repo, on one line and \"push\" on the next: T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead o"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-27",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-119"
+      ],
+      "title": "A quote-tolerant scan of every skill file finds no verify push or request",
+      "given": "Every non-md, non-json file under skills/sdlc, tests, fixtures and prompts excluded.",
+      "when": "Scan each line for git ... push with quotes allowed, a quoted push, send-pack, /pulls, merge_requests, pr or mr ... create.",
+      "then": "No hit names a verify branch.",
+      "expected": "Only the pinned run, milestone and remote-delete lines and the ste-check.py word list.",
+      "actual": "Six hits, all pinned sites. The product code holds the guarantee today.",
+      "result": "pass",
+      "specSource": "R-119 acceptance",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:214",
+      "command": "node --test .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "quote-tolerant scan",
+          "path": ".sdlc/slices/S-005/verification/r2/logs/security-0-mutants.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "M-1",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "verify name on an earlier line, then git(repo, \"push\", ..., vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tes",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:67"
+    },
+    {
+      "id": "M-2",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "git(repo, \"push\", \"-q\",\\n \"origin\", f\"sdlc/{sid}-v{rnd}-...\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - a script pushes or opens a request for a verify branch: state-write.py: git(repo, \"push\", \"-q\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:67"
+    },
+    {
+      "id": "M-3",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "subprocess.run([\"gh\", \"pr\",\\n \"create\", \"--head\", vb])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:67"
+    },
+    {
+      "id": "A-3",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "subprocess.run([\"git\", \"-C\", repo, \"push\", \"origin\", vb])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:76"
+    },
+    {
+      "id": "A-4",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "subprocess.run(f\"git -C {repo} push origin {vb}\", shell=True)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:81"
+    },
+    {
+      "id": "A-13",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "tracker/collect.py: subprocess.run([\"git\", \"push\", \"origin\", vb])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:86"
+    },
+    {
+      "id": "A-1",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "git(repo, 'push', '-q', 'origin', vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-2",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "git(root, \"push\", \"-q\", \"origin\", vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (test",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-6",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "sdlc-loop.js: execFileSync('git', ['push', 'origin', <verify name>])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-7",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "sdlc-loop.js: spawn('git', ['-C', repo, 'push', 'origin', b])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-8",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "subprocess.run([\"gh\", \"pr\", \"--repo\", repo, \"create\", \"--head\", vb])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling g",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-10",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(f\"git  push origin {vb}\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-11",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "PUSH = \"pu\" + \"sh\"; git(repo, PUSH, \"origin\", vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-12",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(\"git push --delete <branch>\".replace(...))",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-16",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "run = config.get(\"verifyBranch\") or run, before the pinned run push",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91"
+    },
+    {
+      "id": "A-5",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(f\"git push origin {vb}\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "A-9",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "git(repo,\"push\",\"origin\",vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (test",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "A-14",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "branches.py: subprocess.run([\"git\", \"push\", \"origin\", tail(\"verify\", **p)])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"branches.py: subprocess.run([\\\"git\\\", \\\"push\\\", \\\"origin\\\", t])\",\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} ",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "A-15",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "git(repo, \"push\", \"origin\", str(vb))",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "A-17",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "sdlc-loop.js: agent(`git push origin ${branch(g)}`)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - a script pushes or opens a request for a verify branch: sdlc-loop.js: const pushIt = g => agent(`git push origin ${branch(g)}`)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "A-18",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "sdlc-loop.js: agent(`publish ${branch(g)} to origin`)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the verify branch builder has 4 references, not 3: [\"const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`\",\"const publish = g => agent(`publish ${",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "A-19",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(f\"glab mr create --source-branch {vb}\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118"
+    },
+    {
+      "id": "B-1",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "subprocess.run(f'git -C \"{repo}\" push origin {vb}', shell=True)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:170"
+    },
+    {
+      "id": "B-2",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(f\"git -C '{repo}' push origin {vb}\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:170"
+    },
+    {
+      "id": "B-4",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "publish.sh: git -C \"$repo\" push origin \"$vb\"",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:177"
+    },
+    {
+      "id": "B-3",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(\"git -C \" + repo + \" push origin \" + vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "broke",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:182"
+    },
+    {
+      "id": "B-6",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(f\"gh api -X POST repos/{repo}/pulls -f head={vb} -f base=main\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:187"
+    },
+    {
+      "id": "B-7",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "git(repo, \"send-pack\", \"origin\", vb)",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:187"
+    },
+    {
+      "id": "B-8",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "os.system(f\"git -C {repo} -c ... (over 80 characters) push origin {vb}\")",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:187"
+    },
+    {
+      "id": "B-9",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "tracker/fixtures/publish.py with a git push of vb",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:187"
+    },
+    {
+      "id": "B-10",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "extensionless python script publish with a git push of vb",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 0 PASSED (mutant not caught)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:187"
+    },
+    {
+      "id": "B-5",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "publish2.sh: git push origin \\\\\\n \"$vb\"",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instea",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201"
+    },
+    {
+      "id": "B-11",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "run = vb; git(repo, \"push\", \"-q\", \"origin\", run, check=False) as a second copy",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calli",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201"
+    },
+    {
+      "id": "B-12",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "publish.cjs: execFileSync('git', ['push', 'origin', `sdlc/${id}-v${r}-...`])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201"
+    },
+    {
+      "id": "B-13",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "tracker/template.html: args: ['push', 'origin', vb]",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead of calling gh (tests)",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201"
+    },
+    {
+      "id": "B-14",
+      "charter": "Explore the T-R-119 guard with push and request forms it does not parse, to find a verify push that it lets through.",
+      "input": "subprocess.run([\"git\", \"-C\", repo,\\n \"push\", \"origin\", vb])",
+      "expected": "T-R-119 fails",
+      "observed": "T-R-119 exit 1 FAILED (mutant caught) - the push and create sites changed: [\"next-action.py: --prs takes {\\\"open\\\": [...], \\\"merged\\\": [...]} in the shape of `gh pr list --json`, instead o",
+      "result": "held",
+      "test": ".sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "T-R-119 misses gh api pull-request creation",
+      "detail": "A shell string gh api -X POST repos/<slug>/pulls -f head=<verify name> creates a pull request and passes T-R-119 (B-6). The scan looks for pr or mr words, not the pulls endpoint. Add /pulls and merge_requests to the site patterns.",
+      "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "T-R-119 misses git push plumbing and long gaps",
+      "detail": "git(repo, \"send-pack\", \"origin\", vb) pushes a verify name and passes (B-7). A git ... push text with more than 80 characters between git and push passes (B-8).",
+      "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "T-R-119 skips scripts by folder name and by extension",
+      "detail": "A script in any folder named fixtures, test or prompts is skipped, also under tracker (B-9). An extensionless script with a shebang is skipped (B-10). Consider a skip list of exact paths, and a scan of files with a shebang.",
+      "file": "skills/sdlc/test/branches.test.mjs"
+    },
+    {
+      "title": "A text scan cannot see a push verb built at run time or a rebound variable",
+      "detail": "A-11 (PUSH = \"pu\" + \"sh\") and A-16 (run rebound before the pinned run push) still pass T-R-119. A behavior test that runs advance_run_branch against a bare remote and lists the remote refs would close A-16.",
+      "file": "skills/sdlc/state-write.py"
+    }
+  ]
+}

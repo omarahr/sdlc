@@ -1913,7 +1913,10 @@
     "acceptance": "In `pr`, `mr` and `stack` modes the integrator deletes every attempt branch of the slice locally and on the remote with `git push origin --delete`. It finds them through `branches.py list --kind attempt` filtered to the slice, under a custom format too.",
     "status": "todo",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-053059-decision-judge-S-005-23a9",
+      "ADR-20261009-062918-decision-judge-S-005-7fbd"
+    ],
     "evidence": {
       "files": [],
       "tests": [],

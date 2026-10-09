@@ -3,3 +3,5 @@
 {"ts":"2026-10-09T04:09:40Z","type":"slice-merged","slice":"S-002","detail":"validate_format, split and name: R-001, R-017, R-019, R-020, R-071 done"}
 {"ts":"2026-10-09T04:45:05Z","type":"slice-merged","slice":"S-003","detail":"tail contract and format resolution order: R-018, R-099, R-015, R-012 done; R-002 in progress until S-027"}
 {"ts":"2026-10-09T05:23:35Z","type":"slice-merged","slice":"S-004","detail":"tails: run, slice, milestone, e2e, e2e-area"}
+{"ts":"2026-10-09T06:22:27Z","type":"slice-escalated","slice":"S-005","detail":"step 1 replan: three fix rounds ended with T-R-119 still refuted; attempt archived as sdlc/S-005-attempt-1"}
+{"ts":"2026-10-09T07:42:15Z","type":"slice-escalated","slice":"S-005","detail":"step 2 split into S-005a (R-008, R-009, R-010) and S-005b (R-119); R-093 moved to S-027 per ADR-7fbd; attempt archived as sdlc/S-005-attempt-2"}
