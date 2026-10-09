@@ -199,3 +199,27 @@
 - Decision: Option 1. The plan needs only name, split and the eight TAILS rows, which S-002 to S-005a supply. Its R-120 check is a source scan that does not call push_guard.py. S-005b guards R-119, a different requirement. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 15+10+3 = 28. Options 1 and 2 are one design; option 1 wins the tie. Option 3 keeps a dependency link that no longer blocks anything and so misleads the scheduler.
 - Consequences / how to reverse: Only tests in branches.test.mjs change. No product code, flag or state format changes. If S-005b lands later, a follow-up can add a push-guard cross-check to R-120. To reverse, restore the dependency note and rebase onto S-005b.
 - Affects: S-006, R-011, R-068, R-120, S-005b
+
+### ADR-20261009-170811-decision-judge-S-007-275e: known value for a kind with no id part
+- Status: auto
+- Context: The spec defines known only for an id. A run or state branch has no id part. The plan sets known to None for these kinds. No OVERRIDE ADR covers this question.
+- Options: (1) Return None for run and state, even when ids is given; keep the plan. (2) The same rule, worded as "do not use false". (3) The same rule, worded as "keep the plan's rule". All three proposals describe one design.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. The options are one design; option 1 wins the tie. None means "not applicable". False would claim a failed lookup. True would claim a match that never happened.
+- Consequences / how to reverse: The rule is one branch in parse and one test assertion. To change it to False, edit that line and that test. Only callers that read known on run or state branches notice.
+- Affects: S-007, R-021, R-022, R-023, R-024, R-069
+
+### ADR-20261009-170812-decision-judge-S-007-35cd: Under lower, parse resolves every id kind through ids, milestones included
+- Status: auto
+- Context: The spec says ids are ledger ids and parse replaces id with the ledger spelling. The question is whether milestone ids take the same step. No OVERRIDE ADR covers this question.
+- Options: (1) Resolve every parsed id through ids, milestone kinds included. (2) The same rule, worded as one case-insensitive lookup that sets known. (3) The same rule, listing all six id kinds, with no milestone special case.
+- Decision: Option 1. The three proposals describe one design. The spec has no kind exception, and a lowercased sdlc/m-1 must give M-1 to match the ledger. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie because it names the milestone kinds and the known flag. R-068 needs the uniform rule for the round trip.
+- Consequences / how to reverse: One lookup step inside parse changes. To limit it to slice kinds, add a kind check there and update the milestone tests. No signature or stored state changes.
+- Affects: S-007, R-068
+
+### ADR-20261009-170814-decision-judge-S-007-5aab: parse prints one flat JSON object with kind null for a foreign branch
+- Status: auto
+- Context: The spec says parse prints its kind and ids, or null. The spec also says every command prints one JSON object. The plan prints the keys flat. No OVERRIDE ADR covers this question.
+- Options: (1) Flat object {ok, command, format, branch, kind, ...parts}; kind is null and no part keys for a foreign branch. (2) The same shape, with the part keys named: id, n, area, round, profile, part, ts, tail, known. (3) The same shape, with the same part keys added only when kind is not null.
+- Decision: Option 2. The three proposals describe one design; option 2 names the part keys. Print exit 0 for a foreign branch. Python parse() still returns None. Scores (fit x3, reversibility x2, simplicity x1): option 2 = 15+10+5 = 30, option 1 = 15+10+5 = 30, option 3 = 15+10+4 = 29. Option 2 wins the tie because it lists the keys that tests read.
+- Consequences / how to reverse: Only cmd_parse in skills/sdlc/branches.py and its tests change. Later slices S-018 and S-021 to S-024 read kind from the flat keys. To reverse, nest the parts or print a bare null in that one handler.
+- Affects: S-007, R-068

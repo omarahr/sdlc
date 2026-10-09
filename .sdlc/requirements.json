@@ -887,7 +887,7 @@
     "specRef": "§2",
     "quote": "`parse(fmt, branch, ids=None)`: `None` unless `branch` starts with `prefix` and ends with `suffix`;",
     "acceptance": "parse returns null for `main`, for `feature/PROJ-1-foo` under `feature/PROJ-1-{name}`, and for `sdlc/feature-x` under the default. `sdlc/feature-x` passes the prefix and suffix test and still gives null because no kind row matches its tail.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -902,7 +902,7 @@
     "specRef": "§2",
     "quote": "otherwise the tail between them is classified by the first regex that matches, in this order, compiled with `re.IGNORECASE` when `lower` is set:",
     "acceptance": "Classification follows table rows 1 to 8 in order. `S-fix-M-1-2` is a slice. `M-1-e2e-api` is an e2e-area. `S-001-v0-http-api-0` is verify with profile `http-api`. An area with dashes parses whole: `M-1-e2e-a-b` gives area `a-b`. Under `{name:lower}` the regexes compile with re.IGNORECASE.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -917,7 +917,7 @@
     "specRef": "§2",
     "quote": "The result is `{\"kind\", \"tail\", \"id\", \"n\", \"area\", \"round\", \"profile\", \"part\", \"ts\", \"known\"}` with the parts that apply.",
     "acceptance": "parse of `sdlc/run-2` gives kind `run` and `n: 2`. Of `sdlc/state-20261008101500` gives `ts`. Of `sdlc/S-001-v0-http-api-0` gives `id`, `round`, `profile`, `part`. Of `sdlc/M-1-e2e-api` gives `id` and `area`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -932,7 +932,7 @@
     "specRef": "§2",
     "quote": "When `ids` (an iterable of ledger ids) is given, `id` is replaced by the ledger's spelling that matches it, case-insensitively under `lower`, and `known` says whether one matched; without `ids`, `known` is `None`.",
     "acceptance": "`parse(\"feature/PROJ-1-{name:lower}\", \"feature/proj-1-s-001\", ids=[\"S-001\"])` gives `id: \"S-001\"` and `known: true`. An id absent from the list gives `known: false`. Without ids, `known` is null.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1621,7 +1621,7 @@
     "specRef": "§Testing",
     "quote": "`parse returns null for a foreign branch and resolves ids against the ledger`: `main`, `feature/PROJ-1-foo`, `sdlc/feature-x` give `null`; `feature/proj-1-s-001` with ids `['S-001']` gives `S-001`, `known: true`.",
     "acceptance": "The branches test asserts those four parse results.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

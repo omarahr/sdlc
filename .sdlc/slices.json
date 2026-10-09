@@ -1114,8 +1114,8 @@
       "S-006"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-007",
     "pr": "",
     "risk": "medium",
@@ -1124,7 +1124,7 @@
     "ideaKeys": [],
     "notes": "",
     "counters": {
-      "planRevisions": 0,
+      "planRevisions": 2,
       "fixRounds": 0,
       "ladderStep": 0,
       "parkCycles": 0,
