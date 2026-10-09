@@ -1,0 +1,153 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "A developer runs each of the four commands with every flag its spec line names and reads one JSON object",
+      "requirementIds": [
+        "R-088",
+        "R-014",
+        "R-013"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Run python3 skills/sdlc/branches.py name, parse, list and preflight from a scratch cwd against a scratch git repo. Pass every flag of the spec §2 line, in different orders and with --flag=value syntax. Stdout must parse as exactly one JSON object, with no extra line or trailing text. Exit must be 0 and ok must be true. Stderr must stay empty. Try --repo with a space and unicode in the path. Try each optional flag left out. Try 'name' with only --repo and --kind. Run each command twice and confirm the repo file tree does not change."
+    },
+    {
+      "id": "VS-2",
+      "title": "A caller passes a flag that the command does not name, or leaves out a required flag",
+      "requirementIds": [
+        "R-088",
+        "R-014"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Cases: parse --kind slice; list --branch x; preflight --kind slice; name --branch x; list --id S-1; parse without --branch; name without --kind; preflight without --mode; any command without --repo; no command at all; an unknown command; a flag prefix (argparse allow_abbrev may accept --rep for --repo or --form for --format: report it, the spec names full flags only); a flag given twice; a positional extra argument. Each case must exit 2 and print only {ok:false, error:<non-empty string>} on stdout, with no argparse usage text on stdout. Note what goes to stderr. Check -h and --help: the spec does not define them, so record the behavior only."
+    },
+    {
+      "id": "VS-3",
+      "title": "A caller passes a non-integer or odd value to --n, --round or --part",
+      "requirementIds": [
+        "R-014",
+        "R-088"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Try --n two, --n 1.5, --n '', --round 0x1, --part -1, --n 99999999999999999999, --n ' 3', --n with unicode digits (python int() accepts '٣'). Non-integers must exit 2 with the JSON error. Record whether negative and unicode-digit values pass, as seeds for later slices. Stdout must hold one JSON object in each case."
+    },
+    {
+      "id": "VS-4",
+      "title": "A caller passes an invalid --format to each command",
+      "requirementIds": [
+        "R-014"
+      ],
+      "profiles": [
+        "cli",
+        "contract",
+        "security"
+      ],
+      "notes": "Structural checks only in this slice; S-002 adds the git check-ref-format step (R-017). Cases on every command, not only preflight: no placeholder; {name}{name}; {name}-{name:lower}; a stray { or }; {id}; {NAME}; {name:upper}; {name:lower} beside a lone }; a space, tab, newline, carriage return; non-ASCII whitespace such as U+00A0 and U+3000 (re \\s matches these); NUL byte where the OS allows it; the empty string --format '' (it is not None, so it must be validated and refused, not fall back to config). Each must exit 2 with one JSON error object. Valid controls: sdlc/{name}, sdlc/{name:lower}, feature/{name}-x must pass. Through the contract boundary, call validate_format directly with the same inputs and with a non-string; it must raise Fail, never another exception."
+    },
+    {
+      "id": "VS-5",
+      "title": "A caller passes an unknown --kind, an unknown --mode or a --repo that is not a directory",
+      "requirementIds": [
+        "R-014"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "--kind bogus, --kind SLICE, --kind '' and --kind 'slice ' on name and list. --mode bogus, --mode PR and --mode '' on preflight. All eight kinds and all four modes in git-modes.json must pass. --repo pointing to a missing path, a regular file, a symlink to a directory (should pass), and a path with '..'. With git-modes.json removed or malformed in a copied skill directory, preflight must exit 2 with a JSON error and the other commands must still run. No path may exit 1 or print a Python traceback."
+    },
+    {
+      "id": "VS-6",
+      "title": "load_format resolves the branch format from the repo config or falls back to the default",
+      "requirementIds": [
+        "R-016"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Call load_format(repo) through the module imported from its path. Config states: branchFormat 'feature/{name}' gives that value; key missing, empty string, file absent, .sdlc directory absent give 'sdlc/{name}'. Edge states: branchFormat null, a number, a list, the JSON top level as a list or a string, a UTF-8 BOM, invalid JSON, a directory in place of config.json, an unreadable file. Spec says only 'a non-empty one', so a non-string must fall back to the default, and a read error must raise Fail, not a raw exception. Through the CLI, parse with no --format must print the same resolved value in the format field."
+    },
+    {
+      "id": "VS-7",
+      "title": "A command without --format uses the config format, and --format wins over the config",
+      "requirementIds": [
+        "R-016",
+        "R-014"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Repo config holds 'feature/{name}': parse and list without --format print format 'feature/{name}'; with --format 'sdlc/{name}' they print 'sdlc/{name}'. Repo config holds an invalid value such as 'feature/x' or 'a {name}': a command without --format must exit 2 with a JSON error; the same command with a valid --format must exit 0. Repo config is malformed JSON: a command without --format must exit 2 with a JSON error. Record whether a valid --format still succeeds when the config is malformed."
+    },
+    {
+      "id": "VS-8",
+      "title": "A probe imports branches.py by path and finds a stdlib-only module with its public functions",
+      "requirementIds": [
+        "R-013"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Import through importlib.util.spec_from_file_location from a scratch cwd with an empty PYTHONPATH and python3 -I. Confirm Fail is an Exception subclass, and load_format, validate_format and main are callable. Confirm the import has no side effect: no stdout output, no read of git-modes.json, no git call, no file written beyond __pycache__. Parse the source with ast and confirm each imported top-level name is in sys.stdlib_module_names. Call main([...]) in-process and confirm it returns 0 or 2 and does not call sys.exit."
+    },
+    {
+      "id": "VS-9",
+      "title": "next-action.py, state-write.py and janitor.py import branches from their own directory when run from another directory",
+      "requirementIds": [
+        "R-098"
+      ],
+      "profiles": [
+        "cli",
+        "contract",
+        "security"
+      ],
+      "notes": "Run each script with cwd in a scratch directory that holds a decoy branches.py (it prints or raises). The real module beside the script must win. Also load each script by path through importlib from that cwd and check mod.branches.__file__. Run each script through a symlink placed in another directory, and through a relative path. Each script must still run its --help with exit 0. Check that the scripts do not fail when PYTHONPATH holds another directory with a branches module."
+    },
+    {
+      "id": "VS-10",
+      "title": "Branch recognition in the three scripts gives the same result after the import lands",
+      "requirementIds": [
+        "R-098"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "From a scratch cwd with --repo on a scratch git repo: next-action.py picks up a local sdlc/S-1 branch that marks S-1 in_progress (decision slice, checkout sdlc/S-1); state-write.py base-branch returns sdlc/S-1 for a slice that depends on an awaiting-merge S-1; janitor.py --days 36500 removes sdlc/S-1-v1 and keeps sdlc/S-1 for a done slice. Compare with the same fixtures run on main before the change. The existing next-action, scripts, janitor and git-modes suites must pass unchanged in assertions."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run python3 skill scripts from a scratch cwd against a scratch git repo with a controlled env; record command line, stdout, stderr, exit code and the file tree before and after.",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Generate branch-format strings and config.json shapes and call validate_format and load_format through the module imported by path; assert Fail or a valid return, never another exception.",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Hostile CLI inputs: control characters, unicode whitespace and digits, NUL, huge integers, flag abbreviations, duplicate flags, decoy branches.py modules in cwd and on PYTHONPATH.",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "The slice adds one CLI boundary whose JSON and exit-code contract every later slice and three scripts depend on, but it moves no data and has no side effects.",
+  "notes": "Profiles in priority order: cli, contract, security. The slice is a local Python CLI with no HTTP, async, database or UI boundary, so those profiles do not apply. No scenario has a stated number, so limits is not tagged. Do not test git check-ref-format refusals here; S-002 owns R-017. Do not assert the final result fields of name, parse, list or preflight; ADR-20261009-024048 and ADR-20261009-024229 make the success body an interim echo under args. Watch two likely seeds: argparse allow_abbrev accepts flag prefixes the spec does not name, and int() accepts unicode digits for --n, --round and --part. Round 2 (after review fix): the fix commit 90d3251 adds a committed test for a bad git-modes.json and changes no product code, so no scenario is added. The round-1 fix (4434d71) stays covered by VS-5, VS-6 and VS-9. The three tools now exist in .sdlc/testkit.json."
+}
