@@ -1,0 +1,103 @@
+fatal: 'sdlc/../..' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-../..' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '../..' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc//etc' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '/etc' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/../../../../etc/passwd' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-../../../../etc/passwd' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '../../../../etc/passwd' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/..\..' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-..\..' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '..\..' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/~' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-~' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '~' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/file:///etc' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-file:///etc' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'file:///etc' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/\\server\share' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-\\server\share' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '\\server\share' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/.' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-.' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: '.' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/./' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: 'sdlc/S-./' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+fatal: './' is not a valid branch name
+hint: See `man git check-ref-format`
+hint: Disable this message with "git config set advice.refSyntax false"
+✔ verify security: VS-3 remote refs, tags and detached HEAD never appear (762.501833ms)
+✔ verify security: VS-3 a tag with the same name as a branch does not hide or change the branch (975.802666ms)
+✔ verify security: VS-3 a tag alone, with no branch of the name, gives nothing (437.629ms)
+✔ verify security: VS-3 a branch named heads/sdlc/S-002 is not mistaken for sdlc/S-002 (382.373417ms)
+✔ verify security: VS-3 a linked worktree branch and a symbolic ref are listed once and only as branches (416.5235ms)
+✔ verify security: VS-5 empty repo, no commit (466.468834ms)
+✔ verify security: VS-5 non-git dir, missing path, file path, unreadable dir (313.755625ms)
+✔ verify security: VS-5 a subdirectory of a repo, a bare repo, and a broken .git (1011.579292ms)
+✔ verify security: VS-5 git missing from PATH gives a defined error (215.226583ms)
+✔ verify security: VS-6 odd numeric tails parse safely and sort by integer (896.823375ms)
+✔ verify security: VS-6 unicode digits in branch names drop out or parse without crash (7792.73425ms)
+✔ verify security: VS-6 huge integers in branch names do not crash list (786.522208ms)
+✔ verify security: VS-6 confusable and traversal-like branch names are not listed as loop branches (4693.17875ms)
+✔ verify security: VS-6 leading-dash and flag-like values as --repo, --kind and --format (3942.027708ms)
+✔ verify security: VS-6 traversal and injection as --repo run no command and write nothing (2403.8105ms)
+✔ verify security: VS-6 repo config cannot run code during list (core.fsmonitor, hooks, aliases) (404.584042ms)
+✔ verify security: VS-6 observation: a non-ASCII digit tail is listed as a loop branch with an ASCII-equivalent n (385.503167ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26443.676583

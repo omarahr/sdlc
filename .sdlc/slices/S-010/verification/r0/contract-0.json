@@ -1,0 +1,475 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "79efa1c",
+  "environment": "Python 3.14.7, Node 24.19.0, git (Xcode) on macOS APFS (case-insensitive: the test avoids names that differ only in case); fixture repos in scratch directories; cli-runner, property and attack-corpus from the testkit; module under test imported by absolute path, never from internal source paths of the repo under test",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Public surface lists list_kind(repo, fmt, kind) and the stdlib-only import set",
+      "given": "branches.py imported as a consumer imports it",
+      "when": "Inspect signatures and imports",
+      "then": "list_kind(repo, fmt, kind), parse(fmt, branch, ids=None), name(fmt, kind, **parts); only stdlib imports",
+      "expected": "list_kind(repo, fmt, kind), parse(fmt, branch, ids=None), name(fmt, kind, **parts); only stdlib imports",
+      "actual": "list_kind(repo, fmt, kind), parse(fmt, branch, ids=None), name(fmt, kind, **parts); only stdlib imports (observed)",
+      "result": "pass",
+      "specSource": "R-025 quote",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:25",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"surface\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "type-check",
+          "title": "surface listing",
+          "inline": "build_parser ()\ncmd_list (ns)\ncmd_name (ns)\ncmd_parse (ns)\ncmd_preflight (ns)\nlist_kind (repo, fmt, kind)\nload_format (repo)\nload_git_modes (path=...)\nmain (argv=None)\nname (fmt, kind, **parts)\nparse (fmt, branch, ids=None)\nsplit (fmt)\ntail (kind, **parts)\nvalidate_format (fmt)\nimports: argparse, datetime, json, os, re, subprocess, sys"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "list --kind slice returns only slices, sorted by name, with parts",
+      "given": "Repo with 12 branches of every kind plus zeta",
+      "when": "list --kind slice",
+      "then": "sdlc/S-001, S-002, S-010, S-fix-M-1-2 in that order; kind slice, id equals tail; tree unchanged",
+      "expected": "sdlc/S-001, S-002, S-010, S-fix-M-1-2 in that order; kind slice, id equals tail; tree unchanged",
+      "actual": "sdlc/S-001, S-002, S-010, S-fix-M-1-2 in that order; kind slice, id equals tail; tree unchanged (observed)",
+      "result": "pass",
+      "specSource": "R-025 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:64",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"spec example\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "list --kind slice",
+          "inline": "branches: sdlc/S-001, sdlc/S-002, sdlc/S-010, sdlc/S-fix-M-1-2 (each {branch,kind:slice,tail,id,known:null})"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Sort is by name, not by creation order",
+      "given": "Slice branches created in reverse and mixed order",
+      "when": "list --kind slice",
+      "then": "Result equals the code-point sorted names",
+      "expected": "Result equals the code-point sorted names",
+      "actual": "Result equals the code-point sorted names (observed)",
+      "result": "pass",
+      "specSource": "R-025 quote",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:78",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"VS-1: sort is by name\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "order",
+          "inline": "created S-9, S-100, S-10, S-1, S-a, S-B, S-fix-M-2-1, S-fix-M-1-1; listed in sorted order"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-025",
+        "R-094"
+      ],
+      "title": "run and attempt sort by n as JSON integers; ties by full branch name",
+      "given": "run-10,2,100,1,007,0 and attempts of S-001 and S-002 with n 1,2,10,100",
+      "when": "list --kind run, list --kind attempt",
+      "then": "run n: 0,1,2,7,10,100; attempt order S-001-1, S-001-2, S-002-2, S-001-10, S-002-10, S-001-100; n is a number",
+      "expected": "run n: 0,1,2,7,10,100; attempt order S-001-1, S-001-2, S-002-2, S-001-10, S-002-10, S-001-100; n is a number",
+      "actual": "run n: 0,1,2,7,10,100; attempt order S-001-1, S-001-2, S-002-2, S-001-10, S-002-10, S-001-100; n is a number (observed)",
+      "result": "pass",
+      "specSource": "R-094 acceptance; ADR 7c1e",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:85",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"run and attempt sort\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "[[\"sdlc/run-0\",0],[\"sdlc/run-1\",1],[\"sdlc/run-2\",2],[\"sdlc/run-007\",7],[\"sdlc/run-10\",10],[\"sdlc/run-100\",100]]"
+        },
+        {
+          "kind": "transcript",
+          "title": "attempt",
+          "inline": "[[\"sdlc/S-001-attempt-1\",1],[\"sdlc/S-001-attempt-2\",2],[\"sdlc/S-002-attempt-2\",2],[\"sdlc/S-001-attempt-10\",10],[\"sdlc/S-002-attempt-10\",10],[\"sdlc/S-001-attempt-100\",100]]"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-025",
+        "R-094"
+      ],
+      "title": "Huge n (41 digits, 200 digits) sorts as an integer and prints exactly",
+      "given": "run branches with 40-digit, 41-digit and zero-padded n",
+      "when": "list --kind run",
+      "then": "Integer order; stdout holds the exact digits; 200-digit n gives exit 0",
+      "expected": "Integer order; stdout holds the exact digits; 200-digit n gives exit 0",
+      "actual": "Integer order; stdout holds the exact digits; 200-digit n gives exit 0 (observed)",
+      "result": "pass",
+      "specSource": "R-025 quote",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:104",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"huge n\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "200-digit n",
+          "inline": "status=0 stdoutBytes=845 stderr=\"\""
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Format changes what list returns; --format overrides config; default applies without either",
+      "given": "Repo with config branchFormat team/{name} and branches of four formats",
+      "when": "list with config, with --format feature/PROJ-1-{name}, {name:lower}, zzz/{name}, sdlc/{name}-x",
+      "then": "Each call returns only the branches of its format; format echoed",
+      "expected": "Each call returns only the branches of its format; format echoed",
+      "actual": "Each call returns only the branches of its format; format echoed (observed)",
+      "result": "pass",
+      "specSource": "R-025 acceptance; spec section 2 (--format overrides config)",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:120",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"format changes\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "lower",
+          "inline": "[[\"feature/PROJ-1-S-001\",\"S-001\"],[\"feature/PROJ-1-S-004\",\"S-004\"],[\"feature/proj-1-s-003\",\"s-003\"]]"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Invalid format fails with the same error and exit 2 as parse",
+      "given": "Seven invalid formats and an invalid config format",
+      "when": "list --format <bad> vs parse --format <bad>",
+      "then": "Exit 2, ok false, same error text, empty stderr",
+      "expected": "Exit 2, ok false, same error text, empty stderr",
+      "actual": "Exit 2, ok false, same error text, empty stderr (observed)",
+      "result": "pass",
+      "specSource": "spec section 2 (exit 2 with ok false)",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:143",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"invalid format\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "example",
+          "inline": "list --format 'a b/{name}' -> 2 {\"ok\": false, \"error\": \"the branch format 'a b/{name}' holds whitespace\"}; parse -> 2 same error"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Each kind returns its parts; output keys are ok, command, format, kind, branches; parse agrees",
+      "given": "Fixture with every kind",
+      "when": "list --kind <each kind>",
+      "then": "Parts match parse; known null; key order ok,command,format,kind,branches",
+      "expected": "Parts match parse; known null; key order ok,command,format,kind,branches",
+      "actual": "Parts match parse; known null; key order ok,command,format,kind,branches (observed)",
+      "result": "pass",
+      "specSource": "ADR bd10",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:172",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"each kind\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "verify and e2e-area entries",
+          "inline": "{\"branch\":\"sdlc/S-001-v0-http-api-0\",\"kind\":\"verify\",\"tail\":\"S-001-v0-http-api-0\",\"id\":\"S-001\",\"round\":0,\"profile\":\"http-api\",\"part\":0,\"known\":null}\n{\"branch\":\"sdlc/M-1-e2e-api\",\"kind\":\"e2e-area\",\"tail\":\"M-1-e2e-api\",\"id\":\"M-1\",\"area\":\"api\",\"known\":null}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "id key holds for every kind that has an id",
+      "given": "Fixture with every kind",
+      "when": "list per kind",
+      "then": "slice, milestone, e2e, e2e-area, verify and attempt entries carry a string id",
+      "expected": "slice, milestone, e2e, e2e-area, verify and attempt entries carry a string id",
+      "actual": "slice, milestone, e2e, e2e-area, verify and attempt entries carry a string id (observed)",
+      "result": "pass",
+      "specSource": "ADR bd10 (branch and id for S-005 and S-027)",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:197",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"id key presence\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "kinds without id",
+          "inline": "run and state entries have no id key (parse gives none); see seeds"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025",
+        "R-094"
+      ],
+      "title": "Hostile branch names classify by the spec table or drop out; list never crashes",
+      "given": "84 refs: attempt-0/007, unicode digits, confusables, ZWSP, leading dash, shell metacharacters, 40 non-ASCII digit run names",
+      "when": "list for all eight kinds",
+      "then": "Exit 0, one JSON object, empty stderr, tree unchanged; bad names absent; attempt-007 and attempt-0 present",
+      "expected": "Exit 0, one JSON object, empty stderr, tree unchanged; bad names absent; attempt-007 and attempt-0 present",
+      "actual": "Exit 0, one JSON object, empty stderr, tree unchanged; bad names absent; attempt-007 and attempt-0 present (observed)",
+      "result": "pass",
+      "specSource": "R-025 acceptance (foreign branches absent)",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:210",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"hostile\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "rerun",
+          "inline": ".sdlc/slices/S-010/verification/r0/logs/contract-0-hostile-rerun.log: pass; 46 non-ASCII digit names classified (seed)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Attack corpus for --repo, --kind and --format (650 invocations) gives one JSON object, exit 0 or 2, tree unchanged",
+      "given": "11 corpus families, five argv forms each",
+      "when": "branches.py list <value>",
+      "then": "Never a traceback; ok equals (exit 0); no mutation",
+      "expected": "Never a traceback; ok equals (exit 0); no mutation",
+      "actual": "Never a traceback; ok equals (exit 0); no mutation (observed)",
+      "result": "pass",
+      "specSource": "spec section 2 (one JSON object, exit 2 on bad input)",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:262",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"corpus values\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "corpus",
+          "inline": "EX VS-6 corpus invocations=650; the only successes are valid formats such as %s/{name} and {name}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Flag-like and abbreviated arguments give a JSON error or a defined result",
+      "given": "Eleven argv shapes",
+      "when": "list with --repo --kind, --kind --help, --, duplicate --kind, --rep, --kin, unknown flag, missing flags",
+      "then": "Exit 0 or 2, JSON, no traceback",
+      "expected": "Exit 0 or 2, JSON, no traceback",
+      "actual": "Exit 0 or 2, JSON, no traceback (observed)",
+      "result": "pass",
+      "specSource": "spec section 2",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:295",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"option-like\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "samples",
+          "inline": "list --repo <repo> --kind --help -> 2 argument --kind: expected one argument\nlist --repo <repo> --kind slice --kind run -> 0 (last wins)\nlist --repo <repo> --kin slice -> 0 (abbreviation)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Determinism, purity and cwd independence via the public entry point",
+      "given": "Fixture repo",
+      "when": "list_kind five times; CLI from another cwd and with --repo .",
+      "then": "Equal results; snapshot including refs unchanged; CLI equals API",
+      "expected": "Equal results; snapshot including refs unchanged; CLI equals API",
+      "actual": "Equal results; snapshot including refs unchanged; CLI equals API (observed)",
+      "result": "pass",
+      "specSource": "R-025 quote",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:319",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"determinism\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "inline": "5 equal results; repo snapshot diff empty; CLI branches equal API value"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-14",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "A tag or remote-tracking ref with a branch name does not change the result",
+      "given": "Tags sdlc/S-001 and sdlc/S-003, remote ref origin/sdlc/S-009",
+      "when": "list --kind slice",
+      "then": "sdlc/S-001 and sdlc/S-002 only",
+      "expected": "sdlc/S-001 and sdlc/S-002 only",
+      "actual": "sdlc/S-001 and sdlc/S-002 only (observed)",
+      "result": "pass",
+      "specSource": "R-025 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:347",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"tag or remote\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "result",
+          "inline": "[sdlc/S-001, sdlc/S-002]"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-15",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "PROPERTY list_kind equals a reference model for 1200 random repos",
+      "given": "1200 formats (prefix, suffix, name and name:lower), 0 to 14 branches of random kinds, foreign names",
+      "when": "list_kind(repo, fmt, kind) via python3 -I; 120 of them also through the CLI",
+      "then": "Branch set, order and parts equal the model built from construction; foreign names absent; CLI equals API",
+      "expected": "Branch set, order and parts equal the model built from construction; foreign names absent; CLI equals API",
+      "actual": "Branch set, order and parts equal the model built from construction; foreign names absent; CLI equals API (observed)",
+      "result": "pass",
+      "specSource": "R-025 quote; R-094 acceptance; ADR 7c1e",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:356",
+      "command": "S010_WT=<worktree of sdlc/S-010-v0-contract-0> node --test .sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs --test-name-pattern=\"PROPERTY\"",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "list_kind vs model",
+          "inline": "property-run list_kind-vs-model: seed=1288679427 runs=1200 violations=0 nonEmptyResults=640 maxEntries=6 lowerWorlds=443\nproperty-run cli-agrees-with-api: seed=1288679427 runs=120 violations=0\nEarlier run seed=253635815 runs=1200: 3 violations, all from a model error (foreign tail S-1-v1-x is a slice by the table); model fixed, then 0 violations"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "family": "control-chars",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "flag-like-values",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "format-strings",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "huge-integers",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "injection",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "integer-forms",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "oversized",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "traversal",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "unicode-confusables",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "unicode-digits",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    },
+    {
+      "family": "unicode-whitespace",
+      "result": "exit 0 or 2, one JSON object, no traceback, tree unchanged"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "Non-ASCII Unicode digits count as digits in run, attempt, state, verify and milestone names",
+      "detail": "The regexes use \\d without re.ASCII, so sdlc/run-١ (Arabic-Indic one) and sdlc/run-１０ (fullwidth) list as run with n 1 and 10. 46 such names were classified. Later numbering reads this list. The spec table does not say ASCII only. Use [0-9] or re.ASCII.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "run and state entries have no id key",
+      "detail": "The verify plan asked for branch and id on every kind. parse gives no id for run and state, and ADR bd10 keeps parse parts, so the output is consistent with the ADR. A caller that reads branches[].id must skip run and state.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Malformed attempt names list as slice",
+      "detail": "sdlc/S-001-attempt-, sdlc/S-001-attempt-x and sdlc/S-001-attempt-1x match the slice row of the table, so list --kind slice returns them with id S-001-attempt-x. This follows the table. A caller that treats every slice entry as a ledger id sees extra ids; parse with ids marks known false.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "list_kind returns [] for an unknown kind through the API",
+      "detail": "The CLI rejects an unknown kind with exit 2. list_kind(repo, fmt, 'nonsense') returns [] without an error. A typo in a later caller looks like no branches.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "argparse accepts abbreviated flags and a repeated --kind",
+      "detail": "list --kin slice and list --rep <repo> succeed. A repeated --kind uses the last value. Set allow_abbrev=False on the parsers if exact flags are wanted.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "list reads refs/heads with %(refname), not the spec's %(refname:short)",
+      "detail": "The code strips refs/heads/ from the full refname. The result is the same except where a tag shares a branch name, and it avoids the heads/ shortening. The spec text names refname:short. The behavior is correct and the plan allowed it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "testkit: no helper to create many refs in one repo",
+      "detail": "The property test creates refs with git update-ref --stdin in its own file. A shared helper would speed other verifiers.",
+      "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+    }
+  ]
+}

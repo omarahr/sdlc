@@ -1,0 +1,87 @@
+SURFACE {"build_parser":"()","cmd_list":"(ns)","cmd_name":"(ns)","cmd_parse":"(ns)","cmd_preflight":"(ns)","list_kind":"(repo, fmt, kind)","load_format":"(repo)","load_git_modes":"(path='/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-010-v0-contract-0/skills/sdlc/git-modes.json')","main":"(argv=None)","name":"(fmt, kind, **parts)","parse":"(fmt, branch, ids=None)","split":"(fmt)","tail":"(kind, **parts)","validate_format":"(fmt)"}
+IMPORTS ['argparse', 'datetime', 'json', 'os', 're', 'subprocess', 'sys']
+EX VS-1 {"ok":true,"command":"list","format":"sdlc/{name}","kind":"slice","branches":[{"branch":"sdlc/S-001","kind":"slice","tail":"S-001","id":"S-001","known":null},{"branch":"sdlc/S-002","kind":"slice","tail":"S-002","id":"S-002","known":null},{"branch":"sdlc/S-010","kind":"slice","tail":"S-010","id":"S-010","known":null},{"branch":"sdlc/S-fix-M-1-2","kind":"slice","tail":"S-fix-M-1-2","id":"S-fix-M-1-2","known":null}]}
+EX VS-2 run [["sdlc/run-0",0],["sdlc/run-1",1],["sdlc/run-2",2],["sdlc/run-007",7],["sdlc/run-10",10],["sdlc/run-100",100]]
+EX VS-2 attempt [["sdlc/S-001-attempt-1",1],["sdlc/S-001-attempt-2",2],["sdlc/S-002-attempt-2",2],["sdlc/S-001-attempt-10",10],["sdlc/S-002-attempt-10",10],["sdlc/S-001-attempt-100",100]]
+EX VS-6 200-digit n: status=0 stdoutBytes=845 stderr=""
+EX VS-4 lower [["feature/PROJ-1-S-001","S-001"],["feature/PROJ-1-S-004","S-004"],["feature/proj-1-s-003","s-003"]]
+EX VS-4 invalid "sdlc/x" list=2 {"ok": false, "error": "the branch format 'sdlc/x' must hold exactly one {name} or {name:lower}, found 0"} parse=2
+EX VS-4 invalid "sdlc/{name}/{name}" list=2 {"ok": false, "error": "the branch format 'sdlc/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"} parse=2
+EX VS-4 invalid "a b/{name}" list=2 {"ok": false, "error": "the branch format 'a b/{name}' holds whitespace"} parse=2
+EX VS-4 invalid "a..b/{name}" list=2 {"ok": false, "error": "the branch format 'a..b/{name}' gives 'a..b/S-001', which git check-ref-format refuses: fatal: 'a..b/S-001' is not a valid branch name"} parse=2
+EX VS-4 invalid "{name}{name:lower}" list=2 {"ok": false, "error": "the branch format '{name}{name:lower}' must hold exactly one {name} or {name:lower}, found 2"} parse=2
+EX VS-4 invalid "a/{name}}" list=2 {"ok": false, "error": "the branch format 'a/{name}}' holds a brace outside its placeholder"} parse=2
+EX VS-4 invalid "" list=2 {"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"} parse=2
+EX VS-7 milestone {"branch":"sdlc/M-1","kind":"milestone","tail":"M-1","id":"M-1","known":null}
+EX VS-7 run {"branch":"sdlc/run-1","kind":"run","tail":"run-1","n":1,"known":null}
+EX VS-7 state {"branch":"sdlc/state-20261008101500","kind":"state","tail":"state-20261008101500","ts":"20261008101500","known":null}
+EX VS-7 verify {"branch":"sdlc/S-001-v0-http-api-0","kind":"verify","tail":"S-001-v0-http-api-0","id":"S-001","round":0,"profile":"http-api","part":0,"known":null}
+EX VS-7 attempt {"branch":"sdlc/S-001-attempt-1","kind":"attempt","tail":"S-001-attempt-1","id":"S-001","n":1,"known":null}
+EX VS-7 e2e {"branch":"sdlc/M-1-e2e","kind":"e2e","tail":"M-1-e2e","id":"M-1","known":null}
+EX VS-7 e2e-area {"branch":"sdlc/M-1-e2e-api","kind":"e2e-area","tail":"M-1-e2e-api","id":"M-1","area":"api","known":null}
+EX VS-7 slice {"branch":"sdlc/S-fix-M-1-2","kind":"slice","tail":"S-fix-M-1-2","id":"S-fix-M-1-2","known":null}
+SEED-INFO kinds whose entries lack id: ["run","state"]
+EX VS-6 created 84/85 hostile refs
+EX VS-6 classified {"milestone":["sdlc/M-١"],"run":["sdlc/run-٠","sdlc/run-۰","sdlc/run-߀","sdlc/run-०","sdlc/run-١","sdlc/run-۱","sdlc/run-߁","sdlc/run-१","sdlc/run-٢","sdlc/run-۲","sdlc/run-߂","sdlc/run-२","sdlc/run-٣","sdlc/run-۳","sdlc/run-߃","sdlc/run-३","sdlc/run-٤","sdlc/run-۴","sdlc/run-߄","sdlc/run-४","sdlc/run-٥","sdlc/run-۵","sdlc/run-߅","sdlc/run-५","sdlc/run-٦","sdlc/run-۶","sdlc/run-߆","sdlc/run-६","sdlc/run-٧","sdlc/run-۷","sdlc/run-߇","sdlc/run-७","sdlc/run-٨","sdlc/run-۸","sdlc/run-߈","sdlc/run-८","sdlc/run-٩","sdlc/run-۹","sdlc/run-߉","sdlc/run-९","sdlc/run-１０","sdlc/run-١٢"],"state":["sdlc/state-2026100810150٠"],"verify":["sdlc/S-001-v٠-http-0"],"attempt":["sdlc/S-001-attempt-0","sdlc/S-001-attempt-٣","sdlc/S-001-attempt-007"],"e2e":[],"e2e-area":[],"slice":["sdlc/S-001-attempt-","sdlc/S-001-attempt-1x","sdlc/S-001-attempt-x","sdlc/S-001-v-x-0","sdlc/S-001-v0--0"]}
+EX VS-6 corpus invocations=650 unexpected-success=["format-strings/percent [\"list\",\"--repo\",\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DqqHQk/testkit-cli-seoC5i/repo-82\",\"--kind\",\"slice\",\"--format\",\"%s/{name}\"]","format-strings/dollar [\"list\",\"--repo\",\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DqqHQk/testkit-cli-seoC5i/repo-82\",\"--kind\",\"slice\",\"--format\",\"${name}\"]","format-strings/only [\"list\",\"--repo\",\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DqqHQk/testkit-cli-seoC5i/repo-82\",\"--kind\",\"slice\",\"--format\",\"{name}\"]","oversized/format-200k [\"list\",\"--repo\",\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DqqHQk/testkit-cli-seoC5i/repo-82\",\"--kind\",\"slice\",\"--format\",\"a/a/a/a/a/a/a/a/a/a","unicode-confusables/cyrillic-s [\"list\",\"--repo\",\"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DqqHQk/testkit-cli-seoC5i/repo-82\",\"--kind\",\"slice\",\"--format\",\"ѕdlc/{name}\"]"]
+EX VS-6 argv ["list","--repo","--kind","--kind","slice"] -> 2 {"ok": false, "error": "argument --repo: expected one argument"}
+EX VS-6 argv ["list","--repo","<repo>","--kind","--help"] -> 2 {"ok": false, "error": "argument --kind: expected one argument"}
+EX VS-6 argv ["list","--repo","<repo>","--kind","-h"] -> 2 {"ok": false, "error": "argument --kind: expected one argument"}
+EX VS-6 argv ["list","--","--repo","<repo>","--kind","slice"] -> 2 {"ok": false, "error": "the following arguments are required: --repo, --kind"}
+EX VS-6 argv ["list","--repo","<repo>","--kind","slice","--kind","run"] -> 0 {"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "run", "branches": [{"branch": "sdlc/run-1", "kind": "run", "tail": "run-1"
+EX VS-6 argv ["list","--repo","<repo>","--kind","slice","--rep","<repo>"] -> 0 {"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "slice", "branches": [{"branch": "sdlc/S-001", "kind": "slice", "tail": "S-
+EX VS-6 argv ["list","--repo","<repo>","--kin","slice"] -> 0 {"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "slice", "branches": [{"branch": "sdlc/S-001", "kind": "slice", "tail": "S-
+EX VS-6 argv ["list","--repo","<repo>","--kind","slice","--branch","x"] -> 2 {"ok": false, "error": "unrecognized arguments: --branch x"}
+EX VS-6 argv ["list","--repo","<repo>"] -> 2 {"ok": false, "error": "the following arguments are required: --kind"}
+EX VS-6 argv ["list","--kind","slice"] -> 2 {"ok": false, "error": "the following arguments are required: --repo"}
+EX VS-6 argv ["list"] -> 2 {"ok": false, "error": "the following arguments are required: --repo, --kind"}
+EX subdir-repo 2 {"ok": false, "error": "--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DqqHQk/testkit-cli-seoC5i/rep
+SEED-INFO list_kind unknown kind via API: {"outcome":"return","value":[],"stdout":"","stderr":""}
+PROPERTY setup seed=1288679427 worlds=1200 branches=10168
+property-run list_kind-vs-model: seed=1288679427 runs=1200 violations=0 nonEmptyResults=640 maxEntries=6 lowerWorlds=443
+property-run cli-agrees-with-api: seed=1288679427 runs=120 violations=0
+✔ verify contract: surface of branches.py as a consumer imports it (33.545792ms)
+✔ verify contract: module imports only the standard library (24.646166ms)
+✔ verify contract VS-1: spec example, slice kind only and sorted by name (626.829917ms)
+✔ verify contract VS-1: sort is by name even when creation order differs (445.53975ms)
+✔ verify contract VS-2: run and attempt sort by n as integers (738.108167ms)
+✔ verify contract VS-2/VS-6: huge n sorts as an integer and stays exact in the output (687.785292ms)
+✔ verify contract VS-4: format changes what list returns (1658.303292ms)
+✔ verify contract VS-4: invalid format gives the error that name and parse give (2210.627916ms)
+✔ verify contract VS-7: each kind returns its parts and the output keys (3413.535125ms)
+✔ verify contract VS-7: id key presence per kind (3116.342083ms)
+✖ verify contract VS-6: hostile branch names drop out or classify, and list never crashes (5328.402583ms)
+✔ verify contract VS-6: corpus values for --repo, --kind and --format give one JSON object and exit 0 or 2 (88888.775875ms)
+✔ verify contract: option-like values after end-of-options and as repo (1980.491584ms)
+✔ verify contract: determinism, purity and cwd independence through the public entry point (1623.586ms)
+✔ verify contract: list_kind with an unknown kind through the API (396.798416ms)
+✔ verify contract: a tag or remote ref that shares a branch name changes nothing (407.469041ms)
+✔ verify contract PROPERTY: list_kind equals the reference model for random repos (118820.758791ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 16
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 232015.613625
+
+✖ failing tests:
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:210:1
+✖ verify contract VS-6: hostile branch names drop out or classify, and list never crashes (5328.402583ms)
+  AssertionError [ERR_ASSERTION]: sdlc/S-001-attempt- classified
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-010/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:252:51)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

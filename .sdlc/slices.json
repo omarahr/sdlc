@@ -1587,12 +1587,81 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-010",
     "pr": "",
     "risk": "medium",
     "riskReason": "list feeds run-branch numbering; a wrong list reuses or skips run numbers across launches.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Subprocess pattern duplicated",
+        "detail": "_git repeats the run-and-catch pattern of validate_format. A shared helper would remove the copy. Not needed now.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Constant placement",
+        "detail": "NUMERIC_SORT_KINDS sits mid-file, away from PARSE_ROWS and the other module constants. Move it up for consistency.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "T-R-094b repeats T-R-094a",
+        "detail": "T-R-094b asserts the same 2-before-10 order that T-R-094a already pins. The plan requires both tests. Merge them in a later slice.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "list ignores a checked-out unborn branch",
+        "detail": "In a repo with no commit where HEAD points at sdlc/S-001, list --kind slice returns []. This follows from for-each-ref and from the plan, which says an empty repo gives []. No action is needed unless a caller expects the unborn branch.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: fixtures with case-only branch names fail on case-insensitive file systems",
+        "detail": "On macOS, git refuses two branches that differ only by case, such as feature/PROJ-1-S-001 and feature/proj-1-s-001. A {name:lower} fixture needs a distinct name. This is not a product defect.",
+        "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+      },
+      {
+        "title": "Non-ASCII Unicode digits count as digits in loop branch names",
+        "detail": "The parse regexes use \\d without re.ASCII, so sdlc/run-١ and sdlc/run-１０ list as run with n 1 and 10. 46 such names were classified across run, attempt, state, verify and milestone. Later run numbering reads this list.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "run and state entries have no id key",
+        "detail": "parse gives no id for run and state, so branches[].id is absent for those kinds. This matches ADR bd10. A caller that reads id must skip them.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Malformed attempt names list as slice",
+        "detail": "sdlc/S-001-attempt-x and sdlc/S-001-attempt- match the slice row of the table, so list --kind slice returns them with an odd id. This follows the table.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "list_kind returns [] for an unknown kind through the API",
+        "detail": "The CLI rejects an unknown kind with exit 2. The API returns an empty list, so a typo in a later caller looks like no branches.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "argparse accepts abbreviated flags and a repeated --kind",
+        "detail": "list --kin slice and list --rep <repo> succeed, and a repeated --kind uses the last value. Set allow_abbrev=False if exact flags are wanted.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "list uses %(refname), not the spec's %(refname:short)",
+        "detail": "The code strips refs/heads/ from the full ref name. The result is the same except where a tag shares a branch name. The plan allowed this.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: no helper to create many refs in one repo",
+        "detail": "The property test creates refs with git update-ref --stdin in its own file. A shared helper would speed other verifiers.",
+        "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+      },
+      {
+        "title": "parse accepts non-ASCII digits in run and attempt tails",
+        "detail": "Python \\d matches Unicode digits, so sdlc/run-١ and sdlc/S-001-attempt-１２ parse as run n=1 and attempt n=12 and list next to sdlc/run-1. Two branches then claim one n, and name(run, n=1) does not return the listed branch. The spec writes the regex as \\d+, so this follows the text and no requirement forbids it. Fix: use [0-9]+ or re.ASCII for the numeric parts in PARSE_ROWS.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -1603,7 +1672,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-011",

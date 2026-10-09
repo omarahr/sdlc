@@ -1,0 +1,1560 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "79efa1c",
+  "environment": "Node 24 test runner, python3, git, testkit cli-runner with scratch HOME; list run through branches.py CLI",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Remote refs, tags, notes, stash, lookalike namespace and detached HEAD never appear",
+      "given": "Repo with branches sdlc/S-001, sdlc/S-007, feature/x; refs/remotes/origin/sdlc/S-009 and S-001; tag sdlc/S-008; refs/notes/sdlc/S-011; refs/heads-evil/sdlc/S-012; refs/stash; detached HEAD",
+      "when": "list --kind slice",
+      "then": "Only sdlc/S-001 and sdlc/S-007; no ref written",
+      "expected": "Only sdlc/S-001 and sdlc/S-007; no ref written",
+      "actual": "Exact list returned; tree and refs unchanged",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:20",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS3-a",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}, {\"branch\": \"sdlc/S-007\", \"kind\": \"slice\", \"tail\": \"S-007\", \"id\": \"S-007\", \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "A tag with the same name as a branch does not hide or alter the branch",
+      "given": "Branches and tags both named sdlc/S-001 and sdlc/run-3; extra tag sdlc/run-4 and tag heads/sdlc/S-001",
+      "when": "list --kind slice and --kind run",
+      "then": "Real branches listed once with correct parts; tag-only names absent",
+      "expected": "Real branches listed once with correct parts; tag-only names absent",
+      "actual": "Branches listed once, ids and n correct (the implementation uses full refnames)",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:36",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS3-b",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}]}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS3-b",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind run\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-3\", \"kind\": \"run\", \"tail\": \"run-3\", \"n\": 3, \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "A tag with no branch of that name gives an empty list",
+      "given": "Only tag sdlc/S-050",
+      "when": "list --kind slice",
+      "then": "branches []",
+      "expected": "branches []",
+      "actual": "branches []",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:50",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS3-c",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": []}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "A branch named heads/sdlc/S-002 is not read as sdlc/S-002",
+      "given": "Branch heads/sdlc/S-002 and sdlc/S-001",
+      "when": "list --kind slice",
+      "then": "Only sdlc/S-001",
+      "expected": "Only sdlc/S-001",
+      "actual": "Only sdlc/S-001",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:58",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS3-d",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "A symbolic ref under refs/heads does not produce a non-slice entry or a crash",
+      "given": "refs/heads/sdlc/S-077 as symbolic ref to sdlc/S-001",
+      "when": "list --kind slice",
+      "then": "Exit 0; every entry kind slice",
+      "expected": "Exit 0; every entry kind slice",
+      "actual": "Exit 0; every entry kind slice",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:66",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS3-e",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}, {\"branch\": \"sdlc/S-077\", \"kind\": \"slice\", \"tail\": \"S-077\", \"id\": \"S-077\", \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Repo with no commit gives an empty list; unknown kind gives exit 2",
+      "given": "git init with no commit",
+      "when": "list --kind slice; list --kind bogus",
+      "then": "[] with exit 0; exit 2 with ok false",
+      "expected": "[] with exit 0; exit 2 with ok false",
+      "actual": "As expected; tree unchanged",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:76",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-a",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": []}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-a",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind bogus\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"--kind 'bogus' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt\"}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Non-git dir, missing path, file path and empty --repo give exit 2 and JSON, no traceback",
+      "given": "Plain dir, missing path, regular file, empty string",
+      "when": "list --kind slice",
+      "then": "exit 2, ok false, message 'not a git repository' for the plain dir, no traceback, tree unchanged",
+      "expected": "exit 2, ok false, message 'not a git repository' for the plain dir, no traceback, tree unchanged",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:85",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-b",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"not a git repository: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/plain-15\"}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-b",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(98) --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/plain-15/nope' is not a directory\"}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-b",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(99) --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/plain-15/f.txt' is not a directory\"}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-b",
+          "inline": "branches.py list --repo  --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"--repo '' is not a directory\"}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-8",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Subdirectory of a repo, bare repo, broken .git file and corrupt packed-refs give defined JSON results",
+      "given": "Four fixtures",
+      "when": "list --kind slice",
+      "then": "One JSON object, exit 0 or 2, no traceback",
+      "expected": "One JSON object, exit 0 or 2, no traceback",
+      "actual": "Subdir lists branches; bare repo, broken gitdir and corrupt packed-refs give defined JSON",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:98",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-f",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(96) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}]}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-f",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(96) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": []}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-f",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(94) --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"not a git repository: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/broken-24\"}\n"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-f",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"cannot list the branches of /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/repo-26\"}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-9",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "git missing from PATH gives a defined result",
+      "given": "PATH=/nonexistent",
+      "when": "list --kind slice",
+      "then": "Exit 2 JSON error, no traceback",
+      "expected": "Exit 2 JSON error, no traceback",
+      "actual": "Defined error, no traceback",
+      "result": "pass",
+      "specSource": "R-025 acceptance: Foreign branches are absent",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:114",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS5-j",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice\n-> exit None; tree unchanged: True\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-10",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025",
+        "R-094"
+      ],
+      "title": "attempt-0, attempt-007, attempt-7 and run-0/007 sort by integer n with ties by branch name",
+      "given": "Branches attempt-0, 007, 7, 10, 2 and run-0, 007, 10, 2",
+      "when": "list --kind attempt and run",
+      "then": "n order 0,2,7,7,10 and 0,2,7,10 as JSON integers",
+      "expected": "n order 0,2,7,7,10 and 0,2,7,10 as JSON integers",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:121",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-a",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-0\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-0\", \"id\": \"S-001\", \"n\": 0, \"known\": null}, {\"branch\": \"sdlc/S-001-attempt-2\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-2\", \"id\": \"S-001\", \"n\": 2, \"known\": null}, {\"branch\": \"sdlc/S-001-attempt-007\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-007\", \"id\": \"S-001\", \"n\": 7, \"known\": null}, {\"branch\": \"sdlc/S-001-attempt-7\", \"kind\": \"att"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-a",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-0\", \"kind\": \"run\", \"tail\": \"run-0\", \"n\": 0, \"known\": null}, {\"branch\": \"sdlc/run-2\", \"kind\": \"run\", \"tail\": \"run-2\", \"n\": 2, \"known\": null}, {\"branch\": \"sdlc/run-007\", \"kind\": \"run\", \"tail\": \"run-007\", \"n\": 7, \"known\": null}, {\"branch\": \"sdlc/run-10\", \"kind\": \"run\", \"tail\": \"run-10\", \"n\": 10, \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-11",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025",
+        "R-094"
+      ],
+      "title": "Unicode digit tails (12 corpus entries, run and attempt) never crash list",
+      "given": "Each corpus entry created as a branch",
+      "when": "list --kind run / attempt",
+      "then": "Exit 0, one JSON object, n an integer",
+      "expected": "Exit 0, one JSON object, n an integer",
+      "actual": "No crash; non-ASCII digit tails are listed as loop branches (see seeds)",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:129",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-ud-arabic-indic-attempt",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-1\", \"id\": \"S-001\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/S-001-attempt-\\u0663\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-\\u0663\", \"id\": \"S-001\", \"n\": 3, \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-12",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025",
+        "R-094"
+      ],
+      "title": "Huge integers in branch names (4300, 4301, 5000 digits) do not crash list",
+      "given": "Branches run-<N nines> written via packed-refs",
+      "when": "list --kind run / attempt",
+      "then": "Exit 0, one JSON object",
+      "expected": "Exit 0, one JSON object",
+      "actual": "Exit 0, one JSON object",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:145",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-huge",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-1\", \"kind\": \"run\", \"tail\": \"run-1\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/run-9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+        },
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-huge",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": []}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-13",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Confusable and traversal corpus names as branches never produce a wrong-kind entry or crash, across all 8 kinds",
+      "given": "Branches from unicode-confusables and traversal corpora under sdlc/, sdlc/S- and bare",
+      "when": "list for each of 8 kinds",
+      "then": "Exit 0, kind matches, slice ids match S-[A-Za-z0-9-]+",
+      "expected": "Exit 0, kind matches, slice ids match S-[A-Za-z0-9-]+",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:159",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-conf-slice",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}, {\"branch\": \"sdlc/S-SLICE\", \"kind\": \"slice\", \"tail\": \"S-SLICE\", \"id\": \"S-SLICE\", \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-14",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Flag-like corpus values as --repo, --kind and --format give one JSON object with exit 0 or 2",
+      "given": "8 flag-like values in 3 slots (24 runs)",
+      "when": "list",
+      "then": "Exit 0 or 2, ok matches exit, JSON, no traceback, tree unchanged",
+      "expected": "Exit 0 or 2, ok matches exit, JSON, no traceback, tree unchanged",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": null,
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-flag-double-dash-repo",
+          "inline": "branches.py list --repo -- --kind slice\n-> exit 2; tree unchanged: True\n{\"ok\": false, \"error\": \"argument --repo: expected one argument\"}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-15",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Injection strings and traversal paths as --repo run no command and write nothing",
+      "given": "Shell metacharacters touching a marker file; corpus injection and traversal values",
+      "when": "list --repo <value>",
+      "then": "Exit 2 JSON; marker file absent",
+      "expected": "Exit 2 JSON; marker file absent",
+      "actual": "Marker absent; exit 2",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:201",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-inj",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(101) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}]}\n"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-16",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-025"
+      ],
+      "title": "Repo git config (core.fsmonitor, alias) does not run code during list",
+      "given": "Marker-touching fsmonitor and rev-parse alias set in the repo",
+      "when": "list --kind slice",
+      "then": "Branch listed; marker absent",
+      "expected": "Branch listed; marker absent",
+      "actual": "Marker absent",
+      "result": "pass",
+      "specSource": "R-025 acceptance; R-094 acceptance",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs:217",
+      "command": "node --test .sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "list exchange: VS6-cfg",
+          "inline": "branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind slice\n-> exit 0; tree unchanged: True\n{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\", \"known\": null}]}\n"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "A-VS3-a",
+      "charter": "Explore ref listing with tag, remote-ref and namespace clashes to find a non-branch ref in the output (R-025: foreign branches absent)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS3-b",
+      "charter": "Explore ref listing with tag, remote-ref and namespace clashes to find a non-branch ref in the output (R-025: foreign branches absent)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS3-b-run",
+      "charter": "Explore ref listing with tag, remote-ref and namespace clashes to find a non-branch ref in the output (R-025: foreign branches absent)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind run",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-3\", \"kind\": \"run\", \"tail\": \"run-3\", \"n\": 3, \"known\": n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS3-c",
+      "charter": "Explore ref listing with tag, remote-ref and namespace clashes to find a non-branch ref in the output (R-025: foreign branches absent)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS3-d",
+      "charter": "Explore ref listing with tag, remote-ref and namespace clashes to find a non-branch ref in the output (R-025: foreign branches absent)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(91) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS3-e",
+      "charter": "Explore ref listing with tag, remote-ref and namespace clashes to find a non-branch ref in the output (R-025: foreign branches absent)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-a",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-a2",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind bogus",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--kind 'bogus' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-b",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"not a git repository: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/plain-15\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-c",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(98) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/plain-15/nope' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-d",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(99) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/plain-15/f.txt' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-e",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo  --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-f",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(96) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-g",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(96) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-h",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(94) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"not a git repository: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/broken-24\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-i",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"cannot list the branches of /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IPRTHX/repo-26\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS5-j",
+      "charter": "Explore repo argument handling with non-repos and odd repos to find a traceback or exit 0 (R-025)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit None; tree unchanged True; ",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-a",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-0\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-a-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-0\", \"kind\": \"run\", \"tail\": \"run-0\", \"n\": 0, \"known\": n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-٣]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-٣]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\u0663\", \"kind\": \"run\", \"tail\": \"run-\\u0663\", \"n\": 3, ",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-12-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-١٢]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-12-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-١٢]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\u0661\\u0662\", \"kind\": \"run\", \"tail\": \"run-\\u0661\\u066",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-fullwidth-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-１２]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-fullwidth-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-１２]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\uff11\\uff12\", \"kind\": \"run\", \"tail\": \"run-\\uff11\\uff1",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-devanagari-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-१]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-devanagari-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-१]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\u0967\", \"kind\": \"run\", \"tail\": \"run-\\u0967\", \"n\": 1, ",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-bengali-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-২]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-bengali-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-২]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\u09e8\", \"kind\": \"run\", \"tail\": \"run-\\u09e8\", \"n\": 2, ",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-nko-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-߁]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-nko-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-߁]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\u07c1\", \"kind\": \"run\", \"tail\": \"run-\\u07c1\", \"n\": 1, ",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-math-bold-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-𝟏]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-math-bold-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-𝟏]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\ud835\\udfcf\", \"kind\": \"run\", \"tail\": \"run-\\ud835\\udfc",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-superscript-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-²]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-superscript-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-²]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-roman-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-Ⅷ]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-roman-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-Ⅷ]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-circled-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-①]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-circled-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-①]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-mixed-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-1٢]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-mixed-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-1٢]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-1\\u0662\", \"kind\": \"run\", \"tail\": \"run-1\\u0662\", \"n\": 1",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-thai-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt [branch sdlc/S-001-attempt-๑]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-at",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-thai-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run [branch sdlc/run-๑]",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-\\u0e51\", \"kind\": \"run\", \"tail\": \"run-\\u0e51\", \"n\": 1, ",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-huge",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-1\", \"kind\": \"run\", \"tail\": \"run-1\", \"n\": 1, \"known\": n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-huge-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-slice",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-run",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind run",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-attempt",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind attempt",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-verify",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind verify",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"verify\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-state",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind state",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"state\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-milestone",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind milestone",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"milestone\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-e2e",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind e2e",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"e2e\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-conf-e2e-area",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind e2e-area",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"e2e-area\", \"branches\": []}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-double-dash-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo -- --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --repo: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-double-dash-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind --",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --kind: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-double-dash-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format --",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --format: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-help-short-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo -h --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --repo: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-help-short-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind -h",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --kind: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-help-short-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format -h",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --format: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-help-long-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo --help --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --repo: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-help-long-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind --help",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --kind: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-help-long-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format --help",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --format: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-flag-eq-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo --format=x/{name} --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --repo: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-flag-eq-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind --format=x/{name}",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --kind: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-flag-eq-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format --format=x/{name}",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --format: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-negative-like-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo -1 --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '-1' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-negative-like-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind -1",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--kind '-1' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-negative-like-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format -1",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"the branch format '-1' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-single-dash-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo - --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '-' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-single-dash-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind -",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--kind '-' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-single-dash-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format -",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"the branch format '-' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-flag-name-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo --repo --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --repo: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-flag-name-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind --repo",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --kind: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-flag-name-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format --repo",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"argument --format: expected one argument\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-equals-empty-repo",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo = --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '=' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-equals-empty-kind",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind =",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--kind '=' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-flag-equals-empty-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(92) --kind slice --format =",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"the branch format '=' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(101) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-cmd-subst",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo $(touch pwned) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '$(touch pwned)' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-backticks",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo `touch pwned` --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '`touch pwned`' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-semicolon",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo x; touch pwned --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'x; touch pwned' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-pipe",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo x | cat --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'x | cat' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-ampersand",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo x && touch pwned --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'x && touch pwned' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-redirect",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo x > pwned --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'x > pwned' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-json-break",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo \"}, \"ok\": true, \"x\": {\" --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '\\\"}, \\\"ok\\\": true, \\\"x\\\": {\\\"' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-newline-json",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo x\n{\"ok\": true} --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'x\\\\n{\\\"ok\\\": true}' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-git-option",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo --upload-pack=touch pwned --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '--upload-pack=touch pwned' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-git-revision",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo HEAD@{1} --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'HEAD@{1}' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-percent",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo %s%n%x --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '%s%n%x' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-python-format",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo {0.__class__} --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '{0.__class__}' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-glob",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo * --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '*' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-dotdot",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo ../.. --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"not a git repository: ../..\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-abs-etc",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /etc --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"not a git repository: /etc\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-dotdot-etc",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo ../../../../etc/passwd --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '../../../../etc/passwd' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-backslash",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo ..\\.. --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '..\\\\\\\\..' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-encoded",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo %2e%2e/%2e%2e --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '%2e%2e/%2e%2e' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-tilde",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo ~ --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '~' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-file-url",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo file:///etc --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo 'file:///etc' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-unc",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo \\\\server\\share --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"--repo '\\\\\\\\\\\\\\\\server\\\\\\\\share' is not a directory\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-dot",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo . --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"not a git repository: .\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-inj-trailing-slash",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo ./ --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 2; tree unchanged True; {\"ok\": false, \"error\": \"not a git repository: ./\"}\n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-cfg",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind slice",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branches\": [{\"branch\": \"sdlc/S-001\", \"kind\": \"slice\", \"tail\": \"S-001\", \"id\": \"S-001\",",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-pin",
+      "charter": "Explore list with hostile branch names and arguments to find a crash or a fooled kind (R-025, R-094)",
+      "input": "list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-ks0oIN/testkit-cli-IP...(93) --kind run",
+      "expected": "One JSON object, defined exit 0 or 2, no traceback, tree unchanged, only real loop branches listed",
+      "observed": "exit 0; tree unchanged True; {\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"run\", \"branches\": [{\"branch\": \"sdlc/run-1\", \"kind\": \"run\", \"tail\": \"run-1\", \"n\": 1, \"known\": n",
+      "result": "held",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-٣",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=3; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-٣",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=3; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-12-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-١٢",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=12; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-arabic-indic-12-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-١٢",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=12; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-fullwidth-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-１２",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=12; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-fullwidth-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-１２",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=12; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-devanagari-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-१",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-devanagari-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-१",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-bengali-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-২",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=2; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-bengali-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-২",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=2; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-nko-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-߁",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-nko-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-߁",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-math-bold-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-𝟏",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-math-bold-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-𝟏",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-mixed-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-1٢",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=12; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-mixed-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-1٢",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=12; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-thai-attempt-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind attempt with branch sdlc/S-001-attempt-๑",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    },
+    {
+      "id": "A-VS6-ud-thai-run-nonascii",
+      "charter": "Explore parse of numeric tails with unicode digits to find a branch the loop would never name being treated as its own (R-094)",
+      "input": "list --kind run with branch sdlc/run-๑",
+      "expected": "Branch refused, or listed with canonical n",
+      "observed": "listed with n=1; no crash",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-010/verification/r0/tests/security-0/list.verify-security.test.mjs"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "parse accepts non-ASCII digits in run and attempt tails",
+      "detail": "Python \\d matches unicode digits, so sdlc/run-١ and sdlc/S-001-attempt-１２ parse as run n=1 and attempt n=12. list returns them next to sdlc/run-1, so two branches claim one n, and name(run, n=1) does not give back the listed branch. The spec writes the regex as \\d+, so this follows the text, and no requirement forbids it. Fix: use [0-9]+ or re.ASCII for the numeric parts in PARSE_ROWS.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

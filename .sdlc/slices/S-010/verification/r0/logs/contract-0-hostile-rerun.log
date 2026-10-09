@@ -1,0 +1,13 @@
+EX VS-6 created 84/85 hostile refs
+EX VS-6 classified {"milestone":["sdlc/M-١"],"run":["sdlc/run-٠","sdlc/run-۰","sdlc/run-߀","sdlc/run-०","sdlc/run-١","sdlc/run-۱","sdlc/run-߁","sdlc/run-१","sdlc/run-٢","sdlc/run-۲","sdlc/run-߂","sdlc/run-२","sdlc/run-٣","sdlc/run-۳","sdlc/run-߃","sdlc/run-३","sdlc/run-٤","sdlc/run-۴","sdlc/run-߄","sdlc/run-४","sdlc/run-٥","sdlc/run-۵","sdlc/run-߅","sdlc/run-५","sdlc/run-٦","sdlc/run-۶","sdlc/run-߆","sdlc/run-६","sdlc/run-٧","sdlc/run-۷","sdlc/run-߇","sdlc/run-७","sdlc/run-٨","sdlc/run-۸","sdlc/run-߈","sdlc/run-८","sdlc/run-٩","sdlc/run-۹","sdlc/run-߉","sdlc/run-९","sdlc/run-１０","sdlc/run-١٢"],"state":["sdlc/state-2026100810150٠"],"verify":["sdlc/S-001-v٠-http-0"],"attempt":["sdlc/S-001-attempt-0","sdlc/S-001-attempt-٣","sdlc/S-001-attempt-007"],"e2e":[],"e2e-area":[],"slice":["sdlc/S-001-attempt-","sdlc/S-001-attempt-1x","sdlc/S-001-attempt-x","sdlc/S-001-v-x-0","sdlc/S-001-v0--0"]}
+SEED-INFO malformed attempt names classified as slice: ["sdlc/S-001-attempt-","sdlc/S-001-attempt-1x","sdlc/S-001-attempt-x"]
+SEED-INFO non-ASCII digit names classified as loop branches: ["sdlc/run-٠","sdlc/run-۰","sdlc/run-߀","sdlc/run-०","sdlc/run-١","sdlc/run-۱","sdlc/run-߁","sdlc/run-१"] (46)
+✔ verify contract VS-6: hostile branch names drop out or classify, and list never crashes (5406.734542ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5469.246167
