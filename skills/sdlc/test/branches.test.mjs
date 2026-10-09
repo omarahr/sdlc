@@ -458,6 +458,18 @@ print(json.dumps({
   assert.match(out.no_id.fail, /\bid\b/, `no_id: the message does not name id: ${out.no_id.fail}`)
 })
 
+test('an explicit state ts is used as given under a prefixed format, and an empty ts generates one', opts, () => {
+  const out = JSON.parse(probe(`${CALL}
+print(json.dumps({
+    "named": call(mod.name, "feature/PROJ-1-{name}", "state", ts="20261008101500"),
+    "empty": call(mod.tail, "state", ts=""),
+}))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.deepEqual(out.named, { ret: 'feature/PROJ-1-state-20261008101500' })
+  assert.equal(typeof out.empty.ret, 'string', `tail("state", ts="") did not return a string: ${JSON.stringify(out.empty)}`)
+  assert.match(out.empty.ret, /^state-\d{14}$/)
+})
+
 test('the state tail is the current UTC time', opts, () => {
   const utc = () => new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
   const before = utc()
@@ -471,11 +483,27 @@ print(json.dumps(call(mod.tail, "state")))
   assert.ok(m[1] >= before && m[1] <= after, `state timestamp ${m[1]} is not between ${before} and ${after} UTC`)
 })
 
+test('name --kind state prints sdlc/state- and the current UTC time', opts, () => {
+  const repo = gitRepo()
+  const utc = () => new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
+  const before = utc()
+  const r = run(['name', '--repo', repo, '--kind', 'state'], { env: { ...process.env, TZ: 'Pacific/Kiritimati' } })
+  const after = utc()
+  assert.equal(r.status, 0, `exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+  const out = oneObject(r)
+  assert.equal(typeof out.branch, 'string', `branch is not a string: ${r.stdout}`)
+  const m = /^sdlc\/state-(\d{14})$/.exec(out.branch)
+  assert.ok(m, `branch is ${out.branch}`)
+  assert.ok(m[1] >= before && m[1] <= after, `state timestamp ${m[1]} is not between ${before} and ${after} UTC`)
+})
+
 test('name without a required part exits 2 with one JSON error and no traceback', opts, () => {
   const repo = gitRepo()
   for (const [label, args, part] of [
     ['e2e-area without --area', ['name', '--repo', repo, '--kind', 'e2e-area', '--id', 'M-1'], /\barea\b/],
     ['slice without --id', ['name', '--repo', repo, '--kind', 'slice'], /\bid\b/],
+    ['verify without --profile', ['name', '--repo', repo, '--kind', 'verify', '--id', 'S-001', '--round', '0', '--part', '0'], /\bprofile\b/],
+    ['attempt without --n', ['name', '--repo', repo, '--kind', 'attempt', '--id', 'S-001'], /\bn\b/],
   ]) {
     const r = run(args)
     assert.equal(r.status, 2, `${label}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
@@ -575,7 +603,7 @@ test('the --format flag wins over a broken config in name and preflight', opts, 
   }
 })
 
-test('name prints the default branch for the run, slice, milestone, e2e and e2e-area kinds', opts, () => {
+test('name prints the default branch for the run, slice, milestone, e2e, e2e-area, verify and attempt kinds', opts, () => {
   const repo = gitRepo()
   const cases = [
     ['R-003', 'run', ['--n', '1'], 'sdlc/run-1'],
@@ -583,6 +611,10 @@ test('name prints the default branch for the run, slice, milestone, e2e and e2e-
     ['R-005', 'milestone', ['--id', 'M-1'], 'sdlc/M-1'],
     ['R-006', 'e2e', ['--id', 'M-1'], 'sdlc/M-1-e2e'],
     ['R-007', 'e2e-area', ['--id', 'M-1', '--area', 'api'], 'sdlc/M-1-e2e-api'],
+    ['R-009', 'verify', ['--id', 'S-001', '--round', '0', '--profile', 'http-api', '--part', '0'], 'sdlc/S-001-v0-http-api-0'],
+    ['R-009', 'verify', ['--id', 'S-001', '--round', '2', '--profile', 'http-api', '--part', '3'], 'sdlc/S-001-v2-http-api-3'],
+    ['R-010', 'attempt', ['--id', 'S-001', '--n', '1'], 'sdlc/S-001-attempt-1'],
+    ['R-010', 'attempt', ['--id', 'S-fix-M-1-2', '--n', '3'], 'sdlc/S-fix-M-1-2-attempt-3'],
   ]
   for (const [label, kind, extra, branch] of cases) {
     const r = run(['name', '--repo', repo, '--kind', kind, ...extra])
@@ -597,7 +629,7 @@ test('name prints the default branch for the run, slice, milestone, e2e and e2e-
   }
 })
 
-test('tail builds the run, milestone and e2e tails and fails on a missing part', opts, () => {
+test('tail builds the run, milestone, e2e, verify and attempt tails and fails on a missing part', opts, () => {
   const out = JSON.parse(probe(`${CALL}
 print(json.dumps({
     "run_1": call(mod.tail, "run", n=1),
@@ -609,6 +641,15 @@ print(json.dumps({
     "milestone_no_id": call(mod.tail, "milestone"),
     "milestone_empty_id": call(mod.tail, "milestone", id=""),
     "e2e_no_id": call(mod.tail, "e2e"),
+    "verify": call(mod.tail, "verify", id="S-001", round=0, profile="http-api", part=0),
+    "verify_no_id": call(mod.tail, "verify", round=0, profile="http-api", part=0),
+    "verify_no_round": call(mod.tail, "verify", id="S-001", profile="http-api", part=0),
+    "verify_no_profile": call(mod.tail, "verify", id="S-001", round=0, part=0),
+    "verify_empty_profile": call(mod.tail, "verify", id="S-001", round=0, profile="", part=0),
+    "verify_no_part": call(mod.tail, "verify", id="S-001", round=0, profile="http-api"),
+    "attempt": call(mod.tail, "attempt", id="S-001", n=1),
+    "attempt_no_id": call(mod.tail, "attempt", n=1),
+    "attempt_no_n": call(mod.tail, "attempt", id="S-001"),
 }))
 `, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
   assert.deepEqual(out.run_1, { ret: 'run-1' })
@@ -616,23 +657,34 @@ print(json.dumps({
   assert.deepEqual(out.run_0, { ret: 'run-0' })
   assert.deepEqual(out.milestone, { ret: 'M-1' })
   assert.deepEqual(out.e2e, { ret: 'M-1-e2e' })
-  for (const [key, part] of [['run_no_n', /\bn\b/], ['milestone_no_id', /\bid\b/], ['milestone_empty_id', /\bid\b/], ['e2e_no_id', /\bid\b/]]) {
+  assert.deepEqual(out.verify, { ret: 'S-001-v0-http-api-0' })
+  assert.deepEqual(out.attempt, { ret: 'S-001-attempt-1' })
+  for (const [key, part] of [
+    ['run_no_n', /\bn\b/], ['milestone_no_id', /\bid\b/], ['milestone_empty_id', /\bid\b/], ['e2e_no_id', /\bid\b/],
+    ['verify_no_id', /\bid\b/], ['verify_no_round', /\bround\b/], ['verify_no_profile', /\bprofile\b/],
+    ['verify_empty_profile', /\bprofile\b/], ['verify_no_part', /\bpart\b/],
+    ['attempt_no_id', /\bid\b/], ['attempt_no_n', /\bn\b/],
+  ]) {
     assert.equal(typeof out[key].fail, 'string', `${key} did not raise Fail: ${JSON.stringify(out[key])}`)
     assert.match(out[key].fail, part, `${key}: the message does not name the part: ${out[key].fail}`)
   }
 })
 
-test('name for the run, milestone and e2e kinds follows a prefixed and a lowercased format and fails without its part', opts, () => {
+test('name for the run, milestone, e2e, verify and attempt kinds follows a prefixed and a lowercased format and fails without its part', opts, () => {
   const out = JSON.parse(probe(`${CALL}
 print(json.dumps({
     "milestone": call(mod.name, "feature/PROJ-1-{name}", "milestone", id="M-1"),
     "e2e_lower": call(mod.name, "feature/PROJ-1-{name:lower}", "e2e", id="M-1"),
     "run_lower": call(mod.name, "feature/PROJ-1-{name:lower}", "run", n=1),
+    "verify_lower": call(mod.name, "feature/PROJ-1-{name:lower}", "verify", id="S-001", round=0, profile="http-api", part=0),
+    "attempt_lower": call(mod.name, "feature/PROJ-1-{name:lower}", "attempt", id="S-001", n=1),
 }))
 `, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
   assert.deepEqual(out.milestone, { ret: 'feature/PROJ-1-M-1' })
   assert.deepEqual(out.e2e_lower, { ret: 'feature/PROJ-1-m-1-e2e' })
   assert.deepEqual(out.run_lower, { ret: 'feature/PROJ-1-run-1' })
+  assert.deepEqual(out.verify_lower, { ret: 'feature/PROJ-1-s-001-v0-http-api-0' })
+  assert.deepEqual(out.attempt_lower, { ret: 'feature/PROJ-1-s-001-attempt-1' })
   const repo = gitRepo()
   for (const [label, args, part] of [
     ['run without --n', ['name', '--repo', repo, '--kind', 'run'], /\bn\b/],

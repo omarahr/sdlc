@@ -844,13 +844,83 @@
       "S-004"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-005a",
     "pr": "",
     "risk": "medium",
     "riskReason": "Wrong tails produce wrong state and verify branch names, which breaks recognition and sweeps.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Branch names are not checked as valid refs",
+        "detail": "name() does not run git check-ref-format on its output. tail() checks only for a missing or empty part. A --profile or --id with '..', '~', ':', a space or a leading '-' gives a name that is not a valid ref, or that reads as a flag under a plain {name} format. The loop passes only ledger ids and planner profile names, so the risk is low now. The S-004 review has the same open point. Fix: when S-008 wires consumers, pass names to git after '--', or check the output of name with 'git check-ref-format --branch'.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "The utc helper occurs twice in branches.test.mjs",
+        "detail": "The new test 'name --kind state prints sdlc/state- and the current UTC time' defines the same utc arrow function as 'the state tail is the current UTC time'. Move it to one helper at file scope and use it in both tests.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "New CLI state test overlaps existing state tests",
+        "detail": "The test 'name --kind state prints sdlc/state- and the current UTC time' overlaps two tests. 'the state tail is the current UTC time' pins the UTC window under TZ=Pacific/Kiritimati. The name output test pins the CLI shape sdlc/state-<14 digits>. The new test adds only the UTC window through the CLI. Fold the range check into the existing CLI state assertion in a later change.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "CLI missing-part rows for verify cover only --profile",
+        "detail": "Only the Python API pins a missing verify --id, --round or --part. The CLI test has one verify row, for --profile. Add CLI rows for the other three parts when a later slice touches this test.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "verify profile accepted by name but not by the spec parse regex",
+        "detail": "name accepts a profile such as Http_API and gives sdlc/S-001-v0-Http_API-0. The spec section 2 parse row for verify matches only [a-z0-9-]+? as the profile, so this name does not parse back to verify. The parse and round-trip slice owns this.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Grammar in the attempt missing-part error",
+        "detail": "The error reads 'a attempt branch name needs a non-empty n'. It still names the part, so no requirement breaks.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "name returns ref-unsafe verify and attempt names for hostile --profile and --id",
+        "detail": "--profile ../x gives sdlc/S-001-v0-../x-0 with exit 0, and git check-ref-format refuses it. Spaces, ~, @{, : and .lock in an id do the same. No requirement bounds the parts.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Integer parts accept unicode digits, whitespace and huge values",
+        "detail": "--part ٣, --n １２, --round ' 3' and 9999... are accepted and changed to ASCII, so two inputs give one branch name. Negative values give names such as sdlc/S-001-attempt--1.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Error text says 'a attempt branch name'",
+        "detail": "The missing-part error for the attempt kind reads 'a attempt branch name needs a non-empty n'. The article before a vowel is wrong.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "tail and name return ref names git refuses for hostile verify profiles and attempt ids",
+        "detail": "Through the Python API, profile or id values such as '../x', 'a b', 'a~1', 'a:b', 'a@{1}', ESC and TAB give names that git check-ref-format refuses (26 of 34 calls). No S-005a requirement covers this.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "verify and attempt parts accept non-integer and negative values through the API",
+        "detail": "round=-1 gives S-001-v-1-..., round=False gives vFalse, round=1.5 gives v1.5, n=-1 gives attempt--1. A later parse slice (R-068) cannot reverse these forms.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "an explicit state ts is not checked for 14 digits",
+        "detail": "The API uses ts values such as '../../x', 'a/b', '2026\\n', True and lists as given. The spec says only that the value is used as given.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Evidence tests for done requirements are missing from the tree",
+        "detail": "The evidence.tests for R-001 and other branches.py requirements cite .sdlc/slices/S-001..S-004/verification/*/tests/*.mjs. These files are in neither the branch nor the main tree, so no one can re-run them. Also, the T-025, T-026 and T-027 evidence names still use the old test titles, and S-005a renamed those tests.",
+        "file": ".sdlc/requirements.json"
+      }
+    ],
     "ideaKeys": [],
     "notes": "Split from S-005; read .sdlc/slices/S-005/failures.md. Reuse the TAILS rows and branches.test.mjs cases from sdlc/S-005-attempt-2; they held in every round.",
     "counters": {
@@ -860,8 +930,24 @@
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "b9e547fe6748195f232ff51bbff6025a5fd57712"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-005b",

@@ -1,0 +1,70 @@
+surface {"DEFAULT_FORMAT":"'sdlc/{name}'","Fail":"class","GIT_MODES_PATH":"'/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-contract-0/skills/sdlc/git-modes.json'","JsonArgumentParser":"(prog=None, usage=None, description=None, epilog=None, parents=[], formatter_class=<class 'argparse.HelpFormatter'>, prefix_chars='-', fromfile_prefix_chars=None, argument_default=None, conflict_handler='error', add_help=True, allow_abbrev=True, exit_on_error=True, *, suggest_on_error=False, color=True)","KINDS":"('run', 'slice', 'milestone', 'e2e', 'e2e-area', 'state', 'verify', 'attempt')","NAME_PARTS":"('id', 'n', 'area', 'round', 'profile', 'part')","PLACEHOLDERS":"('{name}', '{name:lower}')","TAILS":"{'run': (('n',), <function <lambda> at 0x1061981a0>), 'slice': (('id',), <function <lambda> at 0x106198250>), 'milestone","build_parser":"()","cmd_list":"(ns)","cmd_name":"(ns)","cmd_parse":"(ns)","cmd_preflight":"(ns)","datetime":"class","load_format":"(repo)","load_git_modes":"(path='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-005a-v0-contract-0/skills/sdlc/git-modes.json')","main":"(argv=None)","name":"(fmt, kind, **parts)","split":"(fmt)","tail":"(kind, **parts)","timezone":"class","validate_format":"(fmt)"}
+modules ["argparse","json","os","re","subprocess","sys"]
+VS-1 TZ=Pacific/Kiritimati tail=state-20261009075236 window=[20261009075236,20261009075236]
+VS-1 TZ=America/Adak tail=state-20261009075236 window=[20261009075236,20261009075236]
+VS-1 TZ=Etc/GMT+12 tail=state-20261009075236 window=[20261009075236,20261009075236]
+VS-1 TZ=Etc/GMT-14 tail=state-20261009075236 window=[20261009075236,20261009075236]
+VS-1 TZ=Asia/Kathmandu tail=state-20261009075236 window=[20261009075236,20261009075236]
+VS-1 TZ=UTC tail=state-20261009075236 window=[20261009075236,20261009075236]
+property state-utc-window: seed=3014625680 runs=2000 violations=0
+property state-explicit-ts: seed=3014625733 runs=2000 violations=0
+VS-2 corner ts=0 -> return "sdlc/state-0"
+VS-2 corner ts="0" -> return "sdlc/state-0"
+VS-2 corner ts=1.5 -> return "sdlc/state-1.5"
+VS-2 corner ts=true -> return "sdlc/state-True"
+VS-2 corner ts=false -> return "sdlc/state-False"
+VS-2 corner ts=["x"] -> return "sdlc/state-['x']"
+VS-2 corner ts="../../x" -> return "sdlc/state-../../x"
+VS-2 corner ts="a/b" -> return "sdlc/state-a/b"
+VS-2 corner ts=" 2026" -> return "sdlc/state- 2026"
+VS-2 corner ts="2026\n" -> return "sdlc/state-2026\n"
+VS-2 corner ts="\u001b[31m" -> return "sdlc/state-\u001b[31m"
+VS-2 corner ts="@{-1}" -> return "sdlc/state-@{-1}"
+VS-2 corner ts="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" -> return "sdlc/state-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+VS-2 corner ts="١٢" -> return "sdlc/state-١٢"
+property verify-template: seed=3014625699 runs=2000 violations=0
+VS-4 missing-part Fail messages: a verify branch name needs a non-empty id | a verify branch name needs a non-empty round | a verify branch name needs a non-empty profile | a verify branch name needs a non-empty part
+property verify-missing-part: seed=3014625748 runs=2000 violations=0
+VS-4 corner round=-1 -> return "sdlc/s-001-v-1-http-api-0"
+VS-4 corner round=false -> return "sdlc/s-001-vfalse-http-api-0"
+VS-4 corner round=1.5 -> return "sdlc/s-001-v1.5-http-api-0"
+VS-4 corner round="0" -> return "sdlc/s-001-v0-http-api-0"
+VS-4 corner part=-1 -> return "sdlc/s-001-v0-http-api--1"
+VS-4 corner profile="../x" -> return "sdlc/s-001-v0-../x-0"
+VS-4 corner profile="a b" -> return "sdlc/s-001-v0-a b-0"
+VS-4 corner profile="\u001b" -> return "sdlc/s-001-v0-\u001b-0"
+VS-4 corner id="-x" -> return "sdlc/-x-v0-http-api-0"
+VS-4 corner id="İ" -> return "sdlc/i̇-v0-http-api-0"
+property attempt-template: seed=3014625782 runs=2000 violations=0
+VS-6 corner n=-1 -> sdlc/S-001-attempt--1; n=false -> sdlc/S-001-attempt-False; n=1.0 -> sdlc/S-001-attempt-1
+VS-7 cli: config=feature/PROJ-1-s-001-v0-http-api-0, feature/PROJ-1-s-001-attempt-1 flag=x/S-001-v0-http-api-0/y invalid={"ok": false, "error": "the branch format 'x/{name}{name}' must hold exactly one {name} or {name:lower}, found 2"}
+VS-2 cli --ts: exit=2 {"ok": false, "error": "unrecognized arguments: --ts 20261008101500"}
+consumer cli-equals-api: seed=3014625767 runs=120 violations=0
+property int-string-equal: seed=3014625560 runs=2000 violations=0
+VS-4/VS-6 API hostile inputs: 34 calls, 26 returned names git check-ref-format refuses
+  unsafe verify {"id":"S-001","round":0,"profile":"../x","part":0} -> "sdlc/S-001-v0-../x-0"
+  unsafe attempt {"id":"../x","n":1} -> "sdlc/../x-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a b","part":0} -> "sdlc/S-001-v0-a b-0"
+  unsafe attempt {"id":"a b","n":1} -> "sdlc/a b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a\tb","part":0} -> "sdlc/S-001-v0-a\tb-0"
+  unsafe attempt {"id":"a\tb","n":1} -> "sdlc/a\tb-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"\u001b[31m","part":0} -> "sdlc/S-001-v0-\u001b[31m-0"
+  unsafe attempt {"id":"\u001b[31m","n":1} -> "sdlc/\u001b[31m-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a~1","part":0} -> "sdlc/S-001-v0-a~1-0"
+  unsafe attempt {"id":"a~1","n":1} -> "sdlc/a~1-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a^b","part":0} -> "sdlc/S-001-v0-a^b-0"
+  unsafe attempt {"id":"a^b","n":1} -> "sdlc/a^b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a:b","part":0} -> "sdlc/S-001-v0-a:b-0"
+  unsafe attempt {"id":"a:b","n":1} -> "sdlc/a:b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a@{1}","part":0} -> "sdlc/S-001-v0-a@{1}-0"
+  unsafe attempt {"id":"a@{1}","n":1} -> "sdlc/a@{1}-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a..b","part":0} -> "sdlc/S-001-v0-a..b-0"
+  unsafe attempt {"id":"a..b","n":1} -> "sdlc/a..b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a\\b","part":0} -> "sdlc/S-001-v0-a\\b-0"
+  unsafe attempt {"id":"a\\b","n":1} -> "sdlc/a\\b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a?b","part":0} -> "sdlc/S-001-v0-a?b-0"
+  unsafe attempt {"id":"a?b","n":1} -> "sdlc/a?b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a*b","part":0} -> "sdlc/S-001-v0-a*b-0"
+  unsafe attempt {"id":"a*b","n":1} -> "sdlc/a*b-attempt-1"
+  unsafe verify {"id":"S-001","round":0,"profile":"a[b","part":0} -> "sdlc/S-001-v0-a[b-0"
+  unsafe attempt {"id":"a[b","n":1} -> "sdlc/a[b-attempt-1"

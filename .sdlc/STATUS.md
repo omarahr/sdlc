@@ -1,8 +1,8 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-09T07:42:16Z
+Updated: 2026-10-09T08:09:33Z
 
-Requirements: 19/122 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 4/30 done · current: none · awaiting merge: none
+Requirements: 22/122 done · 0 parked · 0 stubbed · 0 obsolete
+Slices: 5/30 done · current: none · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
 ADRs: 19 · Spec proposals: 1
@@ -15,6 +15,7 @@ ADRs: 19 · Spec proposals: 1
 - 2026-10-09T05:23:35Z slice-merged S-004 tails: run, slice, milestone, e2e, e2e-area
 - 2026-10-09T06:22:27Z slice-escalated S-005 step 1 replan: three fix rounds ended with T-R-119 still refuted; attempt archived as sdlc/S-005-attempt-1
 - 2026-10-09T07:42:15Z slice-escalated S-005 step 2 split into S-005a (R-008, R-009, R-010) and S-005b (R-119); R-093 moved to S-027 per ADR-7fbd; attempt archived as sdlc/S-005-attempt-2
+- 2026-10-09T08:09:33Z slice-merged S-005a tails: state, verify, attempt; R-008, R-009, R-010 done
 
 ## Needs a human eye (non-blocking)
 - nothing

@@ -75,6 +75,11 @@ TAILS = {
     "e2e": (("id",), lambda p: f"{p['id']}-e2e"),
     "state": ((), _state_tail),
     "e2e-area": (("id", "area"), lambda p: f"{p['id']}-e2e-{p['area']}"),
+    "verify": (
+        ("id", "round", "profile", "part"),
+        lambda p: f"{p['id']}-v{p['round']}-{p['profile']}-{p['part']}",
+    ),
+    "attempt": (("id", "n"), lambda p: f"{p['id']}-attempt-{p['n']}"),
 }
 
 
