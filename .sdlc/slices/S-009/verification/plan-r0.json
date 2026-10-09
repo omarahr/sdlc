@@ -1,0 +1,118 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "A state branch with exactly 14 digits is classified as state",
+      "requirementIds": [
+        "R-106"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Try sdlc/state-20261008101500 through parse and the CLI. ts must stay a string. Try 13 and 15 digits, an empty tail, a letter among the digits, and a trailing letter. All of these must give null. Try a trailing newline and non-ASCII digits: report them as seeds, S-007 left them open."
+    },
+    {
+      "id": "VS-2",
+      "title": "A verify branch splits into id, round, profile and part",
+      "requirementIds": [
+        "R-107"
+      ],
+      "profiles": [
+        "contract",
+        "cli",
+        "security"
+      ],
+      "notes": "Try S-001-v0-http-api-0 and S-001-v12-cli-3: round and part are integers. Profile a-b-c keeps its full text. Missing part digit, missing round or empty profile must not give verify. Hostile input: huge round digits, flag-like and control-character ids, NUL, oversized tails. Parse must return a value or null and never raise."
+    },
+    {
+      "id": "VS-3",
+      "title": "A verify tail wins over the slice row",
+      "requirementIds": [
+        "R-107",
+        "R-109"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "S-001-v0-http-api-0 also fits the slice regex. It must give kind verify. S-fix-M-1-2-v1-cli-0 gives id S-fix-M-1-2. Check the same order with prefix and suffix formats."
+    },
+    {
+      "id": "VS-4",
+      "title": "An attempt branch gives id and an integer n",
+      "requirementIds": [
+        "R-108"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Try S-001-attempt-2 and S-005b-attempt-10. Missing number, letter number and trailing hyphen must not give attempt. Check that attempt wins over the slice row, and that a verify-shaped tail still gives verify before attempt."
+    },
+    {
+      "id": "VS-5",
+      "title": "A slice branch gives kind slice and keeps the full id",
+      "requirementIds": [
+        "R-109"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Try S-001, S-fix-M-1-2 and S-005b. sdlc/S-, sdlc/X-001 and sdlc/S-001/x give null. sdlc/s-001 is null under the default format and slice under {name:lower}."
+    },
+    {
+      "id": "VS-6",
+      "title": "Rows 5 to 8 classify the same under prefixed and suffixed formats",
+      "requirementIds": [
+        "R-106",
+        "R-107",
+        "R-108",
+        "R-109"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Run one branch per row under feature/PROJ-1-{name} and {name}-wip. The suffix must not leak into the verify part or the attempt n. A branch with a wrong prefix or suffix gives null."
+    },
+    {
+      "id": "VS-7",
+      "title": "The ledger flag known follows the id on rows 6 to 8",
+      "requirementIds": [
+        "R-107",
+        "R-108",
+        "R-109"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "With ids [S-001], slice, attempt and verify branches of S-001 give known true. S-002 gives false. A state branch gives null. Under {name:lower}, a mixed-case id still matches and returns the ledger spelling."
+    }
+  ],
+  "tools": [
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Call parse through the Python probe for each row, including seeded generated tails, and check that it never raises.",
+      "exists": true
+    },
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py parse from a scratch repo and compare kind and parts with the contract result.",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Feed unicode-digits, huge-integers, nul, oversized, control-chars and flag-like-values tails into the verify, attempt and state rows.",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "Row order decides how scripts classify state, verify and slice branches, so a wrong order makes them sweep or resume the wrong branch.",
+  "notes": "Slice adds tests only. S-007 built the rows. Tagged contract first, then cli, then security, within the medium cap of 4. The limits profile is not tagged: the spec states no number. Huge digit runs and trailing newline stay as seeds from S-007."
+}

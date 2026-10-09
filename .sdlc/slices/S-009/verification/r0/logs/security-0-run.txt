@@ -1,0 +1,35 @@
+AT-1 branches 1072 retries 0
+trailing newline: "sdlc/S-001-v0-cli-0\n" -> {"kind":"verify","tail":"S-001-v0-cli-0\n","id":"S-001","round":0,"profile":"cli","part":0,"known":null}
+trailing NUL: "sdlc/S-001-v0-cli-0\u0000" -> null
+arabic-indic part: "sdlc/S-001-v0-cli-٣" -> {"kind":"verify","tail":"S-001-v0-cli-٣","id":"S-001","round":0,"profile":"cli","part":3,"known":null}
+arabic-indic round: "sdlc/S-001-v٣-cli-0" -> {"kind":"verify","tail":"S-001-v٣-cli-0","id":"S-001","round":3,"profile":"cli","part":0,"known":null}
+cyrillic i in profile: "sdlc/S-001-v0-cіi-0" -> null
+upper-case profile: "sdlc/S-001-v0-CLI-0" -> {"kind":"slice","tail":"S-001-v0-CLI-0","id":"S-001-v0-CLI-0","known":null}
+empty profile: "sdlc/S-001-v0--0" -> {"kind":"slice","tail":"S-001-v0--0","id":"S-001-v0--0","known":null}
+no part: "sdlc/S-001-v0-cli" -> {"kind":"slice","tail":"S-001-v0-cli","id":"S-001-v0-cli","known":null}
+flag-like id: "sdlc/--force-v0-cli-0" -> {"kind":"verify","tail":"--force-v0-cli-0","id":"--force","round":0,"profile":"cli","part":0,"known":null}
+traversal: "sdlc/S-001-v0-cli-0/../../x" -> null
+shell: "sdlc/S-001-v0-cli-0;rm -rf" -> null
+{"nl":{"kind":"verify","tail":"S-001-v0-cli-0\n","id":"S-001","round":0,"profile":"cli","part":0,"known":null},"uni":{"kind":"verify","tail":"S-001-v0-cli-٣","id":"S-001","round":0,"profile":"cli","part":3,"known":null},"state":null}
+"sdlc/S-001-v0-cli-0" len=19 -> status 0 kind=verify ok=true
+"-x" len=2 -> status 0 kind=null ok=true
+"--help" len=6 -> status 0 kind=null ok=true
+"sdlc/S-001-v0-cli-0\n" len=20 -> status 0 kind=verify ok=true
+"sdlc/S-001-v999999999999999999" len=4018 -> status 0 kind=verify ok=true
+"sdlc/S-001-v0-a-a-a-a-a-a-a-a-" len=100015 -> status 0 kind=verify ok=true
+"sdlc/S-001-v0-cli-0\u0000" spawnError
+✔ verify security: AT-1 verify and attempt rows never raise on any corpus family (487.652459ms)
+✔ verify security: AT-2 huge digit runs give integers or null, never raise (480.161125ms)
+✔ verify security: AT-3 no hostile tail yields kind verify with a wrong shape (548.862875ms)
+✔ verify security: AT-4 trailing newline and non-ASCII digits (seed behavior, S-007 left open) (97.53325ms)
+✔ verify security: AT-5 prefix and suffix hostile: wrong affixes give null (223.600208ms)
+✔ verify security: AT-6 ledger spoofing: ids list does not let unknown ids look known (67.224291ms)
+✔ verify security: AT-7 CLI parse of hostile branches: JSON out, no side effect on repo (1153.642417ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3117.64825

@@ -1,0 +1,2000 @@
+### VS-1 state ok
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-2
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-20261008101500
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-20261008101500", "kind": "state", "tail": "state-20261008101500", "ts": "20261008101500", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-2026100810150
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-3
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-2026100810150
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-2026100810150", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-3 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-202610081015000
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-4
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-202610081015000
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-202610081015000", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-4 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-5
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-5 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-2026100810150x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-2026100810150x
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-2026100810150x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-20261008x01500
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-7
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-20261008x01500
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-20261008x01500", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-7 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-x20261008101500
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-8
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-x20261008101500
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-x20261008101500", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-8 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-20261008101500-x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-9
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-20261008101500-x
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-20261008101500-x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-9 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state-20261008101500/x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-10
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state-20261008101500/x
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-20261008101500/x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-10 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 null sdlc/state--20261008101500
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-11
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/state--20261008101500
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state--20261008101500", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-11 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 seed newline
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-12
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch $'sdlc/state-20261008101500\n'
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-20261008101500\n", "kind": "state", "tail": "state-20261008101500\n", "ts": "20261008101500", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-12 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 seed fullwidth
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-13
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch $'sdlc/state-２０２６１００８１０１５００'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-\uff12\uff10\uff12\uff16\uff11\uff10\uff10\uff18\uff11\uff10\uff11\uff15\uff10\uff10", "kind": "state", "tail": "state-\uff12\uff10\uff12\uff16\uff11\uff10\uff10\uff18\uff11\uff10\uff11\uff15\uff10\uff10", "ts": "\uff12\uff10\uff12\uff16\uff11\uff10\uff10\uff18\uff11\uff10\uff11\uff15\uff10\uff10", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-13 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-1 seed arabic
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-14
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch $'sdlc/state-٢٠٢٦١٠٠٨١٠١٥٠٠'
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-\u0662\u0660\u0662\u0666\u0661\u0660\u0660\u0668\u0661\u0660\u0661\u0665\u0660\u0660", "kind": "state", "tail": "state-\u0662\u0660\u0662\u0666\u0661\u0660\u0660\u0668\u0661\u0660\u0661\u0665\u0660\u0660", "ts": "\u0662\u0660\u0662\u0666\u0661\u0660\u0660\u0668\u0661\u0660\u0661\u0665\u0660\u0660", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-14 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+SEED-SUMMARY {"newline":{"status":0,"kind":"state","ts":"20261008101500"},"fullwidth":{"status":0,"kind":"state","ts":"２０２６１００８１０１５００"},"arabic":{"status":0,"kind":"state","ts":"٢٠٢٦١٠٠٨١٠١٥٠٠"}}
+### VS-2 a
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-15
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-http-api-0
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-http-api-0", "kind": "verify", "tail": "S-001-v0-http-api-0", "id": "S-001", "round": 0, "profile": "http-api", "part": 0, "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-15 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 b
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-16
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v12-cli-3
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v12-cli-3", "kind": "verify", "tail": "S-001-v12-cli-3", "id": "S-001", "round": 12, "profile": "cli", "part": 3, "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-16 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 a-b-c
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-17
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v3-a-b-c-7
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v3-a-b-c-7", "kind": "verify", "tail": "S-001-v3-a-b-c-7", "id": "S-001", "round": 3, "profile": "a-b-c", "part": 7, "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-17 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 part 10
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-18
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-005b-v1-security-10
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-005b-v1-security-10", "kind": "verify", "tail": "S-005b-v1-security-10", "id": "S-005b", "round": 1, "profile": "security", "part": 10, "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-18 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v0-http-api
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-19
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-http-api
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-http-api", "kind": "slice", "tail": "S-001-v0-http-api", "id": "S-001-v0-http-api", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-19 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v-cli-0
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-20
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v-cli-0
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v-cli-0", "kind": "slice", "tail": "S-001-v-cli-0", "id": "S-001-v-cli-0", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-20 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v0--0
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-21
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0--0
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0--0", "kind": "slice", "tail": "S-001-v0--0", "id": "S-001-v0--0", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-21 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v0-cli-
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-22
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-cli-
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-cli-", "kind": "slice", "tail": "S-001-v0-cli-", "id": "S-001-v0-cli-", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-22 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v0-cli-x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-23
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-cli-x
+exit: 0 (62 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-cli-x", "kind": "slice", "tail": "S-001-v0-cli-x", "id": "S-001-v0-cli-x", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-23 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-vx-cli-0
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-24
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-vx-cli-0
+exit: 0 (59 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-vx-cli-0", "kind": "slice", "tail": "S-001-vx-cli-0", "id": "S-001-vx-cli-0", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-24 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v0-cli-0-
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-25
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-cli-0-
+exit: 0 (60 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-cli-0-", "kind": "slice", "tail": "S-001-v0-cli-0-", "id": "S-001-v0-cli-0-", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-25 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 not verify sdlc/S-001-v0-cli-0/x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-26
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-cli-0/x
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-cli-0/x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-26 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+### VS-2 trailing hyphen falls to slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-27
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-009-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 --format 'sdlc/{name}' --branch sdlc/S-001-v0-cli-0-
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-001-v0-cli-0-", "kind": "slice", "tail": "S-001-v0-cli-0-", "id": "S-001-v0-cli-0-", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-27 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-28 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-29 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-30 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-31 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-32 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-33 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-34 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-35 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-36 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-37 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-38 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-39 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-40 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-41 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-42 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-43 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-44 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-45 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-46 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-47 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-48 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-49 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-50 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-51 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-52 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-53 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-54 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-55 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-56 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-57 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-58 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-59 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-60 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-61 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-62 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-63 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-64 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-65 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-66 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-67 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-68 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-69 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-70 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-71 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-72 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-73 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-74 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-75 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-76 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-77 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-78 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-79 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-80 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-81 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-82 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-83 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-84 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-85 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-86 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-87 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-88 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-89 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-90 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-91 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-92 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-93 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-94 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-95 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-96 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-97 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-98 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-99 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-100 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-101 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-102 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-103 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-104 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-105 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-106 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-107 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-108 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-109 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-110 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-111 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-112 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-113 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-114 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-115 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-116 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-117 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-118 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-119 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-120 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-121 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-122 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-123 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-124 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-125 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-126 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-127 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-128 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-129 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-130 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-131 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-132 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-133 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-134 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-135 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-136 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-137 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-138 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-139 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-140 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-141 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-142 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-143 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-144 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-145 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-146 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-147 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-148 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-149 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-150 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-151 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-152 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-153 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-154 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-155 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-156 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-157 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-158 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-159 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-160 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-161 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-162 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-163 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-164 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-165 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-166 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-167 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-168 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-169 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-170 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-171 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-172 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-173 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-174 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-175 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-176 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-177 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-178 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-179 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-180 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-181 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-182 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-183 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-184 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-185 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-186 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-187 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-188 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-189 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-190 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-191 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-192 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-193 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-194 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-195 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-196 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-197 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-198 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-199 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-200 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-201 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-202 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-203 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-204 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-205 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-206 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-207 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-208 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-209 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-210 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-211 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-212 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-213 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-214 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-215 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-216 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-217 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-218 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-219 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-220 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-221 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-222 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-223 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-224 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-225 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-226 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-227 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-228 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-229 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-230 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-231 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-232 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-233 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-234 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-235 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-236 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-237 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-238 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-239 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-240 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-241 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-242 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-243 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-244 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-245 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-246 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-247 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-248 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-249 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-250 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-251 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-252 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-253 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-254 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-255 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-256 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-257 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-258 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-259 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-260 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-261 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-262 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-263 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-264 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-265 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-266 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-267 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-268 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-269 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-270 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-271 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-272 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-273 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-274 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-275 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-276 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-277 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-278 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-279 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-280 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-281 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-282 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-283 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-284 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-285 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-286 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-287 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-288 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-289 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-290 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-291 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-292 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-293 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-294 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-295 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-296 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-297 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-298 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-299 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-300 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-301 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-302 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-303 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-304 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-305 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-306 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-307 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-308 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-309 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-310 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-311 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-312 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-313 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-314 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-315 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-316 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-317 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-318 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-319 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-320 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-321 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-322 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-323 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-324 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-325 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-326 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-327 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-328 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-329 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-330 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-331 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-332 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-333 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-334 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-335 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-336 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-337 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-338 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-339 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-340 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-341 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-342 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-343 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-344 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-345 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-346 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-347 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-348 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-349 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-350 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-351 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-352 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-353 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-354 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-355 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-356 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-357 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-358 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-359 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-360 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-361 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-362 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-363 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-364 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-365 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-366 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-367 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-368 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-369 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-370 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-371 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-372 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-373 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-374 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-375 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-376 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-377 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-378 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-379 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-380 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-381 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-382 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-383 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-384 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-385 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-386 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-387 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-388 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-389 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-390 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-391 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-392 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-393 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-394 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-395 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-396 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-397 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-398 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-399 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-400 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-401 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-402 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-403 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-404 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-405 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-406 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-407 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-408 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-409 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-410 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-411 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-412 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-413 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-414 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-415 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-416 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-417 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-418 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-419 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-420 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-421 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-422 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-423 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-424 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-425 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-426 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-427 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-428 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-429 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-430 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-431 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-432 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-433 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-434 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-435 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-436 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-437 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-438 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-439 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-440 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-441 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-442 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-443 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-444 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-445 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-446 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-447 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-448 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-449 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-450 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-451 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-452 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-453 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-454 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-455 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-456 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-457 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-458 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-459 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-460 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-461 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-462 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-463 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-464 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-465 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-466 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-467 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-468 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-469 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-470 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-471 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-472 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-473 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-474 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-475 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-476 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-477 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-478 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-479 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-480 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-481 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-482 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-483 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-484 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-485 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-486 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-487 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-488 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-489 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-490 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-491 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-492 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-493 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-494 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-495 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-496 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-497 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-498 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-499 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-500 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-501 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-502 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-503 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-504 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-505 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-506 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-507 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-508 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-509 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-510 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-511 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-512 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-513 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-514 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-515 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-516 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-517 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-518 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-519 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-520 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-521 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-522 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-523 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-524 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-525 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-526 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-527 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-528 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-529 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-530 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-531 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-532 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-533 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-534 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-535 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-536 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-537 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-538 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-539 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-540 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-541 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-542 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-543 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-544 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-545 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-546 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-547 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-548 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-549 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-550 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-551 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-552 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-553 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-554 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-555 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-556 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-557 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-558 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-559 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-560 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-561 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-562 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-563 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-564 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-565 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-566 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-567 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-568 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-569 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-570 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-571 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-572 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-573 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-574 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-575 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-576 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-577 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-578 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-579 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-580 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-581 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-582 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-583 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-584 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-585 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-586 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-587 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-588 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-589 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-590 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-591 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-592 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-593 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-594 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-595 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-596 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-597 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/cwd-598 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-N2e6dV/testkit-cli-l67XFS/repo-1 (unchanged)
+

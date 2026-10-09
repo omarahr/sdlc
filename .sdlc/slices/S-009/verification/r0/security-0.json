@@ -1,0 +1,260 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "d29cba7",
+  "environment": "Python 3.14.7, Node 24.19, scratch git repo from cli-runner",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-107"
+      ],
+      "title": "1072 corpus tails across 8 wrappers never raise",
+      "given": "branch format sdlc/{name} and a hostile tail",
+      "when": "parse is called through the Python probe or the CLI",
+      "then": "every call returns a value or null; round, part and n are integers",
+      "expected": "every call returns a value or null; round, part and n are integers",
+      "actual": "every call returns a value or null; round, part and n are integers",
+      "result": "pass",
+      "specSource": "R-107 acceptance; VS-2 notes: parse returns a value or null and never raises",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:22",
+      "command": "node --test .sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "1072 corpus tails across 8 wrappers never raise",
+          "inline": "134 corpus entries x 8 wrappers (verify, attempt, state, id positions): 0 raised"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-107"
+      ],
+      "title": "Huge digit runs (5k, 100k) in round, part, n, state",
+      "given": "branch format sdlc/{name} and a hostile tail",
+      "when": "parse is called through the Python probe or the CLI",
+      "then": "return without raising",
+      "expected": "return without raising",
+      "actual": "return without raising",
+      "result": "pass",
+      "specSource": "R-107 acceptance; VS-2 notes: parse returns a value or null and never raises",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:38",
+      "command": "node --test .sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "Huge digit runs (5k, 100k) in round, part, n, state",
+          "inline": "digit runs of 5000 and 100000 and 50000 zeros: all return"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-107"
+      ],
+      "title": "Shape attacks on the verify row",
+      "given": "branch format sdlc/{name} and a hostile tail",
+      "when": "parse is called through the Python probe or the CLI",
+      "then": "empty profile, missing part: not verify; traversal and shell tails: null; confusable profile: null",
+      "expected": "empty profile, missing part: not verify; traversal and shell tails: null; confusable profile: null",
+      "actual": "empty profile, missing part: not verify; traversal and shell tails: null; confusable profile: null",
+      "result": "pass",
+      "specSource": "R-107 acceptance; VS-2 notes: parse returns a value or null and never raises",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:45",
+      "command": "node --test .sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "Shape attacks on the verify row",
+          "inline": "see logs/security-0-run.txt lines 2-12"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-107"
+      ],
+      "title": "Wrong prefix or suffix",
+      "given": "branch format sdlc/{name} and a hostile tail",
+      "when": "parse is called through the Python probe or the CLI",
+      "then": "null under feature/PROJ-1-{name} and {name}-wip; suffix does not leak into part",
+      "expected": "null under feature/PROJ-1-{name} and {name}-wip; suffix does not leak into part",
+      "actual": "null under feature/PROJ-1-{name} and {name}-wip; suffix does not leak into part",
+      "result": "pass",
+      "specSource": "R-107 acceptance; VS-2 notes: parse returns a value or null and never raises",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:82",
+      "command": "node --test .sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "Wrong prefix or suffix",
+          "inline": "-wip suffix: verify part 0 profile cli"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-107"
+      ],
+      "title": "Ledger known flag with hostile ids",
+      "given": "branch format sdlc/{name} and a hostile tail",
+      "when": "parse is called through the Python probe or the CLI",
+      "then": "S-002 false, S-0011 false, S-001 true, ledger spelling under {name:lower}",
+      "expected": "S-002 false, S-0011 false, S-001 true, ledger spelling under {name:lower}",
+      "actual": "S-002 false, S-0011 false, S-001 true, ledger spelling under {name:lower}",
+      "result": "pass",
+      "specSource": "R-107 acceptance; VS-2 notes: parse returns a value or null and never raises",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:96",
+      "command": "node --test .sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "Ledger known flag with hostile ids",
+          "inline": "known true/false as expected"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-107"
+      ],
+      "title": "CLI parse of hostile branches",
+      "given": "branch format sdlc/{name} and a hostile tail",
+      "when": "parse is called through the Python probe or the CLI",
+      "then": "exit 0 or 2, JSON output, no traceback, repo tree unchanged",
+      "expected": "exit 0 or 2, JSON output, no traceback, repo tree unchanged",
+      "actual": "exit 0 or 2, JSON output, no traceback, repo tree unchanged",
+      "result": "pass",
+      "specSource": "R-107 acceptance; VS-2 notes: parse returns a value or null and never raises",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:108",
+      "command": "node --test .sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "CLI parse of hostile branches",
+          "inline": "7 branches incl. 100 kB tail and flag-like -x and --help: all status 0, JSON, tree unchanged"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "AT-1",
+      "charter": "Explore the verify, attempt and state rows with the full attack-corpus to find a raise (R-107: parse returns a value or null)",
+      "input": "134 corpus tails x 8 wrappers",
+      "expected": "no exception",
+      "observed": "no exception, 0 retries",
+      "result": "held",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:22"
+    },
+    {
+      "id": "AT-2",
+      "charter": "Explore integer groups with huge digit runs to find a raise",
+      "input": "5k, 100k digits",
+      "expected": "integer or null",
+      "observed": "returns",
+      "result": "held",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:38"
+    },
+    {
+      "id": "AT-3",
+      "charter": "Explore verify boundaries with empty profile, no part, unicode, traversal, shell",
+      "input": "11 tails",
+      "expected": "no wrong verify",
+      "observed": "empty profile and no part give slice; others null",
+      "result": "held",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:45"
+    },
+    {
+      "id": "AT-4",
+      "charter": "Trailing newline and non-ASCII digits (threat model: S-007 left open)",
+      "input": "S-001-v0-cli-0\\n, Arabic-Indic digits",
+      "expected": "seed only",
+      "observed": "newline tail gives verify with the newline in tail; Arabic-Indic digits give integer 3",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:71"
+    },
+    {
+      "id": "AT-5",
+      "charter": "Prefix and suffix format spoofing",
+      "input": "wrong prefixes and suffixes",
+      "expected": "null",
+      "observed": "null",
+      "result": "held",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:82"
+    },
+    {
+      "id": "AT-6",
+      "charter": "Ledger spoofing with near ids",
+      "input": "S-0011, s-001",
+      "expected": "known false",
+      "observed": "known false; lower-case id parses as verify by the spec regex (.+)",
+      "result": "held",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:96"
+    },
+    {
+      "id": "AT-7",
+      "charter": "CLI with flag-like and oversized branches",
+      "input": "-x, --help, 100 kB tail",
+      "expected": "JSON, no side effect",
+      "observed": "JSON, tree unchanged",
+      "result": "held",
+      "test": ".sdlc/slices/S-009/verification/r0/tests/security-0/parse-hostile.verify-security.test.mjs:108"
+    },
+    {
+      "id": "AT-8",
+      "charter": "Quadratic backtracking in verify row",
+      "input": "S-001 followed by 8000 repeats of -v0-a, then x",
+      "expected": "no limit stated in spec",
+      "observed": "1.1 s at 8000 repeats, 0.28 s at 4000 (quadratic)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-009/verification/r0/logs/security-0-timing.txt"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "verify row accepts a trailing newline",
+      "detail": "parse('sdlc/{name}','sdlc/S-001-v0-cli-0\\n') gives kind verify, because $ matches before a final newline; the newline stays in tail. Same open item as S-007.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Unicode digits accepted by \\d in round, part, n, ts",
+      "detail": "Arabic-Indic digits parse as integers (round 3, part 3). S-007 left this open. Use re.ASCII or [0-9].",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Verify row backtracks quadratically (limits)",
+      "detail": "A 40 kB tail made of repeated -v0-a takes 1.1 s for 8000 repeats and grows with the square. The spec states no limit, so this goes to verify-limits.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Verify id is not checked against the slice id shape",
+      "detail": "--force-v0-cli-0 and s-001-v0-cli-0 parse as verify with a flag-like or lower-case id, as the spec regex (.+) allows. Callers must not pass id to a command without the known flag.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "testkit: callPython hangs intermittently on a 200 kB input",
+      "detail": "One run in about six of the same 200 kB call timed out under node spawnSync, while 60 runs of the same call from Python never timed out. Product parse took 3 ms. The test retries up to 3 times.",
+      "file": "skills/sdlc/test/testkit/property.mjs"
+    }
+  ]
+}
