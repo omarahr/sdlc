@@ -1,0 +1,141 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "One glab call serves many samples, run in the repo",
+      "requirementIds": [
+        "R-030"
+      ],
+      "profiles": [
+        "contract",
+        "security"
+      ],
+      "notes": "Risk: one call per sample, a wrong argv, or a wrong cwd. Try 1, 3 and 50 samples. The argv must be api projects/:fullpath/push_rule. The cwd must be the repo. A branch name in the samples must never reach the argv."
+    },
+    {
+      "id": "VS-2",
+      "title": "A branch_name_regex gives one regex rule with the spec keys",
+      "requirementIds": [
+        "R-030",
+        "R-026"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Body with branch_name_regex gives one rule with exactly source, kind, pattern, negate, label. Values: gitlab, regex, the regex text, false, push rule. by_sample holds the rule under every sample. rules holds it once. unchecked is false and notes is empty."
+    },
+    {
+      "id": "VS-3",
+      "title": "Null body, empty object, null or empty regex give no rule",
+      "requirementIds": [
+        "R-030"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Bodies: null, {}, branch_name_regex null, branch_name_regex empty string. Each gives no rules, no note, unchecked false, and an empty list for each sample. Try a regex of only spaces: record what the code does."
+    },
+    {
+      "id": "VS-4",
+      "title": "A JSON error body with exit 0 is no rule. A non-zero exit is a failure",
+      "requirementIds": [
+        "R-030",
+        "R-031"
+      ],
+      "profiles": [
+        "contract",
+        "security"
+      ],
+      "notes": "Exit 0 with {\"message\": \"404 Project Not Found\"} gives no rule and no note. Exit 1 with the same body on stdout gives the rules unknown note. The split follows ADR f2c2. Try exit 2 and exit 127."
+    },
+    {
+      "id": "VS-5",
+      "title": "A failing glab gives one note and unchecked samples",
+      "requirementIds": [
+        "R-031"
+      ],
+      "profiles": [
+        "contract",
+        "security"
+      ],
+      "notes": "Exit 1 with stderr boom gives exactly one note, rules unknown on gitlab: boom. Rules and by_sample are empty and unchecked is true. Try empty stderr, multi-line stderr, very long stderr, control characters, invalid UTF-8 and NUL in stderr. The note must stay one line, with a bounded length, and must not raise."
+    },
+    {
+      "id": "VS-6",
+      "title": "No forge makes no call",
+      "requirementIds": [
+        "R-032"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "forge empty string, forge key absent, forge null, an unknown forge value and a config that is not valid JSON. No gh or glab call in any case. The result has no rules, no notes, empty by_sample and unchecked true. Check that a gh shim and a glab shim log no call."
+    },
+    {
+      "id": "VS-7",
+      "title": "Hostile or odd glab output never breaks the shape",
+      "requirementIds": [
+        "R-030",
+        "R-026"
+      ],
+      "profiles": [
+        "security",
+        "contract"
+      ],
+      "notes": "Stdout: a JSON array, a string, a number, true, deeply nested JSON, a very large body, branch_name_regex that is a number, a list or an object, a regex with invalid RE2 syntax, a regex with control characters or NUL. Each must give a valid result shape and no exception. Every rule that is returned has exactly the five spec keys with the right types. A regex that is not a string gives no rule or a failure note, never a rule with a non-string pattern."
+    },
+    {
+      "id": "VS-8",
+      "title": "Missing, slow or non-JSON glab is a failure, not a crash",
+      "requirementIds": [
+        "R-031"
+      ],
+      "profiles": [
+        "security",
+        "cli"
+      ],
+      "notes": "PATH with python3 and git only gives the rules unknown note. A glab that sleeps past FORGE_TIMEOUT gives the note and no hang. A glab that prints non-JSON, empty output or a partial JSON gives the note. No child process stays alive after the timeout. The scratch tree and the git refs are unchanged."
+    },
+    {
+      "id": "VS-9",
+      "title": "The GitHub branch is unchanged after the shared-helper refactor",
+      "requirementIds": [
+        "R-026"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Run the S-013 GitHub cases: two operators, negate true and false, a failing gh, a missing gh. Results equal the results before the refactor. Check that FORGE_TIMEOUT applies to gh too, and that GH_PROMPT_DISABLED stays set for gh. Every rule from both sources has exactly the five spec keys and kind is one of the four values."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py from a scratch repo with a controlled env and a tree diff",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Hostile strings for glab stderr and regex values",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Seeded generator for read_rules calls and bodies through pycall.py",
+      "exists": true
+    },
+    {
+      "id": "glab-stub",
+      "profile": "security",
+      "purpose": "A glab shim like the gh stub: canned stdout, stderr, exit code, sleep, and a log of cwd and argv. The stub-server file covers gh only",
+      "exists": false
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "A misread push rule hides the one GitLab constraint and passes names it rejects.",
+  "notes": "No HTTP or UI boundary. The boundary is a Python function that runs glab as a child process. The limits profile is not tagged: the spec states no number. The timeout is a concern for VS-8. The spec wording an error means no rule in R-030 conflicts with R-031. The plan follows ADR f2c2: exit 0 with a JSON error body is no rule, and a non-zero exit is a note."
+}

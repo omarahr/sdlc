@@ -1865,3 +1865,166 @@ test('T-R-084a a missing gh does not crash', opts, () => {
   assert.deepEqual(got.ret.rules, [])
   assert.equal(got.ret.unchecked, true)
 })
+
+function glabShim({ body = 'null', stderr = null, exit = null, sleep = null } = {}) {
+  const dir = scratch('sdlc-glab-shim-')
+  writeFileSync(join(dir, 'default'), typeof body === 'string' ? body : JSON.stringify(body))
+  if (stderr !== null) writeFileSync(join(dir, 'err'), stderr)
+  if (exit !== null) writeFileSync(join(dir, 'exit'), String(exit))
+  const bin = join(dir, 'bin')
+  mkdirSync(bin)
+  const sleepLine = sleep === null ? '' : `exec sleep ${sleep}\n`
+  writeFileSync(join(bin, 'glab'), `#!/bin/sh
+printf '%s\\t%s\\n' "$PWD" "$*" >> "${dir}/calls.log"
+${sleepLine}if [ -f "${dir}/err" ]; then cat "${dir}/err" >&2; fi
+cat "${dir}/default"
+if [ -f "${dir}/exit" ]; then exit "$(cat "${dir}/exit")"; fi
+exit 0
+`)
+  chmodSync(join(bin, 'glab'), 0o755)
+  const calls = () => {
+    try {
+      return readFileSync(join(dir, 'calls.log'), 'utf8').split('\n').filter(Boolean).map((l) => {
+        const [cwd, argv] = l.split('\t')
+        return { cwd, argv }
+      })
+    } catch { return [] }
+  }
+  return { bin, calls }
+}
+
+const gitlabRepo = () => withConfig({ gitMode: 'pr', forge: 'gitlab' })
+const withGlab = (shim, repo, samples) => readRules(repo, samples, [shim.bin, ...process.env.PATH.split(':')])
+const GITLAB_NOTE = /^rules unknown on gitlab: .+/
+
+test('T-R-030a read_rules makes one glab call for many samples', opts, () => {
+  const repo = gitlabRepo()
+  const shim = glabShim()
+  const got = withGlab(shim, repo, ['sdlc/S-001', 'sdlc/S-002', 'M-1-e2e'])
+  assert.ok(got.ret, `read_rules did not return: ${JSON.stringify(got)}`)
+  const calls = shim.calls()
+  assert.equal(calls.length, 1)
+  assert.equal(calls[0].argv, 'api projects/:fullpath/push_rule')
+  assert.equal(realpathSync(calls[0].cwd), realpathSync(repo))
+})
+
+test('T-R-030b a branch_name_regex gives one regex rule under every sample', opts, () => {
+  const shim = glabShim({ body: { branch_name_regex: '^feat/.*$' } })
+  const got = withGlab(shim, gitlabRepo(), ['sdlc/A', 'sdlc/B'])
+  const rule = { source: 'gitlab', kind: 'regex', pattern: '^feat/.*$', negate: false, label: 'push rule' }
+  assert.deepEqual(got.ret.rules, [rule])
+  assert.deepEqual(got.ret.by_sample, { 'sdlc/A': [rule], 'sdlc/B': [rule] })
+  assert.equal(got.ret.unchecked, false)
+  assert.deepEqual(got.ret.notes, [])
+  assert.equal(got.ret.forge, 'gitlab')
+})
+
+test('T-R-030c a null body, no regex and an empty regex give no rule', opts, () => {
+  for (const body of ['null', '{}', '{"branch_name_regex": ""}', '{"branch_name_regex": null}']) {
+    const got = withGlab(glabShim({ body }), gitlabRepo(), ['sdlc/A', 'sdlc/B'])
+    assert.ok(got.ret, `${body}: ${JSON.stringify(got)}`)
+    assert.deepEqual(got.ret.rules, [], body)
+    assert.deepEqual(got.ret.notes, [], body)
+    assert.equal(got.ret.unchecked, false, body)
+    assert.deepEqual(got.ret.by_sample, { 'sdlc/A': [], 'sdlc/B': [] }, body)
+  }
+})
+
+test('T-R-030e a JSON error body from a glab that exits 0 is no rule', opts, () => {
+  const shim = glabShim({ body: '{"message": "404 Project Not Found"}' })
+  const got = withGlab(shim, gitlabRepo(), ['sdlc/A'])
+  assert.deepEqual(got.ret.rules, [])
+  assert.deepEqual(got.ret.notes, [])
+  assert.equal(got.ret.unchecked, false)
+})
+
+test('T-R-030d other push rule fields are ignored', opts, () => {
+  const shim = glabShim({ body: { commit_message_regex: '^fix', branch_name_regex: '^feat/' } })
+  const got = withGlab(shim, gitlabRepo(), ['sdlc/A'])
+  assert.deepEqual(got.ret.rules, [{ source: 'gitlab', kind: 'regex', pattern: '^feat/', negate: false, label: 'push rule' }])
+})
+
+test('T-R-031a a failing glab gives one note and unchecked samples', opts, () => {
+  const shim = glabShim({ body: '', stderr: 'boom\n', exit: 1 })
+  const got = withGlab(shim, gitlabRepo(), ['sdlc/A', 'sdlc/B'])
+  assert.deepEqual(got.ret.notes, ['rules unknown on gitlab: boom'])
+  assert.deepEqual(got.ret.rules, [])
+  assert.deepEqual(got.ret.by_sample, {})
+  assert.equal(got.ret.unchecked, true)
+  assert.equal(shim.calls().length, 1)
+})
+
+test('T-R-031b an empty stderr still gives a reason', opts, () => {
+  const got = withGlab(glabShim({ body: '', exit: 1 }), gitlabRepo(), ['sdlc/A'])
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], GITLAB_NOTE)
+  assert.equal(got.ret.unchecked, true)
+  assert.deepEqual(got.ret.rules, [])
+})
+
+test('T-R-031c output that is not JSON is a failure', opts, () => {
+  const got = withGlab(glabShim({ body: 'this is not json' }), gitlabRepo(), ['sdlc/A'])
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], GITLAB_NOTE)
+  assert.equal(got.ret.unchecked, true)
+  assert.deepEqual(got.ret.rules, [])
+})
+
+test('T-R-031d a timeout is a failure', opts, () => {
+  const shim = glabShim({ sleep: 5 })
+  const env = { ...process.env, PATH: [shim.bin, ...process.env.PATH.split(':')].join(':') }
+  const code = `${CALL}
+mod.FORGE_TIMEOUT = 1
+print(json.dumps(call(mod.read_rules, sys.argv[2], ["sdlc/A"])))
+`
+  const got = JSON.parse(execFileSync(PYTHON_PATH, ['-c', code, BRANCHES, gitlabRepo()], { encoding: 'utf8', env, cwd: scratch('sdlc-branches-cwd-') }))
+  assert.ok(got.ret, JSON.stringify(got))
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], /^rules unknown on gitlab:/)
+  assert.deepEqual(got.ret.rules, [])
+  assert.equal(got.ret.unchecked, true)
+})
+
+test('T-R-032a no forge makes no call', opts, () => {
+  for (const config of [{ gitMode: 'pr', forge: '' }, { gitMode: 'pr' }]) {
+    const gh = ghShim()
+    const glab = glabShim()
+    const repo = withConfig(config)
+    const got = readRules(repo, ['sdlc/A'], [gh.bin, glab.bin, ...process.env.PATH.split(':')])
+    assert.ok(got.ret, JSON.stringify(got))
+    assert.equal(gh.calls().length, 0)
+    assert.equal(glab.calls().length, 0)
+    assert.deepEqual(got.ret.rules, [])
+    assert.deepEqual(got.ret.notes, [])
+    assert.deepEqual(got.ret.by_sample, {})
+    assert.equal(got.ret.unchecked, true)
+  }
+})
+
+test('T-R-026a every rule has exactly the spec keys', opts, () => {
+  const ops = ['starts_with', 'ends_with', 'contains', 'regex']
+  const body = ops.map((operator, i) => ghObj({ name: `r${i}`, operator, pattern: 'p', negate: i % 2 === 0 }))
+  const github = withGh(ghShim({ body }), githubRepo(), ['sdlc/S-001']).ret.rules
+  const gitlab = withGlab(glabShim({ body: { branch_name_regex: '^x' } }), gitlabRepo(), ['sdlc/S-001']).ret.rules
+  assert.equal(github.length, 4)
+  assert.equal(gitlab.length, 1)
+  for (const rule of [...github, ...gitlab]) {
+    assert.deepEqual(Object.keys(rule).sort(), ['kind', 'label', 'negate', 'pattern', 'source'])
+    assert.ok(['starts_with', 'ends_with', 'contains', 'regex'].includes(rule.kind))
+    assert.ok(['github', 'gitlab'].includes(rule.source))
+    assert.equal(typeof rule.negate, 'boolean')
+    assert.equal(typeof rule.label, 'string')
+  }
+})
+
+test('T-R-084b a missing glab does not crash', opts, () => {
+  const bin = scratch('sdlc-noglab-bin-')
+  symlinkSync(PYTHON_PATH, join(bin, 'python3'))
+  symlinkSync(GIT_PATH, join(bin, 'git'))
+  const got = readRules(gitlabRepo(), ['sdlc/A'], [bin])
+  assert.ok(got.ret, JSON.stringify(got))
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], /^rules unknown on gitlab:/)
+  assert.deepEqual(got.ret.rules, [])
+  assert.equal(got.ret.unchecked, true)
+})

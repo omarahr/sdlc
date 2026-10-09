@@ -367,3 +367,43 @@
 - Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 15+10+5 = 30, option 3 = 15+10+5 = 30. Tie. Option 1 is the plan and states the no-remote failure rule. Pass the literal path repos/{owner}/{repo}/rules/branches/<quoted sample> and run gh with cwd=repo. Do not parse the remote in Python. A gh failure gives the note "rules unknown on github: <stderr>" and unchecked samples.
 - Consequences / how to reverse: Replace the placeholders with computed values in the path build and drop cwd=repo. Tests that assert the logged api path need an update. No stored data depends on it.
 - Affects: S-013, R-027, R-028, R-029, R-084
+
+### ADR-20261009-211639-decision-judge-S-014-f2c2: A failed glab call is a note with unchecked samples
+- Status: auto
+- Context: Spec section 3 says a glab "error" means no rule. It also says a glab failure gives the note "rules unknown on gitlab" and unchecked samples. No OVERRIDE ADR covers this question.
+- Options: (1) A non-zero exit or non-JSON output is a failure; "an error" in the no-rule clause means a successful JSON error body; fix the spec wording. (2) The same rule, worded as a successful response with no push rule. (3) The same rule, with tests T-R-031a to T-R-031c named.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+4 = 29, option 3 = 15+10+4 = 29. Tie. Option 1 also states the spec fix. A non-zero exit (403, 404) or non-JSON output gives the note "rules unknown on gitlab: <stderr>" and unchecked samples. A successful null body, an object without branch_name_regex, or an empty regex means no rule, with unchecked false. This follows R-031 and the gh decision.
+- Consequences / how to reverse: Change one branch in the glab parser and its test shims. No stored data depends on it.
+- Affects: S-014, R-031
+
+### ADR-20261009-211706-decision-judge-S-014-e148: A successful glab read with no rule gives unchecked false
+- Status: auto
+- Context: Spec section 3 says a null body or an empty branch_name_regex means no rule. It lists unchecked only for a glab failure and for no forge. No OVERRIDE ADR covers this question. ADR 20261009-211639 already sets unchecked false for this case.
+- Options: (1) Unchecked false when glab succeeds and finds no rule; true only on glab failure or no forge. (2) The same rule, listing the null body, the object without branch_name_regex and the empty regex. (3) The same rule, with true listed as: glab missing, non-zero exit, bad JSON, timeout, or no forge.
+- Decision: Option 3. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 15+10+5 = 30, option 3 = 15+10+4 = 29. Option 3 names every failure path, so the rule is complete and testable. Use unchecked false for a null body, a body with no branch_name_regex, a null regex and an empty regex. Use unchecked true, with the note "rules unknown on gitlab: <stderr>", when glab is missing, exits non-zero, gives bad JSON or times out. Use unchecked true with no note for no forge. This matches S-013 for an empty gh list.
+- Consequences / how to reverse: Change one boolean in the read_rules return path of S-014 and test T-R-030c. S-015 only reads the flag.
+- Affects: S-014, S-015, R-031
+
+### ADR-20261009-211807-decision-judge-S-014-6a1c: Fix the spec glab wording as a separate spec proposal
+- Status: auto
+- Context: Spec section 3 says a glab "error" means no rule, and also that a glab failure gives unchecked samples. ADR f2c2 already settled the behavior. The slice must not edit the spec. No OVERRIDE ADR covers this question.
+- Options: (1) Fix line 107 as a separate spec-fix item, with exact new wording, and file it in SPEC-PROPOSALS. (2) The same fix, with shorter wording. (3) The same fix, with the failure sentence merged into the no-rule sentence.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+4 = 29, option 3 = 15+10+3 = 28. Tie between options 1 and 2. Option 1 gives exact replacement text and keeps the failure sentence unchanged. Keep the plan and code on ADR f2c2. Do not edit the spec in S-014.
+- Consequences / how to reverse: The change is one sentence of spec text. No code or stored data depends on it. Reject the proposal to keep the old wording.
+- Affects: S-014, R-031
+
+### ADR-20261009-212039-decision-judge-S-014-b204: File the glab spec fix once, in the existing proposals
+- Status: auto
+- Context: Spec section 3 says a glab "error" means no rule. R-031 and ADR f2c2 say a failed glab call gives a note. SPEC-PROPOSALS.md already holds P-20261009-211639 and P-20261009-211807 for this sentence. No OVERRIDE ADR covers this question.
+- Options: (1) File the proposal from ADR 6a1c with exact replacement text for line 107; add no third entry; keep the plan on f2c2. (2) File one new entry with new wording. (3) File a separate item with exact replacement text.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 15+10+3 = 28, option 3 = 15+10+3 = 28. Two entries already fix the same sentence, so a new entry would only add noise. Keep both entries. Do not edit the spec in S-014. Keep the plan and code on ADR f2c2.
+- Consequences / how to reverse: Merge or reject the two proposals later. No code or stored data depends on them.
+- Affects: S-014, R-031
+
+### ADR-20261009-212053-decision-judge-S-014-8081: List R-084 under S-014 as the glab half
+- Status: auto
+- Context: ADR 74ec says to add R-084 to S-014 and S-015 in slices.json. slices.json lists only R-030, R-031, R-032 and R-026 for S-014. The planner does not own slices.json. No OVERRIDE ADR covers this question.
+- Options: (1) List R-084 under S-014; keep T-R-084b as the glab-half test; do not change the R-084 status. (2) Leave slices.json unchanged; T-R-084b stays as extra evidence. (3) Do not edit slices.json now; S-015 adds R-084 to its own list.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+8+4 = 27, option 2 = 6+10+5 = 21, option 3 = 12+10+3 = 25. Option 1 follows ADR 74ec. Treat T-R-084b as a test for a slice requirement. Do not change the R-084 status; S-015 closes R-084. The planner does not edit slices.json. This ADR's Affects line is the link; the slicer or integrator applies it.
+- Consequences / how to reverse: The link is one list entry in slices.json. Remove it to undo it. No code depends on it.
+- Affects: S-014, R-084

@@ -1,0 +1,316 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "c1b5dff",
+  "environment": "Python 3 (python3 -I), Node test runner, glab and gh shims on PATH, no network",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "One glab call for 0, 1, 3 and 50 samples",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "One call per read_rules. Argv is api projects/:fullpath/push_rule. Cwd is the repo. No branch name reaches argv.",
+      "expected": "One call per read_rules. Argv is api projects/:fullpath/push_rule. Cwd is the repo. No branch name reaches argv.",
+      "actual": "One call per read_rules. Argv is api projects/:fullpath/push_rule. Cwd is the repo. No branch name reaches argv. (observed)",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:70",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "public surface (python3 -I import by path)",
+          "inline": "def read_rules(repo, samples); def gitlab_rule(body); def github_rule(obj); def make_rule(source, kind, pattern, negate, label); def evaluate(rule, sample); def judge(rules, sample); const RULE_KEYS; const FORGE_TIMEOUT. GH_TIMEOUT is gone and no file uses it."
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "Property: call count and argv over random sample sets",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "1000 runs, each with 0 to 7 samples: exactly one call with the fixed argv and cwd equal to the repo.",
+      "expected": "1000 runs, each with 0 to 7 samples: exactly one call with the fixed argv and cwd equal to the repo.",
+      "actual": "1000 runs, each with 0 to 7 samples: exactly one call with the fixed argv and cwd equal to the repo. (observed)",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:82",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "property VS-1",
+          "inline": "seed=20261010 runs=1000 result=pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-030",
+        "R-026"
+      ],
+      "title": "A branch_name_regex gives one rule with five keys",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "rules holds one rule {source gitlab, kind regex, pattern, negate false, label push rule}. by_sample holds it under each sample. unchecked false. notes empty. Other push rule fields are ignored.",
+      "expected": "rules holds one rule {source gitlab, kind regex, pattern, negate false, label push rule}. by_sample holds it under each sample. unchecked false. notes empty. Other push rule fields are ignored.",
+      "actual": "rules holds one rule {source gitlab, kind regex, pattern, negate false, label push rule}. by_sample holds it under each sample. unchecked false. notes empty. Other push rule fields are ignored. (observed)",
+      "result": "pass",
+      "specSource": "R-030 acceptance; R-026",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:98",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "null, {}, null regex and empty regex give no rule",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "Each gives rules [], notes [], unchecked false and an empty list per sample.",
+      "expected": "Each gives rules [], notes [], unchecked false and an empty list per sample.",
+      "actual": "Each gives rules [], notes [], unchecked false and an empty list per sample. (observed)",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:114",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "A whitespace-only regex (spec silent)",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "The code treats it as a rule with pattern of three spaces. The spec defines only an empty regex. Recorded as a seed.",
+      "expected": "The code treats it as a rule with pattern of three spaces. The spec defines only an empty regex. Recorded as a seed.",
+      "actual": "The code treats it as a rule with pattern of three spaces. The spec defines only an empty regex. Recorded as a seed. (observed)",
+      "result": "pass",
+      "specSource": "R-030 quote (empty regex only)",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:127",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-030",
+        "R-031"
+      ],
+      "title": "Exit 0 with a JSON error body is no rule. Exit 1, 2, 127 are a failure",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "Exit 0 gives no rule, no note, unchecked false. A non-zero exit gives one note rules unknown on gitlab: denied and unchecked true.",
+      "expected": "Exit 0 gives no rule, no note, unchecked false. A non-zero exit gives one note rules unknown on gitlab: denied and unchecked true.",
+      "actual": "Exit 0 gives no rule, no note, unchecked false. A non-zero exit gives one note rules unknown on gitlab: denied and unchecked true. (observed)",
+      "result": "pass",
+      "specSource": "R-030, R-031, ADR f2c2",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:133",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-031"
+      ],
+      "title": "Exit 1 with stderr boom",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "One note rules unknown on gitlab: boom. rules and by_sample empty. unchecked true. One call.",
+      "expected": "One note rules unknown on gitlab: boom. rules and by_sample empty. unchecked true. One call.",
+      "actual": "One note rules unknown on gitlab: boom. rules and by_sample empty. unchecked true. One call. (observed)",
+      "result": "pass",
+      "specSource": "R-031 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:146",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-031"
+      ],
+      "title": "Empty, multi-line, 200000 char, control, NUL and unicode stderr never raise",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "Each gives one note with the prefix and unchecked true. Empty stderr still gives a reason (glab exited with status 1).",
+      "expected": "Each gives one note with the prefix and unchecked true. Empty stderr still gives a reason (glab exited with status 1).",
+      "actual": "Each gives one note with the prefix and unchecked true. Empty stderr still gives a reason (glab exited with status 1). (observed)",
+      "result": "pass",
+      "specSource": "R-031 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:152",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "stderr note lengths",
+          "inline": "lengths [50,50,42,200025,38,28,35,30]; multi-line stderr keeps its newlines in the note; a 100000 char stderr gives a 100025 char note"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-032"
+      ],
+      "title": "No forge makes no call",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "For forge empty, absent, null, 5, [], unknown, config [] or null and no config file: 0 calls from gh and glab shims, no rules, no notes, empty by_sample, unchecked true. A config that is not valid JSON makes read_rules raise Fail, and it makes no call.",
+      "expected": "For forge empty, absent, null, 5, [], unknown, config [] or null and no config file: 0 calls from gh and glab shims, no rules, no notes, empty by_sample, unchecked true. A config that is not valid JSON makes read_rules raise Fail, and it makes no call.",
+      "actual": "For forge empty, absent, null, 5, [], unknown, config [] or null and no config file: 0 calls from gh and glab shims, no rules, no notes, empty by_sample, unchecked true. A config that is not valid JSON makes read_rules raise Fail, and it makes no call. (observed)",
+      "result": "pass",
+      "specSource": "R-032 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:181",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-032"
+      ],
+      "title": "A repo with no .sdlc/config.json makes no call",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "0 calls, unchecked true.",
+      "expected": "0 calls, unchecked true.",
+      "actual": "0 calls, unchecked true. (observed)",
+      "result": "pass",
+      "specSource": "R-032 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:203",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-030",
+        "R-031",
+        "R-026"
+      ],
+      "title": "Property: result equals a reference model written from the spec",
+      "given": "A scratch repo with forge set as the case says and a glab shim that logs cwd and argv",
+      "when": "read_rules(repo, samples) runs through python3 -I, with the shim first on PATH",
+      "then": "1500 runs over bodies (null, {}, arrays, scalars, regex strings, non-string regexes, JSON error bodies, invalid JSON), exits 0 to 255, stderr variants: result equals the model, one call, rules have exactly the five keys and a string pattern.",
+      "expected": "1500 runs over bodies (null, {}, arrays, scalars, regex strings, non-string regexes, JSON error bodies, invalid JSON), exits 0 to 255, stderr variants: result equals the model, one call, rules have exactly the five keys and a string pattern.",
+      "actual": "1500 runs over bodies (null, {}, arrays, scalars, regex strings, non-string regexes, JSON error bodies, invalid JSON), exits 0 to 255, stderr variants: result equals the model, one call, rules have exactly the five keys and a string pattern. (observed)",
+      "result": "pass",
+      "specSource": "R-030, R-031, R-026, ADR f2c2",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs:208",
+      "command": "S014_MODULE=<worktree>/skills/sdlc/branches.py S014_TESTKIT=<worktree>/skills/sdlc/test/testkit TESTKIT_SEED=20261010 node --test .sdlc/slices/S-014/verification/r0/tests/contract-0/read-rules.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "property VS-2..5",
+          "inline": "seed=20261010 runs=1500 failures=0"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "read_rules raises Fail on a config that is not valid JSON",
+      "detail": "With forge unreadable because config.json is invalid JSON, read_rules raises Fail instead of returning unchecked true. The spec does not define this case. No call is made. The caller must catch Fail.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A failure note is not one line and not bounded",
+      "detail": "A multi-line stderr keeps its newlines in the note, and a 100000 character stderr gives a 100025 character note. The spec does not state a limit.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A whitespace-only branch_name_regex gives a rule",
+      "detail": "The spec treats only an empty regex as no rule. A regex of spaces becomes a rule that matches names with three spaces.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Public surface adds FORGE_TIMEOUT and gitlab_rule",
+      "detail": "Both names are new public names. The plan lists them. No consumer imports them yet. Spec section 3 does not define either.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

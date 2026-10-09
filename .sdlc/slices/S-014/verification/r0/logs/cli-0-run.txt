@@ -1,0 +1,58 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/cwd-16
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/stub-bin-OlLcqU:/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/stub-bin-9trwSs:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-014/verification/r0/tests/cli-0/readrules_driver.py /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-15 '["a"]'
+exit: 0 (31 ms)
+--- stdout
+{"fail": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-15/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-15 (unchanged)
+{"ret":{"forge":"gitlab","rules":[{"source":"gitlab","kind":"regex","pattern":"^a$","negate":false,"label":"push rule"}],"by_sample":{},"notes":[],"unchecked":false}}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/cwd-20
+$ PATH=/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/path-only-45xZEa python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-014/verification/r0/tests/cli-0/readrules_driver.py /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-19 '["a","b"]'
+exit: 0 (33 ms)
+--- stdout
+{"ret": {"forge": "gitlab", "rules": [], "by_sample": {}, "notes": ["rules unknown on gitlab: [Errno 2] No such file or directory: 'glab'"], "unchecked": true}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-19 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/cwd-24
+$ PATH='/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/bin-22:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/Users/omar.ragab/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin:/Users/omar.ragab/.opencode/bin:/Users/omar.ragab/.local/bin:/Users/omar.ragab/.bun/bin:/opt/homebrew/sbin:/Applications/Ghostty.app/Contents/MacOS:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts:/Users/omar.ragab/Library/Application Support/JetBrains/Toolbox/scripts' python3 -I /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-014/verification/r0/tests/cli-0/readrules_driver.py /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-23 '["a"]' 1
+exit: 0 (1034 ms)
+--- stdout
+{"ret": {"forge": "gitlab", "rules": [], "by_sample": {}, "notes": ["rules unknown on gitlab: Command '['glab', 'api', 'projects/:fullpath/push_rule']' timed out after 1.0 seconds"], "unchecked": true}}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-lvyIZ8/testkit-cli-NZZrz7/repo-23 (unchanged)
+sleep 600 survivors: ""
+non-JSON text {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: glab printed output that is not JSON"],"unchecked":true}}
+empty output {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: glab printed output that is not JSON"],"unchecked":true}}
+partial JSON {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: glab printed output that is not JSON"],"unchecked":true}}
+exit 127 {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: glab exited with status 127"],"unchecked":true}}
+exit 2 with JSON body {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: glab exited with status 2"],"unchecked":true}}
+NUL stderr {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: a\u0000b\n\u001b[31mred"],"unchecked":true}}
+bad utf8 stderr {"ret":{"forge":"gitlab","rules":[],"by_sample":{},"notes":["rules unknown on gitlab: ��\nA"],"unchecked":true}}
+note length 200037 "rules unknown on gitlab: line1\nline2\nxxxxxxxxxxxxxxxxxxxxxxx"
+✔ verify cli: VS-6 no forge value makes no gh or glab call (1229.350958ms)
+✔ verify cli: VS-6 no sdlc config at all makes no call (190.581666ms)
+✔ verify cli: VS-6 config that is not valid JSON makes no call and raises Fail (characterization) (184.519666ms)
+✔ verify cli: VS-6 forge gitlab with no samples still shaped (307.147583ms)
+✔ verify cli: VS-8 PATH with python3 and git only gives the unknown note (187.460291ms)
+✔ verify cli: VS-8 glab slower than FORGE_TIMEOUT gives the note, no hang, no orphan (1225.691792ms)
+✔ verify cli: VS-8 glab that stalls with exec sleep leaves no child (1238.582167ms)
+✔ verify cli: VS-8 non-JSON text gives one note (292.911166ms)
+✔ verify cli: VS-8 empty output gives one note (316.884792ms)
+✔ verify cli: VS-8 partial JSON gives one note (417.153875ms)
+✔ verify cli: VS-8 exit 127 gives one note (336.170083ms)
+✔ verify cli: VS-8 exit 2 with JSON body gives one note (393.26825ms)
+✔ verify cli: VS-8 NUL stderr gives one note (337.058625ms)
+✔ verify cli: VS-8 bad utf8 stderr gives one note (384.260875ms)
+✔ verify cli: VS-8 long and multi-line stderr passes stderr through unbounded (characterization) (333.322625ms)
+✔ verify cli: VS-8 success path argv and cwd with spaces and unicode in repo path (368.493334ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7856.23075

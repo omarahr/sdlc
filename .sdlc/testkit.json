@@ -49,5 +49,17 @@
     "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
     "addedBy": "S-013 r0",
     "notes": "Shell gh shim, no network port. Per-call script of stdout (string, Buffer or JSON), stderr, exit code, delaySeconds and stall. fallback answers later calls. failNext(n, step) fails the next n calls. The argv log keeps spaces, newlines and empty arguments. Import it by absolute path, because verifier tests live under .sdlc/ in the main tree."
+  },
+  {
+    "id": "glab-stub",
+    "profiles": [
+      "security"
+    ],
+    "language": "javascript",
+    "path": "skills/sdlc/test/testkit/glab-stub.mjs",
+    "usage": "import { glabStub } from '<repo>/skills/sdlc/test/testkit/glab-stub.mjs'; const glab = glabStub({ script: [{ stdout: [] }, { stderr: 'boom', exit: 1 }] }); spawnSync('python3', [...], { env: glab.env() }); glab.calls() // [{n, argv, cwd}]; both stubs: { PATH: glab.path(gh.path()) }",
+    "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
+    "addedBy": "S-014 r0",
+    "notes": "Wraps stub-server with the shim named glab. Same step shape as the gh stub: stdout, stderr, exit, delaySeconds, stall, fallback, failNext. The argv and cwd log is per stub, so a gh stub and a glab stub on one PATH keep separate logs. Import it by absolute path, because verifier tests live under .sdlc/ in the main tree."
   }
 ]
