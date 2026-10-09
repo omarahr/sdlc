@@ -1,0 +1,27 @@
+[
+ {
+  "id": "a-10k",
+  "repeat": "a",
+  "times": 10000,
+  "note": "10 kB value"
+ },
+ {
+  "id": "a-200k",
+  "repeat": "a",
+  "times": 200000,
+  "note": "200 kB value, below macOS ARG_MAX"
+ },
+ {
+  "id": "format-200k",
+  "repeat": "a/",
+  "times": 100000,
+  "suffix": "{name}",
+  "note": "200 kB format with many segments"
+ },
+ {
+  "id": "deep-path",
+  "repeat": "x/",
+  "times": 5000,
+  "note": "5000 path segments"
+ }
+]

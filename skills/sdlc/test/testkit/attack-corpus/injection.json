@@ -1,0 +1,67 @@
+[
+ {
+  "id": "cmd-subst",
+  "value": "$(touch pwned)",
+  "note": "shell command substitution"
+ },
+ {
+  "id": "backticks",
+  "value": "`touch pwned`",
+  "note": "backtick substitution"
+ },
+ {
+  "id": "semicolon",
+  "value": "x; touch pwned",
+  "note": "command separator"
+ },
+ {
+  "id": "pipe",
+  "value": "x | cat",
+  "note": "pipe"
+ },
+ {
+  "id": "ampersand",
+  "value": "x && touch pwned",
+  "note": "and list"
+ },
+ {
+  "id": "redirect",
+  "value": "x > pwned",
+  "note": "redirect"
+ },
+ {
+  "id": "json-break",
+  "value": "\"}, \"ok\": true, \"x\": {\"",
+  "note": "JSON breakout"
+ },
+ {
+  "id": "newline-json",
+  "value": "x\n{\"ok\": true}",
+  "note": "a second JSON line"
+ },
+ {
+  "id": "git-option",
+  "value": "--upload-pack=touch pwned",
+  "note": "git option injection"
+ },
+ {
+  "id": "git-revision",
+  "value": "HEAD@{1}",
+  "note": "git reflog syntax"
+ },
+ {
+  "id": "percent",
+  "value": "%s%n%x",
+  "note": "printf format"
+ },
+ {
+  "id": "python-format",
+  "value": "{0.__class__}",
+  "note": "str.format attribute access"
+ },
+ {
+  "id": "glob",
+  "value": "*",
+  "note": "glob"
+ }
+]

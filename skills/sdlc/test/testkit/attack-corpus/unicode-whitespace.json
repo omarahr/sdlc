@@ -1,0 +1,72 @@
+[
+ {
+  "id": "nbsp",
+  "value": "a\u00a0b",
+  "note": "U+00A0, matched by Python re \\s"
+ },
+ {
+  "id": "em-space",
+  "value": "a\u2003b",
+  "note": "U+2003"
+ },
+ {
+  "id": "ideographic",
+  "value": "a\u3000b",
+  "note": "U+3000"
+ },
+ {
+  "id": "zwsp",
+  "value": "a\u200bb",
+  "note": "U+200B, not matched by \\s"
+ },
+ {
+  "id": "zwnj",
+  "value": "a\u200cb",
+  "note": "U+200C"
+ },
+ {
+  "id": "zwj",
+  "value": "a\u200db",
+  "note": "U+200D"
+ },
+ {
+  "id": "bom",
+  "value": "\ufeffa",
+  "note": "U+FEFF at start"
+ },
+ {
+  "id": "line-sep",
+  "value": "a\u2028b",
+  "note": "U+2028"
+ },
+ {
+  "id": "para-sep",
+  "value": "a\u2029b",
+  "note": "U+2029"
+ },
+ {
+  "id": "ogham",
+  "value": "a\u1680b",
+  "note": "U+1680"
+ },
+ {
+  "id": "narrow-nbsp",
+  "value": "a\u202fb",
+  "note": "U+202F"
+ },
+ {
+  "id": "mongolian-vs",
+  "value": "a\u180eb",
+  "note": "U+180E, not whitespace since Unicode 6.3"
+ },
+ {
+  "id": "nbsp-only",
+  "value": "\u00a0",
+  "note": "only U+00A0"
+ },
+ {
+  "id": "trailing-nbsp",
+  "value": "slice\u00a0",
+  "note": "kind with trailing NBSP"
+ }
+]

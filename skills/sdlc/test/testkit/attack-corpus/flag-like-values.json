@@ -1,0 +1,42 @@
+[
+ {
+  "id": "double-dash",
+  "value": "--",
+  "note": "end of options marker"
+ },
+ {
+  "id": "help-short",
+  "value": "-h",
+  "note": "help flag as value"
+ },
+ {
+  "id": "help-long",
+  "value": "--help",
+  "note": "help flag as value"
+ },
+ {
+  "id": "flag-eq",
+  "value": "--format=x/{name}",
+  "note": "a flag with = as a value"
+ },
+ {
+  "id": "negative-like",
+  "value": "-1",
+  "note": "argparse treats it as a number"
+ },
+ {
+  "id": "single-dash",
+  "value": "-",
+  "note": "single dash"
+ },
+ {
+  "id": "flag-name",
+  "value": "--repo",
+  "note": "another flag name as value"
+ },
+ {
+  "id": "equals-empty",
+  "value": "=",
+  "note": "equals only"
+ }
+]

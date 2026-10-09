@@ -1,0 +1,34 @@
+[
+ {
+  "id": "digits-4300",
+  "repeat": "9",
+  "times": 4300,
+  "note": "at the CPython int string limit"
+ },
+ {
+  "id": "digits-4301",
+  "repeat": "9",
+  "times": 4301,
+  "note": "one over the CPython int string limit; int() raises ValueError"
+ },
+ {
+  "id": "digits-100k",
+  "repeat": "9",
+  "times": 100000,
+  "note": "far over the limit"
+ },
+ {
+  "id": "negative-5000",
+  "prefix": "-",
+  "repeat": "9",
+  "times": 5000,
+  "note": "negative huge"
+ },
+ {
+  "id": "zeros-10k",
+  "repeat": "0",
+  "times": 10000,
+  "suffix": "1",
+  "note": "many leading zeros"
+ }
+]

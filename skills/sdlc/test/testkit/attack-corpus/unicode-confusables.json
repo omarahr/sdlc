@@ -1,0 +1,72 @@
+[
+ {
+  "id": "cyrillic-s",
+  "value": "\u0455dlc/{name}",
+  "note": "Cyrillic dze for s"
+ },
+ {
+  "id": "fullwidth-braces",
+  "value": "sdlc/\uff5bname\uff5d",
+  "note": "fullwidth braces"
+ },
+ {
+  "id": "cyrillic-a",
+  "value": "sdlc/{n\u0430me}",
+  "note": "Cyrillic a inside the placeholder"
+ },
+ {
+  "id": "fraction-slash",
+  "value": "sdlc\u2044{name}",
+  "note": "fraction slash U+2044"
+ },
+ {
+  "id": "division-slash",
+  "value": "sdlc\u2215{name}",
+  "note": "division slash U+2215"
+ },
+ {
+  "id": "ligature",
+  "value": "\ufb01x/{name}",
+  "note": "fi ligature"
+ },
+ {
+  "id": "combining",
+  "value": "sdlc/{name}\u0301",
+  "note": "combining acute"
+ },
+ {
+  "id": "rtl-override",
+  "value": "sdlc/\u202e{name}",
+  "note": "right-to-left override"
+ },
+ {
+  "id": "dotted-i",
+  "value": "\u0130/{name}",
+  "note": "dotted capital I; lower() changes length"
+ },
+ {
+  "id": "kelvin",
+  "value": "\u212a/{name}",
+  "note": "Kelvin sign; lower() gives k"
+ },
+ {
+  "id": "sharp-s",
+  "value": "\u00df/{name}",
+  "note": "sharp s; upper() gives SS"
+ },
+ {
+  "id": "kind-cyrillic",
+  "value": "sl\u0456ce",
+  "note": "slice with Cyrillic i"
+ },
+ {
+  "id": "kind-upper",
+  "value": "SLICE",
+  "note": "upper case kind"
+ },
+ {
+  "id": "mode-fullwidth",
+  "value": "\uff50\uff52",
+  "note": "fullwidth pr"
+ }
+]
