@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.parse
 from datetime import datetime, timezone
 
 DEFAULT_FORMAT = "sdlc/{name}"
@@ -17,7 +18,7 @@ class Fail(Exception):
     pass
 
 
-def _config_format(repo):
+def _config_value(repo, key):
     path = os.path.join(repo, ".sdlc", "config.json")
     try:
         with open(path, encoding="utf-8") as f:
@@ -28,10 +29,14 @@ def _config_format(repo):
         raise Fail(f"{path} is not valid JSON: {type(e).__name__}: {e}")
     except OSError as e:
         raise Fail(f"cannot read {path}: {e}")
-    value = config.get("branchFormat") if isinstance(config, dict) else None
+    value = config.get(key) if isinstance(config, dict) else None
     if isinstance(value, str) and value:
         return value
     return None
+
+
+def _config_format(repo):
+    return _config_value(repo, "branchFormat")
 
 
 def load_format(repo):
@@ -78,6 +83,74 @@ def regex_error(pattern):
     except RecursionError:
         return "the pattern is nested too deeply"
     return None
+
+
+RULE_KEYS = ("source", "kind", "pattern", "negate", "label")
+GH_TIMEOUT = 60
+
+
+def make_rule(source, kind, pattern, negate, label):
+    return dict(zip(RULE_KEYS, (source, kind, pattern, bool(negate), label)))
+
+
+def github_rule(obj):
+    if not isinstance(obj, dict) or obj.get("type") != "branch_name_pattern":
+        return None
+    params = obj.get("parameters")
+    if not isinstance(params, dict):
+        params = {}
+    label = params.get("name")
+    if not label:
+        ruleset = obj.get("ruleset_id")
+        label = f"ruleset {ruleset}" if ruleset is not None else "branch_name_pattern"
+    return make_rule("github", params.get("operator"), params.get("pattern"), params.get("negate"), label)
+
+
+def _gh_branch_rules(repo, sample):
+    path = "repos/{owner}/{repo}/rules/branches/" + urllib.parse.quote(sample, safe="")
+    env = dict(os.environ, GH_PROMPT_DISABLED="1")
+    try:
+        proc = subprocess.run(
+            ["gh", "api", path],
+            capture_output=True,
+            text=True,
+            errors="replace",
+            cwd=repo,
+            stdin=subprocess.DEVNULL,
+            timeout=GH_TIMEOUT,
+            env=env,
+        )
+    except (OSError, ValueError, subprocess.TimeoutExpired) as e:
+        return None, str(e).strip() or type(e).__name__
+    if proc.returncode != 0:
+        return None, proc.stderr.strip() or f"gh exited with status {proc.returncode}"
+    try:
+        data = json.loads(proc.stdout)
+    except (ValueError, RecursionError):
+        return None, "gh printed output that is not JSON"
+    if not isinstance(data, list):
+        return None, "gh printed JSON that is not a list"
+    return [rule for rule in map(github_rule, data) if rule is not None], None
+
+
+def read_rules(repo, samples):
+    forge = _config_value(repo, "forge") or ""
+    result = {"forge": forge, "rules": [], "by_sample": {}, "notes": [], "unchecked": True}
+    if forge != "github":
+        return result
+    for sample in samples:
+        rules, error = _gh_branch_rules(repo, sample)
+        if error is not None:
+            result["rules"] = []
+            result["by_sample"] = {}
+            result["notes"] = [f"rules unknown on {forge}: {error}"]
+            return result
+        result["by_sample"][sample] = rules
+        for rule in rules:
+            if rule not in result["rules"]:
+                result["rules"].append(rule)
+    result["unchecked"] = False
+    return result
 
 
 def _raw_result(kind, pattern, sample):

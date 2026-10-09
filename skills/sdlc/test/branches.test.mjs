@@ -1669,3 +1669,199 @@ test('T-R-035f a first failing rule without a label is not replaced by a later o
   assert.equal(got.result, 'fail')
   assert.equal(got.rule, null)
 })
+
+const GH_SCRIPT = (dir) => `#!/bin/sh
+printf '%s\\t%s\\n' "$PWD" "$*" >> "${dir}/calls.log"
+last="\${2##*/}"
+if [ -f "${dir}/err" ]; then cat "${dir}/err" >&2; fi
+if [ -f "${dir}/bodies/$last" ]; then cat "${dir}/bodies/$last"; elif [ -f "${dir}/default" ]; then cat "${dir}/default"; fi
+if [ -f "${dir}/exit" ]; then exit "$(cat "${dir}/exit")"; fi
+exit 0
+`
+
+function ghShim({ body = '[]', bodies = {}, stderr = null, exit = null } = {}) {
+  const dir = scratch('sdlc-gh-shim-')
+  mkdirSync(join(dir, 'bodies'))
+  writeFileSync(join(dir, 'default'), typeof body === 'string' ? body : JSON.stringify(body))
+  for (const [sample, b] of Object.entries(bodies)) {
+    writeFileSync(join(dir, 'bodies', encodeURIComponent(sample)), JSON.stringify(b))
+  }
+  if (stderr !== null) writeFileSync(join(dir, 'err'), stderr)
+  if (exit !== null) writeFileSync(join(dir, 'exit'), String(exit))
+  const bin = join(dir, 'bin')
+  mkdirSync(bin)
+  writeFileSync(join(bin, 'gh'), GH_SCRIPT(dir))
+  chmodSync(join(bin, 'gh'), 0o755)
+  const calls = () => {
+    try {
+      return readFileSync(join(dir, 'calls.log'), 'utf8').split('\n').filter(Boolean).map((l) => {
+        const [cwd, argv] = l.split('\t')
+        return { cwd, argv }
+      })
+    } catch { return [] }
+  }
+  return { bin, calls }
+}
+
+const PYTHON_PATH = execFileSync('sh', ['-c', 'command -v python3'], { encoding: 'utf8' }).trim()
+const GIT_PATH = execFileSync('sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
+
+const READ_RULES = `${CALL}
+repo, samples = sys.argv[2], json.loads(sys.argv[3])
+print(json.dumps(call(mod.read_rules, repo, samples)))
+`
+
+function readRules(repo, samples, pathDirs) {
+  const env = { ...process.env, PATH: pathDirs.join(':') }
+  return JSON.parse(execFileSync(PYTHON_PATH, ['-c', READ_RULES, BRANCHES, repo, JSON.stringify(samples)], { encoding: 'utf8', env, cwd: scratch('sdlc-branches-cwd-') }))
+}
+
+const githubRepo = () => withConfig({ gitMode: 'pr', forge: 'github' })
+const withGh = (shim, repo, samples) => readRules(repo, samples, [shim.bin, ...process.env.PATH.split(':')])
+const ghObj = (parameters, extra = {}) => ({ type: 'branch_name_pattern', ...extra, parameters })
+const OTHER_RULES = [{ type: 'creation' }, { type: 'pull_request', parameters: {} }, { type: 'required_status_checks', parameters: {} }]
+
+test('T-R-027a read_rules makes one gh call per sample with the encoded path', opts, () => {
+  const samples = ['sdlc/S-001', 'sdlc/state-20260101000000', 'M-1-e2e']
+  const shim = ghShim()
+  const got = withGh(shim, githubRepo(), samples)
+  assert.ok(got.ret, `read_rules did not return: ${JSON.stringify(got)}`)
+  const calls = shim.calls()
+  assert.equal(calls.length, 3)
+  const expected = ['sdlc%2FS-001', 'sdlc%2Fstate-20260101000000', 'M-1-e2e']
+  calls.forEach((c, i) => {
+    assert.equal(c.argv, `api repos/{owner}/{repo}/rules/branches/${expected[i]}`)
+    assert.doesNotMatch(c.argv.split('branches/')[1], /\//)
+  })
+})
+
+test('T-R-027b the gh call runs in the repo and the forge comes from config', opts, () => {
+  const repo = githubRepo()
+  const shim = ghShim()
+  const got = withGh(shim, repo, ['sdlc/S-001'])
+  assert.ok(got.ret, JSON.stringify(got))
+  const calls = shim.calls()
+  assert.equal(calls.length, 1)
+  assert.equal(realpathSync(calls[0].cwd), realpathSync(repo))
+  const none = ghShim()
+  const skipped = withGh(none, withConfig({ gitMode: 'pr', forge: '' }), ['sdlc/S-001'])
+  assert.ok(skipped.ret, JSON.stringify(skipped))
+  assert.equal(none.calls().length, 0)
+})
+
+test('T-R-027c odd samples stay one path segment', opts, () => {
+  const sample = 'a b%c?d#e/f'
+  const expected = probe(`import urllib.parse, sys\nprint(urllib.parse.quote(sys.argv[1], safe=""))`, [sample])
+  const shim = ghShim()
+  const got = withGh(shim, githubRepo(), [sample])
+  assert.ok(got.ret, JSON.stringify(got))
+  const calls = shim.calls()
+  assert.equal(calls.length, 1)
+  assert.equal(calls[0].argv, `api repos/{owner}/{repo}/rules/branches/${expected}`)
+})
+
+test('T-R-028a only branch_name_pattern objects become rules', opts, () => {
+  const body = [
+    ghObj({ name: 'one', operator: 'starts_with', pattern: 'sdlc/' }),
+    ...OTHER_RULES,
+    ghObj({ name: 'two', operator: 'regex', pattern: '^x' }),
+  ]
+  const got = withGh(ghShim({ body }), githubRepo(), ['sdlc/S-001'])
+  assert.deepEqual(got.ret.rules.map((r) => r.label), ['one', 'two'])
+  assert.deepEqual(got.ret.by_sample['sdlc/S-001'].map((r) => r.label), ['one', 'two'])
+})
+
+test('T-R-028b field mapping and the negate default', opts, () => {
+  const body = [
+    ghObj({ name: 'a', operator: 'starts_with', pattern: 'sdlc/' }),
+    ghObj({ name: 'b', operator: 'contains', pattern: 'x', negate: true }),
+    ghObj({ name: 'c', operator: 'ends_with', pattern: 'y', negate: false }),
+  ]
+  const got = withGh(ghShim({ body }), githubRepo(), ['sdlc/S-001'])
+  assert.deepEqual(got.ret.rules, [
+    { source: 'github', kind: 'starts_with', pattern: 'sdlc/', negate: false, label: 'a' },
+    { source: 'github', kind: 'contains', pattern: 'x', negate: true, label: 'b' },
+    { source: 'github', kind: 'ends_with', pattern: 'y', negate: false, label: 'c' },
+  ])
+})
+
+test('T-R-028c the label falls back from the name to the ruleset id to a fixed text', opts, () => {
+  const body = [
+    ghObj({ name: 'named', operator: 'regex', pattern: 'a' }, { ruleset_id: 7 }),
+    ghObj({ operator: 'regex', pattern: 'b' }, { ruleset_id: 42 }),
+    ghObj({ operator: 'regex', pattern: 'c' }),
+  ]
+  const got = withGh(ghShim({ body }), githubRepo(), ['sdlc/S-001'])
+  assert.deepEqual(got.ret.rules.map((r) => r.label), ['named', 'ruleset 42', 'branch_name_pattern'])
+})
+
+test('T-R-028d an empty list gives no rules and no notes', opts, () => {
+  const got = withGh(ghShim({ body: [] }), githubRepo(), ['sdlc/S-001'])
+  assert.deepEqual(got.ret.rules, [])
+  assert.equal(got.ret.unchecked, false)
+  assert.deepEqual(got.ret.notes, [])
+  assert.equal(got.ret.forge, 'github')
+})
+
+test('T-R-028e every rule has exactly the five keys', opts, () => {
+  const ops = ['starts_with', 'ends_with', 'contains', 'regex']
+  const body = ops.map((operator, i) => ghObj({ name: `r${i}`, operator, pattern: 'p', negate: i % 2 === 0 }))
+  const got = withGh(ghShim({ body }), githubRepo(), ['sdlc/S-001'])
+  assert.equal(got.ret.rules.length, 4)
+  for (const rule of got.ret.rules) {
+    assert.deepEqual(Object.keys(rule).sort(), ['kind', 'label', 'negate', 'pattern', 'source'])
+    assert.equal(rule.source, 'github')
+    assert.ok(ops.includes(rule.kind))
+  }
+})
+
+test('T-R-028f rules stay with their sample', opts, () => {
+  const shared = ghObj({ name: 'shared', operator: 'starts_with', pattern: 's' })
+  const onlyA = ghObj({ name: 'only-a', operator: 'contains', pattern: 'a' })
+  const onlyB = ghObj({ name: 'only-b', operator: 'contains', pattern: 'b' })
+  const shim = ghShim({ bodies: { 'sdlc/A': [shared, onlyA], 'sdlc/B': [shared, onlyB] } })
+  const got = withGh(shim, githubRepo(), ['sdlc/A', 'sdlc/B'])
+  assert.deepEqual(got.ret.by_sample['sdlc/A'].map((r) => r.label), ['shared', 'only-a'])
+  assert.deepEqual(got.ret.by_sample['sdlc/B'].map((r) => r.label), ['shared', 'only-b'])
+  assert.deepEqual(got.ret.rules.map((r) => r.label).sort(), ['only-a', 'only-b', 'shared'])
+})
+
+test('T-R-029a a failing gh gives one note and unchecked samples', opts, () => {
+  const shim = ghShim({ body: '', stderr: 'boom\n', exit: 1 })
+  const got = withGh(shim, githubRepo(), ['sdlc/A', 'sdlc/B', 'sdlc/C'])
+  assert.deepEqual(got.ret.notes, ['rules unknown on github: boom'])
+  assert.deepEqual(got.ret.rules, [])
+  assert.equal(got.ret.unchecked, true)
+  assert.equal(shim.calls().length, 1)
+})
+
+test('T-R-029b an empty stderr still gives a reason', opts, () => {
+  const shim = ghShim({ body: '', exit: 1 })
+  const got = withGh(shim, githubRepo(), ['sdlc/A'])
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], /^rules unknown on github: .+/)
+  assert.equal(got.ret.unchecked, true)
+  assert.deepEqual(got.ret.rules, [])
+})
+
+test('T-R-029c output that is not a JSON list is a failure', opts, () => {
+  for (const body of ['this is not json', '{"type":"branch_name_pattern"}']) {
+    const got = withGh(ghShim({ body }), githubRepo(), ['sdlc/A'])
+    assert.equal(got.ret.notes.length, 1, body)
+    assert.match(got.ret.notes[0], /^rules unknown on github: .+/, body)
+    assert.equal(got.ret.unchecked, true, body)
+    assert.deepEqual(got.ret.rules, [], body)
+  }
+})
+
+test('T-R-084a a missing gh does not crash', opts, () => {
+  const bin = scratch('sdlc-nogh-bin-')
+  symlinkSync(PYTHON_PATH, join(bin, 'python3'))
+  symlinkSync(GIT_PATH, join(bin, 'git'))
+  const got = readRules(githubRepo(), ['sdlc/A'], [bin])
+  assert.ok(got.ret, JSON.stringify(got))
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], /^rules unknown on github:/)
+  assert.deepEqual(got.ret.rules, [])
+  assert.equal(got.ret.unchecked, true)
+})
