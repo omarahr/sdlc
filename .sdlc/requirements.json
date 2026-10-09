@@ -1135,7 +1135,7 @@
     "specRef": "§3",
     "quote": "for each sample, `gh api \"repos/{owner}/{repo}/rules/branches/<sample>\"` with `/` in the sample encoded as `%2F` (`urllib.parse.quote(sample, safe=\"\")`).",
     "acceptance": "The gh shim records one call per sample. The path is `repos/<owner>/<repo>/rules/branches/<sample>` with every `/` in the sample encoded as `%2F`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1150,7 +1150,7 @@
     "specRef": "§3",
     "quote": "Keep the objects whose `type` is `branch_name_pattern`: `kind` is `parameters.operator`, `pattern` is `parameters.pattern`, `negate` is `parameters.negate` or `false`, `label` is `parameters.name` when present, else `ruleset <ruleset_id>` when present, else `branch_name_pattern`.",
     "acceptance": "Canned GitHub JSON with branch_name_pattern and other rule types yields only the pattern rules. negate defaults to false. The label falls back from `parameters.name` to `ruleset <id>` to `branch_name_pattern`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1165,7 +1165,7 @@
     "specRef": "§3",
     "quote": "A `gh api` failure (not signed in, no access, a network error) is one note, `rules unknown on github: <stderr>`, and the samples are `unchecked`.",
     "acceptance": "A gh shim that exits 1 gives `ok: true`, one note starting `rules unknown on github:`, and every sample `unchecked`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2301,7 +2301,7 @@
     "specRef": "§Edge cases",
     "quote": "**`gh` or `glab` not available or not signed in**: `unchecked`, a note, the run launches.",
     "acceptance": "With `gh` absent from `PATH` on a github-mode repo, preflight prints `ok: true`, one note, and every sample `unchecked`. The same holds for `glab` on a gitlab-mode repo. It does not crash and does not block.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

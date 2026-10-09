@@ -343,3 +343,27 @@
 - Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+5 = 30, option 3 = 15+10+3 = 28. Option 2 scores highest on simplicity, but it leaves out why the ref check is an addition. Option 1 gives that reason and matches the plan. Use option 1.
 - Consequences / how to reverse: Move the ref check call to the front of the list and update one test. No stored data depends on it.
 - Affects: S-012
+
+### ADR-20261009-203948-decision-judge-S-013-74ec: S-015 closes R-084; S-013 tests only the gh read_rules half
+- Status: auto
+- Context: R-084 has a GitHub half, a glab half and a preflight half. cmd_preflight is a stub until S-015. glab arrives in S-014. No OVERRIDE ADR covers this question.
+- Options: (1) No slice closes R-084 in S-013; S-014 adds the glab test; S-015 adds the preflight test and closes R-084; list R-084 under S-013, S-014 and S-015. (2) The same rule, without the preflight test content. (3) The same rule, with the last slice to land a half marking R-084 done.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+4 = 29, option 3 = 12+10+4 = 26. Options 1 and 2 tie. Option 1 names the owner and the test content: gh or glab absent gives ok true, one note, all samples unchecked. This follows ADR 20261009-194831 for R-035. S-013 tests only the gh read_rules half. R-084 stays todo until S-015 passes.
+- Consequences / how to reverse: Add R-084 to S-014 and S-015 in slices.json. Remove those entries to undo it. No code depends on the link.
+- Affects: S-013, S-014, S-015, R-084
+
+### ADR-20261009-203949-decision-judge-S-013-f2cc: read_rules returns a per-sample map and a union
+- Status: auto
+- Context: Spec section 3 says the GitHub endpoint applies ruleset targeting per branch name, so rules differ by sample. The plan returns {forge, rules, by_sample, notes, unchecked}. S-015 judges each sample, and S-014 must return the same shape. No OVERRIDE ADR covers this question.
+- Options: (1) Plan shape; read_rules takes the samples; by_sample maps each sample to its rules; rules is the deduplicated union; unchecked is true when no rule was read. (2) Same shape; first-seen order for the union; a sample in unchecked gets no by_sample key. (3) Same shape; S-014 uses an empty list per sample for no rule.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+3 = 28, option 3 = 15+10+4 = 29. Option 1 states the argument and the unchecked rule most clearly. Add a test T-R-028f for the per-sample behavior. S-015 judges a sample only against by_sample[sample]. S-014 puts the one push rule under every sample.
+- Consequences / how to reverse: The shape is internal to branches.py. To change it, edit read_rules, S-014 and one S-015 lookup. No stored data depends on it.
+- Affects: S-013, S-014, S-015, R-028
+
+### ADR-20261009-203948-decision-judge-S-013-c4f0: gh fills owner and repo in the read_rules path
+- Status: auto
+- Context: The spec writes repos/{owner}/{repo} for the gh api call. It does not say how the code finds owner and repo. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the literal placeholders and run gh with cwd=repo. (2) The same design, worded around the github_rule function. (3) The same design, with quoted gh api syntax and a note on the test shims.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 15+10+5 = 30, option 3 = 15+10+5 = 30. Tie. Option 1 is the plan and states the no-remote failure rule. Pass the literal path repos/{owner}/{repo}/rules/branches/<quoted sample> and run gh with cwd=repo. Do not parse the remote in Python. A gh failure gives the note "rules unknown on github: <stderr>" and unchecked samples.
+- Consequences / how to reverse: Replace the placeholders with computed values in the path build and drop cwd=repo. Tests that assert the logged api path need an update. No stored data depends on it.
+- Affects: S-013, R-027, R-028, R-029, R-084
