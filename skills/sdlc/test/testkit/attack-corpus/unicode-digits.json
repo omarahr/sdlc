@@ -1,0 +1,62 @@
+[
+ {
+  "id": "arabic-indic",
+  "value": "\u0663",
+  "note": "Arabic-Indic 3; int() accepts it"
+ },
+ {
+  "id": "arabic-indic-12",
+  "value": "\u0661\u0662",
+  "note": "Arabic-Indic 12"
+ },
+ {
+  "id": "fullwidth",
+  "value": "\uff11\uff12",
+  "note": "fullwidth 12; int() accepts it"
+ },
+ {
+  "id": "devanagari",
+  "value": "\u0967",
+  "note": "Devanagari 1"
+ },
+ {
+  "id": "bengali",
+  "value": "\u09e8",
+  "note": "Bengali 2"
+ },
+ {
+  "id": "nko",
+  "value": "\u07c1",
+  "note": "NKo 1"
+ },
+ {
+  "id": "math-bold",
+  "value": "\ud835\udfcf",
+  "note": "mathematical bold 1; int() accepts it"
+ },
+ {
+  "id": "superscript",
+  "value": "\u00b2",
+  "note": "superscript 2; int() refuses it"
+ },
+ {
+  "id": "roman",
+  "value": "\u2167",
+  "note": "Roman numeral 8; int() refuses it"
+ },
+ {
+  "id": "circled",
+  "value": "\u2460",
+  "note": "circled 1; int() refuses it"
+ },
+ {
+  "id": "mixed",
+  "value": "1\u0662",
+  "note": "ASCII 1 and Arabic-Indic 2"
+ },
+ {
+  "id": "thai",
+  "value": "\u0e51",
+  "note": "Thai 1"
+ }
+]

@@ -24,6 +24,9 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+import branches  # noqa: E402
+
 
 class Fail(Exception):
     pass

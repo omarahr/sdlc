@@ -1,0 +1,52 @@
+[
+ {
+  "id": "dotdot",
+  "value": "../..",
+  "note": "parent traversal"
+ },
+ {
+  "id": "abs-etc",
+  "value": "/etc",
+  "note": "absolute path"
+ },
+ {
+  "id": "dotdot-etc",
+  "value": "../../../../etc/passwd",
+  "note": "deep traversal"
+ },
+ {
+  "id": "backslash",
+  "value": "..\\..",
+  "note": "Windows separators"
+ },
+ {
+  "id": "encoded",
+  "value": "%2e%2e/%2e%2e",
+  "note": "URL encoded"
+ },
+ {
+  "id": "tilde",
+  "value": "~",
+  "note": "home shorthand; no shell expands it"
+ },
+ {
+  "id": "file-url",
+  "value": "file:///etc",
+  "note": "file URL"
+ },
+ {
+  "id": "unc",
+  "value": "\\\\server\\share",
+  "note": "UNC path"
+ },
+ {
+  "id": "dot",
+  "value": ".",
+  "note": "current directory"
+ },
+ {
+  "id": "trailing-slash",
+  "value": "./",
+  "note": "dot slash"
+ }
+]

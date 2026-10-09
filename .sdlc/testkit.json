@@ -1,0 +1,40 @@
+[
+  {
+    "id": "cli-runner",
+    "profiles": [
+      "cli",
+      "security"
+    ],
+    "language": "javascript",
+    "path": "skills/sdlc/test/testkit/cli-runner.mjs",
+    "usage": "import { cliRunner } from '<repo>/skills/sdlc/test/testkit/cli-runner.mjs'; const r = cliRunner(); const repo = r.gitRepo({ files: { '.sdlc/config.json': { branchFormat: 'feature/{name}' } }, branches: ['sdlc/S-1'] }); const t = r.run('branches.py', ['parse', '--repo', repo, '--branch', 'sdlc/S-1']); t.status; t.json; t.stderr; t.treeUnchanged; t.text()",
+    "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
+    "addedBy": "S-001 r0",
+    "notes": "Runs python3 skill scripts from a new scratch cwd with a controlled env (scratch HOME and git identity, TZ=UTC, PYTHONUTF8=1, PYTHONDONTWRITEBYTECODE=1). It records argv, stdout, stderr, exit code, duration and a tree diff of the cwd and of every scratch directory in the arguments, git refs included. exec() runs any command. copySkill({ omit, files }) copies the skill directory for broken-file cases. A NUL argument gives spawnError and status null. Import it by absolute path, because verifier tests live under .sdlc/ in the main tree. See README.md in the testkit directory."
+  },
+  {
+    "id": "property",
+    "profiles": [
+      "contract"
+    ],
+    "language": "javascript",
+    "path": "skills/sdlc/test/testkit/property.mjs",
+    "usage": "import { arb, check, checkLoadFormat, assertProperty } from '<repo>/skills/sdlc/test/testkit/property.mjs'; assertProperty(check({ fn: 'validate_format', gen: arb.format, runs: 500 })); assertProperty(checkLoadFormat({ runs: 200 }))",
+    "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
+    "addedBy": "S-001 r0",
+    "notes": "Seeded generator (TESTKIT_SEED replays a run; check prints seed and runs). It calls the function in a batch through pycall.py, which loads the module by path with python3 -I from a scratch cwd. Outcomes are return, Fail or exception; the default property refuses exception. arb.format covers placeholders, braces, git-unsafe characters, unicode whitespace, control characters, NUL, lone surrogates and non-strings. arb.configShape covers absent, no .sdlc, directory, valid and non-object JSON, invalid text, deep nesting, invalid UTF-8, symlinks and unreadable files. callPython(module, fn, calls) calls any function. No shrinking."
+  },
+  {
+    "id": "attack-corpus",
+    "profiles": [
+      "security",
+      "cli"
+    ],
+    "language": "javascript",
+    "path": "skills/sdlc/test/testkit/attack-corpus.mjs",
+    "usage": "import { load, all, abbreviations, duplicated, plantDecoy, decoyEnv, decoyFired } from '<repo>/skills/sdlc/test/testkit/attack-corpus.mjs'; for (const e of load('unicode-digits', { argv: true })) r.run('branches.py', ['name', '--repo', repo, '--kind', 'slice', '--n', e.value]); const d = plantDecoy(r.dir('decoy')); r.run('janitor.py', ['--help'], { env: decoyEnv(dirname(d.path)) }); decoyFired(d)",
+    "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
+    "addedBy": "S-001 r0",
+    "notes": "Families in attack-corpus/*.json: control-chars, flag-like-values, format-strings, huge-integers, injection, integer-forms, nul, oversized, traversal, unicode-confusables, unicode-digits, unicode-whitespace. Entries are {id, family, value, note}. argv: true drops NUL and lone surrogates. plantDecoy writes a decoy module (behavior exit gives exit code 97, behavior shadow returns decoy values) and records each import in a marker file. No SSRF or JWT families yet: no slice has an HTTP boundary."
+  }
+]

@@ -1,0 +1,92 @@
+[
+ {
+  "id": "empty",
+  "value": "",
+  "note": "empty string"
+ },
+ {
+  "id": "space-padded",
+  "value": " 3 ",
+  "note": "int() strips whitespace"
+ },
+ {
+  "id": "plus",
+  "value": "+1",
+  "note": "explicit plus sign"
+ },
+ {
+  "id": "neg-zero",
+  "value": "-0",
+  "note": "negative zero"
+ },
+ {
+  "id": "negative",
+  "value": "-1",
+  "note": "negative"
+ },
+ {
+  "id": "underscore",
+  "value": "1_000",
+  "note": "int() accepts digit separators"
+ },
+ {
+  "id": "hex",
+  "value": "0x10",
+  "note": "hex literal; int() refuses it"
+ },
+ {
+  "id": "octal-lead",
+  "value": "010",
+  "note": "leading zero"
+ },
+ {
+  "id": "float",
+  "value": "1.5",
+  "note": "float"
+ },
+ {
+  "id": "exp",
+  "value": "1e3",
+  "note": "exponent"
+ },
+ {
+  "id": "word",
+  "value": "two",
+  "note": "word"
+ },
+ {
+  "id": "inf",
+  "value": "inf",
+  "note": "infinity"
+ },
+ {
+  "id": "nan",
+  "value": "nan",
+  "note": "not a number"
+ },
+ {
+  "id": "int64-max",
+  "value": "9223372036854775807",
+  "note": "2^63-1"
+ },
+ {
+  "id": "int64-over",
+  "value": "9223372036854775808",
+  "note": "2^63"
+ },
+ {
+  "id": "twenty-digits",
+  "value": "99999999999999999999",
+  "note": "20 digits"
+ },
+ {
+  "id": "nbsp-padded",
+  "value": "\u00a03",
+  "note": "int() strips U+00A0"
+ },
+ {
+  "id": "tab-padded",
+  "value": "\t3\n",
+  "note": "tab and newline padding"
+ }
+]

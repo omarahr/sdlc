@@ -1,0 +1,22 @@
+[
+ {
+  "id": "nul-middle",
+  "value": "a\u0000b",
+  "note": "NUL inside; argv cannot carry it, use files or stdin"
+ },
+ {
+  "id": "nul-only",
+  "value": "\u0000",
+  "note": "only NUL"
+ },
+ {
+  "id": "nul-trailing",
+  "value": "slice\u0000",
+  "note": "trailing NUL"
+ },
+ {
+  "id": "nul-json",
+  "value": "{\"branchFormat\": \"a/{name}\u0000\"}",
+  "note": "NUL in a JSON document"
+ }
+]

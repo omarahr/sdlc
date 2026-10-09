@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { SKILL_DIR, loadInternals, scratch } from './harness.mjs'
 
 const MODES_PATH = join(SKILL_DIR, 'git-modes.json')
+const BRANCHES_PATH = join(SKILL_DIR, 'branches.py')
 // the two scripts that decide whether a gitMode is legal, and must both read the same file
 const SCRIPTS = ['next-action.py', 'state-write.py'].map(n => ({ name: n, path: join(SKILL_DIR, n) }))
 
@@ -49,6 +50,7 @@ test('each python script resolves its modes from the file beside it, not from a 
     const dir = scratch('sdlc-modes-')
     const copy = join(dir, name)
     copyFileSync(path, copy)
+    copyFileSync(BRANCHES_PATH, join(dir, 'branches.py'))
     // a list nothing in the repo uses: a script still resolving the shipped four is reading a literal
     writeFileSync(join(dir, 'git-modes.json'), JSON.stringify({ gitModes: ['alpha', 'beta'] }))
     assert.equal(probeModes(copy), 'alpha,beta', `${name} did not read the git-modes.json beside it`)
@@ -69,6 +71,7 @@ test('a missing or malformed git-modes.json stops the scripts instead of falling
       const dir = scratch('sdlc-modes-')
       const copy = join(dir, name)
       copyFileSync(path, copy)
+      copyFileSync(BRANCHES_PATH, join(dir, 'branches.py'))
       if (contents !== null) writeFileSync(join(dir, 'git-modes.json'), contents)
       // a bad file must stop the script, and stop it the way a caller of that script expects: importing
       // the module must not print a mode list the file does not hold, and running a command must report

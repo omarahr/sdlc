@@ -1,0 +1,72 @@
+[
+ {
+  "id": "tab",
+  "value": "a\tb",
+  "note": "horizontal tab"
+ },
+ {
+  "id": "newline",
+  "value": "a\nb",
+  "note": "line feed"
+ },
+ {
+  "id": "cr",
+  "value": "a\rb",
+  "note": "carriage return"
+ },
+ {
+  "id": "crlf",
+  "value": "a\r\nb",
+  "note": "CRLF"
+ },
+ {
+  "id": "esc-ansi",
+  "value": "\u001b[31mred\u001b[0m",
+  "note": "ANSI escape sequence"
+ },
+ {
+  "id": "bell",
+  "value": "a\u0007b",
+  "note": "BEL"
+ },
+ {
+  "id": "backspace",
+  "value": "ab\bc",
+  "note": "backspace"
+ },
+ {
+  "id": "del",
+  "value": "a\u007fb",
+  "note": "DEL"
+ },
+ {
+  "id": "soh",
+  "value": "\u0001x",
+  "note": "start of heading"
+ },
+ {
+  "id": "vt",
+  "value": "a\u000bb",
+  "note": "vertical tab"
+ },
+ {
+  "id": "ff",
+  "value": "a\fb",
+  "note": "form feed"
+ },
+ {
+  "id": "c1-nel",
+  "value": "a\u0085b",
+  "note": "C1 next line U+0085"
+ },
+ {
+  "id": "c1-csi",
+  "value": "\u009b31m",
+  "note": "C1 CSI U+009B"
+ },
+ {
+  "id": "trailing-newline",
+  "value": "slice\n",
+  "note": "value with a trailing newline"
+ }
+]

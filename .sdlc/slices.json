@@ -2,25 +2,288 @@
   {
     "id": "S-001",
     "title": "branches.py skeleton: importable CLI, JSON contract, load_format",
-    "requirements": ["R-013", "R-098", "R-014", "R-088", "R-016"],
+    "requirements": [
+      "R-013",
+      "R-098",
+      "R-014",
+      "R-088",
+      "R-016"
+    ],
     "dependsOn": [],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-001",
     "pr": "",
     "risk": "medium",
     "riskReason": "The new CLI runs git and reads the repo config, so a wrong contract misleads every later consumer.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "validate_format accepts a leading dash and control or bidi characters",
+        "detail": "validate_format accepts a format that starts with '-'. It also accepts control and bidi characters. No caller gives the format to git in this slice. S-002 adds git check-ref-format --branch inside validate_format, and that check rejects these values. Keep the check inside validate_format. Give every later git argument after '--' or as a full ref name.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "GIT_MODES_PATH uses abspath, while the scripts use realpath",
+        "detail": "GIT_MODES_PATH uses os.path.abspath(__file__). The three scripts use os.path.realpath for their sys.path entry. A symlinked branches.py reads the git-modes.json beside the symlink, not the real file. Use os.path.realpath here too, so one rule applies.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Two tests build the same skill copy",
+        "detail": "The new test and 'a git-modes.json that cannot be read' in skills/sdlc/test/branches.test.mjs each copy branches.py into a scratch directory with their own code. Merge the directory and mode-000 shapes into the new shape table, or share one skillCopy helper.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Round-1 architecture findings still open",
+        "detail": "load_git_modes has three copies (branches.py, next-action.py, state-write.py). GIT_MODES_PATH in branches.py uses abspath, but the sys.path lines use realpath. Build GIT_MODES_PATH from one realpath SKILL_DIR. The npm test glob does not reach test/testkit/*.test.mjs; widen it or import the testkit self-tests from a top-level test file.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "No committed test pins the RecursionError catch in load_git_modes",
+        "detail": "Fix round 1 added RecursionError to the except in load_git_modes (branches.py:56). The committed deep-nesting test (branches.test.mjs:257) covers config.json only. Verifier test TC-cli-21 (.sdlc/slices/S-001/verification/r1/tests/cli-0/branches.verify-cli.test.mjs) covers a deeply nested git-modes.json, an empty-string mode, a null top level and a dangling symlink. The skill ships git-modes.json, so a hostile shape there is unlikely. Fix: when a later slice touches preflight, add the deep-nesting and empty-string-mode shapes to the test at branches.test.mjs:217.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "argparse prefix abbreviation accepted",
+        "detail": "allow_abbrev is on, so `parse --rep DIR` is accepted as --repo. The spec names no prefix forms of the flags.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Unicode digits accepted as integers",
+        "detail": "type=int accepts non-ASCII digits: `--n '١'` gives n = 1. Later tails could embed a value the user did not type in ASCII.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Repeated flag silently takes the last value",
+        "detail": "`parse --branch x --branch y` uses y and does not report bad input.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "--help prints usage text, not JSON",
+        "detail": "`branches.py parse --help` prints argparse usage text and exits 0. This breaks the one-JSON-object stdout contract for that one invocation.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Non-UTF-8 argv passes through as surrogate escapes",
+        "detail": "`--branch $'x\\xff'` is echoed as x\\udcff. The later parse and name logic should decide whether this is bad input.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "argparse accepts flag prefixes",
+        "detail": "allow_abbrev is on: parse accepts --r, --re, --rep for --repo and --f to --forma for --format, exit 0 (TC-cli-7). The spec names full flags only. Set allow_abbrev=False on the parser and each subparser.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "--n, --round and --part accept negative, huge, padded, underscore and non-ASCII digit values",
+        "detail": "type=int accepts -1, 99999999999999999999, ' 3', Arabic-Indic 3, '0003', '1_000' and '+4' (TC-cli-10). Tails in spec §1 need non-negative ASCII integers. The slices that build name() should reject these.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A flag given twice keeps the last value silently",
+        "detail": "parse --branch a --branch b exits 0 with branch b (TC-cli-6).",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "--help prints argparse usage and exits 0, not JSON",
+        "detail": "--help, -h and '<command> --help' print usage text on stdout with exit 0 (TC-cli-8). A caller that parses stdout as JSON breaks on it.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A config.json with a UTF-8 BOM is refused",
+        "detail": "load_format reads with utf-8, so a BOM gives 'Unexpected UTF-8 BOM' and exit 2 (TC-cli-19). Reading with utf-8-sig would accept it.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: copySkill cannot turn an existing file into a directory",
+        "detail": "copySkill({files: {'git-modes.json': null}}) throws EEXIST because writeFiles calls mkdirSync on the existing file. Callers must also put the path in omit.",
+        "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+      },
+      {
+        "title": "branches.py --help and -h exit through SystemExit in main()",
+        "detail": "main(['--help']) and main(['parse','-h']) print argparse usage text on stdout and raise SystemExit(0). An in-process caller gets an exception, not a return code, and the CLI prints usage text, not one JSON object. The spec does not define --help.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A UTF-8 BOM in .sdlc/config.json makes every command without --format exit 2",
+        "detail": "load_format opens config.json with encoding utf-8, so a BOM gives 'Unexpected UTF-8 BOM'. Use utf-8-sig to accept it. The spec does not name this case.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A valid --format hides a malformed config.json",
+        "detail": "With --format given, load_format is not called, so a command exits 0 while config.json is invalid JSON. Later slices that read other config keys may need to read the config anyway.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A decoy branches.py beside a symlink to a script shadows the real module",
+        "detail": "The scripts insert os.path.dirname(os.path.abspath(__file__)) into sys.path. abspath does not resolve symlinks. When janitor.py runs through a symlink in a directory that also holds branches.py, that file is imported (manual probe: decoy exit 97). os.path.realpath closes this. The spec names no symlink case.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "branches.py: a decoy branches.py beside a symlinked script wins the import",
+        "detail": "The three scripts insert os.path.dirname(os.path.abspath(__file__)) into sys.path. abspath does not resolve symlinks. When a script runs through a symlink, a branches.py beside the symlink is imported in place of the real module (decoy exit 97 for all three scripts). os.path.realpath fixes this. The spec does not define the script directory for a symlink.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "branches.py: main([\"-h\"]) raises SystemExit instead of returning",
+        "detail": "main([\"-h\"]) and main([\"parse\",\"--help\"]) print argparse usage text and raise SystemExit(0). The spec does not define -h. An importing caller gets an exception, and stdout is not a JSON object.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py: load_format drops a non-string branchFormat, but spec section 4 uses config.get(\"branchFormat\") or default",
+        "detail": "load_format returns sdlc/{name} for a truthy non-string branchFormat such as 5. Spec section 4 describes next-action semantics as config.get(\"branchFormat\") or \"sdlc/{name}\", which keeps 5. The two readings diverge when later slices thread fmt through next-action.py.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py: validate_format accepts NUL and control characters in S-001",
+        "detail": "validate_format(\"sdlc/{name}\\x00\") and validate_format(\"a\\x01/{name}\") return the input. ADR-20261009-024036 assigns git check-ref-format to S-002 (R-017). S-002 must refuse these.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py: a valid --format succeeds although the config is malformed",
+        "detail": "parse --format sdlc/{name} exits 0 when .sdlc/config.json holds truncated JSON, because the flag skips load_format. The plan asked only to record this. Preflight can report a malformed config even when the flag is given.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "argparse accepts flag prefixes",
+        "detail": "build_parser keeps allow_abbrev=True. --rep, --r, --form and --f are accepted as --repo and --format. A later flag with a shared prefix changes their meaning. Set allow_abbrev=False on the parser and the subparsers.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A duplicate flag keeps its last value silently",
+        "detail": "--repo /nonexistent --repo R exits 0. --format bad --format sdlc/{name} also exits 0. An appended flag overrides an earlier one without notice.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "--n, --round and --part accept unicode digits, padding, underscores and negatives",
+        "detail": "type=int accepts Arabic-Indic and fullwidth digits, ' 3', '1_000', '-1' and up to 4300 digits. Later slices put these values in branch names. Use a strict ^[0-9]+$ check when name lands.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Refusal errors echo the whole hostile value",
+        "detail": "A 100000-digit --n gives a 100035-char error. A 200000-char --format gives an error of the same size. Clip the echoed value. This is for verify-limits, because the spec states no size limit.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "-h and --help print argparse usage on stdout",
+        "detail": "Help exits 0 with plain text, not one JSON object. The spec does not define help. A caller that parses stdout as JSON breaks on it.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "load_git_modes lets OSError and RecursionError escape",
+        "detail": "Make git-modes.json a directory, an unreadable file or a 200000-deep nesting. preflight then exits 1 with a traceback (IsADirectoryError, PermissionError or RecursionError). Catch OSError and RecursionError and raise Fail.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "load_format lets RecursionError escape and blocks on a FIFO",
+        "detail": "A config.json nested 200000 deep makes every command exit 1 with RecursionError. A FIFO at .sdlc/config.json blocks the command until it is killed. This is for verify-contract (VS-6) and verify-limits.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Invisible and confusable characters pass the format checks",
+        "detail": "ZWSP, U+202E and Cyrillic letters pass validate_format. git check-ref-format also accepts them, so S-002 does not refuse them either. Such formats give branch names that read differently from their bytes. The spec does not forbid them.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Scripts now need branches.py beside them",
+        "detail": "janitor.py, next-action.py and state-write.py import branches from their own directory. A copy of one script without branches.py fails at import. The slice updates git-modes.test.mjs for this. No other repo code copies the scripts alone.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "branches.py resolves git-modes.json with abspath, not realpath",
+        "detail": "GIT_MODES_PATH uses os.path.abspath(__file__). When branches.py runs through a symlink, preflight reads git-modes.json beside the symlink and exits 2 with 'is missing'. The three scripts now use realpath. The spec does not require a symlinked run of branches.py.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A --repo directory that cannot be read passes when --format is given",
+        "detail": "With mode 000 on --repo, parse exits 2 without --format because the config.json read fails. It exits 0 with --format because _repo checks only os.path.isdir (TC-cli-23). Consider an os.access read check in _repo.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "GIT_MODES_PATH still uses abspath, not realpath",
+        "detail": "The fix made the three scripts resolve their directory through realpath. branches.py builds GIT_MODES_PATH from os.path.abspath(__file__). A branches.py run through a symlink in another directory reads git-modes.json beside the symlink. This seed is not tested here.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py: load_format reports a NUL in the repo path as invalid JSON",
+        "detail": "An in-process caller that passes a repo path with a NUL gets Fail with '<path> is not valid JSON: ValueError: embedded null byte'. The file is never read, so the message names the wrong cause. The CLI cannot receive a NUL in argv.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py: a config.json with an integer over 4300 digits is refused",
+        "detail": "Valid JSON with a 5000-digit integer in any key makes load_format raise Fail because of the Python int digits limit, although branchFormat is valid. This is an unlikely config.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "An in-process caller with a cached branches module binds it, not the skill's module",
+        "detail": "When a process already holds sys.modules['branches'], a script loaded through importlib binds that cached module and ignores the sys.path line (A-31). A test harness that imports another branches.py and then loads next-action.py in the same process tests the wrong module. Repo callers load each script in a new process today, so nothing breaks. Keep that rule for later probes.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "branches.py resolves git-modes.json through abspath, not realpath",
+        "detail": "GIT_MODES_PATH uses os.path.abspath(__file__). When branches.py runs through a symlink, preflight reads git-modes.json beside the symlink and exits 2 with 'is missing'. The three scripts use realpath. The spec does not require a symlinked run of branches.py.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 2,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": "658b4195835b9ca4cd5cb3cb389c5be57d3d8c1c"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 2,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-002",
     "title": "validate_format, split and name",
-    "requirements": ["R-017", "R-001", "R-019", "R-020", "R-071"],
-    "dependsOn": ["S-001"],
+    "requirements": [
+      "R-017",
+      "R-001",
+      "R-019",
+      "R-020",
+      "R-071"
+    ],
+    "dependsOn": [
+      "S-001"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -31,13 +294,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-003",
     "title": "tail contract and format resolution order",
-    "requirements": ["R-018", "R-099", "R-015", "R-012", "R-002"],
-    "dependsOn": ["S-002"],
+    "requirements": [
+      "R-018",
+      "R-099",
+      "R-015",
+      "R-012",
+      "R-002"
+    ],
+    "dependsOn": [
+      "S-002"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -48,13 +327,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-004",
     "title": "tails: run, slice, milestone, e2e, e2e-area",
-    "requirements": ["R-003", "R-004", "R-005", "R-006", "R-007"],
-    "dependsOn": ["S-003"],
+    "requirements": [
+      "R-003",
+      "R-004",
+      "R-005",
+      "R-006",
+      "R-007"
+    ],
+    "dependsOn": [
+      "S-003"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -65,13 +360,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-005",
     "title": "tails: state, verify, attempt",
-    "requirements": ["R-008", "R-009", "R-010", "R-119", "R-093"],
-    "dependsOn": ["S-004"],
+    "requirements": [
+      "R-008",
+      "R-009",
+      "R-010",
+      "R-119",
+      "R-093"
+    ],
+    "dependsOn": [
+      "S-004"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -82,13 +393,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-006",
     "title": "lowercase tails and the cross-format round-trip",
-    "requirements": ["R-011", "R-120", "R-068"],
-    "dependsOn": ["S-005"],
+    "requirements": [
+      "R-011",
+      "R-120",
+      "R-068"
+    ],
+    "dependsOn": [
+      "S-005"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -99,13 +424,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-007",
     "title": "parse classifies a branch tail",
-    "requirements": ["R-021", "R-022", "R-023", "R-024", "R-069"],
-    "dependsOn": ["S-006"],
+    "requirements": [
+      "R-021",
+      "R-022",
+      "R-023",
+      "R-024",
+      "R-069"
+    ],
+    "dependsOn": [
+      "S-006"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -116,13 +457,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-008",
     "title": "parse precedence: run, milestone, e2e, e2e-area rows",
-    "requirements": ["R-102", "R-103", "R-104", "R-105", "R-070"],
-    "dependsOn": ["S-007"],
+    "requirements": [
+      "R-102",
+      "R-103",
+      "R-104",
+      "R-105",
+      "R-070"
+    ],
+    "dependsOn": [
+      "S-007"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -133,13 +490,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-009",
     "title": "parse precedence: state, verify, attempt, slice rows",
-    "requirements": ["R-106", "R-107", "R-108", "R-109"],
-    "dependsOn": ["S-008"],
+    "requirements": [
+      "R-106",
+      "R-107",
+      "R-108",
+      "R-109"
+    ],
+    "dependsOn": [
+      "S-008"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -150,13 +522,26 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-010",
     "title": "list enumerates local branches of one kind",
-    "requirements": ["R-025", "R-094"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-025",
+      "R-094"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -167,13 +552,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-011",
     "title": "evaluate applies one rule to a sample",
-    "requirements": ["R-026", "R-033", "R-095", "R-034", "R-072"],
-    "dependsOn": ["S-001"],
+    "requirements": [
+      "R-026",
+      "R-033",
+      "R-095",
+      "R-034",
+      "R-072"
+    ],
+    "dependsOn": [
+      "S-001"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -184,13 +585,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-012",
     "title": "sample verdicts, bad patterns and check-ref-format",
-    "requirements": ["R-035", "R-036", "R-037"],
-    "dependsOn": ["S-011"],
+    "requirements": [
+      "R-035",
+      "R-036",
+      "R-037"
+    ],
+    "dependsOn": [
+      "S-011"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -201,13 +616,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-013",
     "title": "read_rules reads GitHub branch name patterns",
-    "requirements": ["R-027", "R-028", "R-029", "R-084"],
-    "dependsOn": ["S-012"],
+    "requirements": [
+      "R-027",
+      "R-028",
+      "R-029",
+      "R-084"
+    ],
+    "dependsOn": [
+      "S-012"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -218,13 +648,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-014",
     "title": "read_rules reads the GitLab push rule and the no-forge case",
-    "requirements": ["R-030", "R-031", "R-032"],
-    "dependsOn": ["S-013"],
+    "requirements": [
+      "R-030",
+      "R-031",
+      "R-032"
+    ],
+    "dependsOn": [
+      "S-013"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -235,13 +679,30 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-015",
     "title": "preflight tests the mode's branch names and prints a verdict",
-    "requirements": ["R-038", "R-039", "R-040", "R-041", "R-044"],
-    "dependsOn": ["S-010", "S-014"],
+    "requirements": [
+      "R-038",
+      "R-039",
+      "R-040",
+      "R-041",
+      "R-044"
+    ],
+    "dependsOn": [
+      "S-010",
+      "S-014"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -252,13 +713,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-016",
     "title": "preflight derives a format from one simple rule",
-    "requirements": ["R-042", "R-043", "R-087", "R-122", "R-073"],
-    "dependsOn": ["S-015"],
+    "requirements": [
+      "R-042",
+      "R-043",
+      "R-087",
+      "R-122",
+      "R-073"
+    ],
+    "dependsOn": [
+      "S-015"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -269,13 +746,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-017",
     "title": "preflight edge cases and the forge shim suite",
-    "requirements": ["R-091", "R-092", "R-100", "R-074"],
-    "dependsOn": ["S-016"],
+    "requirements": [
+      "R-091",
+      "R-092",
+      "R-100",
+      "R-074"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -286,13 +778,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-018",
     "title": "SKILL.md: the flag, the pre-flight bullet and the launch arg",
-    "requirements": ["R-045", "R-046", "R-097", "R-048", "R-049"],
-    "dependsOn": ["S-017"],
+    "requirements": [
+      "R-045",
+      "R-046",
+      "R-097",
+      "R-048",
+      "R-049"
+    ],
+    "dependsOn": [
+      "S-017"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -303,13 +811,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-019",
     "title": "SKILL.md names the run branch and checks the user's branch",
-    "requirements": ["R-047", "R-121", "R-118", "R-101"],
-    "dependsOn": ["S-018"],
+    "requirements": [
+      "R-047",
+      "R-121",
+      "R-118",
+      "R-101"
+    ],
+    "dependsOn": [
+      "S-018"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -320,13 +843,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-020",
     "title": "sdlc-loop.js names branches through the format",
-    "requirements": ["R-050", "R-051", "R-052", "R-116", "R-075"],
-    "dependsOn": ["S-005"],
+    "requirements": [
+      "R-050",
+      "R-051",
+      "R-052",
+      "R-116",
+      "R-075"
+    ],
+    "dependsOn": [
+      "S-005"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -337,13 +876,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-021",
     "title": "next-action.py recognizes branches through parse",
-    "requirements": ["R-053", "R-054", "R-055", "R-076", "R-077"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-053",
+      "R-054",
+      "R-055",
+      "R-076",
+      "R-077"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -354,13 +909,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-022",
     "title": "state-write.py names and classifies branches through the module",
-    "requirements": ["R-056", "R-096", "R-057", "R-058", "R-078"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-056",
+      "R-096",
+      "R-057",
+      "R-058",
+      "R-078"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -371,13 +942,26 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-023",
     "title": "state-write.py threads the format through its remaining paths",
-    "requirements": ["R-059", "R-083"],
-    "dependsOn": ["S-022"],
+    "requirements": [
+      "R-059",
+      "R-083"
+    ],
+    "dependsOn": [
+      "S-022"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -388,13 +972,28 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-024",
     "title": "janitor.py sweeps only verify branches through parse",
-    "requirements": ["R-060", "R-085", "R-086", "R-079"],
-    "dependsOn": ["S-009"],
+    "requirements": [
+      "R-060",
+      "R-085",
+      "R-086",
+      "R-079"
+    ],
+    "dependsOn": [
+      "S-009"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -405,13 +1004,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-025",
     "title": "_common.md: the Branch names section and the first placeholders",
-    "requirements": ["R-062", "R-117", "R-089", "R-090", "R-110"],
-    "dependsOn": ["S-010"],
+    "requirements": [
+      "R-062",
+      "R-117",
+      "R-089",
+      "R-090",
+      "R-110"
+    ],
+    "dependsOn": [
+      "S-010"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -422,13 +1037,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-026",
     "title": "_common.md completes the placeholder table",
-    "requirements": ["R-111", "R-112", "R-113", "R-114", "R-115"],
-    "dependsOn": ["S-025"],
+    "requirements": [
+      "R-111",
+      "R-112",
+      "R-113",
+      "R-114",
+      "R-115"
+    ],
+    "dependsOn": [
+      "S-025"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -439,13 +1070,29 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-027",
     "title": "every prompt replaces its branch literals with placeholders",
-    "requirements": ["R-063", "R-061", "R-064", "R-065", "R-080"],
-    "dependsOn": ["S-026"],
+    "requirements": [
+      "R-063",
+      "R-061",
+      "R-064",
+      "R-065",
+      "R-080"
+    ],
+    "dependsOn": [
+      "S-026"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -456,13 +1103,27 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-028",
     "title": "prompt tests guard the placeholders and the format records",
-    "requirements": ["R-081", "R-082"],
-    "dependsOn": ["S-027", "S-018"],
+    "requirements": [
+      "R-081",
+      "R-082"
+    ],
+    "dependsOn": [
+      "S-027",
+      "S-018"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -473,13 +1134,26 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   },
   {
     "id": "S-029",
     "title": "README documents the flag and the branch names",
-    "requirements": ["R-066", "R-067"],
-    "dependsOn": ["S-028"],
+    "requirements": [
+      "R-066",
+      "R-067"
+    ],
+    "dependsOn": [
+      "S-028"
+    ],
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
@@ -490,6 +1164,14 @@
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
-    "counters": { "planRevisions": 0, "fixRounds": 0, "ladderStep": 0, "parkCycles": 0, "verifyDemanded": false, "infraRetries": 0, "gateCommit": "" }
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   }
 ]

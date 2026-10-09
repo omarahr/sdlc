@@ -1,0 +1,92 @@
+[
+ {
+  "id": "double",
+  "value": "{name}{name}",
+  "note": "two placeholders"
+ },
+ {
+  "id": "mixed",
+  "value": "{name}-{name:lower}",
+  "note": "both placeholders"
+ },
+ {
+  "id": "empty-braces",
+  "value": "{}",
+  "note": "empty braces"
+ },
+ {
+  "id": "positional",
+  "value": "{0}",
+  "note": "positional field"
+ },
+ {
+  "id": "conversion",
+  "value": "{name!r}",
+  "note": "conversion"
+ },
+ {
+  "id": "spec",
+  "value": "{name:>9}",
+  "note": "format spec"
+ },
+ {
+  "id": "escaped",
+  "value": "{{name}}",
+  "note": "escaped braces"
+ },
+ {
+  "id": "escaped-plus",
+  "value": "{{name}}/{name}",
+  "note": "escaped and real placeholder"
+ },
+ {
+  "id": "percent",
+  "value": "%s/{name}",
+  "note": "percent style"
+ },
+ {
+  "id": "dollar",
+  "value": "${name}",
+  "note": "template style"
+ },
+ {
+  "id": "open",
+  "value": "sdlc/{name",
+  "note": "unclosed"
+ },
+ {
+  "id": "close",
+  "value": "sdlc/name}",
+  "note": "unopened"
+ },
+ {
+  "id": "upper",
+  "value": "sdlc/{NAME}",
+  "note": "upper case"
+ },
+ {
+  "id": "upper-spec",
+  "value": "sdlc/{name:upper}",
+  "note": "unknown spec"
+ },
+ {
+  "id": "lone-close",
+  "value": "{name:lower}}",
+  "note": "lone close brace"
+ },
+ {
+  "id": "none",
+  "value": "sdlc/fixed",
+  "note": "no placeholder"
+ },
+ {
+  "id": "empty",
+  "value": "",
+  "note": "empty format"
+ },
+ {
+  "id": "only",
+  "value": "{name}",
+  "note": "placeholder only"
+ }
+]
