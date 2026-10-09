@@ -804,6 +804,129 @@
       "title": "verify id accepts NUL and any character",
       "detail": "Table row 6 uses (.+) for the id, so a NUL in the tail goes into the id.",
       "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Int digit limit removed",
+      "detail": "set_int_max_str_digits(0) removes the Python int limit, so a very long digit tail in run-N costs more time to convert. Git ref length limits the risk. Optionally cap the digit count in the run and attempt rows.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "Loose anchors and Unicode digits",
+      "detail": "The $ anchor accepts a trailing newline and \\d accepts Unicode digits. The spec gives these regexes and git refuses newlines in ref names. Use \\Z and [0-9] if the spec changes.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "Process-wide sys.set_int_max_str_digits(0) removes a safety limit",
+      "detail": "branches.py disables the interpreter's int-string limit for the whole process so that `run-<5000 digits>` parses to a huge int. A hostile branch name with a very long digit string then costs quadratic CPU, and the parsed `n` is meaningless. Prefer keeping `n` bounded: add `\\d{1,9}` to the run, attempt and verify rows, or keep the digits as a string past a limit. Then the global call goes away. Not blocking because branch names are short in practice.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "T-R-120a/b source-scan tests are outside the slice plan and are brittle",
+      "detail": "The tests scan source text for push-site lines with a regex and for the substring `-e2e-`. They are not in plan.md or tests.md for S-008 and they test text rather than behavior. They can fail on harmless edits to loop sources. Move them to the slice that owns R-120, or record them in tests.md.",
+      "file": "skills/sdlc/test/branches.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "T-R-102a to T-R-105a are a good fit with the spec",
+      "detail": "The row order, anchors and boundary cases match the spec's parse table. Product code in branches.py matches the PARSE_ROWS order. No change needed.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "tests.md lists only 8 of the added tests",
+      "detail": "List each added test with its requirement.",
+      "file": ".sdlc/slices/S-008/tests.md",
+      "blocking": false
+    },
+    {
+      "title": "T-R-120a asserts source text shape",
+      "detail": "Regex scan of source files pins implementation, not behavior. Acceptable while R-120 has no behavior test.",
+      "file": "skills/sdlc/test/branches.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Huge-digit test covers run row only",
+      "detail": "Add attempt-<5000 digits> to T-R-102b to pin the attempt row.",
+      "file": "skills/sdlc/test/branches.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Trailing newline accepted by parse",
+      "detail": "Python $ matches before a trailing newline, so sdlc/run-3\\n parses as run and sdlc/M-2-e2e\\n as e2e. The spec regexes use $, so this follows the spec. Consider \\Z or fullmatch as hardening.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Unicode digits and slash in area accepted",
+      "detail": "sdlc/run-٣ gives n 3. sdlc/M-2-e2e-a/b gives area a/b. The slash case follows ADR-20261009-173303-decision-judge-S-008-a88a. The spec says areas never contain slash but gives no check.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a trailing newline",
+      "detail": "Python $ matches before a final newline: sdlc/M-2\\n gives milestone, run-3\\n gives run n 3, M-2-e2e\\n gives e2e. Git refuses newlines in branch names.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse treats unicode digits as digits",
+      "detail": "sdlc/run-٣ gives n 3 and sdlc/M-٢ gives milestone, because \\d matches non-ASCII digits. The plan keeps this behavior.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "slash in an area is accepted (note only)",
+      "detail": "sdlc/M-2-e2e-a/b gives e2e-area with area a/b. ADR-20261009-173303-decision-judge-S-008-a88a keeps this.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "surface: list_kind, read_rules, evaluate, derive absent",
+      "detail": "The spec section 2 lists these in the module API. This slice does not own them.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a trailing newline on every row",
+      "detail": "Python $ matches before a final newline, so M-2 followed by a newline parses as milestone. This follows the spec regexes. The security profile covers it in VS-7.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises ValueError for run-N or attempt-N with more than 4300 digits",
+      "detail": "int(value) hits Python's int string limit. The CLI prints a traceback and no JSON, against spec section 2 'every command prints one JSON object'. Guard the conversion or cap the digits. No R-102 to R-105 text covers it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Trailing newline accepted by $ in rows 1 to 4",
+      "detail": "parse('sdlc/{name}','sdlc/run-3\\n') gives kind run. Use re.fullmatch or \\Z. Real branches cannot hold a newline, so impact is low.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Unicode digits accepted in run-N and M-N",
+      "detail": "Python \\d matches non-ASCII digits, so run-٣ is n 3 and M-２ is a milestone with a non-ASCII id. Use [0-9] or re.ASCII.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Slash in an e2e-area tail is classified as e2e-area",
+      "detail": "M-2-e2e-a/b gives area a/b. ADR-20261009-173303-decision-judge-S-008-a88a keeps this S-007 behavior.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a trailing newline",
+      "detail": "Python $ matches before a final newline, so M-2 followed by a newline gives milestone. Git refuses such names. Unchanged from round 0.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse treats unicode digits as digits",
+      "detail": "run-٣ gives n 3 and M-٢ gives a milestone. The plan keeps this.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "slash in an area is accepted (note only)",
+      "detail": "M-2-e2e-a/b gives e2e-area with area a/b, per ADR-20261009-173303-decision-judge-S-008-a88a.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "the fix lifts the int string limit for the whole process",
+      "detail": "branches.py calls sys.set_int_max_str_digits(0) at import, so any importer loses the limit. No slowdown shows at 100000 digits (137 ms). A cap on digit count would keep the limit.",
+      "file": "skills/sdlc/branches.py"
     }
   ]
 }

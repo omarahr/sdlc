@@ -1284,7 +1284,7 @@
       "S-007"
     ],
     "kind": "spec",
-    "status": "in_progress",
+    "status": "done",
     "phase": "integrate",
     "branch": "sdlc/S-008",
     "pr": "",
