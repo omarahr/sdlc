@@ -681,6 +681,7 @@ def cmd_preflight(ns):
     )
     if derived is not None and not given and loop_failed:
         try:
+            validate_format(derived)
             second = verdict(repo, derived, ns.mode, ns.branch)
         except Fail:
             second = None

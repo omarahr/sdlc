@@ -2534,6 +2534,19 @@ test('T-R-122c a pattern with no accepted literal gives the text fallback', opts
   }
 })
 
+test('T-R-073b a derived format with a brace or whitespace is not reported as ok', opts, () => {
+  for (const pattern of ['{', '}', 'a\u00a0b', '\u3000']) {
+    for (const make of [startsWith, endsWith, containsRule]) {
+      const { status, out } = prRun(make('s', pattern))
+      assert.equal(status, 1, `${pattern} ${JSON.stringify(out)}`)
+      assert.equal(out.ok, false)
+      assert.equal(out.derived, false)
+      assert.equal(out.format, 'sdlc/{name}')
+      assert.match(out.suggestion, /--branch-format/)
+    }
+  }
+})
+
 test('T-R-073a derive follows the table and refuses regex, negate and several rules', opts, () => {
   const table = [
     [startsWith('s', 'feature/'), 'feature/sdlc/{name}'],
