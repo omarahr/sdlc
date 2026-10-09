@@ -454,7 +454,7 @@
         ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:37",
         ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:48"
       ],
-      "commit": "pending"
+      "commit": "415a31a04ec6e31a0c5a0477d78db181475d3361"
     },
     "notes": ""
   },
@@ -2543,7 +2543,7 @@
         ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:95",
         ".sdlc/slices/S-006/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:112"
       ],
-      "commit": "pending"
+      "commit": "415a31a04ec6e31a0c5a0477d78db181475d3361"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
