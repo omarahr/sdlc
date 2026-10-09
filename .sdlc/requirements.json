@@ -59,7 +59,7 @@
         "TC-contract-12: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:211",
         "TC-contract-16: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:288"
       ],
-      "commit": "pending"
+      "commit": "cf4779a3ff6ce5c7659cb06808c6441c97bf3202"
     },
     "notes": "fresh-run config clause closes in S-027"
   },
@@ -225,7 +225,7 @@
         "TC-cli-20: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:303",
         "TC-cli-21: .sdlc/slices/S-003/verification/r0/tests/cli-0/branch-name.verify-cli.test.mjs:309"
       ],
-      "commit": "pending"
+      "commit": "cf4779a3ff6ce5c7659cb06808c6441c97bf3202"
     },
     "notes": ""
   },
@@ -384,7 +384,7 @@
         "TC-contract-16: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:288",
         "TC-contract-17: .sdlc/slices/S-003/verification/r0/tests/contract-0/tail.verify-contract.test.mjs:307"
       ],
-      "commit": "pending"
+      "commit": "cf4779a3ff6ce5c7659cb06808c6441c97bf3202"
     },
     "notes": ""
   },
@@ -554,7 +554,7 @@
         "TC-security-4: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:85",
         "TC-security-5: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:99"
       ],
-      "commit": "pending"
+      "commit": "cf4779a3ff6ce5c7659cb06808c6441c97bf3202"
     },
     "notes": ""
   },
@@ -1941,7 +1941,7 @@
         "TC-security-10: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:180",
         "TC-security-11: .sdlc/slices/S-003/verification/r0/tests/security-0/name.verify-security.test.mjs:194"
       ],
-      "commit": "pending"
+      "commit": "cf4779a3ff6ce5c7659cb06808c6441c97bf3202"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
