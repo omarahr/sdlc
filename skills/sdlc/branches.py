@@ -238,10 +238,52 @@ def cmd_parse(ns):
     return result
 
 
+NUMERIC_SORT_KINDS = ("run", "attempt")
+
+
+def _git(repo, *args):
+    try:
+        return subprocess.run(
+            ["git", "-C", repo, *args],
+            capture_output=True,
+            text=True,
+            errors="replace",
+            check=False,
+        )
+    except (OSError, ValueError):
+        raise Fail(f"not a git repository: {repo}")
+
+
+def list_kind(repo, fmt, kind):
+    if _git(repo, "rev-parse", "--git-dir").returncode != 0:
+        raise Fail(f"not a git repository: {repo}")
+    refs = _git(repo, "for-each-ref", "--format=%(refname)", "refs/heads/")
+    if refs.returncode != 0:
+        raise Fail(f"cannot list the branches of {repo}")
+    entries = []
+    for ref in refs.stdout.splitlines():
+        branch = ref[len("refs/heads/"):]
+        parsed = parse(fmt, branch)
+        if parsed is not None and parsed["kind"] == kind:
+            entries.append({"branch": branch, **parsed})
+    if kind in NUMERIC_SORT_KINDS:
+        entries.sort(key=lambda e: (e["n"], e["branch"]))
+    else:
+        entries.sort(key=lambda e: e["branch"])
+    return entries
+
+
 def cmd_list(ns):
     repo = _repo(ns)
     _kind(ns)
-    return _echo("list", _format(ns, repo), ns)
+    fmt = _format(ns, repo)
+    return {
+        "ok": True,
+        "command": "list",
+        "format": fmt,
+        "kind": ns.kind,
+        "branches": list_kind(repo, fmt, ns.kind),
+    }
 
 
 def cmd_preflight(ns):
