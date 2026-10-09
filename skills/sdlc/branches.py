@@ -73,7 +73,7 @@ def ref_format_error(ref):
 def regex_error(pattern):
     try:
         re.compile(pattern)
-    except re.error as e:
+    except (re.error, OverflowError) as e:
         return str(e)
     except RecursionError:
         return "the pattern is nested too deeply"
@@ -90,7 +90,7 @@ def _raw_result(kind, pattern, sample):
     if kind == "regex":
         try:
             compiled = re.compile(pattern)
-        except (re.error, RecursionError):
+        except (re.error, OverflowError, RecursionError):
             return None
         return compiled.search(sample) is not None
     return None

@@ -1654,6 +1654,16 @@ test('T-R-035e a deeply nested pattern never blocks and never raises', opts, () 
   assert.ok(got.every((g) => g.rule === null && g.notes.length === 1 && g.notes[0].startsWith('cannot evaluate deep: ')))
 })
 
+test('T-R-035g a pattern with a repeat count too large never blocks and never raises', opts, () => {
+  const pats = ['a{4294967296}', 'a{99999999999999999999}', 'a{1,99999999999999999999}', '(ab){4294967296}']
+  const got = judgeEach(pats.flatMap((p) => [
+    [[PASS_RULE('a'), labelled('big', 'regex', p)], 'sdlc/S-001'],
+    [[labelled('big', 'regex', p, true)], 'sdlc/S-001'],
+  ]))
+  assert.ok(got.every((g) => g.result === 'unevaluated' && g.rule === null))
+  assert.ok(got.every((g) => g.notes.length === 1 && g.notes[0].startsWith('cannot evaluate big: ')))
+})
+
 test('T-R-035f a first failing rule without a label is not replaced by a later one', opts, () => {
   const [got] = judgeEach([[[{ ...FAIL_RULE('x'), label: null }, FAIL_RULE('later')], 'sdlc/S-001']])
   assert.equal(got.result, 'fail')
