@@ -68,9 +68,12 @@ print(json.dumps({
   "load_format": callable(getattr(mod, "load_format", None)),
   "validate_format": callable(getattr(mod, "validate_format", None)),
   "main": callable(getattr(mod, "main", None)),
+  "split": callable(getattr(mod, "split", None)),
+  "name": callable(getattr(mod, "name", None)),
+  "tail": callable(getattr(mod, "tail", None)),
 }))
 `, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
-  assert.deepEqual(out, { Fail: true, load_format: true, validate_format: true, main: true })
+  assert.deepEqual(out, { Fail: true, load_format: true, validate_format: true, main: true, split: true, name: true, tail: true })
 })
 
 test('branches.py imports only standard library modules', opts, () => {
@@ -325,4 +328,107 @@ test('branch recognition in the three scripts still resolves from a scratch work
   const reaped = runScript('janitor.py', ['--repo', swept, '--days', '36500'])
   assert.deepEqual(reaped.removedBranches, ['sdlc/S-1-v1'])
   assert.equal(git(swept, 'branch', '--list', 'sdlc/S-1'), 'sdlc/S-1')
+})
+
+const CALL = `${LOAD}
+import json
+def call(fn, *args, **kw):
+    try:
+        return {"ret": fn(*args, **kw)}
+    except mod.Fail as e:
+        return {"fail": str(e)}
+    except Exception as e:
+        return {"error": type(e).__name__ + ": " + str(e)}
+`
+
+const callEach = (fn, inputs) => JSON.parse(probe(`${CALL}
+print(json.dumps([call(getattr(mod, "${fn}", None) or (lambda *a: (_ for _ in ()).throw(AttributeError("${fn} is missing"))), x) for x in json.loads(sys.argv[2])]))
+`, [BRANCHES, JSON.stringify(inputs)], { cwd: scratch('sdlc-branches-cwd-') }))
+
+function assertFails(fn, inputs) {
+  const results = callEach(fn, inputs)
+  inputs.forEach((input, i) => {
+    assert.equal(typeof results[i].fail, 'string', `${fn}(${JSON.stringify(input)}) did not raise Fail: ${JSON.stringify(results[i])}`)
+  })
+  return results
+}
+
+test('validate_format accepts one placeholder with a valid literal part', opts, () => {
+  const formats = ['sdlc/{name}', 'sdlc/{name:lower}', 'feature/PROJ-1-{name}']
+  const results = callEach('validate_format', formats)
+  formats.forEach((fmt, i) => assert.deepEqual(results[i], { ret: fmt }, `validate_format(${fmt})`))
+})
+
+test('validate_format rejects two placeholders, none, whitespace and an invalid ref', opts, () => {
+  const formats = ['{name}{name}', 'sdlc/', 'sdlc/{ name }', 'sdlc/{name}..', 'sdlc/{name}}', 'sdlc/{{name}']
+  const results = assertFails('validate_format', formats)
+  const dotted = results[formats.indexOf('sdlc/{name}..')].fail
+  assert.match(dotted, /check-ref-format/, `the invalid-ref message does not name check-ref-format: ${dotted}`)
+  assert.match(dotted, /is not a valid branch name/, `the invalid-ref message does not carry the git reason: ${dotted}`)
+})
+
+test('validate_format rejects Unicode whitespace that git accepts', opts, () => {
+  const formats = ['sdlc/\u00a0{name}', 'sdlc/\u3000{name}', 'sdlc/\u2028{name}', 'sdlc/\t{name}']
+  const results = assertFails('validate_format', formats)
+  formats.forEach((fmt, i) => assert.match(results[i].fail, /holds whitespace/, `validate_format(${JSON.stringify(fmt)}): ${results[i].fail}`))
+})
+
+test('validate_format rejects the literal parts that git refuses', opts, () => {
+  assertFails('validate_format', ['-{name}', 'a\x01/{name}', 'sdlc/{name}.lock', '/{name}', 'a~/{name}', 'sdlc/{name}\x00'])
+})
+
+test('an invalid-ref format is bad input on the CLI', opts, () => {
+  const repo = gitRepo()
+  for (const [label, args] of [
+    ['name', ['name', '--repo', repo, '--kind', 'slice', '--id', 'S-001', '--format', 'sdlc/{name}..']],
+    ['preflight', ['preflight', '--repo', repo, '--mode', 'pr', '--format', 'sdlc/{name}..']],
+  ]) {
+    const out = assertBadInput(args, label)
+    assert.match(out.error, /is not a valid branch name/, `${label}: error is ${out.error}`)
+  }
+})
+
+test('split returns the prefix, the suffix and the lower flag', opts, () => {
+  const results = callEach('split', ['a/{name}.x', 'a/{name:lower}', '{name}', 'sdlc/'])
+  assert.deepEqual(results[0], { ret: ['a/', '.x', false] })
+  assert.deepEqual(results[1], { ret: ['a/', '', true] })
+  assert.deepEqual(results[2], { ret: ['', '', false] })
+  assert.equal(typeof results[3].fail, 'string', `split("sdlc/") did not raise Fail: ${JSON.stringify(results[3])}`)
+})
+
+test('name puts the tail in the placeholder and lowercases only the tail', opts, () => {
+  const out = JSON.parse(probe(`${CALL}
+def strip(fmt):
+    n = mod.name(fmt, "slice", id="S-001")
+    prefix, suffix, lower = mod.split(fmt)
+    if not n.startswith(prefix) or not n.endswith(suffix):
+        return {"name": n, "middle": None}
+    return {"name": n, "middle": n[len(prefix):len(n) - len(suffix)]}
+formats = ["sdlc/{name}", "feature/PROJ-1-{name}", "feature/PROJ-1-{name:lower}"]
+print(json.dumps({
+    "named": [call(mod.name, f, "slice", id="S-001") for f in formats],
+    "stripped": [call(strip, f) for f in formats],
+    "no_id": call(mod.name, "sdlc/{name}", "slice"),
+    "empty_id": call(mod.name, "sdlc/{name}", "slice", id=""),
+}))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.deepEqual(out.named, [{ ret: 'sdlc/S-001' }, { ret: 'feature/PROJ-1-S-001' }, { ret: 'feature/PROJ-1-s-001' }])
+  assert.deepEqual(out.stripped, [
+    { ret: { name: 'sdlc/S-001', middle: 'S-001' } },
+    { ret: { name: 'feature/PROJ-1-S-001', middle: 'S-001' } },
+    { ret: { name: 'feature/PROJ-1-s-001', middle: 's-001' } },
+  ])
+  assert.equal(typeof out.no_id.fail, 'string', `name without id did not raise Fail: ${JSON.stringify(out.no_id)}`)
+  assert.equal(typeof out.empty_id.fail, 'string', `name with an empty id did not raise Fail: ${JSON.stringify(out.empty_id)}`)
+})
+
+test('validate_format without git is a Fail, not a crash', opts, () => {
+  const empty = scratch('sdlc-branches-nopath-')
+  const out = JSON.parse(probe(`${CALL}
+import os
+os.environ["PATH"] = sys.argv[2]
+print(json.dumps(call(mod.validate_format, "sdlc/{name}")))
+`, [BRANCHES, empty], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.equal(typeof out.fail, 'string', `validate_format without git did not raise Fail: ${JSON.stringify(out)}`)
+  assert.match(out.fail, /git/, `the message does not name git: ${out.fail}`)
 })

@@ -4,13 +4,31 @@
     "specRef": "§1",
     "quote": "`config.branchFormat` is a string with exactly one placeholder, `{name}` or `{name:lower}`, and literal text around it.",
     "acceptance": "validate_format accepts `sdlc/{name}` and `sdlc/{name:lower}`. It rejects a format with no placeholder, two placeholders, a stray `{` or `}`, or whitespace.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-024036-decision-judge-S-001-8de8",
+      "ADR-20261009-034220-decision-judge-S-002-3cc6",
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-034229-decision-judge-S-002-b015"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: validate_format accepts one placeholder with a valid literal part",
+        "skills/sdlc/test/branches.test.mjs :: validate_format rejects two placeholders, none, whitespace and an invalid ref",
+        "TC-cli-1: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:66",
+        "TC-cli-2: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:78",
+        "TC-cli-4: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:102",
+        "TC-contract-1: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:89",
+        "TC-contract-3: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:119",
+        "TC-contract-4: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:149",
+        "TC-security-1: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:45"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -376,13 +394,57 @@
     "specRef": "§2",
     "quote": "`validate_format(fmt)`: raises `Fail` unless the format contains exactly one of `{name}` or `{name:lower}`, no other `{` or `}`, no whitespace, and `name(fmt, \"slice\", id=\"S-001\")` passes `git check-ref-format --branch`.",
     "acceptance": "validate_format rejects `{name}{name}`, `sdlc/`, `sdlc/{ name }`, and `sdlc/{name}..`. It accepts `sdlc/{name}` and `feature/PROJ-1-{name}`. The invalid-ref rejection carries `git check-ref-format`'s reason.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-024036-decision-judge-S-001-8de8",
+      "ADR-20261009-034220-decision-judge-S-002-3cc6",
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-034229-decision-judge-S-002-b015"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: validate_format accepts one placeholder with a valid literal part",
+        "skills/sdlc/test/branches.test.mjs :: validate_format rejects two placeholders, none, whitespace and an invalid ref",
+        "skills/sdlc/test/branches.test.mjs :: validate_format rejects the literal parts that git refuses",
+        "skills/sdlc/test/branches.test.mjs :: an invalid-ref format is bad input on the CLI",
+        "skills/sdlc/test/branches.test.mjs :: validate_format without git is a Fail, not a crash",
+        "skills/sdlc/test/branches.test.mjs :: validate_format rejects Unicode whitespace that git accepts",
+        "TC-cli-1: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:66",
+        "TC-cli-2: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:78",
+        "TC-cli-3: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:90",
+        "TC-cli-4: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:102",
+        "TC-cli-5: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:114",
+        "TC-cli-6: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:127",
+        "TC-cli-7: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:153",
+        "TC-cli-8: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:166",
+        "TC-cli-9: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:187",
+        "TC-cli-10: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:199",
+        "TC-cli-11: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:212",
+        "TC-cli-12: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:222",
+        "TC-cli-13: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:237",
+        "TC-contract-1: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:89",
+        "TC-contract-2: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:99",
+        "TC-contract-3: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:119",
+        "TC-contract-4: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:149",
+        "TC-contract-5: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:164",
+        "TC-contract-6: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:186",
+        "TC-contract-7: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:199",
+        "TC-security-1: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:45",
+        "TC-security-2: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:61",
+        "TC-security-3: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:73",
+        "TC-security-4: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:91",
+        "TC-security-5: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:100",
+        "TC-security-6: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:108",
+        "TC-security-7: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:128",
+        "TC-security-8: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:150",
+        "TC-security-9: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:166"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -406,13 +468,34 @@
     "specRef": "§2",
     "quote": "`name(fmt, kind, **parts)`: the format with the placeholder replaced by the tail, lowercased for `{name:lower}`.",
     "acceptance": "`name(\"sdlc/{name}\", \"slice\", id=\"S-001\")` is `sdlc/S-001`. Every name output parses back to the same kind and parts. `{name:lower}` lowercases only the tail.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-024036-decision-judge-S-001-8de8",
+      "ADR-20261009-034220-decision-judge-S-002-3cc6",
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-034229-decision-judge-S-002-b015"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: branches.py imports from its path and exposes the public functions",
+        "skills/sdlc/test/branches.test.mjs :: name puts the tail in the placeholder and lowercases only the tail",
+        "TC-contract-10: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:271",
+        "TC-contract-11: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:289",
+        "TC-contract-71: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:43",
+        "TC-contract-72: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:51",
+        "TC-contract-73: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:70",
+        "TC-contract-74: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:80",
+        "TC-contract-75: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:91",
+        "TC-contract-76: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:116",
+        "TC-contract-77: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:110",
+        "TC-contract-78: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:124"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -421,13 +504,26 @@
     "specRef": "§2",
     "quote": "`split(fmt)`: `(prefix, suffix, lower)`, the literal text before and after the placeholder and whether it lowercases.",
     "acceptance": "`split(\"a/{name}.x\")` is `(\"a/\", \".x\", false)`. `split(\"a/{name:lower}\")` is `(\"a/\", \"\", true)`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-024036-decision-judge-S-001-8de8",
+      "ADR-20261009-034220-decision-judge-S-002-3cc6",
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-034229-decision-judge-S-002-b015"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: branches.py imports from its path and exposes the public functions",
+        "skills/sdlc/test/branches.test.mjs :: split returns the prefix, the suffix and the lower flag",
+        "TC-contract-8: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:226",
+        "TC-contract-9: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:245"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -1186,13 +1282,29 @@
     "specRef": "§Testing",
     "quote": "`validate_format rejects two placeholders, none, whitespace and an invalid ref`.",
     "acceptance": "The branches test asserts the four rejections.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261009-024036-decision-judge-S-001-8de8",
+      "ADR-20261009-034220-decision-judge-S-002-3cc6",
+      "ADR-20261009-034215-decision-judge-S-002-feb0",
+      "ADR-20261009-034229-decision-judge-S-002-b015"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "skills/sdlc/test/branches.test.mjs :: validate_format rejects two placeholders, none, whitespace and an invalid ref",
+        "TC-cli-4: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:102",
+        "TC-cli-6: .sdlc/slices/S-002/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:127",
+        "TC-contract-4: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:149",
+        "TC-contract-5: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:164",
+        "TC-security-1: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:45",
+        "TC-security-3: .sdlc/slices/S-002/verification/r0/tests/security-0/branch-format.verify-security.test.mjs:73"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
