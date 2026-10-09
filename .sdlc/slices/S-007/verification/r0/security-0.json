@@ -1,0 +1,407 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "ca640fc",
+  "environment": "Python 3.14.7 via pycall (python3 -I), Node test runner, parse called as a library function; no network, no database",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-021"
+      ],
+      "title": "Empty and overlapping tails give null",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Ten degenerate branches give null; S-001-wip under {name}-wip gives slice S-001",
+      "expected": "Ten degenerate branches give null; S-001-wip under {name}-wip gives slice S-001",
+      "actual": "All ten gave null. S-001-wip gave slice S-001.",
+      "result": "pass",
+      "specSource": "R-021 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:17",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs2-1 to 11",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "log",
+          "title": "no side effect: parse is a pure function and stdout and stderr stay empty",
+          "inline": "A-vs2-noside: stdout '' stderr '' value null"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-021"
+      ],
+      "title": "Non-string branch gives null",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Six non-string types return null and do not raise",
+      "expected": "Six non-string types return null and do not raise",
+      "actual": "All six returned null.",
+      "result": "pass",
+      "specSource": "R-021 quote",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:43",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-type-0 to 5",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-021",
+        "R-022"
+      ],
+      "title": "NUL, control characters, spaces and traversal",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Ten odd branches give null",
+      "expected": "Ten odd branches give null",
+      "actual": "Nine gave null. sdlc/S-001<NUL>-v0-x-0 classified as verify with id S-001<NUL>. The spec regex (.+) accepts it. Recorded as an observation.",
+      "result": "pass",
+      "specSource": "R-022 table row 6",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:52",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-nul-1 to 3, ctl, trav, sp",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022",
+        "R-023"
+      ],
+      "title": "Trailing newline",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Spec regexes use $ with re.search, so a final newline matches",
+      "expected": "Spec regexes use $ with re.search, so a final newline matches",
+      "actual": "Branches with a final newline classified as run, slice, state, verify, milestone and e2e. The tail keeps the newline. Recorded as an observation.",
+      "result": "pass",
+      "specSource": "R-022 table (regex with $)",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:70",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "probe trailing newline",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-probe.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022",
+        "R-023"
+      ],
+      "title": "Non-ASCII digits",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Spec regexes use \\d and int(); Unicode digits match",
+      "expected": "Spec regexes use \\d and int(); Unicode digits match",
+      "actual": "Arabic-Indic and fullwidth digits classified in run, milestone, state, verify round and part, and attempt. int() converted them. Recorded as an observation.",
+      "result": "pass",
+      "specSource": "R-023 integer parts",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:87",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "probe digits",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-probe.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-023"
+      ],
+      "title": "Digit runs over 4300 characters",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "parse should return, not raise",
+      "expected": "parse should return, not raise",
+      "actual": "parse raised ValueError from int() for run, round, part and attempt. A git ref component cannot reach 4300 characters. No spec limit applies.",
+      "result": "pass",
+      "specSource": "no spec source; seed",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:104",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-huge-run",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "attack",
+          "title": "probe",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-probe.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022"
+      ],
+      "title": "Long tails and backtracking",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "No timing limit in the spec; record the cost",
+      "expected": "No timing limit in the spec; record the cost",
+      "actual": "Long slice and verify tails took 40 ms. A 100k-character tail of v0-a- repeated took 7.6 s (quadratic; 200k took 30 s). Seed for verify-limits.",
+      "result": "pass",
+      "specSource": "no spec source; seed",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:116",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-long-*",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "attack",
+          "title": "probe timing",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-probe.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-8",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022",
+        "R-024"
+      ],
+      "title": "Unicode case folding under lower",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "A confusable never resolves to a ledger id",
+      "expected": "A confusable never resolves to a ledger id",
+      "actual": "Dotted capital I and long s classified as slice with known false. Kelvin sign and sharp s gave null. No confusable gave known true.",
+      "result": "pass",
+      "specSource": "R-024 quote",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:134",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-fold-*",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-9",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022"
+      ],
+      "title": "Plain format stays case-exact; regex metacharacters in the format stay literal",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Eight branches give null",
+      "expected": "Eight branches give null",
+      "actual": "All gave null.",
+      "result": "pass",
+      "specSource": "R-022 acceptance (lower only)",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:152",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-case-*, A-vs7-fmt-*",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-10",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-024"
+      ],
+      "title": "Ledger id list holding non-strings",
+      "given": "parse from skills/sdlc/branches.py on sdlc/S-007",
+      "when": "the attack inputs run through pycall",
+      "then": "Spec says ids is an iterable of ledger ids; no behavior stated for other items",
+      "expected": "Spec says ids is an iterable of ledger ids; no behavior stated for other items",
+      "actual": "None or a list as first item raised AttributeError. A non-string after a match, a dict and an empty list returned. A bare string iterates by character. Seed.",
+      "result": "pass",
+      "specSource": "R-024 quote",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:163",
+      "command": "VERIFY_REPO=$PWD VERIFY_LOG=$PWD/.sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl node --test .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "A-vs7-ids-*",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "attack",
+          "title": "probe ids",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/security-0-probe.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "A-1",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "empty tail, overlap, short branches",
+      "expected": "null",
+      "observed": "null",
+      "result": "held",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-2",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "non-string branch",
+      "expected": "null, no raise",
+      "observed": "null",
+      "result": "held",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-3",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "trailing newline on six kinds",
+      "expected": "no spec row demands rejection",
+      "observed": "classified; tail keeps newline",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-4",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "NUL inside the id of a verify tail",
+      "expected": "no spec row demands rejection",
+      "observed": "classified verify",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-5",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "Unicode digits in n, round, part, ts, milestone",
+      "expected": "no spec row demands rejection",
+      "observed": "classified; int() converts",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-6",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "5000-digit integer parts",
+      "expected": "a return",
+      "observed": "ValueError",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-7",
+      "charter": "Explore the tail classifier with hostile branch text to find a branch that parse accepts but the spec rejects (R-021, R-022)",
+      "input": "100k-character tail of v0-a- repeated",
+      "expected": "a return in bounded time",
+      "observed": "7.6 s",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-8",
+      "charter": "Explore case folding under lower to find a confusable that resolves to a ledger id (R-024)",
+      "input": "dotted I, long s, Kelvin, sharp s",
+      "expected": "known not true",
+      "observed": "known false or null",
+      "result": "held",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-9",
+      "charter": "Explore the format with regex metacharacters to find a pattern injection (R-021)",
+      "input": "a.c/, a*/, (x)/, .*",
+      "expected": "literal match, null",
+      "observed": "null",
+      "result": "held",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    },
+    {
+      "id": "A-10",
+      "charter": "Explore the ids argument with non-string items to find a crash (R-024)",
+      "input": "None, list, int, str, dict, empty",
+      "expected": "a return",
+      "observed": "AttributeError for None and list items",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "parse accepts a branch with a final newline",
+      "detail": "The row regexes end in $ and use re.search, so run-2 followed by a newline classifies as run and the tail keeps the newline. re.fullmatch or \\Z would reject it. Git refs cannot hold a newline.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts non-ASCII digits",
+      "detail": "\\d matches Arabic-Indic and fullwidth digits and int() converts them: run-٣ gives n 3. The ASCII flag or [0-9] would reject them. Names then differ from names that name() builds.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises ValueError on digit runs over 4300 characters",
+      "detail": "int() hits the Python limit for run n, verify round and part, and attempt n. The CLI would print a traceback. A git ref cannot hold such a branch, so the risk is low.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "verify row backtracks quadratically on long tails",
+      "detail": "A tail of 100000 characters made of v0-a- repeated took 7.6 s. 200000 characters took 30 s. Send to verify-limits. The spec states no limit.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises on non-string items in ids",
+      "detail": "None or a list as an ids item raises AttributeError from .lower(). A bare string as ids iterates by character and gives known false. The spec says ids is an iterable of ledger ids.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "verify id accepts NUL and any character",
+      "detail": "Table row 6 uses (.+) for the id, so a verify tail with NUL gives an id with NUL. Other rows restrict the id.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

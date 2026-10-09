@@ -1,0 +1,29 @@
+property-run foreign-null: seed=3739127874 runs=1500 foreignCases=457 violations=0
+property-run classification-plain: seed=3739127874 runs=1500 violations=0 nonNull=410
+property-run classification-lower: seed=3739127874 runs=1500 violations=0 nonNull=612
+property-run classification-mixed: seed=3739127874 runs=1500 violations=0 nonNull=508
+property-run result-shape: seed=3739127874 runs=1500 violations=0
+property-run ids-resolution: seed=3739127874 runs=1500 violations=0 nonNull=492
+surface {"public":["Fail","JsonArgumentParser","build_parser","cmd_list","cmd_name","cmd_parse","cmd_preflight","load_format","load_git_modes","main","name","parse","split","tail","validate_format"],"sigs":{"build_parser":"()","cmd_list":"(ns)","cmd_name":"(ns)","cmd_parse":"(ns)","cmd_preflight":"(ns)","load_format":"(repo)","load_git_modes":"(path='/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-007-v0-contract-0/skills/sdlc/git-modes.json')","main":"(argv=None)","name":"(fmt, kind, **parts)","parse":"(fmt, branch, ids=None)","split":"(fmt)","tail":"(kind, **parts)","validate_format":"(fmt)"},"modules":["argparse","json","os","re","subprocess","sys"],"kinds":["run","slice","milestone","e2e","e2e-area","state","verify","attempt"],"rows":8}
+✔ verify contract TC-contract-1 VS-1: foreign branches give null (examples) (40.678125ms)
+✔ verify contract TC-contract-2 VS-1: property, a branch missing the prefix or the suffix gives null (56.286041ms)
+✔ verify contract TC-contract-3 VS-2: prefix and suffix pass but no row matches gives null (81.942459ms)
+✔ verify contract TC-contract-4 VS-3: one branch per row 1 to 8 and overlap precedence (examples) (39.92475ms)
+✔ verify contract TC-contract-5 VS-3: property, classification equals the reference table (plain format) (58.217875ms)
+✔ verify contract TC-contract-6 VS-4: lowercase formats ignore case in the tail and the prefix and suffix; plain formats do not (66.605083ms)
+✔ verify contract TC-contract-7 VS-4: property, lowercase classification equals the reference table (53.776625ms)
+✔ verify contract TC-contract-8 VS-3 VS-4: property, mixed formats equal the reference table (47.923708ms)
+✔ verify contract TC-contract-9 VS-5: the result holds exactly the parts that apply, integers are integers (78.43225ms)
+✔ verify contract TC-contract-10 VS-5: property, key set per kind, int types and tail identity (59.454292ms)
+✔ verify contract TC-contract-11 VS-6: ids resolve the ledger spelling and set known (examples) (553.897209ms)
+✔ verify contract TC-contract-12 VS-6: property, ids resolution equals the reference model (42.457917ms)
+✔ verify contract TC-contract-13 VS-6: iterator, tuple, generator and set work as ids; ids and result are not shared state (46.224334ms)
+✔ verify contract TC-contract-14 VS-1 VS-2: the module surface and the consumer import path (36.308833ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1310.654375

@@ -1,0 +1,196 @@
+{
+  "profile": "contract",
+  "part": 1,
+  "round": 0,
+  "commit": "ca640fc",
+  "environment": "Python 3.14.7, node test runner, branch sdlc/S-007 in a scratch worktree, python3 -I",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-021",
+        "R-022",
+        "R-023"
+      ],
+      "title": "parse equals a spec reference model on random formats, branches and ledgers",
+      "given": "Formats from 5 prefixes, 4 suffixes and both placeholders; tails built from the 8 rows, their case variants, newlines, NUL, non-ASCII digits and junk; ids as list, tuple, iterator or absent.",
+      "when": "parse runs 5000 times per seed for seeds 20261010, 7 and 99, and a model written from the section 2 table runs on the same input.",
+      "then": "Both give the same result, or both give None.",
+      "expected": "0 differences",
+      "actual": "0 differences in 15000 runs; every kind and null occurred (null 2678, verify 409, attempt 355, e2e 338, milestone 377, run 305, e2e-area 291, slice 202, state 45 for seed 20261010)",
+      "result": "pass",
+      "specSource": "R-021, R-022, R-023 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:18",
+      "command": "VERIFY_BRANCHES=<worktree>/skills/sdlc/branches.py node --test .sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "reference-model property",
+          "inline": "property=parse equals model; seeds=20261010,7,99; runs=5000 each; result=pass; shrunk counterexample=none (no shrinking)"
+        },
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/contract-1-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-021"
+      ],
+      "title": "A non-string branch, NUL, a lone surrogate, an empty or short branch and a prefix and suffix overlap give None and do not raise",
+      "given": "Branch values None, 5, 5.5, bytes, list, dict, True, a class, NUL in the tail and in the prefix, a lone surrogate, '', 'sdl', 'sdlc/', and format ab{name}ba with aba and abba.",
+      "when": "parse runs on each.",
+      "then": "None, no exception.",
+      "expected": "None for all",
+      "actual": "None for all 21 inputs",
+      "result": "pass",
+      "specSource": "R-021 quote",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:38",
+      "command": "VERIFY_BRANCHES=<worktree>/skills/sdlc/branches.py node --test .sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/contract-1-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022",
+        "R-023"
+      ],
+      "title": "A trailing newline follows the spec regex text",
+      "given": "sdlc/run-2, sdlc/S-001, sdlc/M-1 and sdlc/S-001-v0-cli-0, each with one final newline; a final newline after a literal suffix; two final newlines.",
+      "when": "parse runs under the default format and under sdlc/{name}-wip.",
+      "then": "The row regex uses re.search and $, which matches before a final newline. The spec gives the regex text, so the branch classifies and tail keeps the newline. A newline after the suffix gives None. Two newlines give None.",
+      "expected": "as the spec regex text",
+      "actual": "run n=2, slice S-001, milestone M-1 and verify classified with tail ending in a newline; newline after suffix None; double newline None",
+      "result": "pass",
+      "specSource": "R-022 quote (regex text), R-021",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:47",
+      "command": "VERIFY_BRANCHES=<worktree>/skills/sdlc/branches.py node --test .sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "parse of sdlc/run-2\\n",
+          "inline": "parse('sdlc/{name}','sdlc/run-2\\n') -> {'kind':'run','tail':'run-2\\n','n':2,'known':None}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022",
+        "R-023"
+      ],
+      "title": "Non-ASCII digits match the digit groups, with no ASCII flag",
+      "given": "sdlc/run-<ARABIC-INDIC 3>, sdlc/run-<FULLWIDTH 2>, a verify tail with Arabic-Indic round and part, a state tail with 14 Arabic-Indic digits.",
+      "when": "parse runs.",
+      "then": "The regexes use \\d without re.ASCII, as the spec text gives, so each classifies; int() converts n, round and part.",
+      "expected": "classified as the spec regex text",
+      "actual": "run n=3, run n=2, verify round 0 part 1, state ts kept as text",
+      "result": "pass",
+      "specSource": "R-022 quote (regex text)",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:54",
+      "command": "VERIFY_BRANCHES=<worktree>/skills/sdlc/branches.py node --test .sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "non-ASCII digits",
+          "inline": "parse('sdlc/{name}','sdlc/run-\\u0663') -> {'kind':'run','tail':'run-\\u0663','n':3,'known':None}"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022"
+      ],
+      "title": "Unicode case folding under {name:lower} does not raise",
+      "given": "Kelvin sign, long s (U+017F), dotted capital I in the prefix and in the branch, sharp capital S, upper-case prefix.",
+      "when": "parse runs under sdlc/{name:lower}.",
+      "then": "No exception.",
+      "expected": "no exception",
+      "actual": "no exception; U+017F matches S under re.IGNORECASE, so sdlc/<U+017F>-001 is a slice (spec says IGNORECASE; seed)",
+      "result": "pass",
+      "specSource": "R-022 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:62",
+      "command": "VERIFY_BRANCHES=<worktree>/skills/sdlc/branches.py node --test .sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run log",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/contract-1-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-022"
+      ],
+      "title": "Long tails of 40000 characters finish in bounded time",
+      "given": "14 tails of 40000 characters aimed at rows 4 to 8.",
+      "when": "parse runs and the time is recorded.",
+      "then": "Each call ends in under 5 seconds. The spec states no limit.",
+      "expected": "under 5 s",
+      "actual": "slowest 1979 ms (quadratic growth on row 6: 2000 chars 2.9 ms, 4000 chars 11.4 ms, 8000 chars 45.5 ms)",
+      "result": "pass",
+      "specSource": "none (spec states no limit; seed)",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs:69",
+      "command": "VERIFY_BRANCHES=<worktree>/skills/sdlc/branches.py node --test .sdlc/slices/S-007/verification/r0/tests/contract-1/parse-hostile.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "measurement",
+          "title": "row 6 backtracking",
+          "inline": "tail a-v1- repeated, then '!':\n2000 chars 2.9 ms\n4000 chars 11.4 ms\n8000 chars 54.9 ms\n40000 chars about 1100 ms (lower: 1979 ms)"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "parse raises ValueError for a run number of more than 4300 digits",
+      "detail": "sdlc/run-<5000 digits> matches row 1; int() then raises ValueError (Python digit limit). The parse command would end with a traceback. The spec states no limit on n. A loop branch never holds such a number.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse raises AttributeError for non-string ledger ids under {name:lower}",
+      "detail": "ids=[5,'S-001'] or [None] under a lower format raises AttributeError on candidate.lower(). Under a plain format a non-string compares unequal and does not raise. A bare string as ids iterates characters and gives known false. ids=5 raises TypeError. The spec says ids holds ledger ids, so these inputs are out of contract.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "row 6 regex backtracks quadratically on long tails",
+      "detail": "A tail of the form a-v1-a-v1-... followed by '!' costs about 45 ms at 8000 characters and about 1.1 s at 40000. A git branch name is far shorter in practice. No limit in the spec.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "non-ASCII digits and a trailing newline classify",
+      "detail": "sdlc/run-<ARABIC-INDIC 3> gives run n=3. sdlc/run-2<LF> gives run n=2 with tail run-2<LF>. Both follow the spec regex text (no re.ASCII, re.search with $), but a stricter reader may want them rejected. A decision for the spec owner.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "U+017F and the Kelvin sign fold under re.IGNORECASE",
+      "detail": "Under {name:lower}, sdlc/<U+017F>-001 classifies as slice with id <U+017F>-001, since IGNORECASE matches U+017F to s. The prefix and suffix compare uses str.lower(), which folds differently from the regex. Follows the spec text.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

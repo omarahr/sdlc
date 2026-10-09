@@ -1,0 +1,173 @@
+✔ verify security: VS-2 empty and degenerate tails give null (426.479208ms)
+✔ verify security: VS-7 non-string and odd branch types do not raise (223.939375ms)
+✖ verify security: VS-7 NUL, control characters and traversal never match a row (113.774375ms)
+✖ verify security: VS-7 trailing newline is rejected (37.157792ms)
+✖ verify security: VS-7 non-ASCII digits are rejected (33.554ms)
+✖ verify security: VS-7 huge digit runs do not raise (38.62425ms)
+✖ verify security: VS-7 long tails finish quickly (7683.58525ms)
+✔ verify security: VS-7 unicode case folding under lower (237.158333ms)
+✔ verify security: VS-7 plain format stays case-exact (159.518833ms)
+✖ verify security: VS-7 ledger id list with non-strings (38.25825ms)
+✔ verify security: VS-7 format with regex metacharacters stays literal (149.912458ms)
+✔ verify security: VS-2 and VS-7 refusal leaves no side effect (37.133375ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 6
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9238.808625
+
+✖ failing tests:
+
+test at .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:55:1
+✖ verify security: VS-7 NUL, control characters and traversal never match a row (113.774375ms)
+  AssertionError [ERR_ASSERTION]: A-vs7-nul-3 accepted {"kind":"verify","tail":"S-001\u0000-v0-x-0","id":"S-001\u0000","round":0,"profile":"x","part":0,"known":null}
+  + actual - expected
+  
+  + {
+  +   id: 'S-001\x00',
+  +   kind: 'verify',
+  +   known: null,
+  +   part: 0,
+  +   profile: 'x',
+  +   round: 0,
+  +   tail: 'S-001\x00-v0-x-0'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:70:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'verify', tail: 'S-001\x00-v0-x-0', id: 'S-001\x00', round: 0, profile: 'x', part: 0, known: null },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:74:1
+✖ verify security: VS-7 trailing newline is rejected (37.157792ms)
+  AssertionError [ERR_ASSERTION]: A-vs7-nl-run: a branch ending in a newline classified as run: {"kind":"run","tail":"run-2\n","n":2,"known":null}
+  + actual - expected
+  
+  + {
+  +   kind: 'run',
+  +   known: null,
+  +   n: 2,
+  +   tail: 'run-2\n'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:84:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'run', tail: 'run-2\n', n: 2, known: null },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:88:1
+✖ verify security: VS-7 non-ASCII digits are rejected (33.554ms)
+  AssertionError [ERR_ASSERTION]: A-vs7-dig-run-arabic accepted {"kind":"run","tail":"run-٣","n":3,"known":null}
+  + actual - expected
+  
+  + {
+  +   kind: 'run',
+  +   known: null,
+  +   n: 3,
+  +   tail: 'run-٣'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:102:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'run', tail: 'run-٣', n: 3, known: null },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:106:1
+✖ verify security: VS-7 huge digit runs do not raise (38.62425ms)
+  AssertionError [ERR_ASSERTION]: A-vs7-huge-run: ValueError Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:115:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:119:1
+✖ verify security: VS-7 long tails finish quickly (7683.58525ms)
+  AssertionError [ERR_ASSERTION]: A-vs7-long-v took 7601 ms
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:133:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:165:1
+✖ verify security: VS-7 ledger id list with non-strings (38.25825ms)
+  AssertionError [ERR_ASSERTION]: A-vs7-ids-int: AttributeError 'int' object has no attribute 'lower'
+  + actual - expected
+  
+  + 'exception'
+  - 'return'
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-007/verification/r0/tests/security-0/branches-parse.verify-security.test.mjs:176:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'exception',
+    expected: 'return',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

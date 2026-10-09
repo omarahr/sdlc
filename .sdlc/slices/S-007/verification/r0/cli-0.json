@@ -1,0 +1,240 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "ca640fc",
+  "environment": "Python 3.14.7 (python3 via cli-runner), Node 24.19, macOS, scratch git repos, no network",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-021",
+        "R-069"
+      ],
+      "title": "A foreign branch gives kind null and no part keys",
+      "given": "main, feature/PROJ-1-foo, sdlc/feature-x, a branch shorter than prefix plus suffix, empty branch, case-different prefix",
+      "when": "branches.py parse runs as a child process in a scratch git repo with a controlled environment",
+      "then": "Each prints exactly ok, command, format, branch, kind:null and exits 0; the tree and refs stay unchanged.",
+      "expected": "Each prints exactly ok, command, format, branch, kind:null and exits 0; the tree and refs stay unchanged.",
+      "actual": "All 12 branches gave kind null with five keys and exit 0.",
+      "result": "pass",
+      "specSource": "R-021 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:56",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-007> node --test .sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-1 first transcripts",
+          "inline": "$ branches.py parse --branch \"main\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"main\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-foo\" (format feature/PROJ-1-{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name}\", \"branch\": \"feature/PROJ-1-foo\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/feature-x\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/feature-x\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-foo\" (format feature/PROJ-1-{name} via --format)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name}\", \"branch\": \"feature/PROJ-1-foo\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdl\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdl\", \"kind\": null}\nstderr: \ntree unchanged: true"
+        },
+        {
+          "kind": "transcript",
+          "title": "VS-1 all transcripts",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree before and after",
+          "inline": "treeUnchanged: true for every run; no added, removed or changed paths, refs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-021"
+      ],
+      "title": "Prefix and suffix pass but no row matches gives null",
+      "given": "sdlc/, sdlc/run-, sdlc/run-x, S-001 and S-001-wip under {name}-wip, overlapping prefix and suffix (aba, abba under ab{name}ba, aaa under aa{name}aa)",
+      "when": "branches.py parse runs as a child process in a scratch git repo with a controlled environment",
+      "then": "null for each; S-001-wip gives slice S-001; abS-1ba gives slice.",
+      "expected": "null for each; S-001-wip gives slice S-001; abS-1ba gives slice.",
+      "actual": "All matched expectations; overlap and empty tails gave null with no wrong slice.",
+      "result": "pass",
+      "specSource": "R-021 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:71",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-007> node --test .sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-2 first transcripts",
+          "inline": "$ branches.py parse --branch \"sdlc/\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/run-\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/run-\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/run-x\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/run-x\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/state-1\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/state-1\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/M-\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/M-\", \"kind\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/S-\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/S-\", \"kind\": null}\nstderr: \ntree unchanged: true"
+        },
+        {
+          "kind": "transcript",
+          "title": "VS-2 all transcripts",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree before and after",
+          "inline": "treeUnchanged: true for every run; no added, removed or changed paths, refs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-022"
+      ],
+      "title": "Each tail is classified by the first matching row",
+      "given": "one branch per row, S-fix-M-1-2, M-1-e2e-api, M-1-e2e, M-1-e2e-a-b, double-match tails S-001-v0-x-attempt-3 and M-1-e2e-api-v0-x-0",
+      "when": "branches.py parse runs as a child process in a scratch git repo with a controlled environment",
+      "then": "Row order decides: verify beats attempt, e2e-area beats verify, area a-b parses whole, profile http-api parses with lazy group.",
+      "expected": "Row order decides: verify beats attempt, e2e-area beats verify, area a-b parses whole, profile http-api parses with lazy group.",
+      "actual": "All kinds and parts matched the table order.",
+      "result": "pass",
+      "specSource": "R-022 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:87",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-007> node --test .sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-3 first transcripts",
+          "inline": "$ branches.py parse --branch \"sdlc/run-2\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/run-2\", \"kind\": \"run\", \"tail\": \"run-2\", \"n\": 2, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/M-1\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/M-1\", \"kind\": \"milestone\", \"tail\": \"M-1\", \"id\": \"M-1\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/M-1-e2e\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/M-1-e2e\", \"kind\": \"e2e\", \"tail\": \"M-1-e2e\", \"id\": \"M-1\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/M-1-e2e-api\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/M-1-e2e-api\", \"kind\": \"e2e-area\", \"tail\": \"M-1-e2e-api\", \"id\": \"M-1\", \"area\": \"api\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/M-1-e2e-a-b\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/M-1-e2e-a-b\", \"kind\": \"e2e-area\", \"tail\": \"M-1-e2e-a-b\", \"id\": \"M-1\", \"area\": \"a-b\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/state-20261008101500\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/state-20261008101500\", \"kind\": \"state\", \"tail\": \"state-20261008101500\", \"ts\": \"20261008101500\", \"known\": null}\nstderr: \ntree unchanged: true"
+        },
+        {
+          "kind": "transcript",
+          "title": "VS-3 all transcripts",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree before and after",
+          "inline": "treeUnchanged: true for every run; no added, removed or changed paths, refs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-022",
+        "R-024"
+      ],
+      "title": "Case-insensitive matching applies only under {name:lower}",
+      "given": "feature/PROJ-1-s-001, m-1-e2e-api, run-2, mixed-case prefix, sdlc/{name:lower}-wip with -WIP",
+      "when": "branches.py parse runs as a child process in a scratch git repo with a controlled environment",
+      "then": "Lower format classifies lowercase tails; plain format gives null for s-001 and m-1-e2e-api and RUN-2. run-2 is lowercase in the table, so it classifies under both formats.",
+      "expected": "Lower format classifies lowercase tails; plain format gives null for s-001 and m-1-e2e-api and RUN-2. run-2 is lowercase in the table, so it classifies under both formats.",
+      "actual": "Matched. Plan note says run-2 gives null under the plain format; the spec regex ^run-(\\d+)$ matches it, so the note is wrong, not the product.",
+      "result": "pass",
+      "specSource": "R-022 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:117",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-007> node --test .sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-4 first transcripts",
+          "inline": "$ branches.py parse --branch \"feature/PROJ-1-s-001\" (format feature/PROJ-1-{name:lower} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name:lower}\", \"branch\": \"feature/PROJ-1-s-001\", \"kind\": \"slice\", \"tail\": \"s-001\", \"id\": \"s-001\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-m-1-e2e-api\" (format feature/PROJ-1-{name:lower} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name:lower}\", \"branch\": \"feature/PROJ-1-m-1-e2e-api\", \"kind\": \"e2e-area\", \"tail\": \"m-1-e2e-api\", \"id\": \"m-1\", \"area\": \"api\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-run-2\" (format feature/PROJ-1-{name:lower} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name:lower}\", \"branch\": \"feature/PROJ-1-run-2\", \"kind\": \"run\", \"tail\": \"run-2\", \"n\": 2, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-s-001-v0-http-api-0\" (format feature/PROJ-1-{name:lower} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name:lower}\", \"branch\": \"feature/PROJ-1-s-001-v0-http-api-0\", \"kind\": \"verify\", \"tail\": \"s-001-v0-http-api-0\", \"id\": \"s-001\", \"round\": 0, \"profile\": \"http-api\", \"part\": 0, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-state-20261008101500\" (format feature/PROJ-1-{name:lower} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name:lower}\", \"branch\": \"feature/PROJ-1-state-20261008101500\", \"kind\": \"state\", \"tail\": \"state-20261008101500\", \"ts\": \"20261008101500\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"feature/PROJ-1-s-001\" (format feature/PROJ-1-{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"feature/PROJ-1-{name}\", \"branch\": \"feature/PROJ-1-s-001\", \"kind\": null}\nstderr: \ntree unchanged: true"
+        },
+        {
+          "kind": "transcript",
+          "title": "VS-4 all transcripts",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree before and after",
+          "inline": "treeUnchanged: true for every run; no added, removed or changed paths, refs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-023"
+      ],
+      "title": "The result holds the parts that apply",
+      "given": "run-2, run-0042, state ts, verify, e2e-area, attempt, slice, milestone, e2e, a 30-digit run number",
+      "when": "branches.py parse runs as a child process in a scratch git repo with a controlled environment",
+      "then": "Key order and set per kind; n, round, part are JSON integers; tail always present; no key outside the table.",
+      "expected": "Key order and set per kind; n, round, part are JSON integers; tail always present; no key outside the table.",
+      "actual": "Matched. run-0042 gives n 42 and tail run-0042. A 30-digit n prints as an integer.",
+      "result": "pass",
+      "specSource": "R-023 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:139",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-007> node --test .sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-5 first transcripts",
+          "inline": "$ branches.py parse --branch \"sdlc/run-2\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/run-2\", \"kind\": \"run\", \"tail\": \"run-2\", \"n\": 2, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/run-0042\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/run-0042\", \"kind\": \"run\", \"tail\": \"run-0042\", \"n\": 42, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/state-20261008101500\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/state-20261008101500\", \"kind\": \"state\", \"tail\": \"state-20261008101500\", \"ts\": \"20261008101500\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/S-001-v0-http-api-0\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/S-001-v0-http-api-0\", \"kind\": \"verify\", \"tail\": \"S-001-v0-http-api-0\", \"id\": \"S-001\", \"round\": 0, \"profile\": \"http-api\", \"part\": 0, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/M-1-e2e-api\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/M-1-e2e-api\", \"kind\": \"e2e-area\", \"tail\": \"M-1-e2e-api\", \"id\": \"M-1\", \"area\": \"api\", \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch \"sdlc/S-001-attempt-3\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/S-001-attempt-3\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-3\", \"id\": \"S-001\", \"n\": 3, \"known\": null}\nstderr: \ntree unchanged: true"
+        },
+        {
+          "kind": "transcript",
+          "title": "VS-5 all transcripts",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree before and after",
+          "inline": "treeUnchanged: true for every run; no added, removed or changed paths, refs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-8",
+      "requirementIds": [
+        "R-023",
+        "R-021"
+      ],
+      "title": "The parse command prints one flat JSON object",
+      "given": "one-line output; missing --branch; invalid formats (nobrace, double placeholder, open brace, whitespace, git-unsafe, empty); missing repo dir; invalid config.json; unknown flag; directory with spaces and unicode; repeat run",
+      "when": "branches.py parse runs as a child process in a scratch git repo with a controlled environment",
+      "then": "Exit 2 with {ok:false,error} for every error input; no nested objects; repeated runs give identical output; tree and refs unchanged.",
+      "expected": "Exit 2 with {ok:false,error} for every error input; no nested objects; repeated runs give identical output; tree and refs unchanged.",
+      "actual": "Matched.",
+      "result": "pass",
+      "specSource": "R-023 quote and R-021 acceptance",
+      "test": ".sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs:168",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-007> node --test .sdlc/slices/S-007/verification/r0/tests/cli-0/branches-parse.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "VS-8 first transcripts",
+          "inline": "$ branches.py parse --branch \"sdlc/S-001-v0-http-api-0\" (format sdlc/{name} via config)\nexit 0\nstdout: {\"ok\": true, \"command\": \"parse\", \"format\": \"sdlc/{name}\", \"branch\": \"sdlc/S-001-v0-http-api-0\", \"kind\": \"verify\", \"tail\": \"S-001-v0-http-api-0\", \"id\": \"S-001\", \"round\": 0, \"profile\": \"http-api\", \"part\": 0, \"known\": null}\nstderr: \ntree unchanged: true\n$ branches.py parse --repo <repo>\nexit 2\nstdout: {\"ok\": false, \"error\": \"the following arguments are required: --branch\"}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch main --format \"nobrace\"\nexit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'nobrace' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch main --format \"{name}{name}\"\nexit 2\nstdout: {\"ok\": false, \"error\": \"the branch format '{name}{name}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch main --format \"a{name}{\"\nexit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'a{name}{' holds a brace outside its placeholder\"}\nstderr: \ntree unchanged: true\n$ branches.py parse --branch main --format \"a b/{name}\"\nexit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'a b/{name}' holds whitespace\"}\nstderr: \ntree unchanged: true"
+        },
+        {
+          "kind": "transcript",
+          "title": "VS-8 all transcripts",
+          "path": ".sdlc/slices/S-007/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree before and after",
+          "inline": "treeUnchanged: true for every run; no added, removed or changed paths, refs unchanged"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "plan note for VS-4 is wrong about run-2",
+      "detail": "The plan says run-2 gives null under the plain format. Row 1 is the lowercase literal run-, so it matches under both formats. No product defect.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "a branch starting with a dash cannot pass as '--branch -x'",
+      "detail": "argparse reads '--branch -wip' as a flag and exits 2 with ok:false. The '--branch=-wip' form works. Git refuses branch names that start with a dash, so this is cosmetic.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "slice row accepts any S- tail, such as S-001-attempt-",
+      "detail": "Row 8 is ^(S-[A-Za-z0-9-]+)$ as in the spec. A tail like S-001-v-x-0 or S-001-attempt- classifies as a slice with that whole text as id. The spec allows it; the loop may treat such a branch as a loop slice branch.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
