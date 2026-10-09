@@ -15,3 +15,13 @@ Fixes:
 - load_git_modes catches OSError and RecursionError and raises Fail.
 - load_format catches RecursionError beside ValueError and raises Fail.
 - next-action.py, state-write.py and janitor.py insert os.path.dirname(os.path.realpath(__file__)) into sys.path.
+
+## Fix round 2
+
+Evidence from round 1:
+
+- [review] Promote verifier test TC-cli-16 (bad git-modes.json on branches.py). No committed test pins preflight on a missing or malformed git-modes.json. No committed test pins that name, parse and list still run when that file is bad. Promote cli-0 TC-cli-16 into skills/sdlc/test/branches.test.mjs with a copied skill directory, and record it in tests.md.
+
+Fixes:
+
+- Promote TC-cli-16 into branches.test.mjs. The test copies branches.py into a scratch skill directory for each bad git-modes.json shape. No product code changed.

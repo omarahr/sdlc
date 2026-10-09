@@ -22,3 +22,9 @@ All three tests are in `skills/sdlc/test/branches.test.mjs`.
 - `a script run through a symlink imports branches from its real directory` — R-098 — from security-0 TC-security-20.
 - `a git-modes.json that cannot be read fails preflight with one JSON error` — R-014 — from cli-0 TC-cli-20.
 - `a deeply nested config.json is bad input, not a crash` — R-014, R-016 — from contract-0 TC-contract-6, TC-contract-7 and TC-contract-8.
+
+## Promoted in fix round 2
+
+The test is in `skills/sdlc/test/branches.test.mjs`.
+
+- `a missing or malformed git-modes.json fails preflight with one JSON error, and name, parse and list still run` — R-014, R-098 — from cli-0 TC-cli-16. The test copies branches.py into a scratch skill directory for each shape.

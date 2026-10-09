@@ -214,6 +214,46 @@ test('a git-modes.json that cannot be read fails preflight with one JSON error',
   }
 })
 
+test('a missing or malformed git-modes.json fails preflight with one JSON error, and name, parse and list still run', opts, () => {
+  const repo = gitRepo()
+  const shapes = {
+    absent: null,
+    'invalid JSON': '{not json',
+    'empty gitModes': JSON.stringify({ gitModes: [] }),
+    'missing key': JSON.stringify({ modes: ['pr'] }),
+    'top-level list': JSON.stringify(['pr']),
+    'gitModes not a list': JSON.stringify({ gitModes: 'pr' }),
+    'non-string mode': JSON.stringify({ gitModes: [1, 'pr'] }),
+    'invalid UTF-8': Buffer.from([0x7b, 0xff, 0xfe, 0x7d]),
+  }
+  for (const [label, content] of Object.entries(shapes)) {
+    const dir = scratch('sdlc-branches-skill-')
+    const script = join(dir, 'branches.py')
+    copyFileSync(BRANCHES, script)
+    if (content !== null) writeFileSync(join(dir, 'git-modes.json'), content)
+    const runCopy = (args) => spawnSync('python3', [script, ...args], { encoding: 'utf8' })
+    const failed = runCopy(['preflight', '--repo', repo, '--mode', 'pr'])
+    assert.equal(failed.status, 2, `${label}: preflight exit ${failed.status}, stdout ${failed.stdout}, stderr ${failed.stderr}`)
+    assert.doesNotMatch(failed.stderr, /Traceback/, `${label}: preflight traceback`)
+    const error = oneObject(failed)
+    assert.deepEqual(Object.keys(error).sort(), ['error', 'ok'], `${label}: preflight keys`)
+    assert.equal(error.ok, false, `${label}: preflight ok is not false`)
+    assert.ok(typeof error.error === 'string' && error.error.length > 0, `${label}: preflight error is empty`)
+    for (const [command, args] of [
+      ['name', ['--kind', 'slice']],
+      ['parse', ['--branch', 'x']],
+      ['list', ['--kind', 'slice']],
+    ]) {
+      const r = runCopy([command, '--repo', repo, ...args])
+      assert.equal(r.status, 0, `${label}: ${command} exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+      const out = oneObject(r)
+      assert.equal(out.ok, true, `${label}: ${command} ok is not true`)
+      assert.equal(out.command, command, `${label}: ${command} names another command`)
+      assert.equal(r.stderr, '', `${label}: ${command} wrote to stderr`)
+    }
+  }
+})
+
 test('a deeply nested config.json is bad input, not a crash', opts, () => {
   const repo = gitRepo()
   mkdirSync(join(repo, '.sdlc'))
