@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { chmodSync, copyFileSync, mkdirSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs'
+import { chmodSync, copyFileSync, mkdirSync, readFileSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { SKILL_DIR, scratch } from './harness.mjs'
 
@@ -699,4 +699,134 @@ print(json.dumps({
     assert.ok(typeof out.error === 'string' && out.error.length > 0, `${label}: error is empty`)
     assert.match(out.error, part, `${label}: error does not name the part: ${out.error}`)
   }
+})
+
+const KIND_CASES = [
+  ['run', { n: 1 }],
+  ['slice', { id: 'S-001' }],
+  ['milestone', { id: 'M-1' }],
+  ['e2e', { id: 'M-1' }],
+  ['e2e-area', { id: 'M-1', area: 'api-v2' }],
+  ['state', { ts: '20261008101500' }],
+  ['verify', { id: 'S-001', round: 0, profile: 'http-api', part: 0 }],
+  ['attempt', { id: 'S-001', n: 1 }],
+]
+const ROUND_TRIP_FORMATS = ['sdlc/{name}', 'feature/PROJ-1-{name}', 'feature/PROJ-1-{name:lower}']
+
+const cliArgs = (repo, fmt, kind, parts) => {
+  const flags = { id: '--id', n: '--n', area: '--area', round: '--round', profile: '--profile', part: '--part' }
+  const args = ['name', '--repo', repo, '--kind', kind, '--format', fmt]
+  for (const [key, value] of Object.entries(parts)) if (flags[key]) args.push(flags[key], String(value))
+  return args
+}
+
+test('T-R-011a name lowercases only the tail under {name:lower}', opts, () => {
+  const out = JSON.parse(probe(`${LOAD}
+import json
+print(json.dumps({
+    "prefixed": mod.name("feature/PROJ-1-{name:lower}", "slice", id="S-001"),
+    "wrapped": mod.name("Feat/PROJ-{name:lower}-X", "slice", id="S-001"),
+}))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.equal(out.prefixed, 'feature/PROJ-1-s-001')
+  assert.equal(out.wrapped, 'Feat/PROJ-s-001-X')
+  const r = run(['name', '--repo', gitRepo(), '--kind', 'slice', '--id', 'S-001', '--format', 'feature/PROJ-1-{name:lower}'])
+  assert.equal(r.status, 0, r.stderr)
+  assert.equal(oneObject(r).branch, 'feature/PROJ-1-s-001')
+})
+
+test('T-R-011b {name} keeps the case of the tail', opts, () => {
+  const out = JSON.parse(probe(`${LOAD}
+import json
+print(json.dumps(mod.name("feature/PROJ-1-{name}", "slice", id="S-001")))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.equal(out, 'feature/PROJ-1-S-001')
+})
+
+test('T-R-068a name and split round-trip every kind under the default, a prefixed and a lowercased format', opts, () => {
+  const cases = []
+  for (const fmt of ROUND_TRIP_FORMATS) for (const [kind, parts] of KIND_CASES) cases.push({ fmt, kind, parts })
+  assert.equal(cases.length, 24)
+  const out = JSON.parse(probe(`${LOAD}
+import json
+cases = json.loads(sys.argv[2])
+rows = []
+for c in cases:
+    branch = mod.name(c["fmt"], c["kind"], **c["parts"])
+    prefix, suffix, lower = mod.split(c["fmt"])
+    rows.append({"branch": branch, "prefix": prefix, "suffix": suffix, "lower": lower, "tail": mod.tail(c["kind"], **c["parts"])})
+print(json.dumps(rows))
+`, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
+  const repo = gitRepo()
+  out.forEach((row, i) => {
+    const label = `${cases[i].fmt} ${cases[i].kind}`
+    assert.ok(row.branch.startsWith(row.prefix), `${label}: prefix`)
+    assert.ok(row.branch.endsWith(row.suffix), `${label}: suffix`)
+    const middle = row.branch.slice(row.prefix.length, row.branch.length - row.suffix.length)
+    assert.equal(middle, row.lower ? row.tail.toLowerCase() : row.tail, `${label}: middle`)
+    assert.equal(row.lower, cases[i].fmt.includes(':lower'), `${label}: lower flag`)
+    git(repo, 'check-ref-format', '--branch', row.branch)
+  })
+})
+
+test('T-R-068b the CLI name matches the Python name for all 24 cases', opts, () => {
+  const repo = gitRepo()
+  const cases = []
+  for (const fmt of ROUND_TRIP_FORMATS) for (const [kind, parts] of KIND_CASES) cases.push({ fmt, kind, parts })
+  const expected = JSON.parse(probe(`${LOAD}
+import json
+cases = json.loads(sys.argv[2])
+print(json.dumps([mod.name(c["fmt"], c["kind"], **c["parts"]) for c in cases]))
+`, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
+  cases.forEach(({ fmt, kind, parts }, i) => {
+    const r = run(cliArgs(repo, fmt, kind, parts))
+    assert.equal(r.status, 0, `${fmt} ${kind}: ${r.stderr}${r.stdout}`)
+    if (kind === 'state') {
+      const branch = oneObject(r).branch
+      const [prefix, suffix] = fmt.split('{name' + (fmt.includes(':lower') ? ':lower}' : '}'))
+      assert.match(branch.slice(prefix.length, branch.length - suffix.length), /^state-\d{14}$/, `${fmt} state`)
+      assert.ok(branch.startsWith(prefix) && branch.endsWith(suffix), `${fmt} state affixes`)
+      return
+    }
+    assert.equal(oneObject(r).branch, expected[i], `${fmt} ${kind}`)
+  })
+})
+
+const LOOP_SOURCES = ['sdlc-loop.js', 'next-action.py', 'state-write.py', 'janitor.py', 'suite-receipt.py', 'impact.py']
+const PUSH_SITE = /git push|["']push["']|pr create|pulls/
+
+function findE2eAreaPushViolations(source) {
+  const lines = source.split('\n')
+  const sites = []
+  const violations = []
+  lines.forEach((line, i) => {
+    const trimmed = line.trim()
+    if (trimmed.startsWith('#') || trimmed.startsWith('//')) return
+    if (!PUSH_SITE.test(line)) return
+    const statement = lines.slice(i, i + 4).filter((l) => !l.trim().startsWith('#') && !l.trim().startsWith('//')).join('\n')
+    sites.push(i + 1)
+    if (statement.includes('e2e-area') || statement.includes('-e2e-')) violations.push(i + 1)
+  })
+  return { sites, violations }
+}
+
+test('T-R-120a no push or pull-request site names an e2e-area branch', () => {
+  let totalSites = 0
+  const stateWrite = readFileSync(join(SKILL_DIR, 'state-write.py'), 'utf8')
+  assert.ok(findE2eAreaPushViolations(stateWrite).sites.length >= 1, 'the scan finds no push site in state-write.py')
+  for (const file of LOOP_SOURCES) {
+    const { sites, violations } = findE2eAreaPushViolations(readFileSync(join(SKILL_DIR, file), 'utf8'))
+    totalSites += sites.length
+    assert.deepEqual(violations, [], `${file}: push or pull-request site names an e2e-area branch at lines ${violations}`)
+  }
+  assert.ok(totalSites >= 1)
+})
+
+test('T-R-120b a planted e2e-area push is caught', () => {
+  const planted = 'git(repo, "push", "-u", "origin", name(fmt, "e2e-area", id=m, area=a))\n'
+  const { violations } = findE2eAreaPushViolations(planted)
+  assert.deepEqual(violations, [1])
+  const wrapped = 'git(repo,\n  "push",\n  "origin",\n  name(fmt, "e2e-area", id=m))\n'
+  assert.ok(findE2eAreaPushViolations(wrapped).violations.length >= 1)
+  assert.deepEqual(findE2eAreaPushViolations('# git push e2e-area\n').violations, [])
 })
