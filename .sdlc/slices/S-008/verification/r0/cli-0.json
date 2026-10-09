@@ -1,0 +1,218 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "3ce4bff",
+  "environment": "Python 3.14.7, Node test runner, cli-runner testkit (scratch HOME, TZ=UTC), scratch git repo, branches.py from a worktree of sdlc/S-008",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-102"
+      ],
+      "title": "run-N gives kind run with an integer n",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "branches.py parse for run-3, run-0, run-12, run-007, run-x, run-, run-3-x, run--1",
+      "then": "Exit 0. run-3, run-0, run-12 and run-007 give kind run, n 3, 0, 12 and 7 as integers, and no id. The others give kind null. The repo tree does not change.",
+      "expected": "Exit 0. run-3, run-0, run-12 and run-007 give kind run, n 3, 0, 12 and 7 as integers, and no id. The others give kind null. The repo tree does not change.",
+      "actual": "Exit 0. run-3, run-0, run-12 and run-007 give kind run, n 3, 0, 12 and 7 as integers, and no id. The others give kind null. The repo tree does not change.",
+      "result": "pass",
+      "specSource": "R-102 acceptance",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:22",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-103"
+      ],
+      "title": "M-N gives milestone and never swallows e2e tails",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "parse M-2, M-, M-x, M-2-e2e, M-2-e2e-api, m-2 (default and {name:lower})",
+      "then": "M-2 is milestone. M- and M-x are null. E2e tails are not milestone. m-2 is null by default and milestone under {name:lower}.",
+      "expected": "M-2 is milestone. M- and M-x are null. E2e tails are not milestone. m-2 is null by default and milestone under {name:lower}.",
+      "actual": "M-2 is milestone. M- and M-x are null. E2e tails are not milestone. m-2 is null by default and milestone under {name:lower}.",
+      "result": "pass",
+      "specSource": "R-103 quote",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:39",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-104"
+      ],
+      "title": "M-N-e2e gives kind e2e and an area tail does not",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "parse M-2-e2e, M-2-e2e-api, M-2-e2e-, M-2-e2e-x, M-2-e2ex",
+      "then": "M-2-e2e is e2e with id M-2. M-2-e2e-api is not e2e. M-2-e2e- and M-2-e2ex are null.",
+      "expected": "M-2-e2e is e2e with id M-2. M-2-e2e-api is not e2e. M-2-e2e- and M-2-e2ex are null.",
+      "actual": "M-2-e2e is e2e with id M-2. M-2-e2e-api is not e2e. M-2-e2e- and M-2-e2ex are null.",
+      "result": "pass",
+      "specSource": "R-104 quote",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:49",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-105"
+      ],
+      "title": "e2e-area keeps a dashed area whole",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "parse M-2-e2e-<area> for api-v2, a, 0, e2e, v2-api-3 and a 500-character area",
+      "then": "Kind e2e-area, id M-2 and the full area text for each.",
+      "expected": "Kind e2e-area, id M-2 and the full area text for each.",
+      "actual": "Kind e2e-area, id M-2 and the full area text for each.",
+      "result": "pass",
+      "specSource": "R-105 quote",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:58",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-102",
+        "R-103",
+        "R-104",
+        "R-105"
+      ],
+      "title": "First-match order under prefixed and suffixed formats",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "parse rows 1 to 4 under feature/PROJ-1-{name} and {name}-wip; M-2-e2e-api-wip; wrong prefix; missing suffix",
+      "then": "Each row classifies as under the default format. The area is api. A wrong prefix or a missing suffix gives kind null.",
+      "expected": "Each row classifies as under the default format. The area is api. A wrong prefix or a missing suffix gives kind null.",
+      "actual": "Each row classifies as under the default format. The area is api. A wrong prefix or a missing suffix gives kind null.",
+      "result": "pass",
+      "specSource": "R-102 to R-105 quotes",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:65",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-102",
+        "R-103",
+        "R-104",
+        "R-105"
+      ],
+      "title": "Hostile tails never crash and never gain a kind (except TC-cli-7)",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "parse 25 hostile tails: newline, tab, CR, unicode digits, flag-like values, control characters, slash in area, 5000-digit M-N, 4300-digit run-N, empty",
+      "then": "Exit 0 with one JSON object, no traceback, tree unchanged. A NUL argument gives a spawn error. An unknown flag gives a nonzero exit.",
+      "expected": "Exit 0 with one JSON object, no traceback, tree unchanged. A NUL argument gives a spawn error. An unknown flag gives a nonzero exit.",
+      "actual": "Exit 0 with one JSON object, no traceback, tree unchanged. A NUL argument gives a spawn error. An unknown flag gives a nonzero exit.",
+      "result": "pass",
+      "specSource": "R-102 to R-105 quotes; ADR-20261009-173303-decision-judge-S-008-a88a for the slash",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:79",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "file-tree",
+          "title": "Repo tree after each parse call",
+          "inline": "treeUnchanged is true for all 25 calls."
+        },
+        {
+          "kind": "log",
+          "title": "Result matrix: tail, exit, kind, id or n, area",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-vs7-matrix.json"
+        },
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-102"
+      ],
+      "title": "run-N with 5000 digits gives one JSON object, not a traceback",
+      "given": "Scratch git repo, shipped branches.py, format sdlc/{name}",
+      "when": "branches.py parse --branch=sdlc/run-<5000 nines>",
+      "then": "Exit 0 or 2 with one JSON object on stdout and no traceback.",
+      "expected": "Exit 0 or 2 with one JSON object on stdout and no traceback.",
+      "actual": "Exit 1, empty stdout, stderr holds a traceback that ends in ValueError at branches.py line 150 (int(value) in parse).",
+      "result": "fail",
+      "specSource": "Spec branches.py section: every command prints one JSON object, and exits 2 with {ok:false,error} on bad input",
+      "test": ".sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs:107",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-008> VERIFY_OUT=<main>/.sdlc/slices/S-008/verification/r0/logs node --test .sdlc/slices/S-008/verification/r0/tests/cli-0/parse-precedence.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts of the run",
+          "path": ".sdlc/slices/S-008/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "parse accepts a trailing newline",
+      "detail": "Python $ matches before a final newline. sdlc/M-2\\n gives milestone M-2, run-3\\n gives run n 3, M-2-e2e\\n gives e2e, and M-2-e2e-api\\n gives area api. The tail field keeps the newline. Git refuses newlines in branch names, so only a direct call reaches this.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse treats unicode digits as digits",
+      "detail": "sdlc/run-٣ gives n 3, sdlc/M-٢ gives milestone M-٢, and sdlc/M-2-e2e-١ gives area ١. The pattern \\d matches non-ASCII digits. The plan keeps this behavior.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "slash in an area is accepted (note only)",
+      "detail": "sdlc/M-2-e2e-a/b gives kind e2e-area with area a/b. ADR-20261009-173303-decision-judge-S-008-a88a keeps this behavior.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
