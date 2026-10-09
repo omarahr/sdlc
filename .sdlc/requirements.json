@@ -1225,7 +1225,7 @@
     "specRef": "§3",
     "quote": "`starts_with`: `sample.startswith(pattern)`; `ends_with`: `sample.endswith(pattern)`; `contains`: `pattern in sample`; all case-sensitive, as git refs are.\n- `regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "evaluate applies each operator to the sample. The comparisons are case-sensitive: `Feature/` does not match `feature/x` under starts_with. The regex kind matches with `re.search`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1240,7 +1240,7 @@
     "specRef": "§3",
     "quote": "`negate` flips `True` and `False`; `None` stays `None`.",
     "acceptance": "A negated starts_with rule that matched returns False. A None result stays None under negate.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1890,7 +1890,7 @@
     "specRef": "§Testing",
     "quote": "`evaluate follows each operator, negate flips, and a bad regex gives null`.",
     "acceptance": "The branches test asserts each operator's result, the negate flip, and null for an uncompilable pattern.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2292,7 +2292,7 @@
     "specRef": "§3",
     "quote": "`starts_with`: `sample.startswith(pattern)`; `ends_with`: `sample.endswith(pattern)`; `contains`: `pattern in sample`; all case-sensitive, as git refs are.\n- `regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "`ends_with` and `contains` are case-sensitive: the pattern `-E2E` does not match a sample ending `e2e`, and the pattern `Feature` is not in `feature/x`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
