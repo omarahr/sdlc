@@ -22,8 +22,8 @@ def load_format(repo):
             config = json.load(f)
     except FileNotFoundError:
         return DEFAULT_FORMAT
-    except ValueError as e:
-        raise Fail(f"{path} is not valid JSON: {e}")
+    except (ValueError, RecursionError) as e:
+        raise Fail(f"{path} is not valid JSON: {type(e).__name__}: {e}")
     except OSError as e:
         raise Fail(f"cannot read {path}: {e}")
     value = config.get("branchFormat") if isinstance(config, dict) else None
@@ -53,8 +53,10 @@ def load_git_modes(path=GIT_MODES_PATH):
             modes = json.load(f)["gitModes"]
     except FileNotFoundError:
         raise Fail(f"{path} is missing: restore it from git")
-    except (ValueError, KeyError, TypeError) as e:
+    except (ValueError, KeyError, TypeError, RecursionError) as e:
         raise Fail(f'{path} must hold {{"gitModes": [...]}}: {e}')
+    except OSError as e:
+        raise Fail(f"cannot read {path}: {e}")
     if not isinstance(modes, list) or not modes or not all(isinstance(m, str) and m for m in modes):
         raise Fail(f'{path} must hold {{"gitModes": ["<mode>", ...]}} naming at least one mode')
     return modes

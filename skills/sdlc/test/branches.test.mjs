@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, realpathSync, writeFileSync } from 'node:fs'
+import { chmodSync, copyFileSync, mkdirSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { SKILL_DIR, scratch } from './harness.mjs'
 
@@ -169,6 +169,65 @@ print(os.path.realpath(mod.branches.__file__))
 `, [join(SKILL_DIR, name)], { cwd })
     assert.equal(got, expected, `${name} imported branches from ${got}`)
   }
+})
+
+test('a script run through a symlink imports branches from its real directory', opts, () => {
+  const expected = join(realpathSync(SKILL_DIR), 'branches.py')
+  for (const name of SCRIPTS) {
+    const linkDir = scratch('sdlc-branches-link-')
+    writeFileSync(join(linkDir, 'branches.py'), 'import sys\nsys.exit(97)\n')
+    const link = join(linkDir, name)
+    symlinkSync(join(SKILL_DIR, name), link)
+    const got = probe(`${LOAD}
+import os
+print(os.path.realpath(mod.branches.__file__))
+`, [link], { cwd: scratch('sdlc-branches-cwd-') })
+    assert.equal(got, expected, `${name} through a symlink imported branches from ${got}`)
+  }
+})
+
+test('a git-modes.json that cannot be read fails preflight with one JSON error', opts, () => {
+  const repo = gitRepo()
+  const skillCopy = () => {
+    const dir = scratch('sdlc-branches-skill-')
+    copyFileSync(BRANCHES, join(dir, 'branches.py'))
+    return dir
+  }
+  const asDir = skillCopy()
+  mkdirSync(join(asDir, 'git-modes.json'))
+  const cases = [['directory', asDir]]
+  const unreadable = skillCopy()
+  const modesFile = join(unreadable, 'git-modes.json')
+  writeFileSync(modesFile, JSON.stringify({ gitModes: ['pr'] }))
+  chmodSync(modesFile, 0o000)
+  if (process.getuid?.() !== 0) cases.push(['unreadable', unreadable])
+  try {
+    for (const [label, dir] of cases) {
+      const r = spawnSync('python3', [join(dir, 'branches.py'), 'preflight', '--repo', repo, '--mode', 'pr'], { encoding: 'utf8' })
+      assert.equal(r.status, 2, `${label}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+      const out = oneObject(r)
+      assert.equal(out.ok, false, `${label}: ok is not false`)
+      assert.equal(typeof out.error, 'string', `${label}: error is not a string`)
+    }
+  } finally {
+    chmodSync(modesFile, 0o644)
+  }
+})
+
+test('a deeply nested config.json is bad input, not a crash', opts, () => {
+  const repo = gitRepo()
+  mkdirSync(join(repo, '.sdlc'))
+  writeFileSync(join(repo, '.sdlc', 'config.json'), '['.repeat(200000))
+  assertBadInput(['parse', '--repo', repo, '--branch', 'x'], 'parse')
+  assertBadInput(['name', '--repo', repo, '--kind', 'slice'], 'name')
+  const raised = probe(`${LOAD}
+try:
+    mod.load_format(sys.argv[2])
+    print("returned")
+except mod.Fail:
+    print("Fail")
+`, [BRANCHES, repo])
+  assert.equal(raised, 'Fail')
 })
 
 test('the three scripts run with the working directory outside the skill directory', opts, () => {

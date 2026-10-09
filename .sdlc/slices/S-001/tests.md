@@ -14,3 +14,11 @@ All tests are in `skills/sdlc/test/branches.test.mjs`, except the two git-modes 
 - T-010 `branch recognition in the three scripts still resolves from a scratch working directory` — R-098 — passes now; it records the pre-import recognition result for `next-action.py`, `state-write.py base-branch` and `janitor.py`.
 - git-modes.test.mjs `each python script resolves its modes from the file beside it, not from a literal` — R-098 — the test now copies `branches.py` beside the script copy; it fails until `branches.py` exists (ENOENT names branches.py).
 - git-modes.test.mjs `a missing or malformed git-modes.json stops the scripts instead of falling back to a list` — R-098 — the same copy change and the same failure reason; no assertion changed.
+
+## Promoted in fix round 1
+
+All three tests are in `skills/sdlc/test/branches.test.mjs`.
+
+- `a script run through a symlink imports branches from its real directory` — R-098 — from security-0 TC-security-20.
+- `a git-modes.json that cannot be read fails preflight with one JSON error` — R-014 — from cli-0 TC-cli-20.
+- `a deeply nested config.json is bad input, not a crash` — R-014, R-016 — from contract-0 TC-contract-6, TC-contract-7 and TC-contract-8.
