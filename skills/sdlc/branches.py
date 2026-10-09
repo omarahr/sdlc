@@ -69,7 +69,10 @@ def _state_tail(parts):
 
 
 TAILS = {
+    "run": (("n",), lambda p: f"run-{p['n']}"),
     "slice": (("id",), lambda p: p["id"]),
+    "milestone": (("id",), lambda p: p["id"]),
+    "e2e": (("id",), lambda p: f"{p['id']}-e2e"),
     "state": ((), _state_tail),
     "e2e-area": (("id", "area"), lambda p: f"{p['id']}-e2e-{p['area']}"),
 }
