@@ -37,7 +37,7 @@
     "specRef": "§1",
     "quote": "The default is `sdlc/{name}`.",
     "acceptance": "load_format on a repo whose `.sdlc/config.json` has no branchFormat returns `sdlc/{name}`. A fresh run records `branchFormat: \"sdlc/{name}\"` in `config.json`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -187,7 +187,7 @@
     "specRef": "§1",
     "quote": "The format is resolved like `commitFormat`: the `--branch-format` flag, else `config.branchFormat` on resume, else the pre-flight's derivation (section 4), else the default.",
     "acceptance": "preflight with `--format` reports that format with given true. With no flag it reads `config.branchFormat`. With neither it derives or falls back to `sdlc/{name}`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -321,7 +321,7 @@
     "specRef": "§2",
     "quote": "`--format` overrides the repo's `config.branchFormat`; without either, the default applies. `--repo` is the target repo, whose `.sdlc/config.json` holds the format once a run exists.",
     "acceptance": "A repo with `branchFormat: \"feature/PROJ-1-{name}\"` and `--format \"sdlc/{name}\"` names `sdlc/S-001`. Without `--format` it names `feature/PROJ-1-S-001`. Without either it names `sdlc/S-001`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -453,7 +453,7 @@
     "specRef": "§2",
     "quote": "`tail(kind, **parts)`: the tail from the table in section 1. `state` without `ts` generates the timestamp. A missing part is a `Fail`.",
     "acceptance": "`tail(\"slice\", id=\"S-001\")` is `S-001`. `tail(\"state\")` is 14 digits. `tail(\"e2e-area\", id=\"M-1\")` raises Fail because area is missing.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -1803,7 +1803,7 @@
     "specRef": "§2",
     "quote": "A missing part is a `Fail`.",
     "acceptance": "`branches.py name --kind e2e-area --id M-1` with no `--area` exits 2 and prints one JSON object with `ok: false` and a non-empty `error`. No traceback appears.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

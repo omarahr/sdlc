@@ -479,8 +479,8 @@
       "S-002"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-003",
     "pr": "",
     "risk": "medium",
