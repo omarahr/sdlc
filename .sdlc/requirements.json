@@ -295,7 +295,7 @@
     "specRef": "§1",
     "quote": "| `state` | `state-<UTC timestamp, %Y%m%d%H%M%S>` | `sdlc/state-20261008101500` | pr |",
     "acceptance": "`branches.py name --kind state` prints `sdlc/state-` plus 14 UTC digits in `%Y%m%d%H%M%S` order. An explicit ts part is used as given.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -310,7 +310,7 @@
     "specRef": "§1",
     "quote": "| `verify` | `<sliceId>-v<round>-<profile>-<part>` | `sdlc/S-001-v0-http-api-0` | never |",
     "acceptance": "`branches.py name --kind verify --id S-001 --round 0 --profile http-api --part 0` prints `sdlc/S-001-v0-http-api-0`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -325,7 +325,7 @@
     "specRef": "§1",
     "quote": "| `attempt` | `<sliceId>-attempt-<n>` | `sdlc/S-001-attempt-1` | never (deleted on the remote when present) |",
     "acceptance": "`branches.py name --kind attempt --id S-001 --n 1` prints `sdlc/S-001-attempt-1`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

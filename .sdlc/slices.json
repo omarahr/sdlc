@@ -844,8 +844,8 @@
       "S-004"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-005a",
     "pr": "",
     "risk": "medium",
