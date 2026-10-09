@@ -538,3 +538,39 @@ test('preflight reports the resolved format and whether it was given', opts, () 
     assert.equal(out.given, given, `${label}: given is ${out.given}`)
   }
 })
+
+function brokenConfigRepos() {
+  const repos = {}
+  const add = (label, write) => {
+    const repo = gitRepo()
+    mkdirSync(join(repo, '.sdlc'))
+    write(join(repo, '.sdlc', 'config.json'))
+    repos[label] = repo
+  }
+  add('invalid JSON', path => writeFileSync(path, '{"branchFormat": "feature/{name}"'))
+  add('deep nesting', path => writeFileSync(path, '['.repeat(200000) + ']'.repeat(200000)))
+  add('invalid UTF-8', path => writeFileSync(path, Buffer.from([0x7b, 0x22, 0xff, 0xfe, 0x22, 0x3a, 0x31, 0x7d])))
+  add('directory', path => { mkdirSync(path); writeFileSync(join(path, 'keep'), '') })
+  if (process.getuid?.() !== 0) {
+    add('unreadable', path => { writeFileSync(path, JSON.stringify({ branchFormat: 'feature/{name}' })); chmodSync(path, 0o000) })
+  }
+  return repos
+}
+
+test('the --format flag wins over a broken config in name and preflight', opts, () => {
+  for (const [label, repo] of Object.entries(brokenConfigRepos())) {
+    const named = run(['name', '--repo', repo, '--kind', 'slice', '--id', 'S-001', '--format', 'team/{name}'])
+    assert.equal(named.status, 0, `${label}: name exit ${named.status}, stdout ${named.stdout}, stderr ${named.stderr}`)
+    const out = oneObject(named)
+    assert.equal(out.ok, true, `${label}: name ok`)
+    assert.equal(out.format, 'team/{name}', `${label}: name format`)
+    assert.equal(out.branch, 'team/S-001', `${label}: name branch`)
+    const checked = run(['preflight', '--repo', repo, '--mode', 'pr', '--format', 'team/{name}'])
+    assert.equal(checked.status, 0, `${label}: preflight exit ${checked.status}, stdout ${checked.stdout}, stderr ${checked.stderr}`)
+    const pre = oneObject(checked)
+    assert.equal(pre.ok, true, `${label}: preflight ok`)
+    assert.equal(pre.format, 'team/{name}', `${label}: preflight format`)
+    assert.equal(pre.given, true, `${label}: preflight given is ${pre.given}`)
+    assertBadInput(['preflight', '--repo', repo, '--mode', 'pr'], `${label}: preflight without --format`)
+  }
+})
