@@ -2137,12 +2137,122 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-014",
     "pr": "",
     "risk": "medium",
     "riskReason": "A misread push rule hides the one GitLab constraint and passes names it rejects.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Forge regex can run slowly on a hostile pattern",
+        "detail": "The GitLab push rule regex runs through re.search against sample branch names. An admin of the forge sets the pattern, and the GitHub path has the same risk. Optional fix: bound the pattern length. Not blocking.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Nested tuples with a None sentinel in _collect_rules",
+        "detail": "_collect_rules returns shapes such as (None, (None, error)) and read_rules must know that a None sample is a sentinel. Return (rules, error) per forge call and let read_rules build by_sample. This is a readability fix only.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Error handling split across two loops",
+        "detail": "_collect_rules and read_rules both handle the error entries. One place in read_rules can serve github and gitlab.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "GH_PROMPT_DISABLED is set for glab calls",
+        "detail": "_run_forge_cli sets the gh variable for every forge CLI. It is harmless. Make it a per-tool environment if glab needs its own variable later.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Whitespace-only branch_name_regex becomes a rule",
+        "detail": "A regex of only spaces gives a regex rule with that pattern. The spec only says an empty regex means no rule, so this is not a defect.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Spec wording: glab error means no rule",
+        "detail": "Spec section 3 says an error means no rule, but R-031 says a failure gives a note. ADR f2c2 resolves it; the spec fix is in SPEC-PROPOSALS.",
+        "file": "docs/superpowers/specs/2026-10-08-branch-format-design.md"
+      },
+      {
+        "title": "read_rules raises Fail for an invalid config.json",
+        "detail": "With config.json '{ not json', read_rules raises Fail instead of returning the no-forge shape. It makes no forge call. The spec states no behavior. S-015 preflight must catch Fail.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Forge note carries stderr unbounded and multi-line",
+        "detail": "A 200 KB multi-line glab stderr gives one note of 200037 chars with newlines, NUL and ESC kept. R-031 says <stderr>, so it follows the spec. gh behaves the same.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules raises Fail on a config that is not valid JSON",
+        "detail": "With an invalid config.json, read_rules raises Fail instead of returning unchecked true. The spec does not define this case. No forge CLI call is made.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A failure note is not one line and not bounded",
+        "detail": "A multi-line stderr keeps its newlines in the note. A 100000 character stderr gives a 100025 character note. The spec states no limit.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A whitespace-only branch_name_regex gives a rule",
+        "detail": "The spec treats only an empty regex as no rule. A regex of spaces becomes a rule.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Public surface adds FORGE_TIMEOUT and gitlab_rule",
+        "detail": "Both names are new and public. The plan lists them. Spec section 3 does not define them.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "gh rule with missing parameters returns kind null and pattern null",
+        "detail": "A gh entry {\"type\":\"branch_name_pattern\"} with no parameters gives a rule with kind null and pattern null, in the S-013 and S-014 code alike. R-026 acceptance says kind is one of four values and pattern is a string. GitHub always sends the parameters. Fix: drop the rule or give a note in github_rule.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A forge failure note keeps line breaks, NUL and any length of stderr",
+        "detail": "Stderr 'a\\nb' gives a two-line note. A 200000-character stderr gives a 200025-character note. The spec says only that the note holds <stderr>. Fix: collapse whitespace and cut to a fixed length in _run_forge_cli.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A regex of only spaces becomes a rule",
+        "detail": "{\"branch_name_regex\":\"   \"} gives one regex rule with pattern '   '. The spec treats only an empty regex as no rule.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules results share list and dict objects",
+        "detail": "For a gitlab push rule, every by_sample entry is one list object, and its rule dict is the same object as the one in rules. A caller edit changes all of them. The spec states no immutability rule.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Failure note carries raw stderr: newlines, control characters, NUL and unbounded length",
+        "detail": "glab stderr is copied into the note unchanged. A 2 MB stderr gives a 2 MB note. Multi-line stderr gives a note with newlines. ESC and NUL pass through. The spec states no bound, so no block.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Timeout kills only the direct glab process",
+        "detail": "subprocess.run kills the child on timeout, not its children. A glab wrapper that forks a process leaves that process alive after FORGE_TIMEOUT. Start the child in its own process group and kill the group.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "read_rules raises Fail when .sdlc/config.json is not valid JSON",
+        "detail": "The plan notes expect a no-forge result for a config that is not valid JSON. The code raises Fail. This matches the loader convention, so it may be intended. No call to gh or glab happens.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "A regex of only spaces becomes a rule",
+        "detail": "gitlab_rule keeps any non-empty string. A spaces-only regex gives a rule that matches every name. R-030 says only an empty regex means no rule, so this follows the spec.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: glab-stub cannot report leftover child processes",
+        "detail": "The shim runs sleep as a child of sh. The test used ps with the stub path or the sleep text. A helper that reports leftover children would help.",
+        "file": "skills/sdlc/test/testkit/stub-server.mjs"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -2153,7 +2263,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-015",

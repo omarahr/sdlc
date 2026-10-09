@@ -1,0 +1,374 @@
+{
+  "profile": "contract",
+  "part": 1,
+  "round": 0,
+  "commit": "c1b5dff",
+  "environment": "Python 3.14.7, Node v24.19.0, shell shims for gh and glab on PATH (no network), scratch git repos, S-013 code from commit e575c1b as the reference for VS-9",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-030",
+        "R-026"
+      ],
+      "title": "44 odd glab bodies keep the result shape",
+      "given": "a gitlab repo and a glab shim that prints each body: array, string, number, bool, null, 100000 nested arrays, regex as number, list, object, invalid RE2, NUL, control chars, lone surrogate, 1 MB regex, NaN, BOM, two documents, empty output, 8 MB body, 2M-entry array",
+      "when": "read_rules(repo, [feat/a, feat/b]) runs for each body",
+      "then": "each result has the five top keys; every rule has exactly the five spec keys with the right types; a non-string regex gives no rule; a string regex gives one rule; unparseable output gives one note and unchecked true",
+      "expected": "each result has the five top keys; every rule has exactly the five spec keys with the right types; a non-string regex gives no rule; a string regex gives one rule; unparseable output gives one note and unchecked true",
+      "actual": "44 of 44 cases match. No exception. Probe: a regex of only spaces gives a rule (not covered by the spec).",
+      "result": "pass",
+      "specSource": "R-030 acceptance; R-026 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:83",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-1:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "examples run",
+          "inline": "VS-7 examples: 44 cases, probes: whitespace-only regex: rules=[{\"source\":\"gitlab\",\"kind\":\"regex\",\"pattern\":\"   \",\"negate\":false,\"label\":\"push rule\"}] unchecked=false",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-030",
+        "R-026"
+      ],
+      "title": "Property: 1500 random glab bodies against a model written from the spec",
+      "given": "a seeded generator of JSON bodies (null, {}, odd regex types, invalid regexes, extra keys, bad text) and sample lists",
+      "when": "read_rules runs through a glab shim for each body",
+      "then": "one regex rule exactly when branch_name_regex is a non-empty string; no rule and no note for other parsed values; one note and unchecked for unparseable text",
+      "expected": "one regex rule exactly when branch_name_regex is a non-empty string; no rule and no note for other parsed values; one note and unchecked for unparseable text",
+      "actual": "0 violations in 1500 runs",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:160",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-2:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "glab body property",
+          "inline": "property glab body: seed=14001 runs=1500 violations=0",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "Property: gitlab_rule is total and matches the model for 2000 values",
+      "given": "the pure function gitlab_rule and 2000 generated values",
+      "when": "gitlab_rule(value) runs through pycall",
+      "then": "returns the one regex rule for a non-empty string regex in a dict, else None; never raises",
+      "expected": "returns the one regex rule for a non-empty string regex in a dict, else None; never raises",
+      "actual": "0 violations in 2000 runs",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:182",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-3:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "gitlab_rule property",
+          "inline": "property gitlab_rule: seed=14002 runs=2000 violations=0",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-031"
+      ],
+      "title": "Probe: failure notes for odd stderr",
+      "given": "glab exits 1 with stderr: boom, empty, multi-line, 200000 characters, control characters, NUL, CR LF, U+2028",
+      "when": "read_rules runs",
+      "then": "one note starting rules unknown on gitlab:, empty rules and by_sample, unchecked true, no exception",
+      "expected": "one note starting rules unknown on gitlab:, empty rules and by_sample, unchecked true, no exception",
+      "actual": "All 10 give that shape. The note keeps line breaks and NUL from stderr in 3 cases, and a 200000 character stderr gives a 200025 character note. The spec states no limit, so these go to seeds.",
+      "result": "pass",
+      "specSource": "R-031 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:202",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-4:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "note lengths",
+          "inline": "note lengths: 29,50,30,200025,33,37,35,34,28,28; multi-line notes: 3",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-030",
+        "R-031"
+      ],
+      "title": "Exit codes 1, 2, 127 and 255 with a JSON error body on stdout; exit 0 with the same body",
+      "given": "a glab shim that prints {\"message\": \"404 Project Not Found\"}",
+      "when": "read_rules runs for each exit code",
+      "then": "non-zero exit gives the rules unknown note and unchecked true; exit 0 gives no rule, no note and unchecked false (ADR f2c2)",
+      "expected": "non-zero exit gives the rules unknown note and unchecked true; exit 0 gives no rule, no note and unchecked false (ADR f2c2)",
+      "actual": "matches for all five",
+      "result": "pass",
+      "specSource": "R-030, R-031 acceptance; ADR f2c2",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:220",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-5:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test result",
+          "inline": "pass: TC-contract-5",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "One glab call with the literal argv and the repo as cwd, for hostile sample names",
+      "given": "samples --help, -x, $(touch pwn), a b, empty, newline, unicode, 50000 characters, ../../etc",
+      "when": "read_rules runs once",
+      "then": "one call; argv is api projects/:fullpath/push_rule; cwd is the repo; no sample reaches argv; by_sample has one key per distinct sample; no file pwn",
+      "expected": "one call; argv is api projects/:fullpath/push_rule; cwd is the repo; no sample reaches argv; by_sample has one key per distinct sample; no file pwn",
+      "actual": "matches",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:233",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-6:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test result",
+          "inline": "pass: TC-contract-6",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-026"
+      ],
+      "title": "S-013 GitHub cases give the same results before and after the refactor",
+      "given": "the S-013 version of branches.py (commit e575c1b) and the S-014 version, one gh shim; two operators, negate true and false, a skipped non-pattern rule, a failure on the second sample, a failure with empty stderr, a JSON object, non-JSON output, no samples",
+      "when": "read_rules runs on both versions",
+      "then": "equal results; exact S-013 notes",
+      "expected": "equal results; exact S-013 notes",
+      "actual": "7 of 7 scenarios equal; rules, by_sample, notes and unchecked as before",
+      "result": "pass",
+      "specSource": "R-026 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:252",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-7:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test result",
+          "inline": "pass: TC-contract-7",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-026"
+      ],
+      "title": "Property: 1200 random gh scenarios give equal results on the S-013 and S-014 code",
+      "given": "a seeded generator of gh outputs: rule lists, other rule types, junk entries, exit codes, bad JSON, 0 to 4 samples, up to 4 steps",
+      "when": "read_rules runs on both versions through the same shim",
+      "then": "equal results; for well-formed rules, exactly the five keys, a kind among the four values, a string pattern",
+      "expected": "equal results; for well-formed rules, exactly the five keys, a kind among the four values, a string pattern",
+      "actual": "0 differences in 1200 runs; no shape violation for well-formed rules. 177 runs with malformed gh rules (no parameters) give kind null and pattern null in both versions (seed).",
+      "result": "pass",
+      "specSource": "R-026 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:301",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-8:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "gh differential",
+          "inline": "property gh differential: seed=14003 runs=1200 violations=0 malformed-gh-rule-probes=177 first=#7 kind null",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-026",
+        "R-031"
+      ],
+      "title": "FORGE_TIMEOUT stops a slow gh and a slow glab; GH_PROMPT_DISABLED stays 1",
+      "given": "FORGE_TIMEOUT set to 1, a shim that sleeps 6 s; a parent env with GH_PROMPT_DISABLED=0",
+      "when": "read_rules runs for github and for gitlab",
+      "then": "one note, unchecked true, return after about 1 s; the shim sees GH_PROMPT_DISABLED=1",
+      "expected": "one note, unchecked true, return after about 1 s; the shim sees GH_PROMPT_DISABLED=1",
+      "actual": "github 1.004 s, gitlab 1.005 s; the shim saw 1 for both",
+      "result": "pass",
+      "specSource": "R-031 acceptance; plan VS-9 notes",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:320",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-9:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "measurement",
+          "title": "timeouts and env",
+          "inline": "timeouts: {\"github\":1.0039777755737305,\"gitlab\":1.0049958229064941}; GH_PROMPT_DISABLED seen by shim with parent value 0: {\"github\":[\"1\"],\"gitlab\":[\"1\"]}",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-026"
+      ],
+      "title": "A missing gh is a note, not a crash",
+      "given": "PATH with python3 and git only",
+      "when": "read_rules runs on a github repo",
+      "then": "one note starting rules unknown on github:, no rules, unchecked true",
+      "expected": "one note starting rules unknown on github:, no rules, unchecked true",
+      "actual": "matches",
+      "result": "pass",
+      "specSource": "R-026; S-013 behavior",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:360",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-10:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test result",
+          "inline": "pass: TC-contract-10",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-026"
+      ],
+      "title": "gh is called once per sample with the quoted path, in the repo; glab is not called",
+      "given": "a gh shim and a glab shim on PATH; samples with spaces, slash, hash, unicode, --help",
+      "when": "read_rules runs on a github repo",
+      "then": "four gh calls with argv api repos/{owner}/{repo}/rules/branches/<quoted>; no glab call",
+      "expected": "four gh calls with argv api repos/{owner}/{repo}/rules/branches/<quoted>; no glab call",
+      "actual": "matches",
+      "result": "pass",
+      "specSource": "R-026; S-013 behavior",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:370",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-11:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test result",
+          "inline": "pass: TC-contract-11",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-9",
+      "requirementIds": [
+        "R-026"
+      ],
+      "title": "Surface of branches.py after the refactor",
+      "given": "branches.py loaded by path with python3 -I",
+      "when": "list the names and the signature",
+      "then": "read_rules(repo, samples); FORGE_TIMEOUT present; GH_TIMEOUT removed; stdlib imports only",
+      "expected": "read_rules(repo, samples); FORGE_TIMEOUT present; GH_TIMEOUT removed; stdlib imports only",
+      "actual": "matches. New helpers: _run_forge_cli, _glab_push_rule, _collect_rules, gitlab_rule, make_rule, RULE_KEYS.",
+      "result": "pass",
+      "specSource": "plan Files section",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:385",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-12:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "surface listing",
+          "inline": "read_rules(repo, samples) FORGE_TIMEOUT=60 has FORGE_TIMEOUT=true has GH_TIMEOUT=false\nimports: import argparse import json import os import re import subprocess import sys import urllib.parse from datetime import datetime, timezone",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-13",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-030"
+      ],
+      "title": "Determinism and input immutability",
+      "given": "a glab shim that prints a regex body",
+      "when": "read_rules runs twice with the same samples list",
+      "then": "equal results; the samples list is unchanged",
+      "expected": "equal results; the samples list is unchanged",
+      "actual": "matches. Probe: by_sample lists and the rule dicts are shared between samples and rules (spec states no immutability, so a seed).",
+      "result": "pass",
+      "specSource": "R-030 acceptance",
+      "test": ".sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs:400",
+      "command": "VERIFY_WORKTREE=<worktree of sdlc/S-014> TESTKIT_SEED=14001 node --test --test-reporter=spec .sdlc/slices/S-014/verification/r0/tests/contract-1/read-rules.verify-contract.test.mjs --test-name-pattern=TC-contract-13:",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "aliasing probe",
+          "inline": "aliasing probe: {\"b_list_aliased\":true,\"b_label\":\"mutated\",\"samples\":[\"a\",\"b\"]}",
+          "path": ".sdlc/slices/S-014/verification/r0/logs/contract-1-final.log"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "gh rule with missing parameters returns kind null and pattern null",
+      "detail": "A gh body entry {\"type\": \"branch_name_pattern\"} with no parameters gives a rule with kind null and pattern null, in the S-013 code and the S-014 code alike. R-026 acceptance says kind is one of four values and pattern is a string. GitHub always sends the parameters, so no real input shows it. Fix: drop the rule or give a note when operator or pattern is not valid (github_rule).",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A forge failure note keeps line breaks, NUL and any length of stderr",
+      "detail": "With stderr 'a\\nb' the note is 'rules unknown on gitlab: a\\nb'. A 200000 character stderr gives a 200025 character note. NUL and CR pass through. The spec says only that the note holds <stderr>. The plan's VS-5 asks for one line and a bound. Fix: collapse whitespace and cut to a fixed length in _run_forge_cli.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "A regex of only spaces becomes a rule",
+      "detail": "{\"branch_name_regex\": \"   \"} gives one regex rule with pattern '   '. The spec treats an empty regex as no rule and says nothing about spaces. GitLab would likely reject such a push rule.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "read_rules results share list and dict objects",
+      "detail": "For a gitlab push rule, every by_sample entry is the same list object, and its rule dict is the same object as the one in rules. A caller that edits one entry changes all of them. The spec states no immutability rule. Fix: copy the list and the rule per sample.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
