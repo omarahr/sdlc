@@ -223,3 +223,11 @@
 - Decision: Option 2. The three proposals describe one design; option 2 names the part keys. Print exit 0 for a foreign branch. Python parse() still returns None. Scores (fit x3, reversibility x2, simplicity x1): option 2 = 15+10+5 = 30, option 1 = 15+10+5 = 30, option 3 = 15+10+4 = 29. Option 2 wins the tie because it lists the keys that tests read.
 - Consequences / how to reverse: Only cmd_parse in skills/sdlc/branches.py and its tests change. Later slices S-018 and S-021 to S-024 read kind from the flat keys. To reverse, nest the parts or print a bare null in that one handler.
 - Affects: S-007, R-068
+
+### ADR-20261009-171409-implementer-S-007-f520: parse matches the literal prefix and suffix without case under {name:lower}
+- Status: auto
+- Context: The spec testing section and T-R-024a parse `feature/proj-1-s-001` under `feature/PROJ-1-{name:lower}`. The prefix there has capitals, so an exact prefix test gives null.
+- Options: Exact prefix and suffix test; case-insensitive test under lower.
+- Decision: Under `{name:lower}`, compare the prefix and suffix without case. Other formats compare exactly.
+- Consequences / how to reverse: Restore the exact startswith and endswith test and change the spec example.
+- Affects: R-021, R-024, R-069, S-007
