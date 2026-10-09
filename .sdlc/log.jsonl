@@ -17,3 +17,4 @@
 {"ts":"2026-10-09T19:22:42Z","type":"slice-escalated","slice":"S-011","detail":"step 1 replan: plan refuted 3 times; R-026 moved to S-014"}
 {"ts":"2026-10-09T19:40:19Z","type":"slice-merged","slice":"S-011","detail":"R-033, R-034, R-072, R-095 done"}
 {"ts":"2026-10-09T20:33:33Z","type":"slice-merged","slice":"S-012","detail":"R-035, R-036, R-037 done"}
+{"ts":"2026-10-09T21:09:57Z","type":"slice-merged","slice":"S-013","detail":"R-027, R-028, R-029, R-084 done"}
