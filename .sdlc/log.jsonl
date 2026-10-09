@@ -8,3 +8,4 @@
 {"ts":"2026-10-09T08:09:33Z","type":"slice-merged","slice":"S-005a","detail":"tails: state, verify, attempt; R-008, R-009, R-010 done"}
 {"ts":"2026-10-09T16:40:22Z","type":"slice-escalated","slice":"S-005b","detail":"step 5 park: attempt 3 failed three fix rounds (bytes and int argument forms leave every pin equal); attempt archived as sdlc/S-005b-attempt-3"}
 {"ts":"2026-10-09T16:40:38Z","type":"note","detail":"no CI checks on state PR"}
+{"ts":"2026-10-09T17:02:40Z","type":"slice-merged","slice":"S-006","detail":"R-011 and R-120 done; R-068 in progress until S-007 adds parse"}
