@@ -10,7 +10,7 @@ All tests are in `skills/sdlc/test/branches.test.mjs`.
 - T-R-042f — R-042 — `derive` is missing (AttributeError names `derive`)
 - T-R-042g — R-042 — suggestion is empty because `suggest` is missing
 - T-R-042h — R-042 — preflight does not derive a second format
-- T-R-042i — R-042 — suggestion check fails because `suggest` is missing; sample check pins the kept first verdict
+- T-R-042i — R-042 — the suggestion assertion fails because `suggest` is missing (suggestion is empty); the sample and rule checks pin the kept first verdict
 - T-R-087a — R-087 — suggestion is empty because `suggest` is missing
 - T-R-043a — R-043 — suggestion is empty because `suggest` is missing
 - T-R-043b — R-043 — suggestion is empty because `suggest` is missing

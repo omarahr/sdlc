@@ -2423,6 +2423,7 @@ test('T-R-042i a failed derivation keeps the first-verdict samples and rules', o
   for (const n of names(out)) assert.ok(!n.includes('a..b'), n)
   assert.deepEqual(out.rules.map((r) => r.label), ['dots'])
   for (const sample of out.samples) assert.equal(sample.result, 'fail')
+  assert.equal(out.suggestion, '--branch-format "sdlc/a..b/{name}"')
 })
 
 test('T-R-087a an ends_with .lock rule gives the derived format as the suggestion', opts, () => {
