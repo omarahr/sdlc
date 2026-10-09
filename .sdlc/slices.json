@@ -14,7 +14,7 @@
     "status": "done",
     "phase": "integrate",
     "branch": "sdlc/S-001",
-    "pr": "",
+    "pr": "https://github.com/omarahr/sdlc/pull/50",
     "risk": "medium",
     "riskReason": "The new CLI runs git and reads the repo config, so a wrong contract misleads every later consumer.",
     "seeds": [
