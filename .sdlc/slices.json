@@ -1694,7 +1694,6 @@
     "id": "S-011",
     "title": "evaluate applies one rule to a sample",
     "requirements": [
-      "R-026",
       "R-033",
       "R-095",
       "R-034",
@@ -1704,7 +1703,7 @@
       "S-001"
     ],
     "kind": "spec",
-    "status": "todo",
+    "status": "in_progress",
     "phase": "plan",
     "branch": "sdlc/S-011",
     "pr": "",
@@ -1712,11 +1711,11 @@
     "riskReason": "evaluate feeds the pre-flight verdict; a wrong True launches names a rule rejects.",
     "seeds": [],
     "ideaKeys": [],
-    "notes": "",
+    "notes": "Re-plan from scratch with the simplest approach; read failures.md. R-026 moved to S-014.",
     "counters": {
       "planRevisions": 0,
       "fixRounds": 0,
-      "ladderStep": 0,
+      "ladderStep": 1,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
@@ -1792,7 +1791,8 @@
     "requirements": [
       "R-030",
       "R-031",
-      "R-032"
+      "R-032",
+      "R-026"
     ],
     "dependsOn": [
       "S-013"

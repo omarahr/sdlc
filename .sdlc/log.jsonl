@@ -14,3 +14,4 @@
 {"ts":"2026-10-09T18:20:57Z","type":"slice-merged","slice":"S-009","detail":"R-106, R-107, R-108, R-109 done"}
 {"ts":"2026-10-09T19:13:52Z","type":"slice-merged","slice":"S-010","detail":"R-025, R-094 done"}
 {"ts":"2026-10-09T19:16:29Z","type":"note","slice":"S-010","detail":"no CI checks on state PR"}
+{"ts":"2026-10-09T19:22:42Z","type":"slice-escalated","slice":"S-011","detail":"step 1 replan: plan refuted 3 times; R-026 moved to S-014"}

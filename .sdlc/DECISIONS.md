@@ -263,3 +263,67 @@
 - Decision: Option 1. The three proposals describe one design: the key (n, branch name), ascending. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie because it states the rule without extra claims about other kinds or git ref order. Other kinds keep their existing order.
 - Consequences / how to reverse: One sort key in list_kind and one test change. No stored data or CLI output format depends on the tie order.
 - Affects: S-010, R-025, R-094
+
+### ADR-20261009-191759-decision-judge-S-011-6e23: evaluate returns None with a note for a rule of unknown kind
+- Status: auto
+- Context: The spec defines only the four rule kinds. The plan returns None for any other kind. make_rule rejects such a kind earlier. No OVERRIDE ADR covers this question.
+- Options: (1) Return None; the sample is unevaluated with the note "cannot evaluate <label>: unknown kind <kind>"; do not raise. (2) Return None with no note and no validation branch. (3) Return None as the plan says; do not raise and do not return False.
+- Decision: Option 1. The three proposals share one result: None, no raise, no False. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 14+10+5 = 29, option 3 = 14+10+5 = 29. Option 1 wins the tie because it matches the invalid-regex handling and tells the user why the sample is unevaluated. An unreadable rule must not block a launch.
+- Consequences / how to reverse: One fallback branch in evaluate and one test. To raise or to return another result, edit that branch and flip the test. No stored data or caller depends on it.
+- Affects: S-011
+
+### ADR-20261009-191800-decision-judge-S-011-b582: S-012 builds the "cannot evaluate" note; S-011 adds regex_error and evaluate stays pure
+- Status: auto
+- Context: The spec says a pattern that re.compile rejects gives None and the sample is unevaluated with a note. It does not say which function writes the note. evaluate returns only True, False or None. No OVERRIDE ADR covers this question.
+- Options: (1) S-012 builds "cannot evaluate <label>: <re.error>" when the verdict is None; the helper regex_error(pattern) gives the error text or None. (2) The same rule, taken from the S-011 plan. (3) The same rule, with the note that only S-012 knows the label.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie. It states the owner of the note text and the source of the error text with no extra claims.
+- Consequences / how to reverse: S-011 adds evaluate and regex_error only. To make evaluate return the note, change its return shape, drop the helper and update one S-012 call site. No stored data depends on this.
+- Affects: S-011, S-012, R-072, R-035
+
+### ADR-20261009-191805-decision-judge-S-011-6a5c: R-026 rule shape is enforced at one choke point, make_rule
+- Status: auto
+- Context: R-026 says every rule from read_rules has exactly five keys. read_rules does not exist until S-013 and S-014, so S-011 cannot test it. No OVERRIDE ADR covers this question.
+- Options: (1) make_rule with RULE_KEYS, RULE_SOURCES and RULE_KINDS in S-011; S-013 and S-014 must build every rule through make_rule and test read_rules output against RULE_KEYS. (2) make_rule only, with no stated rule for callers. (3) make_rule as planned, with the caller rule stated in the slice and no validator.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 13+10+5 = 28, option 3 = 14+10+5 = 29. Option 1 wins the tie because it forbids hand-built rule dicts and so makes the shape true for GitHub and GitLab rules alike. It also names the read_rules check that closes R-026.
+- Consequences / how to reverse: One function and three constants in branches.py, plus T-R-026a and T-R-026b. To move the check into read_rules, add a validation pass there and keep or delete make_rule. No stored data or CLI output depends on it.
+- Affects: S-011, R-026
+
+### ADR-20261009-191845-decision-judge-S-011-8da6: S-012 writes the "cannot evaluate" note; evaluate returns None for an unknown kind
+- Status: auto
+- Context: The question asks which function writes the note and what evaluate returns for an unknown kind. ADRs 6e23 and b582 settle it. No OVERRIDE ADR covers this question.
+- Options: (1) Follow both ADRs. S-012 builds the note when the verdict is None. S-011 adds evaluate and regex_error(pattern). evaluate returns None for an unknown kind and does not raise. (2) The same rule, stated as the least code in S-011. (3) The same rule, with the note that make_rule rejects unknown kinds earlier.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie. It names the owner of the note, the helper and the unknown-kind result in full. Where ADR 6e23 says evaluate returns the note, ADR b582 and this ADR place the note text in S-012.
+- Consequences / how to reverse: One fallback branch in evaluate, one regex_error helper and one test. To move the note into evaluate, change its return shape, drop the helper and update one S-012 call site. No stored data depends on it.
+- Affects: S-011, S-012, R-072, R-035
+
+### ADR-20261010-r026-open: R-026 stays open after S-011 until S-013 and S-014 test read_rules
+- Status: auto
+- Context: R-026 requires that every rule read_rules returns has exactly five keys, a valid kind and a valid source. read_rules does not exist in S-011. S-011 tests only make_rule and the constants. slices.json lists R-026 only under S-011. No OVERRIDE ADR covers this question.
+- Options: (1) Plan a read_rules test in S-011. This is not possible. (2) Keep R-026 open. Add R-026 to S-013 and S-014 so their plans test the read_rules output. (3) Leave the link to ADR 6a5c only.
+- Decision: Option 2. It is the only option that forces a real test of the acceptance. Do not mark R-026 verified when S-011 passes.
+- Consequences / how to reverse: The orchestrator edits slices.json: add R-026 to S-013 and S-014. Remove it from them to reverse. No code depends on it.
+- Affects: S-011, S-013, S-014, R-026
+
+### ADR-20261009-191959-decision-judge-S-011-77b2: The orchestrator adds R-026 to S-013 and S-014; the planner does not edit slices.json
+- Status: auto
+- Context: slices.json lists R-026 only under S-011. The R-026 acceptance needs read_rules, which S-013 and S-014 build. ADR 20261010-r026-open already decides this. No OVERRIDE ADR contradicts it.
+- Options: (1) The orchestrator or escalator adds R-026 to S-013 and S-014 as a state edit; R-026 stays unverified after S-011. (2) The same rule, stated as the smallest change: two list entries. (3) The same rule, with an interim note in the S-011 plan that R-026 is partly covered and links to the ADR.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+5 = 30, option 3 = 15+10+4 = 29. Option 2 scores highest on simplicity, but it omits the owner role and the verification rule. Option 1 states both and follows ADR 20261010-r026-open without change. The planner proceeds with S-011 tests for make_rule and the constants only.
+- Consequences / how to reverse: Two array entries in slices.json. Remove R-026 from S-013 and S-014 to undo it. No code depends on the link.
+- Affects: S-011, S-013, S-014, R-026
+
+### ADR-20261009-192109-planner-S-011-4032: S-011 drops make_rule and the rule constants; R-026 needs a state edit
+- Status: auto
+- Context: The spec asks only for evaluate and the four operators. The R-026 acceptance needs read_rules, which S-013 and S-014 build. The revision 1 builder tested no part of that acceptance.
+- Options: (1) Keep make_rule and the constants. (2) Cut them, keep regex_error and the unknown-kind None, and ask the orchestrator to move R-026 to S-013 and S-014.
+- Decision: Option 2. It adds no behavior the spec did not ask for and does not hide the R-026 gap behind a builder test. It supersedes the make_rule parts of ADRs 6a5c, r026-open and 77b2. Those ADRs still hold on the R-026 state edit.
+- Consequences / how to reverse: slices.json needs R-026 removed from S-011 and added to S-013 and S-014. To reverse, add the builder back and its tests.
+- Affects: S-011, S-013, S-014, R-026
+
+### ADR-20261009-192242-escalator-S-011-9094: R-026 moves from S-011 to S-014
+- Status: auto
+- Context: R-026 tests the keys of rules that read_rules returns. S-011 has no read_rules. Three plans failed to cover R-026 without extra code.
+- Options: (1) Keep R-026 in S-011 and add make_rule. (2) Move R-026 to S-013. (3) Move R-026 to S-014, the slice that completes read_rules.
+- Decision: Option 3. S-014 finishes read_rules for both sources, so one test can check every rule shape.
+- Consequences / how to reverse: Edit the requirements lists of S-011 and S-014 in slices.json. S-013 tests may also assert the rule keys.
+- Affects: S-011, S-014, R-026
