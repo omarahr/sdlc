@@ -1,0 +1,178 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "ee0312c",
+  "environment": "python3 branches.py from a clean git worktree of sdlc/S-006, node 24 cli-runner with scratch HOME and TZ=UTC; no network",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-068",
+        "R-011"
+      ],
+      "title": "CLI name equals Python name for all 24 kind and format cases",
+      "given": "A scratch git repo and the real branches.py",
+      "when": "Run `branches.py name --format F --kind K ...` for 8 kinds x 3 formats",
+      "then": "branch equals mod.name; prefix, suffix and tail match; git check-ref-format passes; exit 0; stderr empty; tree unchanged",
+      "expected": "branch equals mod.name; prefix, suffix and tail match; git check-ref-format passes; exit 0; stderr empty; tree unchanged",
+      "actual": "24 of 24 cases matched (state compared by shape because its stamp is the clock)",
+      "result": "pass",
+      "specSource": "R-011 acceptance; R-068 acceptance",
+      "test": ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:43",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-006> node --test .sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-006/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree",
+          "inline": "unchanged after every run (treeUnchanged asserted)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-011"
+      ],
+      "title": "Lower lowercases only the tail",
+      "given": "Formats feature/PROJ-1-{name:lower}, Feat/PROJ-{name:lower}-X, Feat/PROJ-{name}-X, FEATURE/{name:lower}",
+      "when": "Run name for slice, e2e-area (area API-V2) and verify (profile HTTP-API)",
+      "then": "feature/PROJ-1-s-001; Feat/PROJ-s-001-X; Feat/PROJ-S-001-X; FEATURE/m-1-e2e-api-v2; feature/PROJ-1-s-001-v0-http-api-0",
+      "expected": "feature/PROJ-1-s-001; Feat/PROJ-s-001-X; Feat/PROJ-S-001-X; FEATURE/m-1-e2e-api-v2; feature/PROJ-1-s-001-v0-http-api-0",
+      "actual": "All five branches match exactly",
+      "result": "pass",
+      "specSource": "R-011 acceptance",
+      "test": ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:65",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-006> node --test .sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-006/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-011"
+      ],
+      "title": "Format comes from config; the flag overrides it",
+      "given": "Config branchFormat feature/PROJ-1-{name:lower}; a repo with no config",
+      "when": "Run name without and with --format",
+      "then": "s-009 lowercased from config; sdlc/S-009 with the flag; sdlc/S-009 with no config",
+      "expected": "s-009 lowercased from config; sdlc/S-009 with the flag; sdlc/S-009 with no config",
+      "actual": "All three match",
+      "result": "pass",
+      "specSource": "R-011 acceptance",
+      "test": ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:79",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-006> node --test .sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-006/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-068"
+      ],
+      "title": "Bad kind, bad format and missing parts exit non-zero with a JSON error and no stack trace",
+      "given": "Scratch repo",
+      "when": "Run name with kind nope; formats sdlc/x, two placeholders, {name:upper}, whitespace, ..{name:lower}; missing id; missing verify part; empty id; --n x; missing repo dir",
+      "then": "Exit non-zero (2), ok false, no Traceback, tree unchanged",
+      "expected": "Exit non-zero (2), ok false, no Traceback, tree unchanged",
+      "actual": "All cases exit 2 with {ok:false,error}, no Traceback",
+      "result": "pass",
+      "specSource": "R-011 acceptance; R-068 acceptance",
+      "test": ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:87",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-006> node --test .sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-006/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "bad kind",
+          "inline": "exit: 2\n{\"ok\": false, \"error\": \"--kind 'nope' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-011"
+      ],
+      "title": "Repo path with spaces and unicode, unicode id, repeated run, CI and C locale",
+      "given": "Dir 'a dir with spaces \u00e9'",
+      "when": "Run the same name twice; id with \u00c4 \u00d6 \u0130; CI=1 LANG=C",
+      "then": "Same stdout both times; branch uses str.lower of the id; sdlc/S-001 under C locale",
+      "expected": "Same stdout both times; branch uses str.lower of the id; sdlc/S-001 under C locale",
+      "actual": "All matched",
+      "result": "pass",
+      "specSource": "R-011 acceptance",
+      "test": ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:108",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-006> node --test .sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-006/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-068"
+      ],
+      "title": "Unknown flag and no arguments fail cleanly",
+      "given": "None",
+      "when": "Run name with --bogus x; run with no arguments",
+      "then": "Exit 2 and a JSON error, no Traceback",
+      "expected": "Exit 2 and a JSON error, no Traceback",
+      "actual": "Exit 2: unrecognized arguments: --bogus x; exit 2: the following arguments are required: command",
+      "result": "pass",
+      "specSource": "R-011 acceptance; R-068 acceptance",
+      "test": ".sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs:124",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-006> node --test .sdlc/slices/S-006/verification/r0/tests/cli-0/branches-lower.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "CLI transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-006/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "VS-2 and VS-1 and-or VS-3 cover only the name half",
+      "detail": "The parse command is a stub that echoes its input, so the round-trip back to parts is unverified until S-007.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
