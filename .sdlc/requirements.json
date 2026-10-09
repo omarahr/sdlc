@@ -1052,7 +1052,7 @@
     "specRef": "§2",
     "quote": "`list_kind(repo, fmt, kind)`: every local branch (`git for-each-ref --format=%(refname:short) refs/heads/`) that parses to `kind`, with its parts, sorted by `n` for `run` and `attempt` and by name otherwise.",
     "acceptance": "A fixture repo holds branches of several kinds. `list --kind slice` returns only slice branches with their parts, sorted by name. `list --kind run` sorts by `n`. Foreign branches are absent.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2206,7 +2206,7 @@
     "specRef": "§2",
     "quote": "`list_kind(repo, fmt, kind)`: every local branch (`git for-each-ref --format=%(refname:short) refs/heads/`) that parses to `kind`, with its parts, sorted by `n` for `run` and `attempt` and by name otherwise.",
     "acceptance": "`list --kind attempt` sorts by `n` numerically: `sdlc/S-001-attempt-2` precedes `sdlc/S-001-attempt-10`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

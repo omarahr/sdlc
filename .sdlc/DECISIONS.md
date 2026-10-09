@@ -239,3 +239,27 @@
 - Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie. The edge-case line states a fact about inputs, not a rule for parse. A reject rule would add behavior the spec does not describe.
 - Consequences / how to reverse: To reject a slash, add one guard after the row 4 match in parse and one test. No stored data depends on the current behavior.
 - Affects: S-008, R-105
+
+### ADR-20261009-182641-decision-judge-S-010-e3f4: list fails on a non-git repo and gives an empty list for a repo with no commits
+- Status: auto
+- Context: The spec is silent on list in a directory that is not a git repository. Spec section 2 says every command exits 2 with a JSON error on bad input. No OVERRIDE ADR covers this question.
+- Options: (1) Fail with exit 2 and "not a git repository: <repo>"; detect it with rev-parse --git-dir; a repo with no commits gives "branches": [] and exit 0. (2) The same rule, taken from the for-each-ref failure through the shared Fail path. (3) The same rule, worded for branches.py list through Fail.
+- Decision: Option 1. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+4 = 29, option 2 = 15+10+5 = 30, option 3 = 15+10+4 = 29. Option 1 is chosen because it names the error text and detects the case from git, not from empty output. A wrong --repo must not look like "no branches".
+- Consequences / how to reverse: One check in the list handler and one test. To return an empty list, delete the check and flip the test. No config key, flag or state format depends on it.
+- Affects: S-010
+
+### ADR-20261009-182645-decision-judge-S-010-bd10: list prints {ok, command, format, kind, branches} with parse-shaped entries plus branch
+- Status: auto
+- Context: The spec says every command prints one JSON object. It does not name the fields of the list output. S-018 and S-027 read branches[].branch and branches[].id. No OVERRIDE ADR covers this question.
+- Options: (1) Entries use the parse result plus branch, known is null, order follows list_kind (by n for run and attempt, else by name). (2) The same, but sort by name only and echo kind or null. (3) Omit known; also define the error output.
+- Decision: Option 1. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 13+10+5 = 28 (name-only order ignores list_kind), option 3 = 14+10+4 = 28 (a varying key set makes entries differ from parse). Option 1 keeps list and parse entries in one shape. Bad input follows the shared error rule: ok false and exit 2.
+- Consequences / how to reverse: The shape lives in one handler in skills/sdlc/branches.py and its test. Adding a key breaks no reader. To rename a key, change that line, its test and the S-018 and S-027 reads.
+- Affects: S-010
+
+### ADR-20261009-182640-decision-judge-S-010-7c1e: list_kind breaks equal-n ties by full branch name, ascending
+- Status: auto
+- Context: The spec says list_kind sorts run and attempt branches by n, and gives no order for equal n. Attempts of different slices can share n. The plan breaks ties by branch name. No OVERRIDE ADR covers this question.
+- Options: (1) Sort by n, then full branch name ascending. (2) The sort key (n, branch name) for run and attempt, other kinds sorted by name alone. (3) Sort by n, then full branch name ascending, as a secondary key only.
+- Decision: Option 1. The three proposals describe one design: the key (n, branch name), ascending. Scores (fit x3, reversibility x2, simplicity x1): option 1 = 15+10+5 = 30, option 2 = 30, option 3 = 30. Option 1 wins the tie because it states the rule without extra claims about other kinds or git ref order. Other kinds keep their existing order.
+- Consequences / how to reverse: One sort key in list_kind and one test change. No stored data or CLI output format depends on the tie order.
+- Affects: S-010, R-025, R-094
