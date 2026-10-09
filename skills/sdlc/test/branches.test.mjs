@@ -1279,3 +1279,128 @@ test('T-R-109d ledger ids on the last four rows', opts, () => {
   assert.equal(out[3].known, false)
   assert.equal(out[4].known, null)
 })
+
+function listRepo(names, config) {
+  const repo = config ? withConfig(config) : gitRepo()
+  git(repo, 'commit', '-q', '--allow-empty', '-m', 'init')
+  for (const n of names) git(repo, 'branch', n)
+  return repo
+}
+
+const listCli = (repo, kind, ...extra) => {
+  const r = run(['list', '--repo', repo, '--kind', kind, ...extra])
+  assert.equal(r.status, 0, `list ${kind}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+  return oneObject(r)
+}
+
+const listNames = (repo, kind, ...extra) => listCli(repo, kind, ...extra).branches.map((b) => b.branch)
+
+const MIXED = [
+  'sdlc/S-002', 'sdlc/S-001', 'sdlc/S-fix-M-1-2', 'sdlc/M-1', 'sdlc/run-1',
+  'sdlc/state-20261008101500', 'sdlc/S-001-attempt-1', 'sdlc/S-001-v0-http-api-0',
+  'sdlc/feature-x',
+]
+
+test('T-R-025a list returns one kind, sorted by name', opts, () => {
+  const repo = listRepo(MIXED)
+  const out = listCli(repo, 'slice')
+  assert.equal(out.ok, true)
+  assert.equal(out.command, 'list')
+  assert.equal(out.kind, 'slice')
+  assert.equal(typeof out.format, 'string')
+  assert.deepEqual(out.branches.map((b) => b.branch), ['sdlc/S-001', 'sdlc/S-002', 'sdlc/S-fix-M-1-2'])
+  for (const b of out.branches) {
+    assert.equal(b.kind, 'slice')
+    assert.equal(b.id, b.tail)
+  }
+  const viaPython = JSON.parse(probe(`${LOAD}
+import json
+print(json.dumps(mod.list_kind(sys.argv[2], "sdlc/{name}", "slice")))
+`, [BRANCHES, repo]))
+  assert.deepEqual(viaPython, out.branches)
+})
+
+test('T-R-025b list works for each kind', opts, () => {
+  const repo = listRepo(MIXED)
+  assert.deepEqual(listNames(repo, 'milestone'), ['sdlc/M-1'])
+  assert.deepEqual(listNames(repo, 'run'), ['sdlc/run-1'])
+  const state = listCli(repo, 'state').branches
+  assert.equal(state.length, 1)
+  assert.equal(state[0].branch, 'sdlc/state-20261008101500')
+  assert.equal(state[0].ts, '20261008101500')
+  const verify = listCli(repo, 'verify').branches
+  assert.equal(verify.length, 1)
+  assert.equal(verify[0].branch, 'sdlc/S-001-v0-http-api-0')
+  assert.equal(verify[0].round, 0)
+  assert.equal(verify[0].profile, 'http-api')
+  assert.equal(verify[0].part, 0)
+  const attempt = listCli(repo, 'attempt').branches
+  assert.equal(attempt.length, 1)
+  assert.equal(attempt[0].branch, 'sdlc/S-001-attempt-1')
+  assert.equal(attempt[0].n, 1)
+  assert.equal(attempt[0].id, 'S-001')
+  assert.deepEqual(listCli(repo, 'e2e').branches, [])
+  assert.deepEqual(listCli(repo, 'e2e-area').branches, [])
+  git(repo, 'branch', 'sdlc/M-1-e2e')
+  git(repo, 'branch', 'sdlc/M-1-e2e-api')
+  assert.deepEqual(listNames(repo, 'e2e'), ['sdlc/M-1-e2e'])
+  assert.deepEqual(listNames(repo, 'e2e-area'), ['sdlc/M-1-e2e-api'])
+})
+
+test('T-R-025c list sorts run branches by n', opts, () => {
+  const repo = listRepo(['sdlc/run-10', 'sdlc/run-2', 'sdlc/run-1'])
+  const out = listCli(repo, 'run').branches
+  assert.deepEqual(out.map((b) => b.n), [1, 2, 10])
+  assert.ok(out.every((b) => Number.isInteger(b.n)))
+})
+
+test('T-R-025d list honors the format', opts, () => {
+  const repo = listRepo(['feature/PROJ-1-S-001', 'sdlc/S-001', 'feature/proj-1-s-002'])
+  assert.deepEqual(listNames(repo, 'slice', '--format', 'feature/PROJ-1-{name}'), ['feature/PROJ-1-S-001'])
+  const configured = listRepo(['feature/PROJ-1-S-001', 'sdlc/S-001'], { branchFormat: 'feature/PROJ-1-{name}' })
+  assert.deepEqual(listNames(configured, 'slice'), ['feature/PROJ-1-S-001'])
+  assert.deepEqual(listNames(configured, 'slice', '--format', 'sdlc/{name}'), ['sdlc/S-001'])
+  const lower = listNames(repo, 'slice', '--format', 'feature/proj-1-{name:lower}')
+  assert.ok(lower.includes('feature/proj-1-s-002'), `lower: ${lower}`)
+})
+
+test('T-R-025e list reads local branches only', opts, () => {
+  const repo = listRepo(['sdlc/S-001'])
+  const head = git(repo, 'rev-parse', 'HEAD')
+  git(repo, 'update-ref', 'refs/remotes/origin/sdlc/S-009', head)
+  git(repo, 'tag', 'sdlc/S-008')
+  assert.deepEqual(listNames(repo, 'slice'), ['sdlc/S-001'])
+})
+
+test('T-R-025f list in an empty repo and in a bad repo', opts, () => {
+  const empty = gitRepo()
+  const out = listCli(empty, 'slice')
+  assert.deepEqual(out.branches, [])
+  const plain = scratch('sdlc-branches-plain-')
+  const r = run(['list', '--repo', plain, '--kind', 'slice'])
+  assert.equal(r.status, 2, `stdout ${r.stdout}, stderr ${r.stderr}`)
+  assert.doesNotMatch(r.stderr, /Traceback/)
+  assert.deepEqual(oneObject(r), { ok: false, error: `not a git repository: ${plain}` })
+  assertBadInput(['list', '--repo', empty, '--kind', 'bogus'], 'unknown kind')
+})
+
+test('T-R-094a attempt sorts by n numerically', opts, () => {
+  const repo = listRepo(['sdlc/S-001-attempt-10', 'sdlc/S-001-attempt-2', 'sdlc/S-001-attempt-1'])
+  const out = listCli(repo, 'attempt').branches
+  assert.deepEqual(out.map((b) => b.n), [1, 2, 10])
+  assert.deepEqual(out.map((b) => b.branch), ['sdlc/S-001-attempt-1', 'sdlc/S-001-attempt-2', 'sdlc/S-001-attempt-10'])
+  const mixed = listRepo(['sdlc/S-002-attempt-2', 'sdlc/S-001-attempt-2', 'sdlc/S-001-attempt-10', 'sdlc/S-002-attempt-1'])
+  const list = listCli(mixed, 'attempt').branches
+  assert.deepEqual(list.map((b) => b.branch), [
+    'sdlc/S-002-attempt-1', 'sdlc/S-001-attempt-2', 'sdlc/S-002-attempt-2', 'sdlc/S-001-attempt-10',
+  ])
+  assert.deepEqual(list.map((b) => b.id), ['S-002', 'S-001', 'S-002', 'S-001'])
+})
+
+test('T-R-094b the attempt sort is not a string sort', opts, () => {
+  const repo = listRepo(['sdlc/S-001-attempt-10', 'sdlc/S-001-attempt-2'])
+  const names = listNames(repo, 'attempt')
+  assert.notDeepEqual(names, [...names].sort())
+  assert.deepEqual(names, ['sdlc/S-001-attempt-2', 'sdlc/S-001-attempt-10'])
+  assert.ok(listCli(repo, 'attempt').branches.every((b) => typeof b.n === 'number' && Number.isInteger(b.n)))
+})
