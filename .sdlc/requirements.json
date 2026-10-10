@@ -5487,7 +5487,7 @@
     "specRef": "§7",
     "quote": "`prune_stale_milestone_branches` and `branch_run` classify with `parse`.",
     "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, prune_stale_milestone_branches treats only branches that parse to `milestone` as milestone branches. branch_run classifies a run branch by parse kind `run`. A foreign branch is neither pruned nor taken as the run branch.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5502,7 +5502,7 @@
     "specRef": "§7",
     "quote": "The format comes from `load_format(repo)`.",
     "acceptance": "janitor.py takes its format from `load_format(repo)`. A repo whose config holds `feature/PROJ-1-{name}` makes janitor sweep under that format. A repo with no branchFormat makes it sweep under `sdlc/{name}`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
