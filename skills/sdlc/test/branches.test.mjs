@@ -2813,3 +2813,105 @@ test('T-R-075a the loop script and the module name branches the same way', opts,
     assert.equal(rt.I.branchName('S-001-v2-http-api-3'), oneObject(r).branch, fmt)
   }
 })
+
+test('T-R-127a a regex rule matches anywhere in the name and is not anchored', opts, () => {
+  const got = probeJson(`
+import json
+print(json.dumps([
+  mod.evaluate(rule("regex", "feature"), "x/feature/y"),
+  mod.evaluate(rule("regex", "^feature/"), "sdlc/S-001"),
+  mod.evaluate(rule("regex", "^feature/"), "feature/S-001"),
+]))
+`)
+  assert.deepEqual(got, [true, false, true])
+})
+
+test('T-R-127b a regex rule passes only when the format derives from it', opts, () => {
+  const rules = regexRule('feature only', '^feature/')
+  const given = prRun(rules, ['--format', 'feature/{name}'])
+  assert.equal(given.status, 0, JSON.stringify(given.out))
+  assert.equal(given.out.ok, true)
+  assert.ok(given.out.samples.every((s) => s.result === 'pass'), JSON.stringify(given.out.samples))
+  const bare = prRun(rules)
+  assert.equal(bare.status, 1, JSON.stringify(bare.out))
+  assert.equal(bare.out.ok, false)
+  assert.equal(sampleOf(bare.out, 'slice').result, 'fail')
+})
+
+test('T-R-140a a pr preflight on gitlab reads the project push rule once and no group rule', opts, () => {
+  const shim = glabShim()
+  const { out } = preflight(gitlabRepo(), ['--mode', 'pr'], shim)
+  assert.equal(out.command, 'preflight')
+  const calls = shim.calls()
+  assert.equal(calls.length, 1, JSON.stringify(calls))
+  assert.equal(calls[0].argv, 'api projects/:fullpath/push_rule')
+  assert.ok(calls.every((c) => !c.argv.includes('group')), JSON.stringify(calls))
+})
+
+test('T-R-140b a stack preflight on gitlab reads the same single path and lists one push rule', opts, () => {
+  const shim = glabShim({ body: { branch_name_regex: '^sdlc/' } })
+  const { out } = preflight(gitlabRepo(), ['--mode', 'stack'], shim)
+  const calls = shim.calls()
+  assert.equal(calls.length, 1, JSON.stringify(calls))
+  assert.equal(calls[0].argv, 'api projects/:fullpath/push_rule')
+  assert.equal(out.rules.length, 1, JSON.stringify(out.rules))
+  assert.equal(out.rules[0].source, 'gitlab')
+  assert.equal(out.rules[0].label, 'push rule')
+})
+
+test('T-R-142a a format with a literal prefix names the branch and passes preflight', opts, () => {
+  const fmt = 'feature/PROJ-123-{name}'
+  const repo = gitRepo()
+  const named = run(['name', '--repo', repo, '--kind', 'slice', '--id', 'S-001', '--format', fmt])
+  assert.equal(named.status, 0, named.stdout + named.stderr)
+  assert.equal(oneObject(named).branch, 'feature/PROJ-123-S-001')
+  const valid = probeJson(`
+import json
+mod.validate_format(sys.argv[2])
+print(json.dumps(True))
+`, [fmt])
+  assert.equal(valid, true)
+  const { status, out } = preflight(repo, ['--mode', 'pr', '--format', fmt])
+  assert.equal(status, 0, JSON.stringify(out))
+  assert.equal(out.ok, true)
+  assert.equal(out.format, fmt)
+  assert.equal(out.given, true)
+  assert.equal(sampleOf(out, 'slice').name, 'feature/PROJ-123-S-001')
+})
+
+test('T-R-150a a format that makes an invalid ref name exits 2 with one JSON error', opts, () => {
+  const r = run(['preflight', '--repo', gitRepo(), '--mode', 'pr', '--format', 'sdlc/{name}..'])
+  assert.equal(r.status, 2, r.stdout + r.stderr)
+  const out = oneObject(r)
+  assert.equal(out.ok, false)
+  assert.match(out.error, /check-ref-format/)
+  assert.match(out.error, /not a valid branch name/)
+})
+
+test('T-R-151a no config format and no forge gives the default format and no rules', opts, () => {
+  const { status, out } = preflight(gitRepo(), ['--mode', 'pr'])
+  assert.equal(status, 0, JSON.stringify(out))
+  assert.equal(out.ok, true)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.derived, false)
+  assert.deepEqual(out.rules, [])
+})
+
+test('T-R-151b every mode passes with no forge and with an empty rule list', opts, () => {
+  for (const mode of ['stack', 'mr', 'direct']) {
+    const bare = preflight(gitRepo(), ['--mode', mode])
+    assert.equal(bare.status, 0, `${mode}: ${JSON.stringify(bare.out)}`)
+    assert.equal(bare.out.ok, true, mode)
+    assert.equal(bare.out.format, 'sdlc/{name}', mode)
+    assert.equal(bare.out.derived, false, mode)
+    assert.deepEqual(bare.out.rules, [], mode)
+    assert.ok(bare.out.samples.every((s) => ['pass', 'unchecked'].includes(s.result)), `${mode}: ${JSON.stringify(bare.out.samples)}`)
+    const empty = preflight(githubRepo(), ['--mode', mode], ghShim({ body: [] }))
+    assert.equal(empty.status, 0, `${mode} gh: ${JSON.stringify(empty.out)}`)
+    assert.equal(empty.out.ok, true, mode)
+    assert.equal(empty.out.format, 'sdlc/{name}', mode)
+    assert.equal(empty.out.derived, false, mode)
+    assert.deepEqual(empty.out.rules, [], mode)
+    assert.ok(empty.out.samples.every((s) => ['pass', 'unchecked'].includes(s.result)), `${mode} gh: ${JSON.stringify(empty.out.samples)}`)
+  }
+})
