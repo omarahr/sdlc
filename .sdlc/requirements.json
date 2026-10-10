@@ -2347,7 +2347,7 @@
       "tests": [
         "active slice branch is found by parse under a custom format"
       ],
-      "commit": "pending"
+      "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
     "notes": ""
   },
@@ -2372,7 +2372,7 @@
         "TC-security-2",
         "TC-security-3"
       ],
-      "commit": "pending"
+      "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
     "notes": ""
   },
@@ -2392,7 +2392,7 @@
       "tests": [
         "a missing or empty branchFormat falls back to sdlc/{name}"
       ],
-      "commit": "pending"
+      "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
     "notes": ""
   },
@@ -2923,7 +2923,7 @@
       "tests": [
         "the active slice branch, slice PR heads, the state PR, the e2e PR and the stack milestone hold are recognized under a custom format"
       ],
-      "commit": "pending"
+      "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
     "notes": ""
   },
@@ -2943,7 +2943,7 @@
       "tests": [
         "existing next-action tests and npm test with no branchFormat"
       ],
-      "commit": "pending"
+      "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
     "notes": ""
   },
