@@ -151,14 +151,22 @@
     "notes": "Scenario SC-M-1-076: name --kind slice --id S-001-attempt-2 and --id S-001-v0-cli-0 print a name that parse reads as another kind. Use parse from S-fix-M-1-1a for the round-trip check. Read failures.md. Test phase: remove SC-M-1-076 from e2e/pending.json so its e2e test fails.",
     "counters": {
       "planRevisions": 1,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 2,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
     },
-    "ledger": []
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
+      }
+    ]
   },
   {
     "id": "S-fix-M-1-2",

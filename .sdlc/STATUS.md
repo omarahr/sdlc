@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T15:53:08Z
+Updated: 2026-10-10T16:27:10Z
 
 Requirements: 141/151 done · 0 parked · 0 stubbed · 0 obsolete
 Slices: 40/44 done · current: S-fix-M-1-1b branches.py: name refuses ids that do not round-trip · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: M-1
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 94 · Spec proposals: 10
+ADRs: 95 · Spec proposals: 10
 
 ## Recent
 - 2026-10-10T11:28:57Z slice-escalated S-034 step 1 replan: plan refuted 3 times

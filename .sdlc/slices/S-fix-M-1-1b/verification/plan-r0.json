@@ -1,0 +1,142 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "name refuses ids that parse as another kind",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract",
+        "cli",
+        "security"
+      ],
+      "notes": "Ids S-001-attempt-2, S-001-v0-cli-0, S-001-attempt-0, S-001-v10-a-b-3 under slice and milestone kinds. Each must raise Fail (exit 2, ok false), never print a name. parse must still read the same strings as attempt or verify."
+    },
+    {
+      "id": "VS-2",
+      "title": "valid parts of every kind keep their names and parse back",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "run, slice, milestone, e2e, e2e-area, state, verify, attempt with valid parts, incl. S-fix-M-1-2 and S-001-e2e. Each name parses back to the same kind and parts under several formats."
+    },
+    {
+      "id": "VS-3",
+      "title": "non-ASCII ids and parts are refused where parse refuses them",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract",
+        "i18n",
+        "security"
+      ],
+      "notes": "U+212A (Kelvin), U+017F (long s), accented letters, fullwidth digits in id, under {name} and {name:lower}. Slice id must raise Fail. Fullwidth digits in integer parts must not pass as ints."
+    },
+    {
+      "id": "VS-4",
+      "title": "integer parts compare by value",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "n='02', 2, '2', ' 2', '+2', '-1', '0x2', huge digit strings, True, 2.0. Valid ones succeed and parse back by value. Invalid ones raise Fail, not an exception trace."
+    },
+    {
+      "id": "VS-5",
+      "title": "lowering touches only the tail and follows one ASCII rule",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "i18n",
+        "contract"
+      ],
+      "notes": "Format Feat/PROJ-{name:lower}-X with uppercase prefix kept. e2e-area with area '\u00c9', '\u0130', '\u00df'. Output must lower ASCII only and parse back. name and parse must agree."
+    },
+    {
+      "id": "VS-6",
+      "title": "formats whose prefix or suffix joins the tail into another kind",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Formats with suffix '-e2e', '-attempt-1', '-v1-a-1', numeric suffix, and prefix 'run-'. Slice id may then parse as another kind. Expect Fail, or a faithful round trip. Never a silent mismatch."
+    },
+    {
+      "id": "VS-7",
+      "title": "state names keep the given ts and build one when absent",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "state with no ts builds a UTC stamp and still succeeds. Explicit 14-digit ts is used as given. A bad ts (short, letters) must raise Fail. The check must skip ts only when none was given."
+    },
+    {
+      "id": "VS-8",
+      "title": "active_branch matches slice ids by ASCII lowering",
+      "requirementIds": [
+        "R-053"
+      ],
+      "profiles": [
+        "cli",
+        "security",
+        "i18n"
+      ],
+      "notes": "Scratch repo, format feature/p-1-{name:lower}, S-001 in progress. Branch feature/p-1-s-001 is active. Look-alike feature/p-1-s-00K (U+212A) is not. A U+212A id in slices.json does not match the ASCII branch. Foreign branches never read as active."
+    },
+    {
+      "id": "VS-9",
+      "title": "the name command reports refusal without side effects",
+      "requirementIds": [
+        "R-019"
+      ],
+      "profiles": [
+        "cli"
+      ],
+      "notes": "Exit 2, JSON ok false, an error message that names kind and branch, empty stdout name, no change to the repo tree. Check missing --id, empty id, unknown kind, bad format."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py name and parse, and next-action.py, in scratch repos",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Generate ids, parts and formats; check the round-trip property of name",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Look-alike Unicode and kind-confusing ids",
+      "exists": true
+    },
+    {
+      "id": "i18n-kit",
+      "profile": "i18n",
+      "purpose": "Unicode case-folding samples (Kelvin, long s, dotted I, sharp s)",
+      "exists": false
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "One pure function and its CLI cross one boundary, and the change decides which branch names the loop trusts.",
+  "notes": "Slice is code complete on sdlc/S-fix-M-1-1b. Profiles are ordered by scenario count: contract, cli, security, i18n. Medium risk caps the run at 4 profiles. No limits profile: the spec states no number."
+}
