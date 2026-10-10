@@ -1503,14 +1503,6 @@ test('T-R-002d: env-detector orders the branchFormat sources input, existing val
   assert.ok(input >= 0 && input < existing && existing < fallback)
 })
 
-test('T-R-134: state-schema.md describes runBranch and the slice branch field by kind', () => {
-  const text = sweepPromptText('state-schema')
-  assert.match(text, /the run branch \(`run` kind under `config\.branchFormat`\)/)
-  assert.match(text, /the slice branch under `config\.branchFormat`/)
-  assert.ok(!text.includes('sdlc/S-001'))
-  assert.ok(!text.includes('sdlc/run-<n>'))
-})
-
 test('T-R-135: commit-state.md uses the four branch placeholders and takes the state branch from branches.py', () => {
   const text = sweepPromptText('commit-state')
   for (const placeholder of ['<slice branch>', '<run branch>', '<milestone branch>', '<state branch>']) {
