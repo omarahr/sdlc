@@ -252,7 +252,7 @@
     "dependsOn": [],
     "kind": "fix",
     "status": "in_progress",
-    "phase": "gate",
+    "phase": "integrate",
     "branch": "",
     "pr": "",
     "risk": "",
