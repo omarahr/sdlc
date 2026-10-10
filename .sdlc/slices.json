@@ -4816,7 +4816,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-036",
     "pr": "",
     "risk": "medium",
@@ -4844,6 +4844,13 @@
       {
         "kind": "verify",
         "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 2,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
