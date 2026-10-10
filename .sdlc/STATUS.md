@@ -1,14 +1,13 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T13:48:54Z
+Updated: 2026-10-10T14:36:41Z
 
-Requirements: 150/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 39/40 done · current: none · awaiting merge: none
-Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
+Requirements: 139/151 done · 0 parked · 0 stubbed · 0 obsolete
+Slices: 39/43 done · current: none · awaiting merge: none
+Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: M-1
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 88 · Spec proposals: 6
+ADRs: 88 · Spec proposals: 10
 
 ## Recent
-- 2026-10-10T09:29:35Z slice-merged S-030 derive maps one simple rule to a format
 - 2026-10-10T10:01:35Z slice-merged S-031 evaluate regex, name literals and preflight edge formats
 - 2026-10-10T10:40:27Z slice-merged S-032 preflight samples each kind in its own mode
 - 2026-10-10T11:19:43Z slice-merged S-033 state-write and janitor take their format from the module
@@ -18,6 +17,7 @@ ADRs: 88 · Spec proposals: 6
 - 2026-10-10T13:12:27Z slice-merged S-036 S-036 shipped
 - 2026-10-10T13:48:24Z slice-merged S-037 S-037 verified and ready to ship
 - 2026-10-10T13:48:54Z note S-037 no CI checks on https://github.com/omarahr/sdlc/pull/135
+- 2026-10-10T14:30:46Z milestone M-1 fixing: 71/84 scenarios passed, 2 confirmed bug(s), 6 dismissed, 0 blocked; 5 unjudged
 
 ## Needs a human eye (non-blocking)
 - S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.

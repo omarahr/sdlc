@@ -1,0 +1,1690 @@
+[
+  {
+    "id": "SC-M-1-001",
+    "area": "names",
+    "requirementIds": [
+      "R-003",
+      "R-004",
+      "R-005",
+      "R-006",
+      "R-007",
+      "R-009",
+      "R-010"
+    ],
+    "category": "happy",
+    "source": "§1 table: \"`branches.py name --kind run --n 1` under the default format prints `sdlc/run-1`\" and the same for the other kinds",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "For each kind run python3 $SK/branches.py name --repo $R --kind K with its parts: run --n 1; slice --id S-001; milestone --id M-1; e2e --id M-1; e2e-area --id M-1 --area api; verify --id S-001 --round 0 --profile http-api --part 0; attempt --id S-001 --n 1"
+    ],
+    "expect": {
+      "api": "Exit 0; each stdout is one JSON object with ok true and branch equal to sdlc/run-1, sdlc/S-001, sdlc/M-1, sdlc/M-1-e2e, sdlc/M-1-e2e-api, sdlc/S-001-v0-http-api-0, sdlc/S-001-attempt-1",
+      "db": "git branch --list in $R shows no new branch (name only prints)",
+      "logs": "stderr empty"
+    }
+  },
+  {
+    "id": "SC-M-1-002",
+    "area": "names",
+    "requirementIds": [
+      "R-008",
+      "R-018"
+    ],
+    "category": "happy",
+    "source": "§1 table: \"`state-<UTC timestamp, %Y%m%d%H%M%S>`\"; R-008 acceptance: \"An explicit ts part is used as given\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Run name --kind state twice, then name --kind state --ts 20261008101500 (via the CLI flag the module offers; if the CLI has no --ts, call the Python API tail('state', ts='20261008101500') in a python3 -I probe)"
+    ],
+    "expect": {
+      "api": "Each generated branch matches ^sdlc/state-\\d{14}$ and its digits are within 5 seconds of `date -u +%Y%m%d%H%M%S`; the explicit ts yields sdlc/state-20261008101500",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-003",
+    "area": "names",
+    "requirementIds": [
+      "R-011",
+      "R-019",
+      "R-142"
+    ],
+    "category": "boundary",
+    "source": "§1: \"`{name:lower}` lowercases the tail ... The literal text keeps its case.\" and \"`feature/PROJ-123-{name}` names the first slice `feature/PROJ-123-S-001`\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "name --kind slice --id S-001 --format 'feature/PROJ-123-{name}'",
+      "name --kind slice --id S-001 --format 'feature/PROJ-1-{name:lower}'",
+      "name --kind milestone --id M-1 --format 'Team/X-{name:lower}'"
+    ],
+    "expect": {
+      "api": "Branches are feature/PROJ-123-S-001, feature/PROJ-1-s-001, Team/X-m-1: only the tail is lowercased, literal text keeps its case",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-004",
+    "area": "names",
+    "requirementIds": [
+      "R-019",
+      "R-068"
+    ],
+    "category": "data-integrity",
+    "source": "R-019 acceptance: \"Every name output parses back to the same kind and parts.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "For each of the three formats and each of the eight kinds, run name then feed the printed branch to parse with the same --format; compare kind and parts"
+    ],
+    "expect": {
+      "api": "parse returns the same kind and the same id/n/area/round/profile/part (compared case-insensitively on id only for {name:lower}); no kind is null; 24 round-trips all pass",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-005",
+    "area": "names",
+    "requirementIds": [
+      "R-001",
+      "R-017"
+    ],
+    "category": "invalid-input",
+    "source": "R-017 acceptance: \"validate_format rejects `{name}{name}`, `sdlc/`, `sdlc/{ name }`, and `sdlc/{name}..`. It accepts `sdlc/{name}` and `feature/PROJ-1-{name}`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Run preflight --mode pr --format F for F in '{name}{name}', 'sdlc/', 'sdlc/{ name }', 'sdlc/{name}..', 'a b/{name}', 'sdlc/{name}}', 'sdlc/{name:upper}' ; then for F in 'sdlc/{name}' and 'feature/PROJ-1-{name}'"
+    ],
+    "expect": {
+      "api": "Each invalid format exits 2 with one JSON object {ok:false,error:<non-empty>}; valid formats exit 0",
+      "logs": "no Python traceback on stderr or stdout. stderr has no `Traceback`; stdout holds exactly one JSON object per call.",
+      "db": "No file is written under $R"
+    }
+  },
+  {
+    "id": "SC-M-1-006",
+    "area": "names",
+    "requirementIds": [
+      "R-017",
+      "R-150"
+    ],
+    "category": "invalid-input",
+    "source": "Edge cases: \"A literal part that makes an invalid ref: `validate_format` rejects the format at pre-flight with `git check-ref-format`'s reason.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "preflight --mode pr --format 'sdlc/{name}..'",
+      "same with 'sdlc/~{name}', 'sdlc/{name}.lock', '/sdlc/{name}', 'sdlc/{name}^', 'sdlc/a:{name}', 'sdlc/*{name}', 'sdlc/[{name}'"
+    ],
+    "expect": {
+      "api": "Every call exits 2, ok false, error text contains the git check-ref-format message ('not a valid branch name'); stdout is a single JSON object",
+      "db": "Partial state: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-007",
+    "area": "names",
+    "requirementIds": [
+      "R-002",
+      "R-016"
+    ],
+    "category": "boundary",
+    "source": "R-016 acceptance: \"load_format returns the config value when it is non-empty. It returns `sdlc/{name}` when the key is missing, empty, or the file is absent.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. Five variants of .sdlc/config.json: absent file, {} , {branchFormat:\"\"}, {branchFormat:\"feature/PROJ-1-{name}\"}, and invalid JSON text",
+    "steps": [
+      "For each variant run name --kind slice --id S-001 with no --format"
+    ],
+    "expect": {
+      "api": "absent, {}, \"\" and invalid JSON give sdlc/S-001 with exit 0 (invalid JSON is not a crash); the valid value gives feature/PROJ-1-S-001",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-008",
+    "area": "names",
+    "requirementIds": [
+      "R-015",
+      "R-012"
+    ],
+    "category": "happy",
+    "source": "R-015 acceptance: \"A repo with `branchFormat: \\\"feature/PROJ-1-{name}\\\"` and `--format \\\"sdlc/{name}\\\"` names `sdlc/S-001`. Without `--format` it names `feature/PROJ-1-S-001`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. config.json holds branchFormat feature/PROJ-1-{name}",
+    "steps": [
+      "name --kind slice --id S-001 --format 'sdlc/{name}'",
+      "name --kind slice --id S-001",
+      "remove the config key and run again with no flag"
+    ],
+    "expect": {
+      "api": "sdlc/S-001, feature/PROJ-1-S-001, sdlc/S-001 in that order",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-009",
+    "area": "names",
+    "requirementIds": [
+      "R-099",
+      "R-014",
+      "R-018"
+    ],
+    "category": "invalid-input",
+    "source": "R-099 acceptance: \"`branches.py name --kind e2e-area --id M-1` with no `--area` exits 2 and prints one JSON object with `ok: false` and a non-empty `error`. No traceback appears.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "name --kind e2e-area --id M-1",
+      "name --kind slice (no --id)",
+      "name --kind verify --id S-001 --round 0 --profile http-api (no --part)",
+      "name --kind bogus --id S-001",
+      "name --kind slice --id ''",
+      "name --kind attempt --id S-001 --n -1",
+      "name --kind run --n abc"
+    ],
+    "expect": {
+      "api": "Each exits 2 with ok false and a non-empty error naming the missing or bad part; exactly one JSON object on stdout",
+      "logs": "stderr has no 'Traceback'",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-010",
+    "area": "names",
+    "requirementIds": [
+      "R-088",
+      "R-014"
+    ],
+    "category": "invalid-input",
+    "source": "R-088 acceptance: \"Each command accepts the flags its line names.\" and R-014: \"exit 2 with `{\\\"ok\\\": false, \\\"error\\\": \\\"...\\\"}` on bad input\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Run branches.py with no command; with an unknown command 'frobnicate'; with name and an unknown flag --bogus 1; with parse and no --branch; with list and no --kind"
+    ],
+    "expect": {
+      "api": "Each exits 2 with one JSON object ok false and a non-empty error; no usage text outside the JSON on stdout; no traceback",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-011",
+    "area": "names",
+    "requirementIds": [
+      "R-098",
+      "R-013"
+    ],
+    "category": "happy",
+    "source": "R-098 acceptance: \"Each of `next-action.py`, `state-write.py` and `janitor.py` runs with the working directory outside the skill directory, and its branch recognition still resolves.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. A .sdlc/ state with config.json and empty slices.json; cwd is an unrelated empty directory",
+    "steps": [
+      "From the unrelated cwd run python3 $SK/janitor.py --repo $R; python3 $SK/next-action.py --repo $R; python3 $SK/state-write.py status --repo $R; python3 $SK/branches.py name --repo $R --kind slice --id S-001",
+      "Run python3 -I -c 'import ast,sys;[print(n.names[0].name) for n in ast.walk(ast.parse(open(\"$SK/branches.py\").read())) if isinstance(n,ast.Import)]' to list imports"
+    ],
+    "expect": {
+      "api": "No ImportError or ModuleNotFoundError for branches; each script prints JSON",
+      "logs": "stderr has no Traceback",
+      "db": "branches.py imports only stdlib modules"
+    }
+  },
+  {
+    "id": "SC-M-1-012",
+    "area": "names",
+    "requirementIds": [
+      "R-017",
+      "R-142"
+    ],
+    "category": "security",
+    "source": "Intent §1: \"exactly one placeholder ... no whitespace\"; shell and JSON metacharacters must not break the one-JSON-object contract",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "name --kind slice --id 'S-001; touch /tmp/pwn-$R' ",
+      "name --kind slice --id $'S-001\\nS-002'",
+      "name --kind slice --id '../../etc/passwd'",
+      "name --kind area --id M-1 --area 'a b'",
+      "name --kind slice --id S-001 --format $'sdlc/{name}\\n'",
+      "Run every call with `GHP_TOKEN=ghp_SECRET123` and `SDLC_PROBE_ENV=env-value-7` in the environment."
+    ],
+    "expect": {
+      "api": "Each call either exits 2 with ok false or prints a branch that git check-ref-format --branch accepts; never a second JSON object",
+      "db": "No file named pwn-* is created; $R has no new branches",
+      "logs": "no traceback. Neither stdout nor stderr holds `ghp_SECRET123` or `env-value-7`; the hostile text appears at most once in each output."
+    }
+  },
+  {
+    "id": "SC-M-1-013",
+    "area": "names",
+    "requirementIds": [
+      "R-016",
+      "R-055"
+    ],
+    "category": "limits",
+    "source": "R-055 acceptance: \"A missing or empty value falls back to `sdlc/{name}`.\" Non-string config values are outside the spec",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. config.json {\"branchFormat\": 42}, then {\"branchFormat\": null}, then {\"branchFormat\": [\"x\"]}",
+    "steps": [
+      "Run name --kind slice --id S-001 for each variant"
+    ],
+    "expect": {
+      "api": "null falls back to sdlc/S-001; 42 and [\"x\"] either fall back or exit 2 with ok false and a JSON error; no traceback",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-014",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-102",
+      "R-103",
+      "R-104",
+      "R-105",
+      "R-106",
+      "R-107",
+      "R-108",
+      "R-109",
+      "R-022",
+      "R-023"
+    ],
+    "category": "happy",
+    "source": "§2 parse table rows 1 to 8 and R-023: \"parse of `sdlc/run-2` gives kind `run` and `n: 2`. ... Of `sdlc/M-1-e2e-api` gives `id` and `area`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "parse --branch each of: sdlc/run-2, sdlc/M-1, sdlc/M-1-e2e, sdlc/M-1-e2e-api, sdlc/state-20261008101500, sdlc/S-001-v0-http-api-0, sdlc/S-001-attempt-2, sdlc/S-001"
+    ],
+    "expect": {
+      "api": "kinds are run(n 2), milestone(id M-1), e2e(id M-1), e2e-area(id M-1, area api), state(ts), verify(id S-001, round 0, profile http-api, part 0), attempt(id S-001, n 2), slice(id S-001); known is null in each",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-015",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-022",
+      "R-070",
+      "R-105"
+    ],
+    "category": "boundary",
+    "source": "R-022 acceptance: \"`S-fix-M-1-2` is a slice. `M-1-e2e-api` is an e2e-area. `S-001-v0-http-api-0` is verify with profile `http-api`. An area with dashes parses whole: `M-1-e2e-a-b` gives area `a-b`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "parse sdlc/S-fix-M-1-2, sdlc/M-1-e2e-a-b, sdlc/M-2-e2e-api-v2, sdlc/S-fix-M-1-2-attempt-3, sdlc/S-fix-M-1-2-v1-cli-0"
+    ],
+    "expect": {
+      "api": "slice id S-fix-M-1-2; e2e-area area a-b; e2e-area area api-v2; attempt id S-fix-M-1-2 n 3; verify id S-fix-M-1-2 round 1 profile cli part 0",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-016",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-021",
+      "R-101",
+      "R-118"
+    ],
+    "category": "invalid-input",
+    "source": "R-021 acceptance: \"parse returns null for `main`, for `feature/PROJ-1-foo` under `feature/PROJ-1-{name}`, and for `sdlc/feature-x` under the default.\"; R-118: \"`feature/PROJ-1-S-002` ... returns kind `slice` with id `S-002`\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "parse --branch main",
+      "parse --branch feature/PROJ-1-foo --format 'feature/PROJ-1-{name}'",
+      "parse --branch sdlc/feature-x",
+      "parse --branch feature/PROJ-1-S-002 --format 'feature/PROJ-1-{name}'",
+      "parse --branch sdlc/ ; parse --branch ''"
+    ],
+    "expect": {
+      "api": "kind null (exit 0) for the first three and the empty cases, kind slice id S-002 for the fourth; one JSON object each",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-017",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-106",
+      "R-102"
+    ],
+    "category": "limits",
+    "source": "R-106 acceptance: \"A 13-digit tail returns None.\" and R-102: \"'sdlc/run-x' returns None.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "parse sdlc/state-2026100810150 (13 digits)",
+      "parse sdlc/state-202610081015000 (15 digits)",
+      "parse sdlc/state-2026100810150a",
+      "parse sdlc/run-x",
+      "parse sdlc/run-",
+      "parse sdlc/run-007",
+      "parse sdlc/run-99999999999999999999",
+      "parse sdlc/state-٢٠٢٦١٠٠٨١٠١٥٠٠ (Arabic-Indic digits, 14)"
+    ],
+    "expect": {
+      "api": "kind null for the 13, 15, letter-suffixed, run-x and run- cases and the non-ASCII digits (per the spec's \\d on ASCII timestamps; a classified result is a defect to report); run-007 gives run with n 7; the huge run number does not crash",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-018",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-103",
+      "R-104"
+    ],
+    "category": "boundary",
+    "source": "R-103: \"'sdlc/M-2-e2e' does not match this row.\" R-104: \"'sdlc/M-2-e2e-api' does not match this row.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "parse sdlc/M-2-e2e and sdlc/M-2-e2e-api and sdlc/M-2-e2e- and sdlc/M-2e2e and sdlc/m-2 and sdlc/M-"
+    ],
+    "expect": {
+      "api": "e2e, e2e-area, then null for the empty-area form, null for M-2e2e, null for lowercase m-2 under the default format, null for M-",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-019",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-024",
+      "R-070",
+      "R-086"
+    ],
+    "category": "happy",
+    "source": "R-024 acceptance: \"`parse(\\\"feature/PROJ-1-{name:lower}\\\", \\\"feature/proj-1-s-001\\\", ids=[\\\"S-001\\\"])` gives `id: \\\"S-001\\\"` and `known: true`. An id absent from the list gives `known: false`. Without ids, `known` is null.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. config.json branchFormat feature/PROJ-1-{name:lower}; slices.json lists S-001",
+    "steps": [
+      "parse --branch feature/proj-1-s-001 (CLI)",
+      "Python probe: parse(fmt,'feature/proj-1-s-001',ids=['S-001']); parse(fmt,'feature/proj-1-s-009',ids=['S-001']); parse(fmt,'feature/proj-1-s-001')",
+      "parse a branch FEATURE/PROJ-1-S-001 (prefix case differs)",
+      "Python probe under feature/p-1-{name:lower}: parse(fmt,'feature/p-1-m-1',ids=['M-1']); parse(fmt,'feature/p-1-m-1-e2e',ids=['M-1']); parse(fmt,'feature/p-1-m-2',ids=['M-1'])"
+    ],
+    "expect": {
+      "api": "id S-001 known true; second probe known false; third known null; the case-different prefix still parses (ADR-20261009-171409-implementer-S-007-f520: prefix and suffix match without case under {name:lower}) Milestone ids: the first two probes give id M-1 with known true; the third gives known false.",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-020",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-025",
+      "R-094"
+    ],
+    "category": "ordering",
+    "source": "R-025 acceptance: \"`list --kind run` sorts by `n`.\" R-094: \"`sdlc/S-001-attempt-2` precedes `sdlc/S-001-attempt-10`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. Local branches: sdlc/run-10, sdlc/run-2, sdlc/run-1, sdlc/S-002, sdlc/S-001, sdlc/S-001-attempt-10, sdlc/S-001-attempt-2, sdlc/S-002-attempt-1, main, feature/x",
+    "steps": [
+      "list --kind run",
+      "list --kind slice",
+      "list --kind attempt"
+    ],
+    "expect": {
+      "api": "run order 1,2,10 by n; slice list is S-001, S-002 by name and excludes attempt and verify branches; attempt order S-001-attempt-2, S-001-attempt-10 then S-002-attempt-1 (ADR-20261009-182640: ties by full branch name); main and feature/x absent; each entry carries branch plus the parse parts",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-021",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-025",
+      "R-085"
+    ],
+    "category": "data-integrity",
+    "source": "Edge cases: \"An old run's branches under the default when the new run gets a derived format: the new run's `list` and `parse` do not see them\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. Local branches sdlc/S-001 and feature/sdlc/S-002",
+    "steps": [
+      "list --kind slice --format 'feature/sdlc/{name}'",
+      "parse --branch sdlc/S-001 --format 'feature/sdlc/{name}'",
+      "list --kind slice (default)"
+    ],
+    "expect": {
+      "api": "first list holds only feature/sdlc/S-002; parse gives kind null; the default list holds sdlc/S-001 and not feature/sdlc/S-002",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-022",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-025"
+    ],
+    "category": "failure-injection",
+    "source": "ADR-20261009-182641-decision-judge-S-010-e3f4: \"list fails on a non-git repo and gives an empty list for a repo with no commits\"",
+    "setup": "Two directories: a plain non-git directory, and a git init repo with no commits",
+    "steps": "list --kind slice --repo <non-git dir>; list --kind slice --repo <empty git repo>; list --repo /nonexistent --kind slice",
+    "expect": {
+      "api": "non-git and nonexistent repos exit 2 with ok false and an error; the no-commit repo exits 0 with branches []; no traceback",
+      "db": "Partial state: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-023",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-025",
+      "R-053"
+    ],
+    "category": "i18n-rtl",
+    "source": "§2 parse table row 8: slice regex `^(S-[A-Za-z0-9-]+)$`; a tail matching none of the rows \"is not a loop branch: `None`\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. Branches: sdlc/S-001, sdlc/مرحبا, sdlc/S-001-é, sdlc/日本語-v1",
+    "steps": [
+      "list --kind slice; parse each non-ASCII branch"
+    ],
+    "expect": {
+      "api": "Only sdlc/S-001 is a slice; the non-ASCII branches parse to null (or S-001-é to null since the slice row allows [A-Za-z0-9-]); output is valid UTF-8 JSON and no traceback",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-024",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-024",
+      "R-054"
+    ],
+    "category": "concurrency",
+    "source": "§2: \"Every command prints one JSON object\"; name, parse and list only print",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. 30 local branches of mixed kinds",
+    "steps": [
+      "Run 8 parallel list --kind slice and 8 parallel parse calls against the same repo, and at the same time create and delete a branch with git branch"
+    ],
+    "expect": {
+      "api": "Every call exits 0 with one valid JSON object",
+      "db": "git for-each-ref of $R equals the pre-run list plus only the branch the scenario itself created or deleted",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-025",
+    "area": "preflight",
+    "requirementIds": [
+      "R-041",
+      "R-151",
+      "R-091",
+      "R-032"
+    ],
+    "category": "happy",
+    "source": "R-151 acceptance: \"On a repo with no config format and no forge rules, preflight prints ok true with format `sdlc/{name}` and derived false.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. No remote, no config",
+    "steps": [
+      "preflight --mode pr; --mode stack; --mode mr --branch my-work; --mode direct",
+      "preflight --mode mr (no --branch) with gh and glab shims on PATH that log every call",
+      "preflight --mode direct with gh and glab shims on PATH that log every call"
+    ],
+    "expect": {
+      "api": "All exit 0; ok true; format sdlc/{name}; derived false; forge \"\"; rules []; every sample result unchecked; suggestion \"\"",
+      "db": "nothing written to $R",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object",
+      "events": "The gh and glab shim logs are empty for every mode run, including `--mode direct` and `--mode mr` with no `--branch`, because these modes sample no loop kinds"
+    }
+  },
+  {
+    "id": "SC-M-1-026",
+    "area": "preflight",
+    "requirementIds": [
+      "R-039",
+      "R-136",
+      "R-137"
+    ],
+    "category": "happy",
+    "source": "R-039 acceptance: \"`--mode pr` samples slice, state, e2e. `--mode stack` samples run, milestone, slice. `--mode mr` and `--mode direct` sample none of the loop's kinds.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "preflight --mode pr; --mode stack; --mode mr; --mode direct; read the samples array"
+    ],
+    "expect": {
+      "api": "pr kinds slice,state,e2e; stack kinds run,milestone,slice; mr and direct have no samples; names are sdlc/S-001, sdlc/state-<14 digits>, sdlc/M-1-e2e, sdlc/run-1, sdlc/M-1",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object",
+      "events": "For `--mode direct` and `--mode mr` with no `--branch`, the gh and glab shim logs are empty"
+    }
+  },
+  {
+    "id": "SC-M-1-027",
+    "area": "preflight",
+    "requirementIds": [
+      "R-039"
+    ],
+    "category": "invalid-input",
+    "source": "§4 step 2 lists modes pr, stack, mr, direct; any other mode is bad input (R-014)",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "preflight --mode bogus; preflight with no --mode; preflight --mode PR"
+    ],
+    "expect": {
+      "api": "exit 2 with ok false and error, or (if the module accepts it) a documented result; never a traceback",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object",
+      "db": "Partial state: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo."
+    }
+  },
+  {
+    "id": "SC-M-1-028",
+    "area": "preflight",
+    "requirementIds": [
+      "R-027",
+      "R-028",
+      "R-029",
+      "R-140"
+    ],
+    "category": "happy",
+    "source": "§3: \"`gh api \\\"repos/{owner}/{repo}/rules/branches/<sample>\\\"` with `/` in the sample encoded as `%2F`\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. Remote origin set to a github.com URL octo/hello; gh shim on PATH that logs argv and prints [] ",
+    "steps": [
+      "preflight --mode pr; then --mode stack"
+    ],
+    "expect": {
+      "api": "ok true",
+      "logs": "The gh shim log holds one call per sample, path repos/octo/hello/rules/branches/sdlc%2FS-001 and the other samples with every / encoded as %2F; stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object",
+      "db": "no other gh subcommand was called"
+    }
+  },
+  {
+    "id": "SC-M-1-029",
+    "area": "preflight",
+    "requirementIds": [
+      "R-028",
+      "R-100"
+    ],
+    "category": "boundary",
+    "source": "R-028 acceptance: \"yields only the pattern rules. negate defaults to false. The label falls back from `parameters.name` to `ruleset <id>` to `branch_name_pattern`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim prints an array with: a required_signatures rule; a branch_name_pattern with name; one with ruleset_id only; one with neither; one with negate true; one with a pattern that sdlc names satisfy",
+    "steps": [
+      "preflight --mode pr --format 'zzz/{name}'"
+    ],
+    "expect": {
+      "api": "rules contains only the branch_name_pattern objects; labels are the name, 'ruleset <id>', and 'branch_name_pattern'; negate false when absent; failed samples name the first failing rule's label",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-030",
+    "area": "preflight",
+    "requirementIds": [
+      "R-042",
+      "R-123",
+      "R-124",
+      "R-125",
+      "R-141",
+      "R-126"
+    ],
+    "category": "happy",
+    "source": "§4 derivation table: starts_with P gives P+sdlc/{name}; ends_with S gives sdlc/{name}+S; contains C gives sdlc/+C+/{name}",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim returns one rule per run: starts_with feature/, ends_with -dev, contains team-a",
+    "steps": [
+      "preflight --mode pr for each rule, no --format, then --mode stack"
+    ],
+    "expect": {
+      "api": "exit 0; ok true; derived true; formats feature/sdlc/{name}, sdlc/{name}-dev, sdlc/team-a/{name}; every sample passes under it; suggestion \"\"",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-031",
+    "area": "preflight",
+    "requirementIds": [
+      "R-097",
+      "R-012",
+      "R-038"
+    ],
+    "category": "happy",
+    "source": "R-097 acceptance: \"A first run whose pre-flight derives `feature/sdlc/{name}` records `branchFormat: \\\"feature/sdlc/{name}\\\"` in the worktree's `.sdlc/config.json`. A resume without `--branch-format` reuses that value.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. starts_with feature/ shim",
+    "steps": [
+      "Drive the SKILL.md pre-flight steps by hand: run preflight, take the format, run env-detector's config step (or write config branchFormat as the prompt says); then preflight again with no --format on the repo holding that config"
+    ],
+    "expect": {
+      "api": "Second verdict has given true, derived false, format feature/sdlc/{name}",
+      "db": ".sdlc/config.json holds branchFormat feature/sdlc/{name}",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-032",
+    "area": "preflight",
+    "requirementIds": [
+      "R-038",
+      "R-042"
+    ],
+    "category": "boundary",
+    "source": "§4 step 5: derivation happens only \"when `given` is false\"; R-042 acceptance: \"A given format, a negated rule, a regex or several rules does not derive.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. starts_with feature/ shim",
+    "steps": [
+      "preflight --mode pr --format 'sdlc/{name}'",
+      "same but with the format only in config.json and no flag"
+    ],
+    "expect": {
+      "api": "Both exit 1; ok false; derived false; given true; failed samples name the rule; suggestion holds a --branch-format line",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-033",
+    "area": "preflight",
+    "requirementIds": [
+      "R-043",
+      "R-122"
+    ],
+    "category": "happy",
+    "source": "R-122 acceptance: \"A regex rule the default format fails ... the suggestion carries a `--branch-format` line of the shape `<literal>/{name}`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. glab shim returns {\"branch_name_regex\":\"^(feat|fix)/.+\"} and remote is a gitlab URL",
+    "steps": [
+      "preflight --mode stack",
+      "take the suggested literal, build the sample name, check it against the regex with a separate regex tool",
+      "preflight --mode stack --format <suggested format>"
+    ],
+    "expect": {
+      "api": "First run exits 1, ok false, suggestion includes --branch-format and the quoted pattern; third run exits 0 with ok true",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-034",
+    "area": "preflight",
+    "requirementIds": [
+      "R-091"
+    ],
+    "category": "happy",
+    "source": "R-091 acceptance: \"One regex rule that the default format satisfies: preflight exits 0, prints `ok: true`, `format` `sdlc/{name}`, and `derived: false`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. glab shim regex ^[a-z]+/.+",
+    "steps": [
+      "preflight --mode stack"
+    ],
+    "expect": {
+      "api": "exit 0; ok true; format sdlc/{name}; derived false; samples pass",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-035",
+    "area": "preflight",
+    "requirementIds": [
+      "R-092",
+      "R-087"
+    ],
+    "category": "invalid-input",
+    "source": "R-092 acceptance: \"Two rules and no format given: `ok` is false, `derived` is false, every failing sample carries its rule's label, and `suggestion` contains `--branch-format`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim returns starts_with feature/ and ends_with -dev; second variant a negated starts_with sdlc/",
+    "steps": [
+      "preflight --mode pr for each variant"
+    ],
+    "expect": {
+      "api": "exit 1; ok false; derived false; failing samples carry labels; suggestion contains --branch-format; for a single derivable rule whose derived format still fails the suggestion is the derived format (R-087)",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-036",
+    "area": "preflight",
+    "requirementIds": [
+      "R-036",
+      "R-037",
+      "R-040",
+      "R-043"
+    ],
+    "category": "invalid-input",
+    "source": "R-040 acceptance: \"`--mode mr --branch X` adds a `working` sample named X, evaluated as given. `--mode pr --branch X` adds no `working` sample.\" R-037: \"`bad..name` ... fails with rule `git check-ref-format`.\" ADR-20261009-194834-decision-judge-S-012-f284: a name that fails both the regex and the ref check gets the forge label `push rule`.",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. glab shim regex ^feat/.+",
+    "steps": [
+      "preflight --mode mr --branch bad-name",
+      "preflight --mode mr --branch feat/ok",
+      "preflight --mode mr --branch bad..name with a glab shim that has no rule (rules read fails or gives none)",
+      "preflight --mode mr --branch bad..name with the glab shim regex ^feat/.+",
+      "preflight --mode pr --branch bad-name"
+    ],
+    "expect": {
+      "api": "1: exit 1 working sample fail, suggestion names the rename; 2: exit 0; 3: exit 1 with working sample rule 'git check-ref-format'; 4: exit 1 with working sample rule 'push rule' (the forge label wins), not 'git check-ref-format'; 5: ok true and no working sample",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-037",
+    "area": "preflight",
+    "requirementIds": [
+      "R-033",
+      "R-034",
+      "R-095",
+      "R-127"
+    ],
+    "category": "boundary",
+    "source": "R-033 acceptance: \"The comparisons are case-sensitive: `Feature/` does not match `feature/x` under starts_with.\" R-127: \"A regex rule is unanchored: pattern `feature` matches `x/feature/y`\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "python3 -I probe: evaluate for each operator with matching, non-matching and case-different patterns; negate true on each; regex 'feature' vs 'x/feature/y'; '^feature/' vs 'sdlc/S-001'; empty pattern for each operator"
+    ],
+    "expect": {
+      "api": "True/False per the rule; negate flips only True/False; empty pattern: starts_with, ends_with and contains return True and do not crash",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-038",
+    "area": "preflight",
+    "requirementIds": [
+      "R-036",
+      "R-035"
+    ],
+    "category": "boundary",
+    "source": "R-036 acceptance: \"One False makes the sample fail. All True makes it pass. No failure plus one None makes it `unevaluated`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim returns three rules: one passing starts_with, one failing contains, one regex '(' ",
+    "steps": [
+      "preflight --mode pr; then remove the failing rule and run again; then keep only the regex '('"
+    ],
+    "expect": {
+      "api": "1: samples fail with the failing rule's label; 2: samples unevaluated and a note starting 'cannot evaluate'; 3: ok true exit 0",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-039",
+    "area": "scripts",
+    "requirementIds": [
+      "R-053",
+      "R-054",
+      "R-055",
+      "R-076",
+      "R-077"
+    ],
+    "category": "happy",
+    "source": "§7: \"`active_branch(repo, current)`: enumerate `refs/heads/` ... keep those `parse` classifies as `slice`\"; R-054 acceptance names the five recognitions",
+    "setup": "Fixture repo with branchFormat feature/PROJ-1-{name}, slices.json with S-001 in_progress and S-002 todo, branch feature/PROJ-1-S-001 checked out, a foreign branch sdlc/S-002; a --prs file with open heads feature/PROJ-1-state-20261008101500, feature/PROJ-1-M-1-e2e, feature/PROJ-1-M-1-e2e-api, feature/PROJ-1-s-001 style heads and merged head for an awaiting-merge slice",
+    "steps": [
+      "python3 $SK/next-action.py --repo $R --prs prs.json for each PR set"
+    ],
+    "expect": {
+      "api": "checkout is feature/PROJ-1-S-001 for the active slice; state PR and e2e PR are recognized; the e2e-area head is not an e2e PR; the merged slice head resolves by name(fmt,'slice',id); sdlc/S-002 never reads as active or as a PR",
+      "logs": "stderr is empty and has no Traceback; stdout holds exactly one JSON object.",
+      "db": "git for-each-ref, .sdlc/slices.json, .sdlc/log.jsonl and .sdlc/config.json are byte-equal before and after the call; the gh shim log shows no write call (no pr create, no push)."
+    }
+  },
+  {
+    "id": "SC-M-1-040",
+    "area": "scripts",
+    "requirementIds": [
+      "R-053",
+      "R-055",
+      "R-077"
+    ],
+    "category": "idempotency-retry",
+    "source": "R-077 acceptance: \"The full suite passes with no branchFormat set, including the existing next-action tests.\"",
+    "setup": "The same fixture as the previous scenario but with no branchFormat key, then with branchFormat \"\"",
+    "steps": "Run next-action.py twice for each variant, same inputs",
+    "expect": {
+      "api": "Both variants decide exactly as the old sdlc/ behavior: sdlc/S-001 is active; identical JSON on both runs",
+      "db": "the fixture tree is unchanged after the runs (next-action only reads, or only prints sync commands)",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-041",
+    "area": "scripts",
+    "requirementIds": [
+      "R-056",
+      "R-096",
+      "R-078",
+      "R-023"
+    ],
+    "category": "happy",
+    "source": "R-056 acceptance: \"Under `branchFormat: \\\"feature/PROJ-1-{name}\\\"`, state-write.py creates the slice and milestone branches as `feature/PROJ-1-S-001` and `feature/PROJ-1-M-1`\"",
+    "setup": "Fixture repo gitMode stack, runBranch set, branchFormat feature/PROJ-1-{name}, milestone M-1 with S-001, S-002 (S-001 awaiting-merge, S-002 depends on it)",
+    "steps": [
+      "echo '{\"status\":\"in_progress\"}' | python3 $SK/state-write.py patch-slice --repo $R --slice S-001",
+      "same for S-002",
+      "python3 $SK/state-write.py base-branch --repo $R --slice S-002"
+    ],
+    "expect": {
+      "api": "ok true; base-branch names feature/PROJ-1-S-001 (the dependency branch). Each ok:false result is one JSON object with a non-empty `error` and exit 2.",
+      "db": "git branch --list shows feature/PROJ-1-M-1 and feature/PROJ-1-S-001; no sdlc/ branch was created; `.sdlc/slices.json` holds the new status for each changed slice and each slice's `branch` field equals the git branch name; no other row changes",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-042",
+    "area": "scripts",
+    "requirementIds": [
+      "R-057",
+      "R-138",
+      "R-058"
+    ],
+    "category": "data-integrity",
+    "source": "R-138 acceptance: \"prune_stale_milestone_branches treats only branches that parse to `milestone` as milestone branches. ... A foreign branch is neither.\" R-058: \"config.runBranch stores a complete branch name.\"",
+    "setup": "Stack-mode fixture, format feature/PROJ-1-{name}; branches feature/PROJ-1-M-1, feature/PROJ-1-M-2 (stale), feature/PROJ-1-S-001, sdlc/M-3 and main; runBranch feature/PROJ-1-run-1",
+    "steps": [
+      "Drive a state-write patch that triggers prune_stale_milestone_branches (a milestone becomes verified/merged)"
+    ],
+    "expect": {
+      "db": "Only milestone-kind branches are pruned; sdlc/M-3, feature/PROJ-1-S-001, main and the run branch remain; config.runBranch still holds feature/PROJ-1-run-1 verbatim Every pruned branch is absent from git for-each-ref; .sdlc/slices.json and .sdlc/log.jsonl are byte-equal before and after; .sdlc/config.json is byte-equal, apart from the runBranch it already holds.",
+      "api": "The printed result lists exactly the pruned branches and no foreign one.",
+      "logs": "No Traceback; stderr names no branch outside the pruned set."
+    }
+  },
+  {
+    "id": "SC-M-1-043",
+    "area": "scripts",
+    "requirementIds": [
+      "R-083"
+    ],
+    "category": "happy",
+    "source": "Assumptions: \"`ship-prune` and `collect-verification` in `state-write.py` ... adapts ... to `branches.parse`.\" R-083 acceptance: \"A test asserts a verify tail and an attempt tail match under a custom format.\"",
+    "setup": "Fixture with format feature/PROJ-1-{name}, branches feature/PROJ-1-S-001-v0-cli-0 and feature/PROJ-1-S-001-attempt-1",
+    "steps": [
+      "grep skills/sdlc/state-write.py for ship-prune and collect-verification; if present, run each against the fixture; otherwise record the absent commands"
+    ],
+    "expect": {
+      "api": "If the commands exist they match both tails by parse kind; if they do not exist in this repo the scenario reports not-applicable, not failed (loop-economy spec not landed)",
+      "logs": "No Traceback in stderr.",
+      "db": "When the commands exist, they delete only the branches their tails name, and git for-each-ref lists no other change."
+    }
+  },
+  {
+    "id": "SC-M-1-044",
+    "area": "scripts",
+    "requirementIds": [
+      "R-060",
+      "R-079",
+      "R-086",
+      "R-139"
+    ],
+    "category": "happy",
+    "source": "R-060 acceptance: \"Under a custom format it sweeps only verify branches whose id is unknown or whose status is done or rejected. It never deletes run, attempt, or any other kind.\"",
+    "setup": "Fixture format feature/p-1-{name:lower}; slices S-001 done, S-002 todo, S-003 in_progress; branches feature/p-1-s-001-v0-http-api-0, feature/p-1-s-002-v0-cli-0, feature/p-1-s-009-v0-cli-0 (unknown id), feature/p-1-run-1, feature/p-1-s-001-attempt-1, feature/p-1-s-001, sdlc/S-001-v0-http-api-0, main",
+    "steps": [
+      "python3 $SK/janitor.py --repo $R"
+    ],
+    "expect": {
+      "api": "removedBranches lists exactly the S-001 verify branch and the unknown-id verify branch",
+      "db": "All other branches still exist (todo slice's verify branch, run, attempt, slice, old-format sdlc/ verify branch, main); `.sdlc/log.jsonl` and `.sdlc/slices.json` are byte-equal before and after the janitor runs; each removed branch is absent from `git for-each-ref`",
+      "logs": "Each refused branch appears in the notes with git's reason",
+      "events": "Events: the gh and glab shim logs are empty, and `git ls-remote` of the remote is unchanged; the run makes no forge call."
+    }
+  },
+  {
+    "id": "SC-M-1-045",
+    "area": "scripts",
+    "requirementIds": [
+      "R-060",
+      "R-139"
+    ],
+    "category": "boundary",
+    "source": "R-139 acceptance: \"A repo with no branchFormat makes it sweep under `sdlc/{name}`.\" ADR-20261010-051411-decision-judge-S-024-9f6d: \"Janitor keeps a verify-shaped branch whose id ends in -attempt-<n>\"",
+    "setup": "Default-format fixture; done slice S-001; branches sdlc/S-001-v0-cli-0, sdlc/S-001-attempt-2-v0-cli-0, sdlc/S-001-attempt-3, sdlc/run-1, the checked-out current branch being a verify branch of a done slice",
+    "steps": [
+      "python3 $SK/janitor.py --repo $R"
+    ],
+    "expect": {
+      "api": "removes sdlc/S-001-v0-cli-0 only; never the attempt-shaped, run or attempt branches; never the branch that is currently checked out (no failure, a note instead)",
+      "logs": "no traceback; Each refused branch appears in the notes with git's reason",
+      "db": "`.sdlc/log.jsonl` and `.sdlc/slices.json` are byte-equal before and after the janitor runs; each removed branch is absent from `git for-each-ref`",
+      "events": "Events: the gh and glab shim logs are empty, and `git ls-remote` of the remote is unchanged; the run makes no forge call."
+    }
+  },
+  {
+    "id": "SC-M-1-046",
+    "area": "scripts",
+    "requirementIds": [
+      "R-060",
+      "R-139"
+    ],
+    "category": "failure-injection",
+    "source": "§7 janitor: \"swept only when it parses to `verify`, its `id` is unknown to the ledger or its status is `done` or `rejected`\"",
+    "setup": "Fixtures: .sdlc/slices.json invalid JSON; config.json branchFormat invalid ('no placeholder'); repo with no .sdlc",
+    "steps": "janitor.py --repo for each fixture",
+    "expect": {
+      "api": "exit 0 or a JSON note; output is one JSON object with removedBranches [] ; invalid format means no branch deleted",
+      "db": "no branch is deleted in any failure fixture; `.sdlc/log.jsonl` and `.sdlc/slices.json` are byte-equal before and after the janitor runs; each removed branch is absent from `git for-each-ref`",
+      "logs": "Each refused branch appears in the notes with git's reason",
+      "events": "Events: the gh and glab shim logs are empty, and `git ls-remote` of the remote is unchanged; the run makes no forge call."
+    }
+  },
+  {
+    "id": "SC-M-1-047",
+    "area": "scripts",
+    "requirementIds": [
+      "R-050",
+      "R-051",
+      "R-075",
+      "R-116"
+    ],
+    "category": "data-integrity",
+    "source": "R-075 acceptance: \"`rt.I.branchName` and `branches.py name` equal for the three formats and the verify tail.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Load sdlc-loop.js the way test/harness.mjs does with args branchFormat set to each of the three formats, call rt.I.branchName('S-001-v0-http-api-0'), compare with branches.py name --kind verify ...",
+      "Load with no branchFormat arg"
+    ],
+    "expect": {
+      "api": "Strings are equal for all three formats; with no arg BRANCH_FORMAT is sdlc/{name}; INTERNALS exports branchName and BRANCH_FORMAT",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-048",
+    "area": "scripts",
+    "requirementIds": [
+      "R-050"
+    ],
+    "category": "boundary",
+    "source": "§6: branchName replaces the placeholder with the tail, lowercased for {name:lower}",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "rt.I.branchName with tails containing '$&', '$1' and '{name}' text, e.g. branchName('S-001$&x')",
+      "For the default format, feature/PROJ-1-{name} and {name:lower}, compare branchName with tails holding $&, $1, $` and $$ to branches.py name output"
+    ],
+    "expect": {
+      "api": "The tail appears literally in the result (JS String.replace special patterns are not interpreted); a differing result from branches.py name is a defect Every tail with $&, $1, $` and $$ equals the branches.py name output byte for byte, for the default format, feature/PROJ-1-{name} and {name:lower}.",
+      "logs": "node stderr is empty."
+    }
+  },
+  {
+    "id": "SC-M-1-049",
+    "area": "scripts",
+    "requirementIds": [
+      "R-052"
+    ],
+    "category": "happy",
+    "source": "R-052 acceptance: \"The env-detector invocation in sdlc-loop.js passes `branchFormat: A.branchFormat || null`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Run the loop harness through the bootstrap path with args branchFormat 'feature/PROJ-1-{name}' and again without, capturing the env-detector agent call input"
+    ],
+    "expect": {
+      "api": "env-detector input carries branchFormat feature/PROJ-1-{name}; without the arg it carries null",
+      "logs": "The loop script's output has no Traceback.",
+      "db": ".sdlc/config.json and the repo are unchanged by the invocation check."
+    }
+  },
+  {
+    "id": "SC-M-1-050",
+    "area": "scripts",
+    "requirementIds": [
+      "R-119",
+      "R-120"
+    ],
+    "category": "security",
+    "source": "ADR-20261010-005045-human-S-005b-1073 (OVERRIDE): \"It asserts that the remote holds no branch that `branches.py parse` classifies as verify, and that the shim saw no pull-request creation with a verify head.\"",
+    "setup": "Fixture repo with a local bare remote origin; local verify branches from branches.py name --kind verify under the default and under feature/PROJ-1-{name}; local e2e-area and attempt branches; a gh shim that logs its calls; a state-write.py-ready .sdlc tree in pr, stack and mr modes",
+    "steps": [
+      "Run every script path that can push or open a PR: state-write patch-slice (in_progress, awaiting-merge, done), milestone transitions in stack mode, next-action sync commands executed as printed, and janitor"
+    ],
+    "expect": {
+      "db": "git ls-remote on the bare remote shows no branch that branches.py parse classifies as verify or e2e-area; no attempt branch was pushed .sdlc/slices.json and .sdlc/log.jsonl agree with the pushed refs: every branch recorded as pushed appears in git ls-remote, and no recorded branch classifies as verify.",
+      "events": "the gh shim log holds no pr create with a verify or e2e-area head",
+      "logs": "no traceback"
+    }
+  },
+  {
+    "id": "SC-M-1-051",
+    "area": "docs",
+    "requirementIds": [
+      "R-063",
+      "R-080",
+      "R-146",
+      "R-143",
+      "R-144",
+      "R-145",
+      "R-147",
+      "R-148",
+      "R-149",
+      "R-132",
+      "R-133"
+    ],
+    "category": "data-integrity",
+    "source": "R-063 acceptance: \"Every prompt file and SKILL.md matches no `(?<![.\\w])sdlc/(?!tracker|STOP)` outside fenced blocks that quote `branches.py` output.\" (scan skips `sdlc/{name` per ADR-20261010-074453-decision-judge-S-027c-1782)",
+    "setup": "The target repo's skills/sdlc/prompts/*.md and SKILL.md",
+    "steps": "Scan every file with regex (?<![.\\w])sdlc/(?!tracker|STOP|\\{name) outside fenced blocks; then copy one prompt, append a line with 'sdlc/S-001', and scan that copy",
+    "expect": {
+      "api": "The repo scan finds zero literals; the mutated copy is found (the guard test in prompts.test.mjs fails when run on a tree with that copy)",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree.",
+      "logs": "The test runner's stderr holds no Traceback, no unhandled rejection and no secret."
+    }
+  },
+  {
+    "id": "SC-M-1-052",
+    "area": "docs",
+    "requirementIds": [
+      "R-062",
+      "R-089",
+      "R-090",
+      "R-110",
+      "R-111",
+      "R-112",
+      "R-113",
+      "R-114",
+      "R-115",
+      "R-117",
+      "R-081"
+    ],
+    "category": "happy",
+    "source": "§8: \"`_common.md` gains a section\" listing eight placeholders with their commands",
+    "setup": "prompts/_common.md",
+    "steps": "Read the Branch names section; run each command it gives against a scratch repo with real ids (slice S-001, milestone M-1, e2e M-1, e2e-area M-1 api, state, attempt S-001 1) and parse --branch on one result and on 'main'",
+    "expect": {
+      "api": "All eight placeholders are present; <verify branch> is filled from the prompt's branch input and by no name call; <run branch> in stack mode is config.runBranch else the last list --kind run entry; each command runs and exits 0; parse prints kind for a loop branch and kind null for main",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree."
+    }
+  },
+  {
+    "id": "SC-M-1-053",
+    "area": "docs",
+    "requirementIds": [
+      "R-045",
+      "R-046",
+      "R-047",
+      "R-048",
+      "R-049",
+      "R-128",
+      "R-129",
+      "R-130",
+      "R-121",
+      "R-101"
+    ],
+    "category": "happy",
+    "source": "§5: SKILL.md Commands table gains `--branch-format \"<format>\"`; Pre-flight Branch format bullet; Run worktree names the run branch through the module; Launch passes branchFormat",
+    "setup": "skills/sdlc/SKILL.md",
+    "steps": "Read SKILL.md and check: flag row beside --commit-format; one Branch format bullet after Git mode; old 'Branch name (first run only)' bullet gone; --format only when known; --branch only in mr mode; RUN_BRANCH from branches.py name --kind run; relaunch reuses last list entry; mismatch with worktree config reported and ended; no parse check on resume; launch args hold branchFormat: \"$FMT\"",
+    "expect": {
+      "api": "Every listed item is present exactly as the spec words it; no contradiction between the bullets (a defect is reported with line numbers)",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree."
+    }
+  },
+  {
+    "id": "SC-M-1-054",
+    "area": "docs",
+    "requirementIds": [
+      "R-064",
+      "R-065",
+      "R-134",
+      "R-135",
+      "R-061",
+      "R-131",
+      "R-093"
+    ],
+    "category": "happy",
+    "source": "§8: env-detector takes `branchFormat`; state-schema documents `\"branchFormat\": \"sdlc/{name}\"`; commit-state uses placeholders; slicer writes `branch: <slice branch>`",
+    "setup": "prompts env-detector.md, state-schema.md, commit-state.md, slicer.md, integrator.md",
+    "steps": "grep each file for the required wording; run the commands integrator.md gives for attempt cleanup against a fixture with branches sdlc/S-001-attempt-1, sdlc/S-001-attempt-10, sdlc/S-010-attempt-1",
+    "expect": {
+      "api": "branchFormat input and config line present; schema block holds branchFormat with the spec text; commit-state has no date -u branch build; integrator deletes only S-001's attempt branches (not S-010's) found through list --kind attempt",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree."
+    }
+  },
+  {
+    "id": "SC-M-1-055",
+    "area": "docs",
+    "requirementIds": [
+      "R-066",
+      "R-067"
+    ],
+    "category": "happy",
+    "source": "§9: \"`README.md`: the Usage table gets the `--branch-format \\\"<format>\\\"` flag with one example; a short **Branch names** paragraph ... the Development tree lists `branches.py`.\"",
+    "setup": "README.md and prompts/ste-style.md",
+    "steps": "Check README for the flag row and example, the Branch names paragraph after the git-mode bullets, the branchFormat mention under 'What it writes to your repo', branches.py in the tree; git diff main...HEAD on ste-style.md; run python3 skills/sdlc/ste-check.py on every edited prompt",
+    "expect": {
+      "api": "All four README items present; ste-style.md unchanged; ste-check exits 0 for each edited prompt and fails on a copy with a 40-word sentence",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree.",
+      "logs": "The test runner's stderr holds no Traceback, no unhandled rejection and no secret."
+    }
+  },
+  {
+    "id": "SC-M-1-056",
+    "area": "docs",
+    "requirementIds": [
+      "R-082",
+      "R-067"
+    ],
+    "category": "boundary",
+    "source": "R-082 acceptance: \"The STE test runs over every prompt the change edits and passes.\"",
+    "setup": "A scratch copy of the prompts tree",
+    "steps": "Add to a copy of integrator.md a 35-word sentence and a passive construction; run ste-check.py on the copy and on the original",
+    "expect": {
+      "api": "The copy fails with a message naming the sentence; the original passes; no crash",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree.",
+      "logs": "The test runner's stderr holds no Traceback, no unhandled rejection and no secret."
+    }
+  },
+  {
+    "id": "SC-M-1-057",
+    "area": "docs",
+    "requirementIds": [
+      "R-068",
+      "R-069",
+      "R-070",
+      "R-071",
+      "R-072",
+      "R-073",
+      "R-074",
+      "R-081",
+      "R-082",
+      "R-076",
+      "R-078",
+      "R-079"
+    ],
+    "category": "data-integrity",
+    "source": "§Testing lists the test cases of branches.test.mjs, next-action.test.mjs, scripts.test.mjs and prompts.test.mjs",
+    "setup": "The target repo",
+    "steps": "Run npm test; then list test titles in the four files and compare with the spec's named cases; run npm test again with TZ=Pacific/Kiritimati and in a different cwd via node --test with absolute paths",
+    "expect": {
+      "api": "npm test exits 0 both times; each named case title exists once; the suite does not depend on TZ or cwd",
+      "db": "The checks leave the working tree unchanged: git status --porcelain is empty after the run, and the mutated copies live outside the tree.",
+      "logs": "The test runner's stderr holds no Traceback, no unhandled rejection and no secret. The TZ and cwd variants leave no new file in the repo."
+    }
+  },
+  {
+    "id": "SC-M-1-058",
+    "area": "docs",
+    "requirementIds": [
+      "R-136",
+      "R-137"
+    ],
+    "category": "idempotency-retry",
+    "source": "§4: \"`branches.py preflight` ... Exit 0 when `ok`, 1 when not\"; preflight reads rules and prints a verdict",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Run preflight --mode pr three times, compare samples except the state timestamp; run with the state timestamp second boundary crossed"
+    ],
+    "expect": {
+      "api": "Identical output apart from the state sample name; exit codes equal",
+      "db": "no file or ref written",
+      "logs": "stderr is empty; stderr has no `Traceback`; stdout holds exactly one JSON object"
+    }
+  },
+  {
+    "id": "SC-M-1-059",
+    "area": "faults",
+    "requirementIds": [
+      "R-029",
+      "R-084"
+    ],
+    "category": "failure-injection",
+    "source": "§3: \"A `gh api` failure ... is one note, `rules unknown on github: <stderr>`, and the samples are `unchecked`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. github remote; gh shim exits 1 with stderr 'HTTP 403'",
+    "steps": [
+      "preflight --mode pr",
+      "Make the shim print `token ghp_SECRET123` on stderr before it exits 1"
+    ],
+    "expect": {
+      "api": "exit 0; ok true; exactly one note starting 'rules unknown on github:' and containing 403; every sample unchecked",
+      "logs": "no traceback; The note holds the forge reason; report a defect if the text `ghp_SECRET123` appears in any note, in stdout or in any log",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-060",
+    "area": "faults",
+    "requirementIds": [
+      "R-084"
+    ],
+    "category": "failure-injection",
+    "source": "R-084 acceptance: \"With `gh` absent from `PATH` on a github-mode repo, preflight prints `ok: true`, one note, and every sample `unchecked`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. github remote; PATH holds git and python3 only, no gh",
+    "steps": [
+      "preflight --mode stack"
+    ],
+    "expect": {
+      "api": "exit 0; ok true; one note; samples unchecked; no traceback",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "No gh runs; stdout and stderr hold no ghp_SECRET123 and no Traceback."
+    }
+  },
+  {
+    "id": "SC-M-1-061",
+    "area": "faults",
+    "requirementIds": [
+      "R-031",
+      "R-084"
+    ],
+    "category": "failure-injection",
+    "source": "R-031 acceptance: \"A glab shim that exits 1 gives one note starting `rules unknown on gitlab:` and every sample `unchecked`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gitlab remote; glab shim exits 1; second variant: glab absent from PATH",
+    "steps": [
+      "preflight --mode stack",
+      "same with no glab",
+      "Make the shim print `token ghp_SECRET123` on stderr before it exits 1"
+    ],
+    "expect": {
+      "api": "exit 0; ok true; one note starting 'rules unknown on gitlab:'; samples unchecked in both variants",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "The note holds the forge reason; report a defect if the text `ghp_SECRET123` appears in any note, in stdout or in any log"
+    }
+  },
+  {
+    "id": "SC-M-1-062",
+    "area": "faults",
+    "requirementIds": [
+      "R-030",
+      "R-031",
+      "R-140"
+    ],
+    "category": "boundary",
+    "source": "ADR-20261009-211706-decision-judge-S-014-e148: \"A successful glab read with no rule gives unchecked false\"; §3: null body, empty branch_name_regex mean no rule",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gitlab remote; glab shim variants: prints null; prints {}; prints {\"branch_name_regex\":\"\"}; prints not-json text with exit 0",
+    "steps": [
+      "preflight --mode stack for each variant"
+    ],
+    "expect": {
+      "api": "null, {} and empty regex: ok true, rules [], samples not marked as a read failure; non-JSON: a rules unknown note and unchecked samples",
+      "logs": "glab shim logged only projects/:fullpath/push_rule once per run",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-063",
+    "area": "faults",
+    "requirementIds": [
+      "R-035",
+      "R-036"
+    ],
+    "category": "failure-injection",
+    "source": "R-035 acceptance: \"A rule whose pattern Python cannot compile gives None. The sample is `unevaluated` with a note starting `cannot evaluate`.\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gitlab shim regex '(?<=a)b{' and '[' and '(?P<n>x)(?P<n>y)'; the shim also prints 'token ghp_SECRET123' on stderr",
+    "steps": [
+      "preflight --mode stack for each"
+    ],
+    "expect": {
+      "api": "exit 0; ok true; samples unevaluated; a note starting 'cannot evaluate' with the label; the run is never blocked",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "The planted secret ghp_SECRET123 does not appear in notes or stdout when gh prints it on stderr."
+    }
+  },
+  {
+    "id": "SC-M-1-064",
+    "area": "faults",
+    "requirementIds": [
+      "R-029"
+    ],
+    "category": "failure-injection",
+    "source": "§Assumptions: \"A rules read that fails is a note, never a block\"",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim sleeps 120 seconds; second variant prints a 50 MB body; third prints invalid JSON with exit 0; the shim also prints 'token ghp_SECRET123' on stderr; the huge variant runs with a 10 MB and a 50 MB body",
+    "steps": [
+      "preflight --mode pr with a 150 second tool timeout for each variant"
+    ],
+    "expect": {
+      "api": "Each variant finishes (a timeout note, a note, or unchecked); ok true; the process does not hang beyond the module's own timeout (report if none exists)",
+      "logs": "no traceback The planted secret ghp_SECRET123 does not appear in notes or stdout when gh prints it on stderr. The huge answer gives one note of bounded length, not the answer text.",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo"
+    }
+  },
+  {
+    "id": "SC-M-1-065",
+    "area": "faults",
+    "requirementIds": [
+      "R-029",
+      "R-028"
+    ],
+    "category": "failure-injection",
+    "source": "§3: \"A `gh api` failure ... is one note\"; \"A rules read that fails is a note, never a block\" (Assumptions)",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim prints {\"message\":\"Not Found\"} exit 0; variant prints [null, 3, {\"type\":\"branch_name_pattern\"}]; the shim also prints 'token ghp_SECRET123' on stderr",
+    "steps": [
+      "preflight --mode pr for each"
+    ],
+    "expect": {
+      "api": "exit 0 or 1 with one JSON object; no traceback; a rule without parameters is ignored or noted, never a crash",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "The planted secret ghp_SECRET123 does not appear in notes or stdout when gh prints it on stderr."
+    }
+  },
+  {
+    "id": "SC-M-1-066",
+    "area": "faults",
+    "requirementIds": [
+      "R-016",
+      "R-055",
+      "R-139"
+    ],
+    "category": "failure-injection",
+    "source": "R-098 and R-016: format lookups never crash a script when config is bad",
+    "setup": "Fixtures: config.json unreadable (chmod 000); config.json a directory; config.json symlink loop; branchFormat holding a format that fails validate_format",
+    "steps": "Run name, janitor.py, next-action.py and state-write.py status against each fixture",
+    "expect": {
+      "api": "branches.py name falls back to the default or exits 2 with JSON; janitor deletes nothing; next-action returns an action or an error action; each prints JSON, no traceback",
+      "db": "no branch deleted or created. Partial state: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after each run, and no new file exists.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call.",
+      "events": "Events: the gh and glab shim logs are empty, and `git ls-remote` of the remote is unchanged; the run makes no forge call."
+    }
+  },
+  {
+    "id": "SC-M-1-067",
+    "area": "faults",
+    "requirementIds": [
+      "R-099",
+      "R-025"
+    ],
+    "category": "failure-injection",
+    "source": "R-014: exit 2 and one JSON object on bad input",
+    "setup": "Repo path variants: nonexistent path, a file, a path with spaces and unicode, a repo with a corrupt .git/HEAD",
+    "steps": "Run name, parse, list, preflight against each",
+    "expect": {
+      "api": "Nonexistent and file paths exit 2 ok false; spaces/unicode work; corrupt HEAD gives exit 2 or a note, never a traceback",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after the run, and no new file exists in the repo",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-068",
+    "area": "faults",
+    "requirementIds": [
+      "R-060",
+      "R-139"
+    ],
+    "category": "failure-injection",
+    "source": "§7 janitor: \"a branch is swept only when it parses to `verify`\"; janitor prints a note on early stop",
+    "setup": "Fixture where git is replaced on PATH by a wrapper that fails on 'branch -D' and on 'for-each-ref'",
+    "steps": "janitor.py --repo",
+    "expect": {
+      "api": "One JSON object listing a note; removedBranches only contains branches really removed",
+      "db": "the branches the wrapper refused still exist and are not reported removed; `.sdlc/log.jsonl` and `.sdlc/slices.json` are byte-equal before and after the janitor runs; each removed branch is absent from `git for-each-ref`",
+      "logs": "Each refused branch appears in the notes with git's reason"
+    }
+  },
+  {
+    "id": "SC-M-1-069",
+    "area": "faults",
+    "requirementIds": [
+      "R-040",
+      "R-043"
+    ],
+    "category": "failure-injection",
+    "source": "§2 preflight: `git check-ref-format` is used for every sample",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. git replaced on PATH by a wrapper that exits 128 for check-ref-format",
+    "steps": [
+      "preflight --mode pr"
+    ],
+    "expect": {
+      "api": "One JSON object; either exit 2 with an error or a note and unchecked samples; never an ok true verdict that claims samples passed",
+      "db": "Partial state: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call. The error text and notes hold no home path and no token."
+    }
+  },
+  {
+    "id": "SC-M-1-070",
+    "area": "faults",
+    "requirementIds": [
+      "R-053",
+      "R-056"
+    ],
+    "category": "failure-injection",
+    "source": "§2 and R-014: \"exit 2 with `{\\\"ok\\\": false, \\\"error\\\": \\\"...\\\"}` on bad input\"; state-write prints {ok:false,error} with exit 2 on Fail",
+    "setup": "Fixture in the middle of a rebase (.git/rebase-merge present) and another with a locked index (.git/index.lock)",
+    "steps": "next-action.py --repo; state-write.py patch-slice with {\"status\":\"in_progress\"}",
+    "expect": {
+      "api": "next-action prints a JSON action; state-write exits 2 with ok false and a git error message rather than a traceback",
+      "db": "slices.json unchanged when state-write failed. Partial state: `git for-each-ref` output, `.sdlc/config.json` and every other file under `.sdlc` are byte-equal before and after each failed command, and no new file exists.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call. The error text holds no home path and no token.",
+      "events": "Events: the gh and glab shim logs are empty, and `git ls-remote` of the remote is unchanged; the run makes no forge call."
+    }
+  },
+  {
+    "id": "SC-M-1-071",
+    "area": "names",
+    "requirementIds": [
+      "R-020"
+    ],
+    "category": "boundary",
+    "source": "R-020, spec §2 `split(fmt)`: split returns the literal prefix, the literal suffix and the lower flag",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Import branches and call split('a/{name}.x')",
+      "Call split('a/{name:lower}')"
+    ],
+    "expect": {
+      "api": "split('a/{name}.x') returns ('a/', '.x', False); split('a/{name:lower}') returns ('a/', '', True)",
+      "logs": "stderr is empty",
+      "db": "No write: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo."
+    }
+  },
+  {
+    "id": "SC-M-1-072",
+    "area": "preflight",
+    "requirementIds": [
+      "R-026"
+    ],
+    "category": "data-integrity",
+    "source": "R-026, spec §3 rule shape: each rule carries source, kind, pattern, negate and label",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Read rules through a gh shim that returns one rule of each pattern operator",
+      "Read rules through a glab shim that returns a branch_name_regex"
+    ],
+    "expect": {
+      "api": "Each rule has exactly the keys source, kind, pattern, negate and label; kind is one of starts_with, ends_with, contains or regex; source is github for the gh shim and gitlab for the glab shim",
+      "logs": "stderr has no Traceback"
+    }
+  },
+  {
+    "id": "SC-M-1-073",
+    "area": "preflight",
+    "requirementIds": [
+      "R-044"
+    ],
+    "category": "happy",
+    "source": "R-044, spec §4 output shape: ok, format, derived, forge, rules, samples, notes and suggestion; exit 0, 1 and 2",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "preflight on an ok case (no rules)",
+      "preflight on a not-ok case (gh shim returns a starts_with rule the format fails, with --format given)",
+      "preflight on a bad-input case (--mode bogus)"
+    ],
+    "expect": {
+      "api": "Exit codes are 0, 1 and 2. Output keys are ok, format, derived, forge, rules, samples, notes and suggestion for the first two cases. Every sample carries kind, name, result and rule. A failed sample names the first failing rule's label. The bad-input case prints one JSON object with ok false",
+      "logs": "stderr has no Traceback"
+    }
+  },
+  {
+    "id": "SC-M-1-074",
+    "area": "scripts",
+    "requirementIds": [
+      "R-059"
+    ],
+    "category": "happy",
+    "source": "R-059, spec §7: state-write.py main() derives fmt once from the config, with load_format as fallback, and passes it to the branch helpers",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Set branchFormat to feature/PROJ-1-{name} in .sdlc/config.json",
+      "Run state-write.py commands that create slice and milestone branches",
+      "Repeat with a config that has no branchFormat key",
+      "Set branchFormat to an invalid value ({name}{name}) in .sdlc/config.json and run a state-write command that creates a branch"
+    ],
+    "expect": {
+      "api": "Branches carry the custom format; main() derives fmt once and passes it to every branch helper; the load_format fallback gives sdlc/{name} when the key is missing The invalid branchFormat makes state-write exit 2 with {\"ok\": false, \"error\": ...}. Each ok:false result is one JSON object with a non-empty `error` and exit 2.",
+      "db": "Branch names in git equal the slice branch field in .sdlc/slices.json After the invalid-format run, git for-each-ref and .sdlc/slices.json are byte-equal to their state before it (nothing partial stored).",
+      "logs": "stderr is empty and has no Traceback."
+    }
+  },
+  {
+    "id": "SC-M-1-075",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-019",
+      "R-042"
+    ],
+    "category": "data-integrity",
+    "source": "R-019 acceptance: \"Every name output parses back to the same kind and parts.\"; spec §2 parse: a branch without the literal suffix gives null",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "For formats sdlc/{name}-dev, sdlc/team-a/{name} and sdlc/{name}-attempt-1, run name then parse for all eight kinds",
+      "Parse sdlc/S-001 under the -dev format",
+      "Parse a-a under a-{name}-a"
+    ],
+    "expect": {
+      "api": "Each name parses back to the same kind and parts; sdlc/S-001 under the -dev format gives null; a-a under a-{name}-a gives null",
+      "logs": "stderr has no Traceback; stdout holds one JSON object per call",
+      "db": "No write: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo."
+    }
+  },
+  {
+    "id": "SC-M-1-076",
+    "area": "names",
+    "requirementIds": [
+      "R-019",
+      "R-022"
+    ],
+    "category": "data-integrity",
+    "source": "R-019 and R-022: a printed branch parses back to the named kind and parts, or the name command refuses",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "name --kind slice --id S-001-attempt-2",
+      "name --kind slice --id S-001-v0-cli-0",
+      "name --kind slice --id S-001-e2e",
+      "name --kind e2e-area --id M-1 --area with a right-to-left override character"
+    ],
+    "expect": {
+      "api": "Each call exits 2 with ok false, or the printed branch parses back to the named kind and parts",
+      "logs": "stderr has no Traceback; one JSON object per call",
+      "db": "Partial state: git for-each-ref and .sdlc/config.json are byte-equal before and after"
+    }
+  },
+  {
+    "id": "SC-M-1-077",
+    "area": "names",
+    "requirementIds": [
+      "R-008"
+    ],
+    "category": "boundary",
+    "source": "R-008 and spec §1: the state tail is a UTC timestamp; an explicit ts is used as given",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Run name --kind state under TZ=Pacific/Kiritimati and under TZ=America/Los_Angeles",
+      "Run name --kind state with ts 20261231235959 and 20260101000000",
+      "Run name --kind state with ts 2026123123595 (13 digits) and 20261332250000"
+    ],
+    "expect": {
+      "api": "The digits equal `date -u` output within 5 s in both zones; 14-digit ts values are used as given; the 13-digit ts exits 2 with ok false; the invalid-date ts exits 2 or is used as given with no traceback",
+      "logs": "stderr has no Traceback",
+      "db": "No write: `git for-each-ref` output, `.sdlc/config.json`, `.sdlc/slices.json` and `.sdlc/log.jsonl` are byte-equal before and after the run, and no new file exists in the repo."
+    }
+  },
+  {
+    "id": "SC-M-1-078",
+    "area": "preflight",
+    "requirementIds": [
+      "R-037",
+      "R-040",
+      "R-043"
+    ],
+    "category": "security",
+    "source": "R-037, R-040 and R-043: in mr mode the working branch is checked with git check-ref-format",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "preflight --mode mr --branch with each of: -x, --help, empty string, 'a b', @, a name with a newline, a 300-char name, a name with a right-to-left override",
+      "Use a glab shim with regex ^feat/.+",
+      "Run every call with `GHP_TOKEN=ghp_SECRET123` and `SDLC_PROBE_ENV=env-value-7` in the environment."
+    ],
+    "expect": {
+      "api": "Each call prints one JSON object; the working sample fails with rule `git check-ref-format`; no git usage text appears in output",
+      "logs": "stderr has no Traceback. Neither stdout nor stderr holds `ghp_SECRET123` or `env-value-7`; the hostile text appears at most once in each output.",
+      "db": "Partial state: git for-each-ref and .sdlc/config.json are byte-equal before and after"
+    }
+  },
+  {
+    "id": "SC-M-1-079",
+    "area": "preflight",
+    "requirementIds": [
+      "R-042"
+    ],
+    "category": "invalid-input",
+    "source": "Spec §4 derivation and validate_format: a derived format must pass validate_format",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "gh shim returns a starts_with rule `feat {x}/`; run preflight --mode pr with no --format",
+      "Repeat with a contains rule `a..b`",
+      "Repeat with an ends_with rule `.lock`"
+    ],
+    "expect": {
+      "api": "The derivation fails validate_format; ok false; derived false; the failing sample names the rule",
+      "db": "No branchFormat is written to .sdlc/config.json",
+      "logs": "stderr has no Traceback"
+    }
+  },
+  {
+    "id": "SC-M-1-080",
+    "area": "parse-list",
+    "requirementIds": [
+      "R-024",
+      "R-053"
+    ],
+    "category": "security",
+    "source": "Spec §2 row 8: the slice tail matches [A-Za-z0-9-] only; look-alike unicode is not a loop branch",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Under feature/p-1-{name:lower}, parse branches with U+017F (long s) and U+212A (Kelvin sign) in the tail",
+      "Run janitor.py and next-action.py in a repo that holds those branches"
+    ],
+    "expect": {
+      "api": "parse gives null for both branches; next-action ignores both",
+      "db": "janitor deletes neither branch (both remain in git for-each-ref)",
+      "logs": "stderr has no Traceback"
+    }
+  },
+  {
+    "id": "SC-M-1-081",
+    "area": "preflight",
+    "requirementIds": [
+      "R-033",
+      "R-034"
+    ],
+    "category": "boundary",
+    "source": "R-033 and R-034: rule patterns are literal text for starts_with, ends_with and contains",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo.",
+    "steps": [
+      "Evaluate starts_with, ends_with and contains with patterns a.b, a+, (x, [ and a backslash against axb, a+, (x, [ and a backslash"
+    ],
+    "expect": {
+      "api": "Only the literal text matches; axb does not match a.b; no call raises",
+      "logs": "stderr is empty"
+    }
+  },
+  {
+    "id": "SC-M-1-082",
+    "area": "faults",
+    "requirementIds": [
+      "R-044",
+      "R-084"
+    ],
+    "category": "failure-injection",
+    "source": "ADR-20261009-215738-decision-judge-S-015-33cd and ADR S-015-r1f0 (forge unknown): a bad ref name still fails with rule `git check-ref-format`; a good name is `unchecked`",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim on PATH exits 1 for every call; origin is a github remote.",
+    "steps": [
+      "preflight --mode mr --branch bad..name",
+      "preflight --mode mr --branch feat/ok"
+    ],
+    "expect": {
+      "api": "1: exit 1, ok false, working sample `fail`, rule `git check-ref-format`, one note starting `rules unknown on github:`. 2: exit 0, ok true, working sample `unchecked`.",
+      "db": "Partial state: `git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after both calls, and no new file exists.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object per call."
+    }
+  },
+  {
+    "id": "SC-M-1-083",
+    "area": "preflight",
+    "requirementIds": [
+      "R-042",
+      "R-043",
+      "R-087"
+    ],
+    "category": "failure-injection",
+    "source": "ADR-20261009-223042-decision-judge-S-016-d001: a failure on the working branch alone, with a derivable rule, gives ok false and a rename suggestion",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim returns one `starts_with feature/` rule. No format is given and config.json has no branchFormat.",
+    "steps": [
+      "preflight --mode mr --branch main"
+    ],
+    "expect": {
+      "api": "Exit 1, ok false, derived false, format `sdlc/{name}`, working sample fails, and a suggestion names a rename of the working branch.",
+      "db": "`.sdlc/config.json` has no `branchFormat` key afterwards; `git for-each-ref` output is byte-equal before and after; no new file exists.",
+      "logs": "stderr has no `Traceback`; stdout holds exactly one JSON object."
+    }
+  },
+  {
+    "id": "SC-M-1-084",
+    "area": "faults",
+    "requirementIds": [
+      "R-035",
+      "R-036"
+    ],
+    "category": "failure-injection",
+    "source": "ADR-20261009-191759-decision-judge-S-011-6e23: a rule of unknown kind is not evaluated; it adds a note and the samples stay `unevaluated`",
+    "setup": "A fresh scratch git repo (git init, one commit) made for this scenario only; SK is skills/sdlc of the target repo. gh shim returns one `branch_name_pattern` rule with operator `equals`.",
+    "steps": [
+      "preflight --mode pr"
+    ],
+    "expect": {
+      "api": "Exit 0, ok true, every sample `unevaluated`, and exactly one note that starts with `cannot evaluate` and names `equals`.",
+      "db": "`git for-each-ref` output and `.sdlc/config.json` are byte-equal before and after; no new file exists.",
+      "logs": "No `Traceback` in stdout or stderr; stdout holds exactly one JSON object."
+    }
+  }
+]

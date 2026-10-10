@@ -1,5 +1,98 @@
 [
   {
+    "id": "S-fix-M-1-1",
+    "title": "branches.py: name refuses ids that do not round-trip; parse is ASCII only",
+    "requirements": [
+      "R-019",
+      "R-022",
+      "R-024",
+      "R-053"
+    ],
+    "dependsOn": [],
+    "kind": "fix",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "",
+    "pr": "",
+    "risk": "",
+    "riskReason": "",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "SC-M-1-076 (R-019, R-022): Expected: Every printed name parses back to the same kind and parts, or the command exits 2 with ok false. Observed: `name --kind slice --id S-001-attempt-2` and `--id S-001-v0-cli-0` exit 0 and print a branch that parse reads as kind attempt and kind verify. Spec source: R-019. E2E test: e2e/tests/names.test.mjs > SC-M-1-076 a printed name parses back to its kind and parts or the command refuses. SC-M-1-080 (R-024, R-053): Expected: parse returns None for look-alike unicode branches; the janitor deletes none; next-action ignores them. Observed: parse reads feature/p-1-S-00K (U+212A), feature/p-1-s-001 plus U+017F, and feature/p-1-s-00K-v0-cli-0 as loop branches. The janitor deleted the verify look-alike. Cause: re.IGNORECASE without re.ASCII at branches.py line 339. Spec source: spec section 2 row 8. E2E test: e2e/tests/parse-list.test.mjs > SC-M-1-080 look-alike unicode never becomes a loop branch. Test phase: remove these scenario ids from e2e/pending.json so their e2e tests fail; they are this slice's failing tests.",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    },
+    "ledger": []
+  },
+  {
+    "id": "S-fix-M-1-2",
+    "title": "Forge rules failures give a bounded note that holds no forge stderr",
+    "requirements": [
+      "R-029",
+      "R-031",
+      "R-084"
+    ],
+    "dependsOn": [],
+    "kind": "fix",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "",
+    "pr": "",
+    "risk": "",
+    "riskReason": "",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "SC-M-1-059 (R-029, R-084): Expected: One note that starts with `rules unknown on github:`, with the status code and no secret. Observed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Spec source: spec section 3, gh api failure. E2E test: e2e/tests/faults.test.mjs > SC-M-1-059 gh api failure is one note and samples are unchecked. SC-M-1-061 (R-031, R-084): Expected: One note that starts with `rules unknown on gitlab:` and no secret in any output. Observed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Spec source: R-031 acceptance. E2E test: e2e/tests/faults.test.mjs > SC-M-1-061 glab failure or absence gives one rules unknown note. SC-M-1-064 (R-029): Expected: Every variant finishes with ok true and one bounded note that holds no secret. Observed: A gh failure with 10 MB of stderr gives a note that holds all stderr; stdout is 10486340 bytes and holds the secret. The other variants pass. Spec source: Assumptions: a rules read that fails is a note, never a block. E2E test: e2e/tests/faults.test.mjs > SC-M-1-064 slow, huge and invalid gh answers finish with a bounded note. Test phase: remove these scenario ids from e2e/pending.json so their e2e tests fail; they are this slice's failing tests.",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    },
+    "ledger": []
+  },
+  {
+    "id": "S-fix-M-1-3",
+    "title": "state-write.py: bad config and mid-rebase give JSON errors",
+    "requirements": [
+      "R-016",
+      "R-053",
+      "R-055",
+      "R-056",
+      "R-139"
+    ],
+    "dependsOn": [],
+    "kind": "fix",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "",
+    "pr": "",
+    "risk": "",
+    "riskReason": "",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "SC-M-1-066 (R-016, R-055, R-139): Expected: No traceback, one JSON object per call, no file created, state byte-equal. Observed: `state-write.py status` ends with a traceback and no JSON for an unreadable config, a config directory and a config symlink loop. It also creates .sdlc/STATUS.md. Cause: PermissionError or OSError in read_json (line 108) via main (line 750). Spec source: R-098 and R-016. E2E test: e2e/tests/faults.test.mjs > SC-M-1-066 bad config never crashes a script. SC-M-1-070 (R-053, R-056): Expected: state-write exits 2 with ok false and a git error; state unchanged. Observed: With .git/rebase-merge present, `state-write.py patch-slice` exits 0 with ok true and creates a branch and a commit during the rebase. Spec source: spec section 2 and R-014. E2E test: e2e/tests/faults.test.mjs > SC-M-1-070 mid-rebase and locked index give errors, not tracebacks. Test phase: remove these scenario ids from e2e/pending.json so their e2e tests fail; they are this slice's failing tests.",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    },
+    "ledger": []
+  },
+  {
     "id": "S-001",
     "title": "branches.py skeleton: importable CLI, JSON contract, load_format",
     "requirements": [

@@ -661,7 +661,7 @@
     "specRef": "§2",
     "quote": "`load_format(repo)`: `config.branchFormat` when `.sdlc/config.json` has a non-empty one, else `\"sdlc/{name}\"`.",
     "acceptance": "load_format returns the config value when it is non-empty. It returns `sdlc/{name}` when the key is missing, empty, or the file is absent.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261008-162858-slicer-S-001-d9f4",
@@ -712,7 +712,7 @@
       ],
       "commit": "d3cd6f2a45ac26814b59264a4cf3658d7079c48f"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-066 failed: `state-write.py status` ends with a traceback and no JSON for an unreadable config, a config directory and a config symlink loop. It also creates .sdlc/STATUS.md. Cause: PermissionError or OSError in read_json (line 108) via main (line 750). Fix slice S-fix-M-1-3."
   },
   {
     "id": "R-017",
@@ -831,7 +831,7 @@
     "specRef": "§2",
     "quote": "`name(fmt, kind, **parts)`: the format with the placeholder replaced by the tail, lowercased for `{name:lower}`.",
     "acceptance": "`name(\"sdlc/{name}\", \"slice\", id=\"S-001\")` is `sdlc/S-001`. Every name output parses back to the same kind and parts. `{name:lower}` lowercases only the tail.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261009-024036-decision-judge-S-001-8de8",
@@ -860,7 +860,7 @@
       ],
       "commit": "7bd7abe11acff3a41ce37fa50021aacd597ae29a"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-076 failed: `name --kind slice --id S-001-attempt-2` and `--id S-001-v0-cli-0` exit 0 and print a branch that parse reads as kind attempt and kind verify. Fix slice S-fix-M-1-1."
   },
   {
     "id": "R-020",
@@ -937,7 +937,7 @@
     "specRef": "§2",
     "quote": "otherwise the tail between them is classified by the first regex that matches, in this order, compiled with `re.IGNORECASE` when `lower` is set:",
     "acceptance": "Classification follows table rows 1 to 8 in order. `S-fix-M-1-2` is a slice. `M-1-e2e-api` is an e2e-area. `S-001-v0-http-api-0` is verify with profile `http-api`. An area with dashes parses whole: `M-1-e2e-a-b` gives area `a-b`. Under `{name:lower}` the regexes compile with re.IGNORECASE.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261009-034229-decision-judge-S-002-b015",
@@ -977,7 +977,7 @@
       ],
       "commit": "a0da5ad04c81a472bf5d0776ad30c87939f1a58d"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-076 failed: `name --kind slice --id S-001-attempt-2` and `--id S-001-v0-cli-0` exit 0 and print a branch that parse reads as kind attempt and kind verify. Fix slice S-fix-M-1-1."
   },
   {
     "id": "R-023",
@@ -1023,7 +1023,7 @@
     "specRef": "§2",
     "quote": "When `ids` (an iterable of ledger ids) is given, `id` is replaced by the ledger's spelling that matches it, case-insensitively under `lower`, and `known` says whether one matched; without `ids`, `known` is `None`.",
     "acceptance": "`parse(\"feature/PROJ-1-{name:lower}\", \"feature/proj-1-s-001\", ids=[\"S-001\"])` gives `id: \"S-001\"` and `known: true`. An id absent from the list gives `known: false`. Without ids, `known` is null.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261009-034229-decision-judge-S-002-b015",
@@ -1053,7 +1053,7 @@
       ],
       "commit": "a0da5ad04c81a472bf5d0776ad30c87939f1a58d"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-080 failed: parse reads feature/p-1-S-00K (U+212A), feature/p-1-s-001 plus U+017F, and feature/p-1-s-00K-v0-cli-0 as loop branches. The janitor deleted the verify look-alike. Cause: re.IGNORECASE without re.ASCII at branches.py line 339. Fix slice S-fix-M-1-1."
   },
   {
     "id": "R-025",
@@ -1266,7 +1266,7 @@
     "specRef": "§3",
     "quote": "A `gh api` failure (not signed in, no access, a network error) is one note, `rules unknown on github: <stderr>`, and the samples are `unchecked`.",
     "acceptance": "A gh shim that exits 1 gives `ok: true`, one note starting `rules unknown on github:`, and every sample `unchecked`.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261009-191959-decision-judge-S-011-77b2",
@@ -1305,7 +1305,7 @@
       ],
       "commit": "e575c1b41c5ea967d8ff0b7ca9a69090473e2631"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-059 failed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Fix slice S-fix-M-1-2. M-1 campaign SC-M-1-064 failed: A gh failure with 10 MB of stderr gives a note that holds all stderr; stdout is 10486340 bytes and holds the secret. The other variants pass. Fix slice S-fix-M-1-2."
   },
   {
     "id": "R-030",
@@ -1369,7 +1369,7 @@
     "specRef": "§3",
     "quote": "A `glab` failure is the note `rules unknown on gitlab: <stderr>` and the samples are `unchecked`.",
     "acceptance": "A glab shim that exits 1 gives one note starting `rules unknown on gitlab:` and every sample `unchecked`.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261009-191959-decision-judge-S-011-77b2",
@@ -1422,7 +1422,7 @@
       ],
       "commit": "2866a4f1a3c417c1fc32c1cee5ca4a6e93f0ebb9"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-061 failed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Fix slice S-fix-M-1-2."
   },
   {
     "id": "R-032",
@@ -2344,7 +2344,7 @@
     "specRef": "§7",
     "quote": "`active_branch(repo, current)`: enumerate `refs/heads/` (all local branches), keep those `parse` classifies as `slice`, and use the parsed `id` as `sid`.",
     "acceptance": "next-action.py finds the active slice by parsing every local branch under the configured format. The slice id comes from the parsed id. A foreign branch never reads as active.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2357,7 +2357,7 @@
       ],
       "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-080 failed: parse reads feature/p-1-S-00K (U+212A), feature/p-1-s-001 plus U+017F, and feature/p-1-s-00K-v0-cli-0 as loop branches. The janitor deleted the verify look-alike. Cause: re.IGNORECASE without re.ASCII at branches.py line 339. Fix slice S-fix-M-1-1. M-1 campaign SC-M-1-070 failed: With .git/rebase-merge present, `state-write.py patch-slice` exits 0 with ok true and creates a branch and a commit during the rebase. Fix slice S-fix-M-1-3."
   },
   {
     "id": "R-054",
@@ -2389,7 +2389,7 @@
     "specRef": "§7",
     "quote": "The format comes from the `config` the decision already read (`load_format` semantics: `config.get(\"branchFormat\") or \"sdlc/{name}\"`).",
     "acceptance": "next-action.py reads branchFormat from the config it already loads. A missing or empty value falls back to `sdlc/{name}`.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2402,14 +2402,14 @@
       ],
       "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-066 failed: `state-write.py status` ends with a traceback and no JSON for an unreadable config, a config directory and a config symlink loop. It also creates .sdlc/STATUS.md. Cause: PermissionError or OSError in read_json (line 108) via main (line 750). Fix slice S-fix-M-1-3."
   },
   {
     "id": "R-056",
     "specRef": "§7",
     "quote": "`ensure_milestone_branch` wants `name(fmt, \"milestone\", id=milestone_id)`; `ensure_slice_branch` wants `name(fmt, \"slice\", id=slice_id)`; the awaiting-merge dependency branch is `name(fmt, \"slice\", id=dep)`; `milestone_branches_with_open_slice_pr` adds `name(fmt, \"milestone\", id=mid)`",
     "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, state-write.py creates the slice and milestone branches as `feature/PROJ-1-S-001` and `feature/PROJ-1-M-1`, and finds the awaiting-merge dependency branch through `name(fmt, \"slice\", id=dep)`.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2451,7 +2451,7 @@
       ],
       "commit": "69a414345b50011138d3e653a6bed801c8ca7289"
     },
-    "notes": ""
+    "notes": "M-1 campaign SC-M-1-070 failed: With .git/rebase-merge present, `state-write.py patch-slice` exits 0 with ok true and creates a branch and a commit during the rebase. Fix slice S-fix-M-1-3."
   },
   {
     "id": "R-057",
@@ -3448,7 +3448,7 @@
     "specRef": "§Edge cases",
     "quote": "**`gh` or `glab` not available or not signed in**: `unchecked`, a note, the run launches.",
     "acceptance": "With `gh` absent from `PATH` on a github-mode repo, preflight prints `ok: true`, one note, and every sample `unchecked`. The same holds for `glab` on a gitlab-mode repo. It does not crash and does not block.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [
       "ADR-20261009-191959-decision-judge-S-011-77b2",
@@ -3474,7 +3474,7 @@
       ],
       "commit": "e575c1b41c5ea967d8ff0b7ca9a69090473e2631"
     },
-    "notes": "added by the completeness critic (cross-cutting)"
+    "notes": "added by the completeness critic (cross-cutting) M-1 campaign SC-M-1-059 failed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Fix slice S-fix-M-1-2. M-1 campaign SC-M-1-061 failed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Fix slice S-fix-M-1-2."
   },
   {
     "id": "R-085",
@@ -5640,7 +5640,7 @@
     "specRef": "§7",
     "quote": "The format comes from `load_format(repo)`.",
     "acceptance": "janitor.py takes its format from `load_format(repo)`. A repo whose config holds `feature/PROJ-1-{name}` makes janitor sweep under that format. A repo with no branchFormat makes it sweep under `sdlc/{name}`.",
-    "status": "done",
+    "status": "todo",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5684,7 +5684,7 @@
       ],
       "commit": "0123cceeec0a3d7644eba35bacb879d95d64779e"
     },
-    "notes": "added by the completeness critic (statements)"
+    "notes": "added by the completeness critic (statements) M-1 campaign SC-M-1-066 failed: `state-write.py status` ends with a traceback and no JSON for an unreadable config, a config directory and a config symlink loop. It also creates .sdlc/STATUS.md. Cause: PermissionError or OSError in read_json (line 108) via main (line 750). Fix slice S-fix-M-1-3."
   },
   {
     "id": "R-140",
