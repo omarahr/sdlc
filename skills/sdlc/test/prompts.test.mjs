@@ -62,7 +62,8 @@ test('the mode-agnostic prompts cover stack mode', () => {
 test('the skill documents the stack flag, its remote requirement and its resume path', () => {
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
   assert.match(skill, /--git pr\|direct\|mr\|stack/)
-  assert.match(skill, /`sdlc\/run-<n>`/)
+  assert.doesNotMatch(skill, /sdlc\/run-/)
+  assert.match(skill, /the run branch|\$RUN_BRANCH/)
   // the "rename your branch" check must not fire on a resume, where the current branch IS the run branch
   assert.match(skill, /\*\*Branch format:\*\*[\s\S]*first run only[\s\S]*on a resume the current branch is normally the run branch/)
 })
@@ -82,20 +83,20 @@ test('the common rules scope the relayed user request to the driver', () => {
 test('the e2e harness cuts its branch from the milestone branch in stack mode, and names a base for every mode', () => {
   const e = readFileSync(join(SKILL_DIR, 'prompts', 'e2e-harness.md'), 'utf8')
   // the ownership sentence sits mid-paragraph, so anchor on the sentence rather than the line start
-  const owner = e.match(/You commit on branch `sdlc\/<milestoneId>-e2e`\.[^\n]*/)
+  const owner = e.match(/You commit on branch `<e2e branch>`\.[^\n]*/)
   assert.ok(owner, 'the ownership sentence is missing')
-  assert.match(owner[0], /In `stack` mode the branch is cut from `sdlc\/M-<n>`, the milestone branch, not the default branch/)
+  assert.match(owner[0], /In `stack` mode the branch is cut from `<milestone branch>`, the milestone branch, not the default branch/)
   // anchored on step 1, so a stray mention elsewhere in the file cannot satisfy it
   const step1 = e.match(/^1\. \*\*Branch:\*\*.*$/m)
   assert.ok(step1, 'step 1 is missing')
   // stack mode bases the suite on the milestone branch, and defers to the slice that created it
-  assert.match(step1[0], /In `stack` mode cut it from the milestone branch `sdlc\/M-<n>`/)
+  assert.match(step1[0], /In `stack` mode cut it from the milestone branch `<milestone branch>`/)
   assert.match(step1[0], /[Ii]f it is missing, stop and say so rather than creating it/)
   // the other three modes keep a base of their own, so direct and mr agents are not left without one
   // Ruling A: in pr mode the default branch's tip lives on origin/<defaultBranch>; the local ref is the
   // owner's and a run never advances it
   assert.match(step1[0], /In `pr` mode cut it from the default branch's fetched tip/)
-  assert.match(step1[0], /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b sdlc\/<milestoneId>-e2e --no-track origin\/<defaultBranch>/)
+  assert.match(step1[0], /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b <e2e branch> --no-track origin\/<defaultBranch>/)
   assert.match(step1[0], /With no remote, cut it from the local `<defaultBranch>` ref instead/)
   assert.match(step1[0], /In `direct` and `mr` mode cut it from the run branch/)
   // branching from a ref is always allowed; only checking a branch out is blocked by another worktree
@@ -107,16 +108,15 @@ test('the env-detector adopts the driver-created run branch, and numbers a fresh
   const env = readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8')
   // the driver pre-creates the worktree on `sdlc/run-<n>`: adopt it, verify the push, never create a second
   assert.match(env, /git branch --show-current/)
-  assert.match(env, /sdlc\/run-\*/)
+  assert.match(env, /parses as kind `run`/)
   assert.match(env, /do not create( or push)? (a|another) (new one|run branch)|do not create or push/)
   assert.match(env, /git ls-remote --heads origin <current-branch>/)
   assert.match(env, /git push -u origin <current-branch>/)
   // the create path survives for a run the driver did not set up, numbered by the driver's own rule:
   // (count of local `sdlc/run-*` branches) + 1 — remote-tracking refs no longer feed the number
-  assert.match(env, /git checkout -b sdlc\/run-<n> <defaultBranch>/)
-  assert.match(env, /git push -u origin sdlc\/run-<n>/)
-  assert.match(env, /count of `sdlc\/run-\*` branches\) \+ 1/)
-  assert.match(env, /refs\/heads\/sdlc\/run-\*/)
+  assert.match(env, /git checkout -b <run branch> <defaultBranch>/)
+  assert.match(env, /git push -u origin <run branch>/)
+  assert.doesNotMatch(env, /sdlc\/run-/)
   assert.doesNotMatch(env, /refs\/remotes\/origin\/sdlc\/run-\*/)
   assert.doesNotMatch(env, /drop the `origin\/` prefix before reading `<n>`/)
   // anchored on the stack sentence: a bare /cannot work/ also matches the pre-existing mr bullet,
@@ -176,7 +176,7 @@ test('slice creation cuts from refs, and no prompt presents the default branch a
   // Ruling A: with a remote the cut is from origin/<defaultBranch>, fetched without a refspec; the local
   // ref is the owner's and stays put. The no-remote fallback keeps the local-ref cut.
   assert.match(sliceStep, /cut it from the default branch's fetched tip/)
-  assert.match(sliceStep, /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b sdlc\/<id> --no-track origin\/<defaultBranch>/)
+  assert.match(sliceStep, /git fetch origin <defaultBranch>[\s\S]{0,120}git checkout -b <slice branch> --no-track origin\/<defaultBranch>/)
   assert.match(sliceStep, /When the repo has no remote, cut it from the local `<defaultBranch>` ref instead/)
   assert.match(sliceStep, /git refuses only \*checking out\* a branch another worktree holds/)
   assert.match(sliceStep, /never advances it/)
@@ -203,16 +203,16 @@ test('the worktree returns to the run branch before every run-branch operation (
   // still on sdlc/<id> made `merge --squash` a no-op and the branch deletion a refusal
   const step5 = i.split('\n').find(l => l.startsWith('5. Commit on the slice branch'))
   assert.ok(step5, 'ship step 5 is missing')
-  assert.match(step5, /git checkout sdlc\/run-<n>/)
+  assert.match(step5, /git checkout <run branch>/)
 
   const c = readFileSync(join(SKILL_DIR, 'prompts', 'commit-state.md'), 'utf8')
   // the direct/mr arm commits and syncs on the run branch
   const arm = c.slice(c.indexOf('- `direct` or `mr` mode:'), c.indexOf('- `pr` mode:'))
-  assert.match(arm, /Return to the run branch: `git checkout sdlc\/run-<n>`/)
+  assert.match(arm, /Return to the run branch: `git checkout <run branch>`/)
   // the pr arm syncs the run branch before the state branch is cut and again after the merge
   const pr = c.slice(c.indexOf('- `pr` mode:'))
-  assert.match(pr, /Return to the run branch: `git checkout sdlc\/run-<n>`/)
-  assert.match(pr, /return to the run branch: `git checkout sdlc\/run-<n>`[\s\S]{0,200}[Ss]ync the run branch onto the default branch's tip again/)
+  assert.match(pr, /Return to the run branch: `git checkout <run branch>`/)
+  assert.match(pr, /return to the run branch: `git checkout <run branch>`[\s\S]{0,200}[Ss]ync the run branch onto the default branch's tip again/)
   // the stack arm commits on a branch that varies: the checkout is named, not improvised
   const stack = c.slice(c.indexOf('- `stack` mode:'), c.indexOf('- `direct` or `mr` mode:'))
   assert.match(stack, /Check the branch out first/)
@@ -352,7 +352,7 @@ test('the integrator asks the code for the slice base branch instead of naming i
   assert.match(i, /--base <baseBranch>/)
   // and the evidence diff uses that same base, not the default branch
   assert.match(i, /git diff --name-only <baseBranch>\.\.\.HEAD/)
-  assert.match(i, /--ref sdlc\/<id>/)
+  assert.match(i, /--ref <slice branch>/)
   // Ruling A: in pr and direct mode the run reads the default branch's tip at origin/<baseBranch>, so the
   // evidence diff does too; the local ref is the owner's and goes stale after the first merge
   assert.match(i, /diff against `origin\/<baseBranch>`/)
@@ -381,9 +381,9 @@ test('the milestone-writer opens the milestone pull request and retargets the e2
   assert.match(m, /## Ship the milestone/)
   assert.match(m, /--base <defaultBranch>/)
   assert.match(m, /"pr": "<url>"/)
-  assert.match(m, /sdlc\/run-<n>/)
+  assert.match(m, /<run branch>/)
   // the e2e suite merges into the milestone branch, not the default branch
-  assert.match(m, /`stack` mode[\s\S]{0,300}sdlc\/M-<n>/)
+  assert.match(m, /`stack` mode[\s\S]{0,300}<milestone branch>/)
 })
 
 test('the milestone-writer defers the milestone branch to its owner rather than creating it', () => {
@@ -453,12 +453,12 @@ test('the escalator and force-park ask for the branch rather than naming it, and
   // each of the three sites still reaches the same `<baseBranch>`, so none quietly reverted to a literal
   assert.match(e, /`git checkout <baseBranch>`/)
   assert.match(e, /Every \*\*default-branch commit\*\* below lands on `<baseBranch>`/)
-  assert.match(e, /Create a fresh `sdlc\/<id>` from `<baseBranch>`/)
+  assert.match(e, /Create a fresh `<slice branch>` from `<baseBranch>`/)
   assert.match(e, /from `<baseBranch>`, the same base as the slice itself/)
   // and the prohibition that survives the rewrite: the default branch is never a stack target
   assert.match(e, /In `stack` mode the default branch is never committed to/)
   assert.match(e, /Never cut it from `<defaultBranch>` in `stack` mode/)
-  assert.doesNotMatch(e, /On a scratch branch `sdlc\/<id>-spike` from the default branch/)
+  assert.match(e, /a scratch branch named like `?<slice branch>`? with `?-spike`? added/)
   // the copy of the write-up still has to follow the checkout
   assert.match(e, /after\*\* the checkout in step 2/)
 
@@ -483,7 +483,7 @@ test('the escalator returns to the run branch in direct and pr mode, and never c
   // ruling B of the final re-review: in direct and pr mode `<baseBranch>` is `<defaultBranch>`, a branch
   // the owner's checkout holds — git refuses that checkout from the run worktree, and every escalator
   // action then fails at its archive step. The archive step moves the worktree to a safe branch instead.
-  assert.match(e, /In `direct` and `pr` mode run `git checkout sdlc\/run-<n>`/)
+  assert.match(e, /In `direct` and `pr` mode run `git checkout <run branch>`/)
   // stack and mr keep the named checkout: there the run worktree may hold `<baseBranch>`
   assert.match(e, /In `stack` and `mr` mode run `git checkout <baseBranch>`/)
   // the run branch is never spelled as the default branch (the spirit of the milestone-writer pin)
@@ -542,7 +542,7 @@ test('the regression lens is slice-scoped during build rounds and full only at t
 test('profile agents write their tests as evidence in the main tree, and the collector only files and cleans', () => {
   const common = readFileSync(join(SKILL_DIR, 'prompts', 'verify-profile-common.md'), 'utf8')
   assert.match(common, /verification\/r<round>\/tests\/<profile>-<part>\//)
-  assert.match(common, /never committed to `sdlc\/<id>`/)
+  assert.match(common, /never committed to `<slice branch>`/)
   assert.match(common, /commit nothing to your branch/)
   assert.match(common, /A verification test runs in milliseconds-to-seconds\./)
   assert.match(common, /never invoke the repo's test command from a test/)
@@ -551,7 +551,7 @@ test('profile agents write their tests as evidence in the main tree, and the col
   assert.doesNotMatch(common, /join the slice's test suite/)
   assert.doesNotMatch(common, /cherry-pick/)
   const collector = readFileSync(join(SKILL_DIR, 'prompts', 'verify-collector.md'), 'utf8')
-  assert.match(collector, /You fold nothing into the slice branch/)
+  assert.match(collector, /You fold nothing into the `<slice branch>`/)
   assert.match(collector, /verification\/r<round>\/tests\/<profile>-<part>\//)
   assert.match(collector, /copy them unmodified/i)
   assert.match(collector, /git branch -D/)
@@ -664,7 +664,8 @@ test('the integrator trusts the gate receipt, regates after a product-code CI fi
   assert.match(i, /except `verification\/suite-receipt\.json`/)
   assert.match(i, /\.sdlc\/reports\/<id>\/suite-receipt\.json/)
   // the stale-branch sweep covers the versioned and attempt branches
-  assert.match(i, /sdlc\/<id>-v\*/)
+  assert.match(i, /the slice's verify branches/)
+  assert.match(i, /--kind verify/)
   // a crashed receipt check is infra: inconclusive, never a self-run of the suite
   assert.match(i, /cannot run[\s\S]{0,120}inconclusive/)
   // the old self-run fallback for battery slices is gone; the low-risk clause
@@ -811,7 +812,7 @@ test('the loop-end cleanup removes the worktree and the run branch, and reports 
   assert.ok(whenever, 'the whenever-the-loop-ends bullet is missing')
   assert.match(whenever, /worktree remove "\$WT"/)
   // -d, not -D: the deletion refuses unmerged work, so the report path is real
-  assert.match(whenever, /branch -d sdlc\/run-<n>/)
+  assert.match(whenever, /branch -d "?(\$RUN_BRANCH|<run branch>)"?/)
   assert.doesNotMatch(whenever, /branch -D/)
   assert.match(whenever, /slice state is committed to `<defaultBranch>`/)
   assert.match(whenever, /[Rr]efusal[\s\S]{0,160}keep both, end/)
@@ -1283,4 +1284,69 @@ test('T-R-061b: no script reads a slice\'s branch field', () => {
 
 test('T-R-061c: sdlc-loop.js never reads a branch field of a slice loaded from slices.json', () => {
   assert.doesNotMatch(scriptSource(), /\b(s|slice)\.branch\b/)
+})
+
+const LOOP_BRANCH_LITERAL = /(?<![.\w])sdlc\/(?!tracker|STOP|\{name)/
+const SLICE_BRANCH_FILES = ['implementer', 'test-writer', 'test-checker', 'planner', 'verifier', 'verify-planner', 'verify-toolsmith', 'test-reporter', 'gate', 'finding-refuter', 'verify-profile-common', 'state-reader']
+
+function sweepPromptText(name) {
+  return readFileSync(join(SKILL_DIR, 'prompts', `${name}.md`), 'utf8')
+}
+
+function promptFiles() {
+  const dir = join(SKILL_DIR, 'prompts')
+  const prompts = readdirSync(dir).filter(f => f.endsWith('.md')).map(f => ({ name: `prompts/${f}`, text: readFileSync(join(dir, f), 'utf8') }))
+  return [...prompts, { name: 'SKILL.md', text: readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8') }]
+}
+
+function stripBranchesOutput(text) {
+  return text.replace(/```[^\n]*\n[\s\S]*?```/g, block => (block.includes('branches.py') ? '' : block))
+}
+
+test('T-R-063a: each prompt file swaps its loop branch literals for the placeholders of its row', () => {
+  const rows = [
+    ['commit-state', ['<slice branch>', '<run branch>', '<milestone branch>', '<e2e branch>', '<state branch>']],
+    ['integrator', ['<slice branch>', '<run branch>']],
+    ['milestone-writer', ['<e2e area branch>', '<e2e branch>', '<milestone branch>']],
+    ['escalator', ['<slice branch>', '<attempt branch>', '<run branch>']],
+    ['env-detector', ['<run branch>']],
+    ...SLICE_BRANCH_FILES.map(f => [f, ['<slice branch>']]),
+    ['verify-collector', ['<verify branch>', '<slice branch>']],
+    ['state-writer', ['<slice branch>', '<attempt branch>']],
+    ['e2e-harness', ['<e2e branch>', '<milestone branch>']],
+    ['scenario-runner', ['<e2e area branch>', '<e2e branch>']],
+    ['slicer', ['<slice branch>']],
+    ['state-schema', ['<slice branch>']],
+  ]
+  for (const [file, placeholders] of rows) {
+    const text = stripBranchesOutput(sweepPromptText(file))
+    assert.doesNotMatch(text, LOOP_BRANCH_LITERAL, `${file}.md still spells a loop branch literally`)
+    for (const p of placeholders) assert.ok(text.includes(p), `${file}.md lacks ${p}`)
+  }
+})
+
+test('T-R-063b: the six extra literals are gone', () => {
+  const commit = sweepPromptText('commit-state')
+  const e2eLine = commit.split('\n').find(l => l.includes('Stack mode branches'))
+  assert.ok(e2eLine, 'the stack mode branches line is missing')
+  assert.ok(e2eLine.includes('<e2e branch>'))
+  assert.doesNotMatch(commit, /sdlc\/<milestoneId>-e2e/)
+  assert.doesNotMatch(commit, /sdlc\/state-/)
+  for (const f of ['verify-toolsmith', 'test-reporter', 'state-reader', 'verify-collector', 'escalator']) {
+    assert.doesNotMatch(sweepPromptText(f), LOOP_BRANCH_LITERAL, `${f}.md still spells a loop branch literally`)
+  }
+  assert.match(sweepPromptText('escalator'), /a scratch branch named like `?<slice branch>`? with `?-spike`? added/)
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.doesNotMatch(skill, /sdlc\/run-/)
+  assert.doesNotMatch(skill, /sdlc\/M-/)
+})
+
+test('T-R-080: no prompt spells a loop branch literally', () => {
+  const files = promptFiles()
+  assert.ok(files.length > 20, 'the scan found too few files')
+  for (const f of files) {
+    assert.doesNotMatch(stripBranchesOutput(f.text), LOOP_BRANCH_LITERAL, `${f.name} spells a loop branch literally`)
+  }
+  assert.match('git checkout sdlc/S-001', LOOP_BRANCH_LITERAL)
+  assert.doesNotMatch('see .sdlc/slices', LOOP_BRANCH_LITERAL)
 })
