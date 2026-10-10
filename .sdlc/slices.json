@@ -4815,8 +4815,8 @@
       "S-027c"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-036",
     "pr": "",
     "risk": "medium",

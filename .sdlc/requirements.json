@@ -5369,7 +5369,7 @@
     "specRef": "§8",
     "quote": "| `scenario-runner.md` | `-b sdlc/<milestoneId>-e2e-<areaId> sdlc/<milestoneId>-e2e` | `-b <e2e area branch> <e2e branch>` |",
     "acceptance": "scenario-runner.md writes the worktree command as `-b <e2e area branch> <e2e branch>` with no sdlc/ literal.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5384,7 +5384,7 @@
     "specRef": "§8",
     "quote": "| `env-detector.md` | `sdlc/run-<n>` (×3), `sdlc/run-*` | `<run branch>`; \"a branch that parses as kind `run`\" |",
     "acceptance": "env-detector.md uses `<run branch>` for the three run-branch literals and says \"a branch that parses as kind `run`\" in place of the `sdlc/run-*` glob.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5747,7 +5747,7 @@
     "specRef": "§8",
     "quote": "| `milestone-writer.md` | `sdlc/<id>-e2e-<area>`, `sdlc/<id>-e2e`, `sdlc/M-<n>` (×6) | `<e2e area branch>`, `<e2e branch>`, `<milestone branch>` |",
     "acceptance": "milestone-writer.md holds no `sdlc/` branch literal. It uses `<e2e area branch>`, `<e2e branch>` and `<milestone branch>` in their places.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5818,7 +5818,7 @@
     "specRef": "§8",
     "quote": "| `e2e-harness.md` | `sdlc/<milestoneId>-e2e`, `sdlc/M-<n>` | `<e2e branch>`, `<milestone branch>` |",
     "acceptance": "e2e-harness.md holds no `sdlc/` branch literal. It uses `<e2e branch>` and `<milestone branch>`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
