@@ -8,7 +8,6 @@ Audit: pending · Bar raiser: round 0, dry rounds 0/2
 ADRs: 95 · Spec proposals: 10
 
 ## Recent
-- 2026-10-10T11:28:57Z slice-escalated S-034 step 1 replan: plan refuted 3 times
 - 2026-10-10T12:16:43Z slice-merged S-034 SKILL.md orders the format sources and the preflight command
 - 2026-10-10T12:42:15Z slice-merged S-035 integrator, escalator and state-writer prompts use branch placeholders
 - 2026-10-10T13:12:27Z slice-merged S-036 S-036 shipped
@@ -18,6 +17,7 @@ ADRs: 95 · Spec proposals: 10
 - 2026-10-10T14:36:54Z note no CI checks on state PR
 - 2026-10-10T14:47:04Z slice-escalated S-fix-M-1-1 step 2 split: plan refuted 3 times; into S-fix-M-1-1a, S-fix-M-1-1b
 - 2026-10-10T15:37:51Z slice-merged S-fix-M-1-1a parse reads ASCII only; merged by squash to main
+- 2026-10-10T17:12:33Z slice-merged S-fix-M-1-1b name refuses ids that do not round-trip; squash-merged to main
 
 ## Needs a human eye (non-blocking)
 - S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.
