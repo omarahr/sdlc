@@ -3684,24 +3684,70 @@
       "S-010"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-025",
     "pr": "",
     "risk": "medium",
     "riskReason": "The prompts steer every agent; a wrong command in the table misdirects the loop's agents.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Promoted test title lacks the requirement id prefix",
+        "detail": "The promoted test is named 'every name command in the _common.md branch table runs against branches.py'. Other tests in prompts.test.mjs start with T-R-<id>. Rename it to start with T-R-089b.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-062 parse pattern accepts two spellings",
+        "detail": "The regex /branches\\.py` parse|branches\\.py parse/ is loose. T-R-117 already pins the exact parse command. Drop the loose check or pin one spelling.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "_common.md says parse prints null; it prints JSON with kind null",
+        "detail": "The Branch names bullet says parse prints null for a foreign branch and that name prints a name. Both commands print a JSON object (kind null, branch field). Reword to say kind null and the branch field.",
+        "file": "skills/sdlc/prompts/_common.md"
+      },
+      {
+        "title": "S-025 r0 contract verification test fails at load when run from the repo root",
+        "detail": "`node --test` on .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs failed at file level with no individual test failing. The cause is likely a path or cwd assumption. I did not investigate it.",
+        "file": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
       "planRevisions": 0,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "41529376d4cee2488f6b8fafad964e6838923681"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-026",
