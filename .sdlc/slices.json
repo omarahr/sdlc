@@ -55,7 +55,7 @@
       },
       {
         "title": "Unicode digits accepted as integers",
-        "detail": "type=int accepts non-ASCII digits: `--n '١'` gives n = 1. Later tails could embed a value the user did not type in ASCII.",
+        "detail": "type=int accepts non-ASCII digits: `--n '\u0661'` gives n = 1. Later tails could embed a value the user did not type in ASCII.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -80,7 +80,7 @@
       },
       {
         "title": "--n, --round and --part accept negative, huge, padded, underscore and non-ASCII digit values",
-        "detail": "type=int accepts -1, 99999999999999999999, ' 3', Arabic-Indic 3, '0003', '1_000' and '+4' (TC-cli-10). Tails in spec §1 need non-negative ASCII integers. The slices that build name() should reject these.",
+        "detail": "type=int accepts -1, 99999999999999999999, ' 3', Arabic-Indic 3, '0003', '1_000' and '+4' (TC-cli-10). Tails in spec \u00a71 need non-negative ASCII integers. The slices that build name() should reject these.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -306,7 +306,7 @@
       },
       {
         "title": "Invisible characters pass validation",
-        "detail": "validate_format accepts U+200B because git allows it. I ran 'sdlc/​{name}' and it passed. Such a format gives names that look the same as other names. The spec gives this job to git and the forge rules, so this note is for information only.",
+        "detail": "validate_format accepts U+200B because git allows it. I ran 'sdlc/\u200b{name}' and it passed. Such a format gives names that look the same as other names. The spec gives this job to git and the forge rules, so this note is for information only.",
         "file": "skills/sdlc/branches.py",
         "blocking": false
       },
@@ -351,7 +351,7 @@
       },
       {
         "title": "Zero-width characters pass validate_format",
-        "detail": "U+200B, U+200D and U+FEFF do not match Python \\s, and git accepts them, so a​b/{name} is valid (TC-cli-5). The branch names then look the same as names without these characters.",
+        "detail": "U+200B, U+200D and U+FEFF do not match Python \\s, and git accepts them, so a\u200bb/{name} is valid (TC-cli-5). The branch names then look the same as names without these characters.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -549,7 +549,7 @@
       },
       {
         "title": "the integer flags take unicode digits, padded values and underscores",
-        "detail": "argparse type=int uses Python int(). So --n=٣, --n=１２, --n=' 3 ', --n=1_000, --n=+1 and --n=9223372036854775808 all exit 0. No S-003 row consumes these parts. When the verify and attempt rows land in S-004 to S-006, --n=٣ and --n=3 will give the same branch. Decide whether that is the intended result. List: .sdlc/slices/S-003/verification/r0/logs/cli-1-TC-cli-105-accepted.txt.",
+        "detail": "argparse type=int uses Python int(). So --n=\u0663, --n=\uff11\uff12, --n=' 3 ', --n=1_000, --n=+1 and --n=9223372036854775808 all exit 0. No S-003 row consumes these parts. When the verify and attempt rows land in S-004 to S-006, --n=\u0663 and --n=3 will give the same branch. Decide whether that is the intended result. List: .sdlc/slices/S-003/verification/r0/logs/cli-1-TC-cli-105-accepted.txt.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -584,7 +584,7 @@
       },
       {
         "title": "integer flags accept unicode digits, padding and underscores",
-        "detail": "argparse type=int uses Python int(), so '٣', '１２', ' 3 ', NBSP-padded 3 and '1_000' are accepted. When n, round or part reach a branch name in S-004 to S-006, the name can differ from the operator's text.",
+        "detail": "argparse type=int uses Python int(), so '\u0663', '\uff11\uff12', ' 3 ', NBSP-padded 3 and '1_000' are accepted. When n, round or part reach a branch name in S-004 to S-006, the name can differ from the operator's text.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -892,7 +892,7 @@
       },
       {
         "title": "Integer parts accept unicode digits, whitespace and huge values",
-        "detail": "--part ٣, --n １２, --round ' 3' and 9999... are accepted and changed to ASCII, so two inputs give one branch name. Negative values give names such as sdlc/S-001-attempt--1.",
+        "detail": "--part \u0663, --n \uff11\uff12, --round ' 3' and 9999... are accepted and changed to ASCII, so two inputs give one branch name. Negative values give names such as sdlc/S-001-attempt--1.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1153,7 +1153,7 @@
       },
       {
         "title": "Lowercase length change in prefix gives wrong null",
-        "detail": "Under {name:lower}, parse reassigns prefix to prefix.lower() before it slices the tail. A prefix with a character whose lowercase form is longer (for example İ) shifts the slice, and parse('İ/{name:lower}', 'İ/s-001') gives None. validate_format accepts that format. The spec does not cover this case.",
+        "detail": "Under {name:lower}, parse reassigns prefix to prefix.lower() before it slices the tail. A prefix with a character whose lowercase form is longer (for example \u0130) shifts the slice, and parse('\u0130/{name:lower}', '\u0130/s-001') gives None. validate_format accepts that format. The spec does not cover this case.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1218,7 +1218,7 @@
       },
       {
         "title": "parse accepts non-ASCII digits",
-        "detail": "\\d matches Arabic-Indic and fullwidth digits and int() converts them: run-٣ gives n 3.",
+        "detail": "\\d matches Arabic-Indic and fullwidth digits and int() converts them: run-\u0663 gives n 3.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1346,7 +1346,7 @@
       },
       {
         "title": "Unicode digits and slash in area accepted",
-        "detail": "sdlc/run-٣ gives n 3. sdlc/M-2-e2e-a/b gives area a/b. The slash case follows ADR-20261009-173303-decision-judge-S-008-a88a. The spec says areas never contain slash but gives no check.",
+        "detail": "sdlc/run-\u0663 gives n 3. sdlc/M-2-e2e-a/b gives area a/b. The slash case follows ADR-20261009-173303-decision-judge-S-008-a88a. The spec says areas never contain slash but gives no check.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1356,7 +1356,7 @@
       },
       {
         "title": "parse treats unicode digits as digits",
-        "detail": "sdlc/run-٣ gives n 3 and sdlc/M-٢ gives milestone, because \\d matches non-ASCII digits. The plan keeps this behavior.",
+        "detail": "sdlc/run-\u0663 gives n 3 and sdlc/M-\u0662 gives milestone, because \\d matches non-ASCII digits. The plan keeps this behavior.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1386,7 +1386,7 @@
       },
       {
         "title": "Unicode digits accepted in run-N and M-N",
-        "detail": "Python \\d matches non-ASCII digits, so run-٣ is n 3 and M-２ is a milestone with a non-ASCII id. Use [0-9] or re.ASCII.",
+        "detail": "Python \\d matches non-ASCII digits, so run-\u0663 is n 3 and M-\uff12 is a milestone with a non-ASCII id. Use [0-9] or re.ASCII.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1401,7 +1401,7 @@
       },
       {
         "title": "parse treats unicode digits as digits",
-        "detail": "run-٣ gives n 3 and M-٢ gives a milestone. The plan keeps this.",
+        "detail": "run-\u0663 gives n 3 and M-\u0662 gives a milestone. The plan keeps this.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1623,7 +1623,7 @@
       },
       {
         "title": "Non-ASCII Unicode digits count as digits in loop branch names",
-        "detail": "The parse regexes use \\d without re.ASCII, so sdlc/run-١ and sdlc/run-１０ list as run with n 1 and 10. 46 such names were classified across run, attempt, state, verify and milestone. Later run numbering reads this list.",
+        "detail": "The parse regexes use \\d without re.ASCII, so sdlc/run-\u0661 and sdlc/run-\uff11\uff10 list as run with n 1 and 10. 46 such names were classified across run, attempt, state, verify and milestone. Later run numbering reads this list.",
         "file": "skills/sdlc/branches.py"
       },
       {
@@ -1658,7 +1658,7 @@
       },
       {
         "title": "parse accepts non-ASCII digits in run and attempt tails",
-        "detail": "Python \\d matches Unicode digits, so sdlc/run-١ and sdlc/S-001-attempt-１２ parse as run n=1 and attempt n=12 and list next to sdlc/run-1. Two branches then claim one n, and name(run, n=1) does not return the listed branch. The spec writes the regex as \\d+, so this follows the text and no requirement forbids it. Fix: use [0-9]+ or re.ASCII for the numeric parts in PARSE_ROWS.",
+        "detail": "Python \\d matches Unicode digits, so sdlc/run-\u0661 and sdlc/S-001-attempt-\uff11\uff12 parse as run n=1 and attempt n=12 and list next to sdlc/run-1. Two branches then claim one n, and name(run, n=1) does not return the listed branch. The spec writes the regex as \\d+, so this follows the text and no requirement forbids it. Fix: use [0-9]+ or re.ASCII for the numeric parts in PARSE_ROWS.",
         "file": "skills/sdlc/branches.py"
       }
     ],
@@ -3041,6 +3041,261 @@
     "pr": "",
     "risk": "low",
     "riskReason": "Documentation only; no runtime reader.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-030",
+    "title": "derive maps one simple rule to a format",
+    "requirements": [
+      "R-123",
+      "R-124",
+      "R-125",
+      "R-126",
+      "R-141"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-030",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Preflight derives a format and runs git on it.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-031",
+    "title": "evaluate regex, name literals and preflight edge formats",
+    "requirements": [
+      "R-127",
+      "R-142",
+      "R-150",
+      "R-151",
+      "R-140"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-031",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Preflight reads forge rules through shell calls.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-032",
+    "title": "preflight samples each kind in its own mode",
+    "requirements": [
+      "R-136",
+      "R-137"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-032",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Mode and kind selection decides which branch names the forge tests.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-033",
+    "title": "state-write and janitor take their format from the module",
+    "requirements": [
+      "R-138",
+      "R-139"
+    ],
+    "dependsOn": [
+      "S-022",
+      "S-024"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-033",
+    "pr": "",
+    "risk": "high",
+    "riskReason": "Janitor deletes branches, so a wrong classification removes real work.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-034",
+    "title": "SKILL.md orders the format sources and the preflight command",
+    "requirements": [
+      "R-128",
+      "R-129",
+      "R-130",
+      "R-002"
+    ],
+    "dependsOn": [
+      "S-019"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-034",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "The driver runs preflight and records the format in config.json.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-035",
+    "title": "integrator, escalator and state-writer prompts use branch placeholders",
+    "requirements": [
+      "R-131",
+      "R-143",
+      "R-145",
+      "R-147"
+    ],
+    "dependsOn": [
+      "S-027"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-035",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Prompt text steers agents that delete and push branches.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-036",
+    "title": "scenario-runner, env-detector, milestone-writer and e2e-harness prompts use branch placeholders",
+    "requirements": [
+      "R-132",
+      "R-133",
+      "R-144",
+      "R-148"
+    ],
+    "dependsOn": [
+      "S-027"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-036",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Prompt text steers agents that create worktrees and branches.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-037",
+    "title": "state-schema, commit-state and the slice prompts use branch placeholders",
+    "requirements": [
+      "R-134",
+      "R-135",
+      "R-146",
+      "R-149"
+    ],
+    "dependsOn": [
+      "S-027"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-037",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Prompt text steers agents that commit and push branches.",
     "seeds": [],
     "ideaKeys": [],
     "notes": "",
