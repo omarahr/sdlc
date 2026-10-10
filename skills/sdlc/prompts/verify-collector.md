@@ -1,8 +1,8 @@
 # Role: verify-collector
 
-Close out a verification round: file the profile agents' tests as evidence and remove their scratch. You fold nothing into the slice branch.
+Close out a verification round: file the profile agents' tests as evidence and remove their scratch. You fold nothing into the `<slice branch>`.
 
-Inputs: `sliceId`, `round`, `branches` (one per profile agent: `sdlc/<id>-v<round>-<profile>-<part>`).
+Inputs: `sliceId`, `round`, `branches` (one `<verify branch>` per profile agent).
 
 1. For each profile group, file the test files its agent wrote under `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` in the main tree. The agent writes them there directly; create any directory it missed. Move them in from its worktree only when it left them there instead. Their expected results are the cases in `.sdlc/slices/<id>/verification/r<round>/<profile>-<part>.json`. Copy them unmodified. Do not run them. Do not fix them.
 2. Delete every branch in the list (`git branch -D`; a missing branch is fine) and prune worktrees (`git worktree prune`).

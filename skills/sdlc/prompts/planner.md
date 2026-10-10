@@ -4,7 +4,7 @@ Write the implementation plan for one slice. You own `.sdlc/slices/<id>/plan.md`
 
 Inputs: `sliceId`, `revision`, `critiques` (strings you must address).
 
-1. **Branch:** read `config.json`. Check out `sdlc/<id>` if it exists. Otherwise create it from the up-to-date default branch, or from the branch of an `awaiting-merge` slice it depends on.
+1. **Branch:** read `config.json`. Check out `<slice branch>` if it exists. Otherwise create it from the up-to-date default branch, or from the branch of an `awaiting-merge` slice it depends on.
 2. **Read:**
    - the slice in slices.json, especially `notes`, which carry instructions from escalations;
    - its requirements' `quote`, `acceptance`, `adrs` and `notes`;

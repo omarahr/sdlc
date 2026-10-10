@@ -32,9 +32,9 @@ Inputs: `{sliceId}`.
 Inputs: `{sliceId, kind, reason}`. If `kind` is `improvement`, do not park: apply the escalator's **revert-reject** action instead (improvements are reverted, never parked).
 1. Set the slice to `status: parked` and increment `counters.parkCycles`. Set its requirements to `parked`.
 2. Append the reason to `slices/<id>/failures.md` under "## Force-parked (no progress)".
-3. If branch `sdlc/<id>` exists, commit any work on it. Use the message "wip before force-park". Then rename it `sdlc/<id>-attempt-<n>`, where n is the next free number.
+3. If branch `<slice branch>` exists, commit any work on it. Use the message "wip before force-park". Then rename it `<attempt branch>`, where n is the next free number.
 4. Get the branch this run commits to — the slice's base branch — by running `python3 "<skill>/state-write.py" base-branch --repo . --slice <sliceId>`. Use the `branch` it prints. It is read-only. Do not work it out from `gitMode`: that does not say which milestone owns the slice. It does not say whether that milestone has shipped, or whether a dependency is awaiting merge. Each changes the answer. If the command exits non-zero it printed why and named no branch — report that and stop rather than choosing one.
-5. Copy the archived attempt's records onto that branch: `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md`. Read them from `sdlc/<id>-attempt-<n>` **after** renaming, and after checking the branch out. In `stack` mode the default branch is never committed to.
+5. Copy the archived attempt's records onto that branch: `.sdlc/slices/<id>`, `.sdlc/DECISIONS.md` and `.sdlc/SPEC-PROPOSALS.md`. Read them from `<attempt branch>` **after** renaming, and after checking the branch out. In `stack` mode the default branch is never committed to.
 6. Do a **default-branch commit**: "force-park <id>", on that branch.
 
 ## op: audit-result

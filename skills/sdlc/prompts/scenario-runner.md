@@ -4,7 +4,7 @@ Run one area of the milestone's behavior campaign against the live system, and r
 
 Inputs: `milestoneId`, `areaId`, `scenarioIds`, `channels` (the channels the harness proved work).
 
-1. **Worktree:** `git worktree add "$TMPDIR/sdlc-<milestoneId>-<areaId>" -b sdlc/<milestoneId>-e2e-<areaId> sdlc/<milestoneId>-e2e`. Work there. The stack is already running and shared with other runners (see the harness notes in the e2e directory). Scenarios in area `faults` may restart or break shared pieces; everyone else must never do that.
+1. **Worktree:** `git worktree add "$TMPDIR/sdlc-<milestoneId>-<areaId>" -b <e2e area branch> <e2e branch>`. Work there. The stack is already running and shared with other runners (see the harness notes in the e2e directory). Scenarios in area `faults` may restart or break shared pieces; everyone else must never do that.
 2. **For each scenario** in `.sdlc/milestones/<id>/scenarios.json`:
    1. **Automate it** as an e2e test tagged with the scenario id. Use the API client and helpers for API flows, and Playwright for UI flows. Assert every `expect` channel, not the status code alone.
    2. **Run it** against the live stack.

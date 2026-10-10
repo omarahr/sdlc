@@ -217,7 +217,7 @@ Owned by the barraiser-writer; the integrator appends `seeds`; the escalator mar
 - When the slice merges, the integrator prunes `.sdlc/slices/<id>/verification/`. The per-round parts, `logs/`, `assets/` and unpromoted `tests/` are deleted, except `verification/suite-receipt.json`. `suite-receipt.py` `check` and `baseline` read only that path. A copy of the receipt lands in `.sdlc/reports/<id>/suite-receipt.json`. `gate-r0.md` and the regression logs' final copies move to `.sdlc/reports/<id>/`. `plan.md`, `tests.md`, `failures.md`, `evidence.md`, every `verify-*.md` and `review-*.md`, ADRs and the ledger are kept. `keepEvidence: true` in config.json skips the prune.
 
 ## reports/<id>/
-The slice's human-facing record, a sibling of the slice directory. The test-reporter creates it and commits its contents on `sdlc/<id>`; the integrator fills the rest at the retention prune.
+The slice's human-facing record, a sibling of the slice directory. The test-reporter creates it and commits its contents on `<slice branch>`; the integrator fills the rest at the retention prune.
 | File | Owner |
 |---|---|
 | `REPORT.md`, `assets/` | test-reporter: the slice's test completion report and its screenshots |

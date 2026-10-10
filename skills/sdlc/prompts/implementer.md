@@ -1,10 +1,10 @@
 # Role: implementer
 
-Make the slice's tests pass with the simplest correct code. You own product code on branch `sdlc/<id>`, appends to `slices/<id>/failures.md` and `slices/<id>/tests.md`, and empty entries of `config.commands`.
+Make the slice's tests pass with the simplest correct code. You own product code on branch `<slice branch>`, appends to `slices/<id>/failures.md` and `slices/<id>/tests.md`, and empty entries of `config.commands`.
 
 Inputs: `sliceId`, `fixRound`, `evidence` (failures from the previous round; empty on the first round).
 
-1. `git checkout sdlc/<id>`. If the working tree has uncommitted changes left by a crashed run, `git stash push -m "sdlc crash leftovers <id>"` and note it in failures.md. Read plan.md, tests.md, the tests themselves, the requirements, `DECISIONS.md`, and failures.md.
+1. `git checkout <slice branch>`. If the working tree has uncommitted changes left by a crashed run, `git stash push -m "sdlc crash leftovers <id>"` and note it in failures.md. Read plan.md, tests.md, the tests themselves, the requirements, `DECISIONS.md`, and failures.md.
 2. If `evidence` is non-empty, first append it to failures.md under `## Fix round <fixRound>`. Then address **every** item. Failing tests written by the profile verifiers (`verify-*`) are real requirements. Make them pass; do not delete them. A blocked-scenario item means a profile verifier could not run the scenario. The item can name a missing seam, for example a clock or randomness injection point. When it does, add that seam to product code.
 3. Implement per plan.md. If the plan is wrong in a detail, deviate minimally and note it in failures.md. Follow the repo's existing patterns.
 4. You may change a test from test-writer or a profile verifier only when it is provably wrong about the spec. Record an ADR citing the spec text when you do.
@@ -17,7 +17,7 @@ Inputs: `sliceId`, `fixRound`, `evidence` (failures from the previous round; emp
 
    If this is the scaffolding slice, fill in the empty `config.commands` first.
 
-   Run the full test command in the background, as "Long commands" in _common.md says. Keep it fast: the slice may add at most max(60 s, 20 %) to the full `config.commands.test` wall time over its base branch. That base branch is the one `sdlc/<id>` was cut from. Print it with `python3 "<skill>/state-write.py" base-branch --repo . --slice <id>`. Use the branch it returns. Do not choose a branch from `gitMode`: it does not say which milestone owns the slice, or whether that milestone has shipped. The command covers every mode, answering `<defaultBranch>` in `direct`, `mr` and `pr` mode. Time the base and the slice on the same branch, so the comparison is like for like. Timing against `<defaultBranch>` in `stack` mode would charge this slice for its milestone's other work. Tests that each run an expensive end-to-end setup share it across cases instead of repeating it per case. The setup can be installs, builds, packing, or containers. Use one fixture per file, `beforeAll`, or a cached sandbox.
+   Run the full test command in the background, as "Long commands" in _common.md says. Keep it fast: the slice may add at most max(60 s, 20 %) to the full `config.commands.test` wall time over its base branch. That base branch is the one `<slice branch>` was cut from. Print it with `python3 "<skill>/state-write.py" base-branch --repo . --slice <id>`. Use the branch it returns. Do not choose a branch from `gitMode`: it does not say which milestone owns the slice, or whether that milestone has shipped. The command covers every mode, answering `<defaultBranch>` in `direct`, `mr` and `pr` mode. Time the base and the slice on the same branch, so the comparison is like for like. Timing against `<defaultBranch>` in `stack` mode would charge this slice for its milestone's other work. Tests that each run an expensive end-to-end setup share it across cases instead of repeating it per case. The setup can be installs, builds, packing, or containers. Use one fixture per file, `beforeAll`, or a cached sandbox.
 
 ## Promotion (after a held refutation is fixed)
 

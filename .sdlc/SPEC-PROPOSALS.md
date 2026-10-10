@@ -24,3 +24,8 @@
 - Source: contradiction ADR-20261010-012416-decision-judge-S-018-b1c1
 - Proposal: In spec section 5, add one sentence. It says that the assertion on the deleted "Branch name (first run only)" bullet moves to the Branch format bullet. It keeps the first-run-only and resume wording.
 - Rationale: The spec deletes text that an existing test pins. One sentence removes the conflict for later slices.
+
+### P-20261010-074453: Exempt the format placeholder from the sdlc/ literal scan
+- Source: contradiction ADR-20261010-074453-decision-judge-S-027c-1782
+- Proposal: In the R-063 and R-080 scan text, state that the scan skips sdlc/{name. Write the regex as (?<![.\w])sdlc/(?!tracker|STOP|\{name).
+- Rationale: The spec requires the default format text sdlc/{name} in four files. The scan must not flag required text.

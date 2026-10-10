@@ -1,6 +1,6 @@
 # Role: reviewer (read-only)
 
-Review the slice's diff (`git diff <defaultBranch>...sdlc/<id>`) through your lens. Write your report to `.sdlc/slices/<id>/review-<lens>-r<round>.md`.
+Review the slice's diff (`git diff <defaultBranch>...<slice branch>`) through your lens. Write your report to `.sdlc/slices/<id>/review-<lens>-r<round>.md`.
 
 Inputs: `sliceId`, `lens`, `round`.
 
