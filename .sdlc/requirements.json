@@ -869,7 +869,7 @@
         "TC-contract-8: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:216",
         "TC-contract-9: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:267"
       ],
-      "commit": "pending"
+      "commit": "f7ca357072021ffa28ad75b6c4de8fb6be2d76ee"
     },
     "notes": "M-1 campaign SC-M-1-076 failed: `name --kind slice --id S-001-attempt-2` and `--id S-001-v0-cli-0` exit 0 and print a branch that parse reads as kind attempt and kind verify. Fix slice S-fix-M-1-1."
   },
@@ -2401,7 +2401,7 @@
         "TC-contract-8: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:216",
         "TC-contract-9: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:267"
       ],
-      "commit": "pending"
+      "commit": "f7ca357072021ffa28ad75b6c4de8fb6be2d76ee"
     },
     "notes": "M-1 campaign SC-M-1-080 failed: parse reads feature/p-1-S-00K (U+212A), feature/p-1-s-001 plus U+017F, and feature/p-1-s-00K-v0-cli-0 as loop branches. The janitor deleted the verify look-alike. Cause: re.IGNORECASE without re.ASCII at branches.py line 339. Fix slice S-fix-M-1-1. M-1 campaign SC-M-1-070 failed: With .git/rebase-merge present, `state-write.py patch-slice` exits 0 with ok true and creates a branch and a commit during the rebase. Fix slice S-fix-M-1-3."
   },
