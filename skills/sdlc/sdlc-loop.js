@@ -29,7 +29,7 @@ const REPO = A.repoRoot || '.'
 const BRANCH_FORMAT = A.branchFormat || 'sdlc/{name}'
 function branchName(tail) {
   const lower = BRANCH_FORMAT.includes('{name:lower}')
-  return BRANCH_FORMAT.replace(lower ? '{name:lower}' : '{name}', lower ? tail.toLowerCase() : tail)
+  return BRANCH_FORMAT.replace(lower ? '{name:lower}' : '{name}', () => (lower ? tail.toLowerCase() : tail))
 }
 // the cap is an allowance per milestone, not per run: it resets when the loop moves to a new milestone, so a
 // spec with N milestones may spend up to N × CAP agents in one run where a single run used to be bounded by CAP

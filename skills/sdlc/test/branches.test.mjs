@@ -2711,6 +2711,19 @@ test('T-R-050b branchName fills the format and lowercases the whole name for the
   assert.equal(lower.I.branchName('S-001-v0-Http-0'), 'feature/PROJ-1-s-001-v0-http-0')
 })
 
+test('T-R-051c branchName inserts tails with replacement patterns literally', async () => {
+  for (const [format, expectedFor] of [
+    ['sdlc/{name}', tail => `sdlc/${tail}`],
+    [PLAIN_FMT, tail => `feature/PROJ-1-${tail}`],
+    [LOWER_FMT, tail => `feature/PROJ-1-${tail.toLowerCase()}`],
+  ]) {
+    const rt = await loadInternals(undefined, { branchFormat: format })
+    for (const tail of ['$&', '$$', '$`', "$'", '$1', 'S-$&-v0-Http-0']) {
+      assert.equal(rt.I.branchName(tail), expectedFor(tail))
+    }
+  }
+})
+
 test('T-R-116a the internals export branchName and BRANCH_FORMAT', async () => {
   const rt = await loadInternals()
   assert.equal(typeof rt.I.branchName, 'function')
