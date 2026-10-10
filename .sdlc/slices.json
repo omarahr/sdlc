@@ -4661,12 +4661,37 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-034",
     "pr": "",
     "risk": "medium",
     "riskReason": "The driver runs preflight and records the format in config.json.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Resume sentence repeats the first-run-only sentence",
+        "detail": "The final sentence 'On a resume, run no parse check and ask for no rename' repeats 'This check is first run only: on a resume ...'. Merge them into one sentence later.",
+        "file": "skills/sdlc/SKILL.md",
+        "blocking": false
+      },
+      {
+        "title": "'With none' sentence repeats 'when you have one'",
+        "detail": "'With none, give preflight no --format argument' repeats the later clause 'with --format when you have one'. The sentence is explicit and harmless.",
+        "file": "skills/sdlc/SKILL.md",
+        "blocking": false
+      },
+      {
+        "title": "Resume case with a failed working sample is unstated",
+        "detail": "On a resume a failed working sample still sets ok false, so the driver ends. The new 'ask for no rename' sentence does not say so. The plan records this in an ADR.",
+        "file": "skills/sdlc/SKILL.md",
+        "blocking": false
+      },
+      {
+        "title": "Verifier contract test needs no promotion",
+        "detail": "The test under .sdlc/slices/S-034/verification/r0/tests/contract-0 repeats T-R-128 to T-R-130 and existing CLI tests. Do not promote it.",
+        "file": ".sdlc/slices/S-034/verification/r0/tests/contract-0/skill-branch-format.verify-contract.test.mjs",
+        "blocking": false
+      }
+    ],
     "ideaKeys": [],
     "notes": "Re-plan from scratch with the simplest approach; read failures.md.",
     "counters": {
@@ -4677,7 +4702,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-035",

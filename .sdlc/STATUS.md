@@ -1,5 +1,5 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T11:37:46Z
+Updated: 2026-10-10T11:54:52Z
 
 Requirements: 134/151 done · 0 parked · 0 stubbed · 0 obsolete
 Slices: 35/40 done · current: S-034 SKILL.md orders the format sources and the preflight command · awaiting merge: none
