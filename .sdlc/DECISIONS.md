@@ -519,3 +519,27 @@
 - Decision: Option 3. Rewrite only that one assertion. It must require "first run only" and "on a resume the current branch is normally the run branch" in the Branch format bullet. Keep it strict. Do not edit other assertions.
 - Consequences / how to reverse: One regex in skills/sdlc/test/prompts.test.mjs changes. Restore the old regex or tighten the new one in one commit. The resume guarantee stays tested.
 - Affects: S-018, R-048
+
+### ADR-20261010-014120-planner-S-019-4003: Run worktree bullet moves after the Branch format bullet
+- Status: auto
+- Context: Spec section 5 names the run branch with FMT in the Run worktree bullet. FMT exists only after the Branch format bullet. The Run worktree bullet now comes first.
+- Options: (1) Move the Run worktree bullet and the specPath bullet after the Branch format bullet. (2) Keep the order and refer forward to FMT. (3) Move the Branch format bullet before the Run worktree bullet.
+- Decision: Option 1. The Branch format bullet reads only $REPO and the flags, so it needs no worktree. The mismatch sentence joins the Run worktree bullet.
+- Consequences / how to reverse: Move the two bullets back and compute RUN_BRANCH in a later step. Update the order assertions.
+- Affects: R-047, R-121, S-019
+
+### ADR-20261010-014200-decision-judge-S-019-b1d3: Git mode bullet reads config.json from REPO only
+- Status: auto
+- Context: Spec section 5 leaves the bullet order open. The Run worktree bullet needs FMT, which the Branch format bullet defines. The spec does not say whether the Git mode bullet reads config.json from REPO or WT. ADR-20261010-014120-planner-S-019-4003 moves the bullets. No OVERRIDE ADR covers this question.
+- Options: (1) Move the bullets. Read config.json from WT when WT exists, else from REPO, in Git mode and in the Branch format resume read. (2) Move the bullets. Git mode reads WT when its config exists, else REPO. (3) Move the bullets. Read config.json from REPO only. Add no WT fallback.
+- Decision: Option 3. Move the Run worktree bullet and the specPath bullet after the Branch format bullet. The Git mode bullet reads config.json from $REPO/.sdlc/config.json. The Branch format bullet already reads REPO, so both bullets use one source.
+- Consequences / how to reverse: One reorder and one path qualifier in skills/sdlc/SKILL.md, plus the matching assertions. Revert the slice commit, or add a WT fallback in one edit.
+- Affects: S-019, R-047, R-121
+
+### ADR-20261010-014356-planner-S-019-7374: Git mode keeps the WT-first read and WT is set before it
+- Status: auto
+- Context: ADR-20261010-014200-decision-judge-S-019-b1d3 makes the Git mode bullet read only $REPO/.sdlc/config.json. The run state lives in the worktree. A resumed stack run keeps gitMode: stack and runBranch only in $WT/.sdlc/config.json. A REPO-only read can fall back to pr and lose runBranch. The Run worktree bullet moves after the Branch format bullet, so WT would be unset when the Git mode bullet runs.
+- Options: (1) Follow b1d3: REPO-only read. (2) Set WT in its own bullet before the Git mode bullet. The Git mode bullet reads $WT/.sdlc/config.json when that file exists, else $REPO/.sdlc/config.json.
+- Decision: Option 2. This supersedes b1d3. Add a short bullet that sets WT=$REPO/.claude/worktrees/sdlc-run before the Git mode bullet. The Run worktree bullet keeps the gitignore check, the creation and the checkout, and stays after the Branch format bullet.
+- Consequences / how to reverse: One new bullet and one path qualifier in skills/sdlc/SKILL.md, with matching assertions. To reverse, change the qualifier to REPO only and accept the lost stack resume.
+- Affects: S-019, R-047, R-121

@@ -2679,3 +2679,17 @@ test('T-R-074a preflight through gh and glab shims covers the seven scenarios', 
 
   assertBadInput(['preflight', '--repo', withConfig({ gitMode: 'pr' }), '--mode', 'pr', '--format', 'feature/x'], 'format without placeholder')
 })
+
+test('T-R-118 parse with a plain prefix format returns the slice kind and id, and null for a foreign name', opts, () => {
+  const slice = cliParse(PLAIN_FMT, 'feature/PROJ-1-S-002')
+  assert.equal(slice.ok, true)
+  assert.equal(slice.kind, 'slice')
+  assert.equal(slice.id, 'S-002')
+  assert.equal(cliParse(PLAIN_FMT, 'feature/PROJ-1-foo').kind, null)
+})
+
+test('T-R-101 parse of a name outside the loop kinds prints no kind', opts, () => {
+  const out = cliParse(DEFAULT_FMT, 'sdlc/feature-x')
+  assert.equal(out.ok, true)
+  assert.equal(out.kind, null)
+})

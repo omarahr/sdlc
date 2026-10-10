@@ -221,7 +221,7 @@ test('the worktree returns to the run branch before every run-branch operation (
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
   const wt = skill.split('\n').find(l => l.includes('**Run worktree:**'))
   assert.ok(wt, 'the run worktree step is missing')
-  assert.match(wt, /put its HEAD back on the run branch[\s\S]{0,200}git -C "\$WT" checkout sdlc\/run-<n>/)
+  assert.match(wt, /put its HEAD back on the run branch[\s\S]{0,200}git -C "\$WT" checkout "\$RUN_BRANCH"/)
   assert.match(wt, /merge --ff-only origin\/<defaultBranch>/)
 })
 
@@ -719,8 +719,8 @@ test('the driver ensures the run worktree before the config checks, and points t
   assert.match(skill, /WT="\$REPO\/\.claude\/worktrees\/sdlc-run"/)
   // pre-flight: the folder is git-ignored first, the worktree is created or reused, never reset
   assert.match(skill, /git-ignored[\s\S]{0,200}\.claude\/worktrees\//, '.claude/worktrees/ is ignored before use')
-  assert.match(skill, /worktree add "\$WT" -b sdlc\/run-<n>/)
-  assert.match(skill, /\(count of `sdlc\/run-\*` branches\) \+ 1/, 'n comes from the existing run branches')
+  assert.match(skill, /worktree add "\$WT" -b "\$RUN_BRANCH"/)
+  assert.match(skill, /one more than the count of `branches\.py list[^`]*--kind run`/, 'n comes from the existing run branches')
   assert.match(skill, /merge --ff-only origin\/<defaultBranch>/, 'a relaunch reuses and fast-forwards the worktree')
   assert.match(skill, /diverged and end[\s\S]{0,80}the owner decides/, 'a failed ff-only sync is the owner\'s call')
   assert.match(skill, /[Dd]irty[\s\S]{0,120}report and end[\s\S]{0,120}owner/, 'a dirty worktree is the owner\'s, never reset')
@@ -896,21 +896,16 @@ test('T-R-097: the Branch format bullet reports a derived format and resumes fro
   assert.match(bullet, /without `--branch-format`/)
 })
 
-test('T-R-048: a bullet after the Branch format bullet ends the run on a worktree format mismatch', () => {
+test('T-R-048: the Run worktree bullet ends the run on a worktree format mismatch', () => {
   const skill = skillText()
-  const fmt = skill.indexOf('**Branch format:**')
-  assert.ok(fmt >= 0)
-  const stop = skill.indexOf('rm -f "$REPO/.sdlc/STOP"', fmt)
-  const between = skill.slice(fmt, stop)
-  const bullets = between.split(/\n(?=\s*- )/)
-  assert.ok(bullets.length >= 2, 'a second bullet must follow the Branch format bullet')
-  const mismatch = bullets.slice(1).join('\n')
-  assert.match(mismatch, /\$WT\/\.sdlc\/config\.json/)
-  assert.match(mismatch, /`branchFormat`/)
-  assert.match(mismatch, /differs from `\$FMT`/)
-  assert.match(mismatch, /report both/)
-  assert.match(mismatch, /end/)
-  assert.match(mismatch, /run in progress keeps its names/)
+  const bullet = runWorktreeBullet(skill)
+  assert.match(bullet, /\$WT\/\.sdlc\/config\.json/)
+  assert.match(bullet, /`branchFormat`/)
+  assert.match(bullet, /differs from `\$FMT`/)
+  assert.match(bullet, /report both/)
+  assert.match(bullet, /end/)
+  assert.match(bullet, /run in progress keeps its names/)
+  assert.doesNotMatch(skill, /\n\s*- After the worktree exists, when/, 'the separate mismatch bullet is gone')
 })
 
 test('T-R-049: the Launch args carry branchFormat between commitFormat and maxIterations', () => {
@@ -918,4 +913,76 @@ test('T-R-049: the Launch args carry branchFormat between commitFormat and maxIt
   assert.match(skill, /Workflow\(\{[^\n]*commitFormat, branchFormat, maxIterations[^\n]*\}\)/)
   assert.match(skill, /`branchFormat` is `\$FMT`/)
   assert.match(skill, /branchFormat[^\n]*(on every launch|always)/)
+})
+
+const bulletAt = (skill, marker) => {
+  const start = skill.indexOf(marker)
+  assert.ok(start >= 0, `the Pre-flight has no ${marker} bullet`)
+  const rest = skill.slice(start)
+  const next = rest.search(/\n {3}- /)
+  return next < 0 ? rest : rest.slice(0, next)
+}
+const runWorktreeBullet = skill => bulletAt(skill, '**Run worktree:**')
+
+test('T-R-047a: the Run worktree bullet names the run branch through branches.py name', () => {
+  const bullet = runWorktreeBullet(skillText())
+  assert.ok(
+    bullet.includes('RUN_BRANCH=$(python3 "$SKILL_DIR/branches.py" name --repo "$REPO" --format "$FMT" --kind run --n <n>)'),
+    'the bullet lacks the RUN_BRANCH name command')
+  assert.match(bullet, /<n>[\s\S]{0,80}one more than the count of `?[^`]*branches\.py[^`]*list[^`]*--kind run`/)
+})
+
+test('T-R-047b: the Run worktree bullet comes after the Branch format bullet and uses RUN_BRANCH', () => {
+  const skill = skillText()
+  assert.ok(skill.indexOf('**Run worktree:**') > skill.indexOf('**Branch format:**'), 'the Run worktree bullet must follow the Branch format bullet')
+  const bullet = runWorktreeBullet(skill)
+  assert.ok(bullet.includes('worktree add "$WT" -b "$RUN_BRANCH"'))
+  assert.ok(!bullet.includes('sdlc/run-<n>'), 'the literal sdlc/run-<n> must leave the Run worktree bullet')
+})
+
+test('T-R-121: on a relaunch the run branch is the last listed one and HEAD goes back onto it', () => {
+  const bullet = runWorktreeBullet(skillText())
+  assert.match(bullet, /relaunch[\s\S]{0,300}last entry[\s\S]{0,200}list[^\n]{0,80}--kind run/)
+  assert.ok(bullet.includes('git -C "$WT" checkout "$RUN_BRANCH"'))
+  assert.match(bullet, /creates? no new run branch/)
+})
+
+test('T-R-047c: the mismatch sentence sits inside the Run worktree bullet after the Branch format bullet', () => {
+  const skill = skillText()
+  const bullet = runWorktreeBullet(skill)
+  assert.match(bullet, /differs from `\$FMT`[\s\S]{0,80}report both[\s\S]{0,40}end[\s\S]{0,120}run in progress keeps its names/)
+  assert.ok(skill.indexOf('differs from `$FMT`') > skill.indexOf('**Branch format:**'))
+})
+
+test('T-R-047d: the Run worktree and specPath bullets come after the Branch format bullet', () => {
+  const skill = skillText()
+  const fmt = skill.indexOf('**Branch format:**')
+  const spec = skill.indexOf('its `specPath` differs from the argument')
+  assert.ok(spec > fmt, 'the specPath bullet must follow the Branch format bullet')
+  assert.ok(skill.indexOf('**Run worktree:**') > fmt)
+  assert.ok(skill.indexOf('**Run worktree:**') < spec, 'the worktree stays before the specPath check')
+})
+
+test('T-R-047e: WT is set before the Git mode and Branch format bullets, and Git mode reads both config paths', () => {
+  const skill = skillText()
+  const assign = skill.indexOf('WT="$REPO/.claude/worktrees/sdlc-run"')
+  assert.ok(assign >= 0)
+  const git = skill.indexOf('**Git mode:**')
+  assert.ok(assign < git, 'WT must be set before the Git mode bullet')
+  assert.ok(assign < skill.indexOf('**Branch format:**'))
+  const gitBullet = skill.slice(git, skill.indexOf('**Branch format:**'))
+  assert.match(gitBullet, /\$WT\/\.sdlc\/config\.json[\s\S]{0,120}exists[\s\S]{0,120}\$REPO\/\.sdlc\/config\.json/)
+  assert.ok(!runWorktreeBullet(skill).includes('WT="$REPO/.claude/worktrees/sdlc-run"'), 'the Run worktree bullet no longer holds the assignment')
+})
+
+test('T-R-101b: the Branch format bullet asks nothing when parse prints no kind', () => {
+  const bullet = branchFormatBullet(skillText())
+  assert.match(bullet, /when `parse` prints no kind[\s\S]{0,120}ask(s)? no(thing| rename)[\s\S]{0,80}continue/)
+  assert.ok(bullet.includes('git branch -m <new-name>'))
+})
+
+test('T-R-118b: the Branch format bullet asks for a rename when parse prints a kind', () => {
+  const bullet = branchFormatBullet(skillText())
+  assert.match(bullet, /parse --repo "\$REPO" --format "\$FMT" --branch "\$BASE_BRANCH"`? prints a kind/)
+  assert.match(bullet, /ask the user to rename the branch \(`git branch -m <new-name>`\)/)
 })
