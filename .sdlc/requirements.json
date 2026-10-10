@@ -2512,13 +2512,26 @@
     "specRef": "§7",
     "quote": "A `fmt` argument is threaded from `main()` where `config` is read, with `load_format(repo)` as the fallback.",
     "acceptance": "state-write.py derives fmt once in main() from the config, with load_format as fallback, and passes it to the branch helpers.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261010-034158-decision-judge-S-022-cb4c"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "main derives the format once and patch-slice uses it",
+        "main derives the format once and base-branch uses it",
+        "patch_slice takes fmt as an argument",
+        "a config without branchFormat falls back to load_format",
+        "slice_side_branches matches verify and attempt tails under a custom format",
+        "slice_side_branches matches under a lowercase format",
+        "state-write.py holds no local regex for verify or attempt names"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -3102,13 +3115,26 @@
     "specRef": "§Assumptions",
     "quote": "Whichever of the two specs lands second adapts the other's matching to `branches.parse`.",
     "acceptance": "`ship-prune` and `collect-verification` in `state-write.py` match their `-v*` and `-attempt-*` names through `branches.parse`, not a local regex. A test asserts a verify tail and an attempt tail match under a custom format.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261010-043504-decision-judge-S-023-770f"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "main derives the format once and patch-slice uses it",
+        "main derives the format once and base-branch uses it",
+        "patch_slice takes fmt as an argument",
+        "a config without branchFormat falls back to load_format",
+        "slice_side_branches matches verify and attempt tails under a custom format",
+        "slice_side_branches matches under a lowercase format",
+        "state-write.py holds no local regex for verify or attempt names"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },

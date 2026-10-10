@@ -1,0 +1,307 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "1365f3a",
+  "environment": "python3 with the built skill scripts run as a developer runs them, scratch git repos in a temp directory, node 24 test runner, cli-runner testkit; head build compared with its parent commit 4a15c07",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "patch-slice names the branch from a custom format",
+      "given": "config branchFormat feature/PROJ-1-{name}",
+      "when": "state-write.py patch-slice --repo R --slice S-001 with {\"phase\":\"tests\"}",
+      "then": "exit 0, branch feature/PROJ-1-S-001, and that branch is checked out",
+      "expected": "exit 0, branch feature/PROJ-1-S-001, and that branch is checked out",
+      "actual": "exit 0, branch feature/PROJ-1-S-001, checked out",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:21",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head custom 0 {\"ok\": true, \"branch\": \"feature/PROJ-1-S-001\", \"commit\": \"ed21a11\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head custom 0 {\"ok\": true, \"branch\": \"feature/PROJ-1-S-001\", \"commit\": \"ed21a11\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "patch-slice under a lowercase format",
+      "given": "branchFormat feature/{name:lower}",
+      "when": "patch-slice S-001",
+      "then": "branch feature/s-001",
+      "expected": "branch feature/s-001",
+      "actual": "branch feature/s-001",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:27",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head lower 0 {\"ok\": true, \"branch\": \"feature/s-001\", \"commit\": \"0c5fd87\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head lower 0 {\"ok\": true, \"branch\": \"feature/s-001\", \"commit\": \"0c5fd87\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "patch-slice falls back to the default format",
+      "given": "no branchFormat, or an empty, null, numeric or list value",
+      "when": "patch-slice S-001",
+      "then": "branch sdlc/S-001 each time",
+      "expected": "branch sdlc/S-001 each time",
+      "actual": "branch sdlc/S-001 each time",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:33",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head bf \"\" 0 {\"ok\": true, \"branch\": \"sdlc/S-001\"}\nhead bf 5 0 {\"ok\": true, \"branch\": \"sdlc/S-001\"}\nhead bf null 0 ...\nhead bf [\"x\"] 0 ..."
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head bf \"\" 0 {\"ok\": true, \"branch\": \"sdlc/S-001\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "Invalid branchFormat gives a clean Fail from patch-slice",
+      "given": "branchFormat bad{x}, x, has space/{name}, a//{name}, {name}.lock",
+      "when": "patch-slice S-001",
+      "then": "exit non-zero, JSON ok:false, no traceback",
+      "expected": "exit non-zero, JSON ok:false, no traceback",
+      "actual": "exit 2, JSON ok:false, no traceback; output equals the output before the change",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:46",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head badfmt \"bad{x}\" 2 {\"ok\": false, \"error\": \"the branch format 'bad{x}' must hold exactly one {name} or {name:lower}, found 0\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head badfmt \"bad{x}\" 2 {\"ok\": false, \"error\": \"the branch format 'bad{x}' must hold exactly one {name} or {name:lower}, found 0\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "Missing, invalid and no-.sdlc config give the same error as before the change",
+      "given": "config.json absent, invalid JSON; repo without .sdlc",
+      "when": "patch-slice S-001 on the head build and on the parent commit",
+      "then": "identical exit code and message in both builds",
+      "expected": "identical exit code and message in both builds",
+      "actual": "identical: exit 2 with \"missing <repo>/.sdlc/config.json\", \"... is not valid JSON ...\", \"no .sdlc/ in <repo>\"",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:54",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head missingConfig 2 {\"ok\": false, \"error\": \"missing <repo>/.sdlc/config.json\"}\nbase missingConfig 2 {\"ok\": false, \"error\": \"missing <repo>/.sdlc/config.json\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head missingConfig 2 {\"ok\": false, \"error\": \"missing <repo>/.sdlc/config.json\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "base-branch uses the custom lowercase format and changes nothing",
+      "given": "branchFormat feature/{name:lower}; S-001 awaiting-merge with branch feature/s-001; S-002 depends on it",
+      "when": "base-branch --slice S-002",
+      "then": "branch feature/s-001; file tree and refs unchanged",
+      "expected": "branch feature/s-001; file tree and refs unchanged",
+      "actual": "branch feature/s-001; treeUnchanged true. Stack mode gives feature/m-1. Default format gives sdlc/S-001",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:66",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head base 0 {\"ok\": true, \"slice\": \"S-002\", \"branch\": \"feature/s-001\"}\nhead stack 0 {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/m-1\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head base 0 {\"ok\": true, \"slice\": \"S-002\", \"branch\": \"feature/s-001\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "base-branch with a bad branchFormat is a clean Fail when the answer needs the format",
+      "given": "branchFormat bad{x}, zz, {name}{name}; S-002 depends on an awaiting-merge S-001",
+      "when": "base-branch --slice S-002",
+      "then": "exit non-zero, ok:false, no traceback",
+      "expected": "exit non-zero, ok:false, no traceback",
+      "actual": "exit 2, ok:false, no traceback, same as before the change",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:81",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head base-badfmt-dep \"bad{x}\" 2 {\"ok\": false, \"error\": \"the branch format 'bad{x}' must hold exactly one {name} or {name:lower}, found 0\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head base-badfmt-dep \"bad{x}\" 2 {\"ok\": false, \"error\": \"the branch format 'bad{x}' must hold exactly one {name} or {name:lower}, found 0\"}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-059"
+      ],
+      "title": "base-branch with a bad or absent config.json is a clean Fail",
+      "given": "config.json absent or invalid JSON",
+      "when": "base-branch --slice S-001",
+      "then": "exit 2, ok:false, no traceback",
+      "expected": "exit 2, ok:false, no traceback",
+      "actual": "exit 2, ok:false, no traceback",
+      "result": "pass",
+      "specSource": "R-059 acceptance",
+      "test": ".sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:97",
+      "command": "node --test .sdlc/slices/S-023/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run output",
+          "inline": "head base-cfg null 2 {\"ok\": false, \"error\": \"missing <repo>/.sdlc/config.json\"}\nhead base-cfg \"{nope\" 2 {\"ok\": false, \"error\": \"<repo>/.sdlc/config.json is not valid JSON ...\"}"
+        },
+        {
+          "kind": "log",
+          "title": "full run log",
+          "path": ".sdlc/slices/S-023/verification/r0/logs/cli-0-run.log"
+        },
+        {
+          "kind": "file-tree",
+          "title": "checked-out branch after the run",
+          "inline": "head base-cfg null 2 {\"ok\": false, \"error\": \"missing <repo>/.sdlc/config.json\"}"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "base-branch accepts an invalid branchFormat when the answer never uses the format",
+      "detail": "With branchFormat bad{x} and a slice with no awaiting-merge dependency, base-branch exits 0 and prints main. format_of does not validate the format. The behavior is the same before the change, and no requirement demands validation. VS-2 note expects a clean failure for a bad format, and that holds only when the answer builds a branch name.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "A config.json that is a JSON array gives a Python traceback",
+      "detail": "require_known_mode calls config.get on a list, so patch-slice and base-branch exit 1 with AttributeError and no JSON error. The output is the same before the change.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "patch-slice with a format that git refuses fails late with a raw git message",
+      "detail": "Formats such as has space/{name}, a//{name} and {name}.lock pass format_of and fail inside git checkout -b. The failure is clean (exit 2, ok:false) but names git, not the format. Same as before the change.",
+      "file": "skills/sdlc/state-write.py"
+    }
+  ]
+}

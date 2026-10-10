@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {"id":"VS-1","title":"patch-slice names the slice branch from the configured format","requirementIds":["R-059"],"profiles":["cli","contract"],"notes":"Run state-write.py patch-slice through the built CLI under a custom branchFormat, the default format, and no branchFormat in config. The branch field must follow the format. Check a missing or invalid config.json: the error must match the error before the change. Check that patch_slice requires the fmt argument and that a fmt argument that differs from config wins."},
+    {"id":"VS-2","title":"base-branch uses the same single format derivation","requirementIds":["R-059"],"profiles":["cli","contract"],"notes":"Run base-branch under a custom format and under the fallback. main() must call format_of once per run. Try a format with a lowercase name rule and a config with a bad branchFormat: the failure must be a clean Fail with a non-zero exit, no traceback."},
+    {"id":"VS-3","title":"slice_side_branches lists only the verify and attempt branches of one slice","requirementIds":["R-083"],"profiles":["contract","security"],"notes":"Call slice_side_branches through the public module entry under custom, lowercase and default formats. Expect the verify and attempt tails of the named slice only, sorted. Exclude the plain slice branch, other slices (S-001 against S-0011 and S-010), foreign prefixes and look-alike names. Try attack-corpus values as slice id (unicode digits, confusables, flag-like, traversal, NUL). The helper must refuse or return empty, never raise an uncaught exception."},
+    {"id":"VS-4","title":"verify and attempt names are matched only through branches.parse","requirementIds":["R-083"],"profiles":["contract"],"notes":"The source of state-write.py holds no literal pattern for -attempt- or -v<digits>. Check that the casing rule comes from branches.py alone: a lowercase format matches lowercase branch names and not the upper-case names."}
+  ],
+  "tools": [
+    {"id":"cli-runner","profile":"cli","purpose":"Run state-write.py patch-slice and base-branch in scratch repos with custom configs","exists":true},
+    {"id":"property","profile":"contract","purpose":"Call patch_slice and slice_side_branches through pycall with generated formats and slice ids","exists":true},
+    {"id":"attack-corpus","profile":"security","purpose":"Hostile slice ids and branch names for slice_side_branches","exists":true}
+  ],
+  "risk":"medium",
+  "riskReason":"One script boundary changes, but every state-write branch path now takes its format from main.",
+  "notes":"No HTTP, async, data or UI boundary. Cap for medium is four profiles; only three are tagged. The limits profile is not tagged because the spec states no number."
+}

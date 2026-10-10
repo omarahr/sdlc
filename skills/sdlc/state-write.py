@@ -593,13 +593,28 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id, fmt):
     return want
 
 
-def patch_slice(repo, slice_id, patch):
+def slice_side_branches(repo, fmt, slice_id):
+    refs = git(repo, "for-each-ref", "--format=%(refname)", "refs/heads/", check=False)
+    if refs.returncode != 0:
+        raise Fail(f"cannot list the branches of {repo}")
+    found = []
+    for ref in refs.stdout.splitlines():
+        branch = ref[len("refs/heads/"):]
+        try:
+            parsed = branches.parse(fmt, branch, ids=[slice_id])
+        except branches.Fail as e:
+            raise Fail(str(e))
+        if parsed and parsed["kind"] in ("verify", "attempt") and parsed["known"]:
+            found.append(branch)
+    return sorted(found)
+
+
+def patch_slice(repo, slice_id, patch, fmt):
     if not isinstance(patch, dict):
         raise Fail("the patch must be a JSON object")
     s = os.path.join(repo, ".sdlc")
     config = read_json(os.path.join(s, "config.json"))
     require_known_mode(config)
-    fmt = format_of(repo, config)
     branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))),
                                  read_json(os.path.join(s, "milestones.json"), []), slice_id, fmt)
     # read again: the branch just checked out holds this slice's state
@@ -716,7 +731,12 @@ def main():
                 data = json.load(sys.stdin)
             except ValueError as e:
                 raise Fail(f"stdin is not valid JSON: {e}")
-            out = patch_slice(repo, a.slice, data) if a.cmd == "patch-slice" else add_requirements(repo, data, a.lens, a.distinct)
+            if a.cmd == "patch-slice":
+                cfg = read_json(os.path.join(repo, ".sdlc", "config.json"))
+                require_known_mode(cfg)
+                out = patch_slice(repo, a.slice, data, format_of(repo, cfg))
+            else:
+                out = add_requirements(repo, data, a.lens, a.distinct)
     except Fail as e:
         print(json.dumps({"ok": False, "error": str(e)}))
         sys.exit(2)

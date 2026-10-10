@@ -2054,3 +2054,153 @@ for (const [label, branchFormat] of [
     assert.deepEqual([branchRefs(repo), git(repo, 'status', '--porcelain')], before)
   })
 }
+
+const PROBE_HEAD = `
+import importlib.util, io, json, sys
+spec = importlib.util.spec_from_file_location("sw", sys.argv[1])
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+repo = sys.argv[2]
+`
+const probe = (body, ...args) => execFileSync('python3', ['-c', PROBE_HEAD + body, STATE, ...args], { encoding: 'utf8' })
+
+const MAIN_PROBE = `
+cmd = sys.argv[3]
+calls = []
+real_format_of = mod.format_of
+def counting(r, c):
+    calls.append(1)
+    return real_format_of(r, c)
+mod.format_of = counting
+seen = []
+real_patch = mod.patch_slice
+def spy(*a, **k):
+    seen.append({"args": len(a), "fmt": a[3] if len(a) > 3 else k.get("fmt")})
+    return real_patch(*a, **k)
+mod.patch_slice = spy
+sys.argv = ["state-write.py", cmd, "--repo", repo, "--slice", "S-001"]
+sys.stdin = io.StringIO('{"notes": "x"}')
+buf = io.StringIO()
+real_out = sys.stdout
+sys.stdout = buf
+try:
+    mod.main()
+finally:
+    sys.stdout = real_out
+print(json.dumps({"calls": len(calls), "seen": seen, "out": json.loads(buf.getvalue().strip().split("\\n")[-1])}))
+`
+
+function formatFixture(config) {
+  const repo = fixture({
+    config,
+    slices: [slice('S-001')],
+    milestones: [{ id: 'M-1', title: 'Search', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+  })
+  git(repo, 'branch', config.runBranch)
+  return repo
+}
+
+for (const cmd of ['patch-slice', 'base-branch']) {
+  test(`main derives the format once and ${cmd} uses it`, opts, () => {
+    const repo = formatFixture(customConfig(1))
+    const out = JSON.parse(probe(MAIN_PROBE, repo, cmd))
+    assert.equal(out.out.ok, true, JSON.stringify(out.out))
+    assert.equal(out.calls, 1, 'format_of must run exactly once')
+    assert.ok(out.out.branch.startsWith('feature/PROJ-1-'), out.out.branch)
+    if (cmd === 'patch-slice') {
+      assert.deepEqual(out.seen, [{ args: 4, fmt: CUSTOM }], 'main must pass the derived format to patch_slice')
+    }
+  })
+}
+
+test('patch_slice takes fmt as an argument', opts, () => {
+  const repo = formatFixture(customConfig(1))
+  const out = JSON.parse(probe(`
+mod.format_of = lambda r, c: (_ for _ in ()).throw(AssertionError("patch_slice derived the format itself"))
+res = mod.patch_slice(repo, "S-001", {"notes": "x"}, "other/{name}")
+print(json.dumps(res))
+`, repo))
+  assert.equal(out.ok, true)
+  assert.ok(out.branch.startsWith('other/'), `the branch ${out.branch} does not follow the fmt argument`)
+})
+
+test('a config without branchFormat falls back to load_format', opts, () => {
+  const repo = formatFixture(stackConfig(1))
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' })
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'sdlc/S-001')
+})
+
+const sideBranches = (repo, fmt, id) => JSON.parse(probe(`
+print(json.dumps(mod.slice_side_branches(repo, sys.argv[3], sys.argv[4])))
+`, repo, fmt, id))
+
+function sideFixture(config, names) {
+  const repo = fixture({ config })
+  for (const name of names) git(repo, 'branch', name)
+  return repo
+}
+
+test('slice_side_branches matches verify and attempt tails under a custom format', opts, () => {
+  const repo = sideFixture(customConfig(1), [
+    'feature/PROJ-1-S-001-v0-http-api-0',
+    'feature/PROJ-1-S-001-attempt-2',
+    'feature/PROJ-1-S-002-attempt-1',
+    'feature/PROJ-1-S-001',
+    'sdlc/S-001-v0-http-api-0',
+  ])
+  assert.deepEqual(sideBranches(repo, CUSTOM, 'S-001'), [
+    'feature/PROJ-1-S-001-attempt-2',
+    'feature/PROJ-1-S-001-v0-http-api-0',
+  ])
+})
+
+test('slice_side_branches matches under a lowercase format', opts, () => {
+  const lower = 'feature/{name:lower}'
+  const repo = sideFixture(customConfig(1, { branchFormat: lower }), [
+    'feature/s-001-attempt-2',
+    'feature/s-001-v0-http-api-0',
+    'feature/s-002-attempt-1',
+    'feature/s-001',
+  ])
+  assert.deepEqual(sideBranches(repo, lower, 'S-001'), [
+    'feature/s-001-attempt-2',
+    'feature/s-001-v0-http-api-0',
+  ])
+})
+
+test('slice_side_branches does not match a slice id that is a prefix of another id', opts, () => {
+  const repo = sideFixture(customConfig(1, { branchFormat: 'sdlc/{name}' }), [
+    'sdlc/S-001-attempt-1',
+    'sdlc/S-0011-attempt-1',
+    'sdlc/S-0011-v0-cli-0',
+    'sdlc/S-010-attempt-3',
+    'sdlc/S-010-v0-cli-0',
+  ])
+  assert.deepEqual(sideBranches(repo, 'sdlc/{name}', 'S-001'), ['sdlc/S-001-attempt-1'])
+  assert.deepEqual(sideBranches(repo, 'sdlc/{name}', 'S-0011'), [
+    'sdlc/S-0011-attempt-1',
+    'sdlc/S-0011-v0-cli-0',
+  ])
+  assert.deepEqual(sideBranches(repo, 'sdlc/{name}', 'S-010'), [
+    'sdlc/S-010-attempt-3',
+    'sdlc/S-010-v0-cli-0',
+  ])
+})
+
+test('slice_side_branches ignores case only under a lowercase format', opts, () => {
+  const lower = 'f/{name:lower}'
+  const repo = sideFixture(customConfig(1, { branchFormat: lower }), [
+    'f/s-001-attempt-1',
+    'f/S-001-attempt-3',
+    'f/s-002-attempt-1',
+  ])
+  assert.deepEqual(sideBranches(repo, lower, 'S-001'), ['f/S-001-attempt-3', 'f/s-001-attempt-1'])
+  assert.deepEqual(sideBranches(repo, 'f/{name}', 'S-001'), ['f/S-001-attempt-3'])
+})
+
+test('state-write.py holds no local regex for verify or attempt names', opts, () => {
+  const text = readFileSync(STATE, 'utf8')
+  assert.ok(!text.includes('-attempt-'), 'an -attempt- pattern literal is in state-write.py')
+  assert.doesNotMatch(text, /-v\\d|-v\[0-9\]/)
+})
