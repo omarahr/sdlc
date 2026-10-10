@@ -1,0 +1,87 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "The driver orders the format sources: flag, then config.json, else none",
+      "requirementIds": [
+        "R-128"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Risk: the order text drifts or a source is missing. Check the Branch format bullet in SKILL.md. The flag clause comes before the config.json clause, which comes before 'else none'. The config clause says 'when that file exists'. With none, the bullet says to give preflight no --format argument."
+    },
+    {
+      "id": "VS-2",
+      "title": "The preflight command passes --format only with a known format",
+      "requirementIds": [
+        "R-129"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Risk: the bullet makes --format unconditional. Check that --format \"<format>\" is tied to 'when you have one'. Check that it matches the none case in VS-1."
+    },
+    {
+      "id": "VS-3",
+      "title": "Only mr mode passes --branch \"$BASE_BRANCH\" to preflight",
+      "requirementIds": [
+        "R-129"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Risk: another mode receives --branch. Check 'in `mr` mode only' and 'No other mode gets `--branch`'. Check the bullet names no second mode that passes --branch."
+    },
+    {
+      "id": "VS-4",
+      "title": "A first run asks for a rename of a failed working sample",
+      "requirementIds": [
+        "R-130"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Risk: the rename ask applies on every run. Check 'On a first run, a `working` sample that failed' and the parse check text. The existing pins for the ok-false sentence and the parse check must still hold."
+    },
+    {
+      "id": "VS-5",
+      "title": "A resume runs no parse check and asks for no rename",
+      "requirementIds": [
+        "R-130"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Risk: the resume sentence conflicts with the 'first run only' sentence or with the line-68 pin in prompts.test.mjs. Check 'On a resume, run no `parse` check and ask for no rename'. Check that the bullet ends as the pinned last sentence requires. Check that the sentence is under 20 words."
+    },
+    {
+      "id": "VS-6",
+      "title": "The default format sdlc/{name} still closes for a run without branchFormat",
+      "requirementIds": [
+        "R-002"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Risk: the SKILL.md edit breaks the default. Check that env-detector.md names branchFormat input, else existing value, else sdlc/{name}. Check that load_format on a config without branchFormat returns sdlc/{name}. Check that the bullet still says 'default `sdlc/{name}`'."
+    }
+  ],
+  "tools": [
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Call load_format on config shapes without branchFormat for VS-6.",
+      "exists": true
+    },
+    {
+      "id": "cli-runner",
+      "profile": "contract",
+      "purpose": "Run branches.py preflight and parse in a scratch repo to check the documented command lines.",
+      "exists": true
+    }
+  ],
+  "risk": "low",
+  "riskReason": "The change is prose in one SKILL.md bullet, with no I/O boundary and no script change.",
+  "notes": "Round 1 reuses the round 0 plan. Prose-only slice. Only the contract profile applies: the observable output is the text of SKILL.md and the tests that pin it."
+}
