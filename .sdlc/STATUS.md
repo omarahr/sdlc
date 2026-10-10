@@ -1,5 +1,5 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T08:19:07Z
+Updated: 2026-10-10T08:19:14Z
 
 Requirements: 114/151 done · 0 parked · 0 stubbed · 0 obsolete
 Slices: 28/40 done · current: S-027c remaining prompts replace branch literals and a test guards the sweep · awaiting merge: none
