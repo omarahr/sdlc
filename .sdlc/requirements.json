@@ -2622,7 +2622,7 @@
     "specRef": "§8",
     "quote": "**Branch names:** every branch the loop makes is named by one format, `config.branchFormat` (default `sdlc/{name}`). Never write such a name by hand.",
     "acceptance": "_common.md has the Branch names section. It lists all eight placeholders with their commands: run branch, slice branch, milestone branch, e2e branch, e2e area branch, state branch, attempt branch, verify branch. It points to `branches.py parse` to classify a branch.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3516,7 +3516,7 @@
     "specRef": "§8",
     "quote": "| `<run branch>` | the branch `config.runBranch` names in `stack` mode; otherwise `branches.py list --kind run`, its last entry |",
     "acceptance": "_common.md's placeholder table maps `<run branch>` to the branch `config.runBranch` names in `stack` mode. Outside `stack` mode it maps to the last entry of `branches.py list --kind run`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3531,7 +3531,7 @@
     "specRef": "§8",
     "quote": "| `<verify branch>` | the `branch` input your prompt carries |",
     "acceptance": "The `<verify branch>` placeholder is filled from the branch input the role's prompt carries. No prompt fills it with a `branches.py name` call.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4426,7 +4426,7 @@
     "specRef": "§8",
     "quote": "| `<slice branch>` | `branches.py name --kind slice --id <sliceId>` |",
     "acceptance": "_common.md's placeholder table maps `<slice branch>` to `branches.py name --kind slice --id <sliceId>`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4538,7 +4538,7 @@
     "specRef": "§8",
     "quote": "To learn what a branch is, `branches.py parse --repo . --branch <name>` prints its kind and ids, or `null` for a branch that is not the loop's.",
     "acceptance": "_common.md's Branch names section tells the reader to run `branches.py parse --repo . --branch <name>`. It says a branch that is not the loop's prints `null`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
