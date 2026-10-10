@@ -2297,6 +2297,7 @@ test('T-R-042a one starts_with rule derives the format and passes', opts, () => 
   for (const sample of out.samples) {
     assert.equal(sample.result, 'pass', JSON.stringify(sample))
     assert.ok(sample.name.startsWith('feature/sdlc/'), sample.name)
+    assert.equal(sample.rule, null, JSON.stringify(sample))
   }
 })
 
@@ -2470,18 +2471,6 @@ print(json.dumps(mod.derive([rule("contains", "team-a")])))
   assert.equal(out.ok, true)
   assert.equal(out.derived, true)
   assert.equal(out.format, 'sdlc/team-a/{name}')
-})
-
-test('T-R-126a a derived format that passes every sample is reported with derived true and no failing sample', opts, () => {
-  const { out } = prRun(startsWith('feature only', 'feature/'))
-  assert.equal(out.format, 'feature/sdlc/{name}')
-  assert.equal(out.derived, true)
-  assert.ok(out.samples.length > 0)
-  for (const sample of out.samples) {
-    assert.equal(sample.result, 'pass', JSON.stringify(sample))
-    assert.equal(sample.rule, null, JSON.stringify(sample))
-    assert.notEqual(sample.result, 'fail')
-  }
 })
 
 test('T-R-141a derive maps the three non-negated operators to their formats', opts, () => {
