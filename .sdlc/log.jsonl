@@ -45,3 +45,4 @@
 {"ts": "2026-10-10T08:54:54Z", "type": "slice-merged", "slice": "S-029", "detail": "README documents the flag and the branch names"}
 {"ts": "2026-10-10T08:55:28Z", "type": "note", "slice": "S-029", "detail": "no CI checks on https://github.com/omarahr/sdlc/pull/119"}
 {"ts":"2026-10-10T09:29:35Z","type":"slice-merged","slice":"S-030","detail":"derive maps one simple rule to a format"}
+{"ts":"2026-10-10T10:01:35Z","type":"slice-merged","slice":"S-031","detail":"evaluate regex, name literals and preflight edge formats"}

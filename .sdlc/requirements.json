@@ -5222,13 +5222,27 @@
     "specRef": "§3",
     "quote": "`regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "A regex rule is unanchored: pattern `feature` matches `x/feature/y` and returns True; pattern `^feature/` does not match `sdlc/S-001` and returns False.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-127a",
+        "T-R-127b",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:15",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:25",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:40",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:42",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:50",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:65",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:82",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:139",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:156"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5417,13 +5431,21 @@
     "specRef": "§3",
     "quote": "GitLab group push rules seed new projects and are not evaluated at push time beside the project rule, so only the project rule is read.",
     "acceptance": "read_rules on a gitlab forge calls `glab api \"projects/:fullpath/push_rule\"` and no group push rule endpoint. The glab shim records no other path.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-140a",
+        "T-R-140b",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:53",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:71",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:176"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5463,13 +5485,21 @@
     "specRef": "§1",
     "quote": "A ticket key or a type prefix a convention wants is literal text: `feature/PROJ-123-{name}` names the first slice `feature/PROJ-123-S-001`.",
     "acceptance": "name(\"feature/PROJ-123-{name}\", \"slice\", id=\"S-001\") is `feature/PROJ-123-S-001`. validate_format accepts the format.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-142a",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:88",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:90",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:104",
+        ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:201"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5583,13 +5613,20 @@
     "specRef": "§Edge cases",
     "quote": "**A literal part that makes an invalid ref**: `validate_format` rejects the format at pre-flight with `git check-ref-format`'s reason.",
     "acceptance": "`preflight --format 'sdlc/{name}..'` exits 2 with `ok: false` and an error that carries git check-ref-format's reason.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-150a",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:113",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:125",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:147"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5598,13 +5635,20 @@
     "specRef": "§Edge cases",
     "quote": "**No format, no rules**: the default; nothing changes for any repo that has no rule.",
     "acceptance": "On a repo with no config format and no forge rules, preflight prints ok true with format `sdlc/{name}` and derived false.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-151a",
+        "T-R-151b",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:159",
+        ".sdlc/slices/S-031/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:177"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   }
