@@ -5420,7 +5420,7 @@
         ".sdlc/slices/S-032/verification/r0/tests/security-0/sampled-kinds.verify-security.test.mjs:46",
         ".sdlc/slices/S-032/verification/r0/tests/security-0/sampled-kinds.verify-security.test.mjs:58"
       ],
-      "commit": "pending"
+      "commit": "84d45be"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5478,7 +5478,7 @@
         ".sdlc/slices/S-032/verification/r0/tests/security-0/sampled-kinds.verify-security.test.mjs:46",
         ".sdlc/slices/S-032/verification/r0/tests/security-0/sampled-kinds.verify-security.test.mjs:58"
       ],
-      "commit": "pending"
+      "commit": "84d45be"
     },
     "notes": "added by the completeness critic (structures)"
   },
