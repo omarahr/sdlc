@@ -4661,7 +4661,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "tests",
+    "phase": "implement",
     "branch": "sdlc/S-034",
     "pr": "",
     "risk": "medium",
