@@ -1,0 +1,17 @@
+{
+  "scenarios": [
+    {"id": "VS-1", "title": "A starts_with rule gives a prefixed format", "requirementIds": ["R-123", "R-141"], "profiles": ["cli", "contract"], "notes": "Rule starts_with feature/. derive returns feature/sdlc/{name}. Pre-flight in pr mode prints slice, state and milestone samples with the prefix. Try prefixes with regex characters, spaces and a trailing slash missing. The state sample holds a timestamp, so check its prefix only."},
+    {"id": "VS-2", "title": "An ends_with rule gives a suffixed format", "requirementIds": ["R-124", "R-141"], "profiles": ["cli", "contract"], "notes": "Rule ends_with -dev. derive returns sdlc/{name}-dev. Pre-flight with no format prints ok true, derived true, the derived format and exit 0. The slice sample is sdlc/S-001-dev. Try a suffix that starts with a dot or a dash."},
+    {"id": "VS-3", "title": "A contains rule gives an infix format", "requirementIds": ["R-125", "R-141"], "profiles": ["cli", "contract"], "notes": "Rule contains team-a. derive returns sdlc/team-a/{name}. Pre-flight with no format prints ok true, derived true, the derived format and exit 0."},
+    {"id": "VS-4", "title": "A derived format that passes every sample is reported clean", "requirementIds": ["R-126"], "profiles": ["cli"], "notes": "The output has the derived format and derived true. Every sample has result pass and rule null. No sample has result fail. The pre-flight must write no failing sample."},
+    {"id": "VS-5", "title": "Derivation does not apply, so no format is derived", "requirementIds": ["R-126", "R-141"], "profiles": ["cli", "contract"], "notes": "Five pre-flight cases keep derived false, ok false and exit 1: format by flag, format by config, two rules, a negated rule, a regex rule. The output format is the given format for flag and config, and sdlc/{name} for the others. derive returns None for a regex rule, for a negated rule of each operator and for two rules. Try an empty rule list and a rule with an unknown operator."}
+  ],
+  "tools": [
+    {"id": "cli-runner", "profile": "cli", "purpose": "Run branches.py preflight and name in a scratch repo with a gh shim and read stdout, JSON and exit code", "exists": true},
+    {"id": "stub-server", "profile": "cli", "purpose": "Return the branch-name rules for each case through the gh shim", "exists": true},
+    {"id": "property", "profile": "contract", "purpose": "Call derive through pycall.py with generated rule lists", "exists": true}
+  ],
+  "risk": "low",
+  "riskReason": "The slice adds characterization tests only and changes no product code in a small pure function plus one command.",
+  "notes": "Test-only slice. Security and limits profiles are not tagged because the slice states no number and adds no new input path. The cap for low risk is 2 profiles: cli covers all five scenarios and contract covers four."
+}

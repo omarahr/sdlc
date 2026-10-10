@@ -4284,12 +4284,59 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-030",
     "pr": "",
     "risk": "medium",
     "riskReason": "Preflight derives a format and runs git on it.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Formatting slips around the new tests",
+        "detail": "`skills/sdlc/test/branches.test.mjs` has two blank lines before T-R-123a and no blank line between T-R-141b and T-R-087a. Fix both to one blank line.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-141a and T-R-123a to T-R-125a overlap T-R-042a, T-R-042b and T-R-042f",
+        "detail": "The derive probes in T-R-123a, T-R-124a and T-R-125a, and all of T-R-141a, run the same code paths as T-R-042f with other literals. The literals pin the acceptance values for R-123 to R-125 and R-141, so the overlap is acceptable. Do not add more derive tests of this kind.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-141b mostly repeats T-R-042c and T-R-042f",
+        "detail": "Only the negated ends_with and contains cases are new. Consider trimming to those two.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-124a and T-R-125a repeat T-R-042b with other literals",
+        "detail": "They pin the acceptance text literals, so keep them. They add little new behavior.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Blank-line formatting in the diff",
+        "detail": "Two blank lines precede T-R-123a and no blank line precedes T-R-087a. Use one blank line between tests.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Verifier corner case not promoted",
+        "detail": "The verifier case where prefix 'my team/' is not derivable (derived false, exit 1) is in verification/r0/tests/cli-0/derive.verify-cli.test.mjs and in no committed test. Consider promoting it.",
+        "file": ".sdlc/slices/S-030/verification/r0/tests/cli-0/derive.verify-cli.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "preflight suggests a format that validate_format rejects",
+        "detail": "A starts_with rule with prefix 'my team/' gives derived false and suggestion --branch-format \"my team/sdlc/{name}\", which holds a space and is not a valid format. A prefix with no trailing slash derives featuresdlc/{name}, which is valid but probably not what the user wants.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "derive returns None for an empty pattern",
+        "detail": "The spec does not say what an empty pattern gives. The code returns None. No requirement is broken.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4312,6 +4359,13 @@
       {
         "kind": "verify",
         "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 2,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
