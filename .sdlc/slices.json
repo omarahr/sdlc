@@ -2750,12 +2750,74 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-018",
     "pr": "",
     "risk": "medium",
     "riskReason": "The driver prompt gates every launch; a wrong bullet ends runs early or skips the check.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "User-supplied branch format reaches a shell command",
+        "detail": "SKILL.md passes the --branch-format value to branches.py in double quotes. The driver must keep the quotes and must not use eval. Non-blocking reminder; no change required.",
+        "file": "skills/sdlc/SKILL.md",
+        "blocking": false
+      },
+      {
+        "title": "Mismatch bullet sits before the worktree is created",
+        "detail": "The bullet 'After the worktree exists ...' is in Pre-flight, before the Launch step. The spec places it there, so the order is acceptable, but a driver that reads steps in order cannot apply it until the worktree exists. Add 'in Launch, once $WT exists' or move the bullet next to where $WT is created. Not blocking.",
+        "file": "skills/sdlc/SKILL.md",
+        "blocking": false
+      },
+      {
+        "title": "Rewritten stack-flag assertion matches across a wide span",
+        "detail": "The assertion uses [\\s\\S]* between '**Branch format:**', 'first run only' and the resume wording. It can match text from other bullets. Use a bounded span, or reuse branchFormatBullet(). Not blocking.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Weak needles in T-R-046a",
+        "detail": "The needles list holds the common words 'rule', 'notes', 'format' and 'samples'. Each word appears anywhere in the bullet, so these checks pass even when the clause that uses them is gone. Pin each word inside a phrase, as T-R-097 does, or drop the weak needles.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Weak match for the end clause in T-R-048",
+        "detail": "The check `assert.match(mismatch, /end/)` also matches words such as 'append' or 'ending'. Pin the phrase 'report both and end' with one regex. The existing 'report both' check already covers most of it.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Prose-pinning tests are brittle to rewording",
+        "detail": "All new tests match SKILL.md wording. This is the only way to check a driver prompt, and the plan accepts it. Later slices that reword the bullet must update these tests. No change is needed now.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "branches.py non-string pattern hardening is outside the slice",
+        "detail": "The diff adds isinstance checks in regex_error, _raw_result and judge. The spec does not require them and the slice plan does not list them.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "cli: driver end-the-run paths have no run-time check",
+        "detail": "SKILL.md is prose for the driver. The tests check its wording and the commands it names. They cannot run the decision to end on ok false or on a config.json mismatch. The ok false path with a forge rule needs a gh or glab stub.",
+        "file": "skills/sdlc/SKILL.md"
+      },
+      {
+        "title": "preflight invalid-format verdict lacks samples, notes and suggestion",
+        "detail": "branches.py preflight with a format that lacks one {name} prints {ok:false,error} and exits 2. The bullet tells the driver to print samples, notes and suggestion when ok is false. It has no instruction for the error key.",
+        "file": "skills/sdlc/SKILL.md"
+      },
+      {
+        "title": "Branch format bullet adds a sentence to the spec text",
+        "detail": "The bullet adds an On a resume sentence that R-046 quote lacks. It is consistent with R-097.",
+        "file": "skills/sdlc/SKILL.md"
+      },
+      {
+        "title": "Launch text states the arg as shorthand",
+        "detail": "R-049 quote shows branchFormat: \"$FMT\". The args object lists the bare name and a sentence gives the value. The shape stays valid.",
+        "file": "skills/sdlc/SKILL.md"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -2766,7 +2828,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-019",

@@ -1,0 +1,91 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "The Commands line and flag bullet document --branch-format",
+      "requirementIds": [
+        "R-045"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Check order: after --commit-format, before the next option. The bullet names {name}, the default and the config.json fallback. Try a mutated SKILL.md with the flag missing, or placed before --commit-format."
+    },
+    {
+      "id": "VS-2",
+      "title": "The Branch format bullet replaces the old Branch name bullet",
+      "requirementIds": [
+        "R-046",
+        "R-097"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "The bullet follows Git mode and precedes the STOP removal. It holds the preflight and parse commands, the ok false path, the derived report, the working-sample rename and the first run only wording. The old Branch name bullet, branch_name_regex and push_rule must be gone. Check that the preflight command in the text runs against branches.py with the flags the text names."
+    },
+    {
+      "id": "VS-3",
+      "title": "A resume takes the format from config.json without the flag",
+      "requirementIds": [
+        "R-097"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "The text must say a resume reads branchFormat from config.json and gets the same FMT. Check for a derived format that the user is told about."
+    },
+    {
+      "id": "VS-4",
+      "title": "A different branchFormat in the worktree ends the run with both values",
+      "requirementIds": [
+        "R-048"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "The mismatch bullet follows the Branch format bullet, so FMT exists. It reports both values, ends, and says a run in progress keeps its names."
+    },
+    {
+      "id": "VS-5",
+      "title": "The Launch args pass branchFormat on every launch",
+      "requirementIds": [
+        "R-049"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "branchFormat sits between commitFormat and maxIterations, with value $FMT. The text says to always pass it. Check that the Launch args stay valid in shape."
+    },
+    {
+      "id": "VS-6",
+      "title": "The rest of SKILL.md and the existing suites stay intact",
+      "requirementIds": [
+        "R-046"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Only the stale first run only assertion changed. The full prompts, bootstrap and hub suites stay green. No other pre-flight bullet loses text."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py preflight and parse from a scratch repo to check the commands that SKILL.md names",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Check SKILL.md text against the required wording and order",
+      "exists": true
+    }
+  ],
+  "risk": "low",
+  "riskReason": "The slice edits one instruction file and its tests, and crosses no I/O boundary.",
+  "notes": "Tag contract and cli only, because the low cap is 2. The limits, security and ui profiles cannot observe a text edit."
+}
