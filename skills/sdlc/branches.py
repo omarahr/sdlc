@@ -303,8 +303,31 @@ def name(fmt, kind, **parts):
     prefix, suffix, lower = split(fmt)
     middle = tail(kind, **parts)
     if lower:
-        middle = middle.lower()
-    return prefix + middle + suffix
+        middle = _ascii_lower(middle)
+    branch = prefix + middle + suffix
+    _check_round_trip(fmt, kind, parts, branch, lower)
+    return branch
+
+
+def _same_part(part, given, found, lower):
+    if part in INTEGER_PARTS:
+        try:
+            return int(given) == found
+        except (TypeError, ValueError):
+            return False
+    if lower:
+        return _ascii_lower(str(given)) == _ascii_lower(str(found))
+    return str(given) == str(found)
+
+
+def _check_round_trip(fmt, kind, parts, branch, lower):
+    parsed = parse(fmt, branch)
+    if parsed is None or parsed["kind"] != kind:
+        read = "no kind" if parsed is None else f"kind {parsed['kind']}"
+        raise Fail(f"the {kind} branch name {branch!r} does not parse back as a {kind} branch: parse reads {read}")
+    for part in TAILS[kind][0]:
+        if not _same_part(part, parts[part], parsed.get(part), lower):
+            raise Fail(f"the {kind} branch name {branch!r} does not parse back to the given {part} {parts[part]!r}")
 
 
 PARSE_ROWS = (

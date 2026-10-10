@@ -429,7 +429,8 @@ scenario('SC-M-1-048', 'branchName keeps replacement patterns in the tail litera
       const lower = fmt.includes(':lower')
       const literal = fmt.replace(lower ? '{name:lower}' : '{name}', () => (lower ? tail.toLowerCase() : tail))
       assert.equal(js, literal, `${fmt} ${tail} literal`)
-      if (!(cli.status === 0 && cli.json && cli.json.branch === js)) diffs.push({ fmt, tail, js, py: cli.stdout.trim() })
+      const refused = cli.status === 2 && cli.json && cli.json.ok === false
+      if (!refused && !(cli.status === 0 && cli.json && cli.json.branch === js)) diffs.push({ fmt, tail, js, py: cli.stdout.trim() })
     }
   }
   note(id, 'differences from branches.py name', diffs)

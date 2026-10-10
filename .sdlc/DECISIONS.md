@@ -751,3 +751,11 @@
 - Decision: Compile every row with re.ASCII in both modes. Return None when the captured id is not ASCII. Lower mode uses an ASCII-only lowering.
 - Consequences / how to reverse: Remove re.ASCII and _ascii_lower from parse. Valid branches hold only ASCII, so only look-alikes change.
 - Affects: R-022, R-024, S-fix-M-1-1a
+
+### ADR-20261011-000000-implementer-S-fix-M-1-1b-a1c0: SC-M-1-048 accepts a refusal from branches.py name
+- Status: auto
+- Context: Spec section 2 says every name output parses back to the same kind and parts (R-019). SC-M-1-048 compares branches.py name with the JS branchName for tails such as `S-001$&x`. These tails do not parse back as a slice, so name now refuses them with exit 2.
+- Options: (1) Keep the test as it is and allow name to print a branch that does not parse back. (2) Let the test accept exit 2 with `ok: false` from name, and keep the JS literal check.
+- Decision: Option 2. The test still checks that the JS tail stays literal. It no longer demands that name prints an unparseable branch.
+- Consequences / how to reverse: Restore the old diff condition in e2e/tests/scripts.test.mjs and remove the round-trip check from name.
+- Affects: R-019, S-fix-M-1-1b
