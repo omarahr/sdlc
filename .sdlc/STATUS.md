@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T07:13:14Z
+Updated: 2026-10-10T07:20:27Z
 
 Requirements: 113/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 27/40 done · current: none · awaiting merge: none
+Slices: 27/40 done · current: S-027b integrator deletes attempt branches found through branches.py list · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 78 · Spec proposals: 5
+ADRs: 81 · Spec proposals: 5
 
 ## Recent
 - 2026-10-10T03:35:56Z slice-merged S-021 next-action.py recognizes branches through parse

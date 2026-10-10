@@ -3902,8 +3902,8 @@
       "S-027a"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-027b",
     "pr": "",
     "risk": "medium",

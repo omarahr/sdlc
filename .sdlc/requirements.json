@@ -3798,7 +3798,7 @@
     "specRef": "§1",
     "quote": "| `attempt` | `<sliceId>-attempt-<n>` | `sdlc/S-001-attempt-1` | never (deleted on the remote when present) |",
     "acceptance": "In `pr`, `mr` and `stack` modes the integrator deletes every attempt branch of the slice locally and on the remote with `git push origin --delete`. It finds them through `branches.py list --kind attempt` filtered to the slice, under a custom format too.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [
       "ADR-20261009-053059-decision-judge-S-005-23a9",
