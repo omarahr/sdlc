@@ -4523,12 +4523,25 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-033",
     "pr": "",
     "risk": "high",
     "riskReason": "Janitor deletes branches, so a wrong classification removes real work.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Prune test overlaps older prune tests",
+        "detail": "The custom-format prune test adds foreign kinds to coverage that older prune tests already pin. Merge the extra branches into the existing test if the overlap grows.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "branch_run fails on non-object config JSON",
+        "detail": "A committed config.json that holds valid JSON but not an object raises AttributeError in branch_run. This exists on main. Guard it with an isinstance check in a later slice.",
+        "file": "skills/sdlc/state-write.py",
+        "blocking": false
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4544,6 +4557,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
