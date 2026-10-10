@@ -2401,13 +2401,47 @@
     "specRef": "§7",
     "quote": "`ensure_milestone_branch` wants `name(fmt, \"milestone\", id=milestone_id)`; `ensure_slice_branch` wants `name(fmt, \"slice\", id=slice_id)`; the awaiting-merge dependency branch is `name(fmt, \"slice\", id=dep)`; `milestone_branches_with_open_slice_pr` adds `name(fmt, \"milestone\", id=mid)`",
     "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, state-write.py creates the slice and milestone branches as `feature/PROJ-1-S-001` and `feature/PROJ-1-M-1`, and finds the awaiting-merge dependency branch through `name(fmt, \"slice\", id=dep)`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "state-write creates the slice and milestone branches under a custom format",
+        "state-write finds the dependency branch through the module under a custom format",
+        "base-branch names the milestone branch through the format",
+        "TC-cli-1: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:38",
+        "TC-cli-2: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:53",
+        "TC-cli-3: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:68",
+        "TC-cli-4: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:89",
+        "TC-cli-5: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:103",
+        "TC-cli-6: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:103",
+        "TC-cli-7: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:128",
+        "TC-cli-8: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:128",
+        "TC-cli-1: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-2: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-3: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-4: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-5: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-6: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-7: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-8: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-security-1: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:37",
+        "TC-security-2: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:47",
+        "TC-security-3: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:57",
+        "TC-security-4: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:71",
+        "TC-security-5: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:81",
+        "TC-security-6: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:90",
+        "TC-security-7: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:97",
+        "TC-security-8: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:127",
+        "TC-security-13: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:183",
+        "TC-security-14: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:192",
+        "TC-security-15: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:202"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2416,13 +2450,38 @@
     "specRef": "§7",
     "quote": "`MILESTONE_BRANCH` is replaced by `parse(...)[\"kind\"] == \"milestone\"` wherever it is used.",
     "acceptance": "state-write.py has no MILESTONE_BRANCH regex. Milestone branches are recognized by parse kind, including in `prune_stale_milestone_branches` and `branch_run`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "the prune deletes a shipped milestone branch recognized by kind, under a custom format",
+        "the prune keeps a branch of another kind under the default format",
+        "state-write.py holds no MILESTONE_BRANCH regex",
+        "TC-cli-10: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:163",
+        "TC-cli-11: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:198",
+        "TC-cli-13: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:241",
+        "TC-cli-1: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-2: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-3: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-4: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-5: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-6: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-7: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-cli-8: .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+        "TC-contract-1: .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:75",
+        "TC-contract-2: .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:93",
+        "TC-contract-6: .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:172",
+        "TC-security-7: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:97",
+        "TC-security-9: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:138",
+        "TC-security-10: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:158",
+        "TC-security-11: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:166"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2431,13 +2490,20 @@
     "specRef": "§7",
     "quote": "`config.runBranch` keeps holding a full branch name, so `advance_run_branch` and `shipped_into` are unchanged.",
     "acceptance": "config.runBranch stores a complete branch name. advance_run_branch and shipped_into behave as before.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "a run branch with a custom format is advanced and kept as a full name",
+        "TC-cli-12: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:221",
+        "TC-security-12: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:174"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2952,13 +3018,22 @@
     "specRef": "§Testing",
     "quote": "`state-write creates the slice and milestone branches under a custom format and finds the dependency branch`.",
     "acceptance": "test/scripts.test.mjs asserts the creations and the dependency lookup under a custom format.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "state-write creates the slice and milestone branches under a custom format",
+        "state-write finds the dependency branch through the module under a custom format",
+        "TC-cli-1: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:38",
+        "TC-cli-5: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:103",
+        "TC-security-1: .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:37"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -3479,13 +3554,23 @@
     "specRef": "§7",
     "quote": "`ensure_milestone_branch` wants `name(fmt, \"milestone\", id=milestone_id)`; `ensure_slice_branch` wants `name(fmt, \"slice\", id=slice_id)`; the awaiting-merge dependency branch is `name(fmt, \"slice\", id=dep)`; `milestone_branches_with_open_slice_pr` adds `name(fmt, \"milestone\", id=mid)`",
     "acceptance": "`milestone_branches_with_open_slice_pr` builds the milestone branch with `name(fmt, \"milestone\", id=mid)`. Under `feature/PROJ-1-{name}` it matches `feature/PROJ-1-M-1`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/state-write.py",
+        "skills/sdlc/test/scripts.test.mjs"
+      ],
+      "tests": [
+        "a milestone branch with a slice pull request open against it is kept under a custom format",
+        "milestone_branches_with_open_slice_pr returns the milestone branch name from the format",
+        "TC-cli-9: .sdlc/slices/S-022/verification/r0/tests/cli-0/state-write.verify-cli.test.mjs:163",
+        "TC-contract-3: .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:103",
+        "TC-contract-4: .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:145",
+        "TC-contract-5: .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:158"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
