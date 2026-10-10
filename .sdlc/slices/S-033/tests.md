@@ -6,3 +6,4 @@
 - a repo whose config holds feature/PROJ-1-{name} makes the janitor sweep under that format — R-139 — characterization, passes now
 - a repo with no branchFormat makes the janitor sweep under sdlc/{name} — R-139 — characterization, passes now
 - janitor.py takes its format from load_format — R-139 — characterization, passes now
+- branch_run takes a run branch only when it parses to kind run — R-138 — promoted from verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs: non-string runBranch values (5, null, list, object, true) give no run

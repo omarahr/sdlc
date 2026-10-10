@@ -2273,8 +2273,6 @@ test('state-write.py holds no local regex for verify or attempt names', opts, ()
   assert.doesNotMatch(text, /-v\\d|-v\[0-9\]/)
 })
 
-// ---------- S-033: state-write and janitor take their format from the module ----------
-
 const branchRunOf = (repo, branch, fmt) =>
   execFileSync('python3', ['-c', `
 import importlib.util, json, sys
@@ -2313,11 +2311,12 @@ test('branch_run takes a run branch only when it parses to kind run', opts, () =
     ['sdlc/{name}', 'sdlc/run-1', 'sdlc/run-1'],
     ['sdlc/{name}', 'feature/PROJ-1-run-1', ''],
     ['sdlc/{name}', 'release/x', ''],
+    ...[5, null, ['x'], { a: 1 }, true].map((runBranch) => [CUSTOM, runBranch, '']),
   ]
   cases.forEach(([fmt, runBranch, want], i) => {
     const branch = `probe-${i}`
     branchWithRun(repo, branch, runBranch)
-    assert.equal(JSON.parse(branchRunOf(repo, branch, fmt)), want, `${runBranch} under ${fmt}`)
+    assert.equal(JSON.parse(branchRunOf(repo, branch, fmt)), want, `${JSON.stringify(runBranch)} under ${fmt}`)
     git(repo, 'checkout', '-q', 'main')
   })
 })

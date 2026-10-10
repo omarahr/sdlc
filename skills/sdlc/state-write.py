@@ -271,8 +271,6 @@ def advance_run_branch(repo, config, run):
 def branch_run(repo, branch, fmt):
     """The run branch named by the .sdlc/config.json committed ON <branch>, or "" when it names none.
 
-    A stored name counts only when it parses to a run branch under <fmt>. A foreign name counts as no run.
-
     This is what makes a milestone branch name run-scoped. Milestone ids restart at M-1 on every run while
     sdlc/run-<n> keeps counting, so run 2's first milestone branch carries exactly the name run 1's first
     milestone branch carried. Without this, a branch an earlier run left behind answers the exists check for
