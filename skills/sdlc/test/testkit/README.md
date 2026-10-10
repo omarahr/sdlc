@@ -83,3 +83,17 @@ const env = { PATH: glab.path(gh.path()) }
 - It takes the same options and steps as `stubServer`. Step N answers call N.
 - Each stub keeps its own log. Put both stubs on one `PATH` to test a run that calls both tools.
 - `restrictedPath(keep)` is re-exported. Use it to test an absent `glab`.
+
+## i18n-kit (`i18n-kit.mjs`)
+
+Unicode case-folding samples for tests of name, id and format code. Each sample records the Python 3 results of `lower()` and `casefold()`, and the ASCII-only lowering.
+
+```js
+const k = sample('kelvin')
+k.text; k.char; k.codepoint; k.asciiTwin; k.pyLower; k.pyCasefold; k.asciiLower
+r.run('branches.py', ['name', '--repo', repo, '--kind', 'slice', '--id', withIdPrefix('S-', 'dotted-i').text])
+```
+
+- Samples: `kelvin` (U+212A), `long-s` (U+017F), `dotted-i` (U+0130), `dotless-i` (U+0131), `sharp-s` (U+00DF), `capital-sharp-s` (U+1E9E) and `accented-capital` (U+00C9, no ASCII twin).
+- `lookalikes()` returns the samples that fold to an ASCII letter. `asciiLower(text)`, `asciiUpper(text)` and `isAscii(text)` are the reference rules.
+- The self-test runs `python3 -I` and checks every recorded `lower()` and `casefold()` result.

@@ -61,5 +61,17 @@
     "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
     "addedBy": "S-014 r0",
     "notes": "Wraps stub-server with the shim named glab. Same step shape as the gh stub: stdout, stderr, exit, delaySeconds, stall, fallback, failNext. The argv and cwd log is per stub, so a gh stub and a glab stub on one PATH keep separate logs. Import it by absolute path, because verifier tests live under .sdlc/ in the main tree."
+  },
+  {
+    "id": "i18n-kit",
+    "profiles": [
+      "i18n"
+    ],
+    "language": "javascript",
+    "path": "skills/sdlc/test/testkit/i18n-kit.mjs",
+    "usage": "import { sample, lookalikes, asciiLower, withIdPrefix } from '<repo>/skills/sdlc/test/testkit/i18n-kit.mjs'; const k = sample('kelvin'); k.text; k.pyLower; k.asciiLower; for (const s of lookalikes()) r.run('branches.py', ['name', '--repo', repo, '--kind', 'slice', '--id', s.text])",
+    "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
+    "addedBy": "S-fix-M-1-1b r0",
+    "notes": "Samples kelvin, long-s, dotted-i, dotless-i, sharp-s, capital-sharp-s and accented-capital. Each records str.lower(), str.casefold() and ASCII-only lowering; the self-test checks the Python results with python3 -I. Helpers: asciiLower, asciiUpper, isAscii, lookalikes, withIdPrefix. No locale or bidi fixtures: the repo has no i18n library."
   }
 ]
