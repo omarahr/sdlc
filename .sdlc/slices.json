@@ -4187,9 +4187,17 @@
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
+      "gateCommit": "cbf0121e0b2eb9d3dda5d5a01f946406ffe3a70a"
     },
-    "ledger": []
+    "ledger": [
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-029",
