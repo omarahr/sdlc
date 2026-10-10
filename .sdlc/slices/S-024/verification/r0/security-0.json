@@ -1,0 +1,400 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "d23dd8a",
+  "environment": "python3 janitor.py in scratch git repos via cli-runner, macOS case-insensitive filesystem, node --test",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Default format removes only done, rejected and unknown verify branches",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "removedBranches is exactly sdlc/S-001-v0-http-api-0, sdlc/S-003-v2-cli-1, sdlc/S-999-v0-a-0",
+      "expected": "removedBranches is exactly sdlc/S-001-v0-http-api-0, sdlc/S-003-v2-cli-1, sdlc/S-999-v0-a-0",
+      "actual": "as expected; 16 keep branches intact (run, slice, attempt, attempt verify, milestone, e2e, e2e-area, state, in_progress, todo, no-status)",
+      "result": "pass",
+      "specSource": "R-060 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:27",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "removed: S-001-v0, S-003-v2, S-999-v0; kept: all others"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Non-verify kinds and unparseable names stay",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "no non-verify or unparseable branch is deleted",
+      "expected": "no non-verify or unparseable branch is deleted",
+      "actual": "15 hostile names created (unicode, nested, empty id, wrong case); only two verify-shaped names went: sdlc/S-001-v٠-a-0 (done id) and sdlc/x/S-001-v0-a-0 (unknown id)",
+      "result": "pass",
+      "specSource": "R-060 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:48",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "removed: sdlc/S-001-v٠-a-0, sdlc/x/S-001-v0-a-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Attack corpus used as branch tails",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "exit 0; only verify-shaped names are removed",
+      "expected": "exit 0; only verify-shaped names are removed",
+      "actual": "exit 0; 55 valid names created from 7 families, 51 verify-shaped with unknown id removed; all removed names match sdlc/*-v0-a-0",
+      "result": "pass",
+      "specSource": "R-060 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:61",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "status 0; no file created by shell metacharacter names"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-060",
+        "R-079"
+      ],
+      "title": "Custom format and prefix collisions",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "S-001 and S-999 verify branches removed; run, attempt, attempt verify, slice, milestone, state, old-format and prefixed-outside names stay",
+      "expected": "S-001 and S-999 verify branches removed; run, attempt, attempt verify, slice, milestone, state, old-format and prefixed-outside names stay",
+      "actual": "as expected; one extra: feature/sdlc/feature/sdlc/S-001-v0-a-0 (id feature/sdlc/S-001, unknown) removed",
+      "result": "pass",
+      "specSource": "R-060, R-079 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:79",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "removed 3 verify-shaped names"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-060",
+        "R-079"
+      ],
+      "title": "Suffix format {name}-wip and lowercase format keep run and attempt",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "only verify branches of S-001 go; run-1-wip and S-001-attempt-1-wip stay",
+      "expected": "only verify branches of S-001 go; run-1-wip and S-001-attempt-1-wip stay",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-079 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:90",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "removed: S-001-v0-a-0-wip; p/s-001-v0-a-0"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-085"
+      ],
+      "title": "Old-format verify branch stays under a derived format",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "sdlc/S-001-v0-http-api-0 and sdlc/S-999-v0-a-0 stay; parse of sdlc/S-001 gives kind null; list --kind slice is empty",
+      "expected": "sdlc/S-001-v0-http-api-0 and sdlc/S-999-v0-a-0 stay; parse of sdlc/S-001 gives kind null; list --kind slice is empty",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-085 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:99",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "parse kind null; list branches []"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Unusable format or ledger gives a note and deletes nothing",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "exit 0, no branch removed, note names the cause, old scratch dir reaped",
+      "expected": "exit 0, no branch removed, note names the cause, old scratch dir reaped",
+      "actual": "no-placeholder, two placeholders, malformed config, deep nesting, unreadable config and six bad ledger shapes all held. Format 'a{b}/{name}' gives no note, nothing deleted. Array config crashes in scratch_days (pre-existing), no deletion. branchFormat 5 falls back to the default format and deletes",
+      "result": "pass",
+      "specSource": "R-060 (Approach: unreadable format becomes a note)",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:111",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "see attack log A-9-*"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-8",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Hostile ledger rows",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "run and attempt branches stay, exit 0",
+      "expected": "run and attempt branches stay, exit 0",
+      "actual": "held; id as list or dict stops the janitor before scratch reaping (pre-existing code); int id under {name:lower} stops it inside the sweep",
+      "result": "pass",
+      "specSource": "R-060 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:145",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "see attack log A-10-*"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-9",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Checked-out verify branch",
+      "given": "scratch git repo with a ledger and branches",
+      "when": "janitor.py --repo runs with a scratch TMPDIR",
+      "then": "branch is not removed, a note records the git error",
+      "expected": "branch is not removed, a note records the git error",
+      "actual": "held",
+      "result": "pass",
+      "specSource": "R-060",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:193",
+      "command": "node --test .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack log",
+          "path": ".sdlc/slices/S-024/verification/r0/logs/security-0-attacks.jsonl"
+        },
+        {
+          "kind": "db-diff",
+          "title": "ref diff after run",
+          "inline": "note: cannot delete branch used by worktree"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "AT-1",
+      "charter": "Explore branch classification with verify-shaped lookalikes (run-1-v0-a-0, state-ts-v0-a-0, M-1-v0-a-0, attempt verify) to find deletion of a run, state or attempt branch",
+      "input": "sdlc/run-1-v0-a-0, sdlc/state-20261010000000-v0-a-0, sdlc/M-1-v0-a-0, sdlc/S-001-attempt-2-v0-a-0",
+      "expected": "real run/state/attempt branches stay",
+      "observed": "run-1-v0-a-0, state-...-v0-a-0 and M-1-v0-a-0 are verify shaped with unknown id and are removed; the attempt verify branch stays",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:38"
+    },
+    {
+      "id": "AT-2",
+      "charter": "Explore parse with unicode digits to find a non-verify branch swept",
+      "input": "sdlc/S-001-v٠-a-0",
+      "expected": "not a sweep of a live slice",
+      "observed": "Python \\d matches the Arabic-Indic zero; branch parses as verify of done S-001 and goes",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:48"
+    },
+    {
+      "id": "AT-3",
+      "charter": "Explore namespace collisions with nested slashes and repeated prefix",
+      "input": "sdlc/x/S-001-v0-a-0, feature/sdlc/feature/sdlc/S-001-v0-a-0",
+      "expected": "R-060 sweeps unknown ids",
+      "observed": "removed because the id holds a slash and is unknown; a user branch such as sdlc/release-v2-beta-1 would go the same way",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:79"
+    },
+    {
+      "id": "AT-4",
+      "charter": "Explore the attack corpus (traversal, injection, flags, control chars, format strings) as branch names",
+      "input": "55 valid ref names",
+      "expected": "no command execution, exit 0",
+      "observed": "exit 0; only git branch -D with list argv; no side file",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:61"
+    },
+    {
+      "id": "AT-5",
+      "charter": "Explore format prefix confusion",
+      "input": "feature/sdlc/{name} with sdlc/S-001-v0-a-0 and x/feature/sdlc/S-001-v0-a-0",
+      "expected": "outside-format branches stay",
+      "observed": "stayed",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:79"
+    },
+    {
+      "id": "AT-6",
+      "charter": "Explore unusable formats",
+      "input": "no placeholder, two placeholders, malformed JSON, array JSON, 100000-deep JSON, unreadable config",
+      "expected": "no deletion",
+      "observed": "no deletion in every case",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:111"
+    },
+    {
+      "id": "AT-7",
+      "charter": "Explore config type confusion",
+      "input": "branchFormat: 5",
+      "expected": "note, no deletion",
+      "observed": "load_format treats it as absent, default format applies, verify branch removed, no note",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:111"
+    },
+    {
+      "id": "AT-8",
+      "charter": "Explore ledger type confusion",
+      "input": "id as list, dict or int; status as list or DONE; duplicate ids; case twins S-001 done and s-001 todo under {name:lower}",
+      "expected": "no run or attempt branch deleted",
+      "observed": "none deleted; list and dict ids stop the janitor before scratch reaping; int id under lower stops mid-sweep; twin ids resolve to the first row and the todo twin's branch is removed",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:145"
+    },
+    {
+      "id": "AT-9",
+      "charter": "Explore lowercase format against run, attempt, milestone, e2e-area branches in upper case",
+      "input": "p/run-1, p/s-001-attempt-1, p/m-1-e2e-x",
+      "expected": "stay",
+      "observed": "stayed",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:200"
+    },
+    {
+      "id": "AT-10",
+      "charter": "Explore a checked-out verify branch",
+      "input": "HEAD on sdlc/S-001-v0-a-0",
+      "expected": "no forced removal",
+      "observed": "git refused, note recorded",
+      "result": "held",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:183"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "janitor sweeps any verify-shaped branch with an unknown id, including ids with slashes",
+      "detail": "Under sdlc/{name}, a user branch like sdlc/x/S-001-v0-a-0 or sdlc/release-v2-beta-1 parses as verify with an unknown id and is deleted. R-060 allows it; a stricter id shape (S-... or M-...) would protect user branches.",
+      "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "janitor accepts a non-string branchFormat as the default format",
+      "detail": "branchFormat 5 in config.json makes load_format return the default, so the janitor sweeps sdlc/* with no note. A wrong-typed value should be a note and no sweep.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "janitor stops before scratch reaping on ledger ids that are not strings, and on a non-object config",
+      "detail": "Ledger row id as list or dict raises TypeError in main; array config raises AttributeError in scratch_days. Both end in the 'stopped early' note with no scratch reaping. An int id under {name:lower} raises inside parse after earlier deletions, so removedBranches is lost from the output. State files are trusted, so this is a hardening gap.",
+      "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "janitor resolves case-twin ledger ids to the first row",
+      "detail": "Under {name:lower} with S-001 done and s-001 todo, p/s-001-v0-a-0 is removed. Ledger ids are unique in practice.",
+      "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "janitor uses split, not validate_format",
+      "detail": "A format such as a{b}/{name} produces no note; nothing is deleted because no branch matches.",
+      "file": "skills/sdlc/janitor.py"
+    }
+  ]
+}

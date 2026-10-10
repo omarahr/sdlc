@@ -583,3 +583,27 @@
 - Decision: Option 1. Do not build ship-prune or collect-verification. Add slice_side_branches(repo, fmt, slice_id) on branches.list_kind for verify and attempt branches. Test it under a custom format. Keep the source test that bans local -attempt- and -v patterns.
 - Consequences / how to reverse: The helper is small and has no caller yet. The loop-economy slices call it later. To build the commands now, add a later slice on top of the helper.
 - Affects: R-083, S-023
+
+### ADR-20261010-051408-decision-judge-S-024-b707: The janitor does not sweep old-shape verify branches
+- Status: auto
+- Context: The spec replaces V_BRANCH with parse. Old-shape branches sdlc/<id>-v<n> no longer parse as verify. The spec edge case says the janitor leaves branches that the format does not see. R-060 bans V_BRANCH in janitor.py. No OVERRIDE ADR covers this question.
+- Options: (1) Sweep only branches that parse to verify. Add no fallback regex. (2) Same change, with a short rationale. (3) Same change, with the by-hand delete noted.
+- Decision: Option 1. Remove V_BRANCH with no fallback. Rewrite the existing tests to the verify shape.
+- Consequences / how to reverse: Old-shape branches stay on disk. The user deletes them with git branch -D. To reverse, add one legacy check in sweep_branches and one test. No state or config changes.
+- Affects: S-024, R-060
+
+### ADR-20261010-051411-decision-judge-S-024-9f6d: Janitor keeps a verify-shaped branch whose id ends in -attempt-<n>
+- Status: auto
+- Context: The name sdlc/S-004-attempt-1-v0-http-api-0 parses as verify with id S-004-attempt-1. The ledger does not know that id. Spec section 7 sweeps verify branches with an unknown id. The old janitor kept every -attempt- branch. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the branch, as the plan says. (2) Follow spec section 7 literally and sweep it. (3) Keep a verify branch whose parsed id ends in -attempt-<n>. Sweep every other verify branch with an unknown id.
+- Decision: Option 3. Add one suffix check in sweep_branches. The ledger has no attempt ids, so an unknown id here comes from the name pattern and does not show a dead slice. Options 1 and 3 give the same result.
+- Consequences / how to reverse: A kept stale branch costs only clutter. A swept branch loses work. To follow the spec literally, delete the suffix check and its test. The janitor then sweeps these branches on its next run.
+- Affects: S-024
+
+### ADR-20261010-052311-implementer-S-024-c8a1: branches test uses the verify branch shape
+- Status: auto
+- Context: The branches test for script resolution made the janitor sweep `sdlc/S-1-v1`. R-060 says the janitor sweeps only branches that `parse` classes as verify. That name is not a verify branch.
+- Options: Keep the old name and a fallback in the janitor; rename the branch in the test.
+- Decision: Rename the test branch to `sdlc/S-1-v1-http-api-0`. The test still proves that the janitor resolves from a scratch directory.
+- Consequences / how to reverse: Restore the old name and add a fallback in `janitor.py`.
+- Affects: R-060, S-024

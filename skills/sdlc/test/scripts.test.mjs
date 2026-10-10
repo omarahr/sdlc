@@ -1684,29 +1684,97 @@ test('the janitor reaps by janitorDays from config.json when --days is not given
   }
 })
 
-test('the janitor deletes v-branches of finished and unknown slices and keeps live ones', opts, () => {
+const V0 = (id) => `${id}-v0-http-api-0`
+const refs = (repo) => git(repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads').split('\n').sort()
+
+test('the janitor has no V_BRANCH or V_ID', opts, () => {
+  const text = readFileSync(JANITOR, 'utf8')
+  assert.doesNotMatch(text, /V_BRANCH/)
+  assert.doesNotMatch(text, /V_ID/)
+})
+
+test('the janitor deletes verify branches of finished and unknown slices and keeps live ones', opts, () => {
   const repo = fixture({
     slices: [
       slice('S-001', { status: 'done' }),
       slice('S-002', { status: 'in_progress' }),
       slice('S-003', { status: 'rejected' }),
       slice('S-004'),
-      // a known slice whose row carries no status field is still known, so its branch is kept
       slice('S-005', { status: undefined }),
     ],
   })
-  for (const b of ['sdlc/S-001-v1', 'sdlc/S-002-v1', 'sdlc/S-003-v1', 'sdlc/S-004-v1', 'sdlc/S-005-v1', 'sdlc/S-999-v1', 'sdlc/S-004-attempt-1-v1', 'sdlc/S-004', 'sdlc/run-1', 'sdlc/-v1', 'sdlc/S-001-vextra/nested']) {
-    git(repo, 'branch', b)
-  }
+  const kept = ['sdlc/S-002-v0-http-api-0', 'sdlc/S-004-v0-http-api-0', 'sdlc/S-005-v0-http-api-0', 'sdlc/S-004', 'sdlc/run-1', 'sdlc/S-004-attempt-1', 'sdlc/S-004-attempt-1-v0-http-api-0', 'sdlc/state-20261010000000', 'sdlc/M-1', 'sdlc/M-1-e2e', 'sdlc/-v1', 'sdlc/S-001-v1', 'sdlc/S-001-vextra/nested']
+  const swept = ['sdlc/S-001-v0-http-api-0', 'sdlc/S-003-v0-http-api-0', 'sdlc/S-999-v0-http-api-0']
+  for (const b of [...kept, ...swept]) git(repo, 'branch', b)
   const r = runJanitor(repo)
   assert.equal(r.status, 0, r.stderr)
   const out = JSON.parse(r.stdout)
-  assert.deepEqual(out.removedBranches.sort(), ['sdlc/S-001-v1', 'sdlc/S-003-v1', 'sdlc/S-999-v1'])
+  assert.deepEqual(out.removedBranches.sort(), swept)
   assert.deepEqual(out.notes, [])
-  const left = git(repo, 'for-each-ref', '--format=%(refname:short)', 'refs/heads').split('\n').sort()
-  // sdlc/-v1 has an empty id (the old crash shape) and the nested name is a foreign branch, not a
-  // v-branch: neither is a ledger row, so neither is ever swept
-  assert.deepEqual(left, ['main', 'sdlc/-v1', 'sdlc/S-001-vextra/nested', 'sdlc/S-002-v1', 'sdlc/S-004', 'sdlc/S-004-attempt-1-v1', 'sdlc/S-004-v1', 'sdlc/S-005-v1', 'sdlc/run-1'])
+  assert.deepEqual(refs(repo), ['main', ...kept].sort())
+})
+
+test('the janitor sweeps verify branches under a custom format and never touches run or attempt branches', opts, () => {
+  const repo = fixture({
+    config: { branchFormat: 'feature/sdlc/{name}' },
+    slices: [slice('S-001', { status: 'done' }), slice('S-002')],
+  })
+  const swept = [`feature/sdlc/${V0('S-001')}`, `feature/sdlc/${V0('S-999')}`]
+  const kept = ['feature/sdlc/run-1', 'feature/sdlc/S-001-attempt-1', 'feature/sdlc/S-001', 'feature/sdlc/M-1', `feature/sdlc/${V0('S-002')}`]
+  for (const b of [...kept, ...swept]) git(repo, 'branch', b)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.removedBranches.sort(), swept.sort())
+  assert.deepEqual(refs(repo), ['main', ...kept].sort())
+})
+
+test('the janitor leaves an old-format verify branch under a derived format', opts, () => {
+  const repo = fixture({
+    config: { branchFormat: 'feature/sdlc/{name}' },
+    slices: [slice('S-001', { status: 'done' })],
+  })
+  const old = `sdlc/${V0('S-001')}`
+  git(repo, 'branch', old)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(JSON.parse(r.stdout).removedBranches, [])
+  assert.equal(git(repo, 'branch', '--list', old).trim(), old)
+  const BRANCHES = join(SKILL_DIR, 'branches.py')
+  const parsed = JSON.parse(execFileSync('python3', [BRANCHES, 'parse', '--repo', repo, '--branch', 'sdlc/S-001'], { encoding: 'utf8' }))
+  assert.equal(parsed.kind, null)
+  const listed = JSON.parse(execFileSync('python3', [BRANCHES, 'list', '--repo', repo, '--kind', 'slice'], { encoding: 'utf8' }))
+  assert.deepEqual(listed.branches.map((e) => e.branch), [])
+})
+
+test('the janitor resolves a lowercased id through the ledger', opts, () => {
+  const repo = fixture({
+    config: { branchFormat: 'feature/p-1-{name:lower}' },
+    slices: [slice('S-001', { status: 'done' }), slice('S-002')],
+  })
+  const swept = ['feature/p-1-s-001-v0-http-api-0', 'feature/p-1-s-999-v0-http-api-0']
+  const kept = ['feature/p-1-s-002-v0-http-api-0', 'feature/p-1-run-1']
+  for (const b of [...kept, ...swept]) git(repo, 'branch', b)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(JSON.parse(r.stdout).removedBranches.sort(), swept)
+  assert.deepEqual(refs(repo), ['main', ...kept].sort())
+})
+
+test('the janitor notes an unusable format and deletes nothing', opts, () => {
+  const repo = fixture({
+    config: { branchFormat: 'feature/no-placeholder' },
+    slices: [slice('S-001', { status: 'done' })],
+  })
+  const branch = `feature/no-placeholder/${V0('S-001')}`
+  git(repo, 'branch', 'sdlc/S-001-v0-http-api-0')
+  git(repo, 'branch', branch)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  const out = JSON.parse(r.stdout)
+  assert.deepEqual(out.removedBranches, [])
+  assert.match(out.notes.join(' '), /format/i)
+  assert.deepEqual(refs(repo), ['feature/no-placeholder/S-001-v0-http-api-0', 'main', 'sdlc/S-001-v0-http-api-0'].sort())
 })
 
 test('the janitor prunes a stale worktree registration before sweeping, so the branch is not pinned forever', opts, () => {
@@ -1714,16 +1782,16 @@ test('the janitor prunes a stale worktree registration before sweeping, so the b
   // `git worktree remove` leaves that registration behind forever — the janitor would fail on the
   // same branch every round until a human pruned. The prune before the sweep is the self-heal.
   const repo = fixture({ slices: [slice('S-001', { status: 'done' })] })
-  git(repo, 'branch', 'sdlc/S-001-v1')
+  git(repo, 'branch', 'sdlc/S-001-v0-http-api-0')
   const wt = scratch('sdlc-wt-')
-  git(repo, 'worktree', 'add', '-q', wt, 'sdlc/S-001-v1')
+  git(repo, 'worktree', 'add', '-q', wt, 'sdlc/S-001-v0-http-api-0')
   rmSync(wt, { recursive: true, force: true })
   // the precondition: the stale registration is what blocks the delete, so the prune is what unblocks it
-  assert.throws(() => git(repo, 'branch', '-D', 'sdlc/S-001-v1'), /used by worktree/)
+  assert.throws(() => git(repo, 'branch', '-D', 'sdlc/S-001-v0-http-api-0'), /used by worktree/)
   const r = runJanitor(repo)
   assert.equal(r.status, 0, r.stderr)
-  assert.deepEqual(JSON.parse(r.stdout).removedBranches, ['sdlc/S-001-v1'])
-  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), '')
+  assert.deepEqual(JSON.parse(r.stdout).removedBranches, ['sdlc/S-001-v0-http-api-0'])
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v0-http-api-0').trim(), '')
 })
 
 test('the janitor notes missing or unreadable state instead of deleting, and still runs', opts, () => {
@@ -1739,11 +1807,11 @@ test('the janitor notes missing or unreadable state instead of deleting, and sti
   // an unparseable ledger deletes nothing
   const repo = fixture({ slices: [slice('S-001', { status: 'done' })] })
   writeFileSync(join(repo, '.sdlc', 'slices.json'), '{not json')
-  git(repo, 'branch', 'sdlc/S-001-v1')
+  git(repo, 'branch', 'sdlc/S-001-v0-http-api-0')
   const r2 = runJanitor(repo)
   assert.equal(r2.status, 0, r2.stderr)
   const out2 = JSON.parse(r2.stdout)
-  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v1').trim(), 'sdlc/S-001-v1', 'an unparseable ledger deleted a branch')
+  assert.equal(git(repo, 'branch', '--list', 'sdlc/S-001-v0-http-api-0').trim(), 'sdlc/S-001-v0-http-api-0', 'an unparseable ledger deleted a branch')
   assert.match(out2.notes.join(' '), /slices\.json/)
 })
 

@@ -1,0 +1,29 @@
+PARSE {"ok": true, "command": "parse", "format": "feature/sdlc/{name}", "branch": "sdlc/S-001", "kind": null}
+LIST {"ok": true, "command": "list", "format": "feature/sdlc/{name}", "kind": "slice", "branches": [{"branch": "feature/sdlc/S-001", "kind": "slice", "tail": "S-001", "id": "S-001", "known": null}]}
+property-run parse-derived-prefix seed=424242 runs=1000 violations=0
+property-run janitor-old-format seed=424242 runs=40
+property-run lower-resolve seed=424242 runs=1000 violations=0
+['argparse', 'branches', 'json', 'os', 're', 'shutil', 'subprocess', 'sys', 'tempfile', 'time']
+unused []
+
+WHITESPACE-FORMAT {"removedDirs":0,"removedBranches":[],"notes":[]}
+✔ verify contract: VS-4 old-format verify branch stays under a derived format; parse null; list omits (751.689292ms)
+✔ verify contract: VS-4 property: no branch outside the derived prefix is ever deleted, 1000 runs (36.899959ms)
+✔ verify contract: VS-4 end to end: random old-format verify branches all stay under derived format (1328.97975ms)
+✔ verify contract: VS-5 lowercased ids resolve through the ledger (spec example) (515.887167ms)
+✔ verify contract: VS-5 property: parse with ledger ids resolves any case of a ledger id to the ledger spelling, 1000 runs (74.948417ms)
+✔ verify contract: VS-5 mixed-case ledger ids: janitor sweeps by status of the ledger spelling (454.56275ms)
+✔ verify contract: VS-5 determinism and no mutation of the ledger: second run removes nothing more (563.763334ms)
+✔ verify contract: VS-7 source holds no V_BRANCH or V_ID and loads format through branches.load_format (44.1575ms)
+✔ verify contract: VS-7 every import is used and imports are stdlib or branches only (32.554458ms)
+✔ verify contract: VS-7 docstring matches behavior: names parse, verify, finished statuses and the -attempt rule (0.277959ms)
+✔ verify contract: VS-7 consumer view: janitor entry point runs from a foreign cwd with a hostile format as a note (982.601875ms)
+✔ verify contract: VS-7 seed probe: a format with whitespace is not a note but still deletes nothing (429.878417ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5315.586292
