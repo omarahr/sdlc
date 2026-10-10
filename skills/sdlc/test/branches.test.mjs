@@ -324,10 +324,10 @@ test('branch recognition in the three scripts still resolves from a scratch work
   assert.equal(base.branch, 'sdlc/S-1')
 
   const swept = ledgerRepo([sliceRow('S-1', 'done')])
-  git(swept, 'branch', 'sdlc/S-1-v1')
+  git(swept, 'branch', 'sdlc/S-1-v1-http-api-0')
   git(swept, 'branch', 'sdlc/S-1')
   const reaped = runScript('janitor.py', ['--repo', swept, '--days', '36500'])
-  assert.deepEqual(reaped.removedBranches, ['sdlc/S-1-v1'])
+  assert.deepEqual(reaped.removedBranches, ['sdlc/S-1-v1-http-api-0'])
   assert.equal(git(swept, 'branch', '--list', 'sdlc/S-1'), 'sdlc/S-1')
 })
 

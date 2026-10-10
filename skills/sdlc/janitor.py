@@ -12,16 +12,16 @@ Scratch reaping removes directories directly under the OS temp dir whose name st
 <repo>/.sdlc/config.json when it is set there, else 7. Nothing deeper than a direct child of
 the temp dir is ever visited, and a matching name that is not a directory is left alone.
 
-Branch sweeping deletes local `sdlc/<id>-v<version>` branches — id and version each one path
-segment — whose slice id has status `done` or `rejected` in <repo>/.sdlc/slices.json, and those
-whose slice id is not in it at all: a crashed agent or a parked slice leaves its reattempt
-branches behind, and the renumbered ids of a later run orphan the old ones. A stale worktree
-registration pins its branch ("used by worktree"), so it is pruned before the sweep. Never
-deleted, whatever the ledger says: `sdlc/<id>` itself (a v-branch only is swept), any
-`-attempt-` branch, `sdlc/run-*` branches, and v-branches of slices with any other status (todo,
-in_progress, awaiting-merge, parked). A missing or unparseable slices.json is a note: no branch
-is deleted on a ledger that cannot be read, and the temp reaping still runs — it runs before the
-sweep, so a branch-sweep failure can never disable it.
+Branch sweeping deletes local verify branches. The branch format from config.json names them,
+and `branches.parse` finds them. A verify branch goes when its slice id has status `done` or
+`rejected` in <repo>/.sdlc/slices.json, or when the ledger does not hold the id at all: a crashed
+agent or a parked slice leaves its verify branches behind, and the renumbered ids of a later run
+orphan the old ones. A stale worktree registration pins its branch ("used by worktree"), so the
+sweep prunes it first. Every other branch stays, whatever the ledger says: run, attempt, slice,
+milestone, e2e and state branches, names that do not parse, verify branches of slices with any
+other status, and a verify branch whose id ends in `-attempt-<n>`. A format that cannot be read
+is a note and no branch goes. A missing or unparseable slices.json is also a note. The scratch
+reaping runs before the sweep, so a branch-sweep failure never disables it.
 
 Python 3 standard library only.
 """
@@ -41,10 +41,7 @@ import branches  # noqa: E402
 
 SCRATCH_PREFIX = "sdlc-"
 DEFAULT_DAYS = 7
-# fnmatch's `*` crosses `/`, which would sweep foreign namespaced branches under sdlc/, so the
-# v-branch shape is a regex: one segment of slice id, one segment of version
-V_BRANCH = re.compile(r"^sdlc/[^/]+-v[^/]*$")
-V_ID = re.compile(r"^sdlc/(.+)-v")
+ATTEMPT_ID = re.compile(r"-attempt-\d+$")
 FINISHED = ("done", "rejected")
 
 
@@ -97,7 +94,7 @@ def reap_scratch(days, notes):
     return removed
 
 
-def sweep_branches(repo, statuses, notes):
+def sweep_branches(repo, fmt, statuses, notes):
     # a stale worktree registration pins its branch ("used by worktree at ...") and would block
     # the delete of exactly the branch this script is here to reap, round after round; the prune
     # self-heals it. Best effort: a failed prune falls through to the delete it would have unblocked.
@@ -110,24 +107,16 @@ def sweep_branches(repo, statuses, notes):
         notes.append(f"git for-each-ref failed: {r.stderr.strip()}")
         return []
     removed = []
+    ids = list(statuses)
     for name in r.stdout.splitlines():
         name = name.strip()
-        if not V_BRANCH.match(name):
+        parsed = branches.parse(fmt, name, ids=ids)
+        if parsed is None or parsed["kind"] != "verify":
             continue
-        m = V_ID.match(name)
-        # unreachable for every name V_BRANCH accepts, but a miss here must mean "keep", never
-        # a crash that takes both sweeps down with it
-        if not m:
+        slice_id = parsed["id"]
+        if ATTEMPT_ID.search(slice_id):
             continue
-        # the guards come before the ledger: a branch the renumbered-id rule would call an
-        # orphan is still never deleted when its name is one of these
-        if "-attempt-" in name or name.startswith("sdlc/run-"):
-            continue
-        slice_id = m.group(1)
-        status = statuses.get(slice_id)
-        # an unknown id sweeps (orphan); a known one sweeps only when finished — and a slice
-        # whose row carries no status is a known slice, so it is kept
-        if slice_id in statuses and status not in FINISHED:
+        if parsed["known"] and statuses.get(slice_id) not in FINISHED:
             continue
         d = subprocess.run(["git", "-C", repo, "branch", "-D", name], capture_output=True, text=True)
         if d.returncode != 0:
@@ -165,7 +154,13 @@ def main():
     # the reaping runs before the sweep: a failure in the branch sweep must never disable it
     removed_dirs = reap_scratch(days, notes)
     if statuses is not None:
-        removed_branches = sweep_branches(repo, statuses, notes)
+        try:
+            fmt = branches.load_format(repo)
+            branches.split(fmt)
+        except branches.Fail as exc:
+            notes.append(f"the branch format is unusable; no branch was deleted ({exc})")
+        else:
+            removed_branches = sweep_branches(repo, fmt, statuses, notes)
     print(json.dumps({"removedDirs": removed_dirs, "removedBranches": removed_branches, "notes": notes}))
 
 

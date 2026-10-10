@@ -599,3 +599,11 @@
 - Decision: Option 3. Add one suffix check in sweep_branches. The ledger has no attempt ids, so an unknown id here comes from the name pattern and does not show a dead slice. Options 1 and 3 give the same result.
 - Consequences / how to reverse: A kept stale branch costs only clutter. A swept branch loses work. To follow the spec literally, delete the suffix check and its test. The janitor then sweeps these branches on its next run.
 - Affects: S-024
+
+### ADR-20261010-052311-implementer-S-024-c8a1: branches test uses the verify branch shape
+- Status: auto
+- Context: The branches test for script resolution made the janitor sweep `sdlc/S-1-v1`. R-060 says the janitor sweeps only branches that `parse` classes as verify. That name is not a verify branch.
+- Options: Keep the old name and a fallback in the janitor; rename the branch in the test.
+- Decision: Rename the test branch to `sdlc/S-1-v1-http-api-0`. The test still proves that the janitor resolves from a scratch directory.
+- Consequences / how to reverse: Restore the old name and add a fallback in `janitor.py`.
+- Affects: R-060, S-024
