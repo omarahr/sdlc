@@ -1,0 +1,9 @@
+format=[] name=sdlc/state-20261010132711
+valid
+{"kind":"state","ids":null}
+format=[feature/{name}] name=feature/state-20261010132711
+valid
+{"kind":"state","ids":null}
+format=[team/{name:lower}-x] name=team/state-20261010132712-x
+valid
+{"kind":"state","ids":null}

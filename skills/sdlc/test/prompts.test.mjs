@@ -1502,3 +1502,24 @@ test('T-R-002d: env-detector orders the branchFormat sources input, existing val
   const fallback = rule.indexOf('else `sdlc/{name}`')
   assert.ok(input >= 0 && input < existing && existing < fallback)
 })
+
+test('T-R-135: commit-state.md uses the four branch placeholders and takes the state branch from branches.py', () => {
+  const text = sweepPromptText('commit-state')
+  for (const placeholder of ['<slice branch>', '<run branch>', '<milestone branch>', '<state branch>']) {
+    assert.ok(text.includes(placeholder), `commit-state.md lacks ${placeholder}`)
+  }
+  assert.ok(!text.includes('date -u'))
+  assert.ok(!text.includes('sdlc/state-'))
+  assert.match(sweepPromptText('_common'), /`<state branch>`\s*\|\s*`branches\.py name --kind state`/)
+})
+
+test('T-R-149: state-schema.md holds no loop branch literal and names the milestone branch by kind', () => {
+  const text = sweepPromptText('state-schema')
+  for (const literal of ['sdlc/S-001', 'sdlc/run-<n>', 'sdlc/M-<n>']) {
+    assert.ok(!text.includes(literal), `state-schema.md holds ${literal}`)
+  }
+  const stack = text.split('\n').find(line => line.includes('`stack`: one branch per slice'))
+  assert.ok(stack, 'stack bullet missing')
+  assert.match(stack, /milestone/)
+  assert.doesNotMatch(stack, LOOP_BRANCH_LITERAL)
+})
