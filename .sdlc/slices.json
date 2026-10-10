@@ -3903,7 +3903,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "tests",
+    "phase": "implement",
     "branch": "sdlc/S-027b",
     "pr": "",
     "risk": "medium",
