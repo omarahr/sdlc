@@ -1,0 +1,17 @@
+✔ verify i18n VS-3: non-ASCII slice ids refused under {name} and {name:lower} (5967.094083ms)
+✔ verify i18n VS-3: non-ASCII ids refused for milestone kinds and fullwidth ints refused (1536.082958ms)
+✔ verify i18n VS-3: parse also refuses the same ids (547.542625ms)
+✔ verify i18n VS-5: lowering only the tail, ASCII only, parses back (4076.22975ms)
+✔ verify i18n VS-5: lowering keeps e2e-area with kelvin area and caps ids consistent (670.337959ms)
+✔ verify i18n VS-8: ASCII branch is active for matching id (2833.463917ms)
+✔ verify i18n VS-8: kelvin look-alike branch is not active (5664.953334ms)
+✔ verify i18n VS-8: kelvin id in slices.json does not match the ASCII branch (7094.019458ms)
+✔ verify i18n VS-8: foreign branches and uppercase id with lower format (9979.098917ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38784.369958

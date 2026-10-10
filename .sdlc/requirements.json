@@ -831,34 +831,45 @@
     "specRef": "\u00a72",
     "quote": "`name(fmt, kind, **parts)`: the format with the placeholder replaced by the tail, lowercased for `{name:lower}`.",
     "acceptance": "`name(\"sdlc/{name}\", \"slice\", id=\"S-001\")` is `sdlc/S-001`. Every name output parses back to the same kind and parts. `{name:lower}` lowercases only the tail.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [
       "ADR-20261009-024036-decision-judge-S-001-8de8",
       "ADR-20261009-034220-decision-judge-S-002-3cc6",
       "ADR-20261009-034215-decision-judge-S-002-feb0",
-      "ADR-20261009-034229-decision-judge-S-002-b015"
+      "ADR-20261009-034229-decision-judge-S-002-b015",
+      "ADR-20261011-000000-implementer-S-fix-M-1-1b-a1c0"
     ],
     "evidence": {
       "files": [
+        "e2e/pending.json",
+        "e2e/tests/scripts.test.mjs",
         "skills/sdlc/branches.py",
-        "skills/sdlc/test/branches.test.mjs"
+        "skills/sdlc/next-action.py",
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/next-action.test.mjs",
+        "skills/sdlc/test/testkit/README.md",
+        "skills/sdlc/test/testkit/i18n-kit.mjs",
+        "skills/sdlc/test/testkit/i18n-kit.test.mjs"
       ],
       "tests": [
-        "skills/sdlc/test/branches.test.mjs :: branches.py imports from its path and exposes the public functions",
-        "skills/sdlc/test/branches.test.mjs :: name puts the tail in the placeholder and lowercases only the tail",
-        "TC-contract-10: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:271",
-        "TC-contract-11: .sdlc/slices/S-002/verification/r0/tests/contract-0/branches.verify-contract.test.mjs:289",
-        "TC-contract-71: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:43",
-        "TC-contract-72: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:51",
-        "TC-contract-73: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:70",
-        "TC-contract-74: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:80",
-        "TC-contract-75: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:91",
-        "TC-contract-76: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:116",
-        "TC-contract-77: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:110",
-        "TC-contract-78: .sdlc/slices/S-002/verification/r0/tests/contract-1/name-parts.verify-contract.test.mjs:124"
+        "T-R-019-roundtrip",
+        "T-R-019-nonascii",
+        "T-R-019-lower-nonascii-area",
+        "T-R-053-active",
+        "SC-M-1-076",
+        "T-R-019-valid",
+        "T-R-019-int-value",
+        "T-R-019-lower",
+        "T-R-019-e2e-id",
+        "T-R-019-trailing-newline",
+        "T-R-019-parse-newline",
+        "T-R-019-state-ts",
+        "TC-contract-7: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:177",
+        "TC-contract-8: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:216",
+        "TC-contract-9: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:267"
       ],
-      "commit": "7bd7abe11acff3a41ce37fa50021aacd597ae29a"
+      "commit": "pending"
     },
     "notes": "M-1 campaign SC-M-1-076 failed: `name --kind slice --id S-001-attempt-2` and `--id S-001-v0-cli-0` exit 0 and print a branch that parse reads as kind attempt and kind verify. Fix slice S-fix-M-1-1."
   },
@@ -2358,18 +2369,39 @@
     "specRef": "\u00a77",
     "quote": "`active_branch(repo, current)`: enumerate `refs/heads/` (all local branches), keep those `parse` classifies as `slice`, and use the parsed `id` as `sid`.",
     "acceptance": "next-action.py finds the active slice by parsing every local branch under the configured format. The slice id comes from the parsed id. A foreign branch never reads as active.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
       "files": [
+        "e2e/pending.json",
+        "e2e/tests/scripts.test.mjs",
+        "skills/sdlc/branches.py",
         "skills/sdlc/next-action.py",
-        "skills/sdlc/test/next-action.test.mjs"
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/next-action.test.mjs",
+        "skills/sdlc/test/testkit/README.md",
+        "skills/sdlc/test/testkit/i18n-kit.mjs",
+        "skills/sdlc/test/testkit/i18n-kit.test.mjs"
       ],
       "tests": [
-        "active slice branch is found by parse under a custom format"
+        "T-R-019-roundtrip",
+        "T-R-019-nonascii",
+        "T-R-019-lower-nonascii-area",
+        "T-R-053-active",
+        "SC-M-1-076",
+        "T-R-019-valid",
+        "T-R-019-int-value",
+        "T-R-019-lower",
+        "T-R-019-e2e-id",
+        "T-R-019-trailing-newline",
+        "T-R-019-parse-newline",
+        "T-R-019-state-ts",
+        "TC-contract-7: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:177",
+        "TC-contract-8: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:216",
+        "TC-contract-9: .sdlc/slices/S-fix-M-1-1b/verification/r1/tests/contract-0/branches-name.verify-contract.test.mjs:267"
       ],
-      "commit": "e64a7b0261a172ec2e962e57a5ff735cd50cc797"
+      "commit": "pending"
     },
     "notes": "M-1 campaign SC-M-1-080 failed: parse reads feature/p-1-S-00K (U+212A), feature/p-1-s-001 plus U+017F, and feature/p-1-s-00K-v0-cli-0 as loop branches. The janitor deleted the verify look-alike. Cause: re.IGNORECASE without re.ASCII at branches.py line 339. Fix slice S-fix-M-1-1. M-1 campaign SC-M-1-070 failed: With .git/rebase-merge present, `state-write.py patch-slice` exits 0 with ok true and creates a branch and a commit during the rebase. Fix slice S-fix-M-1-3."
   },

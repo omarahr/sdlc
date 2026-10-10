@@ -204,7 +204,7 @@ def active_branch(repo, current, fmt):
             continue
         slices = branch_slices(repo, branch, current) or []
         for i, s in enumerate(slices):
-            if str(s.get("id")).lower() == parsed["id"].lower() and s.get("status") == "in_progress":
+            if branches._ascii_lower(str(s.get("id"))) == branches._ascii_lower(parsed["id"]) and s.get("status") == "in_progress":
                 found.append((branch != current, i, branch))
     return min(found)[2] if found else None
 

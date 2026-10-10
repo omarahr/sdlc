@@ -303,19 +303,43 @@ def name(fmt, kind, **parts):
     prefix, suffix, lower = split(fmt)
     middle = tail(kind, **parts)
     if lower:
-        middle = middle.lower()
-    return prefix + middle + suffix
+        middle = _ascii_lower(middle)
+    branch = prefix + middle + suffix
+    _check_round_trip(fmt, kind, parts, branch, lower)
+    return branch
+
+
+def _same_part(part, given, found, lower):
+    if part in INTEGER_PARTS:
+        try:
+            return int(given) == found
+        except (TypeError, ValueError):
+            return False
+    if lower:
+        return _ascii_lower(str(given)) == _ascii_lower(str(found))
+    return str(given) == str(found)
+
+
+def _check_round_trip(fmt, kind, parts, branch, lower):
+    parsed = parse(fmt, branch)
+    if parsed is None or parsed["kind"] != kind:
+        read = "no kind" if parsed is None else f"kind {parsed['kind']}"
+        raise Fail(f"the {kind} branch name {branch!r} does not parse back as a {kind} branch: parse reads {read}")
+    checked = TAILS[kind][0] + (("ts",) if kind == "state" and parts.get("ts") else ())
+    for part in checked:
+        if not _same_part(part, parts[part], parsed.get(part), lower):
+            raise Fail(f"the {kind} branch name {branch!r} does not parse back to the given {part} {parts[part]!r}")
 
 
 PARSE_ROWS = (
-    ("run", r"^run-(\d+)$", ("n",)),
-    ("milestone", r"^(M-\d+)$", ("id",)),
-    ("e2e", r"^(M-\d+)-e2e$", ("id",)),
-    ("e2e-area", r"^(M-\d+)-e2e-(.+)$", ("id", "area")),
-    ("state", r"^state-(\d{14})$", ("ts",)),
-    ("verify", r"^(.+)-v(\d+)-([a-z0-9-]+?)-(\d+)$", ("id", "round", "profile", "part")),
-    ("attempt", r"^(.+)-attempt-(\d+)$", ("id", "n")),
-    ("slice", r"^(S-[A-Za-z0-9-]+)$", ("id",)),
+    ("run", r"^run-(\d+)\Z", ("n",)),
+    ("milestone", r"^(M-\d+)\Z", ("id",)),
+    ("e2e", r"^(M-\d+)-e2e\Z", ("id",)),
+    ("e2e-area", r"^(M-\d+)-e2e-(.+)\Z", ("id", "area")),
+    ("state", r"^state-(\d{14})\Z", ("ts",)),
+    ("verify", r"^(.+)-v(\d+)-([a-z0-9-]+?)-(\d+)\Z", ("id", "round", "profile", "part")),
+    ("attempt", r"^(.+)-attempt-(\d+)\Z", ("id", "n")),
+    ("slice", r"^(S-[A-Za-z0-9-]+)\Z", ("id",)),
 )
 INTEGER_PARTS = ("n", "round", "part")
 

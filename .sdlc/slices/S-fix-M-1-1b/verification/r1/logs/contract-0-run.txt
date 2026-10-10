@@ -1,0 +1,21 @@
+SEED newline-int accepted: 
+✔ verify contract VS-1: name refuses ids that parse as another kind (618.516041ms)
+✔ verify contract VS-2: valid parts keep their names and parse back (3082.991791ms)
+✔ verify contract VS-3: non-ASCII ids and parts are refused (3083.088083ms)
+✔ verify contract VS-4: integer parts compare by value (1469.904916ms)
+✔ verify contract VS-4 seed: integer part with a line break (198.7495ms)
+✔ verify contract VS-5: lowering touches only the tail by one ASCII rule (1153.472042ms)
+✔ verify contract VS-6: joined prefix or suffix never gives a silent mismatch (12899.169292ms)
+✔ verify contract VS-7: state keeps ts as given and builds one when absent (579.216583ms)
+✔ verify contract property: any name output parses back to the same kind and parts (108.560292ms)
+✔ verify contract property: valid parts give the reference name and round-trip (52.494334ms)
+✔ verify contract property: name is deterministic (79.744458ms)
+✔ verify contract VS-7 r1: more ts corners and a built stamp near now (701.584875ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24069.620292

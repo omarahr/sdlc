@@ -1,0 +1,644 @@
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001-attempt-2
+exit: 2 (130 ms)
+--- stdout
+{"ok": false, "error": "the slice branch name 'sdlc/S-001-attempt-2' does not parse back as a slice branch: parse reads kind attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001-v0-cli-0
+exit: 2 (133 ms)
+--- stdout
+{"ok": false, "error": "the slice branch name 'sdlc/S-001-v0-cli-0' does not parse back as a slice branch: parse reads kind verify"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001-attempt-0
+exit: 2 (124 ms)
+--- stdout
+{"ok": false, "error": "the slice branch name 'sdlc/S-001-attempt-0' does not parse back as a slice branch: parse reads kind attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001-v10-a-b-3
+exit: 2 (130 ms)
+--- stdout
+{"ok": false, "error": "the slice branch name 'sdlc/S-001-v10-a-b-3' does not parse back as a slice branch: parse reads kind verify"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id S-001-attempt-2
+exit: 2 (104 ms)
+--- stdout
+{"ok": false, "error": "the milestone branch name 'sdlc/S-001-attempt-2' does not parse back as a milestone branch: parse reads kind attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id S-001-v0-cli-0
+exit: 2 (166 ms)
+--- stdout
+{"ok": false, "error": "the milestone branch name 'sdlc/S-001-v0-cli-0' does not parse back as a milestone branch: parse reads kind verify"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id S-001-attempt-0
+exit: 2 (111 ms)
+--- stdout
+{"ok": false, "error": "the milestone branch name 'sdlc/S-001-attempt-0' does not parse back as a milestone branch: parse reads kind attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id S-001-v10-a-b-3
+exit: 2 (108 ms)
+--- stdout
+{"ok": false, "error": "the milestone branch name 'sdlc/S-001-v10-a-b-3' does not parse back as a milestone branch: parse reads kind verify"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-fix-M-1-2
+exit: 0 (149 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "slice", "branch": "sdlc/S-fix-M-1-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind state
+exit: 0 (156 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261010161130"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n 02
+exit: 0 (187 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind verify --id S-1 --round 007 --profile cli --part 00
+exit: 0 (122 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-1-v7-cli-0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=2.0
+exit: 2 (107 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '2.0'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run '--n= 2'
+exit: 0 (166 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=+2
+exit: 0 (168 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=0x2
+exit: 2 (98 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: '0x2'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=True
+exit: 2 (74 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'True'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=abc
+exit: 2 (80 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: 'abc'"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=
+exit: 2 (91 ms)
+--- stdout
+{"ok": false, "error": "argument --n: invalid int value: ''"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run $'--n=１２'
+exit: 0 (152 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-12"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=-1
+exit: 2 (207 ms)
+--- stdout
+{"ok": false, "error": "the run branch name 'sdlc/run--1' does not parse back as a run branch: parse reads no kind"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+exit: 0 (302 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n=+2
+exit: 0 (162 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run '--n= 2'
+exit: 0 (136 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id M-1 --format '{name}-e2e'
+exit: 2 (231 ms)
+--- stdout
+{"ok": false, "error": "the slice branch name 'M-1-e2e' does not parse back as a slice branch: parse reads kind milestone"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001 --format '{name}-attempt-1'
+exit: 0 (145 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "{name}-attempt-1", "kind": "slice", "branch": "S-001-attempt-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001 --format '{name}-v1-a-1'
+exit: 0 (168 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "{name}-v1-a-1", "kind": "slice", "branch": "S-001-v1-a-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001 --format '{name}-3'
+exit: 0 (192 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "{name}-3", "kind": "slice", "branch": "S-001-3"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id M-1 --format '{name}-e2e'
+exit: 0 (147 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "{name}-e2e", "kind": "milestone", "branch": "M-1-e2e"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id M-1 --format '{name}-attempt-1'
+exit: 0 (179 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "{name}-attempt-1", "kind": "milestone", "branch": "M-1-attempt-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001 --format 'run-{name}'
+exit: 0 (187 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "run-{name}", "kind": "slice", "branch": "run-S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind milestone --id M-1 --format '{name}-e2e-x'
+exit: 0 (223 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "{name}-e2e-x", "kind": "milestone", "branch": "M-1-e2e-x"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001 --format 'run-{name}'
+exit: 0 (220 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "run-{name}", "kind": "slice", "branch": "run-S-001"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run --n 1 --format 'run-{name}'
+exit: 0 (151 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "run-{name}", "kind": "run", "branch": "run-run-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice
+exit: 2 (250 ms)
+--- stdout
+{"ok": false, "error": "a slice branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id ''
+exit: 2 (147 ms)
+--- stdout
+{"ok": false, "error": "a slice branch name needs a non-empty id"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind bogus --id S-1
+exit: 2 (133 ms)
+--- stdout
+{"ok": false, "error": "--kind 'bogus' is not one of run, slice, milestone, e2e, e2e-area, state, verify, attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-1 --format no-placeholder
+exit: 2 (79 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'no-placeholder' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-1 --format '{name}{name}'
+exit: 2 (100 ms)
+--- stdout
+{"ok": false, "error": "the branch format '{name}{name}' must hold exactly one {name} or {name:lower}, found 2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-1 --format 'a b/{name}'
+exit: 2 (76 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a b/{name}' holds whitespace"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind slice --id S-001-attempt-2
+exit: 2 (123 ms)
+--- stdout
+{"ok": false, "error": "the slice branch name 'sdlc/S-001-attempt-2' does not parse back as a slice branch: parse reads kind attempt"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind run
+exit: 2 (163 ms)
+--- stdout
+{"ok": false, "error": "a run branch name needs a non-empty n"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 --kind verify --id S-1
+exit: 2 (145 ms)
+--- stdout
+{"ok": false, "error": "a verify branch name needs a non-empty round"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+exit: 2 (80 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: --kind"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo '/nonexistent path' --kind slice --id S-1
+exit: 2 (76 ms)
+--- stdout
+{"ok": false, "error": "--repo '/nonexistent path' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py
+exit: 2 (98 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: command"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-1 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-2
+exit: 0 (393 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-001 is in progress at phase implement",
+    "sliceId": "S-001",
+    "slice": {
+      "id": "S-001",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0,
+        "verifyDemanded": false,
+        "infraRetries": 0,
+        "gateCommit": ""
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": "feature/p-1-s-001"
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-2 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-3
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-3
+exit: 0 (237 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-001 is the next todo slice with its dependencies met",
+    "sliceId": "S-001",
+    "slice": {
+      "id": "S-001",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0,
+        "verifyDemanded": false,
+        "infraRetries": 0,
+        "gateCommit": ""
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-3 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-4
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-4
+exit: 0 (308 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-00\u212a is the next todo slice with its dependencies met",
+    "sliceId": "S-00\u212a",
+    "slice": {
+      "id": "S-00\u212a",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0,
+        "verifyDemanded": false,
+        "infraRetries": 0,
+        "gateCommit": ""
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-4 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-5
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-5
+exit: 0 (156 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-001 is the next todo slice with its dependencies met",
+    "sliceId": "S-001",
+    "slice": {
+      "id": "S-001",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0,
+        "verifyDemanded": false,
+        "infraRetries": 0,
+        "gateCommit": ""
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-5 (unchanged)
+
+=====
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-6
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/next-action.py --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-6
+exit: 0 (315 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-001 is in progress at phase implement",
+    "sliceId": "S-001",
+    "slice": {
+      "id": "S-001",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0,
+        "verifyDemanded": false,
+        "infraRetries": 0,
+        "gateCommit": ""
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": "feature/p-1-S-001"
+}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-unq7cq/testkit-cli-MoSr9D/repo-6 (unchanged)
+✔ verify cli VS-1: slice and milestone refuse ids that parse as another kind (4838.918167ms)
+✔ verify cli VS-2: valid parts keep names and parse back under several formats (25003.331084ms)
+✔ verify cli VS-4: integer parts compare by value (10866.398792ms)
+✔ verify cli VS-6: formats whose prefix or suffix joins the tail into another kind (8187.575625ms)
+✔ verify cli VS-9: the name command reports refusal without side effects (4141.827208ms)
+✔ verify cli VS-8: active_branch matches slice ids by ASCII lowering (4234.919291ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57727.478375

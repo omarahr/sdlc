@@ -58,3 +58,4 @@
 {"ts":"2026-10-10T14:36:54Z","type":"note","detail":"no CI checks on state PR"}
 {"ts":"2026-10-10T14:47:04Z","type":"slice-escalated","slice":"S-fix-M-1-1","detail":"step 2 split: plan refuted 3 times; into S-fix-M-1-1a, S-fix-M-1-1b"}
 {"ts": "2026-10-10T15:37:51Z", "type": "slice-merged", "slice": "S-fix-M-1-1a", "detail": "parse reads ASCII only; merged by squash to main"}
+{"ts":"2026-10-10T17:12:33Z","type":"slice-merged","slice":"S-fix-M-1-1b","detail":"name refuses ids that do not round-trip; squash-merged to main"}
