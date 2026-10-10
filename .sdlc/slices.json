@@ -2941,11 +2941,18 @@
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
+      "gateCommit": "02955fe592ee2a5760104610fb8b888f47fab240"
     },
     "ledger": [
       {
         "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
         "round": 0,
         "outcome": "verified",
         "refutations": 0,
