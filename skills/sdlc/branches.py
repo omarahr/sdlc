@@ -117,6 +117,19 @@ def gitlab_rule(body):
     return make_rule("gitlab", "regex", regex, False, "push rule")
 
 
+def _bounded(text):
+    lines = [line.strip() for line in str(text).splitlines() if line.strip()]
+    return lines[0][:200] if lines else ""
+
+
+def _forge_failure(tool, returncode, stderr):
+    message = f"{tool} exited with status {returncode}"
+    match = re.search(r"\bHTTP(?:/\d(?:\.\d)?)? (\d{3})\b", stderr)
+    if match:
+        message += f" (HTTP {match.group(1)})"
+    return message
+
+
 def _run_forge_cli(argv, repo):
     tool = argv[0]
     env = dict(os.environ, GH_PROMPT_DISABLED="1")
@@ -132,9 +145,9 @@ def _run_forge_cli(argv, repo):
             env=env,
         )
     except (OSError, ValueError, subprocess.TimeoutExpired) as e:
-        return None, str(e).strip() or type(e).__name__
+        return None, _bounded(e) or type(e).__name__
     if proc.returncode != 0:
-        return None, proc.stderr.strip() or f"{tool} exited with status {proc.returncode}"
+        return None, _forge_failure(tool, proc.returncode, proc.stderr)
     try:
         return json.loads(proc.stdout), None
     except (ValueError, RecursionError):
