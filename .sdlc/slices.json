@@ -4661,7 +4661,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "gate",
+    "phase": "implement",
     "branch": "sdlc/S-034",
     "pr": "",
     "risk": "medium",
@@ -4696,7 +4696,7 @@
     "notes": "Re-plan from scratch with the simplest approach; read failures.md.",
     "counters": {
       "planRevisions": 1,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 1,
       "parkCycles": 0,
       "verifyDemanded": false,
@@ -4710,6 +4710,13 @@
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "refuted",
+        "refutations": 1,
+        "failingTests": 1
       }
     ]
   },
