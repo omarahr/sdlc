@@ -2540,7 +2540,7 @@
     "specRef": "§7",
     "quote": "`V_BRANCH` and `V_ID` are replaced by `parse`: a branch is swept only when it parses to `verify`, its `id` is unknown to the ledger or its status is `done` or `rejected`; `run`, `attempt` and every other kind are never deleted. The format comes from `load_format(repo)`.",
     "acceptance": "janitor.py has no V_BRANCH or V_ID. Under a custom format it sweeps only verify branches whose id is unknown or whose status is done or rejected. It never deletes run, attempt, or any other kind.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3055,7 +3055,7 @@
     "specRef": "§Testing",
     "quote": "`janitor sweeps verify branches under a custom format and never touches run or attempt branches`.",
     "acceptance": "test/scripts.test.mjs asserts the sweep and the untouched kinds under a custom format.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3176,7 +3176,7 @@
     "specRef": "§Edge cases",
     "quote": "An old run's branches under the default when the new run gets a derived format: the new run's `list` and `parse` do not see them; the janitor leaves them; they are the user's to delete.",
     "acceptance": "Under a derived format `feature/sdlc/{name}`, `parse` of `sdlc/S-001` returns null and `list` does not return it. The janitor does not delete an old-format verify branch such as `sdlc/S-001-v0-http-api-0`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3191,7 +3191,7 @@
     "specRef": "§Edge cases",
     "quote": "`next-action.py` and `janitor.py` always pass the ledger's ids.",
     "acceptance": "Under `feature/p-1-{name:lower}`, janitor.py parses the verify branch `feature/p-1-s-001-v0-http-api-0` with the ledger's ids, the id resolves to `S-001`, and the branch of a todo slice is not swept.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

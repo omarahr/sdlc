@@ -3527,8 +3527,8 @@
       "S-009"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-024",
     "pr": "",
     "risk": "high",
