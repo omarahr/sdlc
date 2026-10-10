@@ -3063,3 +3063,27 @@ test('T-R-019-e2e-id name accepts a slice id that ends in -e2e', opts, () => {
   assert.equal(out[0].parsed.kind, 'slice')
   assert.equal(out[0].parsed.id, 'S-001-e2e')
 })
+
+test('T-R-019-trailing-newline name refuses a part that ends in a line feed', opts, () => {
+  const cases = [
+    { fmt: DEFAULT_FMT, kind: 'state', parts: { ts: '20261011101010\n' } },
+    { fmt: DEFAULT_FMT, kind: 'run', parts: { n: '2\n' } },
+    { fmt: DEFAULT_FMT, kind: 'slice', parts: { id: 'S-001\n' } },
+  ]
+  const out = pyName(cases)
+  out.forEach((row, i) => assert.equal(typeof row.fail, 'string', `${cases[i].kind}: ${JSON.stringify(row)}`))
+})
+
+test('T-R-019-parse-newline parse refuses a branch that ends in a line feed', opts, () => {
+  const out = JSON.parse(probe(`${LOAD}
+import json
+print(json.dumps([mod.parse("sdlc/{name}", b) for b in ["sdlc/run-2\\n", "sdlc/state-20261011101010\\n", "sdlc/S-001\\n"]]))
+`, [BRANCHES], { cwd: scratch('sdlc-branches-cwd-') }))
+  assert.deepEqual(out, [null, null, null])
+})
+
+test('T-R-019-state-ts name keeps a given state timestamp through the round trip', opts, () => {
+  const out = pyName([{ fmt: DEFAULT_FMT, kind: 'state', parts: { ts: '20261011101010' } }])
+  assert.equal(out[0].branch, 'sdlc/state-20261011101010')
+  assert.equal(out[0].parsed.ts, '20261011101010')
+})

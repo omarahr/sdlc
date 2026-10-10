@@ -7,3 +7,4 @@ T-R-019-valid — R-019 — characterization: valid parts keep their names and p
 T-R-019-int-value — R-019 — characterization: n="02" parses back as 2
 T-R-019-lower — R-019 — characterization: lowering touches only the tail
 T-R-019-e2e-id — R-019 — characterization: id S-001-e2e stays valid
+- T-R-019-trailing-newline, T-R-019-parse-newline, T-R-019-state-ts — R-019 — promoted from verify-contract r0 (TC-contract-7, TC-contract-8): line feed at the end of a part is refused
