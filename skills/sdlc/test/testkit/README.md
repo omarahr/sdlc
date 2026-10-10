@@ -97,3 +97,18 @@ r.run('branches.py', ['name', '--repo', repo, '--kind', 'slice', '--id', withIdP
 - Samples: `kelvin` (U+212A), `long-s` (U+017F), `dotted-i` (U+0130), `dotless-i` (U+0131), `sharp-s` (U+00DF), `capital-sharp-s` (U+1E9E) and `accented-capital` (U+00C9, no ASCII twin).
 - `lookalikes()` returns the samples that fold to an ASCII letter. `asciiLower(text)`, `asciiUpper(text)` and `isAscii(text)` are the reference rules.
 - The self-test runs `python3 -I` and checks every recorded `lower()` and `casefold()` result.
+
+## measure (`measure.mjs`)
+
+Measures time and output size. It runs a function or a command with warm-up runs and timed runs.
+
+```js
+const r = measureCommand('python3', [script, 'preflight', '--repo', repo], { warmup: 1, runs: 5 })
+r.medianMs; r.p95Ms; r.worstMs; r.status; r.stdout.chars; r.stderr.bytes; r.env
+sizeOf(note).chars
+console.log(formatReport(r, 'preflight'))
+```
+
+- `measure(fn, { warmup, runs })` returns the median, p95, best and worst run in milliseconds, the samples, the last return value and an `env` block (node, platform, arch, cpu).
+- `measureCommand(cmd, args, opts)` adds the exit status of every timed run, and the size of the last stdout and stderr. Pass `spawnOptions` for `env` and `cwd`.
+- `sizeOf(value)` returns `chars`, `bytes`, `lines` and `maxLineChars`. Use it for the size of a note or of stdout.

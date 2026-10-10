@@ -73,5 +73,17 @@
     "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
     "addedBy": "S-fix-M-1-1b r0",
     "notes": "Samples kelvin, long-s, dotted-i, dotless-i, sharp-s, capital-sharp-s and accented-capital. Each records str.lower(), str.casefold() and ASCII-only lowering; the self-test checks the Python results with python3 -I. Helpers: asciiLower, asciiUpper, isAscii, lookalikes, withIdPrefix. No locale or bidi fixtures: the repo has no i18n library."
+  },
+  {
+    "id": "measure",
+    "profiles": [
+      "limits"
+    ],
+    "language": "javascript",
+    "path": "skills/sdlc/test/testkit/measure.mjs",
+    "usage": "import { measure, measureCommand, sizeOf, formatReport } from '<repo>/skills/sdlc/test/testkit/measure.mjs'; const r = measureCommand('python3', [script, 'preflight', '--repo', repo], { warmup: 1, runs: 5 }); r.medianMs; r.p95Ms; r.worstMs; r.stdout.chars; sizeOf(note).chars",
+    "selfTest": "node --test skills/sdlc/test/testkit/*.test.mjs",
+    "addedBy": "S-fix-M-1-2 r0",
+    "notes": "Warm-up plus N timed runs. Returns median, p95, best and worst run in ms with an env block. measureCommand adds exit statuses and the size (chars, bytes, lines, longest line) of stdout and stderr. sizeOf measures any string or JSON value. Import it by absolute path, because verifier tests live under .sdlc/ in the main tree."
   }
 ]
