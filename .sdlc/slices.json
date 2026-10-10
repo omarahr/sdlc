@@ -4153,7 +4153,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "tests",
+    "phase": "implement",
     "branch": "sdlc/S-028",
     "pr": "",
     "risk": "low",
