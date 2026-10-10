@@ -2292,6 +2292,21 @@
       "title": "S-025 r0 contract verification test fails at load when run from the repo root",
       "detail": "`node --test` on .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs failed at file level with no individual test failing. The cause is likely a path or cwd assumption. I did not investigate it.",
       "file": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs"
+    },
+    {
+      "title": "branches.py name accepts ids that make an invalid git ref",
+      "detail": "--area 'a b' gives sdlc/M-1-e2e-a b, and --kind slice --id 'a b' gives sdlc/a b. git check-ref-format refuses both. Not required by R-111 to R-115.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py name accepts n = 0, negative n and very large n",
+      "detail": "--n 0 gives attempt-0, --n -1 gives attempt--1, and a 20-digit n is accepted. The names are valid refs but may be unintended.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "attempt --n accepts 0 and negative numbers",
+      "detail": "branches.py name --kind attempt --n 0 gives sdlc/S-012-attempt-0. --n -1 gives sdlc/S-012-attempt--1. The spec does not forbid them.",
+      "file": "skills/sdlc/branches.py"
     }
   ]
 }
