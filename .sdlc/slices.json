@@ -2860,7 +2860,7 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "gate",
+    "phase": "integrate",
     "branch": "sdlc/S-019",
     "pr": "",
     "risk": "medium",
