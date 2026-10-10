@@ -323,6 +323,13 @@ if hasattr(sys, "set_int_max_str_digits"):
     sys.set_int_max_str_digits(0)
 
 
+ASCII_LOWER_TABLE = {code: code + 32 for code in range(ord("A"), ord("Z") + 1)}
+
+
+def _ascii_lower(text):
+    return text.translate(ASCII_LOWER_TABLE)
+
+
 def parse(fmt, branch, ids=None):
     prefix, suffix, lower = split(fmt)
     if not isinstance(branch, str):
@@ -332,11 +339,11 @@ def parse(fmt, branch, ids=None):
     head = branch[:len(prefix)]
     foot = branch[len(branch) - len(suffix):] if suffix else ""
     if lower:
-        head, foot, prefix, suffix = head.lower(), foot.lower(), prefix.lower(), suffix.lower()
+        head, foot, prefix, suffix = (_ascii_lower(head), _ascii_lower(foot), _ascii_lower(prefix), _ascii_lower(suffix))
     if head != prefix or foot != suffix:
         return None
     middle = branch[len(prefix):len(branch) - len(suffix)]
-    flags = re.IGNORECASE if lower else 0
+    flags = re.ASCII | re.IGNORECASE if lower else re.ASCII
     for kind, pattern, names in PARSE_ROWS:
         match = re.search(pattern, middle, flags)
         if match is None:
@@ -344,12 +351,14 @@ def parse(fmt, branch, ids=None):
         result = {"kind": kind, "tail": middle}
         for part, value in zip(names, match.groups()):
             result[part] = int(value) if part in INTEGER_PARTS else value
+        if "id" in result and not result["id"].isascii():
+            return None
         result["known"] = None
         if ids is not None and "id" in result:
-            wanted = result["id"].lower() if lower else result["id"]
+            wanted = _ascii_lower(result["id"]) if lower else result["id"]
             result["known"] = False
             for candidate in ids:
-                if (candidate.lower() if lower else candidate) == wanted:
+                if (_ascii_lower(candidate) if lower else candidate) == wanted:
                     result["id"] = candidate
                     result["known"] = True
                     break

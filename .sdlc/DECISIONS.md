@@ -743,3 +743,11 @@
 - Decision: Option 2. The area, profile and other parts keep the spec behavior. Option 1 would reject `M-1-e2e-é`, which the spec classifies as e2e-area.
 - Consequences / how to reverse: Remove re.ASCII from the flags in parse and the id check. No stored data changes.
 - Affects: R-022, R-024, S-fix-M-1-1a
+
+### ADR-20261010-150506-implementer-S-fix-M-1-1a-cf0d: parse compiles every row with re.ASCII
+- Status: auto
+- Context: Look-alike characters such as the Arabic-Indic digit matched \d, so parse read them as loop branches (SC-M-1-080).
+- Options: check the whole tail for ASCII; use re.ASCII and check the id part.
+- Decision: Compile every row with re.ASCII in both modes. Return None when the captured id is not ASCII. Lower mode uses an ASCII-only lowering.
+- Consequences / how to reverse: Remove re.ASCII and _ascii_lower from parse. Valid branches hold only ASCII, so only look-alikes change.
+- Affects: R-022, R-024, S-fix-M-1-1a
