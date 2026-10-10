@@ -46,7 +46,7 @@
     ],
     "dependsOn": [],
     "status": "in_progress",
-    "phase": "gate",
+    "phase": "integrate",
     "branch": "",
     "pr": "",
     "seeds": [
