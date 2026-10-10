@@ -1,9 +1,9 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
-import { scriptSource, SKILL_DIR } from './harness.mjs'
+import { scriptSource, SKILL_DIR, scratch } from './harness.mjs'
 import { cliRunner } from './testkit/cli-runner.mjs'
 
 test('the reviewer can demand the verification battery for a mis-rated slice, and the schema passes the flag', () => {
@@ -1089,4 +1089,135 @@ test('every name command in the _common.md branch table runs against branches.py
     assert.equal(t.json.ok, true)
     assert.match(t.json.branch, /^feature\//)
   }
+})
+
+const promptText = name => readFileSync(join(SKILL_DIR, 'prompts', `${name}.md`), 'utf8')
+
+const BRANCH_FORMAT_SENTENCE = "`branchFormat`: the `branchFormat` input when it is not null; else an existing `config.branchFormat`; else `sdlc/{name}`. The driver's pre-flight derived or checked it; do not read the forge's rules here."
+
+test('T-R-064a: env-detector takes the branchFormat input and writes the quoted line', () => {
+  const env = promptText('env-detector')
+  const inputs = env.split('\n').find(l => l.startsWith('Inputs:'))
+  assert.ok(inputs, 'no Inputs line')
+  assert.match(inputs, /`branchFormat`/)
+  assert.match(inputs, /`commitFormat`/)
+  assert.ok(env.includes(BRANCH_FORMAT_SENTENCE), 'the R-064 sentence is missing')
+})
+
+test("T-R-064b: env-detector does not read the forge's branch-name rules", () => {
+  const env = promptText('env-detector')
+  assert.ok(env.includes("do not read the forge's rules here"))
+  assert.doesNotMatch(env, /branch_name_regex/)
+  assert.doesNotMatch(env, /branch name rule/i)
+  assert.match(env, /commit_message_regex/)
+})
+
+test('T-R-002c: env-detector writes the default format on a fresh run', () => {
+  const env = promptText('env-detector')
+  const rule = env.split('\n').find(l => l.includes('`branchFormat`: the `branchFormat` input'))
+  assert.ok(rule, 'no branchFormat rule')
+  assert.ok(rule.includes('else `sdlc/{name}`'))
+  assert.ok(rule.includes('else an existing `config.branchFormat`'))
+})
+
+test('T-R-065a: state-schema documents branchFormat in config.json', () => {
+  const schema = promptText('state-schema')
+  const section = schema.split('\n## ').find(s => s.startsWith('config.json'))
+  assert.ok(section, 'no config.json section')
+  assert.match(section, /"branchFormat": "sdlc\/\{name\}"/)
+  for (const text of [
+    'the format of every branch the loop makes',
+    '`{name:lower}`',
+    "the loop's own tail per branch kind (`branches.py`)",
+    'Set at the first launch; a resume keeps it.',
+  ]) assert.ok(section.includes(text), `missing: ${text}`)
+})
+
+test('T-R-065b: state-schema describes the slice branch and runBranch through the format', () => {
+  const schema = promptText('state-schema')
+  assert.ok(schema.includes('the slice branch under `config.branchFormat`'))
+  assert.ok(schema.includes('the run branch (`run` kind under `config.branchFormat`)'))
+  const section = schema.split('\n## ').find(s => s.startsWith('config.json'))
+  assert.doesNotMatch(section, /sdlc\/run-/)
+  assert.doesNotMatch(schema, /"branch": "sdlc\/S-001"/)
+})
+
+test('T-R-061: slicer writes the slice branch through the placeholder', () => {
+  const slicer = promptText('slicer')
+  assert.ok(slicer.includes('branch: <slice branch>'))
+  assert.doesNotMatch(slicer, /branch: sdlc\//)
+})
+
+const withBranchField = (slices, mode) => slices.map(s => {
+  const copy = { ...s }
+  if (mode === 'garbage') copy.branch = '\u0000not/a branch:~^ ?*[' + s.id
+  if (mode === 'removed') delete copy.branch
+  return copy
+})
+
+const dropBranchKeys = value => {
+  if (Array.isArray(value)) return value.map(dropBranchKeys)
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).filter(([k]) => k !== 'branch' && k !== 'commit').map(([k, v]) => [k, dropBranchKeys(v)]))
+  }
+  return value
+}
+
+const baseSlice = (id, over = {}) => ({
+  id, title: `slice ${id}`, requirements: [], dependsOn: [], kind: 'spec', status: 'todo', phase: 'plan',
+  branch: `sdlc/${id}`, pr: '', risk: 'medium', riskReason: 'x', seeds: [], ideaKeys: [], notes: '',
+  counters: { planRevisions: 0, fixRounds: 0, ladderStep: 0, parkCycles: 0, verifyDemanded: false, infraRetries: 0, gateCommit: '' },
+  ...over,
+})
+
+function sliceStateRepo(slices) {
+  const repo = scratch('sdlc-slice-branch-')
+  const git = (...a) => spawnSync('git', ['-C', repo, ...a], { encoding: 'utf8' })
+  git('init', '-q', '-b', 'main')
+  git('config', 'user.email', 'test@example.com')
+  git('config', 'user.name', 'Test')
+  const spec = '# Spec\n'
+  writeFileSync(join(repo, 'spec.md'), spec)
+  mkdirSync(join(repo, '.sdlc'))
+  const files = {
+    'config.json': { specPath: 'spec.md', specHash: '', overridesSeen: 0, gitMode: 'direct', defaultBranch: 'main', runBranch: '', commitFormat: '', branchFormat: 'sdlc/{name}' },
+    'requirements.json': [],
+    'slices.json': slices,
+    'milestones.json': [],
+  }
+  for (const [name, value] of Object.entries(files)) writeFileSync(join(repo, '.sdlc', name), JSON.stringify(value, null, 2))
+  writeFileSync(join(repo, '.sdlc', 'DECISIONS.md'), '# Decisions\n')
+  git('add', '-A')
+  git('commit', '-q', '-m', 'bootstrap')
+  return repo
+}
+
+test('T-R-061b: no script reads a slice\'s branch field', () => {
+  const slices = [
+    baseSlice('S-001', { status: 'done', phase: 'done' }),
+    baseSlice('S-002', { status: 'in_progress', phase: 'tests' }),
+    baseSlice('S-003', { dependsOn: ['S-002'] }),
+  ]
+  const observe = variant => {
+    const repo = sliceStateRepo(withBranchField(slices, variant))
+    const py = (script, args, input) => {
+      const r = spawnSync('python3', ['-I', join(SKILL_DIR, script), ...args], { encoding: 'utf8', input, cwd: repo })
+      return { status: r.status, stdout: dropBranchKeys(JSON.parse(r.stdout || 'null')), stderr: r.stderr }
+    }
+    const next = py('next-action.py', ['--repo', repo])
+    const patched = py('state-write.py', ['patch-slice', '--repo', repo, '--slice', 'S-002'], JSON.stringify({ phase: 'implement' }))
+    const janitor = py('janitor.py', ['--repo', repo, '--days', '36500'])
+    const state = dropBranchKeys(JSON.parse(readFileSync(join(repo, '.sdlc', 'slices.json'), 'utf8')))
+    return { next, patched, janitor, state }
+  }
+  const original = observe('original')
+  assert.equal(original.next.status, 0, original.next.stderr)
+  assert.equal(original.patched.status, 0, original.patched.stderr)
+  assert.equal(original.janitor.status, 0, original.janitor.stderr)
+  assert.deepEqual(observe('garbage'), original)
+  assert.deepEqual(observe('removed'), original)
+})
+
+test('T-R-061c: sdlc-loop.js never reads a branch field of a slice loaded from slices.json', () => {
+  assert.doesNotMatch(scriptSource(), /\b(s|slice)\.branch\b/)
 })

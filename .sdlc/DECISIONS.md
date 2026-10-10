@@ -607,3 +607,19 @@
 - Decision: Rename the test branch to `sdlc/S-1-v1-http-api-0`. The test still proves that the janitor resolves from a scratch directory.
 - Consequences / how to reverse: Restore the old name and add a fallback in `janitor.py`.
 - Affects: R-060, S-024
+
+### ADR-20261010-064552-decision-judge-S-027a-9642: S-027a carries R-002 clause 2
+- Status: auto
+- Context: R-002 clause 2 (a fresh run records branchFormat sdlc/{name} in config.json) was to close in S-027 under ADR-20261009-041833-decision-judge-S-003-7312. No S-027 slice lists R-002. No OVERRIDE ADR covers this question.
+- Options: (1) S-027a carries R-002 beside R-064; S-027b and S-027c do not list it. (2) Same, with the rationale that S-027a writes config.branchFormat. (3) Same, beside R-064, R-065 and R-061.
+- Decision: Option 1. The state-writer adds R-002 to the S-027a requirements, beside R-064. S-027a closes it with T-R-002c. The S-003 tests stay as clause 1 evidence.
+- Consequences / how to reverse: Only the S-027a requirements list changes. To reverse, remove R-002 from S-027a and add it to another S-027 slice. T-R-002c stays valid there. R-002 in both S-003 and S-027a is intended.
+- Affects: R-002, R-064, S-027a
+
+### ADR-20261010-144554-decision-judge-S-027a-c3e7: state-schema.md slice example uses a placeholder branch value
+- Status: auto
+- Context: The state-schema.md slice example holds "branch": "sdlc/S-001". The spec table replaces the literal in the field description. It does not name the example value. R-063 bans any sdlc/ literal outside branches.py output blocks. No OVERRIDE ADR covers this question.
+- Options: (1) Use "<slice branch>" as the example value and keep the description "the slice branch under config.branchFormat". (2) Same value, with a description that says the value comes from the branch format. (3) Same value, with the note that other examples use placeholders.
+- Decision: Option 1. Set the example value to "<slice branch>". The three options give the same result. Option 1 is the smallest edit.
+- Consequences / how to reverse: No code reads the example. To use a concrete sample, edit one line. The new value must not contain the sdlc/ literal, or the R-063 scan fails.
+- Affects: S-027a, R-063
