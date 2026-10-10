@@ -986,3 +986,57 @@ test('T-R-118b: the Branch format bullet asks for a rename when parse prints a k
   assert.match(bullet, /parse --repo "\$REPO" --format "\$FMT" --branch "\$BASE_BRANCH"`? prints a kind/)
   assert.match(bullet, /ask the user to rename the branch \(`git branch -m <new-name>`\)/)
 })
+
+function commonBranchNames() {
+  const common = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
+  const start = common.indexOf('**Branch names:**')
+  assert.ok(start >= 0, '_common.md has no Branch names bullet')
+  const rest = common.slice(start + 1)
+  const next = rest.search(/\n- \*\*/)
+  return { common, bullet: next < 0 ? common.slice(start) : common.slice(start, start + 1 + next) }
+}
+
+function branchRow(bullet, placeholder) {
+  const row = bullet.split('\n').find(l => l.trimStart().startsWith(`| \`${placeholder}\``))
+  assert.ok(row, `no table row for ${placeholder}`)
+  return row
+}
+
+test('T-R-062: _common.md defines every branch placeholder', () => {
+  const { bullet } = commonBranchNames()
+  assert.ok(bullet.includes('config.branchFormat'))
+  assert.ok(bullet.includes('sdlc/{name}'))
+  for (const p of ['<run branch>', '<slice branch>', '<milestone branch>', '<e2e branch>', '<e2e area branch>', '<state branch>', '<attempt branch>', '<verify branch>']) {
+    const cells = branchRow(bullet, p).split('|').map(c => c.trim()).filter(Boolean)
+    assert.equal(cells.length, 2, `${p} row needs a placeholder cell and a command cell`)
+    assert.ok(cells[1].length > 0)
+  }
+  assert.ok(bullet.includes('branches.py'))
+  assert.match(bullet, /branches\.py` parse|branches\.py parse/)
+})
+
+test('T-R-110: the slice branch placeholder maps to branches.py name', () => {
+  const { bullet } = commonBranchNames()
+  assert.ok(branchRow(bullet, '<slice branch>').includes('branches.py name --kind slice --id <sliceId>'))
+})
+
+test('T-R-089: the run branch placeholder follows the git mode', () => {
+  const { bullet } = commonBranchNames()
+  const row = branchRow(bullet, '<run branch>')
+  assert.ok(row.includes('config.runBranch'))
+  assert.ok(row.includes('stack'))
+  assert.ok(row.includes('branches.py list --kind run'))
+  assert.match(row, /last entry/)
+})
+
+test('T-R-090: the verify branch placeholder comes from the prompt input', () => {
+  const { common, bullet } = commonBranchNames()
+  assert.ok(branchRow(bullet, '<verify branch>').includes('the `branch` input'))
+  assert.ok(!common.includes('branches.py name --kind verify'))
+})
+
+test('T-R-117: the section tells the reader to classify a branch with parse', () => {
+  const { bullet } = commonBranchNames()
+  assert.ok(bullet.includes('branches.py parse --repo . --branch <name>'))
+  assert.match(bullet, /`null`/)
+})
