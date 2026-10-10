@@ -52,3 +52,4 @@
 {"ts": "2026-10-10T12:16:43Z", "type": "slice-merged", "slice": "S-034", "detail": "SKILL.md orders the format sources and the preflight command"}
 {"ts":"2026-10-10T12:42:15Z","type":"slice-merged","slice":"S-035","detail":"integrator, escalator and state-writer prompts use branch placeholders"}
 {"ts": "2026-10-10T13:12:27Z", "type": "slice-merged", "slice": "S-036", "detail": "S-036 shipped"}
+{"ts":"2026-10-10T13:48:24Z","type":"slice-merged","slice":"S-037","detail":"S-037 verified and ready to ship"}

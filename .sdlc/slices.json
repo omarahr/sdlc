@@ -4879,7 +4879,7 @@
       "S-027c"
     ],
     "kind": "spec",
-    "status": "in_progress",
+    "status": "done",
     "phase": "integrate",
     "branch": "sdlc/S-037",
     "pr": "",

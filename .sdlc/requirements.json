@@ -5413,13 +5413,28 @@
     "specRef": "§8",
     "quote": "`runBranch` \"the run branch (`run` kind under `config.branchFormat`)\"",
     "acceptance": "state-schema.md describes config.runBranch as the run branch (`run` kind under `config.branchFormat`), and describes each slice's branch field as the slice branch under config.branchFormat, with no sdlc/S-001 or sdlc/run-<n> literal.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-135",
+        "T-R-149",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:10",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:16",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:26",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:42",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:13",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:27",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:38",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:48",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:63",
+        ".sdlc/slices/S-037/verification/r0/logs/contract-0-mutations.txt:1"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5428,13 +5443,28 @@
     "specRef": "§8",
     "quote": "| `commit-state.md` | `sdlc/<sliceId>`, `sdlc/run-<n>` (×4), `sdlc/M-<n>`, `sdlc/state-$(date -u +%Y%m%d%H%M%S)` | `<slice branch>`, `<run branch>`, `<milestone branch>`, `<state branch>` |",
     "acceptance": "commit-state.md uses the four placeholders and no longer builds the state branch name with `date -u`; the state branch name comes from `branches.py name --kind state`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-135",
+        "T-R-149",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:10",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:16",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:26",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:42",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:13",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:27",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:38",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:48",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:63",
+        ".sdlc/slices/S-037/verification/r0/logs/contract-0-mutations.txt:1"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5802,13 +5832,28 @@
     "specRef": "§8",
     "quote": "| `implementer.md`, `test-writer.md`, `test-checker.md`, `planner.md`, `verifier.md`, `verify-planner.md`, `verify-toolsmith.md`, `test-reporter.md`, `gate.md`, `finding-refuter.md`, `verify-profile-common.md`, `verify-collector.md`, `state-reader.md` | `sdlc/<id>` | `<slice branch>` |",
     "acceptance": "Each of the 13 listed prompt files holds no `sdlc/<id>` literal and uses `<slice branch>` instead.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-135",
+        "T-R-149",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:10",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:16",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:26",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:42",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:13",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:27",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:38",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:48",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:63",
+        ".sdlc/slices/S-037/verification/r0/logs/contract-0-mutations.txt:1"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5857,13 +5902,28 @@
     "specRef": "§8",
     "quote": "| `state-schema.md` | `\"branch\": \"sdlc/S-001\"`, `sdlc/run-<n>` (×2), `sdlc/M-<n>` | the field's description says \"the slice branch under `config.branchFormat`\"; `runBranch` \"the run branch (`run` kind under `config.branchFormat`)\" |",
     "acceptance": "state-schema.md holds no `sdlc/S-001`, `sdlc/run-<n>` or `sdlc/M-<n>` literal. The slice branch field and the milestone branch mention are described by kind under `config.branchFormat`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-135",
+        "T-R-149",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:10",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:16",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:26",
+        ".sdlc/slices/S-037/verification/r0/tests/cli-0/state-branch.verify-cli.test.mjs:42",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:13",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:27",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:38",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:48",
+        ".sdlc/slices/S-037/verification/r0/tests/contract-0/prompts.verify-contract.test.mjs:63",
+        ".sdlc/slices/S-037/verification/r0/logs/contract-0-mutations.txt:1"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
