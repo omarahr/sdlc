@@ -1,8 +1,8 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T08:55:29Z
+Updated: 2026-10-10T08:57:59Z
 
 Requirements: 120/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 31/40 done · current: none · awaiting merge: none
+Slices: 31/40 done · current: S-030 derive maps one simple rule to a format · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
 ADRs: 86 · Spec proposals: 6

@@ -5127,7 +5127,7 @@
     "specRef": "§4",
     "quote": "| `starts_with P` | `P` + `sdlc/{name}` |",
     "acceptance": "derive for the single rule `starts_with feature/` returns `feature/sdlc/{name}`, so the samples are `feature/sdlc/S-001` and the like.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5142,7 +5142,7 @@
     "specRef": "§4",
     "quote": "| `ends_with S` | `sdlc/{name}` + `S` |",
     "acceptance": "derive for the single rule `ends_with -dev` returns `sdlc/{name}-dev`; preflight with that rule and no format given prints ok true, derived true and format `sdlc/{name}-dev`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5157,7 +5157,7 @@
     "specRef": "§4",
     "quote": "| `contains C` | `sdlc/` + `C` + `/{name}` |",
     "acceptance": "derive for the single rule `contains team-a` returns `sdlc/team-a/{name}`; preflight with that rule and no format given prints ok true, derived true and format `sdlc/team-a/{name}`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5172,7 +5172,7 @@
     "specRef": "§4",
     "quote": "derive `fmt2` from the table below, evaluate the samples again under it, and when they all pass, `ok` is `true` with `fmt2` and `derived` `true`.",
     "acceptance": "When the derived format passes every sample, the output carries format equal to fmt2 and derived true, and the pre-flight writes no failing sample. When derivation does not apply (format given, several rules, negate, regex), derived stays false.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5397,7 +5397,7 @@
     "specRef": "§2",
     "quote": "`evaluate(rule, sample)` and `derive(rules)`: sections 3 and 4.",
     "acceptance": "branches.py exposes `derive(rules)`. For one non-negated `starts_with P`, `ends_with S` or `contains C` rule it returns `P` + `sdlc/{name}`, `sdlc/{name}` + `S` or `sdlc/` + `C` + `/{name}`. For a regex rule, a negated rule or several rules it returns no format.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
