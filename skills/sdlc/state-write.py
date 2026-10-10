@@ -268,8 +268,10 @@ def advance_run_branch(repo, config, run):
     return run
 
 
-def branch_run(repo, branch):
+def branch_run(repo, branch, fmt):
     """The run branch named by the .sdlc/config.json committed ON <branch>, or "" when it names none.
+
+    A stored name counts only when it parses to a run branch under <fmt>. A foreign name counts as no run.
 
     This is what makes a milestone branch name run-scoped. Milestone ids restart at M-1 on every run while
     sdlc/run-<n> keeps counting, so run 2's first milestone branch carries exactly the name run 1's first
@@ -279,9 +281,12 @@ def branch_run(repo, branch):
     """
     r = git(repo, "show", f"{branch}:.sdlc/config.json", check=False)
     try:
-        return (json.loads(r.stdout) or {}).get("runBranch") or ""
+        stored = (json.loads(r.stdout) or {}).get("runBranch") or ""
     except ValueError:  # absent or unreadable: the branch claims no run, so it is claimed as nobody's
         return ""
+    if not isinstance(stored, str) or branch_kind(fmt, stored) != "run":
+        return ""
+    return stored
 
 
 def shipped_into(repo, branch, default):
@@ -424,7 +429,7 @@ def prune_stale_milestone_branches(repo, config, keep, fmt):
         branch = branch.strip()
         if branch_kind(fmt, branch) != "milestone" or branch in held or branch in in_use:
             continue
-        if branch == keep and branch_run(repo, branch) == run:
+        if branch == keep and branch_run(repo, branch, fmt) == run:
             continue  # the branch this call is cutting, and this run's own: slices are already cut from it
         sha = git(repo, "rev-parse", branch, check=False).stdout.strip()
         if not sha or not shipped_into(repo, branch, upstream):
@@ -471,7 +476,7 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id, fmt):
         # a branch under this milestone's name that names an EARLIER run is a leftover this run cannot build
         # on. Reaching here means it held unshipped work, so it was kept rather than deleted; building on it
         # would put the earlier run's code in this run's milestone pull request, so stop instead.
-        other = branch_run(repo, want)
+        other = branch_run(repo, want, fmt)
         if other and other != run:
             raise Fail(f"{want} belongs to run {other}, not to {run or '(unset)'}, and its work is not on "
                        f"origin/{config.get('defaultBranch') or 'main'}: merge or drop it by hand, then cut again")
