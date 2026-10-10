@@ -1362,6 +1362,42 @@ test('T-R-080: no prompt spells a loop branch literally', () => {
   assert.doesNotMatch('see .sdlc/slices', LOOP_BRANCH_LITERAL)
 })
 
+const NAMED_LITERALS = [/sdlc\/<id>/, /sdlc\/run-<n>/, /sdlc\/<id>-attempt-\*/]
+
+test('T-R-131: the integrator Clean up section lists attempt branches through branches.py and filters to the slice id', () => {
+  const section = cleanUpSection()
+  assert.ok(section.includes('python3 "<skill>/branches.py" list --repo . --kind attempt'), 'the list command is missing')
+  assert.match(section, /Keep the entries whose `id` equals this slice id/)
+  assert.doesNotMatch(section, /sdlc\/<id>-attempt-\*/)
+  assert.doesNotMatch(section, /-attempt-\*/)
+  assert.match('git branch --list "sdlc/<id>-attempt-*"', /-attempt-\*/)
+})
+
+test('T-R-143: integrator.md spells no branch literal and names its branches through placeholders', () => {
+  const text = stripBranchesOutput(sweepPromptText('integrator'))
+  for (const literal of NAMED_LITERALS) assert.doesNotMatch(text, literal, `integrator.md holds ${literal}`)
+  assert.doesNotMatch(text, LOOP_BRANCH_LITERAL)
+  assert.ok(text.includes('<slice branch>'), 'integrator.md lacks <slice branch>')
+  assert.ok(text.includes('<run branch>'), 'integrator.md lacks <run branch>')
+  assert.ok(text.includes('branches.py" list --repo . --kind attempt'), 'integrator.md does not find attempt branches through branches.py')
+  assert.match('git push origin sdlc/<id>', NAMED_LITERALS[0])
+  assert.match('git checkout sdlc/run-<n>', NAMED_LITERALS[1])
+})
+
+test('T-R-145: escalator.md spells no branch literal and holds the three placeholders', () => {
+  const text = stripBranchesOutput(sweepPromptText('escalator'))
+  assert.doesNotMatch(text, LOOP_BRANCH_LITERAL, 'escalator.md spells a loop branch literally')
+  for (const p of ['<slice branch>', '<attempt branch>', '<run branch>']) assert.ok(text.includes(p), `escalator.md lacks ${p}`)
+  assert.match('rename it sdlc/S-001-attempt-1', LOOP_BRANCH_LITERAL)
+})
+
+test('T-R-147: state-writer.md spells no branch literal and holds the slice and attempt placeholders', () => {
+  const text = stripBranchesOutput(sweepPromptText('state-writer'))
+  assert.doesNotMatch(text, LOOP_BRANCH_LITERAL, 'state-writer.md spells a loop branch literally')
+  for (const p of ['<slice branch>', '<attempt branch>']) assert.ok(text.includes(p), `state-writer.md lacks ${p}`)
+  assert.match('rename it sdlc/S-001-attempt-1', LOOP_BRANCH_LITERAL)
+})
+
 const readmeText = () => readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
 
 test('R-066: the README Usage row and flag list show --branch-format with one example', () => {
