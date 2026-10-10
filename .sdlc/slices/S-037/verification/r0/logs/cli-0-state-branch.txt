@@ -1,0 +1,59 @@
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-xmz5ik/cwd-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-xmz5ik/repo-1 --kind state
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261010132549"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-xmz5ik/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-xmz5ik/repo-1 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-upMp9b/cwd-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-upMp9b/repo-1 --kind state
+exit: 0 (76 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "state", "branch": "feature/state-20261010132549"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-upMp9b/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-upMp9b/repo-1 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-lUKi3n/cwd-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-lUKi3n/repo-1 --kind state
+exit: 0 (75 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "Team_X/{name:lower}-bot", "kind": "state", "branch": "Team_X/state-20261010132550-bot"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-lUKi3n/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-lUKi3n/repo-1 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-8S1Mce/cwd-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-8S1Mce/repo-1 --kind state
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'bad format/{name}' holds whitespace"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-8S1Mce/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-8S1Mce/repo-1 (unchanged)
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-cGQ4S0/cwd-2
+$ python3 /Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-cGQ4S0/repo-1 --kind state --id S-1
+exit: 0 (74 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261010132550"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-cGQ4S0/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-DcpUfV/testkit-cli-cGQ4S0/repo-1 (unchanged)
+✔ verify cli: commit-state.md holds no date -u and uses <state branch> (0.62225ms)
+✔ verify cli: _common.md maps <state branch> to branches.py name --kind state (0.0685ms)
+✔ verify cli: branches.py name --kind state, default (531.081416ms)
+✔ verify cli: branches.py name --kind state, custom (497.298667ms)
+✔ verify cli: branches.py name --kind state, upper-lower (472.228583ms)
+✔ verify cli: state kind rejects --id and bad format (554.130167ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2123.951791
