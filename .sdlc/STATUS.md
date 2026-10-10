@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T01:37:47Z
+Updated: 2026-10-10T01:44:27Z
 
 Requirements: 75/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 18/38 done · current: none · awaiting merge: none
+Slices: 18/38 done · current: S-019 SKILL.md names the run branch and checks the user's branch · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 65 · Spec proposals: 5
+ADRs: 68 · Spec proposals: 5
 
 ## Recent
 - 2026-10-09T21:09:57Z slice-merged S-013 R-027, R-028, R-029, R-084 done

@@ -2154,7 +2154,7 @@
     "specRef": "§5",
     "quote": "The **Run worktree** bullet names the run branch through the module: `RUN_BRANCH=$(python3 \"$SKILL_DIR/branches.py\" name --repo \"$REPO\" --format \"$FMT\" --kind run --n <n>)` where `<n>` is one more than the count of `branches.py list --kind run` on a first run; on a relaunch the run branch is the last entry of that list, and the worktree is put back on it.",
     "acceptance": "SKILL.md's Run worktree bullet computes RUN_BRANCH through `branches.py name --kind run`, with `--n` one more than the `list --kind run` count on a first run. A relaunch reuses the last list entry.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3595,7 +3595,7 @@
     "specRef": "§Edge cases",
     "quote": "**The user's branch is `sdlc/feature-x`**: not a loop kind; no rename asked.",
     "acceptance": "With `$BASE_BRANCH` `sdlc/feature-x` under the default format, `parse` returns no kind, the driver does not ask for a rename, and the launch continues.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4074,7 +4074,7 @@
     "specRef": "§Edge cases",
     "quote": "**The user's branch is `feature/PROJ-1-S-002` under that format**: it parses as a slice; the driver asks for a rename before the first run.",
     "acceptance": "`parse(\"feature/PROJ-1-{name}\", \"feature/PROJ-1-S-002\")` returns kind `slice` with id `S-002`. The branches test asserts it, as the complement of `feature/PROJ-1-foo` returning null.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4131,7 +4131,7 @@
     "specRef": "§5",
     "quote": "The **Run worktree** bullet names the run branch through the module: `RUN_BRANCH=$(python3 \"$SKILL_DIR/branches.py\" name --repo \"$REPO\" --format \"$FMT\" --kind run --n <n>)` where `<n>` is one more than the count of `branches.py list --kind run` on a first run; on a relaunch the run branch is the last entry of that list, and the worktree is put back on it.",
     "acceptance": "On a relaunch, the run worktree is put back on the existing run branch, the last `branches.py list --kind run` entry. The driver does not create a new run branch on a relaunch.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
