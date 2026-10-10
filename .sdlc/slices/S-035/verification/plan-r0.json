@@ -1,0 +1,16 @@
+{
+  "scenarios": [
+    {"id": "VS-1", "title": "The integrator finds attempt branches to delete through branches.py, filtered to the slice", "requirementIds": ["R-131"], "profiles": ["cli", "contract", "security"], "notes": "Risk: the Clean up step deletes the wrong branches. Check the Clean up section holds `branches.py list --repo . --kind attempt`, a filter to the slice id, no `sdlc/<id>-attempt-*` glob and no `-attempt-*` text. In a scratch repo with attempt branches of two slices (S-1 and S-10, so that a prefix match is wrong), run the listed command and apply the filter. Only the S-1 attempts may remain. Also try a slice with no attempt branches."},
+    {"id": "VS-2", "title": "integrator.md holds no branch literal and names its branches through placeholders", "requirementIds": ["R-143"], "profiles": ["contract", "security"], "notes": "After branches.py output blocks are removed, the file must hold no `sdlc/<id>`, `sdlc/run-<n>` or `sdlc/<id>-attempt-*`. It must hold `<slice branch>` and `<run branch>`. Try variants of the literal (other id spellings, `sdlc/S-001`, a literal inside a code span or table cell). Confirm the scan sees a bad sample string, and that the output-block exemption does not hide a literal outside the block."},
+    {"id": "VS-3", "title": "escalator.md holds no sdlc/ branch literal and holds the three placeholders", "requirementIds": ["R-145"], "profiles": ["contract"], "notes": "No `sdlc/` literal anywhere in the file, including `sdlc/run-<n>` and `sdlc/<id>-attempt-<n>`. The file holds `<slice branch>`, `<attempt branch>` and `<run branch>`. Check that a test on this file alone fails when one literal is added."},
+    {"id": "VS-4", "title": "state-writer.md holds no sdlc/ branch literal and holds the slice and attempt placeholders", "requirementIds": ["R-147"], "profiles": ["contract"], "notes": "No `sdlc/` literal in the file. The file holds `<slice branch>` and `<attempt branch>`. Check that a test on this file alone fails when one literal is added. Confirm that path text such as `.sdlc/` is not wrongly flagged."}
+  ],
+  "tools": [
+    {"id": "cli-runner", "profile": "cli", "purpose": "Create a scratch git repo with attempt branches of several slices and run branches.py list --kind attempt", "exists": true},
+    {"id": "property", "profile": "contract", "purpose": "Generate literal variants and mutated prompt text to prove the scans detect them", "exists": true},
+    {"id": "attack-corpus", "profile": "security", "purpose": "Branch-name inputs that could trick the filter (prefix ids, glob characters, unusual separators)", "exists": true}
+  ],
+  "risk": "medium",
+  "riskReason": "Prompt text steers agents that delete and push branches, but the slice adds only tests and one boundary.",
+  "notes": "The slice adds four characterization tests to skills/sdlc/test/prompts.test.mjs. No script or prompt changes. The tests pass at once, so the mutation checks (add a literal, expect failure) carry the proof. The spec states no numbers, so no limits scenario. The ui, http-api, data, async, concurrency and i18n profiles cannot observe prompt text. The diff against main also holds earlier slices, so judge S-035 by commit 0f73ac3 only."
+}

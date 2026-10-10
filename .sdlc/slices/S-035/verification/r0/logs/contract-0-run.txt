@@ -1,0 +1,24 @@
+property-run integrator mutation caught=1099 seed=35001 runs=1200
+property-run escalator mutation caught=1099 seed=35001 runs=1200
+property-run state-writer mutation caught=1099 seed=35001 runs=1200
+property-run integrator NAMED mutation seed=35001 runs=1200
+property-run cleanup -attempt- scan seed=35001 runs=1200
+ids ["S-1","S-1-attempt-1","S-1​"] mine 1
+✔ verify contract: integrator.md has no literal and an injected literal is always caught (R-143) (73.326416ms)
+✔ verify contract: escalator.md has no literal and an injected literal is always caught (R-145) (55.833041ms)
+✔ verify contract: state-writer.md has no literal and an injected literal is always caught (R-147) (61.070833ms)
+✔ verify contract: integrator.md names the required placeholders and the NAMED literals are caught by T-R-143 (70.393334ms)
+✔ verify contract: placeholders are required (removing one is detectable) (0.384ms)
+✔ verify contract: Clean up section has the command and filter, and no glob (2.488292ms)
+✔ verify contract: exemption seam, a literal inside a fenced block that mentions branches.py is hidden from the scan (0.432917ms)
+✔ verify contract: attempt filter keeps S-1 and not S-10 (prefix id), via real branches.py (1184.968708ms)
+✔ verify contract: attack-style branch names do not leak into another slice id (466.254208ms)
+✔ verify contract: each test file alone fails when one literal is added (mutation of the real file) (0.476375ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1984.554208

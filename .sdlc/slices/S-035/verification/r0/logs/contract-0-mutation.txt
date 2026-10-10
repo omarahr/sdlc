@@ -1,0 +1,16 @@
+baseline
+T-R-131 ℹ pass 1 ℹ fail 0 
+T-R-143 ℹ pass 1 ℹ fail 0 
+T-R-145 ℹ pass 1 ℹ fail 0 
+T-R-147 ℹ pass 1 ℹ fail 0 
+MUT escalator [Run `git checkout sdlc/run-3`.] T-R-145: ℹ pass 0 ℹ fail 1 
+MUT state-writer [Run `git checkout sdlc/S-001-attempt-1`.] T-R-147: ℹ pass 0 ℹ fail 1 
+MUT integrator [Run `git checkout sdlc/run-3`.] T-R-143: ℹ pass 0 ℹ fail 1 
+MUT integrator [Run `git branch --list "sdlc/<id>-attempt-*"`.] T-R-143: ℹ pass 0 ℹ fail 1 
+MUT integrator [Run `git checkout sdlc/S-001`.] T-R-143: ℹ pass 0 ℹ fail 1 
+MUT state-writer [See .sdlc/slices/S-1 and .sdlc/STOP.] T-R-147: ℹ pass 1 ℹ fail 0 
+MUT integrator [Use -attempt-* text.] T-R-131: ℹ pass 1 ℹ fail 0 
+--- Clean up mutation
+MUT cleanup glob T-R-131: ℹ pass 0 ℹ fail 1 
+MUT kind slice T-R-131: ℹ pass 0 ℹ fail 1 
+MUT prefix filter T-R-131: ℹ pass 0 ℹ fail 1 

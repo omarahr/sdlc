@@ -4738,12 +4738,40 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-035",
     "pr": "",
     "risk": "medium",
     "riskReason": "Prompt text steers agents that delete and push branches.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "New tests repeat coverage of T-R-063a, T-R-080 and T-R-093a",
+        "detail": "T-R-143, T-R-145 and T-R-147 check the same placeholder rows and the same LOOP_BRANCH_LITERAL scan that T-R-063a and T-R-080 already pin for integrator, escalator and state-writer. T-R-131 and the attempt-command part of T-R-143 repeat T-R-093a. The slice plan says the tests are characterization tests that pass at once. Only the NAMED_LITERALS check and the 'Keep the entries whose id equals this slice id' wording are new. Fold those two checks into T-R-093a and T-R-063a, or drop the repeated assertions. The test-quality lens may treat this as blocking.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Prompt test file keeps growing",
+        "detail": "prompts.test.mjs holds the tests for many slices and now has more than 1400 lines. It is consistent with the surrounding code, so this is only a note. Split it by topic in a later slice.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "stripBranchesOutput hides a literal in any fenced block that mentions branches.py",
+        "detail": "A fenced block that holds the word branches.py is removed from the scan whole. A literal in it is not seen. No shipped block hides one today.",
+        "file": "skills/sdlc/test/prompts.test.mjs"
+      },
+      {
+        "title": "scan exemption hides literals in any fenced block that names branches.py",
+        "detail": "stripBranchesOutput drops a whole fenced block when it holds the text branches.py. A block with a literal branch and a branches.py command passes the scan. Narrow the exemption to the output lines.",
+        "file": "skills/sdlc/test/prompts.test.mjs"
+      },
+      {
+        "title": "branches.py parses a non-ascii digit attempt number",
+        "detail": "sdlc/S-1-attempt-U+0663 parses as an attempt of S-1 with n=3, so Clean up would delete it. Needs write access to the repo's branches, so it lies inside the trusted boundary.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4754,7 +4782,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-036",
