@@ -1,0 +1,17 @@
+{
+  "scenarios": [
+    {"id":"VS-1","title":"The milestone branch row gives the milestone name command","requirementIds":["R-111"],"profiles":["contract","cli"],"notes":"Risk: the row drifts from the spec, or the command fails when run. Read the row in _common.md. Run the command with a real milestone id. The output must be ok with a branch that follows branchFormat."},
+    {"id":"VS-2","title":"The e2e branch row takes the milestone id and no area","requirementIds":["R-112"],"profiles":["contract","cli"],"notes":"Risk: the row gains an --area argument, or mixes up the e2e and e2e-area kinds. Check the row text. Run the command with a milestone id only. Compare the output with the e2e-area output: the two names must differ."},
+    {"id":"VS-3","title":"The e2e area branch row takes a milestone id and an area id","requirementIds":["R-113"],"profiles":["contract","cli"],"notes":"Risk: the row loses --area, or an area id with odd characters gives a bad name. Run the command with a plain area id and with a hyphenated one. Run it without --area: branches.py must refuse it with a clear error."},
+    {"id":"VS-4","title":"The state branch row takes no id and makes the timestamp","requirementIds":["R-114"],"profiles":["contract","cli"],"notes":"Risk: the row asks for --id, or the command needs one. Run the command with no --id. The name must hold a timestamp. Run it twice and check that each name is well formed. Check that the row says the command makes the timestamp."},
+    {"id":"VS-5","title":"The attempt branch row takes a slice id and an attempt number","requirementIds":["R-115"],"profiles":["contract","cli"],"notes":"Risk: the row loses --n, or a bad n (zero, negative, text, huge) gives a bad name. Run the command with n = 2. Try n = 0, -1 and abc: branches.py must refuse or give a valid name, never a malformed one."},
+    {"id":"VS-6","title":"Every row of the placeholder table is complete and runs","requirementIds":["R-111","R-112","R-113","R-114","R-115"],"profiles":["cli","contract"],"notes":"Risk: a row is missing, split in two cells wrongly, or the table has a row the tests do not run. Count the rows (eight placeholders). Run each name command with sample ids. Check that the STE check on _common.md still passes."}
+  ],
+  "tools": [
+    {"id":"cli-runner","profile":"cli","purpose":"Run branches.py name for each kind in a scratch repo with a branchFormat and check the output, exit code and tree.","exists":true},
+    {"id":"property","profile":"contract","purpose":"Call the branches.py name function with generated ids, area ids and attempt numbers.","exists":true}
+  ],
+  "risk":"low",
+  "riskReason":"The slice adds five string-match tests and may leave _common.md unchanged; no runtime code changes.",
+  "notes":"The slice is a prompt table plus tests. The cli and contract profiles cover it. Other profiles cannot observe a markdown table. The security profile is not tagged: branches.py was covered in earlier slices and this slice adds no input path."
+}

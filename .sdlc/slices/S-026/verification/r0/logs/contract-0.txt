@@ -1,0 +1,41 @@
+<run branch> | the branch `config.runBranch` names in `stack` mode; otherwise `branches.py list --kind run`, its last entry
+<slice branch> | `branches.py name --kind slice --id <sliceId>`
+<milestone branch> | `branches.py name --kind milestone --id <milestoneId>`
+<e2e branch> | `branches.py name --kind e2e --id <milestoneId>`
+<e2e area branch> | `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>`
+<state branch> | `branches.py name --kind state` (it makes the timestamp)
+<attempt branch> | `branches.py name --kind attempt --id <sliceId> --n <n>`
+<verify branch> | the `branch` input your prompt carries
+property-run seed=477210938 runs=2000 violations=0
+[{"ok":"sdlc/M-3-e2e"},{"ok":"sdlc/M-3-e2e-api"},{"ok":"sdlc/M-3"},{"ok":"sdlc/M-3-e2e"}]
+[{"fail":"a e2e-area branch name needs a non-empty area"},{"fail":"a e2e-area branch name needs a non-empty area"},{"fail":"a attempt branch name needs a non-empty n"},{"fail":"a milestone branch name needs a non-empty id"},{"fail":"no branch name is defined for kind 'nope'"},{"ok":"sdlc/M-1-e2e"}]
+[{"ok":"sdlc/state-20261010063120"},{"ok":"sdlc/state-20261010063120"}]
+<milestone branch> 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "milestone", "branch": "sdlc/M-7"}
+<e2e branch> 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e", "branch": "sdlc/M-7-e2e"}
+<e2e area branch> 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "e2e-area", "branch": "sdlc/M-7-e2e-api-v2"}
+<state branch> 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "state", "branch": "sdlc/state-20261010063120"}
+<attempt branch> 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-012-attempt-2"}
+no area 2 {"ok": false, "error": "a e2e-area branch name needs a non-empty area"}
+n=0 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-012-attempt-0"}
+n=-1 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-012-attempt--1"}
+n=abc 2 {"ok": false, "error": "argument --n: invalid int value: 'abc'"}
+n=99999999999999999999999 0 {"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "attempt", "branch": "sdlc/S-012-attempt-99999999999999999999999"}
+✔ verify contract: surface lists exactly eight placeholders (0.745375ms)
+✔ verify contract: <milestone branch> row equals spec cell verbatim (0.063125ms)
+✔ verify contract: <e2e branch> row equals spec cell verbatim (0.033542ms)
+✔ verify contract: <e2e area branch> row equals spec cell verbatim (0.027167ms)
+✔ verify contract: <state branch> row equals spec cell verbatim (0.030042ms)
+✔ verify contract: <attempt branch> row equals spec cell verbatim (0.023125ms)
+✔ verify contract: name() matches a reference model from the spec (property-run) (57.551333ms)
+✔ verify contract: kinds differ: e2e vs e2e-area vs milestone, deterministic (36.255375ms)
+✔ verify contract: missing parts and bad kinds are refused with Fail, never crash (32.683542ms)
+✔ verify contract: state name takes no id, has a 14-digit timestamp, parses back (36.017417ms)
+✔ verify contract: documented commands run through the consumer CLI (all five kinds), exit 0 and ok (1728.672ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1948.73175

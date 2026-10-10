@@ -1,0 +1,176 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "48d8ffe",
+  "environment": "macOS, Node 24.19, python3, cli-runner scratch git repos, repo at sdlc/S-026",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-111"
+      ],
+      "title": "Milestone row command runs and gives a format-following name",
+      "given": "A scratch git repo with .sdlc/config.json holding branchFormat sdlc/{name}",
+      "when": "Read the row in _common.md; run branches.py name --kind milestone --id M-3 with sdlc/{name} and feature/{name}",
+      "then": "The row holds the exact command; exit 0; ok true; branch sdlc/M-3 and feature/M-3; file tree unchanged",
+      "expected": "The row holds the exact command; exit 0; ok true; branch sdlc/M-3 and feature/M-3; file tree unchanged",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-111 acceptance",
+      "test": ".sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:15",
+      "command": "node --test .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command output",
+          "inline": "$ branches.py name --repo <scratch> --kind milestone --id M-3\n\u2192 exit 0 {\"ok\": true, \"kind\": \"milestone\", \"branch\": \"sdlc/M-3\"}\nfeature/{name} \u2192 feature/M-3"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-112"
+      ],
+      "title": "E2E row has no --area and its name differs from e2e-area",
+      "given": "A scratch git repo with .sdlc/config.json holding branchFormat sdlc/{name}",
+      "when": "Check row text; run --kind e2e --id M-3 and --kind e2e-area --id M-3 --area A-1",
+      "then": "Row holds no --area; names differ",
+      "expected": "Row holds no --area; names differ",
+      "actual": "sdlc/M-3-e2e and sdlc/M-3-e2e-A-1",
+      "result": "pass",
+      "specSource": "R-112 acceptance",
+      "test": ".sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:26",
+      "command": "node --test .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command output",
+          "inline": "e2e \u2192 sdlc/M-3-e2e\ne2e-area \u2192 sdlc/M-3-e2e-A-1"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-113"
+      ],
+      "title": "E2E area row works with plain and hyphenated areas; missing --area is refused",
+      "given": "A scratch git repo with .sdlc/config.json holding branchFormat sdlc/{name}",
+      "when": "Run e2e-area with area auth, user-profile; without --area; with odd areas",
+      "then": "Plain and hyphenated give sdlc/M-1-e2e-<area>; missing area exits 2 with a clear error",
+      "expected": "Plain and hyphenated give sdlc/M-1-e2e-<area>; missing area exits 2 with a clear error",
+      "actual": "auth and user-profile pass; missing area: exit 2, error 'a e2e-area branch name needs a non-empty area'",
+      "result": "pass",
+      "specSource": "R-113 acceptance",
+      "test": ".sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:36",
+      "command": "node --test .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command output",
+          "inline": "auth \u2192 sdlc/M-1-e2e-auth\nuser-profile \u2192 sdlc/M-1-e2e-user-profile\nno --area \u2192 exit 2 {\"ok\": false, \"error\": \"a e2e-area branch name needs a non-empty area\"}\nodd area 'a b' \u2192 exit 0 sdlc/M-1-e2e-a b (see seed)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-114"
+      ],
+      "title": "State row takes no --id and the command makes the timestamp",
+      "given": "A scratch git repo with .sdlc/config.json holding branchFormat sdlc/{name}",
+      "when": "Run --kind state twice with no --id",
+      "then": "Row holds no --id and says it makes the timestamp; both names match sdlc/state-<14 digits>",
+      "expected": "Row holds no --id and says it makes the timestamp; both names match sdlc/state-<14 digits>",
+      "actual": "sdlc/state-20261010063108 twice, exit 0",
+      "result": "pass",
+      "specSource": "R-114 acceptance",
+      "test": ".sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:48",
+      "command": "node --test .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command output",
+          "inline": "state \u2192 sdlc/state-20261010063108\nstate \u2192 sdlc/state-20261010063108"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-115"
+      ],
+      "title": "Attempt row with n = 2; bad n never gives a malformed name",
+      "given": "A scratch git repo with .sdlc/config.json holding branchFormat sdlc/{name}",
+      "when": "Run --kind attempt --id S-026 --n 2; then n = 0, -1, abc, 1.5, empty, huge, unicode digits",
+      "then": "n = 2 gives sdlc/S-026-attempt-2; each other value is refused (exit 2, no branch) or gives a branch of safe characters",
+      "expected": "n = 2 gives sdlc/S-026-attempt-2; each other value is refused (exit 2, no branch) or gives a branch of safe characters",
+      "actual": "abc, 1.5, empty, superscript two refused with exit 2; 0, -1, huge, ' 2', Arabic-indic 2 give safe-character names",
+      "result": "pass",
+      "specSource": "R-115 acceptance",
+      "test": ".sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:56",
+      "command": "node --test .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command output",
+          "inline": "n=2 \u2192 sdlc/S-026-attempt-2\n0 \u2192 sdlc/S-026-attempt-0\n-1 \u2192 sdlc/S-026-attempt--1\nabc \u2192 exit 2\n99999999999999999999 \u2192 sdlc/S-026-attempt-99999999999999999999\n' 2' \u2192 sdlc/S-026-attempt-2"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-111",
+        "R-112",
+        "R-113",
+        "R-114",
+        "R-115"
+      ],
+      "title": "Table has eight rows and each name command runs",
+      "given": "A scratch git repo with .sdlc/config.json holding branchFormat sdlc/{name}",
+      "when": "Count rows in _common.md; run name for slice, milestone, e2e, e2e-area, state, attempt; run prompts.test.mjs (STE check)",
+      "then": "Eight rows; every command exits 0; prompts.test.mjs 77 of 77 pass",
+      "expected": "Eight rows; every command exits 0; prompts.test.mjs 77 of 77 pass",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-111..R-115 acceptance",
+      "test": ".sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:70",
+      "command": "node --test .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command output",
+          "inline": "slice sdlc/S-1\nmilestone sdlc/M-1\ne2e sdlc/M-1-e2e\ne2e-area sdlc/M-1-e2e-a\nstate sdlc/state-20261010063111\nattempt sdlc/S-1-attempt-1\nprompts.test.mjs: tests 77 pass 77 fail 0"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "branches.py name accepts ids that make an invalid git ref",
+      "detail": "--area 'a b' gives sdlc/M-1-e2e-a b, and --id 'a b' with --kind slice gives sdlc/a b. git check-ref-format refuses both. branches.py does not check id, area or n for git-unsafe characters. Not required by R-111..R-115; earlier slices own branches.py.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py name accepts n = 0, negative n and very large n",
+      "detail": "--n 0 gives sdlc/S-026-attempt-0, --n -1 gives sdlc/S-026-attempt--1, a 20-digit n is accepted, and the Arabic-indic digit gives attempt-2. The names are valid refs but may be unintended.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
