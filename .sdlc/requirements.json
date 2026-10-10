@@ -5383,7 +5383,7 @@
         "TC-cli-1",
         "TC-contract-1"
       ],
-      "commit": "pending"
+      "commit": "f6e36d5"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5404,7 +5404,7 @@
         "T-R-063a",
         "T-R-080"
       ],
-      "commit": "pending"
+      "commit": "f6e36d5"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5772,7 +5772,7 @@
         "T-R-063a",
         "T-R-080"
       ],
-      "commit": "pending"
+      "commit": "f6e36d5"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5848,7 +5848,7 @@
         "T-R-063a",
         "T-R-080"
       ],
-      "commit": "pending"
+      "commit": "f6e36d5"
     },
     "notes": "added by the completeness critic (statements)"
   },
