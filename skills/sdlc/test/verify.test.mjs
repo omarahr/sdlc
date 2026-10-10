@@ -401,3 +401,15 @@ test('with no profile tests the review still runs, after verification', async ()
   assert.equal(order.filter(r => r === 'reviewer').length, 3)
   assert.ok(order.indexOf('regression') < order.indexOf('reviewer'))
 })
+
+test('T-R-051a verifyPhase names the verify branches through args.branchFormat', async () => {
+  const rt = await loadInternals(scripted({
+    'verify-planner': plan(['ui']),
+    verifier: () => clear(),
+    'verify-ui': () => clear(),
+    'verify-collector': () => ok(),
+  }), { branchFormat: 'feature/PROJ-1-{name:lower}' })
+  await rt.I.verifyPhase('S-1', 2)
+  assert.equal(rt.calls.find(c => c.role === 'verify-ui').inputs.branch, 'feature/PROJ-1-s-1-v2-ui-0')
+  assert.deepEqual(rt.calls.find(c => c.role === 'verify-collector').inputs.branches, ['feature/PROJ-1-s-1-v2-ui-0'])
+})

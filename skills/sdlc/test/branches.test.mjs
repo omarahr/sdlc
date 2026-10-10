@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { chmodSync, copyFileSync, mkdirSync, readFileSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { SKILL_DIR, scratch } from './harness.mjs'
+import { SKILL_DIR, scratch, loadInternals, scriptSource } from './harness.mjs'
 
 const BRANCHES = join(SKILL_DIR, 'branches.py')
 const SCRIPTS = ['next-action.py', 'state-write.py', 'janitor.py']
@@ -2692,4 +2692,44 @@ test('T-R-101 parse of a name outside the loop kinds prints no kind', opts, () =
   const out = cliParse(DEFAULT_FMT, 'sdlc/feature-x')
   assert.equal(out.ok, true)
   assert.equal(out.kind, null)
+})
+
+test('T-R-050a BRANCH_FORMAT defaults to sdlc/{name} and follows args.branchFormat', async () => {
+  const fallback = await loadInternals()
+  assert.equal(fallback.I.BRANCH_FORMAT, 'sdlc/{name}')
+  const custom = await loadInternals(undefined, { branchFormat: PLAIN_FMT })
+  assert.equal(custom.I.BRANCH_FORMAT, PLAIN_FMT)
+})
+
+test('T-R-050b branchName fills the format and lowercases the whole name for the lower modifier', async () => {
+  const fallback = await loadInternals()
+  assert.equal(fallback.I.branchName('S-001'), 'sdlc/S-001')
+  const plain = await loadInternals(undefined, { branchFormat: PLAIN_FMT })
+  assert.equal(plain.I.branchName('S-001'), 'feature/PROJ-1-S-001')
+  const lower = await loadInternals(undefined, { branchFormat: LOWER_FMT })
+  assert.equal(lower.I.branchName('S-001'), 'feature/PROJ-1-s-001')
+  assert.equal(lower.I.branchName('S-001-v0-Http-0'), 'feature/PROJ-1-s-001-v0-http-0')
+})
+
+test('T-R-116a the internals export branchName and BRANCH_FORMAT', async () => {
+  const rt = await loadInternals()
+  assert.equal(typeof rt.I.branchName, 'function')
+  assert.equal(typeof rt.I.BRANCH_FORMAT, 'string')
+})
+
+test('T-R-051b the loop script builds no sdlc/ branch literal, and the verify branch matches branches.py', opts, async () => {
+  assert.doesNotMatch(scriptSource(), /`sdlc\/\$\{/)
+  const rt = await loadInternals()
+  const r = run(['name', '--repo', gitRepo(), '--kind', 'verify', '--id', 'S-001', '--round', '2', '--profile', 'http-api', '--part', '3'])
+  assert.equal(r.status, 0, r.stderr + r.stdout)
+  assert.equal(rt.I.branchName('S-001-v2-http-api-3'), oneObject(r).branch)
+})
+
+test('T-R-075a the loop script and the module name branches the same way', opts, async () => {
+  for (const fmt of [DEFAULT_FMT, PLAIN_FMT, LOWER_FMT]) {
+    const rt = await loadInternals(undefined, { branchFormat: fmt })
+    const r = run(['name', '--repo', gitRepo(), '--kind', 'verify', '--id', 'S-001', '--round', '2', '--profile', 'http-api', '--part', '3', '--format', fmt])
+    assert.equal(r.status, 0, `${fmt}: ${r.stderr}${r.stdout}`)
+    assert.equal(rt.I.branchName('S-001-v2-http-api-3'), oneObject(r).branch, fmt)
+  }
 })
