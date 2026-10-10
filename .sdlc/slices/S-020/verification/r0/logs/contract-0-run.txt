@@ -1,0 +1,104 @@
+property seed=20261010 runs=1500
+both placeholders -> a-{name}-ab
+hostile mismatches [{"f":"sdlc/{name}","t":"$&","got":"sdlc/{name}","want":"sdlc/$&"},{"f":"sdlc/{name}","t":"$$","got":"sdlc/$","want":"sdlc/$$"},{"f":"sdlc/{name}","t":"$'","got":"sdlc/","want":"sdlc/$'"},{"f":"sdlc/{name}","t":"$`","got":"sdlc/sdlc/","want":"sdlc/$`"},{"f":"sdlc/{name}","t":"a$&b","got":"sdlc/a{name}b","want":"sdlc/a$&b"},{"f":"p-{name:lower}","t":"$&","got":"p-{name:lower}","want":"p-$&"},{"f":"p-{name:lower}","t":"$$","got":"p-$","want":"p-$$"},{"f":"p-{name:lower}","t":"$'","got":"p-","want":"p-$'"},{"f":"p-{name:lower}","t":"$`","got":"p-p-","want":"p-$`"},{"f":"p-{name:lower}","t":"a$&b","got":"p-a{name:lower}b","want":"p-a$&b"}]
+compared 360
+hits []
+✔ verify contract VS-1: BRANCH_FORMAT default, empty and prefixed; INTERNALS types (2.358375ms)
+✔ verify contract VS-2: examples (2.65225ms)
+✔ verify contract VS-2: property against a split/join reference model (3.503416ms)
+✔ verify contract VS-2: format with both placeholders (observed) (0.307208ms)
+✖ verify contract VS-2: hostile dollar tails stay literal (1.571667ms)
+✔ verify contract VS-3: loop and branches.py agree on the verify branch (57851.59125ms)
+✔ verify contract VS-4: verifyPhase branches go through the format (1.945625ms)
+✔ verify contract VS-4: source holds no sdlc/ template literal with substitution (0.533584ms)
+✔ verify contract VS-5: env-detector inputs (2.873125ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57952.396416
+
+✖ failing tests:
+
+test at ../../../../../../../Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-020/verification/r0/tests/contract-0/loop-branch.verify-contract.test.mjs:64:1
+✖ verify contract VS-2: hostile dollar tails stay literal (1.571667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   {
+  +     f: 'sdlc/{name}',
+  +     got: 'sdlc/{name}',
+  +     t: '$&',
+  +     want: 'sdlc/$&'
+  +   },
+  +   {
+  +     f: 'sdlc/{name}',
+  +     got: 'sdlc/$',
+  +     t: '$$',
+  +     want: 'sdlc/$$'
+  +   },
+  +   {
+  +     f: 'sdlc/{name}',
+  +     got: 'sdlc/',
+  +     t: "$'",
+  +     want: "sdlc/$'"
+  +   },
+  +   {
+  +     f: 'sdlc/{name}',
+  +     got: 'sdlc/sdlc/',
+  +     t: '$`',
+  +     want: 'sdlc/$`'
+  +   },
+  +   {
+  +     f: 'sdlc/{name}',
+  +     got: 'sdlc/a{name}b',
+  +     t: 'a$&b',
+  +     want: 'sdlc/a$&b'
+  +   },
+  +   {
+  +     f: 'p-{name:lower}',
+  +     got: 'p-{name:lower}',
+  +     t: '$&',
+  +     want: 'p-$&'
+  +   },
+  +   {
+  +     f: 'p-{name:lower}',
+  +     got: 'p-$',
+  +     t: '$$',
+  +     want: 'p-$$'
+  +   },
+  +   {
+  +     f: 'p-{name:lower}',
+  +     got: 'p-',
+  +     t: "$'",
+  +     want: "p-$'"
+  +   },
+  +   {
+  +     f: 'p-{name:lower}',
+  +     got: 'p-p-',
+  +     t: '$`',
+  +     want: 'p-$`'
+  +   },
+  +   {
+  +     f: 'p-{name:lower}',
+  +     got: 'p-a{name:lower}b',
+  +     t: 'a$&b',
+  +     want: 'p-a$&b'
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-020/verification/r0/tests/contract-0/loop-branch.verify-contract.test.mjs:74:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { f: 'sdlc/{name}', t: '$&', got: 'sdlc/{name}', want: 'sdlc/$&' }, { f: 'sdlc/{name}', t: '$$', got: 'sdlc/$', want: 'sdlc/$$' }, { f: 'sdlc/{name}', t: "$'", got: 'sdlc/', want: "sdlc/$'" }, { f: 'sdlc/{name}', t: '$`', got: 'sdlc/sdlc/', want: 'sdlc/$`' }, { f: 'sdlc/{name}', t: 'a$&b', got: 'sdlc/a{name}b', want: 'sdlc/a$&b' }, { f: 'p-{name:lower}', t: '$&', got: 'p-{name:lower}', want: 'p-$&' }, { f: 'p-{name:lower}', t: '$$', got: 'p-$', want: 'p-$$' }, { f: 'p-{name:lower}', t: "$'", got: 'p-', want: "p-$'" }, { f: 'p-{name:lower}', t: '$`', got: 'p-p-', want: 'p-$`' }, { f: 'p-{name:lower}', t: 'a$&b', got: 'p-a{name:lower}b', want: 'p-a$&b' } ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,87 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "The loop script reads the branch format from its arguments or falls back to sdlc/{name}",
+      "requirementIds": [
+        "R-050",
+        "R-116"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Inputs: no branchFormat, empty string, a prefixed format. Empty string must fall back. INTERNALS must export BRANCH_FORMAT as a string and branchName as a function."
+    },
+    {
+      "id": "VS-2",
+      "title": "branchName substitutes the placeholder and lowercases the tail for {name:lower}",
+      "requirementIds": [
+        "R-050",
+        "R-051"
+      ],
+      "profiles": [
+        "contract",
+        "security"
+      ],
+      "notes": "Inputs: plain, prefixed and lower formats; tails with uppercase, '$&', '$1', '$$', slash, unicode, empty tail; a format with no placeholder; a format with both placeholders. String.replace treats '$' patterns in the replacement, so a hostile tail must not alter the result."
+    },
+    {
+      "id": "VS-3",
+      "title": "The loop script and branches.py name the verifier branch the same way",
+      "requirementIds": [
+        "R-075",
+        "R-051"
+      ],
+      "profiles": [
+        "cli",
+        "contract"
+      ],
+      "notes": "Run branches.py name --kind verify for sdlc/{name}, feature/PROJ-1-{name} and feature/PROJ-1-{name:lower} with several ids, rounds, profiles and parts. Compare with rt.I.branchName on the tail <id>-v<round>-<profile>-<part>. Include a profile name with uppercase and a hyphen (http-api)."
+    },
+    {
+      "id": "VS-4",
+      "title": "verifyPhase builds the profile-agent and collector branches through the format",
+      "requirementIds": [
+        "R-051"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Run verifyPhase with a custom format and with the default. Check the branch passed to each profile agent and to the collector. The script source must hold no template literal that starts with sdlc/ followed by a substitution."
+    },
+    {
+      "id": "VS-5",
+      "title": "The env-detector receives branchFormat",
+      "requirementIds": [
+        "R-052"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Inputs: no argument (null), an empty string (null), a format string. The input object must equal the five-key shape and carry the string unchanged."
+    }
+  ],
+  "tools": [
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Generate tails and formats and call the loop functions",
+      "exists": true
+    },
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run branches.py name from a scratch project and compare with the loop output",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Hostile tails: dollar patterns, traversal, unicode, control characters",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "The loop script names verifier branches, and a mismatch with branches.py breaks verification plumbing.",
+  "notes": "No I/O boundary except the branches.py comparison. Contract is tagged first because it covers every scenario."
+}
