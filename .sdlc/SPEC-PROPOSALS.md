@@ -19,3 +19,8 @@
 - Source: contradiction ADR-20261009-211807-decision-judge-S-014-6a1c
 - Proposal: In spec section 3 (line 107), replace "The literal `null` body, an error, or an empty `branch_name_regex` means no rule" with "A successful `null` body, a JSON object without `branch_name_regex`, or an empty `branch_name_regex` means no rule." Keep the glab failure sentence: a non-zero exit, missing glab, non-JSON output or timeout gives the note `rules unknown on gitlab: <stderr>` and unchecked samples.
 - Rationale: The word "error" conflicts with the failure sentence in the same paragraph. ADR f2c2 and e148 already set the behavior. Only the wording is wrong.
+
+### P-20261010-012416: State the test impact of the deleted Branch name bullet
+- Source: contradiction ADR-20261010-012416-decision-judge-S-018-b1c1
+- Proposal: In spec section 5, add one sentence. It says that the assertion on the deleted "Branch name (first run only)" bullet moves to the Branch format bullet. It keeps the first-run-only and resume wording.
+- Rationale: The spec deletes text that an existing test pins. One sentence removes the conflict for later slices.
