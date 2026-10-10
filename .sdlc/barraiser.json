@@ -2270,6 +2270,28 @@
       "title": "janitor uses split, not validate_format",
       "detail": "A format such as a{b}/{name} gives no note; nothing is deleted because no branch matches.",
       "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "Promoted test title lacks the requirement id prefix",
+      "detail": "The promoted test is named 'every name command in the _common.md branch table runs against branches.py'. Other tests in prompts.test.mjs start with T-R-<id>. Rename it to start with T-R-089b.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "T-R-062 parse pattern accepts two spellings",
+      "detail": "The regex /branches\\.py` parse|branches\\.py parse/ is loose. T-R-117 already pins the exact parse command. Drop the loose check or pin one spelling.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "_common.md says parse prints null; it prints JSON with kind null",
+      "detail": "The Branch names bullet says parse prints null for a foreign branch and that name prints a name. Both commands print a JSON object (kind null, branch field). Reword to say kind null and the branch field.",
+      "file": "skills/sdlc/prompts/_common.md"
+    },
+    {
+      "title": "S-025 r0 contract verification test fails at load when run from the repo root",
+      "detail": "`node --test` on .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs failed at file level with no individual test failing. The cause is likely a path or cwd assumption. I did not investigate it.",
+      "file": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs"
     }
   ]
 }
