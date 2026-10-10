@@ -1,0 +1,19 @@
+{
+  "scenarios": [
+    {"id": "VS-1", "title": "A failing gh rules read gives one bounded note without the token", "requirementIds": ["R-029", "R-084"], "profiles": ["cli", "security"], "notes": "Risk: gh stderr with a token reaches stdout. Try stderr with a token line plus HTTP 403, HTTP/2 404, and a token line with no status. Expect one note starting rules unknown on github:, the status code, no token text, every sample unchecked, ok true."},
+    {"id": "VS-2", "title": "A failing glab rules read gives one bounded note without the token", "requirementIds": ["R-031", "R-084"], "profiles": ["cli", "security"], "notes": "Risk: shim stderr and its secret reach the note and stdout. Try the glab stub failing with HTTP 401 and a token line, glab absent, and glab not signed in. Expect one note starting rules unknown on gitlab: and no secret in stdout or stderr."},
+    {"id": "VS-3", "title": "A gh failure with 10 MB of stderr finishes with a short note", "requirementIds": ["R-029"], "profiles": ["cli", "security", "limits"], "notes": "Risk: the note or stdout grows with stderr. Put the secret in the first line, the last line and the middle of 10 MB. Expect a note under 200 characters, stdout under 20000 characters, ok true, and no secret anywhere. Also try a slow gh against FORGE_TIMEOUT. The 200 and 20000 numbers come from the slice plan."},
+    {"id": "VS-4", "title": "A missing tool or a timeout gives a one-line note of at most 200 characters", "requirementIds": ["R-084", "R-029", "R-031"], "profiles": ["cli", "security", "contract"], "notes": "Risk: launch and timeout errors keep newlines, long text or paths. Try gh and glab absent from PATH, a timeout, and a launch error text of several lines and 5000 characters. Expect one line, at most 200 characters plus the prefix, a type-name fallback for empty text, and no home path in stdout."},
+    {"id": "VS-5", "title": "The failure text reads the exit status and the HTTP code only", "requirementIds": ["R-029", "R-031"], "profiles": ["contract", "security"], "notes": "Boundary: _forge_failure and _bounded through pycall.py. Try stderr that is empty, boom, HTTP 4031, HTTP 40, http 403 in lower case, two codes, a code inside a token, CRLF, NUL and unicode. Expect gh exited with status N, plus (HTTP ddd) only for one exact three-digit code. Never copy other stderr text. Never raise."}
+  ],
+  "tools": [
+    {"id": "cli-runner", "profile": "cli", "purpose": "Run branches.py preflight with gh and glab shims on PATH in a scratch repo", "exists": true},
+    {"id": "glab-stub", "profile": "cli", "purpose": "Fake glab that fails with chosen stderr and exit code", "exists": true},
+    {"id": "attack-corpus", "profile": "security", "purpose": "Token-shaped and hostile stderr payloads", "exists": true},
+    {"id": "property", "profile": "contract", "purpose": "Call _forge_failure and _bounded with generated text through pycall.py", "exists": true},
+    {"id": "measure", "profile": "limits", "purpose": "Measure note and stdout size and run time for 10 MB stderr", "exists": false}
+  ],
+  "risk": "medium",
+  "riskReason": "One boundary, the forge CLI call in branches.py, with a secret-leak concern but no data loss and an easy fix.",
+  "notes": "Tag order puts cli and security first. The medium cap keeps four profiles: cli, security, contract and limits. The spec states no number for limits; the 200 and 20000 limits come from plan.md."
+}

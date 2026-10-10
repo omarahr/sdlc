@@ -262,14 +262,22 @@
     "notes": "SC-M-1-059 (R-029, R-084): Expected: One note that starts with `rules unknown on github:`, with the status code and no secret. Observed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Spec source: spec section 3, gh api failure. E2E test: e2e/tests/faults.test.mjs > SC-M-1-059 gh api failure is one note and samples are unchecked. SC-M-1-061 (R-031, R-084): Expected: One note that starts with `rules unknown on gitlab:` and no secret in any output. Observed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Spec source: R-031 acceptance. E2E test: e2e/tests/faults.test.mjs > SC-M-1-061 glab failure or absence gives one rules unknown note. SC-M-1-064 (R-029): Expected: Every variant finishes with ok true and one bounded note that holds no secret. Observed: A gh failure with 10 MB of stderr gives a note that holds all stderr; stdout is 10486340 bytes and holds the secret. The other variants pass. Spec source: Assumptions: a rules read that fails is a note, never a block. E2E test: e2e/tests/faults.test.mjs > SC-M-1-064 slow, huge and invalid gh answers finish with a bounded note. Test phase: remove these scenario ids from e2e/pending.json so their e2e tests fail; they are this slice's failing tests.",
     "counters": {
       "planRevisions": 0,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
     },
-    "ledger": []
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-fix-M-1-3",
