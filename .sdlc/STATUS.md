@@ -1,5 +1,5 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T12:49:55Z
+Updated: 2026-10-10T12:50:45Z
 
 Requirements: 142/151 done · 0 parked · 0 stubbed · 0 obsolete
 Slices: 37/40 done · current: S-036 scenario-runner, env-detector, milestone-writer and e2e-harness prompts use branch placeholders · awaiting merge: none
