@@ -5371,7 +5371,7 @@
     "specRef": "§1",
     "quote": "| `state` | `state-<UTC timestamp, %Y%m%d%H%M%S>` | `sdlc/state-20261008101500` | pr |",
     "acceptance": "The state kind is a pushed branch in pr mode only: the pr preflight samples it and the stack preflight does not.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5386,7 +5386,7 @@
     "specRef": "§1",
     "quote": "| `run` | `run-<n>` | `sdlc/run-1` | stack |",
     "acceptance": "The run and milestone kinds are pushed in stack mode only: the stack preflight samples them and the pr preflight does not; the e2e kind is sampled in pr mode only.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

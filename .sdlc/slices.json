@@ -4457,8 +4457,8 @@
       "S-016"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-032",
     "pr": "",
     "risk": "medium",
