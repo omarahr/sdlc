@@ -2120,7 +2120,7 @@
         ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:32",
         ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3425888ba2a16d2c447aab6df3fd4352248c1a65"
     },
     "notes": ""
   },
@@ -2145,7 +2145,7 @@
         ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:74",
         ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3425888ba2a16d2c447aab6df3fd4352248c1a65"
     },
     "notes": ""
   },
@@ -2187,7 +2187,7 @@
         ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:90",
         ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3425888ba2a16d2c447aab6df3fd4352248c1a65"
     },
     "notes": ""
   },
@@ -2208,7 +2208,7 @@
         "T-R-049",
         ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3425888ba2a16d2c447aab6df3fd4352248c1a65"
     },
     "notes": ""
   },
@@ -3398,7 +3398,7 @@
         ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:83",
         ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3425888ba2a16d2c447aab6df3fd4352248c1a65"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
