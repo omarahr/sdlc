@@ -2632,6 +2632,16 @@
       "title": "scenario VS-5 note differs from the janitor rule",
       "detail": "The plan note says a verify branch whose slice is not in the ledger stays. The janitor docstring says it goes. The code follows the docstring.",
       "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "Last sentence repeats the one before it",
+      "detail": "'This check is first run only: on a resume ...' and 'On a resume, run no parse check and ask for no rename' say the same thing. Merge them into one sentence in a later edit.",
+      "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "Redundant none-case sentence",
+      "detail": "'With none, give preflight no --format argument' repeats 'with --format when you have one'. It is explicit and harmless.",
+      "file": "skills/sdlc/SKILL.md"
     }
   ]
 }
