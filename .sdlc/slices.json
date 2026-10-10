@@ -4394,12 +4394,30 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-031",
     "pr": "",
     "risk": "medium",
     "riskReason": "Preflight reads forge rules through shell calls.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "T-R-140a partly repeats T-R-030a",
+        "detail": "T-R-030a already pins the single glab call and argv at read_rules level. T-R-140a adds the preflight path and the no-group check, so the overlap is small. No change needed.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-127a partly repeats existing evaluate cases",
+        "detail": "Cases near line 1441 already pin unanchored match ('S-001') and anchored non-match ('^S-001'). Keep only if the acceptance literals are wanted.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Trailing-slash format refused only by git check-ref-format",
+        "detail": "feature/PROJ-123-{name}/ passes the brace and whitespace checks and fails at the git check-ref-format step. This is correct and the error names check-ref-format. No action needed.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4410,7 +4428,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-032",

@@ -1,0 +1,9 @@
+$ branches.py preflight --mode pr --format sdlc/{name}..
+{"ok": false, "error": "the branch format 'sdlc/{name}..' gives 'sdlc/S-001..', which git check-ref-format refuses: fatal: 'sdlc/S-001..' is not a valid branch name"}
+exit=2
+$ branches.py name --kind slice --id S-001 --format feature/PROJ-123-{name}
+{"ok": true, "command": "name", "format": "feature/PROJ-123-{name}", "kind": "slice", "branch": "feature/PROJ-123-S-001"}
+exit=0
+$ preflight mr, no config
+{"ok": true, "command": "preflight", "format": "sdlc/{name}", "args": {"repo": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/tmp.kvKRsf2Bii", "mode": "mr", "branch": null}, "given": false, "derived": false, "suggestion": "", "forge": "", "rules": [], "samples": [], "notes": []}
+exit=0

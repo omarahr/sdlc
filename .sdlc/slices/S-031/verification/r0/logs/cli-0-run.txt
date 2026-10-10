@@ -1,0 +1,19 @@
+✔ verify cli: VS-1 regex rule unanchored, boundary via preflight (TC-cli-1) (602.139125ms)
+✔ verify cli: VS-1 anchored ^feature/ fails sdlc/ default and passes feature/ format (TC-cli-2) (1198.93475ms)
+✔ verify cli: VS-1 invalid and empty regex pattern (TC-cli-3) (1879.943667ms)
+✔ verify cli: VS-2 gitlab reads exactly one project push rule call in pr and stack (TC-cli-4) (831.859667ms)
+✔ verify cli: VS-2 empty body and glab failure (TC-cli-5) (815.303334ms)
+✔ verify cli: VS-3 literal prefix with ticket key names slice branch (TC-cli-6) (1218.325542ms)
+✔ verify cli: VS-4 invalid ref format refused with exit 2 (TC-cli-7) (275.698583ms)
+✔ verify cli: VS-4 other invalid parts and hostile values (TC-cli-8) (6323.007625ms)
+✔ verify cli: VS-4 format is never run as a command (TC-cli-9) (525.802792ms)
+✔ verify cli: VS-5 no format and no rules keeps default in every mode (TC-cli-10) (846.283708ms)
+✔ verify cli: VS-5 github shim returning empty list keeps default (TC-cli-11) (1232.269042ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15850.75275

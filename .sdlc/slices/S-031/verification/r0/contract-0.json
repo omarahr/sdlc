@@ -1,0 +1,267 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "94acd53",
+  "environment": "Python 3 with node --test, branches.py loaded by path through the testkit property setup; cli-runner, stub-server gh shim and glab-stub in scratch directories",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-127"
+      ],
+      "title": "Spec examples for regex evaluate",
+      "given": "evaluate with a regex rule",
+      "when": "pattern feature on x/feature/y; ^feature/ on sdlc/S-001; ^feature/ on feature/S-001",
+      "then": "True, False, True",
+      "expected": "True, False, True",
+      "actual": "True, False, True (observed)",
+      "result": "pass",
+      "specSource": "R-127 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:42",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "type-check",
+          "title": "examples",
+          "inline": "regex_eval('feature','x/feature/y') -> true\nregex_eval('^feature/','sdlc/S-001') -> false\nregex_eval('^feature/','feature/S-001') -> true"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-127"
+      ],
+      "title": "Corners: empty, invalid, newline, multiline anchors",
+      "given": "edge patterns",
+      "when": "empty pattern; invalid ( and [; ^a$ on 'a\\n'; ^feature on 'x\\nfeature'",
+      "then": "empty matches; invalid gives None without exception; search semantics hold",
+      "expected": "empty matches; invalid gives None without exception; search semantics hold",
+      "actual": "empty matches; invalid gives None without exception; search semantics hold (observed)",
+      "result": "pass",
+      "specSource": "R-127 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:50",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-127"
+      ],
+      "title": "Property: regex search equals reference model",
+      "given": "generated literal patterns with optional ^ and $",
+      "when": "2000 runs, seed 4227400405, negate included",
+      "then": "0 violations against the substring/prefix/suffix/equality model",
+      "expected": "0 violations against the substring/prefix/suffix/equality model",
+      "actual": "0 violations against the substring/prefix/suffix/equality model (observed)",
+      "result": "pass",
+      "specSource": "R-127 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:65",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-127"
+      ],
+      "title": "Determinism: same input, same output",
+      "given": "500 generated pairs",
+      "when": "two calls",
+      "then": "identical results",
+      "expected": "identical results",
+      "actual": "identical results (observed)",
+      "result": "pass",
+      "specSource": "R-127 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:82",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-127"
+      ],
+      "title": "Consumer view: preflight with GitHub regex rule",
+      "given": "pr mode, rule ^feature/",
+      "when": "custom format feature/{name}, then default format",
+      "then": "exit 0 and all pass; exit 1 and slice sample fail",
+      "expected": "exit 0 and all pass; exit 1 and slice sample fail",
+      "actual": "exit 0 and all pass; exit 1 and slice sample fail (observed)",
+      "result": "pass",
+      "specSource": "R-127 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:139",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-127"
+      ],
+      "title": "Consumer view: invalid regex rule",
+      "given": "pr mode, rule pattern (",
+      "when": "preflight",
+      "then": "no traceback; samples unevaluated with a note",
+      "expected": "no traceback; samples unevaluated with a note",
+      "actual": "no traceback; samples unevaluated with a note (observed)",
+      "result": "pass",
+      "specSource": "R-127 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:156",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-140"
+      ],
+      "title": "Preflight calls only the project push rule in pr and stack modes",
+      "given": "glab stub, bodies: branch_name_regex, empty, null, failure",
+      "when": "preflight --mode pr and --mode stack",
+      "then": "exactly one call, argv api projects/:fullpath/push_rule, no group path; one rule with source gitlab and label push rule when a regex is set",
+      "expected": "exactly one call, argv api projects/:fullpath/push_rule, no group path; one rule with source gitlab and label push rule when a regex is set",
+      "actual": "exactly one call, argv api projects/:fullpath/push_rule, no group path; one rule with source gitlab and label push rule when a regex is set (observed)",
+      "result": "pass",
+      "specSource": "R-140 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:176",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-142"
+      ],
+      "title": "Spec example for the literal prefix format",
+      "given": "format feature/PROJ-123-{name}",
+      "when": "name slice S-001, S-002, S-012a, milestone M-1; validate; trailing slash variant",
+      "then": "feature/PROJ-123-S-001 and variants; validate accepts; trailing slash refused by check-ref-format",
+      "expected": "feature/PROJ-123-S-001 and variants; validate accepts; trailing slash refused by check-ref-format",
+      "actual": "feature/PROJ-123-S-001 and variants; validate accepts; trailing slash refused by check-ref-format (observed)",
+      "result": "pass",
+      "specSource": "R-142 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:90",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-142"
+      ],
+      "title": "Property: prefix and suffix kept byte for byte",
+      "given": "1500 generated literal formats",
+      "when": "name slice",
+      "then": "prefix+id+suffix; 300 generated formats pass validate_format",
+      "expected": "prefix+id+suffix; 300 generated formats pass validate_format",
+      "actual": "prefix+id+suffix; 300 generated formats pass validate_format (observed)",
+      "result": "pass",
+      "specSource": "R-142 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:104",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-142"
+      ],
+      "title": "Consumer view: name and preflight",
+      "given": "repo with no config",
+      "when": "name command, preflight --format",
+      "then": "branch feature/PROJ-123-S-001; ok true, given true, slice sample feature/PROJ-123-S-001",
+      "expected": "branch feature/PROJ-123-S-001; ok true, given true, slice sample feature/PROJ-123-S-001",
+      "actual": "branch feature/PROJ-123-S-001; ok true, given true, slice sample feature/PROJ-123-S-001 (observed)",
+      "result": "pass",
+      "specSource": "R-142 acceptance",
+      "test": ".sdlc/slices/S-031/verification/r0/tests/contract-0/contract.verify-contract.test.mjs:201",
+      "command": "cd .sdlc/slices/S-031/verification/r0/tests/contract-0 && VERIFY_REPO=<worktree> node --test contract.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run log",
+          "path": ".sdlc/slices/S-031/verification/r0/logs/contract-0.log"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "Format with trailing slash is refused only by git check-ref-format",
+      "detail": "feature/PROJ-123-{name}/ passes the brace and whitespace checks and fails at the git check-ref-format step. This is correct and the error names check-ref-format. No action needed.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
