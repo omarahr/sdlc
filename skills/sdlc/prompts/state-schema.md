@@ -18,6 +18,7 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
   "runBranch": "",
   "targetBranch": "",
   "commitFormat": "",
+  "branchFormat": "sdlc/{name}",
   "runRequest": null,
   "commands": { "install": "", "build": "", "test": "", "lint": "", "typecheck": "", "e2e": "" },
   "environment": []
@@ -28,13 +29,14 @@ Owned by env-detector. The state-writer sets `specHash` and `overridesSeen`; the
 - `overridesSeen` counts the lines matching `^- Status: OVERRIDE` in DECISIONS.md.
 - `gitMode` is `pr`, `direct`, `mr` or `stack`.
   - `pr`: one branch and one pull request per slice (GitHub only).
-  - `direct`: the loop works on its own branch in the run worktree (`sdlc/run-<n>`). The integrator pushes finished work onto `defaultBranch` (`git push origin HEAD:<defaultBranch>`); `defaultBranch` itself is never checked out or committed to.
+  - `direct`: the loop works on its own branch, the run branch. The integrator pushes finished work onto `defaultBranch` (`git push origin HEAD:<defaultBranch>`). Nobody checks out `defaultBranch` or commits to it.
   - `mr`: as `direct`, and the integrator also pushes `defaultBranch`. It keeps one merge request against `targetBranch` (run-request.md). The request is open for the whole run. Wherever a prompt names only `pr` and `direct`, `mr` behaves as `direct`.
   - `stack`: one branch per slice inside one branch per milestone, on a run branch of their own. Slice pull requests target their milestone branch; the milestone pull request targets `defaultBranch`. GitHub only.
 - `forge` is `github`, `gitlab` or `""`.
 - `defaultBranch` is per mode, as env-detector.md applies it: in `direct` mode the branch the finished work is pushed onto — never a branch the agents check out or commit to; in `stack` mode the remote's default branch, which nothing is ever committed to directly (the working branch is `runBranch`); in `pr` mode the branch the owner's checkout is on — the branch the run builds on, normally the remote's default branch; in `mr` mode the working branch itself (the run branch, per run-request.md).
-- `runBranch` is `""` outside `stack` mode. In `stack` mode it is the branch the whole run builds on, `sdlc/run-<n>`.
+- `runBranch` is `""` outside `stack` mode. In `stack` mode it is the run branch (`run` kind under `config.branchFormat`): the branch the whole run builds on.
 - `targetBranch` is set only in `mr` mode: the branch the run's merge request targets.
+- `branchFormat` is the format of every branch the loop makes: literal text around one `{name}` (or `{name:lower}`) placeholder, which carries the loop's own tail per branch kind (`branches.py`). Set at the first launch; a resume keeps it.
 - `commitFormat` is `""` or a format for every commit subject and merge-request title (see _common.md). When it is `""`, the subjects the role files give apply.
 - `runRequest` is `null` or `{"url", "number"}`: the run's merge request, written by the integrator in `mr` mode.
 - A command that does not apply is `""`.
@@ -79,7 +81,7 @@ Array order is execution order, and a human may reorder it.
     "kind": "spec",
     "status": "todo",
     "phase": "plan",
-    "branch": "sdlc/S-001",
+    "branch": "<slice branch>",
     "pr": "",
     "risk": "",
     "riskReason": "",
@@ -91,6 +93,7 @@ Array order is execution order, and a human may reorder it.
 ]
 ```
 - `kind` is `spec`, `improvement` or `fix`. Fix slices come from the audit (`S-fix-<n>`) or from a milestone's behavior campaign (`S-fix-<milestone>-<n>`).
+- `branch` is the slice branch under `config.branchFormat`. No script reads it.
 - `risk` is `low`, `medium` or `high`, assigned by the slicer. A `low` slice skips the per-slice verification battery. The milestone's behavior campaign still covers it, and a reviewer can demand the battery again. A slice with no `risk` is unrated, and it always gets the full battery. This covers slices written before the field existed, and fix slices.
 - `status` is `todo`, `in_progress`, `awaiting-merge`, `done`, `parked` or `rejected`.
 - `phase` is `plan`, `tests`, `implement`, `gate` or `integrate`.
