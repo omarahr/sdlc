@@ -2748,6 +2748,64 @@
       "title": "New module-level name ASCII_LOWER_TABLE",
       "detail": "The diff adds `ASCII_LOWER_TABLE` and `_ascii_lower` to branches.py. The table name has no leading underscore, so it looks like part of the public surface.",
       "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "next-action.py calls private branches._ascii_lower",
+      "detail": "active_branch reaches into a private helper of another module. Rename it to ascii_lower (public) or add a public wrapper in branches.py.",
+      "file": "skills/sdlc/next-action.py",
+      "blocking": false
+    },
+    {
+      "title": "INTEGER_PARTS defined after its users",
+      "detail": "_same_part uses INTEGER_PARTS, which is defined below it after PARSE_ROWS. It works at run time. Move the constant above name for readability.",
+      "file": "skills/sdlc/branches.py",
+      "blocking": false
+    },
+    {
+      "title": "withIdPrefix self-test builds a doubled prefix",
+      "detail": "The i18n-kit self-test asserts text 'S-00S-00K' because the kelvin sample text already starts with 'S-00'. The check passes but reads as a mistake. Use a prefix such as 'X-' to make the intent clear.",
+      "file": "skills/sdlc/test/testkit/i18n-kit.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "CLI --n accepts non-ASCII digits and normalizes them",
+      "detail": "argparse type=int turns fullwidth and Arabic-Indic digits into an int. name --kind run --n <fullwidth 2> prints p/run-2 and exits 0. The name parses back to 2, so no spec source requires a refusal.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "name accepts fullwidth digits for integer parts",
+      "detail": "argparse int() turns --n=\uff11\uff12 into 12, so name prints sdlc/run-12 and the round trip passes. The output is ASCII and faithful, so this is not a defect.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "name accepts ' 2' and '+2' for --n",
+      "detail": "int() strips space and sign, so the part is normalised to 2. The round trip is faithful.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "name accepts an integer part with a trailing line feed",
+      "detail": "name('sdlc/{name}','run',n='2\\n') returns 'sdlc/run-2\\n'. The attempt kind does the same. The parse $ anchor matches before a final line feed, and the round trip compares the integer by value. 34 of 3000 property calls hit this.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a branch with a trailing line feed",
+      "detail": "The PARSE_ROWS patterns end with $, so a final line feed does not stop a match. Use \\Z or fullmatch. parse is outside this slice.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "name never compares the state ts part",
+      "detail": "TAILS['state'] lists no required parts, so _check_round_trip skips ts even when the caller gave one. The plan says to skip ts only when none was given.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "name accepts a state ts with a trailing newline",
+      "detail": "branches.name('{name}','state',ts='20260101000000\\n') returns a branch with a trailing newline. The round-trip check compares no ts, and the parse regex $ matches before a final newline. Python API only; the CLI has no --ts flag. Compare ts too, or anchor with \\Z.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "name accepts e2e-area areas that git refuses",
+      "detail": "area '../../x' gives 'sdlc/M-1-e2e-../../x', which git check-ref-format rejects. The spec states no area rule.",
+      "file": "skills/sdlc/branches.py"
     }
   ]
 }
