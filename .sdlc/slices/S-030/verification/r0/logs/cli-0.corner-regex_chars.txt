@@ -1,7 +1,0 @@
-{
-  "derived": true,
-  "ok": true,
-  "format": "f.+(a)/sdlc/{name}",
-  "status": 0,
-  "suggestion": ""
-}

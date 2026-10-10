@@ -1,7 +1,0 @@
-{
-  "derived": false,
-  "ok": false,
-  "format": "sdlc/{name}",
-  "status": 1,
-  "suggestion": "--branch-format \"my team/sdlc/{name}\""
-}

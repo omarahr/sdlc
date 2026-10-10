@@ -1,7 +1,0 @@
-{
-  "derived": true,
-  "ok": true,
-  "format": "featuresdlc/{name}",
-  "status": 0,
-  "suggestion": ""
-}
