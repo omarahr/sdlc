@@ -695,3 +695,11 @@
 - Decision: Option 1. There is no conflict. Spec section 1 (line 61) sets the order: flag, else config.branchFormat on resume. Section 5 reads $REPO/.sdlc/config.json and gives the same value. Keep the sentence. Edit no spec text. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
 - Consequences / how to reverse: The sentence is one line in skills/sdlc/SKILL.md. To remove it, delete the line and update test T-R-097. The Run worktree mismatch check still catches a wrong format on a resume.
 - Affects: S-034
+
+### ADR-20261010-113004-decision-judge-S-034-be85: End the driver on a resume when a working sample fails
+- Status: auto
+- Context: On a resume, a failed working sample still makes preflight set ok to false. R-130 only forbids the parse check and the rename ask on a resume. No OVERRIDE ADR covers this question.
+- Options: (1) End on a resume when a sample failed; keep the ok-false rule; print the samples. (2) Same, as the simplest option. (3) Same, with no continue carve-out.
+- Decision: Option 1. The driver ends on a resume with the printed samples. It asks for no rename and runs no parse check. Add no carve-out. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: The rule is one clause in the Branch format bullet of skills/sdlc/SKILL.md, pinned in prompts.test.mjs. To let a resume continue, change the clause and its pin. No script or state depends on it.
+- Affects: R-130, S-034

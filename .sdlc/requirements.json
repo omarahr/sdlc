@@ -5251,7 +5251,7 @@
     "specRef": "§5",
     "quote": "Take the format from `--branch-format` when given, else from `$REPO/.sdlc/config.json` `branchFormat` when that file exists (a finished run leaves it on the default branch), else none.",
     "acceptance": "SKILL.md orders the format sources: flag first, then the repo's config.json branchFormat when the file exists, else none; with none, preflight gets no --format argument.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5266,7 +5266,7 @@
     "specRef": "§5",
     "quote": "Run `python3 \"$SKILL_DIR/branches.py\" preflight --repo \"$REPO\" --mode <gitMode>` with `--format \"<format>\"` when you have one, and with `--branch \"$BASE_BRANCH\"` in `mr` mode.",
     "acceptance": "SKILL.md passes --format only when a format is known and --branch \"$BASE_BRANCH\" only in mr mode; no other mode gets --branch.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -5281,7 +5281,7 @@
     "specRef": "§5",
     "quote": "This check is first run only: on a resume the current branch is normally the run branch.",
     "acceptance": "On a resume, the driver does not run the $BASE_BRANCH parse check and does not ask for a rename of the current branch.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
