@@ -1,0 +1,178 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "7813019",
+  "environment": "Node test runner, python3 -I, state-write.py loaded by path from the sdlc/S-022 worktree; no network, no git remote",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-057"
+      ],
+      "title": "branch_kind classifies milestone exactly as the M-<digits> reference model",
+      "given": "1500 generated (format, branch) pairs: prefixes, suffixes, {name} and {name:lower}, middles M-n, M-n-e2e, S-, run-, odd and unicode digits, mutated prefixes",
+      "when": "call branch_kind(fmt, branch) and compare with a model written from the spec text",
+      "then": "kind is milestone exactly when the model says so",
+      "expected": "kind is milestone exactly when the model says so",
+      "actual": "kind is milestone exactly when the model says so (no violation)",
+      "result": "pass",
+      "specSource": "R-057 acceptance (kind, not regex)",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:75",
+      "command": "VERIFY_WT=$PWD node --test .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run output",
+          "inline": "property branch_kind seed=2431164117 runs=1500 milestones=162 violations=0",
+          "path": ".sdlc/slices/S-022/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-057"
+      ],
+      "title": "Under the default format the new classifier agrees with the old sdlc/M-<digits> regex",
+      "given": "1507 branches under sdlc/{name} including main, feature/other, sdlc/M-1/x, sdlc/M-0, sdlc/M-007, sdlc/M-\u0661",
+      "when": "compare branch_kind with the old regex semantics (Unicode digits, as Python \\d)",
+      "then": "0 disagreements",
+      "expected": "0 disagreements",
+      "actual": "0 disagreements (no violation)",
+      "result": "pass",
+      "specSource": "R-057 acceptance",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:93",
+      "command": "VERIFY_WT=$PWD node --test .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run output",
+          "inline": "regex-agreement cases=1507 disagreements=0 (seed 2431164117+1)",
+          "path": ".sdlc/slices/S-022/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-096"
+      ],
+      "title": "milestone_branches_with_open_slice_pr equals the reference set for random ledgers and formats",
+      "given": "1500 generated ledgers: 0-4 milestones, 0-6 slices in all statuses, fixSlices, slices with no milestone, unknown slices, lowercase formats",
+      "when": "call the function with the format",
+      "then": "returned set equals the awaiting-merge slices' milestone names built from the format",
+      "expected": "returned set equals the awaiting-merge slices' milestone names built from the format",
+      "actual": "returned set equals the awaiting-merge slices' milestone names built from the format (no violation)",
+      "result": "pass",
+      "specSource": "R-096 acceptance",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:103",
+      "command": "VERIFY_WT=$PWD node --test .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run output",
+          "inline": "open-slice-pr seed=2431164117 runs=1500 nonEmpty=578 violations=0",
+          "path": ".sdlc/slices/S-022/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-096"
+      ],
+      "title": "Documented example: only feature/PROJ-1-M-1 is returned",
+      "given": "S-001 awaiting-merge in M-1, S-002 done in M-2",
+      "when": "call with feature/PROJ-1-{name}, feature/{name:lower}, sdlc/{name}",
+      "then": "sets are {feature/PROJ-1-M-1}, {feature/m-1}, {sdlc/M-1}; empty with no pending slice or no milestone",
+      "expected": "sets are {feature/PROJ-1-M-1}, {feature/m-1}, {sdlc/M-1}; empty with no pending slice or no milestone",
+      "actual": "sets are {feature/PROJ-1-M-1}, {feature/m-1}, {sdlc/M-1}; empty with no pending slice or no milestone (no violation)",
+      "result": "pass",
+      "specSource": "R-096 acceptance; plan T-4b",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:145",
+      "command": "VERIFY_WT=$PWD node --test .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run output",
+          "inline": "4 assertions pass (see log)",
+          "path": ".sdlc/slices/S-022/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-096"
+      ],
+      "title": "Bad formats give the module Fail or a return, never another exception",
+      "given": "formats: empty, no placeholder, two placeholders, null, number, list, NUL, {id}",
+      "when": "call milestone_branches_with_open_slice_pr and branch_kind",
+      "then": "outcome is return or Fail",
+      "expected": "outcome is return or Fail",
+      "actual": "outcome is return or Fail (no violation)",
+      "result": "pass",
+      "specSource": "ADR for format problems (plan Risks)",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:158",
+      "command": "VERIFY_WT=$PWD node --test .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run output",
+          "inline": "9 formats x 2 functions pass",
+          "path": ".sdlc/slices/S-022/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-057"
+      ],
+      "title": "Consumer surface: no MILESTONE_BRANCH, no sdlc/{ literal, new signatures",
+      "given": "state-write.py loaded by path",
+      "when": "list signatures",
+      "then": "signatures take fmt; MILESTONE_BRANCH absent",
+      "expected": "signatures take fmt; MILESTONE_BRANCH absent",
+      "actual": "signatures take fmt; MILESTONE_BRANCH absent (no violation)",
+      "result": "pass",
+      "specSource": "R-057 acceptance",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs:172",
+      "command": "VERIFY_WT=$PWD node --test .sdlc/slices/S-022/verification/r0/tests/contract-0/prune.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "run output",
+          "inline": "milestone_branches_with_open_slice_pr (repo, fmt); prune_stale_milestone_branches (repo, config, keep, fmt); slice_base (..., slice_id, fmt); awaiting_merge_base (repo, slices, slice_id, fmt); MILESTONE_BRANCH false",
+          "path": ".sdlc/slices/S-022/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "Branch kind accepts Unicode digits in M-<digits>",
+      "detail": "branch_kind and the old regex both use Python \\d, so sdlc/M-\u0661 counts as a milestone branch. Behavior is unchanged from before the slice. Git accepts such names.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "pycall cannot return a Python set",
+      "detail": "testkit pycall.py serializes a set with repr. Tests that call milestone_branches_with_open_slice_pr through callPython get a string. I wrapped the call in my own test file.",
+      "file": "skills/sdlc/test/testkit/pycall.py"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+repofile 0 {"ok":true,"branch":"sdlc/S-001","commit":"e532ab5"} [ 'main', 'sdlc/M-1', 'sdlc/S-001', 'sdlc/run-1' ]
+hostile cases 150 leaked branches from patch-slice of unknown ids: ["abs-etc: ref:refs/heads/feature/PROJ-1-/etc","encoded: ref:refs/heads/feature/PROJ-1-%2e%2e/%2e%2e","negative-like: ref:refs/heads/feature/PROJ-1--1","single-dash: ref:refs/heads/feature/PROJ-1--","equals-empty: ref:refs/heads/feature/PROJ-1-=","arabic-indic: ref:refs/heads/feature/PROJ-1-٣","arabic-indic-12: ref:refs/heads/feature/PROJ-1-١٢","fullwidth: ref:refs/heads/feature/PROJ-1-１２","devanagari: ref:refs/heads/feature/PROJ-1-१","bengali: ref:refs/heads/feature/PROJ-1-২","nko: ref:refs/heads/feature/PROJ-1-߁","math-bold: ref:refs/heads/feature/PROJ-1-𝟏","superscript: ref:refs/heads/feature/PROJ-1-²","roman: ref:refs/heads/feature/PROJ-1-Ⅷ","circled: ref:refs/heads/feature/PROJ-1-①","mixed: ref:refs/heads/feature/PROJ-1-1٢","thai: ref:refs/heads/feature/PROJ-1-๑","c1-nel: ref:refs/heads/feature/PROJ-1-ab","c1-csi: ref:refs/heads/feature/PROJ-1-31m","percent: ref:refs/heads/feature/PROJ-1-%s%n%x","python-format: ref:refs/heads/feature/PROJ-1-{0.__class__}","nbsp: ref:refs/heads/feature/PROJ-1-a b","em-space: ref:refs/heads/feature/PROJ-1-a b","ideographic: ref:refs/heads/feature/PROJ-1-a　b","zwsp: ref:refs/heads/feature/PROJ-1-a​b","zwnj: ref:refs/heads/feature/PROJ-1-a‌b","zwj: ref:refs/heads/feature/PROJ-1-a‍b","bom: ref:refs/heads/feature/PROJ-1-﻿a","line-sep: ref:refs/heads/feature/PROJ-1-a b","para-sep: ref:refs/heads/feature/PROJ-1-a b","ogham: ref:refs/heads/feature/PROJ-1-a b","narrow-nbsp: ref:refs/heads/feature/PROJ-1-a b","mongolian-vs: ref:refs/heads/feature/PROJ-1-a᠎b","nbsp-only: ref:refs/heads/feature/PROJ-1- ","trailing-nbsp: ref:refs/heads/feature/PROJ-1-slice "]
+"S-001/../../x" 2 {"ok": false, "error": "git checkout -q -b feature/PROJ-1-S-001/../../x --no-track sdlc/run-1: fatal: 'feature/PROJ-1-S- | 0 {"ok": true, "slice": "S-001/../../x", "branch": "sdlc/run-1"}
+"S-1 2" 2 {"ok": false, "error": "git checkout -q -b feature/PROJ-1-S-1 2 --no-track sdlc/run-1: fatal: 'feature/PROJ-1-S-1 2' is  | 0 {"ok": true, "slice": "S-1 2", "branch": "sdlc/run-1"}
+"S-001..x" 2 {"ok": false, "error": "git checkout -q -b feature/PROJ-1-S-001..x --no-track sdlc/run-1: fatal: 'feature/PROJ-1-S-001.. | 0 {"ok": true, "slice": "S-001..x", "branch": "sdlc/run-1"}
+"-S" 2  | 2 
+"S-٣" 0 {"ok": true, "branch": "feature/PROJ-1-S-\u0663", "commit": "2aedbb4"} | 0 {"ok": true, "slice": "S-\u0663", "branch": "sdlc/run-1"}
+"S-001\u0000" null  | null 
+badfmt "feature/none" base 2 {"ok": false, "error": "the branch format 'feature/none' must hold exactly one {name} or {name:lower}, found 0"} 
+badfmt "feature/none" patch 2 {"ok": false, "error": "the branch format 'feature/none' must hold exactly one {name} or {name:lower}, found 0"} 
+badfmt "a/{name}/{name}" base 2 {"ok": false, "error": "the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"} 
+badfmt "a/{name}/{name}" patch 2 {"ok": false, "error": "the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"} 
+badfmt "a/{name:lower}{name}" base 2 {"ok": false, "error": "the branch format 'a/{name:lower}{name}' must hold exactly one {name} or {name:lower}, found 2"} 
+badfmt "a/{name:lower}{name}" patch 2 {"ok": false, "error": "the branch format 'a/{name:lower}{name}' must hold exactly one {name} or {name:lower}, found 2"} 
+badfmt "has space/{name}" base 0 {"ok": true, "slice": "S-001", "branch": "has space/M-1"} 
+badfmt "has space/{name}" patch 2 {"ok": false, "error": "git checkout -q -b has space/M-1: fatal: 'has space/M-1' is not a valid branch name\nhint: See `man git check-ref-fo 
+badfmt "x~/{name}" base 0 {"ok": true, "slice": "S-001", "branch": "x~/M-1"} 
+badfmt "x~/{name}" patch 2 {"ok": false, "error": "git checkout -q -b x~/M-1: fatal: 'x~/M-1' is not a valid branch name\nhint: See `man git check-ref-format`\nhint: D 
+badfmt "a/{name}.lock" base 0 {"ok": true, "slice": "S-001", "branch": "a/M-1.lock"} 
+badfmt "a/{name}.lock" patch 2 {"ok": false, "error": "git checkout -q -b a/M-1.lock: fatal: 'a/M-1.lock' is not a valid branch name\nhint: See `man git check-ref-format`\ 
+badfmt "{x}/{name}" base 0 {"ok": true, "slice": "S-001", "branch": "{x}/M-1"} 
+badfmt "{x}/{name}" patch 0 {"ok": true, "branch": "{x}/S-001", "commit": "35f2d94"} 
+badfmt "/{name}" base 0 {"ok": true, "slice": "S-001", "branch": "/M-1"} 
+badfmt "/{name}" patch 2 {"ok": false, "error": "git checkout -q -b /M-1: fatal: '/M-1' is not a valid branch name\nhint: See `man git check-ref-format`\nhint: Disab 
+badfmt "a//{name}" base 0 {"ok": true, "slice": "S-001", "branch": "a//M-1"} 
+badfmt "a//{name}" patch 2 {"ok": false, "error": "git checkout -q -b a//M-1: fatal: 'a//M-1' is not a valid branch name\nhint: See `man git check-ref-format`\nhint: D 
+badfmt "{name}" base 0 {"ok": true, "slice": "S-001", "branch": "M-1"} 
+badfmt "{name}" patch 0 {"ok": true, "branch": "S-001", "commit": "88a2129"} 
+fmt number | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "6536f2e"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fmt list | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "19c9898"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fmt empty->repo file | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "b09f2e6"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fmt empty->default | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "83c0fe0"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fmt broken file | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "581de62"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fmt broken file2 | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "45fadaf"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fmt empty file | base 0 {"ok": true, "slice": "S-001", "branch": "sdlc/M-1"} | patch 0 {"ok": true, "branch": "sdlc/S-001", "commit": "d9757cd"} | tree false main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+fatal: cannot lock ref 'refs/heads/feature/PROJ-1-M-1/extra': 'refs/heads/feature/PROJ-1-M-1' exists; cannot create 'refs/heads/feature/PROJ-1-M-1/extra'
+cannot create feature/PROJ-1-M-1/extra
+Automatic merge went well; stopped before committing as requested
+status 0 {"ok": true, "branch": "feature/PROJ-1-S-003", "commit": "5656d39"}
+ 
+before feature/PROJ-1-M-0x feature/PROJ-1-M-1 feature/PROJ-1-M-1-e2e feature/PROJ-1-M-1-x feature/PROJ-1-M-2 feature/PROJ-1-S-001-x feature/PROJ-1-run-1 feature/PROJ-1-run-2 feature/other main xfeature/PROJ-1-M-2
+after  feature/PROJ-1-M-0x feature/PROJ-1-M-1 feature/PROJ-1-M-1-e2e feature/PROJ-1-M-1-x feature/PROJ-1-M-3 feature/PROJ-1-S-001-x feature/PROJ-1-S-003 feature/PROJ-1-run-1 feature/PROJ-1-run-2 feature/other main xfeature/PROJ-1-M-2
+Automatic merge went well; stopped before committing as requested
+Preparing worktree (checking out 'sdlc/M-5')
+after main sdlc/M-1-e2e sdlc/M-2 sdlc/M-5 sdlc/S-002 sdlc/run-2
+feature/PROJ-1-run-1 0 {"ok": true, "branch": "feature/PROJ-1-S-001", "commit": "bdad5ca"}  feature/PROJ-1-M-1,feature/PROJ-1-S-001,feature/PROJ-1-run-1,main
+run branch contains moved main: true M contains main: true
+sdlc/run-1 0 {"ok": true, "branch": "sdlc/S-001", "commit": "d5220c7"}  main,sdlc/M-1,sdlc/S-001,sdlc/run-1
+run branch contains moved main: true M contains main: true
+other/odd-run 0 {"ok": true, "branch": "feature/PROJ-1-S-001", "commit": "6d8f0d9"}  feature/PROJ-1-M-1,feature/PROJ-1-S-001,main,other/odd-run
+run branch contains moved main: true M contains main: true
+gh calls 0
+✔ verify cli VS-1: patch-slice cuts slice from milestone under custom format (1217.675667ms)
+✔ verify cli VS-1: lowercase format and default format and repo file (3420.414917ms)
+✔ verify cli VS-1: hostile slice ids refused cleanly, tree unchanged (35893.928958ms)
+✔ verify cli VS-1: slice in slices.json with hostile id (4885.865459ms)
+✔ verify cli VS-2: awaiting-merge dep branch via format; decoy; fallbacks (2925.922333ms)
+✔ verify cli VS-3: base-branch milestone, lower, shipped, no milestone, unknown, bad format (12051.262167ms)
+✔ verify cli VS-3/7: non-string, empty, broken repo file (9125.280167ms)
+✔ verify cli VS-4/5: prune keeps milestone with open slice PR (2548.9465ms)
+✔ verify cli VS-5: default format prune; worktree-held branch stays; file has no regex (2553.150417ms)
+✔ verify cli VS-6: run branch stays full name and is advanced (5606.594ms)
+✔ verify cli: gh-free (no network) - prune uses no gh (1234.1415ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82044.52625

@@ -1,0 +1,341 @@
+HOSTILE_PATCH {"n":128,"tracebacks":0,"dirty":[]}
+BADFMT [
+ {
+  "label": "no placeholder",
+  "cmd": "base",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "the branch format 'feature/plain' must hold exactly one {name} or {name:lower}, found 0"
+ },
+ {
+  "label": "no placeholder",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "the branch format 'feature/plain' must hold exactly one {name} or {name:lower}, found 0"
+ },
+ {
+  "label": "two placeholders",
+  "cmd": "base",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"
+ },
+ {
+  "label": "two placeholders",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"
+ },
+ {
+  "label": "two mixed",
+  "cmd": "base",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, foun"
+ },
+ {
+  "label": "two mixed",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, foun"
+ },
+ {
+  "label": "stray brace",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "stray brace",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "whitespace",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "whitespace",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "git checkout -q -b feature /M-1: fatal: 'feature /M-1' is not a valid branch name\nhint: Se"
+ },
+ {
+  "label": "git-unsafe tilde",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "git-unsafe tilde",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "git checkout -q -b feat~/M-1: fatal: 'feat~/M-1' is not a valid branch name\nhint: See `man"
+ },
+ {
+  "label": "git-unsafe colon",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "git-unsafe colon",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "git checkout -q -b feat:/M-1: fatal: 'feat:/M-1' is not a valid branch name\nhint: See `man"
+ },
+ {
+  "label": "double dot",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "double dot",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "git checkout -q -b a..b/M-1: fatal: 'a..b/M-1' is not a valid branch name\nhint: See `man g"
+ },
+ {
+  "label": "trailing lock",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "trailing lock",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "git checkout -q -b M-1.lock: fatal: 'M-1.lock' is not a valid branch name\nhint: See `man g"
+ },
+ {
+  "label": "leading dash",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "leading dash",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "err": "git checkout -q -b -x/M-1: fatal: '-x/M-1' is not a valid branch name\nhint: See `man git c"
+ },
+ {
+  "label": "non-string number",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string number",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string array",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string array",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string object",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string object",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string true",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ },
+ {
+  "label": "non-string true",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "err": ""
+ }
+]
+BROKEN_CONFIG 2 {"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-c9lO09/testkit-cli-uhtIQL/repo-370/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double qu 
+SDLC_LITERALS []
+GH_CALLS []
+UNKNOWN_SLICE 2 no slice S-404 in slices.json on feature/PROJ-1-S-404 {"added":["ref:refs/heads/feature/PROJ-1-S-404"],"removed":[],"changed":["ref:HEAD"],"empty":false} feature/PROJ-1-S-404,feature/PROJ-1-run-1,main
+FLAGID --detach 2 git checkout -q -b --detach --no-track run-1: fatal: '--detach' is not a valid branch name
+hint: See `man git check-ref- run-1
+FLAGID -f 2 git checkout -q -b -f --no-track run-1: fatal: '-f' is not a valid branch name
+hint: See `man git check-ref-format`
+hint run-1
+FLAGID --orphan 2 git checkout -q -b --orphan --no-track run-1: fatal: '--orphan' is not a valid branch name
+hint: See `man git check-ref- run-1
+FLAGID -D 2 git checkout -q -b -D --no-track run-1: fatal: '-D' is not a valid branch name
+hint: See `man git check-ref-format`
+hint run-1
+✔ verify security: custom format creates feature/ branches and no sdlc/ branch (TC-1) (1600.560625ms)
+✔ verify security: lowercase and default and repo-file format (TC-2) (3124.342709ms)
+✔ verify security: hostile slice ids on patch-slice refuse cleanly and leave tree unchanged (TC-3) (46327.768083ms)
+✔ verify security: hostile slice ids on base-branch refuse cleanly (TC-4) (18220.662167ms)
+✖ verify security: dependency awaiting-merge uses the format branch, ignores decoy sdlc/S-001 (TC-5) (979.903959ms)
+✖ verify security: milestone base, shipped milestone, no milestone, unknown slice (TC-6) (1045.806917ms)
+✔ verify security: bad branchFormat values refuse with json error on every path (TC-7) (28470.794875ms)
+✔ verify security: non-string/empty branchFormat falls back to repo file or default; broken file refuses (TC-8) (2437.203667ms)
+✔ verify security: prune deletes only shipped milestone kind; keeps e2e, slice, run, others, worktree-held (TC-9) (8873.832583ms)
+✔ verify security: file holds no MILESTONE_BRANCH and no sdlc/{ literal (TC-10) (0.743916ms)
+✔ verify security: prune never calls the network via gh (TC-11) (1275.751ms)
+✔ verify security: run branch outside the format is not rewritten; config unchanged (TC-12) (1334.621083ms)
+✖ verify security: unknown slice on patch-slice leaves no stray branch (TC-13) (1113.206125ms)
+✔ verify security: format-injected flag-like ids with format {name} cannot reach git as options (TC-14) (2625.426375ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 11
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 117901.764417
+
+✖ failing tests:
+
+test at .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:82:1
+✖ verify security: dependency awaiting-merge uses the format branch, ignores decoy sdlc/S-001 (TC-5) (979.903959ms)
+  AssertionError [ERR_ASSERTION]: tree unchanged
+  + actual - expected
+  
+  + {
+  +   added: [],
+  +   changed: [],
+  +   empty: true,
+  +   removed: []
+  + }
+  - []
+  
+      at clean (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:34:37)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:86:85)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { added: [], removed: [], changed: [], empty: true },
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:91:1
+✖ verify security: milestone base, shipped milestone, no milestone, unknown slice (TC-6) (1045.806917ms)
+  AssertionError [ERR_ASSERTION]: tree unchanged
+  + actual - expected
+  
+  + {
+  +   added: [],
+  +   changed: [],
+  +   empty: true,
+  +   removed: []
+  + }
+  - []
+  
+      at clean (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:34:37)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:95:46)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { added: [], removed: [], changed: [], empty: true },
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:184:1
+✖ verify security: unknown slice on patch-slice leaves no stray branch (TC-13) (1113.206125ms)
+  AssertionError [ERR_ASSERTION]: branch left behind for an unknown slice
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-022/verification/r0/tests/security-0/state-write.verify-security.test.mjs:190:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
