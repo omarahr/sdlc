@@ -2626,6 +2626,26 @@ test('T-R-100c a rule that answers for one sample name can fail only that sample
   assert.ok(out.samples.filter((s) => s.name !== 'sdlc/S-001').every((s) => s.result === 'pass'))
 })
 
+test('T-R-100d a rule whose pattern is not a string is unevaluated and never crashes preflight', opts, () => {
+  const odd = [
+    ['regex', 5],
+    ['regex', null],
+    ['regex', ['a']],
+    ['starts_with', 5],
+    ['contains', {}],
+    ['ends_with', null],
+  ]
+  for (const [operator, pattern] of odd) {
+    const shim = gh({ type: 'branch_name_pattern', parameters: { operator, pattern } })
+    const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], shim)
+    const label = `${operator} ${JSON.stringify(pattern)}`
+    assert.equal(status, 0, label)
+    assert.equal(out.derived, false, label)
+    assert.ok(resultsOf(out).every((r) => r === 'unevaluated'), label)
+    assert.ok(out.notes.some((n) => n.startsWith('cannot evaluate ')), label)
+  }
+})
+
 test('T-R-074a preflight through gh and glab shims covers the seven scenarios', opts, () => {
   let r = prRun([])
   assert.equal(r.status, 0)

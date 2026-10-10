@@ -11,3 +11,4 @@ Branches.py already holds the preflight paths. These tests pin them, so they pas
 - T-R-100b — R-100 — characterization: an empty list gives pass on every sample
 - T-R-100c — R-100 — characterization: a per-sample rule fails only its sample
 - T-R-074a — R-074 — characterization: seven shim scenarios in one test
+- T-R-100d — R-100 — promoted from the cli verifier: a rule with a non-string pattern is unevaluated and preflight does not crash

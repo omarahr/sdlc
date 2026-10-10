@@ -76,6 +76,8 @@ def ref_format_error(ref):
 
 
 def regex_error(pattern):
+    if not isinstance(pattern, str):
+        return "the pattern is not a string"
     try:
         re.compile(pattern)
     except (re.error, OverflowError) as e:
@@ -196,6 +198,8 @@ def read_rules(repo, samples):
 
 
 def _raw_result(kind, pattern, sample):
+    if kind in ("starts_with", "ends_with", "contains", "regex") and not isinstance(pattern, str):
+        return None
     if kind == "starts_with":
         return sample.startswith(pattern)
     if kind == "ends_with":
@@ -235,6 +239,8 @@ def judge(rules, sample):
             kind = rule.get("kind")
             if kind == "regex":
                 reason = regex_error(rule.get("pattern"))
+            elif kind in ("starts_with", "ends_with", "contains"):
+                reason = "the pattern is not a string"
             else:
                 reason = f"unknown kind {kind}"
             notes.append(f"cannot evaluate {label}: {reason}")
