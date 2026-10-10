@@ -3371,7 +3371,7 @@
       "tests": [
         "_common.md defines every branch placeholder and env-detector records the format"
       ],
-      "commit": "pending"
+      "commit": "932fbaf925b178f804285c543b1fb7fb27e22ef4"
     },
     "notes": ""
   },
@@ -3390,7 +3390,7 @@
       "tests": [
         "every prompt file passes the STE linter, with no allowlist and no skips"
       ],
-      "commit": "pending"
+      "commit": "932fbaf925b178f804285c543b1fb7fb27e22ef4"
     },
     "notes": ""
   },
