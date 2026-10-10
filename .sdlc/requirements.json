@@ -4541,13 +4541,21 @@
     "specRef": "§8",
     "quote": "| `<milestone branch>` | `branches.py name --kind milestone --id <milestoneId>` |",
     "acceptance": "_common.md's placeholder table maps `<milestone branch>` to `branches.py name --kind milestone --id <milestoneId>`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-111: the milestone branch placeholder maps to branches.py name",
+        "TC-cli-1: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:15",
+        "TC-cli-6: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:70",
+        "TC-contract-1: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:25",
+        "TC-contract-6: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:44"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -4556,13 +4564,21 @@
     "specRef": "§8",
     "quote": "| `<e2e branch>` | `branches.py name --kind e2e --id <milestoneId>` |",
     "acceptance": "_common.md's placeholder table maps `<e2e branch>` to `branches.py name --kind e2e --id <milestoneId>`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-112: the e2e branch placeholder maps to branches.py name",
+        "TC-cli-2: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:26",
+        "TC-cli-6: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:70",
+        "TC-contract-2: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:25",
+        "TC-contract-6: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:44"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -4571,13 +4587,21 @@
     "specRef": "§8",
     "quote": "| `<e2e area branch>` | `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>` |",
     "acceptance": "_common.md's placeholder table maps `<e2e area branch>` to `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-113: the e2e area branch placeholder maps to branches.py name",
+        "TC-cli-3: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:36",
+        "TC-cli-6: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:70",
+        "TC-contract-3: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:25",
+        "TC-contract-6: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:44"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -4586,13 +4610,21 @@
     "specRef": "§8",
     "quote": "| `<state branch>` | `branches.py name --kind state` (it makes the timestamp) |",
     "acceptance": "_common.md's placeholder table maps `<state branch>` to `branches.py name --kind state`, which makes the timestamp.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-114: the state branch placeholder takes no id and makes the timestamp",
+        "TC-cli-4: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:48",
+        "TC-cli-6: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:70",
+        "TC-contract-4: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:25",
+        "TC-contract-6: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:44"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -4601,13 +4633,21 @@
     "specRef": "§8",
     "quote": "| `<attempt branch>` | `branches.py name --kind attempt --id <sliceId> --n <n>` |",
     "acceptance": "_common.md's placeholder table maps `<attempt branch>` to `branches.py name --kind attempt --id <sliceId> --n <n>`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-115: the attempt branch placeholder maps to branches.py name",
+        "TC-cli-5: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:56",
+        "TC-cli-6: .sdlc/slices/S-026/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:70",
+        "TC-contract-5: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:25",
+        "TC-contract-6: .sdlc/slices/S-026/verification/r0/tests/contract-0/placeholder-table.verify-contract.test.mjs:44"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },

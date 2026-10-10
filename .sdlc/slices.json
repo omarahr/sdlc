@@ -3763,13 +3763,29 @@
       "S-025"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-026",
     "pr": "",
     "risk": "medium",
     "riskReason": "The remaining placeholder rows steer milestone, e2e, state and attempt branch naming.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "branches.py name accepts ids that make an invalid git ref",
+        "detail": "--area 'a b' gives sdlc/M-1-e2e-a b, and --kind slice --id 'a b' gives sdlc/a b. git check-ref-format refuses both. Not required by R-111 to R-115.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.py name accepts n = 0, negative n and very large n",
+        "detail": "--n 0 gives attempt-0, --n -1 gives attempt--1, and a 20-digit n is accepted. The names are valid refs but may be unintended.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "attempt --n accepts 0 and negative numbers",
+        "detail": "branches.py name --kind attempt --n 0 gives sdlc/S-012-attempt-0. --n -1 gives sdlc/S-012-attempt--1. The spec does not forbid them.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3779,8 +3795,24 @@
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "57f40d9443ba2ccc6b540a47982ed73445f14b1c"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-027",
