@@ -2598,7 +2598,7 @@
         "TC-security-8 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:145",
         "TC-security-9 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:193"
       ],
-      "commit": "pending"
+      "commit": "5e2209849765d36a75b57d52a523343a377a61e2"
     },
     "notes": ""
   },
@@ -3165,7 +3165,7 @@
         "TC-security-8 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:145",
         "TC-security-9 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:193"
       ],
-      "commit": "pending"
+      "commit": "5e2209849765d36a75b57d52a523343a377a61e2"
     },
     "notes": ""
   },
@@ -3338,7 +3338,7 @@
         "TC-security-8 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:145",
         "TC-security-9 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:193"
       ],
-      "commit": "pending"
+      "commit": "5e2209849765d36a75b57d52a523343a377a61e2"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
@@ -3405,7 +3405,7 @@
         "TC-security-8 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:145",
         "TC-security-9 .sdlc/slices/S-024/verification/r0/tests/security-0/janitor.verify-security.test.mjs:193"
       ],
-      "commit": "pending"
+      "commit": "5e2209849765d36a75b57d52a523343a377a61e2"
     },
     "notes": "added by the completeness critic (statements)"
   },
