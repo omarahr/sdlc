@@ -1354,7 +1354,7 @@
         ".sdlc/slices/S-fix-M-1-2/verification/r0/tests/limits-0/forge-limits.verify-limits.test.mjs:6",
         ".sdlc/slices/S-fix-M-1-2/verification/r0/tests/cli-0/forge-note.verify-cli.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3ced478ef34a95db680cc5a4767278103ea458a7"
     },
     "notes": "M-1 campaign SC-M-1-059 failed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Fix slice S-fix-M-1-2. M-1 campaign SC-M-1-064 failed: A gh failure with 10 MB of stderr gives a note that holds all stderr; stdout is 10486340 bytes and holds the secret. The other variants pass. Fix slice S-fix-M-1-2."
   },
@@ -1484,7 +1484,7 @@
         ".sdlc/slices/S-fix-M-1-2/verification/r0/tests/limits-0/forge-limits.verify-limits.test.mjs:6",
         ".sdlc/slices/S-fix-M-1-2/verification/r0/tests/cli-0/forge-note.verify-cli.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3ced478ef34a95db680cc5a4767278103ea458a7"
     },
     "notes": "M-1 campaign SC-M-1-061 failed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Fix slice S-fix-M-1-2."
   },
@@ -3596,7 +3596,7 @@
         ".sdlc/slices/S-fix-M-1-2/verification/r0/tests/limits-0/forge-limits.verify-limits.test.mjs:6",
         ".sdlc/slices/S-fix-M-1-2/verification/r0/tests/cli-0/forge-note.verify-cli.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "3ced478ef34a95db680cc5a4767278103ea458a7"
     },
     "notes": "added by the completeness critic (cross-cutting) M-1 campaign SC-M-1-059 failed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Fix slice S-fix-M-1-2. M-1 campaign SC-M-1-061 failed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Fix slice S-fix-M-1-2."
   },
