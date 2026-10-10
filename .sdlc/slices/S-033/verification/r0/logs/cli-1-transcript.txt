@@ -1,5 +1,0 @@
-$ janitor.py --repo <scratch> --days 36500  (branchFormat "feature/{name")
-{"removedDirs": 0, "removedBranches": [], "notes": ["the branch format is unusable; no branch was deleted (the branch format 'feature/{name' must hold exactly one {name} or {name:lower}, found 0)"]}
-exit=0
-* main
-  sdlc/S-001-v0-x-0
