@@ -1,0 +1,260 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "fecc565",
+  "environment": "Python 3.14.7, Node 24.19.0, git; next-action.py run as a CLI and loaded by path through the testkit pycall; main script from git archive of main (8450221)",
+  "surface": "active_branch(repo, current, fmt)  [changed: new fmt argument]\ndecide(repo, spec_arg, bar_rounds, prs_file, main_root=None)  [unchanged shape]\nmain()\nhelpers unchanged: run, as_list, branch_slices, pr_ready, load_prs, current_branch, children, settled, slim_slice\nNo extra export. The only signature change is active_branch(..., fmt), which the plan names.",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Lowercased open and merged heads resolve to the ledger id",
+      "given": "Format feature/PROJ-1-{name:lower}; slice S-1; head feature/proj-1-s-1",
+      "when": "Run next-action.py with an open PR, then with a merged PR on an awaiting-merge slice",
+      "then": "retryMerge for S-1 in both runs",
+      "expected": "retryMerge for S-1 in both runs",
+      "actual": "open: sliceId S-1, status awaiting-merge; merged: sliceId S-1, slice.pr equals the merged url",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:60",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"examples verbatim\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "open head feature/proj-1-s-1 -> retryMerge S-1 awaiting-merge\nmerged head feature/proj-1-s-1 -> retryMerge S-1, pr=https://example.test/pr/4"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Unknown ids stay ignored and case folding exists only under :lower",
+      "given": "Formats :lower and plain; slice S-1",
+      "when": "Open and merged heads for S-99 and S-98; lowercased id and lowercased prefix under the plain format",
+      "then": "No retryMerge for unknown ids; the plain format resolves only the exact head",
+      "expected": "No retryMerge for unknown ids; the plain format resolves only the exact head",
+      "actual": "unknown -> slice; plain format with s-1 or proj-1 -> slice; exact PROJ-1-S-1 -> retryMerge",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:70",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"unknown ids stay ignored\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "feature/proj-1-s-99 -> slice\nfeature/PROJ-1-s-1 (plain) -> slice\nfeature/proj-1-S-1 (plain) -> slice\nfeature/PROJ-1-S-1 (plain) -> retryMerge"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Ledger ids that differ only in case resolve deterministically",
+      "given": "Ledger S-a and S-A; format :lower; head feature/proj-1-s-a",
+      "when": "Run twice",
+      "then": "retryMerge for one ledger id, same output both times",
+      "expected": "retryMerge for one ledger id, same output both times",
+      "actual": "sliceId S-a (first in ledger order); identical JSON on the second run",
+      "result": "pass",
+      "specSource": "R-054 quote (ids=by_id)",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:83",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"ledger ids that differ only in case\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "case-only-differing ledger ids -> S-a"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-053",
+        "R-054"
+      ],
+      "title": "Active branch under :lower resolves by case folding; a foreign number does not",
+      "given": "Branch feature/proj-1-s-1 holds S-1 in_progress; branch feature/proj-1-s-2 holds S-1 in_progress",
+      "when": "Run next-action.py, then compare the tree",
+      "then": "checkout is feature/proj-1-s-1; no checkout for the s-2 branch; the tree does not change",
+      "expected": "checkout is feature/proj-1-s-1; no checkout for the s-2 branch; the tree does not change",
+      "actual": "as expected, tree unchanged",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:94",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"active branch resolves\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "checkout=feature/proj-1-s-1\nforeign branch -> checkout null"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Unicode and hostile heads never resolve and never crash",
+      "given": "Format :lower; slices S-1, S-12",
+      "when": "Open and merged heads: fullwidth digit, dotless i, Kelvin sign, trailing space, NUL, emoji, 15000 characters, flag-like, empty, traversal",
+      "then": "exit 0 and no retryMerge for each head",
+      "expected": "exit 0 and no retryMerge for each head",
+      "actual": "all 11 heads exit 0 and give no retryMerge",
+      "result": "pass",
+      "specSource": "R-054 acceptance (a foreign head is ignored)",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:107",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"hostile\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "11 heads, 0 crashes, 0 retryMerge"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Property: head resolution matches a model written from the spec text",
+      "given": "5 formats (3 :lower, 2 plain), random ledgers of 1 to 4 ids, random heads (cased known, unknown, foreign)",
+      "when": "Run decide() through pycall on 1000 generated fixtures",
+      "then": "retryMerge exactly when a head equals prefix+id+suffix (case-folded under :lower), with the first matching ledger id",
+      "expected": "retryMerge exactly when a head equals prefix+id+suffix (case-folded under :lower), with the first matching ledger id",
+      "actual": "0 violations in 1000 runs",
+      "result": "pass",
+      "specSource": "R-054 quote and acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:117",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"property against a spec-text\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "VS-3 property",
+          "inline": "property=head resolution vs reference model\nseed=20261010 runs=1000 result=pass violations=0 shrunk=none (the testkit does not shrink)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-055",
+        "R-077"
+      ],
+      "title": "Absent, empty, null and explicit default branchFormat give the same decisions, equal to main",
+      "given": "Config with no key, empty string, null, sdlc/{name}; heads sdlc/S-1, sdlc/state-<stamp>, sdlc/M-1-e2e, sdlc/M-1-e2e-ui, sdlc/M-1 in pr, stack and direct mode; branch sdlc/S-1 in progress",
+      "when": "Run next-action.py for each config and for the main-branch script",
+      "then": "Identical JSON across the four configs and equal to main",
+      "expected": "Identical JSON across the four configs and equal to main",
+      "actual": "identical: slice PR retryMerge, two merge commands, stack hold wait, e2e head slice, checkout sdlc/S-1",
+      "result": "pass",
+      "specSource": "R-055 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:172",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"absent, empty and null\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run",
+          "inline": "4 configs x 6 scenarios identical; 6 scenarios equal to main"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-077"
+      ],
+      "title": "Property: default-format decisions equal main for generated sdlc heads",
+      "given": "No branchFormat; modes pr, stack and direct; 20 head shapes; open and merged",
+      "when": "Run decide() of the branch and of main on 1000 generated fixtures",
+      "then": "Equal output",
+      "expected": "Equal output",
+      "actual": "980 equal. 20 differ, all in stack mode with the heads sdlc/M-2-e2e-ui, sdlc/M-1-, sdlc/M- or sdlc/M-1/x: main held the run, the branch does not. This follows R-054 (the hold keeps the milestone kind only). See seeds.",
+      "result": "pass",
+      "specSource": "R-077 acceptance; R-054 quote",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:221",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"default format property\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "VS-5 default vs main",
+          "inline": "seed=20261011 runs=1000 result=pass differences-from-main=20 (all explained)"
+        },
+        {
+          "kind": "log",
+          "title": "differences",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/contract-0-default-diff.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-055"
+      ],
+      "title": "A non-string or invalid branchFormat fails clearly",
+      "given": "branchFormat 7, true, array, object, x, sdlc/{name, {name}{name}, sdlc/{id}, 1.5, two placeholders",
+      "when": "Run next-action.py with PRs and with a branch",
+      "then": "Exit 0 with action error and a reason that names the format; no Traceback",
+      "expected": "Exit 0 with action error and a reason that names the format; no Traceback",
+      "actual": "no Traceback for 12 values; reason such as: Fail: the branch format must be a string",
+      "result": "pass",
+      "specSource": "R-055 (load_format semantics)",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:255",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-021> VERIFY_MAIN_SCRIPT=<main next-action.py> VERIFY_LOGS=.sdlc/slices/S-021/verification/r0/logs node --test --test-name-pattern=\"invalid or non-string\" .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "outcomes",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/contract-0-invalid-format.json"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "branches.parse accepts a trailing newline in a head",
+      "detail": "The slice, milestone and state patterns end with $, which matches before a final newline. A head of feature/proj-1-s-1 plus a newline resolves to S-1 (probe at test line 272). Git and gh refuse such names, so the head cannot occur. Use fullmatch.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "Default-format stack hold changed for e2e-area and malformed milestone heads",
+      "detail": "Under the default format in stack mode, main held the run on sdlc/M-2-e2e-ui and on sdlc/M-1-. The branch ignores both, because they do not parse to the milestone kind. This follows R-054 but changes the old behavior.",
+      "file": "skills/sdlc/next-action.py"
+    },
+    {
+      "title": "next-action.py does not run validate_format",
+      "detail": "A format with whitespace, such as a b/{name}, passes through decide and matches heads. preflight rejects it earlier, so only a hand-edited config reaches this.",
+      "file": "skills/sdlc/next-action.py"
+    }
+  ]
+}

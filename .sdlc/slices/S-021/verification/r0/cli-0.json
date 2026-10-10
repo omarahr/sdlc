@@ -1,0 +1,304 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "fecc565",
+  "environment": "Node 24.19, Python 3.14.7, git, scratch repos from testkit cli-runner, PR lists from --prs files (no gh, no network)",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "Active slice branch found by parse under feature/PROJ-1-{name}; sdlc/S-1, feature/PROJ-1-sdlc-foo and a branch whose ledger lacks its id are not active",
+      "given": "one repo, in-progress slice on feature/PROJ-1-S-1 (and, in a second repo, only foreign branches)",
+      "when": "run next-action.py --repo",
+      "then": "checkout is feature/PROJ-1-S-1 in the first repo; null and a plan-phase S-1 in the second",
+      "expected": "checkout is feature/PROJ-1-S-1 in the first repo; null and a plan-phase S-1 in the second",
+      "actual": "checkout is feature/PROJ-1-S-1 in the first repo; null and a plan-phase S-1 in the second",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:51",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "A checked-out slice branch is the active one and needs no checkout",
+      "given": "two in-progress branches, S-2 checked out",
+      "when": "run next-action.py",
+      "then": "checkout null, next.slice.id S-2",
+      "expected": "checkout null, next.slice.id S-2",
+      "actual": "checkout null, next.slice.id S-2",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:74",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "Hostile branch names (fullwidth digit, flag-like, 200 chars, confusable, zero-width, unicode, huge int) are never active and cause no traceback",
+      "given": "8 hostile branches whose ledger marks S-1 in progress",
+      "when": "run next-action.py",
+      "then": "checkout null, no Traceback",
+      "expected": "checkout null, no Traceback",
+      "actual": "checkout null, no Traceback",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:84",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "State and e2e heads give merge commands; e2e-area, foreign and default-format heads give none; prefix fallback for a state head with no timestamp; none in stack or direct mode",
+      "given": "pr mode, custom format, PR list file",
+      "when": "run next-action.py with --prs",
+      "then": "merge 12 (state), merge 13 (e2e), none for e2e-ui/foreign/sdlc heads, merge 17 for state-abc, wait for a blocked state head",
+      "expected": "merge 12 (state), merge 13 (e2e), none for e2e-ui/foreign/sdlc heads, merge 17 for state-abc, wait for a blocked state head",
+      "actual": "merge 12 (state), merge 13 (e2e), none for e2e-ui/foreign/sdlc heads, merge 17 for state-abc, wait for a blocked state head",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:99",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Lowercased head resolves to ledger id S-1; merged lowercased head gives retryMerge with pr recorded; unknown id ignored; non-lower format rejects a lowercased head",
+      "given": "format feature/PROJ-1-{name:lower}",
+      "when": "run next-action.py with open and merged PR lists",
+      "then": "retryMerge for S-1 with awaiting-merge and pr https://example.test/pr/4; no retryMerge for s-9 or for lowercase head under the strict format",
+      "expected": "retryMerge for S-1 with awaiting-merge and pr https://example.test/pr/4; no retryMerge for s-9 or for lowercase head under the strict format",
+      "actual": "retryMerge for S-1 with awaiting-merge and pr https://example.test/pr/4; no retryMerge for s-9 or for lowercase head under the strict format",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:120",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Stack milestone head holds the run with id and url; e2e, foreign and default-format heads do not; pr mode does not hold",
+      "given": "stack mode, milestone M-2, custom format",
+      "when": "run next-action.py",
+      "then": "wait naming M-2 and the pr url; not wait for the other heads",
+      "expected": "wait naming M-2 and the pr url; not wait for the other heads",
+      "actual": "wait naming M-2 and the pr url; not wait for the other heads",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:140",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-055",
+        "R-077"
+      ],
+      "title": "Absent, empty and null branchFormat fall back to sdlc/{name} for all five recognitions; non-string and invalid formats return a clear error JSON without a trace",
+      "given": "config variants, direct and pr mode",
+      "when": "run next-action.py",
+      "then": "fallback recognized; error reason names the branch format",
+      "expected": "fallback recognized; error reason names the branch format",
+      "actual": "fallback recognized; error reason names the branch format",
+      "result": "pass",
+      "specSource": "R-055 acceptance R-077 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:155",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-076"
+      ],
+      "title": "Decision output is identical with and without the foreign head feature/PROJ-1-sdlc-foo across the sync, slice-PR, stack-hold and active-branch decisions",
+      "given": "one custom-format repo per decision",
+      "when": "run next-action.py twice, with and without the foreign head",
+      "then": "deep-equal JSON; merges are 12 and 13 only",
+      "expected": "deep-equal JSON; merges are 12 and 13 only",
+      "actual": "deep-equal JSON; merges are 12 and 13 only",
+      "result": "pass",
+      "specSource": "R-076 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:183",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-077"
+      ],
+      "title": "Default format gives byte-equal decisions to main for the same inputs",
+      "given": "five PR-list shapes and one active branch",
+      "when": "run main's and the slice's next-action.py on the same repo",
+      "then": "equal exit status and JSON",
+      "expected": "equal exit status and JSON",
+      "actual": "equal exit status and JSON",
+      "result": "pass",
+      "specSource": "R-077 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs:202",
+      "command": "VERIFY_WT=<worktree of sdlc/S-021> VERIFY_BASE=<worktree of main> VERIFY_LOG=<file> node --test .sdlc/slices/S-021/verification/r0/tests/cli-0/next-action.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "next-action.py transcripts (command line, stdout, stderr, exit code, duration)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo tree diff per transcript (unchanged: the command writes nothing)",
+          "path": ".sdlc/slices/S-021/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "name": "hostile branch names",
+      "result": "no traceback, never active",
+      "case": "TC-cli-3"
+    },
+    {
+      "name": "invalid branchFormat values (123, list, object, true, no placeholder, wrong placeholder, doubled, unclosed)",
+      "result": "clear error JSON, exit 0, no traceback",
+      "case": "TC-cli-7"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "spec-vs-code: merged_heads uses parse, not name",
+      "detail": "R-054 quote says merged_heads is looked up with name(fmt, \"slice\", id=...). The code keys merged_heads by the parsed id instead. Behavior matches in every case run (TC-cli-5, TC-cli-9), so this is a wording difference only.",
+      "file": "skills/sdlc/next-action.py"
+    },
+    {
+      "title": "active_branch matches ledger ids without case under a non-lower format",
+      "detail": "active_branch compares ids with .lower() even when the format does not lower-case names. The slice parse pattern is case-sensitive, so no case was found where it changes a decision.",
+      "file": "skills/sdlc/next-action.py"
+    }
+  ]
+}

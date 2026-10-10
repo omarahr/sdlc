@@ -1,0 +1,36 @@
+case-only-differing ledger ids -> S-a
+property-run seed=20261010 runs=1000 violations=0
+✔ verify contract VS-3: examples verbatim (305.05725ms)
+✔ verify contract VS-3: unknown ids stay ignored, and the lower format is the only case-folding one (432.564ms)
+✔ verify contract VS-3: ledger ids that differ only in case (285.082041ms)
+✔ verify contract VS-3: active branch resolves through case folding and rejects foreign shapes (624.806792ms)
+✖ verify contract VS-3: unicode and hostile heads never resolve and never crash (237.196084ms)
+✔ verify contract VS-3: property against a spec-text reference model (74365.298958ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 76841.951292
+
+✖ failing tests:
+
+test at .sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:107:1
+✖ verify contract VS-3: unicode and hostile heads never resolve and never crash (237.196084ms)
+  AssertionError [ERR_ASSERTION]: "feature/proj-1-s-1\n"
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-021/verification/r0/tests/contract-0/next-action.verify-contract.test.mjs:113:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'retryMerge',
+    expected: 'retryMerge',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

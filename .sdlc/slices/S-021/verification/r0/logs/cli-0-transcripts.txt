@@ -1,0 +1,1133 @@
+=== TC-cli-1a
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-1 --bar-raiser-rounds 0
+exit: 0 (161 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-1 is in progress at phase implement",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": "feature/PROJ-1-S-1"
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-1 (unchanged)
+=== TC-cli-1b
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-2
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-2 --bar-raiser-rounds 0
+exit: 0 (120 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-2 (unchanged)
+=== TC-cli-1c
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-3
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-3 --bar-raiser-rounds 0
+exit: 0 (177 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-1 is in progress at phase implement",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": "feature/PROJ-1-S-1"
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-M79hrE/repo-3 (unchanged)
+=== TC-cli-2
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ciqMBh/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ciqMBh/repo-1 --bar-raiser-rounds 0
+exit: 0 (174 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "B: S-2 is in progress at phase implement",
+    "sliceId": "S-2",
+    "slice": {
+      "id": "S-2",
+      "kind": "spec",
+      "status": "in_progress",
+      "phase": "implement",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ciqMBh/repo-1 (unchanged)
+=== TC-cli-3
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-8NdBRE/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-8NdBRE/repo-1 --bar-raiser-rounds 0
+exit: 0 (131 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-8NdBRE/repo-1 (unchanged)
+=== TC-cli-4a
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-2/prs.json
+exit: 0 (84 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 12 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 (unchanged)
+=== TC-cli-4b
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-3/prs.json
+exit: 0 (113 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 13 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 (unchanged)
+=== TC-cli-4c
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-4/prs.json
+exit: 0 (106 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 (unchanged)
+=== TC-cli-4d
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-5/prs.json
+exit: 0 (81 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 17 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 (unchanged)
+=== TC-cli-4e
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-6/prs.json
+exit: 0 (80 ms)
+--- stdout
+{
+  "next": {
+    "action": "wait",
+    "reason": "A: state PR https://example.test/pr/feature/PROJ-1-state-abc is not ready to merge, and the default branch is missing the state it carries"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-1 (unchanged)
+=== TC-cli-4f
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-7
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-7 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-8/prs.json
+exit: 0 (105 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-7 (unchanged)
+=== TC-cli-4g
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-9
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-9 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/prs-10/prs.json
+exit: 0 (120 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-zBWzjM/repo-9 (unchanged)
+=== TC-cli-5a
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/prs-2/prs.json
+exit: 0 (137 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/feature/proj-1-s-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1 (unchanged)
+=== TC-cli-5b
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-3
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-3 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/prs-4/prs.json
+exit: 0 (103 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 was merged; record it",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/4"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-3 (unchanged)
+=== TC-cli-5c
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/prs-5/prs.json
+exit: 0 (110 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1 (unchanged)
+=== TC-cli-5d
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/prs-6/prs.json
+exit: 0 (158 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/feature/PROJ-1-S-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-1 (unchanged)
+=== TC-cli-5e
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-7
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-7 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/prs-8/prs.json
+exit: 0 (153 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/feature/proj-1-s-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-7 (unchanged)
+=== TC-cli-5f
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-9
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-9 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/prs-10/prs.json
+exit: 0 (138 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-S33H79/repo-9 (unchanged)
+=== TC-cli-6a
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/prs-2/prs.json
+exit: 0 (112 ms)
+--- stdout
+{
+  "next": {
+    "action": "wait",
+    "reason": "B: milestone M-2 is not merged yet (https://example.test/pr/feature/PROJ-1-M-2); the next milestone branches from runBranch, which only moves once this pull request merges, so the run holds until a human merges it"
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 (unchanged)
+=== TC-cli-6b0
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/prs-3/prs.json
+exit: 0 (121 ms)
+--- stdout
+{
+  "next": {
+    "action": "audit",
+    "reason": "F: the audit is missing"
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 (unchanged)
+=== TC-cli-6b1
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/prs-4/prs.json
+exit: 0 (106 ms)
+--- stdout
+{
+  "next": {
+    "action": "audit",
+    "reason": "F: the audit is missing"
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 (unchanged)
+=== TC-cli-6b2
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/prs-5/prs.json
+exit: 0 (100 ms)
+--- stdout
+{
+  "next": {
+    "action": "audit",
+    "reason": "F: the audit is missing"
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-1 (unchanged)
+=== TC-cli-6c
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-6
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-6 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/prs-7/prs.json
+exit: 0 (102 ms)
+--- stdout
+{
+  "next": {
+    "action": "audit",
+    "reason": "F: the audit is missing"
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-o1kTlU/repo-6 (unchanged)
+=== TC-cli-7a{}
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-2/prs.json
+exit: 0 (134 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/sdlc/S-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-1 (unchanged)
+=== TC-cli-7a{"branchFormat":""}
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-8
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-8 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-9/prs.json
+exit: 0 (129 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/sdlc/S-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-8 (unchanged)
+=== TC-cli-7a{"branchFormat":null}
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-15
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-15 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-16/prs.json
+exit: 0 (133 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/sdlc/S-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-15 (unchanged)
+=== TC-cli-7bad direct 123
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-22
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-22 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-23/prs.json
+exit: 0 (93 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-22 (unchanged)
+=== TC-cli-7bad pr 123
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-24
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-24 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-25/prs.json
+exit: 0 (73 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-24 (unchanged)
+=== TC-cli-7bad direct ["a"]
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-26
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-26 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-27/prs.json
+exit: 0 (126 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-26 (unchanged)
+=== TC-cli-7bad pr ["a"]
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-28
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-28 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-29/prs.json
+exit: 0 (97 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-28 (unchanged)
+=== TC-cli-7bad direct {"a":1}
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-30
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-30 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-31/prs.json
+exit: 0 (116 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-30 (unchanged)
+=== TC-cli-7bad pr {"a":1}
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-32
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-32 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-33/prs.json
+exit: 0 (116 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-32 (unchanged)
+=== TC-cli-7bad direct true
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-34
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-34 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-35/prs.json
+exit: 0 (121 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-34 (unchanged)
+=== TC-cli-7bad pr true
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-36
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-36 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-37/prs.json
+exit: 0 (81 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format must be a string"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-36 (unchanged)
+=== TC-cli-7bad direct "no-placeholder"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-38
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-38 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-39/prs.json
+exit: 0 (178 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format 'no-placeholder' must hold exactly one {name} or {name:lower}, found 0"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-38 (unchanged)
+=== TC-cli-7bad pr "no-placeholder"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-40
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-40 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-41/prs.json
+exit: 0 (105 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format 'no-placeholder' must hold exactly one {name} or {name:lower}, found 0"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-40 (unchanged)
+=== TC-cli-7bad direct "x/{foo}"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-42
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-42 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-43/prs.json
+exit: 0 (138 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format 'x/{foo}' must hold exactly one {name} or {name:lower}, found 0"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-42 (unchanged)
+=== TC-cli-7bad pr "x/{foo}"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-44
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-44 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-45/prs.json
+exit: 0 (92 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format 'x/{foo}' must hold exactly one {name} or {name:lower}, found 0"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-44 (unchanged)
+=== TC-cli-7bad direct "{name}{name}"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-46
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-46 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-47/prs.json
+exit: 0 (116 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format '{name}{name}' must hold exactly one {name} or {name:lower}, found 2"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-46 (unchanged)
+=== TC-cli-7bad pr "{name}{name}"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-48
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-48 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-49/prs.json
+exit: 0 (99 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format '{name}{name}' must hold exactly one {name} or {name:lower}, found 2"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-48 (unchanged)
+=== TC-cli-7bad direct "a/{name"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-50
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-50 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-51/prs.json
+exit: 0 (106 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format 'a/{name' must hold exactly one {name} or {name:lower}, found 0"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-50 (unchanged)
+=== TC-cli-7bad pr "a/{name"
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-52
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-52 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/prs-53/prs.json
+exit: 0 (97 ms)
+--- stdout
+{
+  "next": {
+    "action": "error",
+    "reason": "next-action.py failed: Fail: the branch format 'a/{name' must hold exactly one {name} or {name:lower}, found 0"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-ynawxn/repo-52 (unchanged)
+=== TC-cli-8a
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/prs-2/prs.json
+exit: 0 (88 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 12 --squash --delete-branch",
+    "gh pr merge 13 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/repo-1 (unchanged)
+=== TC-cli-8b
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/repo-3
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/repo-3 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/prs-4/prs.json
+exit: 0 (98 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 12 --squash --delete-branch",
+    "gh pr merge 13 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-HeqNHP/repo-3 (unchanged)
+=== TC-cli-9 case 0 head
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-1
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-2/prs.json
+exit: 0 (134 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/sdlc/S-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-1 (unchanged)
+=== TC-cli-9 case 0 base
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-1
+$ python3 <tmp>/sdlc-S-021-base/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-1 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-2/prs.json
+exit: 0 (125 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 is mergeable, approved and green",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "https://example.test/pr/sdlc/S-1"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-1 (unchanged)
+=== TC-cli-9 case 1 head
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-3
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-3 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-4/prs.json
+exit: 0 (75 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 12 --squash --delete-branch",
+    "gh pr merge 13 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-3 (unchanged)
+=== TC-cli-9 case 1 base
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-3
+$ python3 <tmp>/sdlc-S-021-base/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-3 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-4/prs.json
+exit: 0 (69 ms)
+--- stdout
+{
+  "sync": [
+    "gh pr merge 12 --squash --delete-branch",
+    "gh pr merge 13 --squash --delete-branch",
+    "git pull --ff-only origin main"
+  ]
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-3 (unchanged)
+=== TC-cli-9 case 2 head
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-5
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-5 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-6/prs.json
+exit: 0 (81 ms)
+--- stdout
+{
+  "next": {
+    "action": "wait",
+    "reason": "A: state PR https://example.test/pr/sdlc/state-20261010000000 is not ready to merge, and the default branch is missing the state it carries"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-5 (unchanged)
+=== TC-cli-9 case 2 base
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-5
+$ python3 <tmp>/sdlc-S-021-base/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-5 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-6/prs.json
+exit: 0 (94 ms)
+--- stdout
+{
+  "next": {
+    "action": "wait",
+    "reason": "A: state PR https://example.test/pr/sdlc/state-20261010000000 is not ready to merge, and the default branch is missing the state it carries"
+  }
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-5 (unchanged)
+=== TC-cli-9 case 3 head
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-7
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-7 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-8/prs.json
+exit: 0 (91 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 was merged; record it",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "u4"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-7 (unchanged)
+=== TC-cli-9 case 3 base
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-7
+$ python3 <tmp>/sdlc-S-021-base/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-7 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-8/prs.json
+exit: 0 (98 ms)
+--- stdout
+{
+  "next": {
+    "action": "retryMerge",
+    "reason": "B: the PR of S-1 was merged; record it",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "awaiting-merge",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": "u4"
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-7 (unchanged)
+=== TC-cli-9 case 4 head
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-9
+$ python3 <tmp>/sdlc-S-021-v0-cli-0/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-9 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-10/prs.json
+exit: 0 (101 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-9 (unchanged)
+=== TC-cli-9 case 4 base
+$ cd <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-9
+$ python3 <tmp>/sdlc-S-021-base/skills/sdlc/next-action.py --repo <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-9 --bar-raiser-rounds 0 --prs <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/prs-10/prs.json
+exit: 0 (94 ms)
+--- stdout
+{
+  "next": {
+    "action": "slice",
+    "reason": "D: S-1 is the next todo slice with its dependencies met",
+    "sliceId": "S-1",
+    "slice": {
+      "id": "S-1",
+      "kind": "spec",
+      "status": "todo",
+      "phase": "plan",
+      "counters": {
+        "planRevisions": 0,
+        "fixRounds": 0,
+        "ladderStep": 0,
+        "parkCycles": 0
+      },
+      "seeds": [],
+      "pr": ""
+    }
+  },
+  "checkout": null
+}
+--- stderr
+
+--- tree <tmp>/sdlc-test-RRp0Ei/testkit-cli-0Z0SdQ/repo-9 (unchanged)

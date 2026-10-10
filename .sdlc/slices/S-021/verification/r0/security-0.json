@@ -1,0 +1,391 @@
+{
+  "profile": "security",
+  "part": 0,
+  "round": 0,
+  "commit": "fecc565",
+  "environment": "python3, node 24 test runner, scratch git repos, gh stub shim on PATH, prs file mode (no network)",
+  "cases": [
+    {
+      "id": "TC-security-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "Foreign, attempt, verify, confusable and unicode branch names never read as the active slice",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "Foreign, attempt, verify, confusable and unicode branch names never read as the active slice",
+      "actual": "15 hostile names, each with an in-progress ledger entry on its own branch: checkout null; refs equal before and after",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:52",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "15 hostile names, each with an in-progress ledger entry on its own branch: checkout null; refs equal before and after"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "A slice-shaped branch without a matching in-progress entry stays inactive",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "A slice-shaped branch without a matching in-progress entry stays inactive",
+      "actual": "feature/PROJ-1-S-002 and a todo S-3 give checkout null",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:70",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "feature/PROJ-1-S-002 and a todo S-3 give checkout null"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "The checked-out branch wins over another in-progress branch",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "The checked-out branch wins over another in-progress branch",
+      "actual": "checkout null, next.sliceId S-2",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:77",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "checkout null, next.sliceId S-2"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-053"
+      ],
+      "title": "Decision on a foreign branch makes no gh call and moves no ref",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "Decision on a foreign branch makes no gh call and moves no ref",
+      "actual": "gh stub log empty, refs equal",
+      "result": "pass",
+      "specSource": "R-053 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:97",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "gh stub log empty, refs equal"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Hostile state and e2e heads give no merge command",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "Hostile state and e2e heads give no merge command",
+      "actual": "11 heads (sdlc/ prefix, other project, e2e-area, run, attempt, 5000-char area): merges []",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:110",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "11 heads (sdlc/ prefix, other project, e2e-area, run, attempt, 5000-char area): merges []"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "Unready state and e2e heads give no merge",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "Unready state and e2e heads give no merge",
+      "actual": "CONFLICTING, REVIEW_REQUIRED and failed-check variants: merges []",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:124",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "CONFLICTING, REVIEW_REQUIRED and failed-check variants: merges []"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-7",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "A head that is null, a number, a list or an object does not crash the decision",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "A head that is null, a number, a list or an object does not crash the decision",
+      "actual": "exit 0 and no merge for four non-string heads",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:132",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "exit 0 and no merge for four non-string heads"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-8",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-054"
+      ],
+      "title": "The state prefix fallback merges only the ready PR and runs no shell text",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "The state prefix fallback merges only the ready PR and runs no shell text",
+      "actual": "state-2026 merges 21; a head with $(touch pwn) yields only its own gh pr merge string",
+      "result": "pass",
+      "specSource": "R-054 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:141",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "state-2026 merges 21; a head with $(touch pwn) yields only its own gh pr merge string"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-9",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-076"
+      ],
+      "title": "A foreign head changes no decision in the pr and stack fixtures",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "A foreign head changes no decision in the pr and stack fixtures",
+      "actual": "7 foreign heads: decision JSON deep-equal with and without the head, in pr and stack mode",
+      "result": "pass",
+      "specSource": "R-076 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:149",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "7 foreign heads: decision JSON deep-equal with and without the head, in pr and stack mode"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    },
+    {
+      "id": "TC-security-10",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-076"
+      ],
+      "title": "A head without the M anchor never holds the stack",
+      "given": "A scratch git repo with branchFormat set and hostile or foreign branch or head names",
+      "when": "next-action.py decides",
+      "then": "The hostile name changes no decision, and no ref, file or gh call changes",
+      "expected": "A head without the M anchor never holds the stack",
+      "actual": "lowercase m-2, sdlc-M-2 and sdlc/M-2 give no wait",
+      "result": "pass",
+      "specSource": "R-076 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:167",
+      "command": "VERIFY_WT=<worktree at sdlc/S-021> node --test .sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "attack",
+          "title": "attack run",
+          "inline": "lowercase m-2, sdlc-M-2 and sdlc/M-2 give no wait"
+        },
+        {
+          "kind": "db-diff",
+          "title": "refs and tree unchanged",
+          "inline": "git for-each-ref output equal before and after; gh stub log empty"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "id": "AT-1",
+      "charter": "Explore active_branch with hostile branch names to find a foreign branch read as active (R-053)",
+      "input": "15 branch names: attempt, verify, foreign, sdlc/, lowercase, zero-width, fullwidth digit, Cyrillic dze, other project",
+      "expected": "checkout null",
+      "observed": "checkout null for all",
+      "result": "held",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:52"
+    },
+    {
+      "id": "AT-2",
+      "charter": "Explore head recognition with state and e2e lookalikes to find an unintended merge (R-054)",
+      "input": "11 heads plus 3 unready variants",
+      "expected": "no gh pr merge",
+      "observed": "no merge",
+      "result": "held",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:110"
+    },
+    {
+      "id": "AT-3",
+      "charter": "Explore PR list parsing with non-string headRefName to find a crash",
+      "input": "null, 5, list, object",
+      "expected": "exit 0",
+      "observed": "exit 0",
+      "result": "held",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:132"
+    },
+    {
+      "id": "AT-4",
+      "charter": "Explore the foreign-head rule (R-076)",
+      "input": "7 foreign heads in pr and stack fixtures",
+      "expected": "identical decision",
+      "observed": "identical",
+      "result": "held",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:149"
+    },
+    {
+      "id": "AT-5",
+      "charter": "Explore lowercased matching with Kelvin sign",
+      "input": "branch feature/PROJ-1-s-<U+212A>1 with in-progress S-K1",
+      "expected": "checkout null",
+      "observed": "checkout is the Kelvin branch",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:87"
+    },
+    {
+      "id": "AT-6",
+      "charter": "Explore head anchors with a trailing newline",
+      "input": "feature/PROJ-1-M-1-e2e<LF>, feature/PROJ-1-M-2<LF>",
+      "expected": "foreign",
+      "observed": "read as e2e merge and milestone hold (regex $ matches before a final newline)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:176"
+    },
+    {
+      "id": "AT-7",
+      "charter": "Explore digit classes with fullwidth digits",
+      "input": "feature/PROJ-1-M-<U+FF12>-e2e and feature/PROJ-1-M-<U+FF12>",
+      "expected": "foreign",
+      "observed": "merge command and stack hold (\\d matches Unicode digits)",
+      "result": "out-of-scope",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/security-0/next-action.verify-security.test.mjs:185"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "branches.parse: \\d and $ accept Unicode digits and a trailing newline",
+      "detail": "PARSE_ROWS use \\d and $ without re.ASCII. A fork PR head such as feature/PROJ-1-M-<fullwidth 2> holds the stack, and feature/PROJ-1-M-1-e2e<LF> gets a merge command. Git forbids newlines, GitHub rejects them, so only the digit form is reachable. Fix: re.ASCII and \\Z. The old sdlc/M-[^/]+ check was looser, so this is no regression.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "lowercased format: re.IGNORECASE folds Kelvin sign and long s into ASCII",
+      "detail": "A local branch with U+212A matches ledger id S-K1 under {name:lower}. Branch creation needs repo write, which is trusted.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "state prefix fallback merges any ready head starting with state-",
+      "detail": "The spec requires the fallback. A fork PR head feature/PROJ-1-state-x that is green and mergeable gets gh pr merge in pr mode. Same exposure as sdlc/state- on main. Consider requiring the PR author to be the run owner.",
+      "file": "skills/sdlc/next-action.py"
+    }
+  ]
+}

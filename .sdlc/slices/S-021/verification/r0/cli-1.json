@@ -1,0 +1,50 @@
+{
+  "profile": "cli", "part": 1, "round": 0, "commit": "fecc565",
+  "environment": "Python 3, Node 20+, git; gh stub not needed (a prs file replaces gh); main worktree at 8450221 as baseline",
+  "cases": [
+    {
+      "id": "TC-cli-1", "scenarioId": "VS-7", "requirementIds": ["R-077"],
+      "title": "The full suite passes with no branchFormat set",
+      "given": "Branch sdlc/S-021 at fecc565; no branchFormat in any fixture config.",
+      "when": "Run npm test in a worktree of the branch.",
+      "then": "All tests pass, including next-action tests.",
+      "expected": "0 failures", "actual": "683 tests, 682 pass, 0 fail, 1 skipped", "result": "pass",
+      "specSource": "R-077 acceptance",
+      "test": "skills/sdlc/test/next-action.test.mjs:1",
+      "command": "npm test",
+      "manual": true,
+      "evidence": [{"kind": "transcript", "title": "npm test summary", "inline": "$ npm test\nℹ tests 683\nℹ pass 682\nℹ fail 0\nℹ skipped 1\nexit 0"},
+                   {"kind": "transcript", "title": "next-action tests alone", "inline": "$ node --test skills/sdlc/test/next-action.test.mjs\nℹ tests 39\nℹ pass 39\nℹ fail 0"}]
+    },
+    {
+      "id": "TC-cli-2", "scenarioId": "VS-7", "requirementIds": ["R-077"],
+      "title": "The decision equals main's for 195 default-format fixtures, under absent, empty and null branchFormat",
+      "given": "Fixtures in pr, stack and direct mode: open and merged PR heads (slice, fix, split, state with and without stamp, milestone, e2e, lowercase, foreign, empty), mixed PR lists, and local branches with in-progress slices. Each runs with the key absent, empty and null.",
+      "when": "Run next-action.py from main (8450221) and from the branch with the same repo and prs file.",
+      "then": "Exit code and stdout are identical.",
+      "expected": "0 differences", "actual": "585 comparisons, 0 differences", "result": "pass",
+      "specSource": "R-077 acceptance",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-1/default-format.verify-cli.test.mjs:49",
+      "command": "VERIFY_BRANCH_SKILL=<branch>/skills/sdlc VERIFY_MAIN_SKILL=<main>/skills/sdlc node --test .sdlc/slices/S-021/verification/r0/tests/cli-1/default-format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [{"kind": "transcript", "title": "differential run", "inline": "compared 585 differences 0\n✔ default format decisions equal main for absent, empty and null branchFormat\nexit 0"}]
+    },
+    {
+      "id": "TC-cli-3", "scenarioId": "VS-7", "requirementIds": ["R-077"],
+      "title": "A milestone branch with an in-progress entry is no longer an active slice branch",
+      "given": "Local branches sdlc/S-fix-M-1-1 and sdlc/M-1; both carry an in-progress entry.",
+      "when": "Run next-action.py from the branch.",
+      "then": "The active branch is sdlc/S-fix-M-1-1. Main chose sdlc/M-1.",
+      "expected": "Slice kind only", "actual": "checkout sdlc/S-fix-M-1-1", "result": "pass",
+      "specSource": "R-053 quote (slice kind only)",
+      "test": ".sdlc/slices/S-021/verification/r0/tests/cli-1/default-format.verify-cli.test.mjs:73",
+      "command": "same as TC-cli-2",
+      "manual": false,
+      "evidence": [{"kind": "transcript", "title": "decision", "inline": "next.sliceId S-fix-M-1-1\ncheckout sdlc/S-fix-M-1-1"}]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {"title": "Default-format decision differs from main for a milestone branch holding an in-progress entry", "detail": "Main read sdlc/M-1 as a slice branch if its slices.json held an in-progress entry with id M-1. The new code reads slice kind only. The state never writes such an entry, so the change is harmless and matches the intent.", "file": "skills/sdlc/next-action.py"}
+  ]
+}
