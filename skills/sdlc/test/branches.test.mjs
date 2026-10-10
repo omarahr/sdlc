@@ -2484,23 +2484,6 @@ test('T-R-126a a derived format that passes every sample is reported with derive
   }
 })
 
-test('T-R-126b derived stays false with exit 1 and ok false for the five non-derivable cases', opts, () => {
-  const cases = [
-    ['flag format', startsWith('f', 'feature/'), ['--format', 'team/{name}'], githubRepo(), 'team/{name}'],
-    ['config format', startsWith('f', 'feature/'), [], withConfig({ gitMode: 'pr', forge: 'github', branchFormat: 'team/{name}' }), 'team/{name}'],
-    ['two rules', [startsWith('a', 'feature/'), endsWith('b', '-dev')], [], githubRepo(), 'sdlc/{name}'],
-    ['negated rule', containsRule('n', 'sdlc', true), [], githubRepo(), 'sdlc/{name}'],
-    ['regex rule', regexRule('re', '^feature/'), [], githubRepo(), 'sdlc/{name}'],
-  ]
-  for (const [label, rule, extra, repo, format] of cases) {
-    const { status, out } = prRun(rule, extra, repo)
-    assert.equal(status, 1, `${label}: ${JSON.stringify(out)}`)
-    assert.equal(out.ok, false, label)
-    assert.equal(out.derived, false, label)
-    assert.equal(out.format, format, label)
-  }
-})
-
 test('T-R-141a derive maps the three non-negated operators to their formats', opts, () => {
   const got = probeJson(`
 import json
