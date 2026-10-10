@@ -28,3 +28,4 @@
 {"ts":"2026-10-10T01:22:22Z","type":"note","slice":"","detail":"no CI checks on state PR"}
 {"ts": "2026-10-10T01:37:47Z", "type": "slice-merged", "slice": "S-018", "detail": "S-018 evidence recorded; PR opens"}
 {"ts": "2026-10-10T02:12:28Z", "type": "slice-merged", "slice": "S-019", "detail": "S-019 evidence recorded; PR opens"}
+{"ts": "2026-10-10T02:50:29Z", "type": "slice-merged", "slice": "S-020", "detail": "S-020 evidence recorded; PR opens"}
