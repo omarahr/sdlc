@@ -1777,6 +1777,71 @@
       "title": "Launch text states the arg as shorthand",
       "detail": "R-049 quote shows branchFormat: \"$FMT\". The args object lists the bare name and a sentence gives the value. The shape stays valid.",
       "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "The format mismatch check runs after the worktree is created, checked out and fast-forwarded",
+      "detail": "The mismatch sentence sits at the end of the Run worktree bullet. On a relaunch with a changed format, the driver derives RUN_BRANCH from the new FMT, checks out and merges, and only then compares formats. The old bullet had the same order, so this is not a regression. Moving the sentence to the front of the bullet would stop the driver from touching the worktree before it ends. Optional.",
+      "file": "skills/sdlc/SKILL.md",
+      "blocking": false
+    },
+    {
+      "title": "Prose pins in prompts.test.mjs depend on exact wording",
+      "detail": "The T-R-047 to T-R-121 tests use regexes with character-window gaps such as {0,300}. A harmless rewording of SKILL.md can break them. The tests pin intent, so this is acceptable. Prefer short anchors where possible.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "The Run worktree bullet merges many separate steps",
+      "detail": "One bullet now holds the gitignore check, the run-branch naming, the first-run and relaunch paths, the ff-only sync, the dirty check and the mismatch check. A split into sub-bullets would make it easier to read and to test. The slice does not worsen the structure, so this is optional.",
+      "file": "skills/sdlc/SKILL.md",
+      "blocking": false
+    },
+    {
+      "title": "Prose tests are brittle to wording",
+      "detail": "T-R-121 and T-R-101b use regexes with fixed-width windows such as {0,300}. A harmless rewording of SKILL.md breaks them. Non-blocking: pin shorter phrases.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Slice rated low-risk but touches the launch driver",
+      "detail": "The change to SKILL.md reorders pre-flight steps and moves the WT assignment ahead of the Git mode read. A mistake here would break every launch and resume. Run the verification battery on this slice.",
+      "file": "skills/sdlc/SKILL.md",
+      "blocking": false
+    },
+    {
+      "title": "branches.py parse: a letter suffix after the slice id parses as a slice",
+      "detail": "parse sdlc/S-002x prints kind slice, id S-002x. The slice row accepts S-[A-Za-z0-9-]+ on purpose (split and fix ids), so a user branch like sdlc/S-002x triggers a rename ask. No spec text forbids it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py parse: Unicode digits count as run numbers",
+      "detail": "parse sdlc/run-U+0663 prints kind run, because the pattern uses \\d. list --kind run would count that branch, and n+1 could then name a different branch. A [0-9] class would close it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py parse: a trailing newline matches the $ anchor",
+      "detail": "parse sdlc/S-002 plus newline prints kind slice. Git refuses such names, so no real branch triggers it. \\Z would give an exact match.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a trailing newline in the branch",
+      "detail": "parse(\"feature/PROJ-1-{name}\", \"feature/PROJ-1-S-002\\n\") returns kind slice because Python $ matches before a final newline. Git cannot hold such a name, so the risk is low. Use fullmatch or \\Z.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py name accepts negative --n",
+      "detail": "name --kind run --n -5000 prints sdlc/run--5000, which parse does not read back as a run. The driver computes n from the list count, so it cannot reach this.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse treats non-ASCII digits and S-<anything> as loop kinds",
+      "detail": "sdlc/run-٣ parses as run n=3 and sdlc/S-002x parses as slice. The spec names only sdlc/feature-x.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "parse accepts a trailing newline",
+      "detail": "The $ anchor matches before a final newline. Git refuses such branch names, so no real branch reaches it.",
+      "file": "skills/sdlc/branches.py"
     }
   ]
 }
