@@ -13,6 +13,8 @@
 ## Promotion, fix round 1
 
 - Promoted from `verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs` into `skills/sdlc/test/scripts.test.mjs`.
-- `patch-slice` and `base-branch` exit 2 with `ok:false` and change nothing for a branch format with no placeholder, two placeholders, mixed placeholders or an unknown placeholder.
-- `patch-slice` exits 2 and moves no branch for a Git-unsafe branch format: double dots, a lock suffix, a space, a tilde or a leading dash.
+- `patch-slice` and `base-branch` exit 2 with `ok:false` for a malformed `branchFormat`. They change nothing.
+- The malformed formats have no placeholder, two placeholders, mixed placeholders or an unknown placeholder.
+- `patch-slice` exits 2 and moves no branch for a Git-unsafe `branchFormat`.
+- The unsafe formats have double dots, a lock suffix, a space, a tilde or a leading dash.
 - Dropped: the `cliRunner` import, the absolute paths and the preexisting-crash case.
