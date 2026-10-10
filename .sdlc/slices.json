@@ -3998,12 +3998,72 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-027c",
     "pr": "",
     "risk": "medium",
     "riskReason": "The sweep rewrites about twenty prompts; a wrong replacement misdirects one role at run time.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Spike branch phrase sits inside code backticks",
+        "detail": "escalator.md wraps the phrase 'a scratch branch named like <slice branch> with -spike added' in backticks, so it reads as a literal branch name. Remove the backticks.",
+        "file": "skills/sdlc/prompts/escalator.md",
+        "blocking": false
+      },
+      {
+        "title": "Fence stripping can hide a hand-written literal",
+        "detail": "stripBranchesOutput in skills/sdlc/test/prompts.test.mjs removes a whole fenced block when the block mentions branches.py. A hand-written literal inside such a block passes the T-R-080 scan. Remove only the output lines, or add a negative fixture that pins the intended exemption. Carried from round 0.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "tests.md describes tests by their failing state",
+        "detail": "Entries in tests.md say 'still spells' and 'lacks'. Describe what each test checks now, in short active sentences.",
+        "file": ".sdlc/slices/S-027c/tests.md",
+        "blocking": false
+      },
+      {
+        "title": "T-R-063a partly repeats per-file assertions",
+        "detail": "The row test overlaps the older per-file placeholder tests. The spec requires the row test, so keep both.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Spec regex literally matches the default format text",
+        "detail": "Spec R-080 regex (?<![.\\w])sdlc/(?!tracker|STOP) matches sdlc/{name}, but the spec also requires that text. The slice adds {name to the lookahead. The spec text could be aligned.",
+        "file": "docs/superpowers/specs/2026-10-08-branch-format-design.md"
+      },
+      {
+        "title": "Awkward spike phrase in backticks",
+        "detail": "escalator.md puts the phrase 'a scratch branch named like <slice branch> with -spike added' inside code backticks, which reads like a literal branch name.",
+        "file": "skills/sdlc/prompts/escalator.md"
+      },
+      {
+        "title": "SKILL.md is outside the STE linter gate and holds 57 violations",
+        "detail": "Base had 56. The slice reworded a stack bullet and the default-branch line, and both stay over the limit. The prompts test lints only prompts/. The spec does not require SKILL.md to pass.",
+        "file": "skills/sdlc/SKILL.md"
+      },
+      {
+        "title": "scan helper exempts a whole fenced block that only mentions branches.py",
+        "detail": "stripBranchesOutput removes any ``` block that contains the text branches.py. A hand-written literal in such a block passes the scan. No prompt has such a block today.",
+        "file": "skills/sdlc/test/prompts.test.mjs"
+      },
+      {
+        "title": "env-detector count assertion was dropped",
+        "detail": "The old assertion on 'count of sdlc/run-* branches) + 1' became a doesNotMatch. Nothing pins the numbering sentence now.",
+        "file": "skills/sdlc/test/prompts.test.mjs"
+      },
+      {
+        "title": "spike phrase sits inside a code span",
+        "detail": "escalator.md wraps the prose phrase 'a scratch branch named like <slice branch> with -spike added' in backticks. The meaning is clear.",
+        "file": "skills/sdlc/prompts/escalator.md"
+      },
+      {
+        "title": "scan helper ignores tilde fences",
+        "detail": "Tilde fences are never exempt, so the scan is strict. No prompt uses them.",
+        "file": "skills/sdlc/test/prompts.test.mjs"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4019,6 +4079,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
