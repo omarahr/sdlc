@@ -1,0 +1,262 @@
+property branch_run: seed=3537128607 runs=1500 violations=0
+[]
+property branch_run malformed fmt: seed=3657788702 runs=1000 violations=0
+[]
+0:return:"" 1:return:"" 2:return:"" 3:return:"" 4:return:"" 5:return:"" 6:return:"" 7:return:"" 8:exception:AttributeError 9:exception:AttributeError 10:exception:AttributeError 11:return:"" 12:return:""
+non-object config probe: 8:exception:AttributeError 9:exception:AttributeError 10:exception:AttributeError
+"feature/PROJ-1-run-١" -> "feature/PROJ-1-run-١"
+"feature/PROJ-1-run-1\n" -> "feature/PROJ-1-run-1\n"
+"feature/PROJ-1‐run-1" -> ""
+"feature/PROJ-1-run-1​" -> ""
+"feature/PROJ-1-ruн-1" -> ""
+[]
+property load_format: seed=1739148510 runs=500 violations=0
+✔ verify contract: branch_run examples from the plan under custom and default format (945.662ms)
+✔ verify contract: branch_run property against a reference model, 1500 runs (32157.766542ms)
+✔ verify contract: branch_run with malformed formats gives Fail or empty string, never a traceback (20523.425667ms)
+✔ verify contract: branch_run with hostile committed config text never raises a traceback (481.918125ms)
+✔ verify contract: branch_run is deterministic and does not mutate the repo (284.601208ms)
+✔ verify contract: unicode lookalike and trailing-newline stored names (probe) (269.433208ms)
+✔ verify contract: janitor.py takes its format from branches.load_format and holds no sdlc/ literal outside prose (0.368209ms)
+✔ verify contract: janitor.py load_format property: malformed config shapes give Fail or a string (230.993208ms)
+non-string number: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string array: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string object: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string true: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string null: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+invalid json: status=0 removed=[] notes=["the branch format is unusable; no branch was deleted (/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-verify-jan-fcONs3/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting value: line 1 column 17 (char 16))"]
+non-object json: status=0 removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+directory-like text: status=0 removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+✔ verify contract: janitor with malformed branchFormat (no placeholder) deletes no branch and reports it (304.459542ms)
+✔ verify contract: janitor with malformed branchFormat (two placeholders) deletes no branch and reports it (298.556584ms)
+✔ verify contract: janitor with malformed branchFormat (unbalanced open) deletes no branch and reports it (287.252083ms)
+✔ verify contract: janitor with malformed branchFormat (unbalanced close) deletes no branch and reports it (394.215375ms)
+✖ verify contract: janitor with malformed branchFormat (extra brace) deletes no branch and reports it (389.84225ms)
+✖ verify contract: janitor with malformed branchFormat (whitespace) deletes no branch and reports it (377.451709ms)
+✖ verify contract: janitor with malformed branchFormat (double dot) deletes no branch and reports it (358.8715ms)
+✖ verify contract: janitor with malformed branchFormat (tilde) deletes no branch and reports it (381.565375ms)
+✖ verify contract: janitor with malformed branchFormat (colon) deletes no branch and reports it (338.139084ms)
+✖ verify contract: janitor with malformed branchFormat (question mark) deletes no branch and reports it (375.426917ms)
+✖ verify contract: janitor with malformed branchFormat (bracket) deletes no branch and reports it (361.249375ms)
+✖ verify contract: janitor with malformed branchFormat (backslash) deletes no branch and reports it (356.882375ms)
+✖ verify contract: janitor with malformed branchFormat (ends with .lock) deletes no branch and reports it (379.660875ms)
+✖ verify contract: janitor with malformed branchFormat (at brace) deletes no branch and reports it (367.479125ms)
+✖ verify contract: janitor with malformed branchFormat (control char) deletes no branch and reports it (355.414125ms)
+✔ verify contract: janitor with malformed branchFormat (unknown modifier) deletes no branch and reports it (324.964458ms)
+✔ verify contract: janitor with malformed branchFormat (bare braces) deletes no branch and reports it (301.640709ms)
+✔ verify contract: janitor with non-string branchFormat (number) probe (415.201542ms)
+✔ verify contract: janitor with non-string branchFormat (array) probe (451.848833ms)
+✔ verify contract: janitor with non-string branchFormat (object) probe (427.4575ms)
+✔ verify contract: janitor with non-string branchFormat (true) probe (429.788583ms)
+✔ verify contract: janitor with non-string branchFormat (null) probe (426.475ms)
+✔ verify contract: janitor with broken config (invalid json) never raises and keeps foreign branches (300.946416ms)
+✔ verify contract: janitor with broken config (non-object json) never raises and keeps foreign branches (406.509625ms)
+✔ verify contract: janitor with broken config (directory-like text) never raises and keeps foreign branches (388.421291ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 22
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55029.979042
+
+✖ failing tests:
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (extra brace) deletes no branch and reports it (389.84225ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (whitespace) deletes no branch and reports it (377.451709ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (double dot) deletes no branch and reports it (358.8715ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (tilde) deletes no branch and reports it (381.565375ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (colon) deletes no branch and reports it (338.139084ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (question mark) deletes no branch and reports it (375.426917ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (bracket) deletes no branch and reports it (361.249375ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (backslash) deletes no branch and reports it (356.882375ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (ends with .lock) deletes no branch and reports it (379.660875ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (at brace) deletes no branch and reports it (367.479125ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at janitor-malformed.verify-contract.test.mjs:50:3
+✖ verify contract: janitor with malformed branchFormat (control char) deletes no branch and reports it (355.414125ms)
+  AssertionError [ERR_ASSERTION]: []
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/janitor-malformed.verify-contract.test.mjs:57:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

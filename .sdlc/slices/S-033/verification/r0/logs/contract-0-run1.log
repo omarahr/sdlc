@@ -1,0 +1,103 @@
+property branch_run: seed=2411156674 runs=1500 violations=4
+[{"n":116,"input":{"fmt":"feature/PROJ-1-{name}","value":"feature/PROJ-1-run-1\n"},"res":{"outcome":"return","value":"feature/PROJ-1-run-1\n","stdout":"","stderr":""},"want":""},{"n":533,"input":{"fmt":"feature/PROJ-1-{name}","value":"feature/PROJ-1-run-1\n"},"res":{"outcome":"return","value":"feature/PROJ-1-run-1\n","stdout":"","stderr":""},"want":""},{"n":656,"input":{"fmt":"sdlc/{name}","value":"sdlc/run-1\n"},"res":{"outcome":"return","value":"sdlc/run-1\n","stdout":"","stderr":""},"want":""},{"n":808,"input":{"fmt":"feature/PROJ-1-{name}","value":"feature/PROJ-1-run-1\n"},"res":{"outcome":"return","value":"feature/PROJ-1-run-1\n","stdout":"","stderr":""},"want":""}]
+property branch_run malformed fmt: seed=1023319610 runs=1000 violations=0
+[]
+0:return:"" 1:return:"" 2:return:"" 3:return:"" 4:return:"" 5:return:"" 6:return:"" 7:return:"" 8:exception:AttributeError 9:exception:AttributeError 10:exception:AttributeError 11:return:"" 12:return:""
+"feature/PROJ-1-run-١" -> "feature/PROJ-1-run-١"
+"feature/PROJ-1-run-1\n" -> "feature/PROJ-1-run-1\n"
+"feature/PROJ-1‐run-1" -> ""
+"feature/PROJ-1-run-1​" -> ""
+"feature/PROJ-1-ruн-1" -> ""
+[[120,"        notes.append(\"no .sdlc/slices.json: no branch sweeping, scratch reaping only\")"],[122,"        notes.append(\".sdlc/slices.json is missing or unparseable; no branch was deleted\")"]]
+property load_format: seed=4255995037 runs=500 violations=0
+✔ verify contract: branch_run examples from the plan under custom and default format (889.94175ms)
+✖ verify contract: branch_run property against a reference model, 1500 runs (32741.146417ms)
+✔ verify contract: branch_run with malformed formats gives Fail or empty string, never a traceback (22213.962291ms)
+✖ verify contract: branch_run with hostile committed config text never raises a traceback (564.64875ms)
+✔ verify contract: branch_run is deterministic and does not mutate the repo (342.430292ms)
+✔ verify contract: unicode lookalike and trailing-newline stored names (probe) (278.273417ms)
+✖ verify contract: janitor.py takes its format from branches.load_format and holds no sdlc/ literal outside prose (0.694166ms)
+✔ verify contract: janitor.py load_format property: malformed config shapes give Fail or a string (253.906542ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 5
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57438.623
+
+✖ failing tests:
+
+test at branch-run.verify-contract.test.mjs:65:1
+✖ verify contract: branch_run property against a reference model, 1500 runs (32741.146417ms)
+  AssertionError [ERR_ASSERTION]: property branch_run: seed=2411156674 runs=1500 violations=4
+  
+  4 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:88:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at branch-run.verify-contract.test.mjs:108:1
+✖ verify contract: branch_run with hostile committed config text never raises a traceback (564.64875ms)
+  AssertionError [ERR_ASSERTION]: raw #8 raised AttributeError: 'str' object has no attribute 'get'
+      at file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:114:32
+      at Array.forEach (<anonymous>)
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:114:7)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at branch-run.verify-contract.test.mjs:135:1
+✖ verify contract: janitor.py takes its format from branches.load_format and holds no sdlc/ literal outside prose (0.694166ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   [
+  +     120,
+  +     '        notes.append("no .sdlc/slices.json: no branch sweeping, scratch reaping only")'
+  +   ],
+  +   [
+  +     122,
+  +     '        notes.append(".sdlc/slices.json is missing or unparseable; no branch was deleted")'
+  +   ]
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:142:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ [ 120, '        notes.append("no .sdlc/slices.json: no branch sweeping, scratch reaping only")' ], [ 122, '        notes.append(".sdlc/slices.json is missing or unparseable; no branch was deleted")' ] ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
