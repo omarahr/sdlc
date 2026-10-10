@@ -2169,6 +2169,36 @@ test('slice_side_branches matches under a lowercase format', opts, () => {
   ])
 })
 
+test('slice_side_branches does not match a slice id that is a prefix of another id', opts, () => {
+  const repo = sideFixture(customConfig(1, { branchFormat: 'sdlc/{name}' }), [
+    'sdlc/S-001-attempt-1',
+    'sdlc/S-0011-attempt-1',
+    'sdlc/S-0011-v0-cli-0',
+    'sdlc/S-010-attempt-3',
+    'sdlc/S-010-v0-cli-0',
+  ])
+  assert.deepEqual(sideBranches(repo, 'sdlc/{name}', 'S-001'), ['sdlc/S-001-attempt-1'])
+  assert.deepEqual(sideBranches(repo, 'sdlc/{name}', 'S-0011'), [
+    'sdlc/S-0011-attempt-1',
+    'sdlc/S-0011-v0-cli-0',
+  ])
+  assert.deepEqual(sideBranches(repo, 'sdlc/{name}', 'S-010'), [
+    'sdlc/S-010-attempt-3',
+    'sdlc/S-010-v0-cli-0',
+  ])
+})
+
+test('slice_side_branches ignores case only under a lowercase format', opts, () => {
+  const lower = 'f/{name:lower}'
+  const repo = sideFixture(customConfig(1, { branchFormat: lower }), [
+    'f/s-001-attempt-1',
+    'f/S-001-attempt-3',
+    'f/s-002-attempt-1',
+  ])
+  assert.deepEqual(sideBranches(repo, lower, 'S-001'), ['f/S-001-attempt-3', 'f/s-001-attempt-1'])
+  assert.deepEqual(sideBranches(repo, 'f/{name}', 'S-001'), ['f/S-001-attempt-3'])
+})
+
 test('state-write.py holds no local regex for verify or attempt names', opts, () => {
   const text = readFileSync(STATE, 'utf8')
   assert.ok(!text.includes('-attempt-'), 'an -attempt- pattern literal is in state-write.py')
