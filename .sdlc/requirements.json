@@ -5360,7 +5360,7 @@
         "TC-security-4",
         "TC-security-5"
       ],
-      "commit": "pending"
+      "commit": "dcca7a477ae94960dc595958c2aadda58897b3da"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5738,7 +5738,7 @@
         "TC-security-7",
         "TC-security-8"
       ],
-      "commit": "pending"
+      "commit": "dcca7a477ae94960dc595958c2aadda58897b3da"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5774,7 +5774,7 @@
         "TC-contract-3",
         "TC-security-9"
       ],
-      "commit": "pending"
+      "commit": "dcca7a477ae94960dc595958c2aadda58897b3da"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5809,7 +5809,7 @@
         "T-R-147",
         "TC-contract-4"
       ],
-      "commit": "pending"
+      "commit": "dcca7a477ae94960dc595958c2aadda58897b3da"
     },
     "notes": "added by the completeness critic (statements)"
   },
