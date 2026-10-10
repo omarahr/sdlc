@@ -1,0 +1,23 @@
+property-run list_kind seed=424242 runs=1000
+property-run parse seed=424242 runs=1000
+✔ verify contract: VS-1 list/name run branches (0,1,3 under default and custom formats) (13524.125333ms)
+✔ verify contract: VS-1 a run branch from an older format is not counted (697.809917ms)
+✔ verify contract: VS-1 hostile --format values fail clearly, tree unchanged (3098.862125ms)
+✔ verify contract: VS-2 property: list --kind run is sorted by numeric n, last entry is max n (1000 runs) (104582.693625ms)
+✔ verify contract: VS-2 example: runs 2, 9, 10, 11 end at 11, empty repo gives empty list (791.049125ms)
+✔ verify contract: VS-2 property: name then parse round-trips for run n (1000 runs) (39.191125ms)
+✔ verify contract: VS-4 parse feature/PROJ-1-S-002 is slice S-002; feature/PROJ-1-foo has no kind (368.275ms)
+✔ verify contract: VS-4 regex-character prefix is literal; repeated prefix (2304.412625ms)
+✔ verify contract: VS-4 exit codes and stderr stable (640.17375ms)
+✔ verify contract: VS-5 bullet order (0.429458ms)
+✔ verify contract: VS-5 Run worktree bullet content (0.079ms)
+✔ verify contract: VS-5 quoted commands run as written: first run, then relaunch, against a scratch repo (703.228125ms)
+✔ verify contract: VS-4 seed probe: a trailing newline in the branch still parses as slice (git cannot hold such a name) (248.864292ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 127470.391291

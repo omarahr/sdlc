@@ -1,0 +1,1033 @@
+### TC-cli-1 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-2
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-1 --kind run
+exit: 0 (120 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "run", "branches": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-2 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-1 (unchanged)
+
+### TC-cli-1 name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-3
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-1 --kind run --n 1
+exit: 0 (82 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-1"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-3 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-1 (unchanged)
+
+### TC-cli-2 list default
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-5
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-4 --kind run
+exit: 0 (128 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "run", "branches": [{"branch": "sdlc/run-1", "kind": "run", "tail": "run-1", "n": 1, "known": null}, {"branch": "sdlc/run-2", "kind": "run", "tail": "run-2", "n": 2, "known": null}, {"branch": "sdlc/run-3", "kind": "run", "tail": "run-3", "n": 3, "known": null}]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-5 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-4 (unchanged)
+
+### TC-cli-2 name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-6
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-4 --kind run --n 4
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-4"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-6 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-4 (unchanged)
+
+### TC-cli-2 list custom
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-10
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-9 --kind run --format 'feature/PROJ-1-{name}'
+exit: 0 (104 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "feature/PROJ-1-{name}", "kind": "run", "branches": [{"branch": "feature/PROJ-1-run-1", "kind": "run", "tail": "run-1", "n": 1, "known": null}, {"branch": "feature/PROJ-1-run-2", "kind": "run", "tail": "run-2", "n": 2, "known": null}]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-10 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-9 (unchanged)
+
+### TC-cli-2 name custom
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-11
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-9 --kind run --n 3 --format 'feature/PROJ-1-{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "feature/PROJ-1-{name}", "kind": "run", "branch": "feature/PROJ-1-run-3"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-11 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-9 (unchanged)
+
+### TC-cli-3 name "--upload-pack=x"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-15
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=--upload-pack=x
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '--upload-pack=x' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-15 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "-x{name}"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-16
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=-x{name}'
+exit: 2 (65 ms)
+--- stdout
+{"ok": false, "error": "the branch format '-x{name}' gives '-xS-001', which git check-ref-format refuses: fatal: '-xS-001' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-16 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "../{name}"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-17
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=../{name}'
+exit: 2 (67 ms)
+--- stdout
+{"ok": false, "error": "the branch format '../{name}' gives '../S-001', which git check-ref-format refuses: fatal: '../S-001' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-17 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "{name}/../.."
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-18
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format={name}/../..'
+exit: 2 (73 ms)
+--- stdout
+{"ok": false, "error": "the branch format '{name}/../..' gives 'S-001/../..', which git check-ref-format refuses: fatal: 'S-001/../..' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-18 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "{name}{name}"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-19
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format={name}{name}'
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '{name}{name}' must hold exactly one {name} or {name:lower}, found 2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-19 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name ""
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-20
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format '' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-20 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "sdlc/{name} x"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-21
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=sdlc/{name} x'
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name} x' holds whitespace"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-21 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "a{b}{name}"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-22
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=a{b}{name}'
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'a{b}{name}' holds a brace outside its placeholder"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-22 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "{"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-23
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format={'
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "the branch format '{' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-23 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "sdlc/{name}.lock"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-24
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=sdlc/{name}.lock'
+exit: 2 (83 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}.lock' gives 'sdlc/S-001.lock', which git check-ref-format refuses: fatal: 'sdlc/S-001.lock' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-24 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "sdlc/{name}..x"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-25
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=sdlc/{name}..x'
+exit: 2 (64 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'sdlc/{name}..x' gives 'sdlc/S-001..x', which git check-ref-format refuses: fatal: 'sdlc/S-001..x' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-25 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "x~{name}"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-26
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=x~{name}'
+exit: 2 (65 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'x~{name}' gives 'x~S-001', which git check-ref-format refuses: fatal: 'x~S-001' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-26 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "--"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-27
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=--
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '--' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-27 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "-h"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-28
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=-h
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format '-h' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-28 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "--help"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-29
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=--help
+exit: 2 (51 ms)
+--- stdout
+{"ok": false, "error": "the branch format '--help' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-29 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "--format=x/{name}"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-30
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=--format=x/{name}'
+exit: 2 (63 ms)
+--- stdout
+{"ok": false, "error": "the branch format '--format=x/{name}' gives '--format=x/S-001', which git check-ref-format refuses: fatal: '--format=x/S-001' is not a valid branch name"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-30 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "-1"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-31
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=-1
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '-1' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-31 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "-"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-32
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=-
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the branch format '-' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-32 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "--repo"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-33
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=--repo
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the branch format '--repo' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-33 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "="
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-34
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format==
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '=' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-34 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "../.."
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-35
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=../..
+exit: 2 (57 ms)
+--- stdout
+{"ok": false, "error": "the branch format '../..' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-35 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "/etc"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-36
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=/etc
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format '/etc' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-36 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "../../../../etc/passwd"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-37
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=../../../../etc/passwd
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '../../../../etc/passwd' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-37 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "..\\.."
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-38
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=..\..'
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '..\\\\..' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-38 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "%2e%2e/%2e%2e"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-39
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=%2e%2e/%2e%2e
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format '%2e%2e/%2e%2e' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-39 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "~"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-40
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=~'
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format '~' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-40 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "file:///etc"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-41
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=file:///etc
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'file:///etc' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-41 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "\\\\server\\share"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-42
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 '--format=\\server\share'
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the branch format '\\\\\\\\server\\\\share' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-42 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "."
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-43
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=.
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the branch format '.' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-43 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 name "./"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-44
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format=./
+exit: 2 (45 ms)
+--- stdout
+{"ok": false, "error": "the branch format './' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-44 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 list flag-like
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-45
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --format=--bad
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the branch format '--bad' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-45 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-3 nul
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-46
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 --kind run --n 2 --format $'a\u0000{name}'
+spawn error: The argument 'args[9]' must be a string without null bytes. Received 'a\x00{name}'
+exit: null (0 ms)
+--- stdout
+
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-46 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-14 (unchanged)
+
+### TC-cli-4 list
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-49
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-47 --kind run
+exit: 0 (112 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "run", "branches": [{"branch": "sdlc/run-1", "kind": "run", "tail": "run-1", "n": 1, "known": null}, {"branch": "sdlc/run-2", "kind": "run", "tail": "run-2", "n": 2, "known": null}, {"branch": "sdlc/run-9", "kind": "run", "tail": "run-9", "n": 9, "known": null}, {"branch": "sdlc/run-10", "kind": "run", "tail": "run-10", "n": 10, "known": null}, {"branch": "sdlc/run-11", "kind": "run", "tail": "run-11", "n": 11, "known": null}, {"branch": "sdlc/run-100", "kind": "run", "tail": "run-100", "n": 100, "known": null}]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-49 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-47 (unchanged)
+
+### TC-cli-4 name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-51
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py name --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-47 --kind run --n 100
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "run", "branch": "sdlc/run-100"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-51 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-47 (unchanged)
+
+### TC-cli-5 empty
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-53
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-52 --kind run
+exit: 0 (105 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "run", "branches": []}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-53 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-52 (unchanged)
+
+### TC-cli-5 notrepo
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-55
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/notrepo-54 --kind run
+exit: 2 (88 ms)
+--- stdout
+{"ok": false, "error": "not a git repository: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/notrepo-54"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-55 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/notrepo-54 (unchanged)
+
+### TC-cli-5 padded
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-57
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-56 --kind run
+exit: 0 (102 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name}", "kind": "run", "branches": [{"branch": "sdlc/run-07", "kind": "run", "tail": "run-07", "n": 7, "known": null}, {"branch": "sdlc/run-7", "kind": "run", "tail": "run-7", "n": 7, "known": null}, {"branch": "sdlc/run-8", "kind": "run", "tail": "run-8", "n": 8, "known": null}]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-57 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-56 (unchanged)
+
+### TC-cli-5 lower
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-59
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py list --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-58 --kind run --format 'sdlc/{name:lower}'
+exit: 0 (105 ms)
+--- stdout
+{"ok": true, "command": "list", "format": "sdlc/{name:lower}", "kind": "run", "branches": [{"branch": "Sdlc/run-2", "kind": "run", "tail": "run-2", "n": 2, "known": null}, {"branch": "Sdlc/RUN-3", "kind": "run", "tail": "RUN-3", "n": 3, "known": null}]}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-59 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-58 (unchanged)
+
+### TC-cli-6 sdlc/feature-x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-61
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-60 --branch sdlc/feature-x --format 'sdlc/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/feature-x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-61 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-60 (unchanged)
+
+### TC-cli-6 sdlc/
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-63
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-62 --branch sdlc/ --format 'sdlc/{name}'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-63 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-62 (unchanged)
+
+### TC-cli-6 sdlc/run-
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-65
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-64 --branch sdlc/run- --format 'sdlc/{name}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/run-", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-65 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-64 (unchanged)
+
+### TC-cli-6 sdlc/feature-S-002
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-67
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-66 --branch sdlc/feature-S-002 --format 'sdlc/{name}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/feature-S-002", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-67 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-66 (unchanged)
+
+### TC-cli-6 sdlc/s-002
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-69
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-68 --branch sdlc/s-002 --format 'sdlc/{name}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/s-002", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-69 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-68 (unchanged)
+
+### TC-cli-6 sdlc/S-
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-71
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-70 --branch sdlc/S- --format 'sdlc/{name}'
+exit: 0 (89 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-71 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-70 (unchanged)
+
+### TC-cli-6 sdlc/S-002/
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-73
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-72 --branch sdlc/S-002/ --format 'sdlc/{name}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-002/", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-73 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-72 (unchanged)
+
+### TC-cli-6 sdlc/run-1/
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-75
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-74 --branch sdlc/run-1/ --format 'sdlc/{name}'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/run-1/", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-75 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-74 (unchanged)
+
+### TC-cli-6 sdlc/run-x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-77
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-76 --branch sdlc/run-x --format 'sdlc/{name}'
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/run-x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-77 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-76 (unchanged)
+
+### TC-cli-6 sdlc/M-
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-79
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-78 --branch sdlc/M- --format 'sdlc/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/M-", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-79 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-78 (unchanged)
+
+### TC-cli-6 sdlc/m-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-81
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-80 --branch sdlc/m-1 --format 'sdlc/{name}'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/m-1", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-81 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-80 (unchanged)
+
+### TC-cli-6 sdlc/RUN-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-83
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-82 --branch sdlc/RUN-1 --format 'sdlc/{name}'
+exit: 0 (78 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/RUN-1", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-83 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-82 (unchanged)
+
+### TC-cli-6 xsdlc/S-002
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-85
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-84 --branch xsdlc/S-002 --format 'sdlc/{name}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "xsdlc/S-002", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-85 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-84 (unchanged)
+
+### TC-cli-6 main
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-87
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-86 --branch main --format 'sdlc/{name}'
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "main", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-87 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-86 (unchanged)
+
+### TC-cli-6 sdlc/sdlc/S-002
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-89
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-88 --branch sdlc/sdlc/S-002 --format 'sdlc/{name}'
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/sdlc/S-002", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-89 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-88 (unchanged)
+
+### TC-cli-7 "sdlc/S-002x"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-91
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-90 --branch sdlc/S-002x --format 'sdlc/{name}'
+exit: 0 (76 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-002x", "kind": "slice", "tail": "S-002x", "id": "S-002x", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-91 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-90 (unchanged)
+
+### TC-cli-7 "sdlc/S-002\n"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-93
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-92 --branch $'sdlc/S-002\n' --format 'sdlc/{name}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-002\n", "kind": "slice", "tail": "S-002\n", "id": "S-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-93 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-92 (unchanged)
+
+### TC-cli-7 "sdlc/run-٣"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-95
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-94 --branch $'sdlc/run-٣' --format 'sdlc/{name}'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/run-\u0663", "kind": "run", "tail": "run-\u0663", "n": 3, "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-95 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-94 (unchanged)
+
+### TC-cli-7 "sdlc/run-1\n"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-97
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-96 --branch $'sdlc/run-1\n' --format 'sdlc/{name}'
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/run-1\n", "kind": "run", "tail": "run-1\n", "n": 1, "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-97 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-96 (unchanged)
+
+### TC-cli-7 "sdlc/M-1\n"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-99
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-98 --branch $'sdlc/M-1\n' --format 'sdlc/{name}'
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/M-1\n", "kind": "milestone", "tail": "M-1\n", "id": "M-1", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-99 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-98 (unchanged)
+
+### TC-cli-7 "sdlc/S-٣"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-101
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-100 --branch $'sdlc/S-٣' --format 'sdlc/{name}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-\u0663", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-101 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-100 (unchanged)
+
+### TC-cli-7 "sdlc/S-002 "
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-103
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-102 --branch 'sdlc/S-002 ' --format 'sdlc/{name}'
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/S-002 ", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-103 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-102 (unchanged)
+
+### TC-cli-7 "sdlc/M-1-e2e-"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-105
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-104 --branch sdlc/M-1-e2e- --format 'sdlc/{name}'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/M-1-e2e-", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-105 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-104 (unchanged)
+
+### TC-cli-7 "sdlc/state-1"
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-107
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-106 --branch sdlc/state-1 --format 'sdlc/{name}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/state-1", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-107 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-106 (unchanged)
+
+### TC-cli-8 cfg
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-109
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-108 --branch sdlc/feature-x
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/feature-x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-109 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-108 (unchanged)
+
+### TC-cli-8 default
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-111
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-110 --branch sdlc/feature-x
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "sdlc/feature-x", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-111 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-110 (unchanged)
+
+### TC-cli-9 slice
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-113
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-112 --branch feature/PROJ-1-S-002 --format 'feature/PROJ-1-{name}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/PROJ-1-{name}", "branch": "feature/PROJ-1-S-002", "kind": "slice", "tail": "S-002", "id": "S-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-113 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-112 (unchanged)
+
+### TC-cli-9 foo
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-115
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-114 --branch feature/PROJ-1-foo --format 'feature/PROJ-1-{name}'
+exit: 0 (73 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/PROJ-1-{name}", "branch": "feature/PROJ-1-foo", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-115 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-114 (unchanged)
+
+### TC-cli-9 other
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-117
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-116 --branch feature/PROJ-2-S-002 --format 'feature/PROJ-1-{name}'
+exit: 0 (69 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/PROJ-1-{name}", "branch": "feature/PROJ-2-S-002", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-117 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-116 (unchanged)
+
+### TC-cli-9 repeated
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-119
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-118 --branch feature/PROJ-1-feature/PROJ-1-S-002 --format 'feature/PROJ-1-{name}'
+exit: 0 (66 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/PROJ-1-{name}", "branch": "feature/PROJ-1-feature/PROJ-1-S-002", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-119 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-118 (unchanged)
+
+### TC-cli-9 repeated2
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-121
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-120 --branch feature/PROJ-1-S-002-feature/PROJ-1-S-003 --format 'feature/PROJ-1-{name}'
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "feature/PROJ-1-{name}", "branch": "feature/PROJ-1-S-002-feature/PROJ-1-S-003", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-121 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-120 (unchanged)
+
+### TC-cli-10 a.b+c(x)/{name}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-123
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-122 --branch 'a.b+c(x)/S-002' --format 'a.b+c(x)/{name}'
+exit: 0 (65 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "a.b+c(x)/{name}", "branch": "a.b+c(x)/S-002", "kind": "slice", "tail": "S-002", "id": "S-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-123 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-122 (unchanged)
+
+### TC-cli-10 (a|b)$/{name}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-127
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-126 --branch '(a|b)$/S-002' --format '(a|b)$/{name}'
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "(a|b)$/{name}", "branch": "(a|b)$/S-002", "kind": "slice", "tail": "S-002", "id": "S-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-127 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-126 (unchanged)
+
+### TC-cli-10 p.d+/{name}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-131
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-130 --branch p.d+/S-002 --format 'p.d+/{name}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "p.d+/{name}", "branch": "p.d+/S-002", "kind": "slice", "tail": "S-002", "id": "S-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-131 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-130 (unchanged)
+
+### TC-cli-10 pre-{name}-post
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-135
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-134 --branch pre-S-002-post --format 'pre-{name}-post'
+exit: 0 (82 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "pre-{name}-post", "branch": "pre-S-002-post", "kind": "slice", "tail": "S-002", "id": "S-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-135 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-134 (unchanged)
+
+### TC-cli-10 lower
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-139
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-138 --branch FEAT/s-002 --format 'Feat/{name:lower}'
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "Feat/{name:lower}", "branch": "FEAT/s-002", "kind": "slice", "tail": "s-002", "id": "s-002", "known": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-139 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-138 (unchanged)
+
+### TC-cli-11 parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-141
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: --branch"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-141 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 parse --branch x
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-143
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --branch x
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the following arguments are required: --repo"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-143 (unchanged)
+
+### TC-cli-11 parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch x --format nofmt
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-145
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch x --format nofmt
+exit: 2 (48 ms)
+--- stdout
+{"ok": false, "error": "the branch format 'nofmt' must hold exactly one {name} or {name:lower}, found 0"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-145 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch x --format {name}{name}
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-147
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch x --format '{name}{name}'
+exit: 2 (47 ms)
+--- stdout
+{"ok": false, "error": "the branch format '{name}{name}' must hold exactly one {name} or {name:lower}, found 2"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-147 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 parse --repo /nonexistent/zz --branch sdlc/S-1
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-149
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /nonexistent/zz --branch sdlc/S-1
+exit: 2 (52 ms)
+--- stdout
+{"ok": false, "error": "--repo '/nonexistent/zz' is not a directory"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-149 (unchanged)
+
+### TC-cli-11 flag-like branch
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-152
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch --format=x
+exit: 2 (46 ms)
+--- stdout
+{"ok": false, "error": "argument --branch: expected one argument"}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-152 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=double-dash
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-153
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch=--
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "--", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-153 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=help-short
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-154
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch=-h
+exit: 0 (71 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "-h", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-154 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=help-long
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-155
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch=--help
+exit: 0 (72 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "--help", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-155 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=flag-eq
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-156
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 '--branch=--format=x/{name}'
+exit: 0 (63 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "--format=x/{name}", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-156 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=negative-like
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-157
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch=-1
+exit: 0 (68 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "-1", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-157 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=single-dash
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-158
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch=-
+exit: 0 (64 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "-", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-158 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=flag-name
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-159
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch=--repo
+exit: 0 (70 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "--repo", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-159 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+
+### TC-cli-11 branch=equals-empty
+$ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-160
+$ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-019-v0-cli-0/skills/sdlc/branches.py parse --repo /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 --branch==
+exit: 0 (67 ms)
+--- stdout
+{"ok": true, "command": "parse", "format": "sdlc/{name}", "branch": "=", "kind": null}
+--- stderr
+
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/cwd-160 (unchanged)
+--- tree /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-0YPWsO/testkit-cli-Iv90Ib/repo-140 (unchanged)
+

@@ -1,0 +1,363 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "f22f644",
+  "environment": "Node 24.19, python3, git; real branches.py from worktree of sdlc/S-019, scratch git repos from cli-runner with controlled HOME, TZ and PYTHONUTF8",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-047"
+      ],
+      "title": "A repo with no run branch gives an empty list and n=1 names sdlc/run-1",
+      "given": "scratch repo, branches sdlc/S-001 and sdlc/feature-x",
+      "when": "list --kind run, then name --kind run --n 1",
+      "then": "empty list; branch value sdlc/run-1; exit 0; tree unchanged",
+      "expected": "empty list; branch value sdlc/run-1; exit 0; tree unchanged",
+      "actual": "empty list; branch value sdlc/run-1; exit 0; tree unchanged",
+      "result": "pass",
+      "specSource": "R-047 acceptance (plan notes)",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:12",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-1 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-047"
+      ],
+      "title": "Count 1 and 3 give n+1; custom format; run branches of an older format are not counted",
+      "given": "branches sdlc/run-1..3, old/run-9, feature/PROJ-1-run-1..2, sdlc/run-7; config branchFormat",
+      "when": "list and name with default format, --format and config format",
+      "then": "list holds only branches under the format; name gives run-4 and feature/PROJ-1-run-3",
+      "expected": "list holds only branches under the format; name gives run-4 and feature/PROJ-1-run-3",
+      "actual": "list holds only branches under the format; name gives run-4 and feature/PROJ-1-run-3",
+      "result": "pass",
+      "specSource": "R-047 acceptance (plan notes)",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:20",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-2 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-047"
+      ],
+      "title": "Hostile --format values fail with a clear error and no tree change",
+      "given": "30 values: flag-like, traversal, brace, empty, .lock, .., ~, NUL",
+      "when": "name --kind run --format=<value>; list --format=--bad",
+      "then": "exit 2 with a JSON error, no traceback, refs unchanged; NUL gives a spawn error",
+      "expected": "exit 2 with a JSON error, no traceback, refs unchanged; NUL gives a spawn error",
+      "actual": "exit 2 with a JSON error, no traceback, refs unchanged; NUL gives a spawn error",
+      "result": "pass",
+      "specSource": "R-047 acceptance (plan notes)",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:38",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-3 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-121"
+      ],
+      "title": "The last list entry is the highest n, numeric not text",
+      "given": "branches run-2, 10, 9, 100, 11, 1",
+      "when": "list --kind run, then name for the last n",
+      "then": "order 1,2,9,10,11,100; last is sdlc/run-100; name equals it; no branch created",
+      "expected": "order 1,2,9,10,11,100; last is sdlc/run-100; name equals it; no branch created",
+      "actual": "order 1,2,9,10,11,100; last is sdlc/run-100; name equals it; no branch created",
+      "result": "pass",
+      "specSource": "R-121 acceptance (plan notes)",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:56",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-4 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-121"
+      ],
+      "title": "No run branch gives an empty list; a non-repo fails cleanly; padded and lower-case names",
+      "given": "repo with only a slice branch; a plain directory; run-07, run-7, run-8; format sdlc/{name:lower}",
+      "when": "list --kind run",
+      "then": "exit 0 and [] for no run branch; exit non-zero with no traceback for a non-repo; last is run-8",
+      "expected": "exit 0 and [] for no run branch; exit non-zero with no traceback for a non-repo; last is run-8",
+      "actual": "exit 0 and [] for no run branch; exit non-zero with no traceback for a non-repo; last is run-8",
+      "result": "pass",
+      "specSource": "R-121 acceptance (plan notes)",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:69",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-5 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-101"
+      ],
+      "title": "User branches outside the loop kinds print no kind",
+      "given": "15 names: sdlc/feature-x, sdlc/, sdlc/run-, sdlc/feature-S-002, sdlc/s-002, sdlc/S-, trailing slash, RUN-1, sdlc/sdlc/S-002",
+      "when": "parse with format sdlc/{name}",
+      "then": "kind null, exit 0, empty stderr, tree unchanged for each",
+      "expected": "kind null, exit 0, empty stderr, tree unchanged for each",
+      "actual": "kind null, exit 0, empty stderr, tree unchanged for each",
+      "result": "pass",
+      "specSource": "R-101 acceptance",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:85",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-6 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-101"
+      ],
+      "title": "Near misses are recorded (trailing newline, S-002x, unicode digits)",
+      "given": "names sdlc/S-002x, S-002 plus newline, run-U+0663, M-1 plus newline, S-U+0663, S-002 plus space",
+      "when": "parse with format sdlc/{name}",
+      "then": "trailing space and S-U+0663 print no kind; S-002x parses as slice id S-002x (slice ids may carry letters); a newline never occurs in a git branch; run-U+0663 parses as run (seed)",
+      "expected": "trailing space and S-U+0663 print no kind; S-002x parses as slice id S-002x (slice ids may carry letters); a newline never occurs in a git branch; run-U+0663 parses as run (seed)",
+      "actual": "trailing space and S-U+0663 print no kind; S-002x parses as slice id S-002x (slice ids may carry letters); a newline never occurs in a git branch; run-U+0663 parses as run (seed)",
+      "result": "pass",
+      "specSource": "R-101 acceptance; seeds for the rest",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:92",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-7 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-101"
+      ],
+      "title": "The config format and the default format give the same no-kind answer",
+      "given": "config branchFormat sdlc/{name}; and a repo without config",
+      "when": "parse sdlc/feature-x",
+      "then": "kind null in both",
+      "expected": "kind null in both",
+      "actual": "kind null in both",
+      "result": "pass",
+      "specSource": "R-101 acceptance",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:103",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-8 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-118"
+      ],
+      "title": "feature/PROJ-1-S-002 parses as slice S-002; foo, other prefix and a repeated prefix do not",
+      "given": "format feature/PROJ-1-{name}",
+      "when": "parse for four branches",
+      "then": "kind slice and id S-002 with empty stderr; kind null for foo, PROJ-2 and the repeated prefix",
+      "expected": "kind slice and id S-002 with empty stderr; kind null for foo, PROJ-2 and the repeated prefix",
+      "actual": "kind slice and id S-002 with empty stderr; kind null for foo, PROJ-2 and the repeated prefix",
+      "result": "pass",
+      "specSource": "R-118 acceptance",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:111",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-9 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-118"
+      ],
+      "title": "A prefix with regex characters is taken literally",
+      "given": "formats a.b+c(x)/, (a|b)$/, p.d+/, pre-{name}-post and Feat/{name:lower}",
+      "when": "parse a matching and a near-matching branch",
+      "then": "the matching branch gives slice S-002; the near match gives kind null; git-unsafe characters (square brackets, star, caret, backslash) give a clear exit 2 error",
+      "expected": "the matching branch gives slice S-002; the near match gives kind null; git-unsafe characters (square brackets, star, caret, backslash) give a clear exit 2 error",
+      "actual": "the matching branch gives slice S-002; the near match gives kind null; git-unsafe characters (square brackets, star, caret, backslash) give a clear exit 2 error",
+      "result": "pass",
+      "specSource": "R-118 acceptance",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:125",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-10 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-118"
+      ],
+      "title": "Exit codes and stderr are stable on bad input",
+      "given": "missing flags, bad format, double placeholder, missing repo, flag-like branch values",
+      "when": "each command run twice",
+      "then": "same exit code and stderr on both runs; no traceback; tree unchanged",
+      "expected": "same exit code and stderr on both runs; no traceback; tree unchanged",
+      "actual": "same exit code and stderr on both runs; no traceback; tree unchanged",
+      "result": "pass",
+      "specSource": "R-118 acceptance (plan notes: stable exit codes and stderr)",
+      "test": ".sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:135",
+      "command": "node --test .sdlc/slices/S-019/verification/r0/tests/cli-0/branches.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "TC-cli-11 transcripts (command, stdout, stderr, exit code, tree diff)",
+          "path": ".sdlc/slices/S-019/verification/r0/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "scratch repo refs unchanged by list, name and parse",
+          "inline": "treeUnchanged: true for every run (cli-runner tree diff, git refs included)"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "scenarioId": "VS-1",
+      "title": "30 hostile --format values (flag-like, traversal, braces, empty, NUL)",
+      "outcome": "all refused with exit 2 and a JSON error, or a spawn error for NUL; no tree change"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "branches.py parse: a letter suffix after the slice id parses as a slice",
+      "detail": "parse sdlc/S-002x prints kind slice, id S-002x. The slice row accepts S-[A-Za-z0-9-]+ on purpose (split ids, fix ids), so a user branch like sdlc/S-002x triggers a rename ask. No spec text forbids it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py parse: unicode digits count as run numbers",
+      "detail": "parse sdlc/run-U+0663 prints kind run. The pattern uses \\d, which matches non-ASCII digits. list --kind run would count that branch, and n+1 could then name a different branch. A [0-9] class would close it.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branches.py: a trailing newline matches the $ anchor",
+      "detail": "parse sdlc/S-002 plus newline prints kind slice. Git refuses such names, so no real branch triggers it. Use \\Z for an exact match.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
