@@ -1,0 +1,10 @@
+regex_int status 1 json false  | TypeError: first argument must be string or compiled pattern
+regex_null status 1 json false  | TypeError: first argument must be string or compiled pattern
+regex_list status 1 json false  | TypeError: cannot use 'tuple' as a dict key (unhashable type: 'list')
+starts_int status 1 json false  | TypeError: startswith first arg must be str or a tuple of str, not int
+starts_null status 1 json false  | TypeError: startswith first arg must be str or a tuple of str, not NoneType
+contains_obj status 1 json false  | TypeError: 'in <string>' requires string as left operand, not dict
+op_list status 0 json true ok=true derived=false samples=unevaluated,unevaluated,unevaluated notes=["cannot evaluate branch_name_pattern: unknown kind ['x']"] | 
+op_missing status 0 json true ok=true derived=false samples=unevaluated,unevaluated,unevaluated notes=["cannot evaluate branch_name_pattern: unknown kind None"] | 
+params_str status 0 json true ok=true derived=false samples=unevaluated,unevaluated,unevaluated notes=["cannot evaluate branch_name_pattern: unknown kind None"] | 
+noparams status 0 json true ok=true derived=false samples=unevaluated,unevaluated,unevaluated notes=["cannot evaluate branch_name_pattern: unknown kind None"] | 

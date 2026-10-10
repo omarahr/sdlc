@@ -1,0 +1,24 @@
+property derive: seed=3599166825 runs=1500 violations=0
+property-run derive seed=3599166825 runs=1500
+property judge: seed=4061633534 runs=1500 violations=0
+property-run judge seed=4061633534 runs=1500
+property suggest: seed=2532558692 runs=1200 violations=0
+property-run suggest seed=2532558692 runs=1200
+property-run cli seed=2106450994 runs=60
+✔ verify contract: seven preflight scenarios at the command boundary (3698.883375ms)
+✔ verify contract: glab ok path and mr without branch (959.037208ms)
+✔ verify contract: bad input exits 2 with one JSON error (829.171916ms)
+✔ verify contract: determinism and no mutation of the repo (892.049875ms)
+✔ verify contract: derive matches the spec table (41.573041ms)
+✔ verify contract: judge matches the rule semantics (11211.112292ms)
+✔ verify contract: suggest carries --branch-format for a loop failure and never derives from a negated rule (3398.321458ms)
+✔ verify contract: CLI exit code equals ok across random rule sets (33315.20675ms)
+✔ verify contract: consumer view runs from a scratch cwd without internal imports (230.044ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 54903.504083
