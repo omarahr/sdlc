@@ -251,25 +251,107 @@
     ],
     "dependsOn": [],
     "kind": "fix",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "",
     "pr": "",
     "risk": "",
     "riskReason": "",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Launch error text can still hold a path",
+        "detail": "_bounded limits a launch or timeout error to one line of 200 characters, but the line can still name a local path. The plan accepts this risk. No fix needed.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Spec text still names raw stderr",
+        "detail": "The spec says the note tail is <stderr>. The code now writes the status and HTTP code. Proposal P-20261010-172007 records the drift. Apply it to the spec in a later step.",
+        "file": ".sdlc/SPEC-PROPOSALS.md",
+        "blocking": false
+      },
+      {
+        "title": "Timing assertion in the measure self-test",
+        "detail": "measure.test.mjs 'measure sees a slow function as slower' busy-waits 20 ms and asserts medianMs >= 15. The lower bound cannot flake, but the test is the only one in the slice that asserts a duration. The file sits in the testkit subfolder, which `npm test` (glob skills/sdlc/test/*.test.mjs) does not run, so it joins no pass today. If a future suite runs testkit tests, put this file in the serial pass. Otherwise inject a fake clock.",
+        "file": "skills/sdlc/test/testkit/measure.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Slice tests cover the behavior and the promoted edge cases",
+        "detail": "The committed tests assert on the note, not on the implementation. They cover the secret, a 10 MB stderr, the launch failure, the multi-line error, HTTP code edge cases and unicode digits. Both verifier tests named in round 0 are promoted and recorded in tests.md. The code and tests carry no comments. No test calls the test command or sleeps. No blocking issue found. The timeout branch of _run_forge_cli still has no direct test (carried from round 0, non-blocking).",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Non-ASCII digits after HTTP reach the note",
+        "detail": "The pattern uses \\d, which matches any Unicode digit. stderr 'HTTP ٤٠٣' or 'HTTP ４０３' gives 'gh exited with status 1 (HTTP ٤٠٣)'. Only three digit characters are copied, so no secret leaks. Use [0-9] or re.ASCII to make the code an exact ASCII three-digit code.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Timeout note carries the argv of the failed call",
+        "detail": "A timeout note reads \"Command '['gh', 'api', 'repos/{owner}/{repo}/rules/branches/sdlc%2FA']' timed out after 60 seconds\". It holds no secret today because the argv holds none. A future argv with a token would reach the note. Build the timeout text from the exception type and the timeout value instead.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Property tests have no shrinking",
+        "detail": "The property toolkit reports the failing input without a shrunk counterexample. A long failing input stays long.",
+        "file": "skills/sdlc/test/testkit/property.mjs"
+      },
+      {
+        "title": "_forge_failure copies Unicode digits as the HTTP code",
+        "detail": "The pattern uses \\d in str mode, so Arabic-Indic and fullwidth digits match. Stderr 'HTTP <Arabic-Indic 303>' gives 'gh exited with status 1 (HTTP <those three characters>)'. At most three characters leak and no token can. Fix with re.ASCII or [0-9]. Pinned failing test: .sdlc/slices/S-fix-M-1-2/verification/r0/tests/security-0/forge-failure.verify-security.test.mjs 'VS-5 unicode digits never reach the note'.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Timeout note carries the gh argv",
+        "detail": "The timeout note holds the full gh argv, for example the encoded branch path. In this run it held no secret or home path, and it stayed near 100 characters.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "10 MB stderr is read into memory",
+        "detail": "subprocess.run with capture_output reads all of stderr before any cap applies. The 10 MB case took about 200 ms median. The slice plan accepts this.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Word boundary is ASCII only, so a code next to a non-ASCII character still counts",
+        "detail": "With re.ASCII, 'HTTP 403é' and 'HTTP 403٣' give '(HTTP 403)'. The note holds only ASCII, so nothing leaks. The round 0 reference model treated these as word characters.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "SC-M-1-059 (R-029, R-084): Expected: One note that starts with `rules unknown on github:`, with the status code and no secret. Observed: The rules unknown note holds the whole gh stderr, so a token in stderr reaches stdout. Cause: _run_forge_cli returns proc.stderr.strip() unfiltered. Spec source: spec section 3, gh api failure. E2E test: e2e/tests/faults.test.mjs > SC-M-1-059 gh api failure is one note and samples are unchecked. SC-M-1-061 (R-031, R-084): Expected: One note that starts with `rules unknown on gitlab:` and no secret in any output. Observed: The failing glab variant puts the shim stderr and its secret into the note and into stdout. Spec source: R-031 acceptance. E2E test: e2e/tests/faults.test.mjs > SC-M-1-061 glab failure or absence gives one rules unknown note. SC-M-1-064 (R-029): Expected: Every variant finishes with ok true and one bounded note that holds no secret. Observed: A gh failure with 10 MB of stderr gives a note that holds all stderr; stdout is 10486340 bytes and holds the secret. The other variants pass. Spec source: Assumptions: a rules read that fails is a note, never a block. E2E test: e2e/tests/faults.test.mjs > SC-M-1-064 slow, huge and invalid gh answers finish with a bounded note. Test phase: remove these scenario ids from e2e/pending.json so their e2e tests fail; they are this slice's failing tests.",
     "counters": {
       "planRevisions": 0,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
+      "gateCommit": "ae2e98b6975874bac484948f5bc99aabb28e7f0a"
     },
-    "ledger": []
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-fix-M-1-3",

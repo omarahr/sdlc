@@ -759,3 +759,11 @@
 - Decision: Option 2. The test still checks that the JS tail stays literal. It no longer demands that name prints an unparseable branch.
 - Consequences / how to reverse: Restore the old diff condition in e2e/tests/scripts.test.mjs and remove the round-trip check from name.
 - Affects: R-019, S-fix-M-1-1b
+
+### ADR-20261010-172007-decision-judge-S-fix-M-1-2-91a8: Rules note carries exit status and HTTP code, not raw stderr
+- Status: auto
+- Context: Spec section 3 says the note is "rules unknown on github: <stderr>". Scenarios SC-M-1-059, -061 and -064 need no secret on stdout and a bounded note. Raw stderr breaks both. No OVERRIDE ADR covers this question.
+- Options: (1) Tail is "<tool> exited with status <n>" plus the HTTP code; never copy stderr. (2) Same tail, with " (HTTP <code>)" when stderr holds a three-digit status. (3) Same, as a small change that is easy to revert.
+- Decision: Option 2. The three proposals describe one design. Scores (fit x3, reversibility x2, simplicity x1): each option = 15+10+4 or 5, a tie. Option 2 states the HTTP code rule exactly. Keep the prefix "rules unknown on <forge>: ". Update T-R-029a and T-R-031a to expect the prefix and status. Do not edit the spec.
+- Consequences / how to reverse: Edit one note-building helper and two test expectations. To restore stderr, add a redacted, truncated excerpt to the tail. The prefix, exit codes and unchecked samples stay the same.
+- Affects: R-029, R-031, S-fix-M-1-2
