@@ -4152,13 +4152,32 @@
       "S-018"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-028",
     "pr": "",
     "risk": "low",
     "riskReason": "Test-only additions; the worst case is a failing test.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "New test overlaps T-R-062 in its placeholder loop",
+        "detail": "The eight-placeholder loop repeats part of T-R-062 in skills/sdlc/test/prompts.test.mjs. The spec names the test, and the plan accepts the overlap. The env-detector and SKILL.md assertions are new. No change needed. To trim later, move those assertions into one shared helper.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "New test overlaps T-R-062 and T-R-046a",
+        "detail": "The eight-placeholder loop repeats T-R-062. The `branches.py\" preflight` match repeats T-R-046a. The spec names this test (R-081), so keep it. The plan records the overlap as intended. Optional: drop nothing now. A later slice may merge the duplicate checks.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "No comments, deterministic, honest name",
+        "detail": "The test adds no comments. It reads files only, with no timing, network or order dependence. Its name matches its assertions. The test would fail if a placeholder, the branchFormat match or either SKILL.md match were removed. R-082 relies on the existing STE linter test, which needs no new code.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4168,8 +4187,17 @@
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "cbf0121e0b2eb9d3dda5d5a01f946406ffe3a70a"
+    },
+    "ledger": [
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-029",

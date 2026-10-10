@@ -1080,6 +1080,17 @@ test('T-R-062: _common.md defines every branch placeholder', () => {
   assert.match(bullet, /branches\.py` parse|branches\.py parse/)
 })
 
+test('_common.md defines every branch placeholder and env-detector records the format', () => {
+  const { bullet } = commonBranchNames()
+  for (const p of ['<run branch>', '<slice branch>', '<milestone branch>', '<e2e branch>', '<e2e area branch>', '<state branch>', '<attempt branch>', '<verify branch>']) {
+    assert.ok(bullet.includes(p), `${p} missing from the Branch names bullet`)
+  }
+  assert.match(readFileSync(join(SKILL_DIR, 'prompts', 'env-detector.md'), 'utf8'), /branchFormat/)
+  const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+  assert.match(skill, /--branch-format/)
+  assert.match(skill, /branches\.py" preflight/)
+})
+
 test('T-R-110: the slice branch placeholder maps to branches.py name', () => {
   const { bullet } = commonBranchNames()
   assert.ok(branchRow(bullet, '<slice branch>').includes('branches.py name --kind slice --id <sliceId>'))
