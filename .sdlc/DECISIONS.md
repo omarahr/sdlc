@@ -487,3 +487,11 @@
 - Decision: T-R-044c uses a regex rule, which is never derived. T-R-073a negates starts_with sdlc/, which the default format fails.
 - Consequences / how to reverse: restore the old rules and drop the derivation. The tests keep their original intent.
 - Affects: R-042, R-044, S-016
+
+### ADR-20261010-005045-human-S-005b-1073: R-119 is verified by a runtime check, not a source scan
+- Status: OVERRIDE
+- Context: S-005b tried to prove R-119 ("a verify branch stays local") by scanning the Python scripts for push calls. Three attempts and nine fix rounds ended parked. Each pinned argument form left another open: a bytes option, an int argument and a double-star argument leave every key equal, and one mutant pushed a verify branch to a bare remote while the guard stayed green. A static scan of call arguments cannot cover every way to write an argument.
+- Options: (A) check the effect at runtime: run the push paths against a local bare remote and assert that no verify branch arrives. (B) narrow R-119 to the push sites in sdlc-loop.js. (C) make the push wrapper refuse a branch that parses as verify.
+- Decision: Option A. The acceptance of R-119 becomes a behavior check. A test builds a fixture repo with a local bare remote and local verify branches named by `branches.py name --kind verify`, under the default format and under one custom format. It runs every script path that can push or open a pull request, with a `gh` shim that records its calls. It asserts that the remote holds no branch that `branches.py parse` classifies as verify, and that the shim saw no pull-request creation with a verify head. Do not build a scanner of call arguments. Do not pin wrapper bodies. Do not restore push_guard.py or push-guard.test.mjs from the archived attempt branches.
+- Consequences / how to reverse: The check covers the paths the test drives, so the test must drive each push site of state-write.py and any other script that pushes. A new push site needs a new case. To reverse, restore the source-scan acceptance of R-119.
+- Affects: R-119, S-005b
