@@ -29,3 +29,23 @@
 - Source: contradiction ADR-20261010-074453-decision-judge-S-027c-1782
 - Proposal: In the R-063 and R-080 scan text, state that the scan skips sdlc/{name. Write the regex as (?<![.\w])sdlc/(?!tracker|STOP|\{name).
 - Rationale: The spec requires the default format text sdlc/{name} in four files. The scan must not flag required text.
+
+### P-20261010-M1-scenarios: Define the empty pattern and non-string config values
+- Source: behavior-campaign
+- Proposal: In spec section 3, state what `evaluate` returns for an empty `pattern`. In spec section 2, state what `load_format` returns when `branchFormat` is not a string.
+- Rationale: The spec is silent on both cases. Scenarios SC-M-1-013 and SC-M-1-037 only check that the module does not crash.
+
+### P-20261010-M1-SC007: Define load_format on invalid JSON in config.json
+- Source: behavior-campaign
+- Proposal: In spec section 2, state what `load_format` does when `.sdlc/config.json` is not valid JSON. Either it returns `sdlc/{name}`, or it stops with exit 2 and an error.
+- Rationale: R-016 lists only a missing key, an empty value and an absent file. The code stops with exit 2 on invalid JSON. Scenario SC-M-1-007 expects the default.
+
+### P-20261010-M1-SC017: Say that parse digits are ASCII
+- Source: behavior-campaign
+- Proposal: In spec section 2, after the parse table, add one sentence. In every row, `\d` means an ASCII digit `[0-9]`. A branch with other Unicode digits returns None.
+- Rationale: The spec writes `\d` and does not name a digit set. Python `re` matches Arabic-Indic digits with `\d`. Branch names that format() makes hold only ASCII digits. Scenario SC-M-1-017 expects None for 14 Arabic-Indic digits.
+
+### P-20261010-M1-SC012: Define what name does with an id that git refuses
+- Source: behavior-campaign
+- Proposal: In spec section 2, state what `name` does when a part such as `--id` or `--area` makes a branch that `git check-ref-format --branch` refuses. Either `name` exits 2 with an error, or it prints the branch as given.
+- Rationale: R-017 checks only the format with the sample id S-001. The spec says exit 2 on bad input but does not call a hostile id bad input. Ids come from the ledger. Scenario SC-M-1-012 expects exit 2 or a valid ref. The code prints the refused ref and runs no hostile text.

@@ -43,10 +43,14 @@
       "S-036",
       "S-037"
     ],
-    "status": "pending",
-    "attempts": 0,
-    "lastRun": "",
-    "fixSlices": [],
+    "status": "fixing",
+    "attempts": 1,
+    "lastRun": "2026-10-10T14:30:46Z",
+    "fixSlices": [
+      "S-fix-M-1-1",
+      "S-fix-M-1-2",
+      "S-fix-M-1-3"
+    ],
     "pr": "",
     "gaps": []
   }
