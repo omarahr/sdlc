@@ -1,22 +1,17 @@
-Verdict: REFUTED
+Verdict: HELD
 
-Worktree: `.claude/worktrees/sdlc-run`. Commit: a673f4198b3a7c5e8cde742d86f31b6013d331cb.
+Commit checked: 83ae96f8073c5ef99e34656f0d58d4b8854e1f54 on sdlc/S-034.
 
 ## Suites
 
 | Command | Result | Counts | Duration |
 |---|---|---|---|
-| `npm test` | exit 0 | 773 passed, 0 failed, 1 skipped (774 tests) | 207 s, repeat run 212 s |
-| lint | not set | none | none |
-| typecheck | not set | none | none |
-| build | not set | none | none |
-| e2e | not set | none | none |
+| npm test | pass (exit 0) | 774 tests, 773 pass, 0 fail, 1 skipped | 103 s |
+| lint | not configured | n/a | n/a |
+| typecheck | not configured | n/a | n/a |
+| build | not configured | n/a | n/a |
+| e2e | not configured | n/a | n/a |
 
-## Test-time budget
+Test time: branch 103 s, baseline 88 s on main. The added time is 15 s, below the 60 s limit.
 
-- The stored baseline for main was 88 s and valid.
-- The machine load was high (load average above 20), so main ran again on the same machine: 113 s, 678 tests, all green.
-- The branch takes 207 s and 212 s in two runs. It adds about 95 s, over the limit of max(60 s, 20 %).
-- The branch adds 96 tests. The slowest are subprocess tests in `skills/sdlc/test/scripts.test.mjs` and `skills/sdlc/test/branches.test.mjs` (1 s to 12 s each).
-
-Receipt: written with `--result fail` on a673f4198b3a7c5e8cde742d86f31b6013d331cb. Reason: the test-time budget.
+Receipt: written with --result pass on 83ae96f8073c5ef99e34656f0d58d4b8854e1f54.
