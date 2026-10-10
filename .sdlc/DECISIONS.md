@@ -647,3 +647,43 @@
 - Decision: Option 3. Do not change branches.py. It matches the R-093 acceptance text with the fewest steps and no remote existence check. Record the remote-only case as a known limit.
 - Consequences / how to reverse: A remote-only attempt branch stays on the remote. It is never merged or reused. To cover it, add a --remote option to branches.py list in a later slice and change the cleanup line in the prompt.
 - Affects: R-093, S-027b
+
+### ADR-20261010-074453-decision-judge-S-027c-1782: R-063 and R-080 scan skips the sdlc/{name placeholder
+- Status: auto
+- Context: The scan regex (?<![.\w])sdlc/(?!tracker|STOP) also matches sdlc/{name}. Spec sections 5 and 8 and tests T-R-062, T-R-064a and T-R-065a require that text in _common.md, env-detector.md, state-schema.md and SKILL.md. No OVERRIDE ADR covers this question.
+- Options: (1) Add \{name to the negative lookahead. (2) Same, with the regex written out in full. (3) Same, with the note that the required text stays unchanged.
+- Decision: Option 2. Set the scan regex to (?<![.\w])sdlc/(?!tracker|STOP|\{name). The three options give the same result. Do not change the required text or any test.
+- Consequences / how to reverse: Only the exact prefix sdlc/{name passes. Literals such as sdlc/S-001 still fail the scan. To reverse, remove |\{name from the lookahead. The contradiction then returns.
+- Affects: R-063, R-080, S-027c
+
+### ADR-20261010-074457-decision-judge-S-027c-44f1: S-027c sweep covers every omitted sdlc/ literal
+- Status: auto
+- Context: Spec section 8 omits some literals in verify-toolsmith.md, test-reporter.md, state-reader.md, verify-collector.md, the integrator verify sweep and SKILL.md lines 14, 31, 67. R-063 bans any sdlc/ literal outside branches.py output blocks. No OVERRIDE ADR covers this question.
+- Options: (1) Extend the sweep to every omitted literal with the nearest placeholder; use "branches that parse as kind verify" for the integrator sweep. (2) Same, with a final grep for sdlc/ literals. (3) Same, citing ADR-20261010-071945 (S-027b).
+- Decision: Option 1. The three options give the same result. The section 8 table lists known literals, not the limit of the sweep. Use the placeholders <slice branch>, <state branch>, <e2e branch> or <verify branch>. For the integrator sweep, use branches.py list --kind verify. Run the scan test for sdlc/ literals to prove no literal stays.
+- Consequences / how to reverse: Each change is a text edit in one prompt line. To reverse, restore the literal on that line and update its test. Keep the integrator test in step with the new phrase.
+- Affects: R-063, S-027c
+
+### ADR-20261010-074458-decision-judge-S-027c-6e34: spike scratch branch is named from the slice branch with -spike added
+- Status: auto
+- Context: The escalator names a scratch branch sdlc/<id>-spike. The spec table lists no kind or placeholder for it. The branch is never pushed and no kind parses it. No OVERRIDE ADR covers this question.
+- Options: (1) Keep the plan's wording: the slice branch name with -spike added. (2) Same, worded as "a scratch branch named like <slice branch> with -spike added". (3) Same, as prose built from the printed <slice branch> name.
+- Decision: Option 2. In escalator.md, replace sdlc/<id>-spike with "a scratch branch named like <slice branch> with -spike added". Add no kind, placeholder or spec row. The three options give the same result.
+- Consequences / how to reverse: The change is one phrase in escalator.md. To add a spike kind, add a spike row to the branches.py table and a <spike branch> placeholder, then swap the phrase. No pushed branch or stored state depends on the name.
+- Affects: R-063, S-027c
+
+### ADR-20261010-074536-decision-judge-S-027c-a719: Confirm scan skips the sdlc/{name placeholder
+- Status: auto
+- Context: The plan asks again whether the R-063 and R-080 scan skips sdlc/{name. ADR-20261010-074453-decision-judge-S-027c-1782 already settles it. No OVERRIDE ADR conflicts.
+- Options: (1) Skip the placeholder with the regex from the settled ADR. (2) Same, as the smallest change. (3) Same, noting the required text and tests stay unchanged.
+- Decision: Option 1. Use (?<![.\w])sdlc/(?!tracker|STOP|\{name). Change no required text and no test. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: Remove |\{name from the lookahead. The contradiction then returns. Literals such as sdlc/S-001 still fail the scan. SPEC-PROPOSALS entry P-20261010-074453 already covers the spec text fix.
+- Affects: R-063, R-080, S-027c
+
+### ADR-20261010-074611-decision-judge-S-027c-5027: Confirm S-027c sweep covers every omitted sdlc/ literal
+- Status: auto
+- Context: The plan asks again whether the sweep covers literals that spec section 8 omits. ADR-20261010-074457-decision-judge-S-027c-44f1 already settles it. No OVERRIDE ADR conflicts.
+- Options: (1) Extend the sweep to every omitted literal with the nearest placeholder; use branches.py list --kind verify for the integrator sweep. (2) Same, with no new placeholder. (3) Same, in one commit per file group and with section 8 unchanged.
+- Decision: Option 1. Use the placeholders <slice branch>, <state branch>, <e2e branch> or <verify branch>. Run the scan test for sdlc/ literals to prove none stays. Scores: fit 5, reversibility 5, simplicity 4.
+- Consequences / how to reverse: Each change is a text edit on one prompt line. To reverse, restore the literal and update its test.
+- Affects: R-063, S-027c

@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T07:38:09Z
+Updated: 2026-10-10T07:48:44Z
 
 Requirements: 114/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 28/40 done · current: none · awaiting merge: none
+Slices: 28/40 done · current: S-027c remaining prompts replace branch literals and a test guards the sweep · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: none
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 81 · Spec proposals: 5
+ADRs: 86 · Spec proposals: 6
 
 ## Recent
 - 2026-10-10T04:28:53Z slice-merged S-022 state-write.py names and classifies branches through the module
