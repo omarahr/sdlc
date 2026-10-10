@@ -1,0 +1,24 @@
+✔ verify cli: VS-7 janitor reads no sdlc/ literal outside prose and calls load_format (0.879667ms)
+✔ verify cli: VS-7 custom format sweeps feature/ branch only (588.430709ms)
+✔ verify cli: VS-7 malformed format (no placeholder) deletes no branch and reports (551.259ms)
+✔ verify cli: VS-7 malformed format (unbalanced open) deletes no branch and reports (552.515958ms)
+✔ verify cli: VS-7 malformed format (unbalanced close) deletes no branch and reports (557.148291ms)
+✔ verify cli: VS-7 malformed format (two placeholders) deletes no branch and reports (532.435459ms)
+✔ verify cli: VS-7 malformed format (unknown placeholder) deletes no branch and reports (577.031208ms)
+✔ verify cli: VS-7 git-unsafe or odd format (extra braces) deletes no branch (588.097375ms)
+✔ verify cli: VS-7 git-unsafe or odd format (git-unsafe space) deletes no branch (604.856042ms)
+✔ verify cli: VS-7 git-unsafe or odd format (git-unsafe tilde) deletes no branch (595.206625ms)
+✔ verify cli: VS-7 git-unsafe or odd format (git-unsafe colon) deletes no branch (578.295417ms)
+✔ verify cli: VS-7 git-unsafe or odd format (double dot) deletes no branch (577.902333ms)
+✔ verify cli: VS-7 git-unsafe or odd format (leading dash) deletes no branch (618.712ms)
+✔ verify cli: VS-7 git-unsafe or odd format (lock suffix) deletes no branch (601.7875ms)
+✔ verify cli: VS-7 non-string branchFormat counts as absent and sweeps under sdlc/{name} (2613.804375ms)
+✔ verify cli: VS-7 invalid JSON config deletes no branch and reports (576.532625ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10864.308875

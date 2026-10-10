@@ -1,0 +1,79 @@
+property branch_run: seed=2767008703 runs=1500 violations=0
+[]
+property branch_run malformed fmt: seed=3593848531 runs=1000 violations=0
+[]
+0:return:"" 1:return:"" 2:return:"" 3:return:"" 4:return:"" 5:return:"" 6:return:"" 7:return:"" 8:exception:AttributeError 9:exception:AttributeError 10:exception:AttributeError 11:return:"" 12:return:""
+non-object config probe: 8:exception:AttributeError 9:exception:AttributeError 10:exception:AttributeError
+"feature/PROJ-1-run-١" -> "feature/PROJ-1-run-١"
+"feature/PROJ-1-run-1\n" -> "feature/PROJ-1-run-1\n"
+"feature/PROJ-1‐run-1" -> ""
+"feature/PROJ-1-run-1​" -> ""
+"feature/PROJ-1-ruн-1" -> ""
+[]
+property load_format: seed=191072499 runs=500 violations=0
+✔ verify contract: branch_run examples from the plan under custom and default format (930.249334ms)
+✔ verify contract: branch_run property against a reference model, 1500 runs (32421.357625ms)
+✔ verify contract: branch_run with malformed formats gives Fail or empty string, never a traceback (22375.629084ms)
+✔ verify contract: branch_run with hostile committed config text never raises a traceback (473.239583ms)
+✔ verify contract: branch_run is deterministic and does not mutate the repo (283.75175ms)
+✔ verify contract: unicode lookalike and trailing-newline stored names (probe) (271.500917ms)
+✔ verify contract: janitor.py takes its format from branches.load_format and holds no sdlc/ literal outside prose (0.38775ms)
+✔ verify contract: janitor.py load_format property: malformed config shapes give Fail or a string (237.947375ms)
+malformed no placeholder: reported=true notes=["the branch format is unusable; no branch was deleted (the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0)"]
+malformed two placeholders: reported=true notes=["the branch format is unusable; no branch was deleted (the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2)"]
+malformed unbalanced open: reported=true notes=["the branch format is unusable; no branch was deleted (the branch format 'a/{name' must hold exactly one {name} or {name:lower}, found 0)"]
+malformed unbalanced close: reported=true notes=["the branch format is unusable; no branch was deleted (the branch format 'a/name}' must hold exactly one {name} or {name:lower}, found 0)"]
+malformed extra brace: reported=false notes=[]
+malformed whitespace: reported=false notes=[]
+malformed double dot: reported=false notes=[]
+malformed tilde: reported=false notes=[]
+malformed colon: reported=false notes=[]
+malformed question mark: reported=false notes=[]
+malformed bracket: reported=false notes=[]
+malformed backslash: reported=false notes=[]
+malformed ends with .lock: reported=false notes=[]
+malformed at brace: reported=false notes=[]
+malformed control char: reported=false notes=[]
+malformed unknown modifier: reported=true notes=["the branch format is unusable; no branch was deleted (the branch format '{name:upper}' must hold exactly one {name} or {name:lower}, found 0)"]
+malformed bare braces: reported=true notes=["the branch format is unusable; no branch was deleted (the branch format '{}' must hold exactly one {name} or {name:lower}, found 0)"]
+non-string number: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string array: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string object: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string true: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+non-string null: removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+invalid json: status=0 removed=[] notes=["the branch format is unusable; no branch was deleted (/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-verify-jan-MCXypG/.sdlc/config.json is not valid JSON: JSONDecodeError: Expecting value: line 1 column 17 (char 16))"]
+non-object json: status=0 removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+directory-like text: status=0 removed=["sdlc/S-001-v0-http-api-0","sdlc/S-999-v0-cli-0"] notes=[]
+✔ verify contract: janitor with malformed branchFormat (no placeholder) deletes no branch and reports it (320.022625ms)
+✔ verify contract: janitor with malformed branchFormat (two placeholders) deletes no branch and reports it (299.66175ms)
+✔ verify contract: janitor with malformed branchFormat (unbalanced open) deletes no branch and reports it (290.717208ms)
+✔ verify contract: janitor with malformed branchFormat (unbalanced close) deletes no branch and reports it (393.539667ms)
+✔ verify contract: janitor with malformed branchFormat (extra brace) deletes no branch and reports it (374.73025ms)
+✔ verify contract: janitor with malformed branchFormat (whitespace) deletes no branch and reports it (349.689042ms)
+✔ verify contract: janitor with malformed branchFormat (double dot) deletes no branch and reports it (346.917583ms)
+✔ verify contract: janitor with malformed branchFormat (tilde) deletes no branch and reports it (340.178333ms)
+✔ verify contract: janitor with malformed branchFormat (colon) deletes no branch and reports it (341.045792ms)
+✔ verify contract: janitor with malformed branchFormat (question mark) deletes no branch and reports it (333.037916ms)
+✔ verify contract: janitor with malformed branchFormat (bracket) deletes no branch and reports it (359.649708ms)
+✔ verify contract: janitor with malformed branchFormat (backslash) deletes no branch and reports it (321.963458ms)
+✔ verify contract: janitor with malformed branchFormat (ends with .lock) deletes no branch and reports it (346.00675ms)
+✔ verify contract: janitor with malformed branchFormat (at brace) deletes no branch and reports it (338.592291ms)
+✔ verify contract: janitor with malformed branchFormat (control char) deletes no branch and reports it (343.601458ms)
+✔ verify contract: janitor with malformed branchFormat (unknown modifier) deletes no branch and reports it (288.211417ms)
+✔ verify contract: janitor with malformed branchFormat (bare braces) deletes no branch and reports it (300.6735ms)
+✔ verify contract: janitor with non-string branchFormat (number) probe (400.748833ms)
+✔ verify contract: janitor with non-string branchFormat (array) probe (410.680333ms)
+✔ verify contract: janitor with non-string branchFormat (object) probe (384.5565ms)
+✔ verify contract: janitor with non-string branchFormat (true) probe (400.514458ms)
+✔ verify contract: janitor with non-string branchFormat (null) probe (403.4865ms)
+✔ verify contract: janitor with broken config (invalid json) never raises and keeps foreign branches (293.961917ms)
+✔ verify contract: janitor with broken config (non-object json) never raises and keeps foreign branches (364.763709ms)
+✔ verify contract: janitor with broken config (directory-like text) never raises and keeps foreign branches (371.879ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57130.680041

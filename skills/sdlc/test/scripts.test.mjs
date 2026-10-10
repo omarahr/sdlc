@@ -2272,3 +2272,119 @@ test('state-write.py holds no local regex for verify or attempt names', opts, ()
   assert.ok(!text.includes('-attempt-'), 'an -attempt- pattern literal is in state-write.py')
   assert.doesNotMatch(text, /-v\\d|-v\[0-9\]/)
 })
+
+const branchRunOf = (repo, branch, fmt) =>
+  execFileSync('python3', ['-c', `
+import importlib.util, json, sys
+spec = importlib.util.spec_from_file_location("sw", sys.argv[1])
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+print(json.dumps(mod.branch_run(sys.argv[2], sys.argv[3], sys.argv[4])))
+`, STATE, repo, branch, fmt], { encoding: 'utf8' }).trim()
+
+const branchWithRun = (repo, branch, runBranch) => {
+  git(repo, 'checkout', '-q', '-b', branch, 'main')
+  commitState(repo, { 'config.json': { ...json(repo, 'config.json'), runBranch } }, `${branch} config`)
+}
+
+test('the prune treats only branches that parse to milestone as milestone branches under a custom format', opts, () => {
+  const repo = fixture({ config: customConfig(1), remote: true })
+  shippedMilestones(repo, ['M-1'])
+  for (const other of ['sdlc/M-2', 'feature/PROJ-1-M-3-e2e', 'feature/PROJ-1-S-001']) git(repo, 'branch', other, 'origin/main')
+  customRun2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-4', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(branchExists(repo, 'feature/PROJ-1-M-1'), false, 'the shipped milestone branch survived')
+  for (const stays of ['sdlc/M-2', 'feature/PROJ-1-M-3-e2e', 'feature/PROJ-1-S-001', 'feature/PROJ-1-run-1']) {
+    assert.ok(branchExists(repo, stays), `${stays} was deleted though it is not a milestone branch`)
+  }
+})
+
+test('branch_run takes a run branch only when it parses to kind run', opts, () => {
+  const repo = fixture({ config: customConfig(1) })
+  const cases = [
+    [CUSTOM, 'feature/PROJ-1-run-1', 'feature/PROJ-1-run-1'],
+    [CUSTOM, 'sdlc/run-1', ''],
+    [CUSTOM, 'main', ''],
+    ['sdlc/{name}', 'sdlc/run-1', 'sdlc/run-1'],
+    ['sdlc/{name}', 'feature/PROJ-1-run-1', ''],
+    ['sdlc/{name}', 'release/x', ''],
+    ...[5, null, ['x'], { a: 1 }, true].map((runBranch) => [CUSTOM, runBranch, '']),
+  ]
+  cases.forEach(([fmt, runBranch, want], i) => {
+    const branch = `probe-${i}`
+    branchWithRun(repo, branch, runBranch)
+    assert.equal(JSON.parse(branchRunOf(repo, branch, fmt)), want, `${JSON.stringify(runBranch)} under ${fmt}`)
+    git(repo, 'checkout', '-q', 'main')
+  })
+})
+
+function leftoverMilestone(runBranch) {
+  const repo = fixture({
+    config: customConfig(1),
+    slices: [slice('S-001')],
+    milestones: [{ id: 'M-1', title: 'Run 2', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'checkout', '-q', '-b', 'feature/PROJ-1-run-1')
+  commitState(repo, {}, 'run 1 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', 'feature/PROJ-1-run-1')
+  git(repo, 'checkout', '-q', '-b', 'feature/PROJ-1-M-1')
+  commitState(repo, { 'config.json': customConfig(1, { runBranch }) }, 'M-1 started')
+  writeFileSync(join(repo, 'src', 'unshipped.txt'), 'work nobody accepted\n')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'M-1 work')
+  git(repo, 'push', '-q', '-u', 'origin', 'feature/PROJ-1-M-1')
+  git(repo, 'fetch', '-q', 'origin')
+  git(repo, 'checkout', '-q', 'feature/PROJ-1-run-1')
+  git(repo, 'checkout', '-q', '-b', 'feature/PROJ-1-run-2')
+  commitState(repo, { 'config.json': customConfig(2) }, 'run 2 bootstrap')
+  return repo
+}
+
+test('a foreign branch is not taken as the run branch', opts, () => {
+  const foreign = leftoverMilestone('main')
+  const tip = git(foreign, 'rev-parse', 'feature/PROJ-1-M-1')
+  const r = call(STATE, foreign, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' })
+  assert.doesNotMatch(String(r.out.error || ''), /belongs to run/)
+  assert.equal(git(foreign, 'rev-parse', 'feature/PROJ-1-M-1'), tip, 'the unshipped branch was pruned or moved')
+
+  const control = leftoverMilestone('feature/PROJ-1-run-1')
+  const c = call(STATE, control, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' })
+  assert.equal(c.code, 2)
+  assert.match(c.out.error, /belongs to run feature\/PROJ-1-run-1/)
+})
+
+const v0Ledger = () => [slice('S-001', { status: 'done' }), slice('S-002')]
+
+test('a repo whose config holds feature/PROJ-1-{name} makes the janitor sweep under that format', opts, () => {
+  const repo = fixture({ config: { branchFormat: CUSTOM }, slices: v0Ledger() })
+  const swept = `feature/PROJ-1-${V0('S-001')}`
+  const stays = `sdlc/${V0('S-001')}`
+  for (const b of [swept, stays]) git(repo, 'branch', b)
+  const r = runJanitor(repo)
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(JSON.parse(r.stdout).removedBranches, [swept])
+  assert.deepEqual(refs(repo), ['main', stays].sort())
+})
+
+test('a repo with no branchFormat makes the janitor sweep under sdlc/{name}', opts, () => {
+  for (const config of [{}, { branchFormat: '' }]) {
+    const repo = fixture({ config, slices: v0Ledger() })
+    const swept = `sdlc/${V0('S-001')}`
+    const stays = `feature/PROJ-1-${V0('S-001')}`
+    for (const b of [swept, stays]) git(repo, 'branch', b)
+    const r = runJanitor(repo)
+    assert.equal(r.status, 0, r.stderr)
+    assert.deepEqual(JSON.parse(r.stdout).removedBranches, [swept])
+    assert.deepEqual(refs(repo), ['main', stays].sort())
+  }
+})
+
+test('janitor.py takes its format from load_format', opts, () => {
+  const text = readFileSync(JANITOR, 'utf8')
+  assert.ok(text.includes('branches.load_format(repo)'))
+  assert.doesNotMatch(text, /["'`]sdlc\//)
+})

@@ -1,0 +1,214 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "94e98a7",
+  "environment": "Node test runner, python3 -I via pycall, git fast-import scratch repos; no network",
+  "surface": "state-write.py: branch_run(repo, branch, fmt) -> str; Fail. janitor.py: CLI --repo --days. branches.py: load_format(repo), split(fmt), parse(fmt, branch, ids=None).",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-138"
+      ],
+      "title": "branch_run returns a stored name only for kind run, under custom and default format",
+      "given": "a repo with branches holding runBranch values feature/PROJ-1-run-1, sdlc/run-1, main, release/x, empty, 5, null, list, object, true, missing key, invalid JSON, [] and null",
+      "when": "branch_run(repo, branch, fmt) under feature/PROJ-1-{name} and sdlc/{name}, and for a missing branch",
+      "then": "the matching run name comes back; every other value gives the empty string; no exception",
+      "expected": "the matching run name comes back; every other value gives the empty string; no exception",
+      "actual": "14 values x 2 formats all matched",
+      "result": "pass",
+      "specSource": "R-138 acceptance",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:73",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "examples",
+          "inline": "examples test passed; see log",
+          "path": ".sdlc/slices/S-033/verification/r0/logs/contract-0-run4.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-138"
+      ],
+      "title": "Property: branch_run equals a reference model written from the spec",
+      "given": "1500 generated (format, stored runBranch) pairs, committed as 1500 branches; model: starts with prefix, ends with suffix, middle is run-<ascii digits>",
+      "when": "branch_run for each pair",
+      "then": "the stored value when the model accepts, else the empty string",
+      "expected": "the stored value when the model accepts, else the empty string",
+      "actual": "0 violations in 1500 runs",
+      "result": "pass",
+      "specSource": "R-138 acceptance",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:96",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "property branch_run",
+          "inline": "property branch_run: seed=2767008703 runs=1500 violations=0",
+          "path": ".sdlc/slices/S-033/verification/r0/logs/contract-0-run4.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-138"
+      ],
+      "title": "Property: malformed or non-string format gives Fail or a string",
+      "given": "1000 formats from arb.format (braces, git-unsafe characters, unicode whitespace, NUL, lone surrogates, non-strings)",
+      "when": "branch_run(repo, branch, fmt)",
+      "then": "outcome is Fail or a string, never another exception",
+      "expected": "outcome is Fail or a string, never another exception",
+      "actual": "0 violations in 1000 runs",
+      "result": "pass",
+      "specSource": "R-138 acceptance; plan note VS-2",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:120",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "property malformed fmt",
+          "inline": "property branch_run malformed fmt: seed=3593848531 runs=1000 violations=0",
+          "path": ".sdlc/slices/S-033/verification/r0/logs/contract-0-run4.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-138"
+      ],
+      "title": "Hostile committed config text does not raise for object-shaped or broken JSON",
+      "given": "committed config text: empty, truncated, BOM, concatenated objects, NaN, 100000 open brackets, deep nesting, duplicate keys, lone surrogate",
+      "when": "branch_run under the default format",
+      "then": "Fail or a string",
+      "expected": "Fail or a string",
+      "actual": "all returned the empty string; a JSON string, number or true at top level raised AttributeError (seed 1)",
+      "result": "pass",
+      "specSource": "plan note VS-2 only, not a spec source",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:109",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "non-object probe",
+          "inline": "non-object config probe: 8:exception:AttributeError 9:exception:AttributeError 10:exception:AttributeError",
+          "path": ".sdlc/slices/S-033/verification/r0/logs/contract-0-run4.log"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-139"
+      ],
+      "title": "janitor.py calls branches.load_format(repo) and holds no sdlc/ branch literal outside prose",
+      "given": "janitor.py at the slice commit",
+      "when": "read the file",
+      "then": "load_format call present; no literal sdlc/ outside the docstring and .sdlc paths",
+      "expected": "load_format call present; no literal sdlc/ outside the docstring and .sdlc paths",
+      "actual": "call present; zero literal hits",
+      "result": "pass",
+      "specSource": "R-139 acceptance",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:136",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "source check",
+          "inline": "includes branches.load_format(repo); literal hits: []"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-139"
+      ],
+      "title": "janitor with 17 malformed branchFormat values deletes no branch",
+      "given": "ledger S-001 done; branches sdlc/S-001-v0-http-api-0, feature/PROJ-1-S-001-v0-http-api-0, sdlc/S-999-v0-cli-0",
+      "when": "run janitor.py with each malformed format",
+      "then": "no branch removed; refs unchanged; exit 0",
+      "expected": "no branch removed; refs unchanged; exit 0",
+      "actual": "all 17 deleted nothing; format errors reported as a note for the four split-detectable shapes only",
+      "result": "pass",
+      "specSource": "R-139 acceptance; plan note VS-7",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:50",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "reports",
+          "path": ".sdlc/slices/S-033/verification/r0/logs/contract-0-run4.log",
+          "inline": "malformed tilde: reported=false notes=[] (and 10 more git-unsafe shapes)"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-139"
+      ],
+      "title": "Property: load_format over generated config shapes gives Fail or a string",
+      "given": "500 config shapes from arb.configShape",
+      "when": "load_format(repo)",
+      "then": "Fail or return",
+      "expected": "Fail or return",
+      "actual": "0 violations in 500 runs",
+      "result": "pass",
+      "specSource": "R-139 acceptance",
+      "test": ".sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs:149",
+      "command": "VERIFY_WT=<worktree of sdlc/S-033> node --test .sdlc/slices/S-033/verification/r0/tests/contract-0/branch-run.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "load_format",
+          "inline": "property load_format: seed=191072499 runs=500 violations=0",
+          "path": ".sdlc/slices/S-033/verification/r0/logs/contract-0-run4.log"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "Stored run name with a trailing newline or a non-ASCII digit parses as run",
+      "detail": "branch_run returns 'feature/PROJ-1-run-1\\n' and 'feature/PROJ-1-run-\u0661' because parse uses $ and \\d. A real branch name cannot hold either, so the effect is small.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "branch_run raises AttributeError when the committed config is a JSON string, number or true",
+      "detail": "state-write.py calls .get on the loaded value without a type check. The same code was on main before this slice.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "janitor.py checks the format with split only, so git-unsafe formats give no note",
+      "detail": "Eleven formats (whitespace, .., ~, :, ?, [, backslash, .lock, @{, control char, extra brace) delete nothing but report nothing. validate_format would report them.",
+      "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "A non-string branchFormat makes the janitor sweep under sdlc/{name}",
+      "detail": "load_format treats a number, list, object, true or null as absent. The janitor then deletes sdlc/S-001-v0-http-api-0 and sdlc/S-999-v0-cli-0 with no note. The same happens when config.json holds a JSON list.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

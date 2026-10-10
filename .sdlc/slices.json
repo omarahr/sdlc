@@ -4522,24 +4522,130 @@
       "S-024"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-033",
     "pr": "",
     "risk": "high",
     "riskReason": "Janitor deletes branches, so a wrong classification removes real work.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Prune test overlaps older prune tests",
+        "detail": "The custom-format prune test adds foreign kinds to coverage that older prune tests already pin. Merge the extra branches into the existing test if the overlap grows.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "branch_run fails on non-object config JSON",
+        "detail": "A committed config.json that holds valid JSON but not an object raises AttributeError in branch_run. This exists on main. Guard it with an isinstance check in a later slice.",
+        "file": "skills/sdlc/state-write.py",
+        "blocking": false
+      },
+      {
+        "title": "branch_run raises on a non-object config.json",
+        "detail": "If the committed .sdlc/config.json is valid JSON but not an object (for example a list), .get raises AttributeError, which is not caught by the ValueError handler. The spec does not state this case. The behavior predates this slice.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "branch_run raises AttributeError when the committed config.json is valid JSON but not an object",
+        "detail": "With config.json containing [1], \"str\" or 5 on a leftover milestone branch, patch-slice exits 1 with a traceback at state-write.py:284. The expression (json.loads(...) or {}).get is unchanged by S-033. The branch keeps its tip. The planner note asks for no traceback, but no requirement or ADR does.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "parse accepts Unicode digits and leading zeros in milestone ids",
+        "detail": "feature/PROJ-1-M-１ (fullwidth digit) and feature/PROJ-1-M-01 parse to kind milestone, so the prune deletes them when shipped. The regex ^(M-\\d+)$ matches Unicode digits. The loop never creates such names, so the risk is low.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Plan note for VS-5 contradicts janitor.py",
+        "detail": "The note says a branch not in the ledger stays. The janitor docstring and code delete it. The verification test follows the docstring.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor: git-unsafe format gives no note",
+        "detail": "janitor.py calls only branches.split, not validate_format. A format such as 'feat ure/{name}' or 'a{b}/{name}' passes split. The sweep deletes nothing, but it prints no note. The spec rejects such formats at pre-flight, so this is a gap in defence only.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "load_format: non-string branchFormat falls back to default silently",
+        "detail": "_config_value returns None for a non-string value (123, array, object, true). The janitor then sweeps under sdlc/{name} and prints no note.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Stored run name with trailing newline or non-ASCII digit parses as run",
+        "detail": "branch_run returns 'feature/PROJ-1-run-1\\n' and 'feature/PROJ-1-run-١' because parse uses $ and \\d. A real branch name cannot hold either, so the effect is small.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branch_run raises AttributeError on a non-object committed config",
+        "detail": "A committed .sdlc/config.json holding a JSON string, number or true makes branch_run call .get on a non-dict. The same code was on main before this slice.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "janitor.py validates the format with split only",
+        "detail": "11 git-unsafe formats (whitespace, .., ~, :, ?, [, backslash, .lock, @{, control char, extra brace) delete nothing but give no note. validate_format would report them.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "Non-string branchFormat makes the janitor sweep under sdlc/{name} silently",
+        "detail": "load_format treats a number, list, object, true or null as absent, and also a JSON list as the whole config. The janitor then deletes sdlc/S-001-v0-http-api-0 and sdlc/S-999-v0-cli-0 with no note.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branches.parse accepts non-ASCII digits",
+        "detail": "The row patterns use \\d on str, so feature/PROJ-1-M-٣ parses as a milestone and feature/PROJ-1-run-٢ as a run. The prune would delete such a shipped branch. Use [0-9] or re.ASCII.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "branch_run raises on a committed config that is not an object",
+        "detail": "A config.json holding [1] on a leftover branch gives AttributeError from .get. The line is older than S-033, but the slice changes this function. ensure_milestone_branch would stop with a traceback.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "janitor does not validate the format it loads",
+        "detail": "Only split() runs. Formats with an unbalanced brace, whitespace, NUL, .., ~ or .lock pass without a note. A non-string branchFormat reads as absent, so the janitor sweeps under sdlc/{name} and gives no note. No malformed string format deleted a branch. Call validate_format and add a note for a non-string value.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "scenario VS-5 note differs from the janitor rule",
+        "detail": "The plan note says a verify branch whose slice is not in the ledger stays. The janitor docstring says it goes. The code follows the docstring.",
+        "file": "skills/sdlc/janitor.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
       "planRevisions": 0,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "62874300b0973d2248e0cca3d019b83c73983ab4"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-034",
