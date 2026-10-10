@@ -2985,3 +2985,81 @@ test('T-R-024-affix a look-alike character in the prefix or suffix is no match u
   assert.equal(out[1], null)
   assert.equal(out[2] && out[2].kind, 'slice')
 })
+
+const NAME_PROBE = `${LOAD}
+import json
+rows = []
+for c in json.loads(sys.argv[2]):
+    try:
+        branch = mod.name(c["fmt"], c["kind"], **c["parts"])
+        rows.append({"branch": branch, "parsed": mod.parse(c["fmt"], branch)})
+    except mod.Fail as e:
+        rows.append({"fail": str(e)})
+    except Exception as e:
+        rows.append({"error": type(e).__name__ + ": " + str(e)})
+print(json.dumps(rows))
+`
+
+const pyName = (cases) =>
+  JSON.parse(probe(NAME_PROBE, [BRANCHES, JSON.stringify(cases)], { cwd: scratch('sdlc-branches-cwd-') }))
+
+test('T-R-019-roundtrip name refuses an id that parse reads as another kind', opts, () => {
+  const ids = ['S-001-attempt-2', 'S-001-v0-cli-0']
+  const out = pyName(ids.map((id) => ({ fmt: DEFAULT_FMT, kind: 'slice', parts: { id } })))
+  ids.forEach((id, i) => assert.equal(typeof out[i].fail, 'string', `name slice ${id} did not raise Fail: ${JSON.stringify(out[i])}`))
+  for (const id of ids) {
+    const r = run(['name', '--repo', gitRepo(), '--kind', 'slice', '--id', id])
+    assert.equal(r.status, 2, `${id}: exit ${r.status}, stdout ${r.stdout}, stderr ${r.stderr}`)
+    assert.equal(oneObject(r).ok, false, `${id}: ok is not false`)
+  }
+})
+
+test('T-R-019-valid name still returns the same branch for valid parts and parses back', opts, () => {
+  const cases = [
+    { fmt: DEFAULT_FMT, kind: 'slice', parts: { id: 'S-001' } },
+    { fmt: DEFAULT_FMT, kind: 'slice', parts: { id: 'S-fix-M-1-2' } },
+    ...KIND_CASES.map(([kind, parts]) => ({ fmt: DEFAULT_FMT, kind, parts })),
+  ]
+  const out = pyName(cases)
+  assert.equal(out[0].branch, 'sdlc/S-001')
+  cases.forEach((c, i) => {
+    assert.equal(typeof out[i].branch, 'string', `${c.kind}: ${JSON.stringify(out[i])}`)
+    assert.equal(out[i].parsed.kind, c.kind, `${c.kind}: parsed kind`)
+    for (const [key, value] of Object.entries(c.parts)) assert.equal(out[i].parsed[key], value, `${c.kind}: parsed ${key}`)
+  })
+})
+
+test('T-R-019-nonascii name refuses an id that is not ASCII', opts, () => {
+  const cases = []
+  for (const fmt of [DEFAULT_FMT, 'feature/PROJ-1-{name:lower}']) {
+    for (const id of ['S-00K', 'S-00é']) cases.push({ fmt, kind: 'slice', parts: { id } })
+  }
+  const out = pyName(cases)
+  cases.forEach((c, i) => assert.equal(typeof out[i].fail, 'string', `${c.fmt} ${c.parts.id}: ${JSON.stringify(out[i])}`))
+})
+
+test('T-R-019-int-value name accepts an integer part given as a padded string', opts, () => {
+  const out = pyName([{ fmt: DEFAULT_FMT, kind: 'run', parts: { n: '02' } }])
+  assert.equal(typeof out[0].branch, 'string', JSON.stringify(out[0]))
+  assert.equal(out[0].parsed.kind, 'run')
+  assert.equal(out[0].parsed.n, 2)
+})
+
+test('T-R-019-lower name lowercases only the tail', opts, () => {
+  const out = pyName([{ fmt: 'Feat/PROJ-{name:lower}-X', kind: 'slice', parts: { id: 'S-001' } }])
+  assert.equal(out[0].branch, 'Feat/PROJ-s-001-X')
+})
+
+test('T-R-019-lower-nonascii-area name keeps a non-ASCII area through the round trip', opts, () => {
+  const out = pyName([{ fmt: 'Feat/PROJ-{name:lower}-X', kind: 'e2e-area', parts: { id: 'M-1', area: 'É' } }])
+  assert.equal(typeof out[0].branch, 'string', JSON.stringify(out[0]))
+  assert.equal(out[0].parsed.kind, 'e2e-area')
+  assert.equal(out[0].parsed.area, 'É')
+})
+
+test('T-R-019-e2e-id name accepts a slice id that ends in -e2e', opts, () => {
+  const out = pyName([{ fmt: DEFAULT_FMT, kind: 'slice', parts: { id: 'S-001-e2e' } }])
+  assert.equal(typeof out[0].branch, 'string', JSON.stringify(out[0]))
+  assert.equal(out[0].parsed.kind, 'slice')
+  assert.equal(out[0].parsed.id, 'S-001-e2e')
+})

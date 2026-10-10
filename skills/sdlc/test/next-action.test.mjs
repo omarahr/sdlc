@@ -653,3 +653,17 @@ test('the checked-out branch wins over another in-progress branch', opts, () => 
   assert.equal(d.checkout, null)
   assert.equal(d.next.slice.id, 'S-2')
 })
+
+test('T-R-053-active a slice id matches a branch by ASCII lowering only', opts, () => {
+  const ok = fixture({ 'slices.json': [slice('S-001')] }, { config: { branchFormat: 'feature/p-1-{name:lower}' } })
+  inProgressOn(ok, 'feature/p-1-s-001', 'S-001')
+  assert.equal(decide(ok).checkout, 'feature/p-1-s-001')
+
+  const lookalike = fixture({ 'slices.json': [slice('S-001')] }, { config: { branchFormat: 'feature/p-1-{name:lower}' } })
+  inProgressOn(lookalike, 'feature/p-1-s-00k', 'S-00K')
+  assert.equal(decide(lookalike).checkout, null, 'a slice id with U+212A does not match the ASCII branch id')
+
+  const branchSide = fixture({ 'slices.json': [slice('S-001')] }, { config: { branchFormat: 'feature/p-1-{name:lower}' } })
+  inProgressOn(branchSide, 'feature/p-1-s-00K', 'S-00k')
+  assert.equal(decide(branchSide).checkout, null, 'a branch with U+212A is not active')
+})
