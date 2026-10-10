@@ -1,0 +1,213 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "ddbea4a",
+  "environment": "Node test runner, python3, scratch git repos via cli-runner, branches.py from the slice branch",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Each table command runs and prints a formatted name",
+      "given": "Scratch repo with branchFormat feature/{name}",
+      "when": "Run the five name commands in the table with sample ids (slice, milestone, e2e, e2e-area, state, attempt)",
+      "then": "Exit 0, JSON with ok true and a branch under feature/",
+      "expected": "Exit 0, JSON with ok true and a branch under feature/",
+      "actual": "All six exit 0; branches feature/S-025, feature/M-1, feature/M-1-e2e, feature/M-1-e2e-api, feature/state-<ts>, feature/S-025-attempt-2; repo tree unchanged",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:1",
+      "command": "node --test .sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py transcript with exit codes",
+          "path": ".sdlc/slices/S-025/verification/r0/logs/cli-0-transcript.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Table holds eight placeholders in order; missing --id or --area fails",
+      "given": "_common.md and scratch repo",
+      "when": "Parse table rows; run name --kind slice without --id; e2e-area without --area",
+      "then": "Eight rows; non-zero exit with no branch printed",
+      "expected": "Eight rows; non-zero exit with no branch printed",
+      "actual": "Eight rows found; both bad calls exit non-zero with no branch",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:1",
+      "command": "node --test .sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py transcript with exit codes",
+          "path": ".sdlc/slices/S-025/verification/r0/logs/cli-0-transcript.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-110"
+      ],
+      "title": "Slice row command prints the formatted slice name",
+      "given": "Custom and default format repos",
+      "when": "Run name --kind slice --id S-025",
+      "then": "feature/S-025 with custom format; sdlc/S-025 by default",
+      "expected": "feature/S-025 with custom format; sdlc/S-025 by default",
+      "actual": "Matches in both repos",
+      "result": "pass",
+      "specSource": "R-110 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:1",
+      "command": "node --test .sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py transcript with exit codes",
+          "path": ".sdlc/slices/S-025/verification/r0/logs/cli-0-transcript.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-089"
+      ],
+      "title": "Run row: list --kind run gives runs in numeric order, last is newest",
+      "given": "Branches sdlc/run-1, run-2, run-10, other/run-99, custom format with feature/run-4, and a repo with none",
+      "when": "Run list --kind run",
+      "then": "Last entry is run-10 (not run-2); format respected; empty list for none",
+      "expected": "Last entry is run-10 (not run-2); format respected; empty list for none",
+      "actual": "Entries run-1, run-2, run-10 in numeric order; feature/run-4 only under the custom format; empty list when none; exit 0 always",
+      "result": "pass",
+      "specSource": "R-089 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:1",
+      "command": "node --test .sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py transcript with exit codes",
+          "path": ".sdlc/slices/S-025/verification/r0/logs/cli-0-transcript.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-117"
+      ],
+      "title": "parse prints kind and ids for a loop branch and kind null for a foreign branch",
+      "given": "Repo with format feature/{name}",
+      "when": "parse feature/S-025, sdlc/S-025, main, dev",
+      "then": "kind slice with id for the loop branch; kind null for others",
+      "expected": "kind slice with id for the loop branch; kind null for others",
+      "actual": "As expected; exit 0",
+      "result": "pass",
+      "specSource": "R-117 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:1",
+      "command": "node --test .sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py transcript with exit codes",
+          "path": ".sdlc/slices/S-025/verification/r0/logs/cli-0-transcript.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-117"
+      ],
+      "title": "Hostile branch names never crash parse or yield a loop kind",
+      "given": "Attack corpus families flag-like-values, traversal, control-chars, unicode-confusables, unicode-whitespace, injection, oversized, format-strings; NUL argument",
+      "when": "parse --branch=<value> for every corpus entry",
+      "then": "Exit 0 or 2, no traceback, kind null; NUL cannot reach the process",
+      "expected": "Exit 0 or 2, no traceback, kind null; NUL cannot reach the process",
+      "actual": "All entries pass in 8 families; NUL gives spawnError",
+      "result": "pass",
+      "specSource": "R-117 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs:1",
+      "command": "node --test .sdlc/slices/S-025/verification/r0/tests/cli-0/branch-table.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py transcript with exit codes",
+          "path": ".sdlc/slices/S-025/verification/r0/logs/cli-0-transcript.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "family": "flag-like-values",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "traversal",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "control-chars",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "unicode-confusables",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "unicode-whitespace",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "injection",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "oversized",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "format-strings",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    },
+    {
+      "family": "nul",
+      "target": "branches.py parse --branch",
+      "result": "no crash, kind null"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "_common.md says parse prints null; it prints JSON with kind null",
+      "detail": "The Branch names bullet says parse prints 'null' for a foreign branch. The command prints a JSON object with \"kind\": null. The same bullet says name 'prints' a name, but the command prints JSON with a branch field. A reader may look for the bare word null or a bare name. Say 'prints kind null' and 'the branch field'.",
+      "file": "skills/sdlc/prompts/_common.md"
+    }
+  ]
+}

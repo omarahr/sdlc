@@ -1,0 +1,241 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "ddbea4a",
+  "environment": "Node 24, python3, scratch git repos from cli-runner; worktree of sdlc/S-025",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Table holds exactly the eight placeholders once, in spec order",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "the table rows are run, slice, milestone, e2e, e2e area, state, attempt, verify branch",
+      "expected": "the table rows are run, slice, milestone, e2e, e2e area, state, attempt, verify branch",
+      "actual": "the table rows are run, slice, milestone, e2e, e2e area, state, attempt, verify branch",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:21",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "surface",
+          "inline": "8 rows: <run branch> <slice branch> <milestone branch> <e2e branch> <e2e area branch> <state branch> <attempt branch> <verify branch>; one Branch names bullet"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Every name command runs and prints the formatted name (default, prefix and lower formats)",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "exit 0 and expected branch for the 6 name rows",
+      "expected": "exit 0 and expected branch for the 6 name rows",
+      "actual": "exit 0 and expected branch for the 6 name rows",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:48",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run",
+          "inline": "6 commands x 3 formats; all exit 0; names equal prefix+tail+suffix; state name matches state-<14 digits>"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Argument names in the table are accepted by branches.py",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "--kind --id --area --n accepted",
+      "expected": "--kind --id --area --n accepted",
+      "actual": "--kind --id --area --n accepted",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:41",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "flags",
+          "inline": "used flags subset of branches.py name options"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-110"
+      ],
+      "title": "Slice row is verbatim and prints the formatted name",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "row cell equals `branches.py name --kind slice --id <sliceId>`; custom format feature/{name} gives feature/S-007",
+      "expected": "row cell equals `branches.py name --kind slice --id <sliceId>`; custom format feature/{name} gives feature/S-007",
+      "actual": "row cell equals `branches.py name --kind slice --id <sliceId>`; custom format feature/{name} gives feature/S-007",
+      "result": "pass",
+      "specSource": "R-110 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:26",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "cell",
+          "inline": "`branches.py name --kind slice --id <sliceId>`"
+        },
+        {
+          "kind": "property-run",
+          "title": "name/parse vs reference model",
+          "inline": "property=name matches reference model and parse round-trips kind; seed=20260101 runs=1000 per kind x 6 kinds x 5 formats; violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-089"
+      ],
+      "title": "Run row is verbatim; list --kind run orders numerically, last is newest, empty when none",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "run-2, run-9, run-10 in order; none gives []",
+      "expected": "run-2, run-9, run-10 in order; none gives []",
+      "actual": "run-2, run-9, run-10 in order; none gives []",
+      "result": "pass",
+      "specSource": "R-089 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:69",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "list",
+          "inline": "branches: sdlc/run-2, sdlc/run-9, sdlc/run-10; no run branches -> []"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-090"
+      ],
+      "title": "Verify row names the branch input; no --kind verify text in _common.md; name --kind verify with no parts exits non-zero",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "no `--kind verify` string in _common.md",
+      "expected": "no `--kind verify` string in _common.md",
+      "actual": "no `--kind verify` string in _common.md",
+      "result": "pass",
+      "specSource": "R-090 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:80",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "grep",
+          "inline": "no match for --kind verify; name --kind verify -> exit 2"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "ste-check.py exits 0; no old line changed; 12 lines added; Long commands bullet intact",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "ste-check exit 0, 0 removed lines, 12 added",
+      "expected": "ste-check exit 0, 0 removed lines, 12 added",
+      "actual": "ste-check exit 0, 0 removed lines, 12 added",
+      "result": "pass",
+      "specSource": "R-062 (STE rule in _common.md)",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:165",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "ste",
+          "inline": "ste-check exit=0; removed=0; added=12"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Property: name equals reference model for 6 kinds, parse returns the same kind",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "0 violations in 1000 runs per kind",
+      "expected": "0 violations in 1000 runs per kind",
+      "actual": "0 violations in 1000 runs per kind",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:131",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "name/parse vs reference model",
+          "inline": "property=name matches reference model and parse round-trips kind; seed=20260101 runs=1000 per kind x 6 kinds x 5 formats; violations=0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-062"
+      ],
+      "title": "Determinism and no tree mutation",
+      "given": "_common.md on sdlc/S-025 at ddbea4a",
+      "when": "the test parses the Branch names bullet and runs branches.py",
+      "then": "identical stdout on repeat; treeUnchanged",
+      "expected": "identical stdout on repeat; treeUnchanged",
+      "actual": "identical stdout on repeat; treeUnchanged",
+      "result": "pass",
+      "specSource": "R-062 acceptance",
+      "test": ".sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs:156",
+      "command": "VERIFY_REPO=<worktree of sdlc/S-025> TESTKIT_SEED=20260101 node --test .sdlc/slices/S-025/verification/r0/tests/contract-0/table.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "det",
+          "inline": "same output twice; tree unchanged"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": []
+}

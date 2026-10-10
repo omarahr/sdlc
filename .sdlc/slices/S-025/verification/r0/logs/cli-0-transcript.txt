@@ -1,0 +1,36 @@
+$ branches.py name --repo . --kind slice --id S-025
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "slice", "branch": "feature/S-025"}
+exit=0
+$ branches.py name --repo . --kind milestone --id M-1
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "milestone", "branch": "feature/M-1"}
+exit=0
+$ branches.py name --repo . --kind e2e --id M-1
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "e2e", "branch": "feature/M-1-e2e"}
+exit=0
+$ branches.py name --repo . --kind e2e-area --id M-1 --area api
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "e2e-area", "branch": "feature/M-1-e2e-api"}
+exit=0
+$ branches.py name --repo . --kind state
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "state", "branch": "feature/state-20261010055552"}
+exit=0
+$ branches.py name --repo . --kind attempt --id S-025 --n 2
+{"ok": true, "command": "name", "format": "feature/{name}", "kind": "attempt", "branch": "feature/S-025-attempt-2"}
+exit=0
+$ branches.py list --repo . --kind run
+{"ok": true, "command": "list", "format": "feature/{name}", "kind": "run", "branches": [{"branch": "feature/run-4", "kind": "run", "tail": "run-4", "n": 4, "known": null}]}
+exit=0
+$ branches.py parse --repo . --branch feature/S-025
+{"ok": true, "command": "parse", "format": "feature/{name}", "branch": "feature/S-025", "kind": "slice", "tail": "S-025", "id": "S-025", "known": null}
+exit=0
+$ branches.py parse --repo . --branch sdlc/S-025
+{"ok": true, "command": "parse", "format": "feature/{name}", "branch": "sdlc/S-025", "kind": null}
+exit=0
+$ branches.py parse --repo . --branch main
+{"ok": true, "command": "parse", "format": "feature/{name}", "branch": "main", "kind": null}
+exit=0
+$ branches.py parse --repo . --branch=--help
+{"ok": true, "command": "parse", "format": "feature/{name}", "branch": "--help", "kind": null}
+exit=0
+$ branches.py parse --repo . --branch ../../etc/passwd
+{"ok": true, "command": "parse", "format": "feature/{name}", "branch": "../../etc/passwd", "kind": null}
+exit=0

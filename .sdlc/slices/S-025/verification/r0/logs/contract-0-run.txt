@@ -1,0 +1,24 @@
+attack parse cases=95
+property-run seed=20260101 runs=1000 kinds=6 violations=0
+ste-check exit=0  
+✔ verify contract: surface lists exactly the eight placeholders once, in the spec order (0.523417ms)
+✔ verify contract: spec cells appear verbatim (0.074792ms)
+✔ verify contract: argument names in table commands are accepted by branches.py (0.070375ms)
+✔ verify contract: every name command prints a name (format default) (1097.642958ms)
+✔ verify contract: every name command prints a name (format feature/{name}) (1069.5705ms)
+✔ verify contract: every name command prints a name (format x-{name:lower}-y) (1054.343375ms)
+✔ verify contract: run branch row — list --kind run last entry is newest; none gives empty list (739.315208ms)
+✔ verify contract: verify branch row has no name call; name for kind verify needs round, profile and part (280.497459ms)
+✔ verify contract: parse classifies loop branches, prints null for foreign and hostile names (962.04ms)
+✔ verify contract: parse on attack corpus never crashes and never invents a loop kind outside sdlc/ (15589.100542ms)
+✔ verify contract: property — name matches the reference model and parse round-trips (>=1000 runs) (504.00375ms)
+✔ verify contract: determinism and no mutation (447.391083ms)
+✔ verify contract: STE check passes on _common.md and neighbouring bullets are unchanged (55.022542ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21887.612
