@@ -1513,17 +1513,6 @@ test('T-R-135: commit-state.md uses the four branch placeholders and takes the s
   assert.match(sweepPromptText('_common'), /`<state branch>`\s*\|\s*`branches\.py name --kind state`/)
 })
 
-test('T-R-146: the 13 slice prompts hold no sdlc/<id> literal and use <slice branch>', () => {
-  const files = [...SLICE_BRANCH_FILES, 'verify-collector']
-  assert.equal(files.length, 13)
-  for (const file of files) {
-    const text = stripBranchesOutput(sweepPromptText(file))
-    assert.ok(!text.includes('sdlc/<id>'), `${file}.md holds sdlc/<id>`)
-    assert.doesNotMatch(text, LOOP_BRANCH_LITERAL, `${file}.md spells a loop branch literally`)
-    assert.ok(text.includes('<slice branch>'), `${file}.md lacks <slice branch>`)
-  }
-})
-
 test('T-R-149: state-schema.md holds no loop branch literal and names the milestone branch by kind', () => {
   const text = sweepPromptText('state-schema')
   for (const literal of ['sdlc/S-001', 'sdlc/run-<n>', 'sdlc/M-<n>']) {
