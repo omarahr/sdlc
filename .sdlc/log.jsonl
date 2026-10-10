@@ -41,3 +41,4 @@
 {"ts": "2026-10-10T07:13:14Z", "type": "slice-merged", "slice": "S-027a", "detail": "env-detector, state-schema and slicer name branches through the format"}
 {"ts":"2026-10-10T07:38:09Z","type":"slice-merged","slice":"S-027b","detail":"integrator deletes attempt branches found through branches.py list"}
 {"ts":"2026-10-10T08:20:48Z","type":"slice-merged","slice":"S-027c","detail":"remaining prompts replace branch literals and a test guards the sweep"}
+{"ts":"2026-10-10T08:33:39Z","type":"slice-merged","slice":"S-028","detail":"prompt tests guard the placeholders and the format records"}
