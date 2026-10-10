@@ -1811,3 +1811,192 @@ test('ste-check flags each rule on its own line', opts, () => {
     assert.deepEqual(r.stdout.trim().split('\n'), [`${file}:1: ${rule} — ${line}`], rule)
   }
 })
+
+const CUSTOM = 'feature/PROJ-1-{name}'
+const customConfig = (run, extra = {}) => ({ ...stackConfig(run), branchFormat: CUSTOM, runBranch: `feature/PROJ-1-run-${run}`, ...extra })
+
+function shippedMilestones(repo, ids, { fmt = CUSTOM, prefix = 'feature/PROJ-1-' } = {}) {
+  const pub = publisher(remotes.get(repo))
+  const runBranch = `${prefix}run-1`
+  git(repo, 'checkout', '-q', '-b', runBranch)
+  commitState(repo, {}, 'run 1 bootstrap')
+  git(repo, 'push', '-q', '-u', 'origin', runBranch)
+  for (const id of ids) {
+    git(repo, 'checkout', '-q', '-b', `${prefix}${id}`, runBranch)
+    writeFileSync(join(repo, 'src', `${id}.txt`), `${id} shipped work\n`)
+    git(repo, 'add', '-A')
+    git(repo, 'commit', '-q', '-m', `${id} work`)
+    git(repo, 'push', '-q', '-u', 'origin', `${prefix}${id}`)
+    mergeOnMain(pub, `${prefix}${id}`, `${id} (#1)`)
+  }
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  return fmt
+}
+
+function customRun2(repo, files, config = customConfig(2)) {
+  git(repo, 'checkout', '-q', 'main')
+  git(repo, 'merge', '-q', '--ff-only', 'origin/main')
+  git(repo, 'checkout', '-q', '-b', config.runBranch)
+  commitState(repo, { 'config.json': config, ...files }, 'run 2 bootstrap')
+}
+
+const branchExists = (repo, name) => git(repo, 'branch', '--list', name).trim() !== ''
+
+test('state-write creates the slice and milestone branches under a custom format', opts, () => {
+  const repo = fixture({
+    config: customConfig(1),
+    slices: [slice('S-001')],
+    milestones: [{ id: 'M-1', title: 'Search', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'checkout', '-q', '-b', 'feature/PROJ-1-run-1')
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-001'], { status: 'in_progress' })
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'feature/PROJ-1-S-001')
+  assert.ok(branchExists(repo, 'feature/PROJ-1-S-001'), 'the slice branch is not named through the format')
+  assert.ok(branchExists(repo, 'feature/PROJ-1-M-1'), 'the milestone branch is not named through the format')
+  assert.equal(branchExists(repo, 'sdlc/S-001'), false)
+  assert.equal(branchExists(repo, 'sdlc/M-1'), false)
+  assert.equal(git(repo, 'branch', '--show-current'), 'feature/PROJ-1-S-001')
+  assert.equal(git(repo, 'rev-parse', 'feature/PROJ-1-S-001^'), git(repo, 'rev-parse', 'feature/PROJ-1-M-1'))
+})
+
+test('state-write finds the dependency branch through the module under a custom format', opts, () => {
+  const repo = fixture({
+    config: customConfig(1),
+    slices: [slice('S-001', { status: 'awaiting-merge', pr: 'u' }), slice('S-002', { dependsOn: ['S-001'] })],
+    milestones: [{ id: 'M-1', title: 'Search', status: 'pending', slices: ['S-001', 'S-002'], fixSlices: [] }],
+  })
+  seed(repo, 'feature/PROJ-1-run-1', 'run\n')
+  seed(repo, 'feature/PROJ-1-M-1', 'm1\n')
+  seed(repo, 'feature/PROJ-1-S-001', 'slice one\n')
+  git(repo, 'checkout', '-q', 'feature/PROJ-1-run-1')
+  seed(repo, 'sdlc/S-001', 'decoy\n')
+  git(repo, 'checkout', '-q', 'feature/PROJ-1-run-1')
+  const dependency = git(repo, 'rev-parse', 'feature/PROJ-1-S-001')
+  assert.notEqual(dependency, git(repo, 'rev-parse', 'sdlc/S-001'))
+  const base = baseOf(repo, 'S-002')
+  assert.equal(base.code, 0, base.out.error)
+  assert.equal(base.out.branch, 'feature/PROJ-1-S-001')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-002'], { status: 'in_progress' }).code, 0)
+  assert.equal(git(repo, 'rev-parse', 'feature/PROJ-1-S-002^'), dependency)
+  assert.equal(readFileSync(join(repo, 'src', 'app.txt'), 'utf8'), 'slice one\n')
+})
+
+test('base-branch names the milestone branch through the format', opts, () => {
+  const repo = fixture({
+    config: customConfig(1),
+    slices: [slice('S-001')],
+    milestones: [{ id: 'M-1', title: 'Search', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+  })
+  seed(repo, 'feature/PROJ-1-run-1', 'run\n')
+  const r = baseOf(repo, 'S-001')
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(r.out.branch, 'feature/PROJ-1-M-1')
+
+  const lower = fixture({
+    config: { ...stackConfig(1), branchFormat: 'feature/{name:lower}', runBranch: 'feature/run-1' },
+    slices: [slice('S-001'), slice('S-002', { dependsOn: ['S-001'] })],
+    milestones: [{ id: 'M-1', title: 'Search', status: 'pending', slices: ['S-001', 'S-002'], fixSlices: [] }],
+  })
+  seed(lower, 'feature/run-1', 'run\n')
+  const m = baseOf(lower, 'S-001')
+  assert.equal(m.code, 0, m.out.error)
+  assert.equal(m.out.branch, 'feature/m-1')
+  commitState(lower, { 'slices.json': [slice('S-001', { status: 'awaiting-merge', pr: 'u' }), slice('S-002', { dependsOn: ['S-001'] })] }, 'S-001 awaiting')
+  seed(lower, 'feature/s-001', 'slice one\n')
+  const d = baseOf(lower, 'S-002')
+  assert.equal(d.code, 0, d.out.error)
+  assert.equal(d.out.branch, 'feature/s-001')
+})
+
+test('a milestone branch with a slice pull request open against it is kept under a custom format', opts, () => {
+  const repo = fixture({ config: customConfig(1), remote: true })
+  shippedMilestones(repo, ['M-1', 'M-2'])
+  const keptTip = git(repo, 'rev-parse', 'feature/PROJ-1-M-1')
+  customRun2(repo, {
+    'slices.json': [slice('S-001', { status: 'awaiting-merge', pr: 'https://example.test/pr/1' }), slice('S-020')],
+    'milestones.json': [
+      { id: 'M-1', title: 'Run 1', status: 'verified', slices: ['S-001'], fixSlices: [] },
+      { id: 'M-3', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] },
+    ],
+  })
+  assert.ok(notAncestor(repo, 'feature/PROJ-1-M-1', 'origin/main'), 'the branch is merged by ancestry, so -d would not fall through')
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(branchExists(repo, 'feature/PROJ-1-M-2'), false, 'the shipped milestone branch with no open slice was not deleted')
+  assert.equal(git(repo, 'rev-parse', 'feature/PROJ-1-M-1'), keptTip, 'the branch was deleted while a slice pull request was open against it')
+})
+
+test('milestone_branches_with_open_slice_pr returns the milestone branch name from the format', opts, () => {
+  const repo = fixture({
+    config: customConfig(1),
+    slices: [slice('S-001', { status: 'awaiting-merge', pr: 'u' }), slice('S-002', { status: 'done' })],
+    milestones: [
+      { id: 'M-1', title: 'One', status: 'pending', slices: ['S-001'], fixSlices: [] },
+      { id: 'M-2', title: 'Two', status: 'pending', slices: ['S-002'], fixSlices: [] },
+    ],
+  })
+  const out = JSON.parse(execFileSync('python3', ['-c', `
+import importlib.util, json, sys
+spec = importlib.util.spec_from_file_location("sw", sys.argv[1])
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+print(json.dumps(sorted(mod.milestone_branches_with_open_slice_pr(sys.argv[2], sys.argv[3]))))
+`, STATE, repo, CUSTOM], { encoding: 'utf8' }))
+  assert.deepEqual(out, ['feature/PROJ-1-M-1'])
+})
+
+test('the prune deletes a shipped milestone branch recognized by kind, under a custom format', opts, () => {
+  const repo = fixture({ config: customConfig(1), remote: true })
+  shippedMilestones(repo, ['M-1'])
+  for (const extra of ['feature/PROJ-1-M-1-e2e', 'feature/PROJ-1-S-001']) git(repo, 'branch', extra, 'feature/PROJ-1-run-1')
+  customRun2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(branchExists(repo, 'feature/PROJ-1-M-1'), false, 'the shipped milestone branch survived')
+  for (const stays of ['feature/PROJ-1-M-1-e2e', 'feature/PROJ-1-S-001', 'feature/PROJ-1-run-1']) {
+    assert.ok(branchExists(repo, stays), `${stays} was deleted though it is not a milestone branch`)
+  }
+})
+
+test('the prune keeps a branch of another kind under the default format', opts, () => {
+  const repo = fixture({ config: stackConfig(1), remote: true })
+  shippedM1(repo)
+  git(repo, 'branch', 'sdlc/M-1-e2e', 'sdlc/run-1')
+  git(repo, 'fetch', '-q', '--prune', 'origin')
+  run2(repo, {
+    'slices.json': [slice('S-020')],
+    'milestones.json': [{ id: 'M-2', title: 'Tags', status: 'pending', slices: ['S-020'], fixSlices: [] }],
+  })
+  assert.equal(call(STATE, repo, ['patch-slice', '--slice', 'S-020'], { status: 'in_progress' }).code, 0)
+  assert.equal(branchExists(repo, 'sdlc/M-1'), false)
+  assert.ok(branchExists(repo, 'sdlc/M-1-e2e'))
+})
+
+test('state-write.py holds no MILESTONE_BRANCH regex', opts, () => {
+  const text = readFileSync(STATE, 'utf8')
+  assert.doesNotMatch(text, /MILESTONE_BRANCH/)
+  assert.ok(!text.includes('sdlc/{'), 'a sdlc/{ literal is still in state-write.py')
+})
+
+test('a run branch with a custom format is advanced and kept as a full name', opts, () => {
+  const repo = fixture({
+    config: customConfig(1),
+    slices: [slice('S-014')],
+    milestones: [{ id: 'M-2', title: 'Sessions', status: 'pending', slices: ['S-014'], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'checkout', '-q', '-b', 'feature/PROJ-1-run-1')
+  git(repo, 'push', '-q', '-u', 'origin', 'feature/PROJ-1-run-1')
+  const pub = publisher(remotes.get(repo))
+  pushFile(pub, 'src/other.txt', 'main moved\n', 'main moved')
+  git(repo, 'fetch', '-q', 'origin')
+  const r = call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' })
+  assert.equal(r.code, 0, r.out.error)
+  assert.equal(git(repo, 'merge-base', '--is-ancestor', 'origin/main', 'feature/PROJ-1-run-1'), '')
+  assert.equal(git(repo, 'rev-parse', 'feature/PROJ-1-M-2^'), git(repo, 'rev-parse', 'feature/PROJ-1-run-1'))
+  assert.equal(json(repo, 'config.json').runBranch, 'feature/PROJ-1-run-1')
+  assert.ok(branchExists(repo, 'feature/PROJ-1-S-014'))
+})
