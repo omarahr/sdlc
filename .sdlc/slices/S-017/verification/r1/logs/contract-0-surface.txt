@@ -1,0 +1,8 @@
+Command boundary: python3 skills/sdlc/branches.py preflight --repo DIR --mode MODE [--format F] [--branch CURRENT]
+Success keys (sorted): args, command, derived, forge, format, given, notes, ok, rules, samples, suggestion
+Rule keys: kind, label, negate, pattern, source
+Sample keys: kind, name, result, rule  (result in pass, fail, unevaluated, unchecked)
+Error keys (exit 2): error, ok  (one JSON line, stderr empty, no usage text)
+Exit: 0 when ok, 1 when not ok, 2 on bad input.
+Python functions exercised through the module path (python3 -I, pycall): derive, judge, suggest.
+Extra export check: the spec names only the preflight command in section 4; extra keys args and command come from the shared echo of the other commands.

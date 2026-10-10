@@ -1,0 +1,963 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 1,
+  "commit": "da88101",
+  "environment": "python3 branches.py from the S-017 worktree, node --test, gh and glab shell shims on PATH, scratch HOME, TZ=UTC",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-091"
+      ],
+      "title": "One regex rule the default satisfies gives ok, no derivation (gh, glab, near variants, given format) - VS-1: one regex the default satisfies gives ok and no derivation (gh)",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-091 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:44",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-1: one regex\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-091"
+      ],
+      "title": "One regex rule the default satisfies gives ok, no derivation (gh, glab, near variants, given format) - VS-1: same through glab",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-091 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:58",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-1: same through glab\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-091"
+      ],
+      "title": "One regex rule the default satisfies gives ok, no derivation (gh, glab, near variants, given format) - VS-1: near variants the default fails give exit 1 and no derived format",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-091 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:70",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-1: near variants\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-091"
+      ],
+      "title": "One regex rule the default satisfies gives ok, no derivation (gh, glab, near variants, given format) - VS-1: given format is kept and a passing regex still gives ok",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-091 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:82",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-1: given format\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-092"
+      ],
+      "title": "Two rules or a negated rule, no format: no derivation, generic suggestion, labelled failing samples - VS-2: starts_with plus ends_with, no format: no derivation, generic suggestion",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-092 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:90",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-2: starts_with plus\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-092"
+      ],
+      "title": "Two rules or a negated rule, no format: no derivation, generic suggestion, labelled failing samples - VS-2: negated contains, starts_with, ends_with, regex never derive",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-092 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:104",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-2: negated\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-092"
+      ],
+      "title": "Two rules or a negated rule, no format: no derivation, generic suggestion, labelled failing samples - VS-2: three rules, and a given format, give no derivation",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-092 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:122",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-2: three rules\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-092"
+      ],
+      "title": "Two rules or a negated rule, no format: no derivation, generic suggestion, labelled failing samples - VS-2: one starts_with rule derives (control)",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-092 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:136",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-2: one starts_with\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-092"
+      ],
+      "title": "Two rules or a negated rule, no format: no derivation, generic suggestion, labelled failing samples - VS-2: rule label fallbacks name the failing rule",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-092 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:143",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-2: rule label\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-10",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-100"
+      ],
+      "title": "Rules of another type or an empty list leave rules empty and ok; per-sample rule fails only its sample - VS-3: rules of another type or an empty list leave rules empty and ok",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:152",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-3: rules of another\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-11",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-100"
+      ],
+      "title": "Rules of another type or an empty list leave rules empty and ok; per-sample rule fails only its sample - VS-3: a rule for one sample name only fails only that sample",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:167",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-3: a rule for one\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-12",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-100"
+      ],
+      "title": "Rules of another type or an empty list leave rules empty and ok; per-sample rule fails only its sample - VS-3: mr mode on gitlab with no rule, and null body, give ok",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:185",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-3: mr mode\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-13",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-074"
+      ],
+      "title": "Seven shim scenarios at the public boundary; invalid input exits 2 with one JSON error - VS-4: seven shim scenarios at the public boundary",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:195",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-4: seven\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-14",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-074"
+      ],
+      "title": "Seven shim scenarios at the public boundary; invalid input exits 2 with one JSON error - VS-4: invalid input forms all exit 2 with one JSON error",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:238",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-4: invalid\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-15",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-074"
+      ],
+      "title": "Seven shim scenarios at the public boundary; invalid input exits 2 with one JSON error - VS-4: stdout is one JSON line for ok, fail and unchecked",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:260",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-4: stdout\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-16",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: malformed, non-list, huge bodies never corrupt the verdict",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:268",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: malformed\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-17",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: glab broken answers",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:297",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: glab broken\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-18",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: hostile pattern and label text never crash or leak",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:318",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: hostile\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-19",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: bad regex is unevaluated and never blocks; wrong-typed fields do not crash",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:335",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: bad regex\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-20",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: rules with odd operator or parameters give unevaluated, not a crash",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:358",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: rules with odd\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-21",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: absent gh and absent glab are reported as unknown, not as a crash",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:375",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: absent\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-22",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: a hanging shim ends with unknown rules and leaves the repo alone",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:389",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: a hanging\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-23",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: running twice gives the same verdict and no repo change (idempotency)",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:399",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: running twice\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-24",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "Broken forge answers never corrupt the verdict or change the repo - VS-5: unicode and spaced repo path, and CI env, work",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-074 and R-100 acceptance",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:413",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-5: unicode\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-25",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: every non-string pattern on every string operator is unevaluated on gh",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:431",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: every non-string\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-26",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: a missing pattern key is unevaluated too",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:449",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: a missing\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-27",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: a bad rule mixed with a good rule, in both orders, never derives and never crashes",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:459",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: a bad rule mixed\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-28",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: a bad regex rule mixed with a passing regex rule",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:475",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: a bad regex rule\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-29",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: a non-string pattern with a given format keeps the given format",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:487",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: a non-string pattern with\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-30",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: glab non-string branch_name_regex never crashes",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:495",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: glab non-string\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-31",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-074",
+        "R-100"
+      ],
+      "title": "A non-string pattern is unevaluated and never crashes preflight - VS-6: gh rule fields of odd types (ruleset_id, name, negate) do not crash",
+      "given": "A scratch git repo with a gh or glab shim on PATH that prints canned JSON",
+      "when": "Run the real branches.py preflight with the command line shown in the transcript log",
+      "then": "Exit code, JSON keys and the repo tree match the spec",
+      "expected": "As R-091, R-092, R-100 and R-074 acceptance state; no traceback; tree unchanged",
+      "actual": "All assertions held",
+      "result": "pass",
+      "specSource": "R-100 acceptance; round 0 defect TC-cli-18",
+      "test": ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:508",
+      "command": "VERIFY_ROOT=<worktree of sdlc/S-017-v1-cli-0> node --test --test-name-pattern=\"VS-6: gh rule fields\" .sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "command lines, stdout, stderr and exit codes",
+          "path": ".sdlc/slices/S-017/verification/r1/logs/cli-0-transcripts.txt"
+        },
+        {
+          "kind": "file-tree",
+          "title": "tree unchanged (treeUnchanged asserted in each case)",
+          "inline": "treeUnchanged: true"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "preflight is quadratic in the number of forge rules",
+      "detail": "Round 0 measured 5000 rules at 1.5 s and 20000 rules at 18.9 s. The cause is the scan in read_rules. Real forges cap rules far below this. Not fixed.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
