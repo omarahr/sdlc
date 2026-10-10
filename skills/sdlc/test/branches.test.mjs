@@ -2915,3 +2915,73 @@ test('T-R-151b every mode passes with no forge and with an empty rule list', opt
     assert.ok(empty.out.samples.every((s) => ['pass', 'unchecked'].includes(s.result)), `${mode} gh: ${JSON.stringify(empty.out.samples)}`)
   }
 })
+
+const KELVIN = 'K'
+const LONG_S = 'ſ'
+const ARABIC_THREE = '٣'
+
+test('T-R-022-ascii parse never reads a look-alike character as a loop branch', opts, () => {
+  const tails = [
+    `S-00${KELVIN}`,
+    `s-001${LONG_S}`,
+    `${LONG_S}-001`,
+    `s-00${KELVIN}-v0-cli-0`,
+    `s-00${KELVIN}-attempt-1`,
+    `S-001-v${ARABIC_THREE}-cli-0`,
+    `run-${ARABIC_THREE}`,
+  ]
+  const formats = ['feature/p-1-{name}', 'feature/p-1-{name:lower}']
+  const cases = formats.flatMap((fmt) => tails.map((tail) => ({ fmt, branch: `feature/p-1-${tail}` })))
+  const out = pyParse(cases)
+  const misparsed = cases.map((c, i) => ({ c, r: out[i] })).filter((x) => x.r !== null).map((x) => `${x.c.fmt} ${x.c.branch} -> ${x.r.kind}`)
+  assert.deepEqual(misparsed, [])
+})
+
+test('T-R-022-area parse keeps a non-ASCII area part of an e2e-area branch', opts, () => {
+  const out = pyParse([
+    { fmt: 'feature/p-1-{name}', branch: 'feature/p-1-M-1-e2e-é' },
+    { fmt: 'feature/p-1-{name:lower}', branch: 'feature/p-1-m-1-e2e-é' },
+  ])
+  for (const r of out) {
+    assert.ok(r, 'parse returned null')
+    assert.equal(r.kind, 'e2e-area')
+    assert.equal(r.area, 'é')
+  }
+})
+
+test('T-R-022-order the classification of valid ASCII tails stays the same in both modes', opts, () => {
+  const tails = ['S-fix-M-1-2', 'M-1-e2e-api', 'M-1-e2e-a-b', 'S-001-v0-http-api-0']
+  for (const fmt of ['sdlc/{name}', 'sdlc/{name:lower}']) {
+    const out = pyParse(tails.map((t) => ({ fmt, branch: `sdlc/${fmt.includes('lower') ? t.toLowerCase() : t}` })))
+    assert.deepEqual(out.map((r) => r && r.kind), ['slice', 'e2e-area', 'e2e-area', 'verify'], fmt)
+    assert.equal(out[2].area, 'a-b', fmt)
+    assert.equal(out[3].profile, 'http-api', fmt)
+    assert.equal(out[3].part, 0, fmt)
+  }
+})
+
+test('T-R-024-ids parse matches a listed id and refuses a look-alike id', opts, () => {
+  const fmt = 'feature/PROJ-1-{name:lower}'
+  const out = pyParse([
+    { fmt, branch: 'feature/PROJ-1-s-001', ids: ['S-001'] },
+    { fmt, branch: 'feature/PROJ-1-s-002', ids: ['S-001'] },
+    { fmt, branch: 'feature/PROJ-1-s-001' },
+    { fmt, branch: 'feature/PROJ-1-s-00k', ids: [`S-00${KELVIN}`] },
+  ])
+  assert.equal(out[0].id, 'S-001')
+  assert.equal(out[0].known, true)
+  assert.equal(out[1].known, false)
+  assert.equal(out[2].known, null)
+  assert.equal(out[3].known, false)
+})
+
+test('T-R-024-affix a look-alike character in the prefix or suffix is no match under {name:lower}', opts, () => {
+  const out = pyParse([
+    { fmt: 'work/{name:lower}', branch: `wor${KELVIN}/s-001` },
+    { fmt: '{name:lower}-wk', branch: `s-001-w${KELVIN}` },
+    { fmt: 'work/{name:lower}', branch: 'WORK/s-001' },
+  ])
+  assert.equal(out[0], null)
+  assert.equal(out[1], null)
+  assert.equal(out[2] && out[2].kind, 'slice')
+})
