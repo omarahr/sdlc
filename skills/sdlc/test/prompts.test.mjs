@@ -63,7 +63,7 @@ test('the skill documents the stack flag, its remote requirement and its resume 
   assert.match(skill, /--git pr\|direct\|mr\|stack/)
   assert.match(skill, /`sdlc\/run-<n>`/)
   // the "rename your branch" check must not fire on a resume, where the current branch IS the run branch
-  assert.match(skill, /first run only[\s\S]{0,400}runBranch/)
+  assert.match(skill, /\*\*Branch format:\*\*[\s\S]*first run only[\s\S]*on a resume the current branch is normally the run branch/)
 })
 
 test('config.json documents runBranch, and milestones document their pr field', () => {
@@ -832,4 +832,90 @@ test('the README worktree claims hold for direct mode, the driver counters, and 
   // the STE note covers the fixed text, not "every word"
   assert.match(readme, /fixed text the agents read/, 'the STE note must scope to the fixed text')
   assert.doesNotMatch(readme, /Every word the agents read/, 'the STE note must not claim every word')
+})
+
+const skillText = () => readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8')
+const branchFormatBullet = skill => {
+  const start = skill.indexOf('**Branch format:**')
+  assert.ok(start >= 0, 'the Pre-flight has no Branch format bullet')
+  const end = skill.indexOf('rm -f "$REPO/.sdlc/STOP"', start)
+  assert.ok(end > start, 'the Branch format bullet must come before the STOP removal')
+  return skill.slice(start, end)
+}
+
+test('T-R-045: the Commands line and a flag bullet document --branch-format', () => {
+  const skill = skillText()
+  assert.match(skill, /--commit-format "<format>"\] \[--branch-format "<format>"\]/)
+  const commit = skill.indexOf('- `--commit-format`')
+  const branch = skill.indexOf('- `--branch-format`')
+  assert.ok(commit >= 0)
+  assert.ok(branch > commit, 'the --branch-format bullet must follow the --commit-format bullet')
+  assert.match(skill.slice(branch, branch + 800), /\{name\}/)
+})
+
+test('T-R-046a: the Branch format bullet runs the preflight after the Git mode bullet', () => {
+  const skill = skillText()
+  const git = skill.indexOf('**Git mode:**')
+  const fmt = skill.indexOf('**Branch format:**')
+  assert.ok(git >= 0 && fmt > git, 'the Branch format bullet must follow the Git mode bullet')
+  const bullet = branchFormatBullet(skill)
+  const needles = [
+    'branches.py" preflight --repo "$REPO" --mode <gitMode>',
+    '--format "<format>"',
+    '--branch "$BASE_BRANCH"',
+    'branchFormat',
+    '$REPO/.sdlc/config.json',
+    'samples',
+    'rule',
+    'notes',
+    'suggestion',
+    'FMT',
+    'format',
+    'derived',
+    'working',
+    'branches.py" parse --repo "$REPO" --format "$FMT" --branch "$BASE_BRANCH"',
+    'git branch -m <new-name>',
+    'first run only',
+  ]
+  for (const needle of needles) assert.ok(bullet.includes(needle), `the Branch format bullet lacks: ${needle}`)
+  assert.match(bullet, /`mr`[\s\S]*--branch "\$BASE_BRANCH"|--branch "\$BASE_BRANCH"[\s\S]*`mr`/)
+})
+
+test('T-R-046b: the old branch name bullet and its GitLab push rule text are gone', () => {
+  const skill = skillText()
+  assert.doesNotMatch(skill, /Branch name \(first run only\)/)
+  assert.doesNotMatch(skill, /branch_name_regex/)
+  assert.doesNotMatch(skill, /push_rule/)
+})
+
+test('T-R-097: the Branch format bullet reports a derived format and resumes from config.json', () => {
+  const bullet = branchFormatBullet(skillText())
+  assert.match(bullet, /`derived`[\s\S]{0,300}(tell|report)[\s\S]{0,300}config\.json/)
+  assert.match(bullet, /`FMT`[\s\S]{0,80}`format`/)
+  assert.match(bullet, /resume[\s\S]{0,300}`branchFormat`[\s\S]{0,200}config\.json|resume[\s\S]{0,300}config\.json[\s\S]{0,200}`branchFormat`/)
+  assert.match(bullet, /without `--branch-format`/)
+})
+
+test('T-R-048: a bullet after the Branch format bullet ends the run on a worktree format mismatch', () => {
+  const skill = skillText()
+  const fmt = skill.indexOf('**Branch format:**')
+  assert.ok(fmt >= 0)
+  const stop = skill.indexOf('rm -f "$REPO/.sdlc/STOP"', fmt)
+  const between = skill.slice(fmt, stop)
+  const bullets = between.split(/\n(?=\s*- )/)
+  assert.ok(bullets.length >= 2, 'a second bullet must follow the Branch format bullet')
+  const mismatch = bullets.slice(1).join('\n')
+  assert.match(mismatch, /\$WT\/\.sdlc\/config\.json/)
+  assert.match(mismatch, /`branchFormat`/)
+  assert.match(mismatch, /differs from `\$FMT`/)
+  assert.match(mismatch, /report both/)
+  assert.match(mismatch, /end/)
+  assert.match(mismatch, /run in progress keeps its names/)
+})
+
+test('T-R-049: the Launch args carry branchFormat between commitFormat and maxIterations', () => {
+  const skill = skillText()
+  assert.match(skill, /Workflow\(\{[^\n]*commitFormat, branchFormat, maxIterations[^\n]*\}\)/)
+  assert.match(skill, /`branchFormat` is `\$FMT`/)
+  assert.match(skill, /branchFormat[^\n]*(on every launch|always)/)
 })
