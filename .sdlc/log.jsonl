@@ -48,3 +48,5 @@
 {"ts":"2026-10-10T10:01:35Z","type":"slice-merged","slice":"S-031","detail":"evaluate regex, name literals and preflight edge formats"}
 {"ts": "2026-10-10T10:40:27Z", "type": "slice-merged", "slice": "S-032", "detail": "preflight samples each kind in its own mode"}
 {"ts":"2026-10-10T11:19:43Z","type":"slice-merged","slice":"S-033","detail":"state-write and janitor take their format from the module"}
+{"ts":"2026-10-10T11:28:57Z","type":"slice-escalated","slice":"S-034","detail":"step 1 replan: plan refuted 3 times"}
+{"ts": "2026-10-10T12:16:43Z", "type": "slice-merged", "slice": "S-034", "detail": "SKILL.md orders the format sources and the preflight command"}

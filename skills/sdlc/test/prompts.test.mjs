@@ -1420,3 +1420,37 @@ test('R-066: the README Development tree lists branches.py', () => {
   assert.ok(block, 'the Development tree block is missing')
   assert.match(block[1], /^\s*branches\.py\s/m, 'the tree does not list branches.py')
 })
+
+test('T-R-128: the Branch format bullet orders the sources and names the none case', () => {
+  const bullet = branchFormatBullet(skillText())
+  const flag = bullet.indexOf('--branch-format')
+  const file = bullet.indexOf('$REPO/.sdlc/config.json')
+  const none = bullet.indexOf('else none')
+  assert.ok(flag >= 0 && flag < file, 'the flag comes before the config file')
+  assert.ok(file < none, 'the config file comes before none')
+  assert.ok(bullet.includes('when that file exists'))
+  assert.ok(bullet.includes('give preflight no `--format` argument'))
+})
+
+test('T-R-129: the Branch format bullet gives preflight --format with one, and --branch in mr mode only', () => {
+  const bullet = branchFormatBullet(skillText())
+  assert.match(bullet, /--format "<format>"[^.]{0,40}when you have one/)
+  assert.match(bullet, /--branch "\$BASE_BRANCH"[^.]{0,20}in `mr` mode only/)
+  assert.ok(bullet.includes('No other mode gets `--branch`'))
+})
+
+test('T-R-130: the Branch format bullet scopes the rename ask to a first run and skips the check on a resume', () => {
+  const bullet = branchFormatBullet(skillText())
+  assert.ok(bullet.includes('On a first run, a `working` sample that failed'))
+  assert.ok(bullet.includes('On a resume, run no `parse` check and ask for no rename'))
+})
+
+test('T-R-002d: env-detector orders the branchFormat sources input, existing value, default', () => {
+  const env = promptText('env-detector')
+  const rule = env.split('\n').find(l => l.includes('`branchFormat`: the `branchFormat` input'))
+  assert.ok(rule, 'no branchFormat rule')
+  const input = rule.indexOf('the `branchFormat` input')
+  const existing = rule.indexOf('an existing `config.branchFormat`')
+  const fallback = rule.indexOf('else `sdlc/{name}`')
+  assert.ok(input >= 0 && input < existing && existing < fallback)
+})
