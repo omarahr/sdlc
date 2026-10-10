@@ -36,3 +36,5 @@
 {"ts":"2026-10-10T06:23:46Z","type":"slice-merged","slice":"S-025","detail":"_common.md names branches through the format: Branch names section and first placeholders"}
 {"ts":"2026-10-10T06:24:03Z","type":"note","slice":"S-025","detail":"no CI checks on https://github.com/omarahr/sdlc/pull/106"}
 {"ts":"2026-10-10T06:37:43Z","type":"slice-merged","slice":"S-026","detail":"_common.md completes the placeholder table: milestone, e2e, e2e area, state and attempt rows pinned by tests"}
+{"ts":"2026-10-10T06:43:48Z","type":"slice-escalated","slice":"S-027","detail":"split into S-027a, S-027b, S-027c: planner judged the slice too big for one reviewable change"}
+{"ts":"2026-10-10T06:43:56Z","type":"note","slice":"S-027","detail":"no CI checks on state PR"}
