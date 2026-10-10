@@ -45,23 +45,89 @@
       "R-024"
     ],
     "dependsOn": [],
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "",
     "pr": "",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Trailing newline accepted by parse anchors",
+        "detail": "PARSE_ROWS patterns end in '$', which matches before a trailing newline, so 'run-1\\n' parses as a run branch. Git refuses newlines in branch names, so risk is low. Use '\\Z' if input from outside git can reach parse.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Inconsistent naming of lowering helper and table",
+        "detail": "ASCII_LOWER_TABLE is public while _ascii_lower is private. Make the table private (_ASCII_LOWER_TABLE) for consistency.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Other str.lower() uses remain",
+        "detail": "name() at line 306 still uses Unicode str.lower(); slice S-fix-M-1-1b owns it. next-action.py:207 compares ids with str.lower(); low risk now that parsed ids are ASCII, but could reuse the shared helper later.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Unit tests skip look-alike tails for milestone, e2e and state rows",
+        "detail": "T-R-022-ascii covers slice, verify, attempt and run tails only. Verifier tests cover the other rows but are not committed. All rows share one code path, so the risk is low. Optionally add one tail per row.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "ASCII_LOWER_TABLE has a public-looking name",
+        "detail": "The table is an internal helper. Rename it to _ASCII_LOWER_TABLE.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "parse keeps a trailing newline in the tail",
+        "detail": "parse of a branch whose tail ends in a newline, such as S-001 plus newline, still classifies as a slice, because $ matches before a final newline. The spec does not define this case.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "testkit: cli exposes no ids input",
+        "detail": "branches.py parse has no flag for ledger ids, so the known true/false result cannot be reached from the CLI. The contract profile covers it.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "parse accepts a branch tail with a trailing newline",
+        "detail": "`$` in the PARSE_ROWS patterns matches before a final newline, so `feature/S-001\\n` parses as a slice with id S-001. The result is the same on main before the change. No requirement names it.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "New module-level name ASCII_LOWER_TABLE",
+        "detail": "The diff adds `ASCII_LOWER_TABLE` and `_ascii_lower` to branches.py. The table name has no leading underscore, so it looks like part of the public surface.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "Scenario SC-M-1-080: parse reads look-alike unicode branches as loop branches. Keep the change small and read failures.md. Test phase: remove SC-M-1-080 from e2e/pending.json so its e2e test fails.",
     "counters": {
-      "planRevisions": 0,
+      "planRevisions": 1,
       "fixRounds": 0,
       "ladderStep": 2,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
+      "gateCommit": "343b145a9f0ff97e7fc528633dce099a3b2bf32b"
     },
-    "ledger": []
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "kind": "fix",

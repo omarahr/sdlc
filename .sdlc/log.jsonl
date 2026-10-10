@@ -57,3 +57,4 @@
 {"ts": "2026-10-10T14:30:46Z", "type": "milestone", "detail": "M-1 fixing: 71/84 scenarios passed, 2 confirmed bug(s), 6 dismissed, 0 blocked; 5 unjudged"}
 {"ts":"2026-10-10T14:36:54Z","type":"note","detail":"no CI checks on state PR"}
 {"ts":"2026-10-10T14:47:04Z","type":"slice-escalated","slice":"S-fix-M-1-1","detail":"step 2 split: plan refuted 3 times; into S-fix-M-1-1a, S-fix-M-1-1b"}
+{"ts": "2026-10-10T15:37:51Z", "type": "slice-merged", "slice": "S-fix-M-1-1a", "detail": "parse reads ASCII only; merged by squash to main"}

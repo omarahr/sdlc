@@ -1,14 +1,13 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T14:47:04Z
+Updated: 2026-10-10T15:37:51Z
 
-Requirements: 139/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 39/44 done · current: none · awaiting merge: none
+Requirements: 141/151 done · 0 parked · 0 stubbed · 0 obsolete
+Slices: 40/44 done · current: none · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: M-1
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 92 · Spec proposals: 10
+ADRs: 94 · Spec proposals: 10
 
 ## Recent
-- 2026-10-10T11:19:43Z slice-merged S-033 state-write and janitor take their format from the module
 - 2026-10-10T11:28:57Z slice-escalated S-034 step 1 replan: plan refuted 3 times
 - 2026-10-10T12:16:43Z slice-merged S-034 SKILL.md orders the format sources and the preflight command
 - 2026-10-10T12:42:15Z slice-merged S-035 integrator, escalator and state-writer prompts use branch placeholders
@@ -18,6 +17,7 @@ ADRs: 92 · Spec proposals: 10
 - 2026-10-10T14:30:46Z milestone M-1 fixing: 71/84 scenarios passed, 2 confirmed bug(s), 6 dismissed, 0 blocked; 5 unjudged
 - 2026-10-10T14:36:54Z note no CI checks on state PR
 - 2026-10-10T14:47:04Z slice-escalated S-fix-M-1-1 step 2 split: plan refuted 3 times; into S-fix-M-1-1a, S-fix-M-1-1b
+- 2026-10-10T15:37:51Z slice-merged S-fix-M-1-1a parse reads ASCII only; merged by squash to main
 
 ## Needs a human eye (non-blocking)
 - S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.
