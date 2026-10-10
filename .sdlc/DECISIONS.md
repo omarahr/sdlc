@@ -687,3 +687,11 @@
 - Decision: Option 1. Use the placeholders <slice branch>, <state branch>, <e2e branch> or <verify branch>. Run the scan test for sdlc/ literals to prove none stays. Scores: fit 5, reversibility 5, simplicity 4.
 - Consequences / how to reverse: Each change is a text edit on one prompt line. To reverse, restore the literal and update its test.
 - Affects: R-063, S-027c
+
+### ADR-20261010-112624-decision-judge-S-034-c5f8: Keep the resume sentence for branchFormat; no conflict with spec section 5
+- Status: auto
+- Context: The plan keeps the sentence "On a resume, the config.json branchFormat gives the same value without --branch-format". Spec section 5 does not state it. Test T-R-097 pins it. No OVERRIDE ADR covers this question.
+- Options: (1) No conflict; keep the sentence as a restatement of the spec. (2) Same; make no spec change. (3) Same; do not edit the spec.
+- Decision: Option 1. There is no conflict. Spec section 1 (line 61) sets the order: flag, else config.branchFormat on resume. Section 5 reads $REPO/.sdlc/config.json and gives the same value. Keep the sentence. Edit no spec text. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: The sentence is one line in skills/sdlc/SKILL.md. To remove it, delete the line and update test T-R-097. The Run worktree mismatch check still catches a wrong format on a resume.
+- Affects: S-034

@@ -4660,7 +4660,7 @@
       "S-019"
     ],
     "kind": "spec",
-    "status": "todo",
+    "status": "in_progress",
     "phase": "plan",
     "branch": "sdlc/S-034",
     "pr": "",
@@ -4668,11 +4668,11 @@
     "riskReason": "The driver runs preflight and records the format in config.json.",
     "seeds": [],
     "ideaKeys": [],
-    "notes": "",
+    "notes": "Re-plan from scratch with the simplest approach; read failures.md.",
     "counters": {
       "planRevisions": 0,
       "fixRounds": 0,
-      "ladderStep": 0,
+      "ladderStep": 1,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
