@@ -1996,7 +1996,7 @@ test('a run branch with a custom format is advanced and kept as a full name', op
   const r = call(STATE, repo, ['patch-slice', '--slice', 'S-014'], { status: 'in_progress' })
   assert.equal(r.code, 0, r.out.error)
   assert.equal(git(repo, 'merge-base', '--is-ancestor', 'origin/main', 'feature/PROJ-1-run-1'), '')
-  assert.equal(git(repo, 'rev-parse', 'feature/PROJ-1-M-2^'), git(repo, 'rev-parse', 'feature/PROJ-1-run-1'))
+  assert.equal(git(repo, 'rev-parse', 'feature/PROJ-1-M-2'), git(repo, 'rev-parse', 'feature/PROJ-1-run-1'))
   assert.equal(json(repo, 'config.json').runBranch, 'feature/PROJ-1-run-1')
   assert.ok(branchExists(repo, 'feature/PROJ-1-S-014'))
 })

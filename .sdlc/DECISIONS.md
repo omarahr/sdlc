@@ -567,3 +567,11 @@
 - Decision: Option 1. Replace MILESTONE_BRANCH with a parse check in the prune loop only. Add no parse check in branch_run.
 - Consequences / how to reverse: A parse check in branch_run would repeat the filter of its callers and change its return value for non-milestone branches. To reverse, add one parse call at the top of branch_run that returns an empty string for a non-milestone branch, and add one test. No caller or data format changes.
 - Affects: S-022, R-057
+
+### ADR-20261010-035538-implementer-S-022-11cb: Run branch test compares the milestone tip, not its parent
+- Status: auto
+- Context: Test "a run branch with a custom format is advanced and kept as a full name" compared the parent of the milestone branch with the run branch. R-058 says the milestone branch is cut from the advanced run branch. The cut makes the milestone tip equal to the run tip. The parent of the tip is an older commit.
+- Options: (1) Change the test to compare the milestone tip with the run tip. (2) Add a commit to the milestone branch so its parent is the run tip.
+- Decision: Option 1. The spec text fixes the cut point, and the existing default-format test compares tips.
+- Consequences / how to reverse: One assertion changes in scripts.test.mjs. To reverse, restore the parent comparison and add a commit on the milestone branch.
+- Affects: S-022, R-058

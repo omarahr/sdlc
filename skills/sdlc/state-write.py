@@ -66,9 +66,28 @@ try:
 except Fail as e:
     GIT_MODES_ERROR = str(e)
 
-# a milestone branch is exactly sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack
-# mode merges locally and never opens a pull request for, so it is not a milestone branch here
-MILESTONE_BRANCH = re.compile(r"^sdlc/M-\d+$")
+
+def format_of(repo, config):
+    fmt = config.get("branchFormat") if isinstance(config, dict) else None
+    try:
+        return fmt if isinstance(fmt, str) and fmt else branches.load_format(repo)
+    except branches.Fail as e:
+        raise Fail(str(e))
+
+
+def branch_name(fmt, kind, **parts):
+    try:
+        return branches.name(fmt, kind, **parts)
+    except branches.Fail as e:
+        raise Fail(str(e))
+
+
+def branch_kind(fmt, branch):
+    try:
+        found = branches.parse(fmt, branch)
+    except branches.Fail as e:
+        raise Fail(str(e))
+    return found["kind"] if found else None
 
 
 def require_known_mode(config):
@@ -313,8 +332,8 @@ def worktree_branches(repo):
     return names
 
 
-def milestone_branches_with_open_slice_pr(repo):
-    """The sdlc/M-<n> branches a slice pull request is still open against, from the run's own ledger.
+def milestone_branches_with_open_slice_pr(repo, fmt):
+    """The milestone branches a slice pull request is still open against, from the run's own ledger.
 
     GitHub closes a pull request whose base branch is deleted, so a milestone branch with an open slice pull
     request into it takes that pull request down with it, and the run's awaiting-merge bookkeeping is left
@@ -334,7 +353,7 @@ def milestone_branches_with_open_slice_pr(repo):
             continue
         mid = milestone_of(milestones, x["id"])
         if mid:
-            out.add(f"sdlc/{mid}")
+            out.add(branch_name(fmt, "milestone", id=mid))
     return out
 
 
@@ -357,15 +376,15 @@ def remote_sha_to_lease(repo, branch, upstream):
     return sha
 
 
-def prune_stale_milestone_branches(repo, config, keep):
-    """Delete the sdlc/M-<n> branches whose milestone has shipped, and return the ones deleted.
+def prune_stale_milestone_branches(repo, config, keep, fmt):
+    """Delete the milestone branches whose milestone has shipped, and return the ones deleted.
 
     The other half of advance_run_branch's move out of milestone-writer.md: the branch deletion lived in that
     file's "Merged" step, which never runs for a milestone that merged, so the branches accumulated. Five
     gates, and each one is a way this has to be wrong:
 
-      - name: only sdlc/M-<digits>. sdlc/<milestoneId>-e2e is the behaviour suite, which stack mode merges
-        locally and never opens a pull request for.
+      - name: only a branch the format classifies as a milestone branch. The e2e branch of a milestone is the
+        behaviour suite, which stack mode merges locally and never opens a pull request for.
       - shipped: only a branch whose every change since it forked is already on origin/<defaultBranch>. That
         is what an in-flight milestone fails: an open milestone pull request is by definition not on the
         default branch yet, so its branch survives and the slices cut from it are not stranded.
@@ -398,12 +417,12 @@ def prune_stale_milestone_branches(repo, config, keep):
     if git(repo, "rev-parse", "-q", "--verify", upstream, check=False).returncode != 0:
         return []  # a --single-branch clone has no origin/<defaultBranch>: prove nothing, delete nothing
     held = worktree_branches(repo)
-    in_use = milestone_branches_with_open_slice_pr(repo)
-    listing = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads/sdlc", check=False)
+    in_use = milestone_branches_with_open_slice_pr(repo, fmt)
+    listing = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads/", check=False)
     gone = []
     for branch in listing.stdout.split("\n"):
         branch = branch.strip()
-        if not MILESTONE_BRANCH.match(branch) or branch in held or branch in in_use:
+        if branch_kind(fmt, branch) != "milestone" or branch in held or branch in in_use:
             continue
         if branch == keep and branch_run(repo, branch) == run:
             continue  # the branch this call is cutting, and this run's own: slices are already cut from it
@@ -427,8 +446,8 @@ def prune_stale_milestone_branches(repo, config, keep):
     return gone
 
 
-def ensure_milestone_branch(repo, config, milestones, milestone_id):
-    """sdlc/M-<id>, created from the run branch and pushed when it does not exist yet.
+def ensure_milestone_branch(repo, config, milestones, milestone_id, fmt):
+    """The milestone branch, created from the run branch and pushed when it does not exist yet.
 
     A milestone that is already verified has had its branch deleted after its pull request
     merged, so a slice belonging to it builds on the run branch — that milestone shipped, and
@@ -436,7 +455,7 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
     """
     if not milestone_id:
         return None
-    want = f"sdlc/{milestone_id}"
+    want = branch_name(fmt, "milestone", id=milestone_id)
     # the verified rule first: a milestone branch left behind by an earlier attempt must not win over
     # the fact that the milestone shipped, or a fix for it would build on a branch the loop will never ship
     #
@@ -447,7 +466,7 @@ def ensure_milestone_branch(repo, config, milestones, milestone_id):
     if milestone_shipped(milestones, milestone_id):
         return None
     run = config.get("runBranch") or ""
-    prune_stale_milestone_branches(repo, config, want)
+    prune_stale_milestone_branches(repo, config, want, fmt)
     if branch_exists(repo, want):
         # a branch under this milestone's name that names an EARLIER run is a leftover this run cannot build
         # on. Reaching here means it held unshipped work, so it was kept rather than deleted; building on it
@@ -476,8 +495,8 @@ def milestone_shipped(milestones, milestone_id):
     return next((m for m in milestones or [] if m.get("id") == milestone_id), {}).get("status") == "verified"
 
 
-def awaiting_merge_base(repo, slices, slice_id):
-    """sdlc/<dep> when a dependency is awaiting merge and still has its branch, else None.
+def awaiting_merge_base(repo, slices, slice_id, fmt):
+    """The branch of a dependency when a dependency is awaiting merge and still has its branch, else None.
 
     The dependency's pull request is open, so its work is on no other branch: a slice cut from anywhere
     else would not contain it. Shared by the cut and the base-branch answer so the two cannot disagree
@@ -486,13 +505,15 @@ def awaiting_merge_base(repo, slices, slice_id):
     me = next((x for x in slices if x.get("id") == slice_id), {})
     for dep in me.get("dependsOn") or []:
         d = next((x for x in slices if x.get("id") == dep), None)
-        if d and d.get("status") == "awaiting-merge" and branch_exists(repo, f"sdlc/{dep}"):
-            return f"sdlc/{dep}"
+        if d and d.get("status") == "awaiting-merge":
+            dep_branch = branch_name(fmt, "slice", id=dep)
+            if branch_exists(repo, dep_branch):
+                return dep_branch
     return None
 
 
-def slice_base(repo, config, slices, milestones, slice_id):
-    """The branch sdlc/<id> is cut from, decided without touching the repository.
+def slice_base(repo, config, slices, milestones, slice_id, fmt):
+    """The branch the slice branch is cut from, decided without touching the repository.
 
     Read-only, and the answer every caller should ask for rather than re-derive. Six prompt files used to
     spell this rule out in prose, and two of them got it wrong in ways nothing caught: commit-state.md
@@ -507,14 +528,14 @@ def slice_base(repo, config, slices, milestones, slice_id):
     """
     if not any(x.get("id") == slice_id for x in slices):
         raise Fail(f"no slice {slice_id} in slices.json")
-    base = awaiting_merge_base(repo, slices, slice_id)
+    base = awaiting_merge_base(repo, slices, slice_id, fmt)
     if base:
         return base
     if config.get("gitMode") != "stack":
         return config.get("defaultBranch") or "main"
     mid = milestone_of(milestones, slice_id)
     if mid and not milestone_shipped(milestones, mid):
-        return f"sdlc/{mid}"
+        return branch_name(fmt, "milestone", id=mid)
     # the slice belongs to no milestone, or to one that shipped: the run branch is its base, and it has to
     # exist, because a slice must never land on the default branch in stack mode
     run = config.get("runBranch") or ""
@@ -525,9 +546,9 @@ def slice_base(repo, config, slices, milestones, slice_id):
     return run
 
 
-def ensure_slice_branch(repo, config, slices, milestones, slice_id):
-    """Be on sdlc/<id>, creating it as commit-state.md says when it does not exist yet."""
-    want = f"sdlc/{slice_id}"
+def ensure_slice_branch(repo, config, slices, milestones, slice_id, fmt):
+    """Be on the slice branch, creating it as commit-state.md says when it does not exist yet."""
+    want = branch_name(fmt, "slice", id=slice_id)
     if git(repo, "branch", "--show-current").stdout.strip() == want:
         return want
     if branch_exists(repo, want):
@@ -536,13 +557,13 @@ def ensure_slice_branch(repo, config, slices, milestones, slice_id):
     # the same branch slice_base names, so the branch a prompt is told to use is the branch cut here;
     # when a remote holds the default branch the cut reads its tip at origin/<defaultBranch>, the fetched
     # spelling of the same branch slice_base prints
-    base = awaiting_merge_base(repo, slices, slice_id)
+    base = awaiting_merge_base(repo, slices, slice_id, fmt)
     if not base:
         base = config.get("defaultBranch") or "main"
         if config.get("gitMode") == "stack":
             # a slice builds on its milestone; one that belongs to no milestone (an audit fix) builds on the run branch
             mid = milestone_of(milestones, slice_id)
-            created = ensure_milestone_branch(repo, config, milestones, mid) if mid else None
+            created = ensure_milestone_branch(repo, config, milestones, mid, fmt) if mid else None
             # a slice must never be cut from the default branch in stack mode, so a run branch that is
             # unset or does not exist is an error here rather than a fall-through to main or a raw git failure
             base = created or ""
@@ -578,8 +599,9 @@ def patch_slice(repo, slice_id, patch):
     s = os.path.join(repo, ".sdlc")
     config = read_json(os.path.join(s, "config.json"))
     require_known_mode(config)
+    fmt = format_of(repo, config)
     branch = ensure_slice_branch(repo, config, slices_of(read_json(os.path.join(s, "slices.json"))),
-                                 read_json(os.path.join(s, "milestones.json"), []), slice_id)
+                                 read_json(os.path.join(s, "milestones.json"), []), slice_id, fmt)
     # read again: the branch just checked out holds this slice's state
     raw = read_json(os.path.join(s, "slices.json"))
     me = next((x for x in slices_of(raw) if x.get("id") == slice_id), None)
@@ -686,7 +708,8 @@ def main():
             cfg = read_json(os.path.join(state, "config.json"))
             require_known_mode(cfg)
             branch = slice_base(repo, cfg, slices_of(read_json(os.path.join(state, "slices.json"), [])),
-                                read_json(os.path.join(state, "milestones.json"), []), a.slice)
+                                read_json(os.path.join(state, "milestones.json"), []), a.slice,
+                                format_of(repo, cfg))
             out = {"ok": True, "slice": a.slice, "branch": branch}
         else:
             try:
