@@ -39,3 +39,4 @@
 {"ts":"2026-10-10T06:43:48Z","type":"slice-escalated","slice":"S-027","detail":"split into S-027a, S-027b, S-027c: planner judged the slice too big for one reviewable change"}
 {"ts":"2026-10-10T06:43:56Z","type":"note","slice":"S-027","detail":"no CI checks on state PR"}
 {"ts": "2026-10-10T07:13:14Z", "type": "slice-merged", "slice": "S-027a", "detail": "env-detector, state-schema and slicer name branches through the format"}
+{"ts":"2026-10-10T07:38:09Z","type":"slice-merged","slice":"S-027b","detail":"integrator deletes attempt branches found through branches.py list"}

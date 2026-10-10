@@ -277,9 +277,72 @@ test('the pr after-merge step syncs the run branch onto the base and pushes, and
 test('the integrator deletes archived attempt branches once a slice ships', () => {
   const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
   assert.match(integrator, /\*\*Clean up\*\*/)
-  assert.match(integrator, /sdlc\/<id>-attempt-\*/)
   assert.match(integrator, /splitInto/)
   assert.match(integrator, /Never delete a branch of a slice that is not finished/)
+})
+
+function cleanUpSection() {
+  const integrator = readFileSync(join(SKILL_DIR, 'prompts', 'integrator.md'), 'utf8')
+  const start = integrator.indexOf('**Clean up**')
+  const end = integrator.indexOf('## mode: retry-merge')
+  assert.ok(start >= 0 && end > start, 'Clean up section not found')
+  return integrator.slice(start, end)
+}
+
+test('T-R-093a: integrator finds attempt branches through branches.py list', () => {
+  const section = cleanUpSection()
+  assert.ok(section.includes('branches.py" list --repo . --kind attempt'), 'the list command is missing')
+  assert.match(section, /(keep|filter)[^.\n]*\b(id|ids)\b[^.\n]*\b(this slice|slice id|equals)/i)
+  assert.match(section, /ignoring case/)
+  assert.doesNotMatch(section, /sdlc\/<id>-attempt/)
+  assert.doesNotMatch(section, /-attempt-\*/)
+  assert.match(section, /splitInto/)
+  assert.match(section, /Never delete a branch of a slice that is not finished/)
+})
+
+test('T-R-093b: integrator deletes each attempt branch locally and on the remote in pr, mr and stack modes', () => {
+  const section = cleanUpSection()
+  assert.match(section, /git branch -D/)
+  assert.match(section, /git push origin --delete/)
+  const remoteLine = section.split('\n').find(l => l.includes('git push origin --delete'))
+  assert.ok(remoteLine, 'remote delete line missing')
+  for (const mode of ['pr', 'mr', 'stack']) assert.ok(remoteLine.includes('`' + mode + '`'), `${mode} not named`)
+  assert.match(section, /(remote does not have|remote lacks|not on the remote)[^.\n]*(fine|ignore|ok)/i)
+})
+
+test('T-R-093c: the attempt list command gives a filterable id under a custom format', () => {
+  const section = cleanUpSection()
+  const cmd = section.match(/`(python3 "<skill>\/branches\.py" list --repo \. --kind attempt)`/)
+  assert.ok(cmd, 'the exact list command is not in backticks in the Clean up section')
+  const command = cmd[1].replace('<skill>', SKILL_DIR)
+  const listFor = (config, names) => {
+    const repo = scratch('sdlc-r093-')
+    const git = (...a) => {
+      const r = spawnSync('git', a, { cwd: repo, encoding: 'utf8' })
+      assert.equal(r.status, 0, r.stderr)
+    }
+    git('init', '-q', '-b', 'main')
+    git('config', 'user.email', 't@example.com')
+    git('config', 'user.name', 'T')
+    git('commit', '-q', '--allow-empty', '-m', 'init')
+    for (const n of names) git('branch', n)
+    mkdirSync(join(repo, '.sdlc'))
+    writeFileSync(join(repo, '.sdlc', 'config.json'), JSON.stringify(config))
+    const r = spawnSync('sh', ['-c', command], { cwd: repo, encoding: 'utf8' })
+    assert.equal(r.status, 0, r.stderr)
+    return JSON.parse(r.stdout).branches.filter(b => b.id.toLowerCase() === 'S-001'.toLowerCase()).map(b => b.branch)
+  }
+  assert.deepEqual(
+    listFor({ branchFormat: 'feature/PROJ-1-{name:lower}' }, [
+      'feature/PROJ-1-s-001-attempt-1', 'feature/PROJ-1-s-001-attempt-2',
+      'feature/PROJ-1-s-002-attempt-1', 'feature/PROJ-1-s-001',
+    ]),
+    ['feature/PROJ-1-s-001-attempt-1', 'feature/PROJ-1-s-001-attempt-2'],
+  )
+  assert.deepEqual(
+    listFor({}, ['sdlc/S-001-attempt-1', 'sdlc/S-002-attempt-1', 'sdlc/S-001']),
+    ['sdlc/S-001-attempt-1'],
+  )
 })
 
 test('the integrator asks the code for the slice base branch instead of naming it in prose', () => {

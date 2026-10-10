@@ -623,3 +623,27 @@
 - Decision: Option 1. Set the example value to "<slice branch>". The three options give the same result. Option 1 is the smallest edit.
 - Consequences / how to reverse: No code reads the example. To use a concrete sample, edit one line. The new value must not contain the sdlc/ literal, or the R-063 scan fails.
 - Affects: S-027a, R-063
+
+### ADR-20261010-071940-decision-judge-S-027b-af8c: integrator filters attempt branches by slice id ignoring case
+- Status: auto
+- Context: branches.py list prints the format's spelling of the id, for example s-001 under {name:lower}. It takes no ledger ids. R-093 says the list is filtered to the slice. No OVERRIDE ADR covers this question.
+- Options: (1) The integrator filters the listed attempt branches by the slice id, ignoring case; no --ids option. (2) Same rule, worded as keeping branches whose id equals the slice id. (3) Same rule, worded as a case-insensitive comparison.
+- Decision: Option 1. The three options give the same result. Add the phrase "ignoring case" to integrator.md. T-R-093c runs a lowercase format and asserts the two S-001 attempt branches in order. Add no --ids option to branches.py.
+- Consequences / how to reverse: The change is one phrase in integrator.md plus its test. To use exact ledger ids, add an --ids option to branches.py and change the phrase. No data or state depends on it.
+- Affects: R-093, S-027b
+
+### ADR-20261010-071945-decision-judge-S-027b-d798: S-027b changes only the attempt half of integrator Clean up step 1
+- Status: auto
+- Context: Step 1 of the integrator Clean up sweeps sdlc/<id>-v* and sdlc/<id>-attempt-* in one sentence. The spec table lists only the attempt literal for integrator.md. An existing test asserts sdlc/<id>-v*. No OVERRIDE ADR covers this question.
+- Options: (1) Change only the attempt half in S-027b. Leave the verify half for S-027c. (2) Same, and write the sentence so each half reads on its own. (3) Same, with the note that the half-edited sentence is harmless.
+- Decision: Option 1. Replace only the sdlc/<id>-attempt-* literal with the format-based attempt phrase. Leave sdlc/<id>-v* and its test unchanged. S-027c rewrites the verify half. The three options give the same result.
+- Consequences / how to reverse: The change is one phrase in one prompt line. To reverse, restore the attempt literal, or fold the verify edit into S-027b with its test update.
+- Affects: S-027b
+
+### ADR-20261010-071945-decision-judge-S-027b-e7d5: attempt cleanup uses local list and tolerant remote delete
+- Status: auto
+- Context: R-093 says the integrator deletes attempt branches locally and on the remote, found through list. list reads refs/heads only, so a remote-only attempt branch is not found. The old prompt had the same limit. No OVERRIDE ADR covers this question.
+- Options: (1) Keep list local-only. Delete remotely only when the local branch and its remote copy both exist. (2) Keep list local-only. Delete the remote copy only when its name matches a listed branch. (3) Keep list local-only. Delete each listed branch locally, then run git push origin --delete for it and tolerate a missing remote ref.
+- Decision: Option 3. Do not change branches.py. It matches the R-093 acceptance text with the fewest steps and no remote existence check. Record the remote-only case as a known limit.
+- Consequences / how to reverse: A remote-only attempt branch stays on the remote. It is never merged or reused. To cover it, add a --remote option to branches.py list in a later slice and change the cleanup line in the prompt.
+- Affects: R-093, S-027b
