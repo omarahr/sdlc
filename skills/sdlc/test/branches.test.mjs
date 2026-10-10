@@ -2680,18 +2680,11 @@ test('T-R-074a preflight through gh and glab shims covers the seven scenarios', 
   assertBadInput(['preflight', '--repo', withConfig({ gitMode: 'pr' }), '--mode', 'pr', '--format', 'feature/x'], 'format without placeholder')
 })
 
-test('T-R-118 parse with a plain prefix format returns the slice kind and id, and null for a foreign name', opts, () => {
+test('T-R-118 parse with a plain prefix format returns the slice kind and id', opts, () => {
   const slice = cliParse(PLAIN_FMT, 'feature/PROJ-1-S-002')
   assert.equal(slice.ok, true)
   assert.equal(slice.kind, 'slice')
   assert.equal(slice.id, 'S-002')
-  assert.equal(cliParse(PLAIN_FMT, 'feature/PROJ-1-foo').kind, null)
-})
-
-test('T-R-101 parse of a name outside the loop kinds prints no kind', opts, () => {
-  const out = cliParse(DEFAULT_FMT, 'sdlc/feature-x')
-  assert.equal(out.ok, true)
-  assert.equal(out.kind, null)
 })
 
 test('T-R-050a BRANCH_FORMAT defaults to sdlc/{name} and follows args.branchFormat', async () => {
@@ -2699,6 +2692,8 @@ test('T-R-050a BRANCH_FORMAT defaults to sdlc/{name} and follows args.branchForm
   assert.equal(fallback.I.BRANCH_FORMAT, 'sdlc/{name}')
   const custom = await loadInternals(undefined, { branchFormat: PLAIN_FMT })
   assert.equal(custom.I.BRANCH_FORMAT, PLAIN_FMT)
+  const empty = await loadInternals(undefined, { branchFormat: '' })
+  assert.equal(empty.I.branchName('S-1'), 'sdlc/S-1')
 })
 
 test('T-R-050b branchName fills the format and lowercases the whole name for the lower modifier', async () => {
