@@ -3827,12 +3827,43 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-027a",
     "pr": "",
     "risk": "medium",
     "riskReason": "The sweep rewrites about twenty prompts; a wrong replacement misdirects one role at run time.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "R-002 missing from S-027a requirements",
+        "detail": "The plan says S-027a carries R-002 beside R-064, and T-R-002c cites it. slices.json lists only R-064, R-065, R-061. The state-writer should add R-002 so the test closes a requirement.",
+        "file": ".sdlc/slices.json",
+        "blocking": false
+      },
+      {
+        "title": "T-R-002c repeats coverage of T-R-064a",
+        "detail": "T-R-064a asserts the whole R-064 sentence, which holds both fallbacks. T-R-002c asserts substrings of the same sentence. Keep it only as the R-002 trace, or merge it.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Run-branch literals remain in env-detector stack steps",
+        "detail": "The stack-mode steps still spell sdlc/run-<n>. This is deliberate: S-027c owns them. No action in this slice.",
+        "file": "skills/sdlc/prompts/env-detector.md",
+        "blocking": false
+      },
+      {
+        "title": "T-R-002c overlaps T-R-064a",
+        "detail": "T-R-002c checks the fallback and existing-value clauses of the same sentence that T-R-064a pins exactly. The ADR keeps it as separate R-002 evidence, so keep it. No change needed.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "state-schema.md reports section still names the slice branch as sdlc/<id>",
+        "detail": "Line 220 says the test-reporter commits on `sdlc/<id>`. It is outside the slicer path and outside R-061 and R-065. Use <slice branch> for consistency.",
+        "file": "skills/sdlc/prompts/state-schema.md",
+        "blocking": false
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3843,7 +3874,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-027b",

@@ -1,0 +1,96 @@
+{
+  "scenarios": [
+    {
+      "id": "VS-1",
+      "title": "env-detector takes the branchFormat input and writes the quoted rule",
+      "requirementIds": [
+        "R-064"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Risk: the quoted sentence drifts, or the renumbered steps break a cross-reference. Check the Inputs line, the exact R-064 sentence, the step numbers cited elsewhere in prompts and tests, and that the config write step keeps an existing branchFormat. The text must pass ste-check.py."
+    },
+    {
+      "id": "VS-2",
+      "title": "env-detector does not read the forge's branch-name rules and keeps commit_message_regex",
+      "requirementIds": [
+        "R-064"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "Search the whole file for branch_name_regex, branch name rule and any push-rule read for branches. The commit-format step must still read commit_message_regex. Try near-miss wording."
+    },
+    {
+      "id": "VS-3",
+      "title": "A fresh run records the default sdlc/{name}",
+      "requirementIds": [
+        "R-002"
+      ],
+      "profiles": [
+        "contract",
+        "cli"
+      ],
+      "notes": "Fallback order must be input, then existing config value, then sdlc/{name}. No branch of the rule may leave branchFormat unset or empty. With the cli runner, check load_format on a repo with no branchFormat returns sdlc/{name}."
+    },
+    {
+      "id": "VS-4",
+      "title": "state-schema documents branchFormat, the slice branch and runBranch through the format",
+      "requirementIds": [
+        "R-065"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "The config block holds \"branchFormat\": \"sdlc/{name}\". The description holds the spec text word for word. The phrases 'the slice branch under `config.branchFormat`' and 'the run branch (`run` kind under `config.branchFormat`)' are present. No sdlc/run-<n> in the config section and no sdlc/S-001 in the slice example. The existing runBranch test must still find its line."
+    },
+    {
+      "id": "VS-5",
+      "title": "slicer writes the slice branch through the placeholder",
+      "requirementIds": [
+        "R-061"
+      ],
+      "profiles": [
+        "contract"
+      ],
+      "notes": "slicer.md holds branch: <slice branch> and no branch: sdlc/. Check no other prompt on the slicer path still tells the slicer to write sdlc/<id>."
+    },
+    {
+      "id": "VS-6",
+      "title": "No script reads a slice's branch field",
+      "requirementIds": [
+        "R-061"
+      ],
+      "profiles": [
+        "cli",
+        "security"
+      ],
+      "notes": "Run next-action.py, state-write.py (a status update) and janitor.py on slices.json with garbage branch values, with the field removed, and with non-string values (null, number, list, huge string, newline, traversal text). Outputs and resulting state must match the original apart from the branch field. Also scan sdlc-loop.js for s.branch and slice.branch on loaded slices."
+    }
+  ],
+  "tools": [
+    {
+      "id": "cli-runner",
+      "profile": "cli",
+      "purpose": "Run next-action.py, state-write.py, janitor.py and ste-check.py from a scratch cwd with garbage and missing branch values",
+      "exists": true
+    },
+    {
+      "id": "attack-corpus",
+      "profile": "security",
+      "purpose": "Garbage branch values: control characters, traversal, oversized, unicode",
+      "exists": true
+    },
+    {
+      "id": "property",
+      "profile": "contract",
+      "purpose": "Call load_format on configs without branchFormat",
+      "exists": true
+    }
+  ],
+  "risk": "medium",
+  "riskReason": "The slice edits three prompt files, and a wrong word misdirects one role at run time, but it adds no code path or I/O boundary.",
+  "notes": "Prompt text slice. Profiles read the files as the public contract. Only the branch-field scenario runs scripts. The sdlc/run-<n> literals in other env-detector steps stay for S-027c, so do not report them as defects."
+}

@@ -1,0 +1,121 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "a8e86bc",
+  "environment": "Node test runner, python3, scratch git repos from the cli-runner with a scratch HOME; no network",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-064"
+      ],
+      "title": "ste-check.py passes the three edited prompts and the env-detector rule sits in step 4",
+      "given": "The edited env-detector.md, slicer.md and state-schema.md",
+      "when": "Run ste-check.py on them; read the step order and the Inputs line",
+      "then": "Exit 0 with no output; the exact R-064 sentence appears once in step 4; steps 5 to 8 follow in order; no step citation breaks",
+      "expected": "Exit 0 with no output; the exact R-064 sentence appears once in step 4; steps 5 to 8 follow in order; no step citation breaks",
+      "actual": "Exit 0, empty stdout. The sentence appears once in step 4. Steps 4 to 8 are in order. No prompt or test cites an env-detector step number. A copy with one added banned word makes ste-check exit 1, and a missing path exits 1 with 'unreadable'.",
+      "result": "pass",
+      "specSource": "R-064 quote and acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs:15",
+      "command": "node --test .sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "ste-check.py run",
+          "inline": "$ python3 skills/sdlc/ste-check.py prompts/env-detector.md prompts/slicer.md prompts/state-schema.md\n(no output)\nexit 0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-002"
+      ],
+      "title": "A repo with no branchFormat names the slice branch through the default sdlc/{name}",
+      "given": "Repos with no config, a config without the field, branchFormat empty string and null",
+      "when": "Run branches.py name --kind slice --id S-001",
+      "then": "Exit 0, format sdlc/{name}, branch sdlc/S-001 for each; a set format feature/{name} wins",
+      "expected": "Exit 0, format sdlc/{name}, branch sdlc/S-001 for each; a set format feature/{name} wins",
+      "actual": "All four cases print format sdlc/{name} and branch sdlc/S-001 with exit 0. The set format gives feature/S-001. The load_format property run (seed 268470099, 100 runs) had 0 violations. An unparseable config exits 2 with a clear error.",
+      "result": "pass",
+      "specSource": "R-002 clause 2",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs:58",
+      "command": "node --test .sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "branches.py name on a repo with no config",
+          "inline": "$ python3 skills/sdlc/branches.py name --repo <repo> --kind slice --id S-001\n{\"ok\": true, \"command\": \"name\", \"format\": \"sdlc/{name}\", \"kind\": \"slice\", \"branch\": \"sdlc/S-001\"}\nexit 0"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-061"
+      ],
+      "title": "No script reads a slice's branch field (38 variants)",
+      "given": "A ledger of 3 slices and a git repo, with valid state",
+      "when": "Run next-action.py, state-write.py status, base-branch and patch-slice, and janitor.py with the branch field removed, null, number, bool, list, object, empty, newline, traversal, huge (2 MB), flag-like, and 24 attack-corpus values (2 per family)",
+      "then": "Every output, STATUS.md and the resulting slices.json equal the original run apart from branch and commit hash",
+      "expected": "Every output, STATUS.md and the resulting slices.json equal the original run apart from branch and commit hash",
+      "actual": "All 38 variants equal the original. next-action.py reports action 'slice' for S-002, so slice logic ran. A planted read of s.get('branch') in a copy of next-action.py made 3 of 3 sampled variants fail, so the test can fail.",
+      "result": "pass",
+      "specSource": "R-061 acceptance (no script reads the field)",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/cli-0/branch-field.verify-cli.test.mjs:74",
+      "command": "node --test .sdlc/slices/S-027a/verification/r0/tests/cli-0/branch-field.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run of the variant tests",
+          "inline": "$ node --test branch-field.verify-cli.test.mjs\n\u2139 tests 40\n\u2139 pass 40\n\u2139 fail 0"
+        },
+        {
+          "kind": "transcript",
+          "title": "planted-read check",
+          "inline": "copy of next-action.py with \"pr\": s.get(\"pr\",\"\") + str(s.get(\"branch\",\"\"))\n\u2716 removed, \u2716 null, \u2716 number  (pass 0, fail 3)"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-061"
+      ],
+      "title": "sdlc-loop.js never reads a slice's branch field",
+      "given": "sdlc-loop.js source",
+      "when": "Scan for s.branch, slice.branch and ['branch'] reads",
+      "then": "No hit",
+      "expected": "No hit",
+      "actual": "No hit.",
+      "result": "pass",
+      "specSource": "R-061 acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs:93",
+      "command": "node --test .sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "scan",
+          "inline": "branch reads in sdlc-loop.js: []"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "title": "hostile slice branch values (control chars, traversal, 2 MB, flag-like, unicode, non-strings)",
+      "result": "no script output or state changed"
+    }
+  ],
+  "seeds": []
+}

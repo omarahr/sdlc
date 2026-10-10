@@ -1,0 +1,148 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "a8e86bc",
+  "environment": "Node test runner, Python 3 -I through the property testkit, git worktree of sdlc/S-027a",
+  "surface": "Prompt files env-detector.md, state-schema.md, slicer.md and _common.md, plus branches.py load_format as a consumer calls it.",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-064"
+      ],
+      "title": "env-detector takes branchFormat and holds the quoted rule",
+      "given": "The slice commit a8e86bc of sdlc/S-027a, read as a consumer reads the prompt files.",
+      "when": "Read env-detector.md: Inputs line, step 4 text, step numbers, config write step, ste-check.py.",
+      "then": "Inputs lists branchFormat; the R-064 sentence appears once verbatim; steps run 1 to 8; step 7 keeps branchFormat; no cited step number moved; ste-check passes.",
+      "expected": "Inputs lists branchFormat; the R-064 sentence appears once verbatim; steps run 1 to 8; step 7 keeps branchFormat; no cited step number moved; ste-check passes.",
+      "actual": "All assertions held; 17 of 17 tests passed.",
+      "result": "pass",
+      "specSource": "R-064 quote and acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:24",
+      "command": "VERIFY_WT=<worktree of sdlc/S-027a> VERIFY_TESTKIT=<repo>/skills/sdlc/test/testkit VERIFY_SCRATCH=$(mktemp -d) TESTKIT_SEED=27001 node --test .sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test output for the VS-1 tests",
+          "path": ".sdlc/slices/S-027a/verification/r0/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-064"
+      ],
+      "title": "env-detector reads no branch-name rule and keeps commit_message_regex",
+      "given": "The slice commit a8e86bc of sdlc/S-027a, read as a consumer reads the prompt files.",
+      "when": "Search env-detector.md for branch-name rule wording and push rule reads.",
+      "then": "No branch-name rule wording exists; the one push rule line names commit_message_regex only; step 4 holds no forge call.",
+      "expected": "No branch-name rule wording exists; the one push rule line names commit_message_regex only; step 4 holds no forge call.",
+      "actual": "All assertions held; 17 of 17 tests passed.",
+      "result": "pass",
+      "specSource": "R-064 acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:56",
+      "command": "VERIFY_WT=<worktree of sdlc/S-027a> VERIFY_TESTKIT=<repo>/skills/sdlc/test/testkit VERIFY_SCRATCH=$(mktemp -d) TESTKIT_SEED=27001 node --test .sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test output for the VS-2 tests",
+          "path": ".sdlc/slices/S-027a/verification/r0/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-002"
+      ],
+      "title": "Fresh run falls back to sdlc/{name}",
+      "given": "The slice commit a8e86bc of sdlc/S-027a, read as a consumer reads the prompt files.",
+      "when": "Check the rule order in step 4. Call load_format on 1000 configs with no usable branchFormat, and on 1000 configs with a valid one.",
+      "then": "The order is input, existing value, sdlc/{name}. load_format returns sdlc/{name} for every config without a value and returns the configured value otherwise.",
+      "expected": "The order is input, existing value, sdlc/{name}. load_format returns sdlc/{name} for every config without a value and returns the configured value otherwise.",
+      "actual": "All assertions held; 17 of 17 tests passed.",
+      "result": "pass",
+      "specSource": "R-002 acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:75",
+      "command": "VERIFY_WT=<worktree of sdlc/S-027a> VERIFY_TESTKIT=<repo>/skills/sdlc/test/testkit VERIFY_SCRATCH=$(mktemp -d) TESTKIT_SEED=27001 node --test .sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "load_format, seed 27001, 1000 runs, 0 violations (default)",
+          "path": ".sdlc/slices/S-027a/verification/r0/logs/contract-0.txt"
+        },
+        {
+          "kind": "property-run",
+          "title": "load_format, seed 27002, 1000 runs, 0 violations (configured value wins)",
+          "path": ".sdlc/slices/S-027a/verification/r0/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-065"
+      ],
+      "title": "state-schema documents branchFormat, slice branch and runBranch through the format",
+      "given": "The slice commit a8e86bc of sdlc/S-027a, read as a consumer reads the prompt files.",
+      "when": "Parse the config block JSON and read the field descriptions.",
+      "then": "The block holds branchFormat sdlc/{name} after commitFormat; the description matches the spec text; the two phrases exist; no sdlc/run- in the config section; no sdlc/S-001 in the slice example.",
+      "expected": "The block holds branchFormat sdlc/{name} after commitFormat; the description matches the spec text; the two phrases exist; no sdlc/run- in the config section; no sdlc/S-001 in the slice example.",
+      "actual": "All assertions held; 17 of 17 tests passed.",
+      "result": "pass",
+      "specSource": "R-065 quote and acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:118",
+      "command": "VERIFY_WT=<worktree of sdlc/S-027a> VERIFY_TESTKIT=<repo>/skills/sdlc/test/testkit VERIFY_SCRATCH=$(mktemp -d) TESTKIT_SEED=27001 node --test .sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test output for the VS-4 tests",
+          "path": ".sdlc/slices/S-027a/verification/r0/logs/contract-0.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-061"
+      ],
+      "title": "slicer writes the slice branch through the placeholder",
+      "given": "The slice commit a8e86bc of sdlc/S-027a, read as a consumer reads the prompt files.",
+      "when": "Read slicer.md and grep all prompts for a branch: sdlc/ instruction.",
+      "then": "slicer.md holds branch: <slice branch> and no sdlc/ literal; no other prompt tells the slicer to write sdlc/<id>; _common.md maps the placeholder to branches.py.",
+      "expected": "slicer.md holds branch: <slice branch> and no sdlc/ literal; no other prompt tells the slicer to write sdlc/<id>; _common.md maps the placeholder to branches.py.",
+      "actual": "All assertions held; 17 of 17 tests passed.",
+      "result": "pass",
+      "specSource": "R-061 acceptance",
+      "test": ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:151",
+      "command": "VERIFY_WT=<worktree of sdlc/S-027a> VERIFY_TESTKIT=<repo>/skills/sdlc/test/testkit VERIFY_SCRATCH=$(mktemp -d) TESTKIT_SEED=27001 node --test .sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "node test output for the VS-5 tests",
+          "path": ".sdlc/slices/S-027a/verification/r0/logs/contract-0.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "state-schema.md reports section still names the slice branch as sdlc/<id>",
+      "detail": "Line 220 says the test-reporter commits on `sdlc/<id>`. It is outside the slicer path and outside R-061 and R-065. Use <slice branch> for consistency.",
+      "file": "skills/sdlc/prompts/state-schema.md"
+    }
+  ]
+}
