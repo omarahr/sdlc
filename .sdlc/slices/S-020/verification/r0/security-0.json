@@ -1,0 +1,49 @@
+{
+  "profile": "security", "part": 0, "round": 0, "commit": "b07ace1",
+  "environment": "Node test runner against sdlc-loop.js via the harness loadInternals; python3 branches.py name for comparison; no network",
+  "cases": [
+    {
+      "id": "TC-security-1", "scenarioId": "VS-2", "requirementIds": ["R-050", "R-051"],
+      "title": "branchName inserts a tail with dollar patterns literally",
+      "given": "Formats sdlc/{name}, feature/PROJ-1-{name}, feature/PROJ-1-{name:lower}",
+      "when": "branchName is called with the tails $&, $$, $`, $' and $1",
+      "then": "The result holds the tail text unchanged, as branches.py name does",
+      "expected": "sdlc/$& for tail $&",
+      "actual": "sdlc/{name} for $&; sdlc/$ for $$; sdlc/sdlc/ for $`; sdlc/ for $'. Only $1 held.",
+      "result": "fail",
+      "specSource": "R-051 acceptance: rt.I.branchName output equals branches.py name for the verify tail",
+      "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21",
+      "command": "SDLC_WORKTREE=<worktree> node --test .sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [
+        {"kind": "attack", "title": "run log", "path": ".sdlc/slices/S-020/verification/r0/logs/security-0-run.txt"},
+        {"kind": "transcript", "title": "branches.py keeps the tail literal", "inline": "branches.py name --kind verify --id 'S-$&' --round 0 --profile http-api --part 0 --format 'sdlc/{name}'\n-> branch: sdlc/S-$&-v0-http-api-0"}
+      ]
+    },
+    {
+      "id": "TC-security-2", "scenarioId": "VS-2", "requirementIds": ["R-050"],
+      "title": "Other hostile tails and odd formats stay literal and do not throw",
+      "given": "The three formats; a format with no placeholder; a format with both; empty branchFormat",
+      "when": "branchName gets uppercase, slash, traversal, unicode, bidi, empty, and placeholder-text tails",
+      "then": "Output equals the literal substitution; lowercase applies only for the lower modifier; empty format falls back to sdlc/{name}",
+      "expected": "literal substitution, no exception",
+      "actual": "All 35 other checks held",
+      "result": "pass",
+      "specSource": "R-050 acceptance",
+      "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21",
+      "command": "SDLC_WORKTREE=<worktree> node --test .sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs",
+      "manual": false,
+      "evidence": [{"kind": "attack", "title": "run log", "path": ".sdlc/slices/S-020/verification/r0/logs/security-0-run.txt"}]
+    }
+  ],
+  "attacks": [
+    {"id": "A-1", "charter": "Explore branchName with String.replace dollar patterns to find a tail that alters the branch name (R-051: equals branches.py)", "input": "tails $&, $$, $`, $'", "expected": "literal tail in the name", "observed": "pattern expanded: placeholder echoed, prefix or suffix duplicated or dropped", "result": "broke", "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21"},
+    {"id": "A-2", "charter": "Explore branchName with the $1 group pattern", "input": "$1", "expected": "literal", "observed": "literal (no capture group in a string pattern)", "result": "held", "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21"},
+    {"id": "A-3", "charter": "Explore branchName with traversal, slash, unicode, bidi and empty tails", "input": "../../x, a/b, é-ÄÖ-İ, U+202E, empty", "expected": "literal substitution", "observed": "literal; branches.py validation is the module's job, not the loop's", "result": "held", "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21"},
+    {"id": "A-4", "charter": "Explore branchName with placeholder text inside the tail and formats with zero or two placeholders", "input": "x{name}y, {name}-{name:lower}", "expected": "no throw, tail not re-expanded", "observed": "held", "result": "held", "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21"},
+    {"id": "A-5", "charter": "Explore empty branchFormat", "input": "''", "expected": "fallback sdlc/{name}", "observed": "held", "result": "held", "test": ".sdlc/slices/S-020/verification/r0/tests/security-0/branch-name.verify-security.test.mjs:21"}
+  ],
+  "seeds": [
+    {"title": "Reachability of dollar tails is low", "detail": "The loop builds the tail from the slice id and a fixed profile list, so a dollar pattern needs a hostile slice id. Fix: use a replacer function, for example .replace(token, () => value).", "file": "skills/sdlc/sdlc-loop.js"}
+  ]
+}

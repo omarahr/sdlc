@@ -26,6 +26,11 @@ export const meta = {
 const A = args || {}
 const SKILL_DIR = A.skillDir || '~/.claude/skills/sdlc'
 const REPO = A.repoRoot || '.'
+const BRANCH_FORMAT = A.branchFormat || 'sdlc/{name}'
+function branchName(tail) {
+  const lower = BRANCH_FORMAT.includes('{name:lower}')
+  return BRANCH_FORMAT.replace(lower ? '{name:lower}' : '{name}', () => (lower ? tail.toLowerCase() : tail))
+}
 // the cap is an allowance per milestone, not per run: it resets when the loop moves to a new milestone, so a
 // spec with N milestones may spend up to N × CAP agents in one run where a single run used to be bounded by CAP
 const CAP = A.runAgentCap || 850
@@ -365,7 +370,7 @@ async function bootstrap(next) {
   phase(P)
   // defaultBranch is the driver's owner-checkout resolution: the worktree's current branch is the run
   // branch, so the detector must never take its branch name from where it runs
-  const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null, commitFormat: A.commitFormat || null, defaultBranch: A.defaultBranch || '' }, { schema: ENV, phase: P })
+  const env = await run('env-detector', { specPath: A.specPath || null, gitMode: A.gitMode || null, commitFormat: A.commitFormat || null, defaultBranch: A.defaultBranch || '', branchFormat: A.branchFormat || null }, { schema: ENV, phase: P })
   checkStop()
   if (!env) return 'bootstrap aborted: env-detector failed'
   const ext = await run('requirements-extractor', { reason: next.reason }, { schema: COUNT, phase: P })
@@ -724,7 +729,7 @@ async function verifyPhase(id, round, prev = null, reviewFix = false, alongside 
     unavailable = t ? t.failed || [] : tools.map(m => ({ id: m.id, reason: 'verify-toolsmith failed to report' }))
     if (unavailable.length) log(`${id} verify r${round}: ${unavailable.length} tool(s) unavailable: ${unavailable.map(u => u.id).join(', ')}`)
   }
-  const branch = g => `sdlc/${id}-v${round}-${g.profile}-${g.part}`
+  const branch = g => branchName(`${id}-v${round}-${g.profile}-${g.part}`)
   const profileRun = g => run(`verify-${g.profile}`, { sliceId: id, round, planRound, part: g.part, scenarioIds: g.scenarioIds, branch: branch(g), unavailableTools: unavailable },
     { schema: PVOTE, phase: 'Verify', label: `${id}:r${round}:${g.profile}${g.part ? `#${g.part}` : ''}` })
   const coreRun = lens => () => {
@@ -1252,6 +1257,7 @@ async function barRaiserRound() {
 const ACTIONS = { bootstrap, slice: sliceAction, parkedRetry, retryMerge, milestonePlan, milestone: milestoneAction, audit, livelock, barRaiserRound }
 
 const INTERNALS = {
+  branchName, BRANCH_FORMAT,
   run, persist, checkStop, hasHeadroom, spent: () => spent, milestoneSpent: () => milestoneSpent, milestoneId: () => milestoneId,
   tallyVerify, isInfra, allClear, survives, refutedByMajority, ideaKey, dedupeIdeas, tallyAudit, normalizeCounters, chunk,
   PROFILES, RISK_AGENTS, PROFILE_BATCH, REVIEW_MODEL, reviewOpts, groupScenarios, capProfiles, pairsToScenarios, pendingPairs, profileVote,

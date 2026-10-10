@@ -2263,13 +2263,23 @@
     "specRef": "§6",
     "quote": "const BRANCH_FORMAT = A.branchFormat || 'sdlc/{name}'\nfunction branchName(tail) {\n  const lower = BRANCH_FORMAT.includes('{name:lower}')\n  return BRANCH_FORMAT.replace(lower ? '{name:lower}' : '{name}', lower ? tail.toLowerCase() : tail)\n}",
     "acceptance": "sdlc-loop.js defines BRANCH_FORMAT from `A.branchFormat` with fallback `sdlc/{name}`. branchName substitutes the placeholder and lowercases the tail for `{name:lower}`. INTERNALS exports branchName and BRANCH_FORMAT.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/sdlc-loop.js",
+        "skills/sdlc/test/bootstrap.test.mjs",
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/verify.test.mjs"
+      ],
+      "tests": [
+        "T-R-050a",
+        "T-R-050b",
+        "TC-security-1",
+        "TC-security-2"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2278,13 +2288,23 @@
     "specRef": "§6",
     "quote": "`verifyPhase`'s `const branch = g => \\`sdlc/${id}-v${round}-${g.profile}-${g.part}\\`` becomes `const branch = g => branchName(\\`${id}-v${round}-${g.profile}-${g.part}\\`)`.",
     "acceptance": "sdlc-loop.js builds the verifier branch with branchName and no `sdlc/` literal. `rt.I.branchName` output equals `branches.py name` for the verify tail.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/sdlc-loop.js",
+        "skills/sdlc/test/bootstrap.test.mjs",
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/verify.test.mjs"
+      ],
+      "tests": [
+        "T-R-051a",
+        "T-R-051b",
+        "T-R-051c",
+        "TC-security-1"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2293,13 +2313,21 @@
     "specRef": "§6",
     "quote": "The env-detector call gains `branchFormat: A.branchFormat || null`.",
     "acceptance": "The env-detector invocation in sdlc-loop.js passes `branchFormat: A.branchFormat || null`.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/sdlc-loop.js",
+        "skills/sdlc/test/bootstrap.test.mjs",
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/verify.test.mjs"
+      ],
+      "tests": [
+        "T-R-052a",
+        "bootstrap.test.mjs pins"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2842,13 +2870,20 @@
     "specRef": "§Testing",
     "quote": "`the loop script and the module name branches the same way`: `rt.I.branchName(tail)` equals `branches.py name` for the three formats and the verify tail, the way `git-modes.test.mjs` compares the mode lists.",
     "acceptance": "The branches test asserts equality of `rt.I.branchName` and `branches.py name` for the three formats and the verify tail.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/sdlc-loop.js",
+        "skills/sdlc/test/bootstrap.test.mjs",
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/verify.test.mjs"
+      ],
+      "tests": [
+        "T-R-075a"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -4132,13 +4167,20 @@
     "specRef": "§6",
     "quote": "`INTERNALS` exports `branchName` and `BRANCH_FORMAT`.",
     "acceptance": "The loop script's INTERNALS object exposes both `branchName` and `BRANCH_FORMAT`. A test imports them.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/sdlc-loop.js",
+        "skills/sdlc/test/bootstrap.test.mjs",
+        "skills/sdlc/test/branches.test.mjs",
+        "skills/sdlc/test/verify.test.mjs"
+      ],
+      "tests": [
+        "T-R-116a"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
