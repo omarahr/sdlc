@@ -14,6 +14,20 @@
 - Human overrides win: an ADR with `Status: OVERRIDE` in `.sdlc/DECISIONS.md` beats the spec and every earlier ADR.
 - **Commit subjects:** when `config.commitFormat` is not empty, it replaces the commit subject and merge-request title formats in the role files. Fill `{type}` (`feat`, `fix`, `test`, `chore`, …), `{id}` (the slice or milestone id, or `sdlc` for state commits) and `{subject}`. When the format has no `{id}`, end the subject with ` (<id>)` so the slice can still be found. Example: with `{type}: [PROJ-123] {subject}`, the subject `feat(S-003): add replay endpoint` becomes `feat: [PROJ-123] add replay endpoint (S-003)`.
 - Git: never force-push the default branch, never `gh pr merge --admin`, never bypass branch protection, and never merge the run's merge request in `mr` mode. Commit only if your role file says so, following its git steps or `<prompts>/commit-state.md`.
+- **Branch names:** every branch the loop makes is named by one format, `config.branchFormat` (default `sdlc/{name}`). Never write such a name by hand. Print it: `python3 "<skill>/branches.py" name --repo . --kind <kind> ...`. The role files write these placeholders, and this table says which command fills each:
+
+  | Placeholder | Command |
+  |---|---|
+  | `<run branch>` | the branch `config.runBranch` names in `stack` mode; otherwise `branches.py list --kind run`, its last entry |
+  | `<slice branch>` | `branches.py name --kind slice --id <sliceId>` |
+  | `<milestone branch>` | `branches.py name --kind milestone --id <milestoneId>` |
+  | `<e2e branch>` | `branches.py name --kind e2e --id <milestoneId>` |
+  | `<e2e area branch>` | `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>` |
+  | `<state branch>` | `branches.py name --kind state` (it makes the timestamp) |
+  | `<attempt branch>` | `branches.py name --kind attempt --id <sliceId> --n <n>` |
+  | `<verify branch>` | the `branch` input your prompt carries |
+
+  To learn what a branch is, `branches.py parse --repo . --branch <name>` prints its kind and ids, or `null` for a branch that is not the loop's.
 - **Long commands:** your shell kills a foreground command after about 10 minutes. A full test suite or e2e run can take longer.
   Run a command that may exceed about 5 minutes (the full `config.commands.test`, `e2e`, a cold build) in the background; write its output and exit code to files. Start it with: `( <cmd> ) > "$TMPDIR/sdlc-<name>.log" 2>&1; echo $? > "$TMPDIR/sdlc-<name>.exit"`. Poll until the `.exit` file exists. Read the result from the exit code and the log, never from a truncated tail. (`sleep 60` between checks is fine.)
 - **Cut off is not failed:** a command that was killed, hit a tool time limit, or ended without its own exit code is **inconclusive**: it is no evidence of pass or fail. Re-run it as above. Never report a failure, refute a slice or file a defect because a command did not finish; report it as inconclusive (your role file says how) only if it still cannot finish after about 60 minutes.
