@@ -2336,7 +2336,7 @@
     "specRef": "§7",
     "quote": "`active_branch(repo, current)`: enumerate `refs/heads/` (all local branches), keep those `parse` classifies as `slice`, and use the parsed `id` as `sid`.",
     "acceptance": "next-action.py finds the active slice by parsing every local branch under the configured format. The slice id comes from the parsed id. A foreign branch never reads as active.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2351,7 +2351,7 @@
     "specRef": "§7",
     "quote": "Pull-request heads: `state_prs` keeps heads that parse to `state`; `e2e_prs` keeps heads that parse to `e2e` (not `e2e-area`); the slice map keeps heads that parse to `slice`, with `ids=by_id` so a lowercased head resolves to the ledger id; `merged_heads` is looked up with `name(fmt, \"slice\", id=s[\"id\"])`; the stack milestone hold keeps heads that parse to `milestone`.",
     "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, state_prs keeps only state heads, e2e_prs keeps e2e heads and rejects e2e-area heads, the slice map resolves a lowercased head to its ledger id, merged_heads looks up `name(fmt, \"slice\", id=...)`, and the stack hold keeps milestone heads. A foreign head is ignored.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2366,7 +2366,7 @@
     "specRef": "§7",
     "quote": "The format comes from the `config` the decision already read (`load_format` semantics: `config.get(\"branchFormat\") or \"sdlc/{name}\"`).",
     "acceptance": "next-action.py reads branchFormat from the config it already loads. A missing or empty value falls back to `sdlc/{name}`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2892,7 +2892,7 @@
     "specRef": "§Testing",
     "quote": "`the active slice branch, slice PR heads, the state PR, the e2e PR and the stack milestone hold are recognized under a custom format`: fixture with `branchFormat: \"feature/PROJ-1-{name}\"`; a `feature/PROJ-1-sdlc-foo`-style foreign head is ignored.",
     "acceptance": "test/next-action.test.mjs asserts the five recognitions under the custom format and the ignored foreign head.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2907,7 +2907,7 @@
     "specRef": "§Testing",
     "quote": "The existing tests keep passing under the default.",
     "acceptance": "The full suite passes with no branchFormat set, including the existing next-action tests.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
