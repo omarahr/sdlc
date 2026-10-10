@@ -3528,12 +3528,120 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-024",
     "pr": "",
     "risk": "high",
     "riskReason": "The janitor deletes local branches; a wrong parse deletes a run or attempt branch the loop still needs.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Format validation uses split() for its side effect",
+        "detail": "main() calls branches.split(fmt) only to raise Fail on a bad format. Use branches.validate_format(fmt) so the intent is clear.",
+        "file": "skills/sdlc/janitor.py",
+        "blocking": false
+      },
+      {
+        "title": "Attempt-id guard duplicates branch knowledge",
+        "detail": "ATTEMPT_ID in janitor.py repeats the attempt shape that branches.py PARSE_ROWS owns. Move the check into branches.py when a later slice touches it.",
+        "file": "skills/sdlc/janitor.py",
+        "blocking": false
+      },
+      {
+        "title": "Source-grep test pins implementation, not behavior",
+        "detail": "The test 'the janitor has no V_BRANCH or V_ID' (skills/sdlc/test/scripts.test.mjs:1690) reads janitor.py text and rejects two names. It fails on a rename and passes on any wrong behavior. The behavior tests below it already pin the sweep rules. It is an acceptable red-first marker for R-060, but delete it later or keep it as a known exception.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Old comments remain in touched janitor code and tests",
+        "detail": "The slice adds no comments. Comments from earlier slices stay in janitor.py (worktree prune, ledger-unreadable, reap-order notes) and in the stale-worktree and unreadable-state tests (scripts.test.mjs:1782-1784, 1787, 1797, 1807). The repo rule asks for no comments in code and tests. Remove them in a mechanical clean-up. The architecture review already noted this.",
+        "file": "skills/sdlc/janitor.py",
+        "blocking": false
+      },
+      {
+        "title": "Derived-format test checks two other modules",
+        "detail": "The test 'the janitor leaves an old-format verify branch under a derived format' also runs branches.py parse and list. Those checks belong to the branches.py tests. The janitor assertions alone (removedBranches empty, branch kept) prove R-085. A failure in branches.py would now fail a janitor test with a misleading name.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Verifier tests are untracked and not promoted",
+        "detail": "The verifier tests under .sdlc/slices/S-024/verification/r0/tests are untracked and no committed test comes from them. This is correct. One case may deserve promotion later: 'mixed-case ledger id and uppercase branch under lower format' in cli-0. The committed lowercase test covers only an upper-case ledger id. I judge it not keep-worthy now, so it is not blocking.",
+        "file": ".sdlc/slices/S-024/verification/r0/tests/cli-0/janitor.verify-cli.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Verify-shaped run, milestone and e2e ids are swept as unknown",
+        "detail": "A name such as sdlc/run-1-v0-http-api-0 parses to verify with an id missing from the ledger, so the janitor deletes it. The committed tests keep only attempt-shaped ids and do not pin this choice either way. The spec allows it. Add one test that states the intended result so a later change does not flip it by accident.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Verify-shaped names with run, milestone or e2e ids are swept as unknown ids",
+        "detail": "A name like sdlc/run-1-v0-http-api-0 parses to verify with an id the ledger does not hold, so the janitor deletes it. The spec allows this (unknown id). A stricter id check could keep such branches.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor sweeps a verify-shaped branch whose id embeds the format prefix",
+        "detail": "Under feature/sdlc/{name}, feature/sdlc/feature/sdlc/S-001-v0-http-api-0 parses with id feature/sdlc/S-001, which the ledger does not hold, so it is deleted as unknown.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor does not validate the format before the sweep",
+        "detail": "Only branches.split runs. A format with a stray brace or whitespace gives no note, and a matching verify branch such as a/{x}-S-999-v0-http-api-0 is deleted as unknown. A non-string branchFormat falls back to the default silently.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor stops early on a non-object config.json before scratch reaping",
+        "detail": "With config.json holding [1,2], scratch_days calls config.get on a list. The note 'the janitor stopped early' appears, but old sdlc- scratch dirs are not reaped. No branch is deleted. This code predates S-024.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "unusable format skips git worktree prune",
+        "detail": "The prune runs inside sweep_branches, so a stale worktree registration stays when the format cannot be read.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "ledger of non-objects counts as an empty ledger",
+        "detail": "slices.json holding [1,'a',null] or [] yields no ids, so every verify branch is swept as unknown.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor accepts a whitespace format without a note",
+        "detail": "janitor.py checks the format with branches.split only, not validate_format. The format 'a b/{name}' gives no note. It deletes nothing, because git refuses such branch names.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor docstring summary line is stale",
+        "detail": "The first line still says 'leftover slice branches'. The sweep now deletes verify branches only.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor sweeps any verify-shaped branch with an unknown id, including ids with slashes",
+        "detail": "Under sdlc/{name}, a user branch like sdlc/x/S-001-v0-a-0 or sdlc/release-v2-beta-1 parses as verify with an unknown id and is deleted. R-060 allows it; a stricter id shape (S-... or M-...) would protect user branches.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor accepts a non-string branchFormat as the default format",
+        "detail": "branchFormat 5 in config.json makes load_format return the default, so the janitor sweeps sdlc/* with no note. A wrong-typed value should be a note and no sweep.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "janitor stops before scratch reaping on non-string ledger ids and on a non-object config",
+        "detail": "A ledger row id that is a list or dict raises TypeError in main. An array config raises AttributeError in scratch_days. Both end in the stopped-early note with no scratch reaping. An int id under {name:lower} raises inside parse after earlier deletions, so removedBranches is lost from the output.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor resolves case-twin ledger ids to the first row",
+        "detail": "Under {name:lower} with S-001 done and s-001 todo, p/s-001-v0-a-0 is removed.",
+        "file": "skills/sdlc/janitor.py"
+      },
+      {
+        "title": "janitor uses split, not validate_format",
+        "detail": "A format such as a{b}/{name} gives no note; nothing is deleted because no branch matches.",
+        "file": "skills/sdlc/janitor.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3544,7 +3652,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-025",

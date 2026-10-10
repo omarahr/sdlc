@@ -1,0 +1,325 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "d23dd8a",
+  "environment": "Python 3 stdlib, Node test runner, scratch git repos through cli-runner, branches.parse called through property.mjs callPython; seed 424242",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-085"
+      ],
+      "title": "Old-format verify branch stays under derived format; parse of sdlc/S-001 gives null kind; list omits it",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Old-format verify branch stays under derived format; parse of sdlc/S-001 gives null kind; list omits it",
+      "expected": "Old-format verify branch stays under derived format; parse of sdlc/S-001 gives null kind; list omits it",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-085 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:17",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "parse and list",
+          "inline": "PARSE {\"ok\": true, \"command\": \"parse\", \"branch\": \"sdlc/S-001\", \"kind\": null}\nLIST branches: [feature/sdlc/S-001] only\njanitor removedBranches: []"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-085"
+      ],
+      "title": "Property: parse under feature/sdlc/{name} returns null for every name without the prefix",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Property: parse under feature/sdlc/{name} returns null for every name without the prefix",
+      "expected": "Property: parse under feature/sdlc/{name} returns null for every name without the prefix",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-085 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:40",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "parse-derived-prefix",
+          "inline": "property parse seed=424242 runs=1000 violations=0\nmodel: a name without the prefix feature/sdlc/ parses to null"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-085"
+      ],
+      "title": "Janitor leaves 40 random old-format verify branches of done, rejected and todo slices",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Janitor leaves 40 random old-format verify branches of done, rejected and todo slices",
+      "expected": "Janitor leaves 40 random old-format verify branches of done, rejected and todo slices",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-085 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:59",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "janitor-old-format",
+          "inline": "seed=424242 runs=40 removedBranches=[] refs unchanged"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-060",
+        "R-086"
+      ],
+      "title": "Lowercase example: s-001 done removed, s-999 unknown removed, s-002 todo and feature/p-1-run-1 stay",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Lowercase example: s-001 done removed, s-999 unknown removed, s-002 todo and feature/p-1-run-1 stay",
+      "expected": "Lowercase example: s-001 done removed, s-999 unknown removed, s-002 todo and feature/p-1-run-1 stay",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-086 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:77",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "janitor output",
+          "inline": "removedBranches: [feature/p-1-s-001-v0-http-api-0, feature/p-1-s-999-v0-http-api-0]\nremaining: feature/p-1-run-1, feature/p-1-s-002, feature/p-1-s-002-v0-http-api-0, main"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-086"
+      ],
+      "title": "Property: parse with ledger ids resolves any case of a mixed-case ledger id to the ledger spelling with known true",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Property: parse with ledger ids resolves any case of a mixed-case ledger id to the ledger spelling with known true",
+      "expected": "Property: parse with ledger ids resolves any case of a mixed-case ledger id to the ledger spelling with known true",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-086 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:92",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "lower-resolve",
+          "inline": "property parse seed=424242 runs=1000 violations=0\nmodel: the id equals the ledger id that matches case-insensitively; unknown id gives known false"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-060",
+        "R-086"
+      ],
+      "title": "Mixed-case ledger ids S-Ab1 done, S-Cd2 in_progress, S-eF3 rejected: done and rejected branches go, in_progress stays",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Mixed-case ledger ids S-Ab1 done, S-Cd2 in_progress, S-eF3 rejected: done and rejected branches go, in_progress stays",
+      "expected": "Mixed-case ledger ids S-Ab1 done, S-Cd2 in_progress, S-eF3 rejected: done and rejected branches go, in_progress stays",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 quote",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:117",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "janitor output",
+          "inline": "removed s-ab1 and s-ef3 verify branches; s-cd2 stays"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-086"
+      ],
+      "title": "Determinism: second run removes nothing more; ledger file is not changed",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Determinism: second run removes nothing more; ledger file is not changed",
+      "expected": "Determinism: second run removes nothing more; ledger file is not changed",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 quote",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:131",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "two runs",
+          "inline": "run 1 removes 1 branch; run 2 removes none; slices.json bytes equal"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-060",
+        "R-079"
+      ],
+      "title": "janitor.py text has no V_BRANCH or V_ID, calls branches.load_format(repo) and branches.parse, py_compile passes",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "janitor.py text has no V_BRANCH or V_ID, calls branches.load_format(repo) and branches.parse, py_compile passes",
+      "expected": "janitor.py text has no V_BRANCH or V_ID, calls branches.load_format(repo) and branches.parse, py_compile passes",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 acceptance",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:146",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "type-check",
+          "title": "py_compile",
+          "inline": "python3 -m py_compile skills/sdlc/janitor.py exit 0"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Every import in janitor.py is used; imports are standard library or branches only",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Every import in janitor.py is used; imports are standard library or branches only",
+      "expected": "Every import in janitor.py is used; imports are standard library or branches only",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 quote",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:156",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "ast import check",
+          "inline": "['argparse','branches','json','os','re','shutil','subprocess','sys','tempfile','time']\nunused []"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Docstring names branches.parse, verify, done, rejected, the -attempt-<n> rule and the format; no V_BRANCH",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Docstring names branches.parse, verify, done, rejected, the -attempt-<n> rule and the format; no V_BRANCH",
+      "expected": "Docstring names branches.parse, verify, done, rejected, the -attempt-<n> rule and the format; no V_BRANCH",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 quote",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:181",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "docstring check",
+          "inline": "all expected terms present"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Consumer view: unusable formats (no placeholder, two placeholders, mixed placeholders) give a note, delete nothing, exit 0",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Consumer view: unusable formats (no placeholder, two placeholders, mixed placeholders) give a note, delete nothing, exit 0",
+      "expected": "Consumer view: unusable formats (no placeholder, two placeholders, mixed placeholders) give a note, delete nothing, exit 0",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 quote",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:190",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "three formats",
+          "inline": "exit 0, removedBranches [], refs unchanged, notes name the format"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-12",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-060"
+      ],
+      "title": "Format with whitespace (a b/{name}): nothing deleted",
+      "given": "scratch repo with the stated config, ledger and branches",
+      "when": "janitor.py or branches.parse runs",
+      "then": "Format with whitespace (a b/{name}): nothing deleted",
+      "expected": "Format with whitespace (a b/{name}): nothing deleted",
+      "actual": "as expected",
+      "result": "pass",
+      "specSource": "R-060 quote",
+      "test": ".sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs:206",
+      "command": "WT=<verify worktree> TESTKIT_SEED=424242 node --test .sdlc/slices/S-024/verification/r0/tests/contract-0/janitor.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "output",
+          "inline": "{\"removedDirs\":0,\"removedBranches\":[],\"notes\":[]}"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "janitor accepts a whitespace format without a note",
+      "detail": "janitor.py checks the format with branches.split only, not validate_format. A format such as 'a b/{name}' gives no note. It deletes nothing, because git refuses such branch names.",
+      "file": "skills/sdlc/janitor.py"
+    },
+    {
+      "title": "janitor docstring summary line is stale",
+      "detail": "The first line still says 'leftover slice branches'. The sweep now deletes verify branches only.",
+      "file": "skills/sdlc/janitor.py"
+    }
+  ]
+}
