@@ -1,0 +1,17 @@
+property-run derive seed=3368312828 runs=3000 violations=0
+✔ verify contract: VS-1 starts_with feature/ gives feature/sdlc/{name} (32.433583ms)
+✔ verify contract: VS-2 ends_with -dev gives sdlc/{name}-dev (35.512833ms)
+✔ verify contract: VS-3 contains team-a gives sdlc/team-a/{name} (37.743792ms)
+✔ verify contract: VS-5 no format for regex, negated, several, empty and unknown (321.565333ms)
+✔ verify contract: odd patterns are spliced verbatim (35.147833ms)
+✔ verify contract: property derive equals the reference model (91.5375ms)
+✔ verify contract: derive does not mutate its input and is deterministic (37.558208ms)
+✔ verify contract: consumer view signature has one parameter (39.582167ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 675.273375

@@ -1,0 +1,26 @@
+✔ verify cli: VS-1 starts_with gives a prefixed format (804.690458ms)
+✔ verify cli: VS-1 prefix corner regex chars (833.625375ms)
+✔ verify cli: VS-1 prefix corner space (468.2635ms)
+✔ verify cli: VS-1 prefix corner no trailing slash (742.501042ms)
+✔ verify cli: VS-2 ends_with gives a suffixed format (590.169958ms)
+✔ verify cli: VS-2 suffix corner .x (591.852083ms)
+✔ verify cli: VS-2 suffix corner - (602.734542ms)
+✔ verify cli: VS-2 suffix corner _dev (587.378584ms)
+✔ verify cli: VS-3 contains gives an infix format (625.943959ms)
+✔ verify cli: VS-4 derived format is clean and writes nothing (639.04625ms)
+✔ verify cli: VS-5 no derivation: flag (759.915542ms)
+✔ verify cli: VS-5 no derivation: config (608.251292ms)
+✔ verify cli: VS-5 no derivation: two rules (664.684083ms)
+✔ verify cli: VS-5 no derivation: negated (1012.677875ms)
+✔ verify cli: VS-5 no derivation: regex (665.0605ms)
+✔ verify cli: VS-5 no derivation: negated ends_with (616.990542ms)
+✔ verify cli: VS-5 no derivation: negated contains (564.751917ms)
+✔ verify cli: VS-5 empty rule list and unknown operator (1114.805916ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12624.447625
