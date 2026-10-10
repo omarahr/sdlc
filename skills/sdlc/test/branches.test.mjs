@@ -2297,6 +2297,7 @@ test('T-R-042a one starts_with rule derives the format and passes', opts, () => 
   for (const sample of out.samples) {
     assert.equal(sample.result, 'pass', JSON.stringify(sample))
     assert.ok(sample.name.startsWith('feature/sdlc/'), sample.name)
+    assert.equal(sample.rule, null, JSON.stringify(sample))
   }
 })
 
@@ -2426,6 +2427,77 @@ test('T-R-042i a failed derivation keeps the first-verdict samples and rules', o
   assert.equal(out.suggestion, '--branch-format "sdlc/a..b/{name}"')
 })
 
+
+test('T-R-123a a starts_with feature/ rule derives feature/sdlc/{name} and names all three kinds under it', opts, () => {
+  const derived = probeJson(`
+import json
+print(json.dumps(mod.derive([rule("starts_with", "feature/")])))
+`)
+  assert.equal(derived, 'feature/sdlc/{name}')
+  const named = run(['name', '--repo', gitRepo(), '--kind', 'slice', '--id', 'S-001', '--format', 'feature/sdlc/{name}'])
+  assert.equal(named.status, 0, named.stderr)
+  assert.equal(JSON.parse(named.stdout).branch, 'feature/sdlc/S-001')
+  const { status, out } = prRun(startsWith('feature only', 'feature/'))
+  assert.equal(status, 0, JSON.stringify(out))
+  assert.equal(out.samples.length, 3)
+  assert.equal(sampleOf(out, 'slice').name, 'feature/sdlc/S-001')
+  assert.ok(sampleOf(out, 'state').name.startsWith('feature/sdlc/state-'), sampleOf(out, 'state').name)
+  assert.equal(sampleOf(out, 'e2e').name, 'feature/sdlc/M-1-e2e')
+  for (const sample of out.samples) assert.ok(sample.name.startsWith('feature/sdlc/'), sample.name)
+})
+
+test('T-R-124a an ends_with -dev rule derives sdlc/{name}-dev', opts, () => {
+  const derived = probeJson(`
+import json
+print(json.dumps(mod.derive([rule("ends_with", "-dev")])))
+`)
+  assert.equal(derived, 'sdlc/{name}-dev')
+  const { status, out } = prRun(endsWith('dev suffix', '-dev'))
+  assert.equal(status, 0, JSON.stringify(out))
+  assert.equal(out.ok, true)
+  assert.equal(out.derived, true)
+  assert.equal(out.format, 'sdlc/{name}-dev')
+  assert.equal(sampleOf(out, 'slice').name, 'sdlc/S-001-dev')
+})
+
+test('T-R-125a a contains team-a rule derives sdlc/team-a/{name}', opts, () => {
+  const derived = probeJson(`
+import json
+print(json.dumps(mod.derive([rule("contains", "team-a")])))
+`)
+  assert.equal(derived, 'sdlc/team-a/{name}')
+  const { status, out } = prRun(containsRule('team a', 'team-a'))
+  assert.equal(status, 0, JSON.stringify(out))
+  assert.equal(out.ok, true)
+  assert.equal(out.derived, true)
+  assert.equal(out.format, 'sdlc/team-a/{name}')
+})
+
+test('T-R-141a derive maps the three non-negated operators to their formats', opts, () => {
+  const got = probeJson(`
+import json
+print(json.dumps([
+  mod.derive([rule("starts_with", "feature/")]),
+  mod.derive([rule("ends_with", "-dev")]),
+  mod.derive([rule("contains", "team-a")]),
+]))
+`)
+  assert.deepEqual(got, ['feature/sdlc/{name}', 'sdlc/{name}-dev', 'sdlc/team-a/{name}'])
+})
+
+test('T-R-141b derive returns None for a regex rule, a negated rule of each operator and two rules', opts, () => {
+  const got = probeJson(`
+import json
+print(json.dumps({
+  "regex": mod.derive([rule("regex", "^feature/")]),
+  "negStarts": mod.derive([rule("starts_with", "feature/", True)]),
+  "negEnds": mod.derive([rule("ends_with", "-dev", True)]),
+  "negContains": mod.derive([rule("contains", "team-a", True)]),
+  "two": mod.derive([rule("starts_with", "feature/"), rule("ends_with", "-dev")]),
+}))
+`)
+  assert.deepEqual(got, { regex: null, negStarts: null, negEnds: null, negContains: null, two: null })
+})
 test('T-R-087a an ends_with .lock rule gives the derived format as the suggestion', opts, () => {
   const { status, out } = prRun(endsWith('lock', '.lock'))
   assert.equal(status, 1, JSON.stringify(out))
