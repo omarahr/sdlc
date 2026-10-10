@@ -3406,12 +3406,79 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-023",
     "pr": "",
     "risk": "medium",
     "riskReason": "The threaded format touches every state-write branch path, including the loop-economy matchers.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "slice_side_branches has no caller",
+        "detail": "The helper follows the accepted ADR and a source test guards the future commands. Keep it. Round 1 only added tests for prefix isolation and case rules; no architecture change.",
+        "file": "skills/sdlc/state-write.py",
+        "blocking": false
+      },
+      {
+        "title": "for-each-ref loop repeated",
+        "detail": "slice_side_branches repeats the loop of branches.list_kind. In a later slice, add an ids parameter to list_kind so one loop remains.",
+        "file": "skills/sdlc/state-write.py",
+        "blocking": false
+      },
+      {
+        "title": "head_is fallback in next-action.py is likely dead code",
+        "detail": "The state kind parses through branches.parse, so the prefix/suffix fallback in head_is only runs for unparseable heads. Remove it or document why a non-parsing state head must still match.",
+        "file": "skills/sdlc/next-action.py",
+        "blocking": false
+      },
+      {
+        "title": "config.json read twice on patch-slice",
+        "detail": "main() reads config.json and patch_slice reads it again. Pass config to patch_slice in a later slice.",
+        "file": "skills/sdlc/state-write.py",
+        "blocking": false
+      },
+      {
+        "title": "Test spies on internals instead of behavior",
+        "detail": "'main derives the format once' and 'patch_slice takes fmt as an argument' replace `format_of` and `patch_slice` and assert the call count and the argument count (`args: 4`). They tie the tests to the internal signature. They are acceptable because the spec requires the refactor. The `base-branch` variant adds only a call count and a branch prefix. Prefer behavior assertions in later slices.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Source-text grep tests",
+        "detail": "'state-write.py holds no local regex for verify or attempt names' matches text in the source file (`-attempt-`, `-v\\d`). Unrelated text can break it. It matches the spec guard R-083-b, so it is acceptable now.",
+        "file": "skills/sdlc/test/scripts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "base-branch accepts an invalid branchFormat when the answer never uses the format",
+        "detail": "With branchFormat bad{x} and a slice with no awaiting-merge dependency, base-branch exits 0 and prints main. format_of does not validate the format. The behavior is the same before the change, and no requirement demands validation.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "A config.json that is a JSON array gives a Python traceback",
+        "detail": "require_known_mode calls config.get on a list, so patch-slice and base-branch exit 1 with an AttributeError and no JSON error. The output is the same before the change.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "patch-slice with a format that git refuses fails late with a raw git message",
+        "detail": "Formats such as 'has space/{name}', 'a//{name}' and '{name}.lock' pass format_of and fail inside git checkout -b. The failure is clean (exit 2, ok:false) but names git, not the format. Same as before the change.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "lowercase format also matches upper-case tails",
+        "detail": "branches.parse folds case for prefix, suffix and tail under {name:lower}, so feature/S-001-attempt-3 is a side branch of S-001 under feature/{name:lower}. The VS-4 plan note expected upper-case names not to match. The branch-format spec does not forbid it. A prune command built on this helper would also select an upper-case look-alike branch.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "pre-existing tracebacks for a non-object or directory config.json",
+        "detail": "patch-slice and base-branch print a Python traceback when config.json holds a JSON array or is a directory. The behavior is identical before the change, so it is not a regression.",
+        "file": "skills/sdlc/state-write.py"
+      },
+      {
+        "title": "slice_side_branches has no caller",
+        "detail": "ship-prune and collect-verification do not exist, so R-083 holds as a helper plus a source test only. The ADR for S-023 accepts this.",
+        "file": "skills/sdlc/state-write.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3427,6 +3494,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
