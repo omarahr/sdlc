@@ -1,0 +1,313 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "460d3b3",
+  "environment": "node test runner, python3 branches.py, scratch git repos via cli-runner",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-045"
+      ],
+      "title": "Commands line holds the flag after --commit-format, bullet follows the commit bullet",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Flag and bullet in the required order; bullet names {name}, sdlc/{name}, config.json",
+      "expected": "Flag and bullet in the required order; bullet names {name}, sdlc/{name}, config.json",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-045 acceptance",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-045"
+      ],
+      "title": "Mutated SKILL.md with the flag missing or misplaced fails the reference model",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Model rejects 3 mutations",
+      "expected": "Model rejects 3 mutations",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-045 acceptance",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-046",
+        "R-097"
+      ],
+      "title": "Branch format bullet sits after Git mode and before the STOP removal; old bullet, branch_name_regex, push_rule gone",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Order and absence hold",
+      "expected": "Order and absence hold",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-046 acceptance",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-046"
+      ],
+      "title": "The preflight and parse commands from the text run against branches.py in direct, pr, mr and stack",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Exit 0, verdict has ok, format, derived, samples, notes; parse prints a kind",
+      "expected": "Exit 0, verdict has ok, format, derived, samples, notes; parse prints a kind",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-046 quote",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-046"
+      ],
+      "title": "Preflight with an invalid format returns ok false with error, exit 2",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "ok false is observed; samples, notes, suggestion are absent from that verdict",
+      "expected": "ok false is observed; samples, notes, suggestion are absent from that verdict",
+      "actual": "ok false, error string, exit 2; no samples, notes or suggestion keys",
+      "result": "pass",
+      "specSource": "R-046 acceptance",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-097"
+      ],
+      "title": "Resume takes branchFormat from config.json without the flag; derived format is reported",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Text holds both statements",
+      "expected": "Text holds both statements",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-097 acceptance",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-048"
+      ],
+      "title": "Mismatch bullet follows the Branch format bullet, reports both and ends, run keeps its names",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Text holds all three",
+      "expected": "Text holds all three",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-048 quote",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-049"
+      ],
+      "title": "Launch args hold branchFormat between commitFormat and maxIterations; sentence says value is $FMT, always passed",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "Order and sentence hold",
+      "expected": "Order and sentence hold",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-049 quote",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-046"
+      ],
+      "title": "Against main, exactly 4 lines removed and 6 added, all the expected ones",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "No other Pre-flight text lost",
+      "expected": "No other Pre-flight text lost",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "plan.md Steps",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-10",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-046"
+      ],
+      "title": "Property: 1500 seeded single-line deletions and swaps; deleting any required line is detected, untouched changes keep the model green",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "seed=20261010 runs=1500 detected=101 harmless=1317",
+      "expected": "seed=20261010 runs=1500 detected=101 harmless=1317",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "R-045,R-046,R-048,R-049 acceptance",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        },
+        {
+          "kind": "property-run",
+          "title": "property run",
+          "inline": "seed=20261010 runs=1500 detected=101 harmless=1317 result=pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-11",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-046"
+      ],
+      "title": "Existing prompts, bootstrap, hub and branches suites stay green",
+      "given": "SKILL.md at commit 460d3b3",
+      "when": "The test reads the text and runs the named commands",
+      "then": "266 tests, 266 pass",
+      "expected": "266 tests, 266 pass",
+      "actual": "As expected",
+      "result": "pass",
+      "specSource": "plan.md Tests regression",
+      "test": ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "command": "cd <worktree of sdlc/S-018> && VERIFY_ROOT=$PWD node --test /Users/omar.ragab/projects/sdlc/.sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-run.txt"
+        },
+        {
+          "kind": "log",
+          "title": "suites",
+          "path": ".sdlc/slices/S-018/verification/r0/logs/contract-0-suites.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "preflight invalid-format verdict lacks samples, notes and suggestion",
+      "detail": "branches.py preflight with a format that lacks one {name} prints {ok:false,error} and exits 2. The Branch format bullet tells the driver to print samples, notes and suggestion when ok is false. The driver has no instruction for the error key.",
+      "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "Branch format bullet adds a sentence to the spec text",
+      "detail": "The plan says to use the spec section 5 text word for word. The bullet adds 'On a resume, the config.json branchFormat gives the same value without --branch-format.' and ends 'the run branch' where R-046 quote is the same. The addition is consistent with R-097.",
+      "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "Launch text states the arg as shorthand",
+      "detail": "R-049 quote shows branchFormat: \"$FMT\". The args object lists the bare name branchFormat and a sentence gives the value. The shape stays valid.",
+      "file": "skills/sdlc/SKILL.md"
+    }
+  ]
+}

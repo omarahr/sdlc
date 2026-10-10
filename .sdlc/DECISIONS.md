@@ -495,3 +495,27 @@
 - Decision: Option A. The acceptance of R-119 becomes a behavior check. A test builds a fixture repo with a local bare remote and local verify branches named by `branches.py name --kind verify`, under the default format and under one custom format. It runs every script path that can push or open a pull request, with a `gh` shim that records its calls. It asserts that the remote holds no branch that `branches.py parse` classifies as verify, and that the shim saw no pull-request creation with a verify head. Do not build a scanner of call arguments. Do not pin wrapper bodies. Do not restore push_guard.py or push-guard.test.mjs from the archived attempt branches.
 - Consequences / how to reverse: The check covers the paths the test drives, so the test must drive each push site of state-write.py and any other script that pushes. A new push site needs a new case. To reverse, restore the source-scan acceptance of R-119.
 - Affects: R-119, S-005b
+
+### ADR-20261010-012348-planner-S-018-d35c: Mismatch check is its own bullet, and one old assertion changes
+- Status: auto
+- Context: Spec section 5 puts the worktree format check in the Run worktree bullet, which comes before FMT exists. The old first-run-only assertion pins text that the spec removes.
+- Options: (1) Put the check in a new bullet after the Branch format bullet. (2) Edit the Run worktree bullet now. (3) Keep the old assertion.
+- Decision: Option 1, and rewrite the old assertion to the new bullet. The Run worktree bullet belongs to S-019.
+- Consequences / how to reverse: Move the sentence into the Run worktree bullet when S-019 restructures it.
+- Affects: S-018, R-048
+
+### ADR-20261010-012412-decision-judge-S-018-fd46: Mismatch sentence goes in its own bullet after the Branch format bullet
+- Status: auto
+- Context: Spec section 5 puts the worktree branchFormat mismatch check in the Run worktree bullet, which comes before FMT. The check needs FMT. ADR-20261010-012348-planner-S-018-d35c already records the plan. No OVERRIDE ADR covers this question.
+- Options: (1) Own bullet after the Branch format bullet; leave the Run worktree bullet unchanged. (2) Same, with an opening clause that names the Run worktree step. (3) Same, and trim the Run worktree bullet to the branch name and worktree creation.
+- Decision: Option 1. The Branch format bullet defines FMT, so the new bullet uses FMT after its definition. The Run worktree bullet stays unchanged for S-019.
+- Consequences / how to reverse: One sentence moves in one file. S-019 can move it into the Run worktree bullet. The one rewritten assertion must follow the move.
+- Affects: S-018, R-048
+
+### ADR-20261010-012416-decision-judge-S-018-b1c1: Rewrite the first-run-only assertion to pin the new Branch format bullet
+- Status: auto
+- Context: Spec section 5 deletes the "Branch name (first run only)" bullet. The old assertion in prompts.test.mjs matches "first run only" followed by runBranch, so it pins deleted text. No OVERRIDE ADR covers this question. ADR-20261010-012348-planner-S-018-d35c already chose to rewrite it.
+- Options: (1) Rewrite the assertion to pin the new bullet with "first run only" and the resume wording, and drop the runBranch match. (2) Same rewrite, with the change only noted in an ADR. (3) Same rewrite of one assertion, kept strict, with an ADR of Status: auto.
+- Decision: Option 3. Rewrite only that one assertion. It must require "first run only" and "on a resume the current branch is normally the run branch" in the Branch format bullet. Keep it strict. Do not edit other assertions.
+- Consequences / how to reverse: One regex in skills/sdlc/test/prompts.test.mjs changes. Restore the old regex or tighten the new one in one commit. The resume guarantee stays tested.
+- Affects: S-018, R-048
