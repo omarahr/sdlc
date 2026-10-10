@@ -3122,5 +3122,260 @@
       "infraRetries": 0,
       "gateCommit": ""
     }
+  },
+  {
+    "id": "S-030",
+    "title": "derive maps one simple rule to a format",
+    "requirements": [
+      "R-123",
+      "R-124",
+      "R-125",
+      "R-126",
+      "R-141"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-030",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Preflight derives a format and runs git on it.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-031",
+    "title": "evaluate regex, name literals and preflight edge formats",
+    "requirements": [
+      "R-127",
+      "R-142",
+      "R-150",
+      "R-151",
+      "R-140"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-031",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Preflight reads forge rules through shell calls.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-032",
+    "title": "preflight samples each kind in its own mode",
+    "requirements": [
+      "R-136",
+      "R-137"
+    ],
+    "dependsOn": [
+      "S-016"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-032",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Mode and kind selection decides which branch names the forge tests.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-033",
+    "title": "state-write and janitor take their format from the module",
+    "requirements": [
+      "R-138",
+      "R-139"
+    ],
+    "dependsOn": [
+      "S-022",
+      "S-024"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-033",
+    "pr": "",
+    "risk": "high",
+    "riskReason": "Janitor deletes branches, so a wrong classification removes real work.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-034",
+    "title": "SKILL.md orders the format sources and the preflight command",
+    "requirements": [
+      "R-128",
+      "R-129",
+      "R-130",
+      "R-002"
+    ],
+    "dependsOn": [
+      "S-019"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-034",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "The driver runs preflight and records the format in config.json.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-035",
+    "title": "integrator, escalator and state-writer prompts use branch placeholders",
+    "requirements": [
+      "R-131",
+      "R-143",
+      "R-145",
+      "R-147"
+    ],
+    "dependsOn": [
+      "S-027"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-035",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Prompt text steers agents that delete and push branches.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-036",
+    "title": "scenario-runner, env-detector, milestone-writer and e2e-harness prompts use branch placeholders",
+    "requirements": [
+      "R-132",
+      "R-133",
+      "R-144",
+      "R-148"
+    ],
+    "dependsOn": [
+      "S-027"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-036",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Prompt text steers agents that create worktrees and branches.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
+  },
+  {
+    "id": "S-037",
+    "title": "state-schema, commit-state and the slice prompts use branch placeholders",
+    "requirements": [
+      "R-134",
+      "R-135",
+      "R-146",
+      "R-149"
+    ],
+    "dependsOn": [
+      "S-027"
+    ],
+    "kind": "spec",
+    "status": "todo",
+    "phase": "plan",
+    "branch": "sdlc/S-037",
+    "pr": "",
+    "risk": "medium",
+    "riskReason": "Prompt text steers agents that commit and push branches.",
+    "seeds": [],
+    "ideaKeys": [],
+    "notes": "",
+    "counters": {
+      "planRevisions": 0,
+      "fixRounds": 0,
+      "ladderStep": 0,
+      "parkCycles": 0,
+      "verifyDemanded": false,
+      "infraRetries": 0,
+      "gateCommit": ""
+    }
   }
 ]

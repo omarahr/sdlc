@@ -4043,16 +4043,18 @@
     "id": "R-119",
     "specRef": "\u00a71",
     "quote": "| `verify` | `<sliceId>-v<round>-<profile>-<part>` | `sdlc/S-001-v0-http-api-0` | never |",
-    "acceptance": "A source check over `sdlc-loop.js` and the skill scripts finds no `git push` or pull-request creation for a branch whose parsed kind is `verify`. A verify branch stays local.",
-    "status": "parked",
+    "acceptance": "A test builds a fixture repo with a local bare remote and local verify branches named by `branches.py name --kind verify`, under the default format and under one custom format. It runs every script path that can push or open a pull request, with a `gh` shim that records its calls. It asserts that the remote holds no branch that `branches.py parse` classifies as verify, and that the shim saw no pull-request creation with a verify head. The test drives each push site of state-write.py and any other script that pushes.",
+    "status": "todo",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261010-005045-human-S-005b-1073"
+    ],
     "evidence": {
       "files": [],
       "tests": [],
       "commit": ""
     },
-    "notes": "added by the completeness critic (cross-cutting)"
+    "notes": "added by the completeness critic (cross-cutting) | spec changed: OVERRIDE ADR-20261010-005045-human-S-005b-1073 replaces the source-scan acceptance with a runtime check against a local bare remote."
   },
   {
     "id": "R-120",
@@ -4144,5 +4146,440 @@
       "commit": "23c486da67d3cbb3aea8fced0bc3098bfe5c6a90"
     },
     "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-123",
+    "specRef": "§4",
+    "quote": "| `starts_with P` | `P` + `sdlc/{name}` |",
+    "acceptance": "derive for the single rule `starts_with feature/` returns `feature/sdlc/{name}`, so the samples are `feature/sdlc/S-001` and the like.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-124",
+    "specRef": "§4",
+    "quote": "| `ends_with S` | `sdlc/{name}` + `S` |",
+    "acceptance": "derive for the single rule `ends_with -dev` returns `sdlc/{name}-dev`; preflight with that rule and no format given prints ok true, derived true and format `sdlc/{name}-dev`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-125",
+    "specRef": "§4",
+    "quote": "| `contains C` | `sdlc/` + `C` + `/{name}` |",
+    "acceptance": "derive for the single rule `contains team-a` returns `sdlc/team-a/{name}`; preflight with that rule and no format given prints ok true, derived true and format `sdlc/team-a/{name}`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-126",
+    "specRef": "§4",
+    "quote": "derive `fmt2` from the table below, evaluate the samples again under it, and when they all pass, `ok` is `true` with `fmt2` and `derived` `true`.",
+    "acceptance": "When the derived format passes every sample, the output carries format equal to fmt2 and derived true, and the pre-flight writes no failing sample. When derivation does not apply (format given, several rules, negate, regex), derived stays false.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-127",
+    "specRef": "§3",
+    "quote": "`regex`: `re.search(pattern, sample) is not None`.",
+    "acceptance": "A regex rule is unanchored: pattern `feature` matches `x/feature/y` and returns True; pattern `^feature/` does not match `sdlc/S-001` and returns False.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-128",
+    "specRef": "§5",
+    "quote": "Take the format from `--branch-format` when given, else from `$REPO/.sdlc/config.json` `branchFormat` when that file exists (a finished run leaves it on the default branch), else none.",
+    "acceptance": "SKILL.md orders the format sources: flag first, then the repo's config.json branchFormat when the file exists, else none; with none, preflight gets no --format argument.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-129",
+    "specRef": "§5",
+    "quote": "Run `python3 \"$SKILL_DIR/branches.py\" preflight --repo \"$REPO\" --mode <gitMode>` with `--format \"<format>\"` when you have one, and with `--branch \"$BASE_BRANCH\"` in `mr` mode.",
+    "acceptance": "SKILL.md passes --format only when a format is known and --branch \"$BASE_BRANCH\" only in mr mode; no other mode gets --branch.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-130",
+    "specRef": "§5",
+    "quote": "This check is first run only: on a resume the current branch is normally the run branch.",
+    "acceptance": "On a resume, the driver does not run the $BASE_BRANCH parse check and does not ask for a rename of the current branch.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-131",
+    "specRef": "§8",
+    "quote": "\"the slice's attempt branches (`branches.py list --kind attempt`, filtered to this slice)\"",
+    "acceptance": "integrator.md finds attempt branches to delete through `branches.py list --kind attempt` filtered to the slice id, not through a `sdlc/<id>-attempt-*` glob.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-132",
+    "specRef": "§8",
+    "quote": "| `scenario-runner.md` | `-b sdlc/<milestoneId>-e2e-<areaId> sdlc/<milestoneId>-e2e` | `-b <e2e area branch> <e2e branch>` |",
+    "acceptance": "scenario-runner.md writes the worktree command as `-b <e2e area branch> <e2e branch>` with no sdlc/ literal.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-133",
+    "specRef": "§8",
+    "quote": "| `env-detector.md` | `sdlc/run-<n>` (×3), `sdlc/run-*` | `<run branch>`; \"a branch that parses as kind `run`\" |",
+    "acceptance": "env-detector.md uses `<run branch>` for the three run-branch literals and says \"a branch that parses as kind `run`\" in place of the `sdlc/run-*` glob.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-134",
+    "specRef": "§8",
+    "quote": "`runBranch` \"the run branch (`run` kind under `config.branchFormat`)\"",
+    "acceptance": "state-schema.md describes config.runBranch as the run branch (`run` kind under `config.branchFormat`), and describes each slice's branch field as the slice branch under config.branchFormat, with no sdlc/S-001 or sdlc/run-<n> literal.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-135",
+    "specRef": "§8",
+    "quote": "| `commit-state.md` | `sdlc/<sliceId>`, `sdlc/run-<n>` (×4), `sdlc/M-<n>`, `sdlc/state-$(date -u +%Y%m%d%H%M%S)` | `<slice branch>`, `<run branch>`, `<milestone branch>`, `<state branch>` |",
+    "acceptance": "commit-state.md uses the four placeholders and no longer builds the state branch name with `date -u`; the state branch name comes from `branches.py name --kind state`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-136",
+    "specRef": "§1",
+    "quote": "| `state` | `state-<UTC timestamp, %Y%m%d%H%M%S>` | `sdlc/state-20261008101500` | pr |",
+    "acceptance": "The state kind is a pushed branch in pr mode only: the pr preflight samples it and the stack preflight does not.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-137",
+    "specRef": "§1",
+    "quote": "| `run` | `run-<n>` | `sdlc/run-1` | stack |",
+    "acceptance": "The run and milestone kinds are pushed in stack mode only: the stack preflight samples them and the pr preflight does not; the e2e kind is sampled in pr mode only.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-138",
+    "specRef": "§7",
+    "quote": "`prune_stale_milestone_branches` and `branch_run` classify with `parse`.",
+    "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, prune_stale_milestone_branches treats only branches that parse to `milestone` as milestone branches. branch_run classifies a run branch by parse kind `run`. A foreign branch is neither pruned nor taken as the run branch.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-139",
+    "specRef": "§7",
+    "quote": "The format comes from `load_format(repo)`.",
+    "acceptance": "janitor.py takes its format from `load_format(repo)`. A repo whose config holds `feature/PROJ-1-{name}` makes janitor sweep under that format. A repo with no branchFormat makes it sweep under `sdlc/{name}`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-140",
+    "specRef": "§3",
+    "quote": "GitLab group push rules seed new projects and are not evaluated at push time beside the project rule, so only the project rule is read.",
+    "acceptance": "read_rules on a gitlab forge calls `glab api \"projects/:fullpath/push_rule\"` and no group push rule endpoint. The glab shim records no other path.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-141",
+    "specRef": "§2",
+    "quote": "`evaluate(rule, sample)` and `derive(rules)`: sections 3 and 4.",
+    "acceptance": "branches.py exposes `derive(rules)`. For one non-negated `starts_with P`, `ends_with S` or `contains C` rule it returns `P` + `sdlc/{name}`, `sdlc/{name}` + `S` or `sdlc/` + `C` + `/{name}`. For a regex rule, a negated rule or several rules it returns no format.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-142",
+    "specRef": "§1",
+    "quote": "A ticket key or a type prefix a convention wants is literal text: `feature/PROJ-123-{name}` names the first slice `feature/PROJ-123-S-001`.",
+    "acceptance": "name(\"feature/PROJ-123-{name}\", \"slice\", id=\"S-001\") is `feature/PROJ-123-S-001`. validate_format accepts the format.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-143",
+    "specRef": "§8",
+    "quote": "| `integrator.md` | `sdlc/<id>` (×9), `sdlc/run-<n>` (×3), `sdlc/<id>-attempt-*` | `<slice branch>`, `<run branch>`, \"the slice's attempt branches (`branches.py list --kind attempt`, filtered to this slice)\" |",
+    "acceptance": "integrator.md holds no literal `sdlc/<id>`, `sdlc/run-<n>` or `sdlc/<id>-attempt-*`. It uses `<slice branch>` and `<run branch>` and names attempt branches through `branches.py list --kind attempt` filtered to the slice.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-144",
+    "specRef": "§8",
+    "quote": "| `milestone-writer.md` | `sdlc/<id>-e2e-<area>`, `sdlc/<id>-e2e`, `sdlc/M-<n>` (×6) | `<e2e area branch>`, `<e2e branch>`, `<milestone branch>` |",
+    "acceptance": "milestone-writer.md holds no `sdlc/` branch literal. It uses `<e2e area branch>`, `<e2e branch>` and `<milestone branch>` in their places.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-145",
+    "specRef": "§8",
+    "quote": "| `escalator.md` | `sdlc/<id>` (×3), `sdlc/<id>-attempt-<n>` (×2), `sdlc/run-<n>` | `<slice branch>`, `<attempt branch>`, `<run branch>` |",
+    "acceptance": "escalator.md holds no `sdlc/` branch literal. It uses `<slice branch>`, `<attempt branch>` and `<run branch>`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-146",
+    "specRef": "§8",
+    "quote": "| `implementer.md`, `test-writer.md`, `test-checker.md`, `planner.md`, `verifier.md`, `verify-planner.md`, `verify-toolsmith.md`, `test-reporter.md`, `gate.md`, `finding-refuter.md`, `verify-profile-common.md`, `verify-collector.md`, `state-reader.md` | `sdlc/<id>` | `<slice branch>` |",
+    "acceptance": "Each of the 13 listed prompt files holds no `sdlc/<id>` literal and uses `<slice branch>` instead.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-147",
+    "specRef": "§8",
+    "quote": "| `state-writer.md` | `sdlc/<id>`, `sdlc/<id>-attempt-<n>` | `<slice branch>`, `<attempt branch>` |",
+    "acceptance": "state-writer.md holds no `sdlc/` branch literal. It uses `<slice branch>` and `<attempt branch>`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-148",
+    "specRef": "§8",
+    "quote": "| `e2e-harness.md` | `sdlc/<milestoneId>-e2e`, `sdlc/M-<n>` | `<e2e branch>`, `<milestone branch>` |",
+    "acceptance": "e2e-harness.md holds no `sdlc/` branch literal. It uses `<e2e branch>` and `<milestone branch>`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-149",
+    "specRef": "§8",
+    "quote": "| `state-schema.md` | `\"branch\": \"sdlc/S-001\"`, `sdlc/run-<n>` (×2), `sdlc/M-<n>` | the field's description says \"the slice branch under `config.branchFormat`\"; `runBranch` \"the run branch (`run` kind under `config.branchFormat`)\" |",
+    "acceptance": "state-schema.md holds no `sdlc/S-001`, `sdlc/run-<n>` or `sdlc/M-<n>` literal. The slice branch field and the milestone branch mention are described by kind under `config.branchFormat`.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (statements)"
+  },
+  {
+    "id": "R-150",
+    "specRef": "§Edge cases",
+    "quote": "**A literal part that makes an invalid ref**: `validate_format` rejects the format at pre-flight with `git check-ref-format`'s reason.",
+    "acceptance": "`preflight --format 'sdlc/{name}..'` exits 2 with `ok: false` and an error that carries git check-ref-format's reason.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
+  },
+  {
+    "id": "R-151",
+    "specRef": "§Edge cases",
+    "quote": "**No format, no rules**: the default; nothing changes for any repo that has no rule.",
+    "acceptance": "On a repo with no config format and no forge rules, preflight prints ok true with format `sdlc/{name}` and derived false.",
+    "status": "todo",
+    "flags": [],
+    "adrs": [],
+    "evidence": {
+      "files": [],
+      "tests": [],
+      "commit": ""
+    },
+    "notes": "added by the completeness critic (structures)"
   }
 ]
