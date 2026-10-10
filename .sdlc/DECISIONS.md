@@ -551,3 +551,19 @@
 - Decision: Option 2. Option 1 would change the default-format behavior that R-077 keeps.
 - Consequences / how to reverse: One fixture line in next-action.test.mjs. To reverse, restore the todo slice and change the script.
 - Affects: S-021, R-054
+
+### ADR-20261010-034158-decision-judge-S-022-cb4c: S-022 adds a format_of helper for fmt
+- Status: auto
+- Context: R-059 (S-023) derives fmt once in main(). S-022 needs fmt now. No OVERRIDE ADR covers this question.
+- Options: (1) Add format_of(repo, config). Call it from patch_slice and the base-branch arm. Do not copy the derivation inline. S-023 moves the call into main(). (2) Same helper. S-023 replaces the calls with the single derivation in main(). (3) Same helper. S-022 does not touch main(). S-023 moves the call.
+- Decision: Option 1. The three options are the same change. Option 1 forbids an inline copy, so one function derives fmt. S-022 does not edit main().
+- Consequences / how to reverse: The helper has two call sites. S-023 moves the call into main() and can inline or delete the helper in one edit. No stored state changes.
+- Affects: S-022, S-023, R-059
+
+### ADR-20261010-034202-decision-judge-S-022-f0a0: branch_run stays unchanged; R-057 is met in the prune loop
+- Status: auto
+- Context: R-057 says branch_run classifies with parse. In state-write.py, branch_run holds no branch regex. It only reads runBranch from config.json on a given branch. Its callers already pass classified branches. No OVERRIDE ADR covers this question.
+- Options: (1) Leave branch_run unchanged. Read R-057 as "classify milestone branches with parse" and meet it in the prune loop. (2) Same change, and record the gap in the ADR. (3) Same change, and record that branch_run has no regex to replace.
+- Decision: Option 1. Replace MILESTONE_BRANCH with a parse check in the prune loop only. Add no parse check in branch_run.
+- Consequences / how to reverse: A parse check in branch_run would repeat the filter of its callers and change its return value for non-milestone branches. To reverse, add one parse call at the top of branch_run that returns an empty string for a non-milestone branch, and add one test. No caller or data format changes.
+- Affects: S-022, R-057
