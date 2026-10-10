@@ -2801,13 +2801,21 @@
     "specRef": "§9",
     "quote": "`README.md`: the Usage table gets the `--branch-format \"<format>\"` flag with one example; a short **Branch names** paragraph after the git-mode bullets lists the kinds and tails, the default, the rules the pre-flight reads and what happens on a mismatch; \"What it writes to your repo\" mentions `branchFormat` in `config.json`; the Development tree lists `branches.py`.",
     "acceptance": "README.md has the flag row with an example, a **Branch names** paragraph after the git-mode bullets, a branchFormat mention under \"What it writes to your repo\", and branches.py in the Development tree.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "README.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-066a: README Usage row and flag list show --branch-format with one example",
+        "T-R-066b: README Branch names paragraph",
+        "T-R-066c: README file table lists branchFormat in config.json",
+        "T-R-066d: README Development tree lists branches.py"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2816,13 +2824,18 @@
     "specRef": "§9",
     "quote": "`prompts/ste-style.md` is unchanged; every prompt edit passes `ste-check.py`.",
     "acceptance": "ste-style.md has no diff. ste-check.py passes on every edited prompt.",
-    "status": "todo",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "README.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "existing ste-check test in skills/sdlc/test/prompts.test.mjs"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },

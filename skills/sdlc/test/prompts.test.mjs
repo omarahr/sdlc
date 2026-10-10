@@ -1361,3 +1361,62 @@ test('T-R-080: no prompt spells a loop branch literally', () => {
   assert.match('git checkout sdlc/S-001', LOOP_BRANCH_LITERAL)
   assert.doesNotMatch('see .sdlc/slices', LOOP_BRANCH_LITERAL)
 })
+
+const readmeText = () => readFileSync(join(SKILL_DIR, '..', '..', 'README.md'), 'utf8')
+
+test('R-066: the README Usage row and flag list show --branch-format with one example', () => {
+  const lines = readmeText().split('\n')
+  const row = lines.find(l => l.trim().startsWith('|') && l.includes('`/sdlc <spec>'))
+  assert.ok(row, 'the command table has no /sdlc <spec> row')
+  assert.ok(row.includes('[--branch-format "<format>"]'), 'the Usage row does not show the --branch-format flag')
+  const flagLine = lines.find(l => l.startsWith('- `--branch-format'))
+  assert.ok(flagLine, 'the flag list has no --branch-format bullet')
+  assert.ok(flagLine.includes('--branch-format "feature/PROJ-1-{name}"') || flagLine.includes('"feature/PROJ-1-{name}"'),
+    'the --branch-format bullet has no example')
+})
+
+test('R-066: the README Branch names paragraph names the kinds, tails, default and mismatch outcome', () => {
+  const lines = readmeText().split('\n')
+  const start = lines.findIndex(l => l.startsWith('**Branch names**'))
+  assert.ok(start >= 0, 'no paragraph starts with **Branch names**')
+  const lastGit = lines.map((l, i) => (l.startsWith('- `--git') ? i : -1)).filter(i => i >= 0).pop()
+  assert.ok(start > lastGit, 'the Branch names paragraph must come after the last --git bullet')
+  const nextHeading = lines.findIndex((l, i) => i > start && /^#{1,6} /.test(l))
+  assert.ok(nextHeading < 0 || nextHeading > start, 'the paragraph must sit before the next heading')
+  const end = nextHeading < 0 ? lines.length : nextHeading
+  const text = lines.slice(start, end).join('\n')
+  for (const kind of ['run', 'slice', 'milestone', 'e2e', 'e2e-area', 'state', 'verify', 'attempt']) {
+    assert.ok(text.includes('`' + kind + '`'), `the paragraph does not name the kind ${kind}`)
+  }
+  for (const tail of ['run-<n>', '<sliceId>-attempt-<n>', '<sliceId>', '<milestoneId>', '<milestoneId>-e2e',
+    '<milestoneId>-e2e-<area>', 'state-<timestamp>', '<sliceId>-v<round>-<profile>-<part>']) {
+    assert.ok(text.includes(tail), `the paragraph does not show the tail ${tail}`)
+  }
+  assert.ok(text.includes('sdlc/{name}'), 'the default format is missing')
+  assert.ok(text.includes('{name:lower}'), 'the {name:lower} placeholder is missing')
+  assert.match(text, /GitLab/, 'the GitLab push rule is missing')
+  assert.match(text, /push rule/, 'the push rule is missing')
+  assert.match(text, /GitHub/, 'the GitHub rule source is missing')
+  assert.match(text, /ruleset/, 'the GitHub ruleset is missing')
+  assert.match(text, /stops before launch/, 'the stop-before-launch outcome is missing')
+})
+
+test('R-066: the README file table lists branchFormat in config.json', () => {
+  const readme = readmeText()
+  const from = readme.indexOf('## What it writes to your repo')
+  assert.ok(from >= 0, 'the section is missing')
+  const rest = readme.slice(from + 5)
+  const next = rest.search(/\n## /)
+  const section = next < 0 ? rest : rest.slice(0, next)
+  assert.ok(section.includes('branchFormat'), 'the section does not mention branchFormat')
+  assert.ok(section.includes('config.json'), 'the section does not mention config.json')
+})
+
+test('R-066: the README Development tree lists branches.py', () => {
+  const readme = readmeText()
+  const from = readme.indexOf('## Development')
+  assert.ok(from >= 0, 'the Development section is missing')
+  const block = readme.slice(from).match(/```\n([\s\S]*?)```/)
+  assert.ok(block, 'the Development tree block is missing')
+  assert.match(block[1], /^\s*branches\.py\s/m, 'the tree does not list branches.py')
+})

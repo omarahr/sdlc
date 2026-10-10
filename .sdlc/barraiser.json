@@ -2453,6 +2453,36 @@
       "detail": "The test adds no comments. It reads files only, with no timing, network or order dependence. Its name matches its assertions. The test would fail if a placeholder, the branchFormat match or either SKILL.md match were removed. R-082 relies on the existing STE linter test, which needs no new code.",
       "file": "skills/sdlc/test/prompts.test.mjs",
       "blocking": false
+    },
+    {
+      "title": "Branch-names test: two assertions cannot fail",
+      "detail": "In the 'Branch names paragraph' test, the check that the paragraph sits before the next heading is a tautology: nextHeading is found only after start, so it always passes. The tail '<sliceId>' is also a substring of '<sliceId>-attempt-<n>', so it passes even when the slice tail is missing. Drop the heading assertion. Check each tail on its own bullet line, for example with a regex like /`slice`: `<sliceId>`/.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "README matches SKILL.md and branches.py",
+      "detail": "The eight kinds and their tails match TAILS in branches.py. The resume refusal, the rename request and the stop-before-launch outcome match SKILL.md. The new files sit in the right places, and the README edit touches no existing sentence that other tests match. No architecture defect found.",
+      "file": "README.md",
+      "blocking": false
+    },
+    {
+      "title": "Test names differ from tests.md ids",
+      "detail": "The four README tests are named 'R-066: ...'. tests.md names them T-R-066a to T-R-066d. Rename the tests to match.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Tautological heading assertion",
+      "detail": "In the Branch names test, 'nextHeading < 0 || nextHeading > start' always holds, because findIndex only looks after start. Delete the assertion.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Weak tail check for <sliceId>",
+      "detail": "The check text.includes('<sliceId>') also passes on '<sliceId>-attempt-<n>'. Match the full bullet line for the slice kind instead.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
     }
   ]
 }

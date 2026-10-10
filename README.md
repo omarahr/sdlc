@@ -99,7 +99,7 @@ Wrapping it in `/loop` is recommended. Each milestone has an allowance of how ma
 
 | Command | What it does |
 |---|---|
-| `/sdlc <spec> [--git pr\|direct\|mr\|stack] [--commit-format "<format>"] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
+| `/sdlc <spec> [--git pr\|direct\|mr\|stack] [--commit-format "<format>"] [--branch-format "<format>"] [--max-iterations N] [--bar-raiser N]` | Start or resume a run |
 | `/sdlc status` | Print the dashboard (the run worktree's `.sdlc/STATUS.md` while a run exists) |
 | `/sdlc stop` | Pause the run: the agent in flight finishes, no new agent starts. `/sdlc <spec>` resumes |
 
@@ -108,8 +108,22 @@ Wrapping it in `/loop` is recommended. Each milestone has an allowance of how ma
 - `--git stack`: the milestone is the unit you review and merge. The tool creates `sdlc/run-<n>` from your default branch and pushes it, cuts a `sdlc/M-<n>` branch per milestone from it, and cuts each slice branch from its milestone branch with a pull request targeting that milestone — so you keep per-slice CI and can still merge a slice on its own. When a milestone's behavior campaign verifies, its branch opens a pull request against your default branch; after you merge that, the run branch advances onto your default branch and the next milestone branches from there. While that pull request is open the run holds, rather than stacking the next milestone on a milestone you have not accepted yet. GitHub only.
 - `--git direct`: when the repo has no remote, it commits to the branch you are on and pushes nothing (it moves your branch's ref with `git update-ref`; the run logs a note telling you to run `git reset --hard <defaultBranch>` on your clean checkout to catch up). With a remote, it never touches your checkout: it works on its run branch and pushes each slice to the remote's default branch (`git push origin HEAD:<defaultBranch>`), which your checkout picks up on its next pull. This is the default when there is no GitHub remote and no signed-in GitLab.
 - `--commit-format "<format>"`: the subject of every commit and the merge-request title, with the placeholders `{type}`, `{id}` and `{subject}`. For example `"{type}: [PROJ-123] {subject}"`. Without it, the run uses a format only when the repo enforces one (a GitLab push rule, commitlint or a commit-msg hook).
+- `--branch-format "<format>"`: the name of every branch the loop makes, with one `{name}` placeholder. For example `"feature/PROJ-1-{name}"`. Without it, the run uses `sdlc/{name}` unless the pre-flight finds that the repo rejects that name.
 - `--bar-raiser N`: allow up to N polish rounds after the spec is complete. The default is 0.
 - `--max-iterations N`: a smoke run that stops after N iterations.
+
+**Branch names**: the loop names every branch from one format. The format has one `{name}` placeholder, or `{name:lower}` for a lowercase name. The default is `sdlc/{name}`. The name depends on the kind of branch:
+
+- `run`: `run-<n>`
+- `slice`: `<sliceId>`
+- `milestone`: `<milestoneId>`
+- `e2e`: `<milestoneId>-e2e`
+- `e2e-area`: `<milestoneId>-e2e-<area>`
+- `state`: `state-<timestamp>`
+- `verify`: `<sliceId>-v<round>-<profile>-<part>`
+- `attempt`: `<sliceId>-attempt-<n>`
+
+Before launch, the pre-flight reads the GitLab project push rule and the GitHub branch-name rulesets. It tests the names that the mode pushes. When the default fails a simple rule (starts with, ends with or contains), the pre-flight derives a format and records it as `branchFormat` in `.sdlc/config.json`. Otherwise it stops before launch and prints the rule, the sample name that failed and a suggested `--branch-format`. A run in progress keeps its format. A different `--branch-format` on a resume is refused. When the rule rejects your own branch, the pre-flight asks you to rename it.
 
 In every mode, when a slice ships the integrator deletes the branches of its earlier failed attempts (`sdlc/<id>-attempt-<n>`, locally and on the remote), and those of the slice it was split from once all of that slice's parts are done. The write-ups stay in `.sdlc/slices/<id>/`.
 
@@ -166,6 +180,7 @@ The collector needs Python 3 and nothing else. To share the page, send someone t
 | `.sdlc/slices/<id>/verification/` | Each round's scenario plan and the profile verifiers' cases, evidence, logs and screenshots |
 | `.sdlc/testkit.json` | The verification tools in the repo's testkit, and how to use them |
 | `.sdlc/STATUS.md` | Dashboard: requirements and slices done, the current slice, recent events |
+| `.sdlc/config.json` | The run settings: git mode, commands, `commitFormat` and `branchFormat` |
 | `.sdlc/requirements.json`, `.sdlc/slices.json` | The spec broken into requirements and slices |
 | `.sdlc/DECISIONS.md` | Every autonomous decision it made. **Skim this** |
 | `.sdlc/SPEC-PROPOSALS.md` | Product ideas it found and left for you to decide |
@@ -379,6 +394,7 @@ skills/sdlc/
   sdlc-loop.js    # the workflow (orchestration)
   next-action.py  # decides the next action from the .sdlc/ state
   state-write.py  # applies state changes: slice patches, STATUS.md, ledger additions
+  branches.py     # names, parses and checks the loop's branches against the forge's rules
   suite-receipt.py  # records full test-suite runs, so the same code is not tested twice
   ste-check.py    # the simplified-English linter for the prompts, the logs and the tracker text
   prompts/        # one prompt per role: planner, test-writer, implementer, verifier, reviewer, …
