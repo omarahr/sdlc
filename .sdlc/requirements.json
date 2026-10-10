@@ -67,7 +67,7 @@
         "skills/sdlc/test/prompts.test.mjs :: T-R-002d",
         "TC-contract-9: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:85"
       ],
-      "commit": "pending"
+      "commit": "e158a1309c84e696c3e4a7ccac097a042543f68a"
     },
     "notes": "fresh-run config clause closes in S-027"
   },
@@ -5275,7 +5275,7 @@
         "TC-contract-1: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:17",
         "TC-contract-2: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:52"
       ],
-      "commit": "pending"
+      "commit": "e158a1309c84e696c3e4a7ccac097a042543f68a"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5301,7 +5301,7 @@
         "TC-contract-4: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:29",
         "TC-contract-5: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:67"
       ],
-      "commit": "pending"
+      "commit": "e158a1309c84e696c3e4a7ccac097a042543f68a"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5327,7 +5327,7 @@
         "TC-contract-7: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:76",
         "TC-contract-8: .sdlc/slices/S-034/verification/r1/tests/contract-0/skill-branch-format.verify-contract.test.mjs:38"
       ],
-      "commit": "pending"
+      "commit": "e158a1309c84e696c3e4a7ccac097a042543f68a"
     },
     "notes": "added by the completeness critic (structures)"
   },
