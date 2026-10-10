@@ -623,3 +623,33 @@ test('the active slice branch, slice PR heads, the state PR, the e2e PR and the 
   assert.equal(held.action, 'wait')
   assert.match(held.reason, /M-2/)
 })
+
+function branchWith(repo, branch, slices) {
+  git(repo, 'checkout', '-q', '-b', branch)
+  writeFileSync(join(repo, '.sdlc', 'slices.json'), JSON.stringify(slices))
+  git(repo, 'commit', '-q', '-am', `state ${branch}`)
+  git(repo, 'checkout', '-q', 'main')
+}
+
+test('a slice-shaped branch without an in-progress ledger entry stays inactive', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  branchWith(repo, 'feature/PROJ-1-S-002', [slice('S-1', 'in_progress')])
+  branchWith(repo, 'feature/PROJ-1-S-3', [slice('S-3', 'todo')])
+  assert.equal(decide(repo).checkout, null)
+})
+
+test('the checked-out branch wins over another in-progress branch', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  branchWith(repo, 'feature/PROJ-1-S-1', [slice('S-1', 'in_progress', { phase: 'implement' })])
+  branchWith(repo, 'feature/PROJ-1-S-2', [slice('S-2', 'in_progress', { phase: 'tests' })])
+  git(repo, 'checkout', '-q', 'feature/PROJ-1-S-2')
+  const d = decide(repo)
+  assert.equal(d.checkout, null)
+  assert.equal(d.next.slice.id, 'S-2')
+})

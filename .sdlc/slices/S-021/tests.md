@@ -9,3 +9,5 @@ All tests are in `skills/sdlc/test/next-action.test.mjs`.
 - the active slice branch, slice PR heads, the state PR, the e2e PR and the stack milestone hold are recognized under a custom format — R-076 — the script ignores every custom-format branch and head
 - R-077 — the existing next-action tests and `npm test` with no `branchFormat` are the proof; they pass now
 - Changed the merged case of the lowercased-head test to an awaiting-merge slice (ADR in DECISIONS.md).
+- Promoted from the security verifier into `skills/sdlc/test/next-action.test.mjs`: a slice-shaped branch without an in-progress entry stays inactive (TC-security-2)
+- Promoted from the security verifier into `skills/sdlc/test/next-action.test.mjs`: the checked-out branch wins over another in-progress branch (TC-security-3)
