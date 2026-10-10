@@ -2279,7 +2279,7 @@
         "TC-security-1",
         "TC-security-2"
       ],
-      "commit": "pending"
+      "commit": "26b2a6fce548c0e652a6f7dec7da098d151f5284"
     },
     "notes": ""
   },
@@ -2304,7 +2304,7 @@
         "T-R-051c",
         "TC-security-1"
       ],
-      "commit": "pending"
+      "commit": "26b2a6fce548c0e652a6f7dec7da098d151f5284"
     },
     "notes": ""
   },
@@ -2327,7 +2327,7 @@
         "T-R-052a",
         "bootstrap.test.mjs pins"
       ],
-      "commit": "pending"
+      "commit": "26b2a6fce548c0e652a6f7dec7da098d151f5284"
     },
     "notes": ""
   },
@@ -2883,7 +2883,7 @@
       "tests": [
         "T-R-075a"
       ],
-      "commit": "pending"
+      "commit": "26b2a6fce548c0e652a6f7dec7da098d151f5284"
     },
     "notes": ""
   },
@@ -4180,7 +4180,7 @@
       "tests": [
         "T-R-116a"
       ],
-      "commit": "pending"
+      "commit": "26b2a6fce548c0e652a6f7dec7da098d151f5284"
     },
     "notes": "added by the completeness critic (structures)"
   },

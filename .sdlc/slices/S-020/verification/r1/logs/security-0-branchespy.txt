@@ -1,1 +1,0 @@
-{"ok": true, "command": "name", "format": "sdlc/{name}", "kind": "verify", "branch": "sdlc/S-$&-v1-http-api-0"}
