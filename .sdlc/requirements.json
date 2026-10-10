@@ -2512,7 +2512,7 @@
     "specRef": "§7",
     "quote": "A `fmt` argument is threaded from `main()` where `config` is read, with `load_format(repo)` as the fallback.",
     "acceptance": "state-write.py derives fmt once in main() from the config, with load_format as fallback, and passes it to the branch helpers.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3102,7 +3102,7 @@
     "specRef": "§Assumptions",
     "quote": "Whichever of the two specs lands second adapts the other's matching to `branches.parse`.",
     "acceptance": "`ship-prune` and `collect-verification` in `state-write.py` match their `-v*` and `-attempt-*` names through `branches.parse`, not a local regex. A test asserts a verify tail and an attempt tail match under a custom format.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

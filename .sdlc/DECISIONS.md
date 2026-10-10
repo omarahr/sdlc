@@ -575,3 +575,11 @@
 - Decision: Option 1. The spec text fixes the cut point, and the existing default-format test compares tips.
 - Consequences / how to reverse: One assertion changes in scripts.test.mjs. To reverse, restore the parent comparison and add a commit on the milestone branch.
 - Affects: S-022, R-058
+
+### ADR-20261010-043504-decision-judge-S-023-770f: Build only the parse-based helper for R-083
+- Status: auto
+- Context: R-083 names ship-prune and collect-verification in state-write.py. Neither command exists in the code. The loop-economy spec defines them and has not landed.
+- Options: (1) Build no command. Add only slice_side_branches(repo, fmt, slice_id) with tests. (2) Same as 1, stated as a matcher-only slice. (3) Same as 1, and record the gap in an ADR.
+- Decision: Option 1. Do not build ship-prune or collect-verification. Add slice_side_branches(repo, fmt, slice_id) on branches.list_kind for verify and attempt branches. Test it under a custom format. Keep the source test that bans local -attempt- and -v patterns.
+- Consequences / how to reverse: The helper is small and has no caller yet. The loop-economy slices call it later. To build the commands now, add a later slice on top of the helper.
+- Affects: R-083, S-023
