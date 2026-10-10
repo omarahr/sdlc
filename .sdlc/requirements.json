@@ -2607,7 +2607,7 @@
     "specRef": "§7",
     "quote": "**`slicer.md`** writes the slice's informational `branch` field through the module (`<slice branch>` below); nothing in the scripts reads that field.",
     "acceptance": "slicer.md writes `branch: <slice branch>`. No script reads a slice's branch field.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2677,7 +2677,7 @@
     "specRef": "§8",
     "quote": "`env-detector.md` gains the input `branchFormat` and the config line: \"`branchFormat`: the `branchFormat` input when it is not null; else an existing `config.branchFormat`; else `sdlc/{name}`. The driver's pre-flight derived or checked it; do not read the forge's rules here.\" Its commit-format step keeps reading the push rule for `commit_message_regex`.",
     "acceptance": "env-detector.md takes a branchFormat input and writes config from it, else the existing value, else `sdlc/{name}`. It does not read the forge's branch-name rules. It still reads `commit_message_regex` for the commit format.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -2692,7 +2692,7 @@
     "specRef": "§8",
     "quote": "`state-schema.md` documents `\"branchFormat\": \"sdlc/{name}\"` in `config.json`: \"the format of every branch the loop makes: literal text around one `{name}` (or `{name:lower}`) placeholder, which carries the loop's own tail per branch kind (`branches.py`). Set at the first launch; a resume keeps it.\"",
     "acceptance": "state-schema.md's config.json block holds branchFormat with that text. The slice branch field is described as \"the slice branch under `config.branchFormat`\" and runBranch as \"the run branch (`run` kind under `config.branchFormat`)\".",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
