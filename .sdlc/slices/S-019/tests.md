@@ -11,3 +11,6 @@ T-R-118 — R-118 — characterization — passes now. It pins the parse CLI for
 T-R-101 — R-101 — characterization — passes now. It pins the parse CLI for a name outside the loop kinds.
 prompts.test.mjs "the driver ensures the run worktree before the config checks" — R-047 — Updated for RUN_BRANCH. Fails because SKILL.md still uses sdlc/run-<n>.
 prompts.test.mjs "the worktree returns to the run branch before every run-branch operation" — R-121 — Updated for RUN_BRANCH. Fails because SKILL.md still checks out sdlc/run-<n>.
+
+## Implementation
+- SKILL.md now sets WT in a Worktree path bullet. The Run worktree bullet follows the Branch format bullet and names RUN_BRANCH through branches.py.
