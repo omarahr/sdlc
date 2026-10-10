@@ -2000,3 +2000,57 @@ test('a run branch with a custom format is advanced and kept as a full name', op
   assert.equal(json(repo, 'config.json').runBranch, 'feature/PROJ-1-run-1')
   assert.ok(branchExists(repo, 'feature/PROJ-1-S-014'))
 })
+
+const branchRefs = repo => git(repo, 'for-each-ref', '--format=%(refname) %(objectname)', 'refs/heads', 'refs/remotes/origin/main', 'refs/remotes/origin/sdlc')
+const refsAndTree = repo => [branchRefs(repo), git(repo, 'rev-parse', 'HEAD'), git(repo, 'branch', '--show-current'), git(repo, 'status', '--porcelain')]
+
+function refusalFixture(branchFormat) {
+  const repo = fixture({
+    config: { ...stackConfig(1), branchFormat },
+    slices: [slice('S-001')],
+    milestones: [{ id: 'M-1', title: 'Search', status: 'pending', slices: ['S-001'], fixSlices: [] }],
+    remote: true,
+  })
+  git(repo, 'branch', 'sdlc/run-1')
+  git(repo, 'push', '-q', 'origin', 'sdlc/run-1')
+  return repo
+}
+
+for (const [label, branchFormat] of [
+  ['no placeholder', 'feature/PROJ-1'],
+  ['two placeholders', 'feature/{name}/{name}'],
+  ['mixed placeholders', '{name}-{name:lower}'],
+  ['unknown placeholder', 'feature/{id}'],
+]) {
+  for (const command of ['patch-slice', 'base-branch']) {
+    test(`${command} refuses a branch format with ${label}`, opts, () => {
+      const repo = refusalFixture(branchFormat)
+      const before = refsAndTree(repo)
+      const spawned = spawnSync('python3', [STATE, command, '--repo', repo, '--slice', 'S-001'], { input: command === 'patch-slice' ? '{"notes":"x"}' : undefined, encoding: 'utf8' })
+      assert.equal(spawned.status, 2, spawned.stdout + spawned.stderr)
+      assert.doesNotMatch(spawned.stderr + spawned.stdout, /Traceback/)
+      const out = JSON.parse(spawned.stdout.trim().split('\n').pop())
+      assert.equal(out.ok, false)
+      assert.equal(typeof out.error, 'string')
+      assert.deepEqual(refsAndTree(repo), before)
+    })
+  }
+}
+
+for (const [label, branchFormat] of [
+  ['double dots', 'feature/..{name}'],
+  ['a lock suffix', 'feature/{name}.lock'],
+  ['a space', 'feat ure/{name}'],
+  ['a tilde', 'feature~/{name}'],
+  ['a leading dash', '-{name}'],
+]) {
+  test(`patch-slice refuses a branch format with ${label} and moves no ref`, opts, () => {
+    const repo = refusalFixture(branchFormat)
+    const before = [branchRefs(repo), git(repo, 'status', '--porcelain')]
+    const spawned = spawnSync('python3', [STATE, 'patch-slice', '--repo', repo, '--slice', 'S-001'], { input: '{"notes":"x"}', encoding: 'utf8' })
+    assert.equal(spawned.status, 2, spawned.stdout + spawned.stderr)
+    assert.doesNotMatch(spawned.stderr + spawned.stdout, /Traceback/)
+    assert.equal(JSON.parse(spawned.stdout.trim().split('\n').pop()).ok, false)
+    assert.deepEqual([branchRefs(repo), git(repo, 'status', '--porcelain')], before)
+  })
+}
