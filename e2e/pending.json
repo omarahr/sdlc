@@ -1,1 +1,15 @@
-{}
+{
+  "SC-M-1-076": "S-fix-M-1-1",
+  "SC-M-1-080": "S-fix-M-1-1",
+  "SC-M-1-059": "S-fix-M-1-2",
+  "SC-M-1-061": "S-fix-M-1-2",
+  "SC-M-1-064": "S-fix-M-1-2",
+  "SC-M-1-066": "S-fix-M-1-3",
+  "SC-M-1-070": "S-fix-M-1-3",
+  "SC-M-1-007": "dismissed spec-gap",
+  "SC-M-1-017": "dismissed spec-gap",
+  "SC-M-1-009": "dismissed test-bug",
+  "SC-M-1-012": "dismissed spec-gap",
+  "SC-M-1-077": "dismissed test-bug",
+  "SC-M-1-078": "dismissed test-bug"
+}
