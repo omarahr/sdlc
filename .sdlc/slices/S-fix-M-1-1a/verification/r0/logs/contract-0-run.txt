@@ -1,0 +1,23 @@
+look-alike calls 60 non-null results []
+property-run parse-vs-model seed=20261010 runs=3000 nonNull=886 mismatches=0
+cli "feature/p-1-s-00K" status 0 {"ok": true, "command": "parse", "format": "feature/p-1-{name:lower}", "branch": "feature/p-1-s-00\u212a", "kind": null}
+cli "feature/p-1-s-001ſ" status 0 {"ok": true, "command": "parse", "format": "feature/p-1-{name:lower}", "branch": "feature/p-1-s-001\u017f", "kind": null}
+cli "feature/p-1-run-٣" status 0 {"ok": true, "command": "parse", "format": "feature/p-1-{name:lower}", "branch": "feature/p-1-run-\u0663", "kind": null}
+cli "feature/p-1-m-1-e2e-é" status 0 {"ok": true, "command": "parse", "format": "feature/p-1-{name:lower}", "branch": "feature/p-1-m-1-e2e-\u00e9", "kind": "e2e-area", "tail": "m-1-e2e-\u00e9", "id
+cli "feature/p-1-s-fix-m-1-2" status 0 {"ok": true, "command": "parse", "format": "feature/p-1-{name:lower}", "branch": "feature/p-1-s-fix-m-1-2", "kind": "slice", "tail": "s-fix-m-1-2", "id": "s-fix
+✔ verify contract: VS-1 look-alike tails give None in both name modes (38.484875ms)
+✔ verify contract: VS-1 explicit None for the named tails (382.054416ms)
+✔ verify contract: VS-2 lower mode look-alike prefix, suffix and ledger ids (283.665125ms)
+✔ verify contract: VS-3 valid ASCII tails keep kind and rows (259.829166ms)
+✔ verify contract: VS-4 non-ASCII area stays e2e-area (137.025833ms)
+✔ verify contract: property parse equals ASCII reference model (1000+ runs) (58.654208ms)
+✔ verify contract: determinism and input immutability (33.963333ms)
+✔ verify contract: consumer view through the CLI matches parse (1126.691291ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2373.864666
