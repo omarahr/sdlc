@@ -2607,13 +2607,26 @@
     "specRef": "§7",
     "quote": "**`slicer.md`** writes the slice's informational `branch` field through the module (`<slice branch>` below); nothing in the scripts reads that field.",
     "acceptance": "slicer.md writes `branch: <slice branch>`. No script reads a slice's branch field.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/prompts/env-detector.md",
+        "skills/sdlc/prompts/slicer.md",
+        "skills/sdlc/prompts/state-schema.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-061",
+        "T-R-061b",
+        "T-R-061c",
+        ".sdlc/slices/S-027a/verification/r0/tests/security-0/branch-field.verify-security.test.mjs:1",
+        ".sdlc/slices/S-027a/verification/r0/tests/cli-0/branch-field.verify-cli.test.mjs:74",
+        ".sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs:93",
+        ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:151"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2677,13 +2690,27 @@
     "specRef": "§8",
     "quote": "`env-detector.md` gains the input `branchFormat` and the config line: \"`branchFormat`: the `branchFormat` input when it is not null; else an existing `config.branchFormat`; else `sdlc/{name}`. The driver's pre-flight derived or checked it; do not read the forge's rules here.\" Its commit-format step keeps reading the push rule for `commit_message_regex`.",
     "acceptance": "env-detector.md takes a branchFormat input and writes config from it, else the existing value, else `sdlc/{name}`. It does not read the forge's branch-name rules. It still reads `commit_message_regex` for the commit format.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261010-064552-decision-judge-S-027a-9642"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/prompts/env-detector.md",
+        "skills/sdlc/prompts/slicer.md",
+        "skills/sdlc/prompts/state-schema.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-064a",
+        "T-R-064b",
+        ".sdlc/slices/S-027a/verification/r0/tests/cli-0/prompts-and-format.verify-cli.test.mjs:15",
+        ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:24",
+        ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:56",
+        "T-R-002c"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2692,13 +2719,22 @@
     "specRef": "§8",
     "quote": "`state-schema.md` documents `\"branchFormat\": \"sdlc/{name}\"` in `config.json`: \"the format of every branch the loop makes: literal text around one `{name}` (or `{name:lower}`) placeholder, which carries the loop's own tail per branch kind (`branches.py`). Set at the first launch; a resume keeps it.\"",
     "acceptance": "state-schema.md's config.json block holds branchFormat with that text. The slice branch field is described as \"the slice branch under `config.branchFormat`\" and runBranch as \"the run branch (`run` kind under `config.branchFormat`)\".",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/prompts/env-detector.md",
+        "skills/sdlc/prompts/slicer.md",
+        "skills/sdlc/prompts/state-schema.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-065a",
+        "T-R-065b",
+        ".sdlc/slices/S-027a/verification/r0/tests/contract-0/branch-format.verify-contract.test.mjs:118"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
