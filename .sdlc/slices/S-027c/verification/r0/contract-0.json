@@ -1,0 +1,210 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "afe9bbe",
+  "environment": "Node test runner, python3, macOS; verify worktree sdlc/S-027c-v0-contract-0 at afe9bbe",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-063"
+      ],
+      "title": "Each section 8 row holds its mapped placeholders",
+      "given": "The 23 prompt files of the table on branch sdlc/S-027c",
+      "when": "Read each file and look for each mapped placeholder",
+      "then": "Every placeholder is present",
+      "expected": "Every placeholder is present",
+      "actual": "All 23 files hold their placeholders",
+      "result": "pass",
+      "specSource": "R-063 acceptance",
+      "test": ".sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs:56",
+      "command": "cd <verify worktree> && VERIFY_ROOT=$PWD VERIFY_REPO=$PWD node --test .sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run",
+          "inline": "VS-1 pass; 23 rows checked"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-063"
+      ],
+      "title": "The six extra literals are gone and sdlc/{name} stays",
+      "given": "commit-state, escalator, SKILL.md, state-schema, four other prompts",
+      "when": "Scan for old literals and the default format text",
+      "then": "No old literal; default text stays in SKILL.md and state-schema.md",
+      "expected": "No old literal; default text stays in SKILL.md and state-schema.md",
+      "actual": "As expected; escalator spike phrase is present",
+      "result": "pass",
+      "specSource": "ADR-20261010-074457-decision-judge-S-027c-44f1",
+      "test": ".sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs:73",
+      "command": "cd <verify worktree> && VERIFY_ROOT=$PWD VERIFY_REPO=$PWD node --test .sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "run",
+          "inline": "VS-2 pass"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-063",
+        "R-080"
+      ],
+      "title": "Independent line-based scan finds no literal",
+      "given": "55 files (54 under prompts plus SKILL.md)",
+      "when": "Scan with a line parser that handles ``` and ~~~ fences, and again with no fence exemption",
+      "then": "No hit in either scan; sdlc/S-001 matches; .sdlc/slices, sdlc/tracker, sdlc/STOP, sdlc/{name} do not match",
+      "expected": "No hit in either scan; sdlc/S-001 matches; .sdlc/slices, sdlc/tracker, sdlc/STOP, sdlc/{name} do not match",
+      "actual": "files=55, exempt=[], bad=[], raw hits=[]. No fenced block exempts anything.",
+      "result": "pass",
+      "specSource": "R-063 acceptance, R-080 quote",
+      "test": ".sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs:28",
+      "command": "cd <verify worktree> && VERIFY_ROOT=$PWD VERIFY_REPO=$PWD node --test .sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "scan output",
+          "path": ".sdlc/slices/S-027c/verification/r0/logs/contract-0-scan.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-080"
+      ],
+      "title": "Shipped scan helper at fence boundaries",
+      "given": "Fixtures with a branches.py output block plus an unfenced literal, an unclosed fence, tilde fences, an inline span and an empty text",
+      "when": "Run the shipped stripBranchesOutput and the pattern",
+      "then": "Unfenced literal fails; unclosed, tilde and inline cases fail; empty text passes",
+      "expected": "Unfenced literal fails; unclosed, tilde and inline cases fail; empty text passes",
+      "actual": "All fixtures behave as expected",
+      "result": "pass",
+      "specSource": "R-080 quote",
+      "test": ".sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs:92",
+      "command": "cd <verify worktree> && VERIFY_ROOT=$PWD VERIFY_REPO=$PWD node --test .sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "fixtures",
+          "inline": "output block exempt; literal after or before it fails; plain block fails; ~~~ fails; unclosed fails; inline span fails; literal between two blocks fails"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-080"
+      ],
+      "title": "Property: scan helper against a reference model",
+      "given": "Random documents of safe text, literals, branches.py blocks and plain blocks",
+      "when": "Compare the helper with the model (a literal outside a branches.py block must match)",
+      "then": "No disagreement in 1500 runs",
+      "expected": "No disagreement in 1500 runs",
+      "actual": "seed=1008863937 runs=1500 failures=0",
+      "result": "pass",
+      "specSource": "R-080 quote",
+      "test": ".sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs:115",
+      "command": "cd <verify worktree> && VERIFY_ROOT=$PWD VERIFY_REPO=$PWD node --test .sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "property",
+          "inline": "property-run seed=1008863937 runs=1500 failures=0 counterexample=null"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-063"
+      ],
+      "title": "ste-check passes on all prompts",
+      "given": "All 54 prompt files",
+      "when": "Run ste-check.py",
+      "then": "Exit 0",
+      "expected": "Exit 0",
+      "actual": "Exit 0",
+      "result": "pass",
+      "specSource": "R-063 (edited prompts keep STE)",
+      "test": ".sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs:138",
+      "command": "cd <verify worktree> && VERIFY_ROOT=$PWD VERIFY_REPO=$PWD node --test .sdlc/slices/S-027c/verification/r0/tests/contract-0/scan.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "ste-check",
+          "inline": "exit 0, no output"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-063",
+        "R-080"
+      ],
+      "title": "Updated assertions keep their sentences; suite runs green",
+      "given": "The diff of prompts.test.mjs and the repo test file",
+      "when": "Read the diff and run node --test skills/sdlc/test/prompts.test.mjs",
+      "then": "No test skipped or deleted; 91 of 91 pass",
+      "expected": "No test skipped or deleted; 91 of 91 pass",
+      "actual": "91 of 91 pass. Each literal assertion now holds its placeholder in the same sentence. One assertion was dropped (see seeds).",
+      "result": "pass",
+      "specSource": "R-080 acceptance",
+      "test": "skills/sdlc/test/prompts.test.mjs:1",
+      "command": "cd <verify worktree> && node --test skills/sdlc/test/prompts.test.mjs",
+      "manual": true,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "suite",
+          "inline": "ℹ tests 91 · pass 91 · fail 0"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "scan helper exempts a whole fenced block that only mentions branches.py",
+      "detail": "stripBranchesOutput removes any ``` block whose text contains the word branches.py. A hand-written literal inside such a block passes. Probe: a block with a branches.py line and git checkout sdlc/S-001 gives no match. The prompts have no such block today (no fenced block holds a literal). Tighten the helper to exempt only the output lines.",
+      "file": "skills/sdlc/test/prompts.test.mjs"
+    },
+    {
+      "title": "the env-detector count assertion was dropped",
+      "detail": "The old test asserted 'count of `sdlc/run-*` branches) + 1' and refs/heads/sdlc/run-*. The edit replaced both with a doesNotMatch on sdlc/run-. The prompt still says '(count of branches of kind `run`) + 1', so the test no longer pins the numbering rule. Add an assertion for that sentence.",
+      "file": "skills/sdlc/test/prompts.test.mjs"
+    },
+    {
+      "title": "the spike phrase sits inside a code span",
+      "detail": "escalator.md writes `a scratch branch named like <slice branch> with -spike added` in backticks, although the phrase is prose. The ADR gives the phrase without backticks. The meaning is clear.",
+      "file": "skills/sdlc/prompts/escalator.md"
+    },
+    {
+      "title": "the scan helper ignores tilde fences",
+      "detail": "~~~ fences are never exempt, so the scan is strict there. No prompt uses them. No action needed unless a prompt adds one.",
+      "file": "skills/sdlc/test/prompts.test.mjs"
+    }
+  ],
+  "surface": "Contract surface: 54 prompt .md files plus SKILL.md. No code exports. Placeholders defined in _common.md: run, slice, milestone, e2e, e2e area, state, attempt, verify branch."
+}
