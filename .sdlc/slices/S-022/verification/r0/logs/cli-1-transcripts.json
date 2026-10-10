@@ -1,0 +1,973 @@
+[
+  {
+    "id": "no placeholder patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-DWyBav/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "no placeholder base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-DYUbsD/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "no placeholder base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-xMT4qC/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "two placeholders patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-DpdrRd/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "two placeholders base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-XgaUUN/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "two placeholders base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-mdRgga/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "mixed placeholders patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-7gfK6a/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, found 2\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "mixed placeholders base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-ItIoHe/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, found 2\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "mixed placeholders base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-1ygua5/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, found 2\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "unknown placeholder patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-E1VfVq/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/{id}' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "unknown placeholder base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-8F4A2A/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/{id}' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "unknown placeholder base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-mvHlW7/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"the branch format 'feature/{id}' must hold exactly one {name} or {name:lower}, found 0\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe dotdot patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-MyNZbj/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"git checkout -q -b feature/..M-1: fatal: 'feature/..M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        "ref:refs/remotes/origin/HEAD"
+      ],
+      "removed": [],
+      "changed": [
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "git-unsafe dotdot base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-6BeGR6/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/..M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe dotdot base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-oOYJre/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/..M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe lock suffix patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-LxLYse/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"git checkout -q -b feature/M-1.lock: fatal: 'feature/M-1.lock' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        "ref:refs/remotes/origin/HEAD"
+      ],
+      "removed": [],
+      "changed": [
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "git-unsafe lock suffix base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-PLoZHm/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/M-1.lock\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe lock suffix base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-WjNcAp/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/M-1.lock\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe space patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-V2gUjr/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"git checkout -q -b feat ure/M-1: fatal: 'feat ure/M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        "ref:refs/remotes/origin/HEAD"
+      ],
+      "removed": [],
+      "changed": [
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "git-unsafe space base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-TEhWWV/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feat ure/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe space base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-9PLwJc/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feat ure/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe tilde patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-PR7LUH/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"git checkout -q -b feature~/M-1: fatal: 'feature~/M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        "ref:refs/remotes/origin/HEAD"
+      ],
+      "removed": [],
+      "changed": [
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "git-unsafe tilde base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-xsHsTm/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature~/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe tilde base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-SVILNR/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature~/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe leading dash patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-GpKwsE/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"git checkout -q -b -M-1: fatal: '-M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        "ref:refs/remotes/origin/HEAD"
+      ],
+      "removed": [],
+      "changed": [
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "git-unsafe leading dash base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-R6pV1o/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"-M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "git-unsafe leading dash base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-6UXzbx/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"-M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "broken config file patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-sIIANq/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-sIIANq/repo-1/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "broken config file base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-9tCdpz/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-9tCdpz/repo-1/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "broken config file base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-IUphqd/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 2,
+    "stdout": "{\"ok\": false, \"error\": \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-IUphqd/repo-1/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "config is a list patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-L0D7us/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 727, in <module>\n    main()\n    ~~~~^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 719, in main\n    out = patch_slice(repo, a.slice, data) if a.cmd == \"patch-slice\" else add_requirements(repo, data, a.lens, a.distinct)\n          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 601, in patch_slice\n    require_known_mode(config)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 94, in require_known_mode\n    mode = config.get(\"gitMode\")\n           ^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "config is a list base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-hXMT3Q/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 727, in <module>\n    main()\n    ~~~~^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 709, in main\n    require_known_mode(cfg)\n    ~~~~~~~~~~~~~~~~~~^^^^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 94, in require_known_mode\n    mode = config.get(\"gitMode\")\n           ^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "config is a list base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-WXpk6p/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 727, in <module>\n    main()\n    ~~~~^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 709, in main\n    require_known_mode(cfg)\n    ~~~~~~~~~~~~~~~~~~^^^^^\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 94, in require_known_mode\n    mode = config.get(\"gitMode\")\n           ^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "non-string number patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-sGTAaA/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"branch\": \"sdlc/S-001\", \"commit\": \"8c98c52\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        ".sdlc/STATUS.md",
+        "ref:refs/heads/sdlc/M-1",
+        "ref:refs/heads/sdlc/S-001",
+        "ref:refs/remotes/origin/HEAD",
+        "ref:refs/remotes/origin/sdlc/M-1"
+      ],
+      "removed": [],
+      "changed": [
+        ".sdlc/slices.json",
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "non-string number base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-xU6kB7/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "non-string number base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-y1N9Y6/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/S-000\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "non-string list patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-KhPS0M/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"branch\": \"sdlc/S-001\", \"commit\": \"b70ae46\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        ".sdlc/STATUS.md",
+        "ref:refs/heads/sdlc/M-1",
+        "ref:refs/heads/sdlc/S-001",
+        "ref:refs/remotes/origin/HEAD",
+        "ref:refs/remotes/origin/sdlc/M-1"
+      ],
+      "removed": [],
+      "changed": [
+        ".sdlc/slices.json",
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "non-string list base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-DxAn8p/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "non-string list base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-Lnfk8O/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/S-000\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "empty string patch-slice",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "patch-slice",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-xD1xtU/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"branch\": \"sdlc/S-001\", \"commit\": \"a158c97\"}\n",
+    "stderr": "",
+    "unchanged": false,
+    "diff": {
+      "added": [
+        ".sdlc/STATUS.md",
+        "ref:refs/heads/sdlc/M-1",
+        "ref:refs/heads/sdlc/S-001",
+        "ref:refs/remotes/origin/HEAD",
+        "ref:refs/remotes/origin/sdlc/M-1"
+      ],
+      "removed": [],
+      "changed": [
+        ".sdlc/slices.json",
+        "ref:HEAD"
+      ],
+      "empty": false
+    }
+  },
+  {
+    "id": "empty string base-branch",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-EByytM/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/M-1\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  },
+  {
+    "id": "empty string base-branch-dependency",
+    "argv": [
+      "python3",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py",
+      "base-branch",
+      "--repo",
+      "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-LY2xmc/repo-1",
+      "--slice",
+      "S-001"
+    ],
+    "status": 0,
+    "stdout": "{\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/S-000\"}\n",
+    "stderr": "",
+    "unchanged": true,
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "empty": true
+    }
+  }
+]

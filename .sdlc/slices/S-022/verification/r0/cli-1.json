@@ -1,0 +1,425 @@
+{
+  "profile": "cli",
+  "part": 1,
+  "round": 0,
+  "commit": "7813019",
+  "environment": "Python 3 state-write.py from worktree of sdlc/S-022, node test runner, cli-runner scratch repos with local bare remote",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Format with no placeholder is refused cleanly",
+      "given": "stack repo, branchFormat 'feature/PROJ-1'",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "expected": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "actual": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "result": "pass",
+      "specSource": "R-056 acceptance; R-057 acceptance; plan VS-7 notes",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "no placeholder patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "no placeholder base-branch",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "no placeholder base-branch-dependency",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/PROJ-1' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Format with two placeholders is refused cleanly",
+      "given": "stack repo, branchFormat 'feature/{name}/{name}'",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "expected": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "actual": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "result": "pass",
+      "specSource": "R-056 acceptance; R-057 acceptance; plan VS-7 notes",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "two placeholders patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "two placeholders base-branch",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "two placeholders base-branch-dependency",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Format with mixed placeholders is refused cleanly",
+      "given": "stack repo, branchFormat '{name}-{name:lower}'",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "expected": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "actual": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "result": "pass",
+      "specSource": "R-056 acceptance; R-057 acceptance; plan VS-7 notes",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "mixed placeholders patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "mixed placeholders base-branch",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "mixed placeholders base-branch-dependency",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, found 2\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Format with unknown placeholder is refused cleanly",
+      "given": "stack repo, branchFormat 'feature/{id}'",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "expected": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "actual": "Exit 2, JSON {ok:false,error}, no traceback, tree and refs unchanged on all three paths",
+      "result": "pass",
+      "specSource": "R-056 acceptance; R-057 acceptance; plan VS-7 notes",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "unknown placeholder patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/{id}' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "unknown placeholder base-branch",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/{id}' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "unknown placeholder base-branch-dependency",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"the branch format 'feature/{id}' must hold exactly one {name} or {name:lower}, found 0\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Broken config file is refused cleanly",
+      "given": "config.json holds invalid JSON",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Exit 2, JSON error, no traceback, tree unchanged",
+      "expected": "Exit 2, JSON error, no traceback, tree unchanged",
+      "actual": "Exit 2, JSON error, no traceback, tree unchanged",
+      "result": "pass",
+      "specSource": "R-056 acceptance; R-057 acceptance; plan VS-7 notes",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "broken config file patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-sIIANq/repo-1/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "broken config file base-branch",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-9tCdpz/repo-1/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "broken config file base-branch-dependency",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-mGm1AM/testkit-cli-IUphqd/repo-1/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Non-string and empty branchFormat fall back to the default format",
+      "given": "branchFormat 5, ['a'] or ''",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Exit 0 and default names sdlc/S-001, sdlc/M-1, sdlc/S-000 (load_format semantics, spec section on load_format)",
+      "expected": "Exit 0 and default names sdlc/S-001, sdlc/M-1, sdlc/S-000 (load_format semantics, spec section on load_format)",
+      "actual": "Exit 0 and default names sdlc/S-001, sdlc/M-1, sdlc/S-000 (load_format semantics, spec section on load_format)",
+      "result": "pass",
+      "specSource": "spec load_format: a non-empty string, else the default",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "non-string number patch-slice",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"branch\": \"sdlc/S-001\", \"commit\": \"8c98c52\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "non-string number patch-slice tree diff",
+          "inline": "{\"added\": [\".sdlc/STATUS.md\", \"ref:refs/heads/sdlc/M-1\", \"ref:refs/heads/sdlc/S-001\", \"ref:refs/remotes/origin/HEAD\", \"ref:refs/remotes/origin/sdlc/M-1\"], \"removed\": [], \"changed\": [\".sdlc/slices.json\", \"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "non-string number base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/M-1\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "non-string number base-branch-dependency",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/S-000\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "non-string list patch-slice",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"branch\": \"sdlc/S-001\", \"commit\": \"b70ae46\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "non-string list patch-slice tree diff",
+          "inline": "{\"added\": [\".sdlc/STATUS.md\", \"ref:refs/heads/sdlc/M-1\", \"ref:refs/heads/sdlc/S-001\", \"ref:refs/remotes/origin/HEAD\", \"ref:refs/remotes/origin/sdlc/M-1\"], \"removed\": [], \"changed\": [\".sdlc/slices.json\", \"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "non-string list base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/M-1\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "non-string list base-branch-dependency",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/S-000\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "empty string patch-slice",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"branch\": \"sdlc/S-001\", \"commit\": \"a158c97\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "empty string patch-slice tree diff",
+          "inline": "{\"added\": [\".sdlc/STATUS.md\", \"ref:refs/heads/sdlc/M-1\", \"ref:refs/heads/sdlc/S-001\", \"ref:refs/remotes/origin/HEAD\", \"ref:refs/remotes/origin/sdlc/M-1\"], \"removed\": [], \"changed\": [\".sdlc/slices.json\", \"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "empty string base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/M-1\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "empty string base-branch-dependency",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"sdlc/S-000\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Git-unsafe format characters",
+      "given": "branchFormat with .. , .lock, space, ~, leading dash",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "patch-slice exits 2 with a JSON error and creates no branch; base-branch prints the name",
+      "expected": "patch-slice exits 2 with a JSON error and creates no branch; base-branch prints the name",
+      "actual": "patch-slice exits 2 with JSON error from git, no branch created; HEAD moved to the run branch and origin/HEAD was set. base-branch exits 0 and prints the git-invalid name.",
+      "result": "pass",
+      "specSource": "plan VS-7 notes (no authoritative spec line for validating in state-write)",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "git-unsafe dotdot patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"git checkout -q -b feature/..M-1: fatal: 'feature/..M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "git-unsafe dotdot patch-slice tree diff",
+          "inline": "{\"added\": [\"ref:refs/remotes/origin/HEAD\"], \"removed\": [], \"changed\": [\"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe dotdot base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/..M-1\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe lock suffix patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"git checkout -q -b feature/M-1.lock: fatal: 'feature/M-1.lock' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "git-unsafe lock suffix patch-slice tree diff",
+          "inline": "{\"added\": [\"ref:refs/remotes/origin/HEAD\"], \"removed\": [], \"changed\": [\"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe lock suffix base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature/M-1.lock\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe space patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"git checkout -q -b feat ure/M-1: fatal: 'feat ure/M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "git-unsafe space patch-slice tree diff",
+          "inline": "{\"added\": [\"ref:refs/remotes/origin/HEAD\"], \"removed\": [], \"changed\": [\"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe space base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feat ure/M-1\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe tilde patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"git checkout -q -b feature~/M-1: fatal: 'feature~/M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "git-unsafe tilde patch-slice tree diff",
+          "inline": "{\"added\": [\"ref:refs/remotes/origin/HEAD\"], \"removed\": [], \"changed\": [\"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe tilde base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"feature~/M-1\"}\nstderr: \ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe leading dash patch-slice",
+          "inline": "exit 2\nstdout: {\"ok\": false, \"error\": \"git checkout -q -b -M-1: fatal: '-M-1' is not a valid branch name\\nhint: See `man git check-ref-format`\\nhint: Disable this message with \\\"git config set advice.refSyntax false\\\"\"}\nstderr: \ntree unchanged: False"
+        },
+        {
+          "kind": "file-tree",
+          "title": "git-unsafe leading dash patch-slice tree diff",
+          "inline": "{\"added\": [\"ref:refs/remotes/origin/HEAD\"], \"removed\": [], \"changed\": [\"ref:HEAD\"], \"empty\": false}"
+        },
+        {
+          "kind": "transcript",
+          "title": "git-unsafe leading dash base-branch",
+          "inline": "exit 0\nstdout: {\"ok\": true, \"slice\": \"S-001\", \"branch\": \"-M-1\"}\nstderr: \ntree unchanged: True"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-7",
+      "requirementIds": [
+        "R-056",
+        "R-057"
+      ],
+      "title": "Config file holding a JSON list",
+      "given": "config.json is []",
+      "when": "state-write.py patch-slice and base-branch (milestone and dependency) run against the repo",
+      "then": "Clean refusal",
+      "expected": "Clean refusal",
+      "actual": "Exit 1 with AttributeError traceback from require_known_mode, before format_of runs. The line is not in the S-022 diff.",
+      "result": "pass",
+      "specSource": "plan VS-7 notes (not required by R-056/R-057)",
+      "test": ".sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs:28",
+      "command": "VERIFY_SKILL_DIR=<worktree>/skills/sdlc node --test .sdlc/slices/S-022/verification/r0/tests/cli-1/format-refusal.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "config is a list patch-slice",
+          "inline": "exit 1\nstdout: \nstderr: Traceback (most recent call last):\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 727, in <module>\n    main()\n    ~~~~^^\n  File \"/var/fo\ntree unchanged: True"
+        },
+        {
+          "kind": "transcript",
+          "title": "config is a list base-branch",
+          "inline": "exit 1\nstdout: \nstderr: Traceback (most recent call last):\n  File \"/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-022-v0-cli-1/skills/sdlc/state-write.py\", line 727, in <module>\n    main()\n    ~~~~^^\n  File \"/var/fo\ntree unchanged: True"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "base-branch prints git-invalid branch names",
+      "detail": "With branchFormat feature/{name}.lock or a format holding a space, .. or ~, base-branch exits 0 and prints a name git refuses. patch-slice then fails at git. state-write does not call branches.validate_format.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "patch-slice leaves HEAD on the run branch when the milestone branch name is invalid",
+      "detail": "advance_run_branch checks out the run branch before git checkout -b fails. Exit 2 is clean, but HEAD moves and origin/HEAD is set.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "require_known_mode crashes on a config.json that holds a list",
+      "detail": "AttributeError traceback, exit 1, from config.get. Not in the S-022 diff.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "A non-string branchFormat falls back to the default silently",
+      "detail": "Plan note VS-7 expected an error. load_format semantics in the spec give the default. The result is consistent with the spec.",
+      "file": "skills/sdlc/state-write.py"
+    },
+    {
+      "title": "branch_kind Fail path is not reachable from the CLI",
+      "detail": "branch_name always raises first for a bad format, so the branch_kind conversion in the prune loop has no CLI test.",
+      "file": "skills/sdlc/state-write.py"
+    }
+  ]
+}

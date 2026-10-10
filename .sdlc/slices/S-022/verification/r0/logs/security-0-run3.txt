@@ -1,0 +1,292 @@
+HOSTILE_PATCH {"n":128,"tracebacks":0,"dirty":["tab:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","c1-nel:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-ab\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","c1-csi:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-31m\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","trailing-newline:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","double-dash:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1---\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","help-short:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1--h\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","help-long:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1---help\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","flag-eq:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1---format=x/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","negative-like:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1--1\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","single-dash:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1--\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","flag-name:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1---repo\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","equals-empty:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-=\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","double:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{name}{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","mixed:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","empty-braces:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","positional:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{0}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","conversion:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{name!r}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","spec:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","escaped:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{{name}}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","escaped-plus:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","percent:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-%s/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","dollar:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-${name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","open:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/{name\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","close:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","upper:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/{NAME}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","upper-spec:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","none:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/fixed\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","only:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","digits-4300:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","percent:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-%s%n%x\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","python-format:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-{0.__class__}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","glob:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","plus:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-+1\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","neg-zero:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1--0\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","negative:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","underscore:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-1_000\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","hex:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-0x10\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","octal-lead:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-010\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","float:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-1.5\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","exp:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-1e3\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","word:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-two\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","inf:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-inf\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","nan:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-nan\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","int64-max:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-9223372036854775807\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","int64-over:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-9223372036854775808\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","twenty-digits:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-99999999999999999999\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","nbsp-padded:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1- 3\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","tab-padded:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","abs-etc:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-/etc\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","dotdot-etc:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","encoded:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-%2e%2e/%2e%2e\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","tilde:2:{\"added\":[],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","cyrillic-s:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-ѕdlc/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","fullwidth-braces:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/｛name｝\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","cyrillic-a:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/{nаme}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","fraction-slash:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc⁄{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","division-slash:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc∕{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","ligature:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-ﬁx/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","combining:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/{name}́\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","rtl-override:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-sdlc/‮{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","dotted-i:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-İ/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","kelvin:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-K/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","sharp-s:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-ß/{name}\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","kind-cyrillic:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-slіce\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","kind-upper:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-SLICE\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","mode-fullwidth:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-ｐｒ\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","arabic-indic:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-٣\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","arabic-indic-12:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-١٢\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","fullwidth:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-１２\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","devanagari:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-१\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","bengali:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-২\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","nko:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-߁\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","math-bold:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-𝟏\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","superscript:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-²\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","roman:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-Ⅷ\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","circled:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-①\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","mixed:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-1٢\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","thai:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-๑\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","nbsp:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","em-space:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","ideographic:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a　b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","zwsp:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a​b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","zwnj:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a‌b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","zwj:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a‍b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","bom:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-﻿a\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","line-sep:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","para-sep:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","ogham:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","narrow-nbsp:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","mongolian-vs:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-a᠎b\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","nbsp-only:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1- \"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}","trailing-nbsp:2:{\"added\":[\"ref:refs/heads/feature/PROJ-1-slice \"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}"]}
+BADFMT [
+ {
+  "label": "no placeholder",
+  "cmd": "base",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": "the branch format 'feature/plain' must hold exactly one {name} or {name:lower}, found 0"
+ },
+ {
+  "label": "no placeholder",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": "the branch format 'feature/plain' must hold exactly one {name} or {name:lower}, found 0"
+ },
+ {
+  "label": "two placeholders",
+  "cmd": "base",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": "the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"
+ },
+ {
+  "label": "two placeholders",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": "the branch format 'a/{name}/{name}' must hold exactly one {name} or {name:lower}, found 2"
+ },
+ {
+  "label": "two mixed",
+  "cmd": "base",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": "the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, foun"
+ },
+ {
+  "label": "two mixed",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": "the branch format '{name}-{name:lower}' must hold exactly one {name} or {name:lower}, foun"
+ },
+ {
+  "label": "stray brace",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "stray brace",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[\".sdlc/STATUS.md\",\"ref:refs/heads/feature/{x}-M-1\",\"ref:refs/heads/feature/{x}-S-001\",\"ref:refs/remotes/origin/HEAD\",\"ref:refs/remotes/origin/feature/{x}-M-1\"],\"removed\":[],\"changed\":[\".sdlc",
+  "err": ""
+ },
+ {
+  "label": "whitespace",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "whitespace",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[\"ref:refs/remotes/origin/HEAD\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}",
+  "err": "git checkout -q -b feature /M-1: fatal: 'feature /M-1' is not a valid branch name\nhint: Se"
+ },
+ {
+  "label": "git-unsafe tilde",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "git-unsafe tilde",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[\"ref:refs/remotes/origin/HEAD\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}",
+  "err": "git checkout -q -b feat~/M-1: fatal: 'feat~/M-1' is not a valid branch name\nhint: See `man"
+ },
+ {
+  "label": "git-unsafe colon",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "git-unsafe colon",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[\"ref:refs/remotes/origin/HEAD\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}",
+  "err": "git checkout -q -b feat:/M-1: fatal: 'feat:/M-1' is not a valid branch name\nhint: See `man"
+ },
+ {
+  "label": "double dot",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "double dot",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[\"ref:refs/remotes/origin/HEAD\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}",
+  "err": "git checkout -q -b a..b/M-1: fatal: 'a..b/M-1' is not a valid branch name\nhint: See `man g"
+ },
+ {
+  "label": "trailing lock",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "trailing lock",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[\"ref:refs/remotes/origin/HEAD\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}",
+  "err": "git checkout -q -b M-1.lock: fatal: 'M-1.lock' is not a valid branch name\nhint: See `man g"
+ },
+ {
+  "label": "leading dash",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "leading dash",
+  "cmd": "patch",
+  "status": 2,
+  "ok": false,
+  "tb": false,
+  "diff": "{\"added\":[\"ref:refs/remotes/origin/HEAD\"],\"removed\":[],\"changed\":[\"ref:HEAD\"],\"empty\":false}",
+  "err": "git checkout -q -b -x/M-1: fatal: '-x/M-1' is not a valid branch name\nhint: See `man git c"
+ },
+ {
+  "label": "non-string number",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "non-string number",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[\".sdlc/STATUS.md\",\"ref:refs/heads/sdlc/M-1\",\"ref:refs/heads/sdlc/S-001\",\"ref:refs/remotes/origin/HEAD\",\"ref:refs/remotes/origin/sdlc/M-1\"],\"removed\":[],\"changed\":[\".sdlc/slices.json\",\"ref:HE",
+  "err": ""
+ },
+ {
+  "label": "non-string array",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "non-string array",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[\".sdlc/STATUS.md\",\"ref:refs/heads/sdlc/M-1\",\"ref:refs/heads/sdlc/S-001\",\"ref:refs/remotes/origin/HEAD\",\"ref:refs/remotes/origin/sdlc/M-1\"],\"removed\":[],\"changed\":[\".sdlc/slices.json\",\"ref:HE",
+  "err": ""
+ },
+ {
+  "label": "non-string object",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "non-string object",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[\".sdlc/STATUS.md\",\"ref:refs/heads/sdlc/M-1\",\"ref:refs/heads/sdlc/S-001\",\"ref:refs/remotes/origin/HEAD\",\"ref:refs/remotes/origin/sdlc/M-1\"],\"removed\":[],\"changed\":[\".sdlc/slices.json\",\"ref:HE",
+  "err": ""
+ },
+ {
+  "label": "non-string true",
+  "cmd": "base",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[],\"removed\":[],\"changed\":[],\"empty\":true}",
+  "err": ""
+ },
+ {
+  "label": "non-string true",
+  "cmd": "patch",
+  "status": 0,
+  "ok": true,
+  "tb": false,
+  "diff": "{\"added\":[\".sdlc/STATUS.md\",\"ref:refs/heads/sdlc/M-1\",\"ref:refs/heads/sdlc/S-001\",\"ref:refs/remotes/origin/HEAD\",\"ref:refs/remotes/origin/sdlc/M-1\"],\"removed\":[],\"changed\":[\".sdlc/slices.json\",\"ref:HE",
+  "err": ""
+ }
+]
+BROKEN_CONFIG 2 {"ok": false, "error": "/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-3dRPx4/testkit-cli-jVNAxV/repo-371/.sdlc/config.json is not valid JSON: Expecting property name enclosed in double qu 
+SDLC_LITERALS []
+GH_CALLS []
+UNKNOWN_SLICE 2 no slice S-404 in slices.json on feature/PROJ-1-S-404 {"added":["ref:refs/heads/feature/PROJ-1-S-404"],"removed":[],"changed":["ref:HEAD"],"empty":false} feature/PROJ-1-S-404,feature/PROJ-1-run-1,main
+FLAGID --detach 2 git checkout -q -b --detach --no-track run-1: fatal: '--detach' is not a valid branch name
+hint: See `man git check-ref- run-1
+FLAGID -f 2 git checkout -q -b -f --no-track run-1: fatal: '-f' is not a valid branch name
+hint: See `man git check-ref-format`
+hint run-1
+FLAGID --orphan 2 git checkout -q -b --orphan --no-track run-1: fatal: '--orphan' is not a valid branch name
+hint: See `man git check-ref- run-1
+FLAGID -D 2 git checkout -q -b -D --no-track run-1: fatal: '-D' is not a valid branch name
+hint: See `man git check-ref-format`
+hint run-1
+✔ verify security: custom format creates feature/ branches and no sdlc/ branch (TC-1) (1839.395042ms)
+✔ verify security: lowercase and default and repo-file format (TC-2) (3423.932459ms)
+✔ verify security: hostile slice ids on patch-slice refuse with exit 2 and no traceback (TC-3) (47608.05375ms)
+✔ verify security: hostile slice ids on base-branch refuse cleanly (TC-4) (19058.589458ms)
+✔ verify security: dependency awaiting-merge uses the format branch, ignores decoy sdlc/S-001 (TC-5) (1328.33325ms)
+✔ verify security: milestone base, shipped milestone, no milestone, unknown slice (TC-6) (1108.878042ms)
+✔ verify security: bad branchFormat values refuse with json error on every path (TC-7) (27805.45075ms)
+✔ verify security: non-string/empty branchFormat falls back to repo file or default; broken file refuses (TC-8) (2444.024541ms)
+✔ verify security: prune deletes only shipped milestone kind; keeps e2e, slice, run, others, worktree-held (TC-9) (8588.618292ms)
+✔ verify security: file holds no MILESTONE_BRANCH and no sdlc/{ literal (TC-10) (0.528917ms)
+✔ verify security: prune never calls the network via gh (TC-11) (1361.280958ms)
+✔ verify security: run branch outside the format is not rewritten; config unchanged (TC-12) (1388.723916ms)
+✔ verify security: seed: unknown slice on patch-slice leaves a stray branch, same as main (TC-13) (1101.116625ms)
+✔ verify security: format-injected flag-like ids with format {name} cannot reach git as options (TC-14) (2734.524875ms)
+✔ verify security: seed: base-branch accepts a git-invalid format and non-string formats fall back to the default (TC-15) (1596.577125ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121886.551125
