@@ -2540,6 +2540,16 @@
       "title": "Trailing-slash format refused only by git check-ref-format",
       "detail": "feature/PROJ-123-{name}/ passes the brace and whitespace checks and fails at the git check-ref-format step. This is correct and the error names check-ref-format. No action needed.",
       "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "verify: hostile sweep of preflight is slow",
+      "detail": "Each cli-runner call takes about 0.25 s, so a sweep of 130 corpus entries over 4 modes takes about 144 s. A smaller corpus subset would run faster.",
+      "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+    },
+    {
+      "title": "Hostile-input test cannot see a refusal that yields no samples",
+      "detail": "When preflight refuses a hostile format, it prints no samples, so the kinds check holds for an empty set. It proves no extra kind and no traceback, not the refusal text.",
+      "file": ".sdlc/slices/S-032/verification/r0/tests/security-0/sampled-kinds.verify-security.test.mjs"
     }
   ]
 }
