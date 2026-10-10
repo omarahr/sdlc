@@ -5336,13 +5336,31 @@
     "specRef": "§8",
     "quote": "\"the slice's attempt branches (`branches.py list --kind attempt`, filtered to this slice)\"",
     "acceptance": "integrator.md finds attempt branches to delete through `branches.py list --kind attempt` filtered to the slice id, not through a `sdlc/<id>-attempt-*` glob.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-131",
+        "TC-cli-1",
+        "TC-cli-2",
+        "TC-cli-3",
+        "TC-cli-4",
+        "TC-cli-5",
+        "TC-cli-6",
+        "TC-cli-7",
+        "TC-cli-8",
+        "TC-contract-1",
+        "TC-security-1",
+        "TC-security-2",
+        "TC-security-3",
+        "TC-security-4",
+        "TC-security-5"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
@@ -5706,13 +5724,21 @@
     "specRef": "§8",
     "quote": "| `integrator.md` | `sdlc/<id>` (×9), `sdlc/run-<n>` (×3), `sdlc/<id>-attempt-*` | `<slice branch>`, `<run branch>`, \"the slice's attempt branches (`branches.py list --kind attempt`, filtered to this slice)\" |",
     "acceptance": "integrator.md holds no literal `sdlc/<id>`, `sdlc/run-<n>` or `sdlc/<id>-attempt-*`. It uses `<slice branch>` and `<run branch>` and names attempt branches through `branches.py list --kind attempt` filtered to the slice.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-143",
+        "TC-contract-2",
+        "TC-security-6",
+        "TC-security-7",
+        "TC-security-8"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5736,13 +5762,19 @@
     "specRef": "§8",
     "quote": "| `escalator.md` | `sdlc/<id>` (×3), `sdlc/<id>-attempt-<n>` (×2), `sdlc/run-<n>` | `<slice branch>`, `<attempt branch>`, `<run branch>` |",
     "acceptance": "escalator.md holds no `sdlc/` branch literal. It uses `<slice branch>`, `<attempt branch>` and `<run branch>`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-145",
+        "TC-contract-3",
+        "TC-security-9"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
@@ -5766,13 +5798,18 @@
     "specRef": "§8",
     "quote": "| `state-writer.md` | `sdlc/<id>`, `sdlc/<id>-attempt-<n>` | `<slice branch>`, `<attempt branch>` |",
     "acceptance": "state-writer.md holds no `sdlc/` branch literal. It uses `<slice branch>` and `<attempt branch>`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-147",
+        "TC-contract-4"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (statements)"
   },
