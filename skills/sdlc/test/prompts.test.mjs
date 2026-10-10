@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
 import { scriptSource, SKILL_DIR } from './harness.mjs'
+import { cliRunner } from './testkit/cli-runner.mjs'
 
 test('the reviewer can demand the verification battery for a mis-rated slice, and the schema passes the flag', () => {
   const reviewer = readFileSync(join(SKILL_DIR, 'prompts', 'reviewer.md'), 'utf8')
@@ -1039,4 +1040,23 @@ test('T-R-117: the section tells the reader to classify a branch with parse', ()
   const { bullet } = commonBranchNames()
   assert.ok(bullet.includes('branches.py parse --repo . --branch <name>'))
   assert.match(bullet, /`null`/)
+})
+
+test('every name command in the _common.md branch table runs against branches.py', () => {
+  const text = readFileSync(join(SKILL_DIR, 'prompts', '_common.md'), 'utf8')
+  const sample = { '<sliceId>': 'S-025', '<milestoneId>': 'M-1', '<areaId>': 'api', '<n>': '2' }
+  const commands = text.split('\n')
+    .filter((line) => /^\s*\| `</.test(line))
+    .map((line) => line.split('|')[2].match(/`branches\.py (name [^`]*)`/))
+    .filter(Boolean)
+    .map((m) => m[1].split(/\s+/).map((arg) => sample[arg] ?? arg))
+  assert.equal(commands.length, 6)
+  const r = cliRunner()
+  const repo = r.gitRepo({ files: { '.sdlc/config.json': { branchFormat: 'feature/{name}' } } })
+  for (const [sub, ...rest] of commands) {
+    const t = r.run('branches.py', [sub, '--repo', repo, ...rest])
+    assert.equal(t.status, 0, `${sub} ${rest.join(' ')}: ${t.text()}`)
+    assert.equal(t.json.ok, true)
+    assert.match(t.json.branch, /^feature\//)
+  }
 })
