@@ -735,3 +735,11 @@
 - Decision: Option 1. Treat it as a refinement of spec section 2, not a conflict. Valid ids and tails are pure ASCII, so only look-alikes change. Keep re.IGNORECASE. Scores: fit 5, reversibility 5, simplicity 5.
 - Consequences / how to reverse: The change is one flag and one lowercase helper in branches.py. To reverse, remove both and review the look-alike tests. No stored data or branch name changes.
 - Affects: R-024, S-fix-M-1-1
+
+### ADR-20261010-160000-planner-S-fix-M-1-1a-r1: Use re.ASCII in every parse row
+- Status: auto
+- Context: Spec section 2 gives the row patterns. Unicode digits match `\d`, and Unicode case folding matches U+212A to `k` in lower mode. Look-alikes must fail in the slice-id positions only.
+- Options: (1) Check the whole tail with isascii. (2) Add re.ASCII to every row and check the captured id with isascii. (3) Check the id only, leave `\d` as is.
+- Decision: Option 2. The area, profile and other parts keep the spec behavior. Option 1 would reject `M-1-e2e-é`, which the spec classifies as e2e-area.
+- Consequences / how to reverse: Remove re.ASCII from the flags in parse and the id check. No stored data changes.
+- Affects: R-022, R-024, S-fix-M-1-1a

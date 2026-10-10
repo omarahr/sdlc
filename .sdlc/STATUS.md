@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T14:47:04Z
+Updated: 2026-10-10T14:50:15Z
 
 Requirements: 139/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 39/44 done · current: none · awaiting merge: none
+Slices: 39/44 done · current: S-fix-M-1-1a branches.py: parse is ASCII only · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: M-1
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 92 · Spec proposals: 10
+ADRs: 93 · Spec proposals: 10
 
 ## Recent
 - 2026-10-10T11:19:43Z slice-merged S-033 state-write and janitor take their format from the module
