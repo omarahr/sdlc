@@ -113,7 +113,7 @@ test('the env-detector adopts the driver-created run branch, and numbers a fresh
   assert.match(env, /git ls-remote --heads origin <current-branch>/)
   assert.match(env, /git push -u origin <current-branch>/)
   // the create path survives for a run the driver did not set up, numbered by the driver's own rule:
-  // (count of local `sdlc/run-*` branches) + 1 — remote-tracking refs no longer feed the number
+  assert.match(env, /\(count of branches of kind `run`\) \+ 1/)
   assert.match(env, /git checkout -b <run branch> <defaultBranch>/)
   assert.match(env, /git push -u origin <run branch>/)
   assert.doesNotMatch(env, /sdlc\/run-/)
