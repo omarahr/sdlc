@@ -2546,3 +2546,136 @@ test('T-R-073b a derived format with a brace or whitespace is not reported as ok
     }
   }
 })
+
+const resultsOf = (out) => out.samples.map((s) => s.result)
+const failing = (out) => out.samples.filter((s) => s.result === 'fail')
+
+test('T-R-091a one regex rule the default passes needs no format and no suggestion', opts, () => {
+  const { status, out } = prRun(regexRule('shape', '^[a-z]+/.+'))
+  assert.equal(status, 0)
+  assert.equal(out.ok, true)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.derived, false)
+  assert.equal(out.suggestion, '')
+  assert.equal(failing(out).length, 0)
+})
+
+test('T-R-091b the same regex rule through glab gives the same keys', opts, () => {
+  const shim = glabShim({ body: { branch_name_regex: '^[a-z]+/.+' } })
+  const { status, out } = preflight(gitlabRepo(), ['--mode', 'pr'], shim)
+  assert.equal(status, 0)
+  assert.equal(out.ok, true)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.equal(out.derived, false)
+  assert.equal(out.suggestion, '')
+  assert.equal(failing(out).length, 0)
+})
+
+test('T-R-092a two rules and no format give a generic suggestion and no derived format', opts, () => {
+  const { status, out } = prRun([startsWith('alpha', 'feature/'), endsWith('beta', '-x')])
+  assert.equal(status, 1)
+  assert.equal(out.ok, false)
+  assert.equal(out.derived, false)
+  assert.equal(out.format, 'sdlc/{name}')
+  assert.ok(out.suggestion.includes('--branch-format'), out.suggestion)
+})
+
+test('T-R-092b every failing sample names one of the two rules', opts, () => {
+  const { out } = prRun([startsWith('alpha', 'feature/'), endsWith('beta', '-x')])
+  const bad = failing(out)
+  assert.ok(bad.length >= 1)
+  assert.ok(bad.every((s) => s.rule === 'alpha' || s.rule === 'beta'), JSON.stringify(bad))
+  const text = JSON.stringify(out.rules)
+  assert.ok(text.includes('alpha') && text.includes('beta'), text)
+})
+
+test('T-R-092c a negated contains rule the default fails gives no derived format', opts, () => {
+  const { out } = prRun(containsRule('no sdlc', 'sdlc', true))
+  assert.equal(out.derived, false)
+  const bad = failing(out)
+  assert.ok(bad.length >= 1)
+  assert.ok(bad.every((s) => s.rule === 'no sdlc'), JSON.stringify(bad))
+  assert.ok(out.suggestion.includes('--branch-format'), out.suggestion)
+})
+
+test('T-R-100a rules of another type leave the run ok with no rules', opts, () => {
+  const shim = ghShim({ body: [{ type: 'pull_request', parameters: {} }] })
+  const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], shim)
+  assert.equal(status, 0)
+  assert.deepEqual(out.rules, [])
+  assert.equal(failing(out).length, 0)
+  assert.equal(out.ok, true)
+  assert.equal(out.derived, false)
+})
+
+test('T-R-100b an empty list gives pass on every sample, not unchecked', opts, () => {
+  const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], ghShim({ body: [] }))
+  assert.equal(status, 0)
+  assert.ok(out.samples.length > 0)
+  assert.ok(resultsOf(out).every((r) => r === 'pass'), JSON.stringify(resultsOf(out)))
+})
+
+test('T-R-100c a rule that answers for one sample name can fail only that sample', opts, () => {
+  const shim = ghShim({ body: [], bodies: { 'sdlc/S-001': [startsWith('only', 'zzz/'), endsWith('also', '-x')] } })
+  const { out } = preflight(githubRepo(), ['--mode', 'pr'], shim)
+  const bad = failing(out)
+  assert.deepEqual(bad.map((s) => s.name), ['sdlc/S-001'])
+  assert.equal(bad[0].rule, 'only')
+  const text = JSON.stringify(out.rules)
+  assert.ok(text.includes('only') && text.includes('also'), text)
+  assert.ok(out.samples.filter((s) => s.name !== 'sdlc/S-001').every((s) => s.result === 'pass'))
+})
+
+test('T-R-100d a rule whose pattern is not a string is unevaluated and never crashes preflight', opts, () => {
+  const odd = [
+    ['regex', 5],
+    ['regex', null],
+    ['regex', ['a']],
+    ['starts_with', 5],
+    ['contains', {}],
+    ['ends_with', null],
+  ]
+  for (const [operator, pattern] of odd) {
+    const shim = gh({ type: 'branch_name_pattern', parameters: { operator, pattern } })
+    const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], shim)
+    const label = `${operator} ${JSON.stringify(pattern)}`
+    assert.equal(status, 0, label)
+    assert.equal(out.derived, false, label)
+    assert.ok(resultsOf(out).every((r) => r === 'unevaluated'), label)
+    assert.ok(out.notes.some((n) => n.startsWith('cannot evaluate ')), label)
+  }
+})
+
+test('T-R-074a preflight through gh and glab shims covers the seven scenarios', opts, () => {
+  let r = prRun([])
+  assert.equal(r.status, 0)
+  assert.equal(r.out.ok, true)
+  assert.equal(r.out.format, 'sdlc/{name}')
+  assert.equal(r.out.derived, false)
+
+  r = prRun(startsWith('feat', 'feature/'))
+  assert.equal(r.status, 0)
+  assert.equal(r.out.format, 'feature/sdlc/{name}')
+  assert.equal(r.out.derived, true)
+
+  r = prRun(regexRule('shape', '^zzz/'))
+  assert.equal(r.status, 1)
+  assert.equal(r.out.ok, false)
+  assert.ok(r.out.suggestion.startsWith('--branch-format'), r.out.suggestion)
+
+  r = prRun(regexRule('shape', '^[a-z]+/.+'))
+  assert.equal(r.status, 0)
+  assert.equal(r.out.derived, false)
+
+  r = preflight(githubRepo(), ['--mode', 'pr'], ghShim({ exit: 1, stderr: 'boom' }))
+  assert.equal(r.status, 0)
+  assert.equal(r.out.ok, true)
+  assert.ok(r.out.notes.some((n) => typeof n === 'string' && n.includes('rules unknown')), JSON.stringify(r.out.notes))
+  assert.ok(resultsOf(r.out).every((x) => x === 'unchecked'), JSON.stringify(resultsOf(r.out)))
+
+  r = preflight(withConfig({ gitMode: 'mr', forge: 'gitlab' }), ['--mode', 'mr', '--branch', 'bad-name'], glabShim({ body: { branch_name_regex: '^feat/' } }))
+  assert.equal(r.status, 1)
+  assert.equal(sampleOf(r.out, 'working').result, 'fail')
+
+  assertBadInput(['preflight', '--repo', withConfig({ gitMode: 'pr' }), '--mode', 'pr', '--format', 'feature/x'], 'format without placeholder')
+})

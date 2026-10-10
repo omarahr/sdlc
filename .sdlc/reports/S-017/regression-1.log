@@ -1,0 +1,1389 @@
+✔ verify cli: TC-cli-1 state name is sdlc/state- plus 14 UTC digits under far time zones (1641.764ms)
+✔ verify cli: TC-cli-2 state name keeps its tail under custom formats and ignores extra flags (1328.129958ms)
+✔ verify cli: TC-cli-3 verify name matches the spec example, the loop builder and every catalog profile (12688.615667ms)
+✔ verify cli: TC-cli-4 verify name with a missing or empty part exits 2 with one JSON error naming it (1407.269833ms)
+✔ verify cli: TC-cli-5 malformed --round and --part are refused or give an ASCII integer (18066.868375ms)
+✔ verify cli: TC-cli-6 hostile --profile and --id values never crash and never escape the format prefix (34665.898792ms)
+✔ verify cli: TC-cli-7 attempt name matches the spec example for plain and fix ids, and extra flags do not leak (991.369667ms)
+✔ verify cli: TC-cli-8 attempt name with a missing or malformed number exits 2 or gives an ASCII integer (8383.021542ms)
+✔ verify cli: TC-cli-9 custom branch formats wrap verify and attempt tails, --format wins, a bad format exits 2 (3655.684ms)
+✖ verify cli: TC-cli-10 push_guard.py output equals the pins and each pinned push site is in the source (39.521208ms)
+✖ verify cli: TC-cli-11 push-guard.test.mjs passes from the repo root, from another cwd and from a copied path with spaces (103.04725ms)
+✔ verify cli: TC-cli-19 the loop gives its verify branch builder only to the profile agent and the collector (0.710584ms)
+✔ verify cli: TC-cli-20 the verify prompts hold no push or pull-request command (1.316125ms)
+✖ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (61.235417ms)
+✔ verify cli: TC-cli-13 every round 0 to 2 mutant changes the guard output (1261.674084ms)
+✔ verify cli: TC-cli-15 the new in-scope forms named by the plan change the guard output (1657.331333ms)
+✔ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (1030.343958ms)
+✔ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (664.945375ms)
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (534.713542ms)
+✔ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (99.1075ms)
+✔ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (189.525083ms)
+✖ verify cli: TC-cli-47 the S-013 gh api rules read in branches.py changes only the direct and forge pins (71.205958ms)
+✖ verify cli: TC-cli-48 a GET read through the next-action run wrapper hits no ban in any spelling (94.789333ms)
+✖ verify cli: TC-cli-49 the glab push_rule read changes only the direct and forge pins (48.919792ms)
+✖ verify cli: TC-cli-50 a git log or git fetch through the state-write wrapper hits no ban (53.904667ms)
+✖ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (46.257875ms)
+✔ verify cli: TC-cli-52 a new script file or a new script type changes the files pin or the extension check (399.308292ms)
+✖ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (101.310583ms)
+✔ verify cli: seed probes outside the R-119 scope (569.570583ms)
+surface {"CATEGORY_CHARS":"{'CATEGORY_DIGIT': '0', 'CATEGORY_WORD': 'a', 'CATEGORY_SPACE': ' '}","DEFAULT_FORMAT":"'sdlc/{name}'","DERIVE_FORMATS":"{'starts_with': <function <lambda> at 0x105ae61f0>, 'ends_with': <function <lambda> at 0x105ae62a0>, 'contains': <functi","FORGE_TIMEOUT":"60","Fail":"class","GIT_MODES_PATH":"'/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/git-modes.json'","INTEGER_PARTS":"('n', 'round', 'part')","JsonArgumentParser":"(prog=None, usage=None, description=None, epilog=None, parents=[], formatter_class=<class 'argparse.HelpFormatter'>, prefix_chars='-', fromfile_prefix_chars=None, argument_default=None, conflict_handler='error', add_help=True, allow_abbrev=True, exit_on_error=True, *, suggest_on_error=False, color=True)","KINDS":"('run', 'slice', 'milestone', 'e2e', 'e2e-area', 'state', 'verify', 'attempt')","NAME_PARTS":"('id', 'n', 'area', 'round', 'profile', 'part')","NUMERIC_SORT_KINDS":"('run', 'attempt')","PARSE_ROWS":"(('run', '^run-(\\\\d+)$', ('n',)), ('milestone', '^(M-\\\\d+)$', ('id',)), ('e2e', '^(M-\\\\d+)-e2e$', ('id',)), ('e2e-area',","PLACEHOLDERS":"('{name}', '{name:lower}')","RULE_KEYS":"('source', 'kind', 'pattern', 'negate', 'label')","SAMPLE_KINDS":"{'pr': (('slice', {'id': 'S-001'}), ('state', {}), ('e2e', {'id': 'M-1'})), 'stack': (('run', {'n': 1}), ('milestone', {","TAILS":"{'run': (('n',), <function <lambda> at 0x105ae50c0>), 'slice': (('id',), <function <lambda> at 0x105ae5170>), 'milestone","build_parser":"()","build_samples":"(fmt, mode, current)","cmd_list":"(ns)","cmd_name":"(ns)","cmd_parse":"(ns)","cmd_preflight":"(ns)","datetime":"class","derive":"(rules)","evaluate":"(rule, sample)","github_rule":"(obj)","gitlab_rule":"(body)","judge":"(rules, sample)","list_kind":"(repo, fmt, kind)","load_format":"(repo)","load_git_modes":"(path='/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/git-modes.json')","main":"(argv=None)","make_rule":"(source, kind, pattern, negate, label)","name":"(fmt, kind, **parts)","parse":"(fmt, branch, ids=None)","read_rules":"(repo, samples)","ref_format_error":"(ref)","regex_error":"(pattern)","split":"(fmt)","suggest":"(rules, rows, derived)","tail":"(kind, **parts)","timezone":"class","validate_format":"(fmt)","verdict":"(repo, fmt, mode, current)"}
+modules ["_sre_parse","argparse","json","os","re","subprocess","sys","urllib"]
+VS-1 TZ=Pacific/Kiritimati tail=state-20261010004130 window=[20261010004130,20261010004130]
+VS-1 TZ=America/Adak tail=state-20261010004130 window=[20261010004130,20261010004130]
+VS-1 TZ=Etc/GMT+12 tail=state-20261010004130 window=[20261010004130,20261010004130]
+VS-1 TZ=Etc/GMT-14 tail=state-20261010004130 window=[20261010004130,20261010004130]
+VS-1 TZ=Asia/Kathmandu tail=state-20261010004130 window=[20261010004130,20261010004130]
+VS-1 TZ=UTC tail=state-20261010004130 window=[20261010004130,20261010004130]
+property state-utc-window: seed=4144448512 runs=2000 violations=0
+property state-explicit-ts: seed=4144448597 runs=2000 violations=0
+VS-2 corner ts=0 -> return "sdlc/state-0"
+VS-2 corner ts="0" -> return "sdlc/state-0"
+VS-2 corner ts=1.5 -> return "sdlc/state-1.5"
+VS-2 corner ts=true -> return "sdlc/state-True"
+VS-2 corner ts=false -> return "sdlc/state-False"
+VS-2 corner ts=["x"] -> return "sdlc/state-['x']"
+VS-2 corner ts="../../x" -> return "sdlc/state-../../x"
+VS-2 corner ts="a/b" -> return "sdlc/state-a/b"
+VS-2 corner ts=" 2026" -> return "sdlc/state- 2026"
+VS-2 corner ts="2026\n" -> return "sdlc/state-2026\n"
+VS-2 corner ts="\u001b[31m" -> return "sdlc/state-\u001b[31m"
+VS-2 corner ts="@{-1}" -> return "sdlc/state-@{-1}"
+VS-2 corner ts="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" -> return "sdlc/state-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+VS-2 corner ts="١٢" -> return "sdlc/state-١٢"
+property verify-template: seed=4144448563 runs=2000 violations=0
+VS-4 missing-part Fail messages: a verify branch name needs a non-empty id | a verify branch name needs a non-empty round | a verify branch name needs a non-empty profile | a verify branch name needs a non-empty part
+property verify-missing-part: seed=4144448580 runs=2000 violations=0
+VS-4 corner round=-1 -> return "sdlc/s-001-v-1-http-api-0"
+VS-4 corner round=false -> return "sdlc/s-001-vfalse-http-api-0"
+VS-4 corner round=1.5 -> return "sdlc/s-001-v1.5-http-api-0"
+VS-4 corner round="0" -> return "sdlc/s-001-v0-http-api-0"
+VS-4 corner part=-1 -> return "sdlc/s-001-v0-http-api--1"
+VS-4 corner profile="../x" -> return "sdlc/s-001-v0-../x-0"
+VS-4 corner profile="a b" -> return "sdlc/s-001-v0-a b-0"
+VS-4 corner profile="\u001b" -> return "sdlc/s-001-v0-\u001b-0"
+VS-4 corner id="-x" -> return "sdlc/-x-v0-http-api-0"
+VS-4 corner id="İ" -> return "sdlc/i̇-v0-http-api-0"
+property attempt-template: seed=4144448614 runs=2000 violations=0
+VS-6 corner n=-1 -> sdlc/S-001-attempt--1; n=false -> sdlc/S-001-attempt-False; n=1.0 -> sdlc/S-001-attempt-1
+VS-7 cli: config=feature/PROJ-1-s-001-v0-http-api-0, feature/PROJ-1-s-001-attempt-1 flag=x/S-001-v0-http-api-0/y invalid={"ok": false, "error": "the branch format 'x/{name}{name}' must hold exactly one {name} or {name:lower}, found 2"}
+VS-2 cli --ts: exit=2 {"ok": false, "error": "unrecognized arguments: --ts 20261008101500"}
+consumer cli-equals-api: seed=4144448631 runs=120 violations=0
+✖ verify contract: surface of branches.py as a consumer imports it (67.050375ms)
+✔ verify contract: VS-1 name(fmt, "state") gives state- and 14 UTC digits under far time zones (472.115209ms)
+✔ verify contract: VS-1 property: state name stays in the UTC window for any extra parts (73.452583ms)
+✔ verify contract: VS-2 an explicit ts is used as given; empty and None generate one (63.469334ms)
+✔ verify contract: VS-2 property: any 14-digit ts passes through unchanged (66.389208ms)
+✔ verify contract: VS-2 corner ts values are recorded (50.288125ms)
+✔ verify contract: VS-3 spec example and table row for verify, round 0 and part 0 (62.612083ms)
+✔ verify contract: VS-3 property: verify name equals the spec template and the loop builder (98.784125ms)
+✔ verify contract: VS-4 a missing, None or empty verify part raises Fail naming the part (50.05075ms)
+✔ verify contract: VS-4 property: dropping any subset of verify parts fails on the first missing part in order (85.54575ms)
+✔ verify contract: VS-4 corner part types through the API are recorded (52.966542ms)
+✔ verify contract: VS-5 spec example and table row for attempt (54.23425ms)
+✔ verify contract: VS-5 property: attempt name equals the spec template, extra parts never leak (119.269208ms)
+✔ verify contract: VS-6 a missing, None or empty attempt part raises Fail naming the part (112.439375ms)
+✔ verify contract: VS-7 a custom format wraps verify and attempt tails, lowercasing only the tail (51.444917ms)
+✔ verify contract: VS-7 consumer view: --format wins over config.branchFormat, invalid format exits 2 (1157.811792ms)
+✔ verify contract: VS-2 consumer view: the CLI has no --ts flag and refuses it with one JSON error (472.508167ms)
+✔ verify contract: VS-3 VS-5 consumer view: the CLI output equals the API name for sampled inputs (26789.24ms)
+✔ verify security: VS-2 an explicit state ts is used as given, empty and None generate one (72.18725ms)
+✔ verify security: VS-2 hostile ts values never raise an unhandled exception and keep the prefix (3454.845958ms)
+✔ verify security: VS-2 the CLI has no --ts flag and refuses it with one JSON error (624.529209ms)
+✔ verify security: VS-4 each missing verify part exits 2 with one JSON error naming the part (2084.466417ms)
+✔ verify security: VS-4 malformed --round and --part exit 2 or give an ASCII integer, never a crash (24430.252792ms)
+✔ verify security: VS-4 hostile --id and --profile never crash, never change state, keep the sdlc/ prefix (52294.317042ms)
+✔ verify security: VS-6 a missing attempt part exits 2 with one JSON error naming it (724.022667ms)
+✔ verify security: VS-6 malformed --n exits 2 or gives an ASCII integer, never a crash (11217.386583ms)
+✔ verify security: VS-6 hostile attempt --id never crashes and keeps the sdlc/ prefix (20190.382083ms)
+✔ verify security: VS-8 every push or request call in the scripts targets a run or milestone branch (9.722291ms)
+✔ verify security: VS-8 the verify-profile and verify-collector prompts never tell an agent to push or open a request (2.161334ms)
+✖ verify security: VS-8 the committed T-R-119 passes on the slice and catches a verify push added to the loop (329.205041ms)
+✔ verify security: VS-8 T-R-119 misses a python push of a verify name built on another line (159.900625ms)
+✖ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (68.561084ms)
+✔ verify cli: TC-cli-13 every round 0 to 2 mutant changes the guard output (1284.912292ms)
+✔ verify cli: TC-cli-15 the new in-scope forms named by the plan change the guard output (1649.252833ms)
+✔ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (967.858334ms)
+✔ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (661.509667ms)
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (550.328709ms)
+✔ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (94.278708ms)
+✔ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (174.701791ms)
+✖ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (45.111334ms)
+✔ verify cli: TC-cli-52 a new script file or a new script type changes the files pin or the extension check (475.1415ms)
+✖ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (96.464125ms)
+✔ verify cli: seed probes outside the R-119 scope (546.40425ms)
+✔ verify cli: TC-cli-55 a capitalized process API bound to a name hides a real verify push (818.697208ms)
+✔ verify cli: TC-cli-56 a process module reached through a globals() subscript hides a real verify push (688.801958ms)
+✔ verify cli: TC-cli-57 exec, eval or __import__ bound to a name hides a real verify push (726.630375ms)
+✔ verify cli: TC-cli-58 a standard library helper outside the watched modules runs a verify push or a POST (839.124292ms)
+✔ verify cli: TC-cli-59 seed probe: a process module re-exported by another module (664.972334ms)
+✖ verify cli: TC-cli-60 every source encoding cookie either is read as UTF-8 or makes the file opaque (330.633334ms)
+✔ verify cli: TC-cli-61 every unicode escape spelling of a banned loop identifier is a hit (313.29425ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: push_guard.py exit 2: /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guard (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:39:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:43:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs (326.770083ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: push_guard.py exit 2, stderr /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guard (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:21:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:43:14
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs (168.782541ms)
+✖ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (83.732333ms)
+✔ verify cli: TC-cli-13 every round 0 to 2 mutant changes the guard output (1280.635708ms)
+✔ verify cli: TC-cli-15 the new in-scope forms named by the plan change the guard output (1652.872042ms)
+✔ verify cli: TC-cli-40 a process module rebound to another name hides a real verify push (1086.57525ms)
+✔ verify cli: TC-cli-41 the posix module runs a verify push that the guard does not see (665.267292ms)
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (539.049958ms)
+✔ verify cli: TC-cli-43 a network module reached through a rebind or a private name is not reported (100.56ms)
+✔ verify cli: TC-cli-44 a banned identifier written with a unicode escape passes the loop scan (177.272583ms)
+✖ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (47.664583ms)
+✔ verify cli: TC-cli-52 a new script file or a new script type changes the files pin or the extension check (466.480166ms)
+✖ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (91.419958ms)
+✔ verify cli: seed probes outside the R-119 scope (584.945208ms)
+✔ verify cli: TC-cli-55 a capitalized process API bound to a name hides a real verify push (780.648875ms)
+✔ verify cli: TC-cli-56 a process module reached through a globals() subscript hides a real verify push (691.585417ms)
+✔ verify cli: TC-cli-57 exec, eval or __import__ bound to a name hides a real verify push (746.485583ms)
+✔ verify cli: TC-cli-58 a standard library helper outside the watched modules runs a verify push or a POST (856.101875ms)
+✔ verify cli: TC-cli-59 seed probe: a process module re-exported by another module (657.954125ms)
+✖ verify cli: TC-cli-60 every source encoding cookie either is read as UTF-8 or makes the file opaque (342.862083ms)
+✔ verify cli: TC-cli-61 every unicode escape spelling of a banned loop identifier is a hit (323.698125ms)
+✔ verify security: VS-9 T-R-119 passes on the unchanged skill, from the repo root and from a moved copy (642.849292ms)
+✖ verify security: VS-9 the three TC-cli-11 mutants fail T-R-119 (658.409125ms)
+✖ verify security: VS-9 T-R-119 catches a push in the git -C argv form the scripts already use (209.004125ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C <repo> push (233.066708ms)
+✖ verify security: VS-9 T-R-119 catches a verify push in a tracker skill script (215.694958ms)
+✖ verify security: VS-9 forms outside the scripts idiom, recorded as blind spots (2170.463834ms)
+✖ verify security: VS-9 forms the guard does catch (1531.719125ms)
+✔ verify security: VS-9 the scripts on the slice commit hold no push or request of a verify branch (2.739625ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (507.781917ms)
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (229.537459ms)
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (283.824042ms)
+✔ verify security: VS-9 round 2 forms outside the scripts idiom, recorded as blind spots (1121.79675ms)
+✖ verify security: VS-9 round 2 forms the guard does catch (1150.95725ms)
+✔ verify security: VS-9 a quote-tolerant scan of every skill file finds no verify push or request (3.538583ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: exit 2: /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guard (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:34:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:38:15 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs (151.518708ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: push_guard.py exit 2: /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guard (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:40:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:45:15 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs (267.617625ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/testkit/module-loader.mjs' imported from /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/testkit/module-loader.mjs'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs (126.740708ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guardAt (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:20:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:24:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs (107.154666ms)
+node:path:1339
+      validateString(arg, 'path');
+      ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at join (node:path:1339:7)
+    at scan (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:21:38)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:26:15
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs (64.196417ms)
+node:fs:484
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+    at readFileSync (node:fs:484:20)
+    at pinsFromTest (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:18:15)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:23:25 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs (146.120792ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: push_guard.py exit 2: /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guard (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:27:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:31:14
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs (183.278166ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/testkit/module-loader.mjs' imported from /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard-plan-r1.verify-cli.test.mjs
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/testkit/module-loader.mjs'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard-plan-r1.verify-cli.test.mjs (90.606834ms)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: push_guard.py exit 2: /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+
+
+2 !== 0
+
+    at guard (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:40:10)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:45:15 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs (279.940791ms)
+node:path:1339
+      validateString(arg, 'path');
+      ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at join (node:path:1339:7)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:12:39
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs (56.439416ms)
+node:path:1339
+      validateString(arg, 'path');
+      ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at join (node:path:1339:7)
+    at scan (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:21:38)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:26:15
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs (176.8625ms)
+node:fs:484
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+    at readFileSync (node:fs:484:20)
+    at pinsFromTest (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:18:15)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:23:25 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs (84.045833ms)
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/testkit/module-loader.mjs' imported from /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/testkit/module-loader.mjs'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs (94.147791ms)
+node:path:1339
+      validateString(arg, 'path');
+      ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at join (node:path:1339:7)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:12:39
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs (103.953625ms)
+node:path:1339
+      validateString(arg, 'path');
+      ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at join (node:path:1339:7)
+    at file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:9:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0
+✖ .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs (71.962584ms)
+ℹ tests 129
+ℹ suites 0
+ℹ pass 80
+ℹ fail 49
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 116128.217417
+
+✖ failing tests:
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:287:1
+✖ verify cli: TC-cli-10 push_guard.py output equals the pins and each pinned push site is in the source (39.521208ms)
+  AssertionError [ERR_ASSERTION]: $ cd /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-idfqLl/testkit-cli-du7bFd/cwd-428
+  $ python3 /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0
+  exit: 2 (38 ms)
+  --- stdout
+  
+  --- stderr
+  /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python: can't open file '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push_guard.py': [Errno 2] No such file or directory
+  
+  2 !== 0
+  
+      at guardOut (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:266:10)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:288:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:316:1
+✖ verify cli: TC-cli-11 push-guard.test.mjs passes from the repo root, from another cwd and from a copied path with spaces (103.04725ms)
+  AssertionError [ERR_ASSERTION]: $ cd /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0
+  $ node --test /private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs
+  exit: 1 (47 ms)
+  --- stdout
+  
+  --- stderr
+  Could not find '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-0/branches.verify-cli.test.mjs:325:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:203:1
+✖ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (61.235417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:206:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:244:1
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (534.713542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:255:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:274:1
+✖ verify cli: TC-cli-47 the S-013 gh api rules read in branches.py changes only the direct and forge pins (71.205958ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(found.includes('forge'))
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:276:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:281:1
+✖ verify cli: TC-cli-48 a GET read through the next-action run wrapper hits no ban in any spelling (94.789333ms)
+  AssertionError [ERR_ASSERTION]: -X GET
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:287:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:293:1
+✖ verify cli: TC-cli-49 the glab push_rule read changes only the direct and forge pins (48.919792ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(found.includes('forge'))
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:295:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:300:1
+✖ verify cli: TC-cli-50 a git log or git fetch through the state-write wrapper hits no ban (53.904667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'exit'
+  -   'wrapperVerbs'
+    ]
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:302:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'exit' ],
+    expected: [ 'wrapperVerbs' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:309:1
+✖ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (46.257875ms)
+  AssertionError [ERR_ASSERTION]: syntax error
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:320:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:349:1
+✖ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (101.310583ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+      at readFileSync (node:fs:484:20)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:358:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:86:1
+✖ verify contract: surface of branches.py as a consumer imports it (67.050375ms)
+  AssertionError [ERR_ASSERTION]: branches.py imports only the standard library
+  + actual - expected
+  
+    [
+  +   '_sre_parse',
+      'argparse',
+      'json',
+      'os',
+      're',
+      'subprocess',
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/contract-0/tails.verify-contract.test.mjs:115:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ '_sre_parse', 'argparse', 'json', 'os', 're', 'subprocess', 'sys', 'urllib' ],
+    expected: [ 'argparse', 'json', 'os', 're', 'subprocess', 'sys', 'urllib' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:259:1
+✖ verify security: VS-8 the committed T-R-119 passes on the slice and catches a verify push added to the loop (329.205041ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 missed a push of branch(g) added to verifyPhase
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r0/tests/security-0/tails.verify-security.test.mjs:268:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 0,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:203:1
+✖ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (68.561084ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:206:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:244:1
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (550.328709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:255:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:272:1
+✖ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (45.111334ms)
+  AssertionError [ERR_ASSERTION]: syntax error
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:283:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:312:1
+✖ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (96.464125ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+      at readFileSync (node:fs:484:20)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:321:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:461:1
+✖ verify cli: TC-cli-60 every source encoding cookie either is read as UTF-8 or makes the file opaque (330.633334ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'utf-8 emacs cookie with a visible push: exit',
+  +   'BOM and a utf-8 cookie with a visible push: exit',
+  +   'latin-1 cookie with an ASCII push: exit',
+  +   'unicode-escape cookie with = and a dash: exit',
+  +   'raw_unicode_escape vim cookie: exit',
+  +   'unicode_escape cookie on line 2 after a shebang: exit'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:479:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'utf-8 emacs cookie with a visible push: exit', 'BOM and a utf-8 cookie with a visible push: exit', 'latin-1 cookie with an ASCII push: exit', 'unicode-escape cookie with = and a dash: exit', 'raw_unicode_escape vim cookie: exit', 'unicode_escape cookie on line 2 after a shebang: exit' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:1:1
+✖ .sdlc/slices/S-005/verification/r1/tests/security-0/push-guard.verify-security.test.mjs (326.770083ms)
+  'test failed'
+
+test at .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs:1:1
+✖ .sdlc/slices/S-005/verification/r1/tests/security-1/forge-reads.verify-security.test.mjs (168.782541ms)
+  'test failed'
+
+test at .sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:203:1
+✖ verify cli: TC-cli-12 the guard on the unchanged tree and on a copy under a path with spaces and unicode gives the pinned output (83.732333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:206:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:244:1
+✖ verify cli: TC-cli-42 a unicode_escape source cookie hides a verify push from the AST scan (539.049958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:255:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:272:1
+✖ verify cli: TC-cli-51 a pinned script the scanner cannot parse is reported as opaque (47.664583ms)
+  AssertionError [ERR_ASSERTION]: syntax error
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:283:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:312:1
+✖ verify cli: TC-cli-54 a guard crash fails the repo test instead of passing as an empty report (91.419958ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+      at readFileSync (node:fs:484:20)
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:321:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/skills/sdlc/test/push-guard.test.mjs'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:461:1
+✖ verify cli: TC-cli-60 every source encoding cookie either is read as UTF-8 or makes the file opaque (342.862083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'utf-8 emacs cookie with a visible push: exit',
+  +   'BOM and a utf-8 cookie with a visible push: exit',
+  +   'latin-1 cookie with an ASCII push: exit',
+  +   'unicode-escape cookie with = and a dash: exit',
+  +   'raw_unicode_escape vim cookie: exit',
+  +   'unicode_escape cookie on line 2 after a shebang: exit'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/cli-0/push-guard.verify-cli.test.mjs:479:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'utf-8 emacs cookie with a visible push: exit', 'BOM and a utf-8 cookie with a visible push: exit', 'latin-1 cookie with an ASCII push: exit', 'unicode-escape cookie with = and a dash: exit', 'raw_unicode_escape vim cookie: exit', 'unicode_escape cookie on line 2 after a shebang: exit' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:67:1
+✖ verify security: VS-9 the three TC-cli-11 mutants fail T-R-119 (658.409125ms)
+  AssertionError [ERR_ASSERTION]: TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-bwE7O9/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-bwE7O9/test/branches.test.mjs
+    ---
+    duration_ms: 131.269125
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 135.756958
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:71:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:76:1
+✖ verify security: VS-9 T-R-119 catches a push in the git -C argv form the scripts already use (209.004125ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a verify push in the ["git", "-C", repo, "push", ...] form:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-Vcd4M6/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-Vcd4M6/test/branches.test.mjs
+    ---
+    duration_ms: 125.580625
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 130.424166
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:78:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:81:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C <repo> push (233.066708ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a verify push in a git -C shell string:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-N8pIwf/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-N8pIwf/test/branches.test.mjs
+    ---
+    duration_ms: 139.103167
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 144.970625
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:83:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:86:1
+✖ verify security: VS-9 T-R-119 catches a verify push in a tracker skill script (215.694958ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 does not read tracker/*.py:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-pti4Ar/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-pti4Ar/test/branches.test.mjs
+    ---
+    duration_ms: 127.429833
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 132.128
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:88:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:91:1
+✖ verify security: VS-9 forms outside the scripts idiom, recorded as blind spots (2170.463834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'A-1',
+  +   'A-2',
+  +   'A-6',
+  +   'A-7',
+  +   'A-8',
+  +   'A-10',
+      'A-11',
+  +   'A-12',
+      'A-16'
+    ]
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:115:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'A-1',  'A-2',
+      'A-6',  'A-7',
+      'A-8',  'A-10',
+      'A-11', 'A-12',
+      'A-16'
+    ],
+    expected: [ 'A-11', 'A-16' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:118:1
+✖ verify security: VS-9 forms the guard does catch (1531.719125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'A-5',
+  +   'A-9',
+  +   'A-14',
+  +   'A-15',
+  +   'A-17',
+  +   'A-18',
+  +   'A-19'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:144:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'A-5',  'A-9',
+      'A-14', 'A-15',
+      'A-17', 'A-18',
+      'A-19'
+    ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:170:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C with a quoted repo path (507.781917ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with git -C "{repo}" push of a verify name:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-M0kVTg/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-M0kVTg/test/branches.test.mjs
+    ---
+    duration_ms: 164.529583
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 170.387916
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:173:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:177:1
+✖ verify security: VS-9 T-R-119 catches git -C "$repo" push in a new .sh skill script (229.537459ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with a quoted git -C push in a .sh skill script:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-NsmI5i/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-NsmI5i/test/branches.test.mjs
+    ---
+    duration_ms: 128.437084
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 134.503958
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:179:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:182:1
+✖ verify security: VS-9 T-R-119 catches a shell string git -C x push built by concatenation (283.824042ms)
+  AssertionError [ERR_ASSERTION]: T-R-119 passed with "git -C " + repo + " push origin " + vb:
+  TAP version 13
+  1..0
+  # Subtest: /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-Rc7kry/test/branches.test.mjs
+  ok 1 - /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/verify-security-s005-Rc7kry/test/branches.test.mjs
+    ---
+    duration_ms: 195.356541
+    type: 'test'
+    ...
+  1..1
+  # tests 1
+  # suites 0
+  # pass 1
+  # fail 0
+  # cancelled 0
+  # skipped 0
+  # todo 0
+  # duration_ms 200.793417
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:184:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:201:1
+✖ verify security: VS-9 round 2 forms the guard does catch (1150.95725ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'B-5',
+  +   'B-11',
+  +   'B-12',
+  +   'B-13',
+  +   'B-14'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///private/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-S-017-regression-r0/.sdlc/slices/S-005/verification/r2/tests/security-0/guard.verify-security.test.mjs:211:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'B-5', 'B-11', 'B-12', 'B-13', 'B-14' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard-plan-r0.verify-cli.test.mjs (151.518708ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-0/push-guard.verify-cli.test.mjs (267.617625ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard-plan-r0.verify-cli.test.mjs (126.740708ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/cli-1/push-guard.verify-cli.test.mjs (107.154666ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/contract-0/push-guard.verify-contract.test.mjs (64.196417ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/security-0/push-guard-bodies.verify-security.test.mjs (146.120792ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r0/tests/security-1/forge-reads.verify-security.test.mjs (183.278166ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard-plan-r1.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard-plan-r1.verify-cli.test.mjs (90.606834ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r1/tests/cli-0/push-guard.verify-cli.test.mjs (279.940791ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r1/tests/contract-0/options-aliases.verify-contract.test.mjs (56.439416ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r1/tests/contract-0/push-guard.verify-contract.test.mjs (176.8625ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r1/tests/security-0/push-guard.verify-security.test.mjs (84.045833ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r2/tests/cli-0/push-guard-r2.verify-cli.test.mjs (94.147791ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r2/tests/contract-0/options.verify-contract.test.mjs (103.953625ms)
+  'test failed'
+
+test at .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs:1:1
+✖ .sdlc/slices/S-005b/verification/r2/tests/security-0/push-guard-vs7.verify-security.test.mjs (71.962584ms)
+  'test failed'

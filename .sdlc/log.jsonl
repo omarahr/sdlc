@@ -22,4 +22,7 @@
 {"ts":"2026-10-09T21:51:53Z","type":"note","slice":"S-014","detail":"no CI checks on https://github.com/omarahr/sdlc/pull/80"}
 {"ts": "2026-10-09T22:20:57Z", "type": "slice-merged", "slice": "S-015", "detail": "R-038, R-039, R-040, R-041, R-044 done"}
 {"ts": "2026-10-09T23:55:22Z", "type": "slice-merged", "slice": "S-016", "detail": "preflight derives a format from one simple rule; shipped through a pull request"}
+{"ts":"2026-10-10T01:21:27Z","type":"slice-merged","slice":"S-017","detail":"R-074, R-091, R-092, R-100 done; shipped through a pull request"}
+{"ts":"2026-10-10T01:21:42Z","type":"note","slice":"S-017","detail":"no CI checks on https://github.com/omarahr/sdlc/pull/88"}
+||||||| d4b6d75
 {"ts": "2026-10-10T01:01:09Z", "type": "bootstrap", "slice": "", "detail": "ledger bootstrapped: 151 requirements, 39 slices"}

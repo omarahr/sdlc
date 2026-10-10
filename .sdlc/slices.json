@@ -2647,24 +2647,93 @@
       "S-016"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "done",
+    "phase": "integrate",
     "branch": "sdlc/S-017",
     "pr": "",
     "risk": "medium",
     "riskReason": "The shim suite guards the unknown-rules paths; a wrong pass hides rules that will reject the push.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Non-string pattern guard is repeated in three places",
+        "detail": "branches.py checks isinstance(pattern, str) in regex_error and _raw_result, and judge names the kinds again for the note. A small helper such as STRING_KINDS = (\"starts_with\", \"ends_with\", \"contains\", \"regex\") would hold the kind list in one place. Optional cleanup.",
+        "file": "skills/sdlc/branches.py",
+        "blocking": false
+      },
+      {
+        "title": "Seed: T-R-091a/b and T-R-074a scenario 4 overlap",
+        "detail": "Scenario 4 in T-R-074a repeats the regex-pass case that T-R-091a pins. This is required by the spec's seven-scenario shim test, so keep it. No fix needed.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "preflight is quadratic in the rule count",
+        "detail": "The spec states no bound on the number of forge rules.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "preflight is quadratic in the number of forge rules",
+        "detail": "Round 0 measured 5000 rules at 1.5 s and 20000 rules at 18.9 s. The cause is the scan in read_rules. Real forges cap rules far below this. Not fixed.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "derive treats an empty pattern as not derivable",
+        "detail": "The spec table would give sdlc/{name} for starts_with with an empty pattern. derive returns None. The result is the same in practice, because an empty pattern passes every sample.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "preflight output holds the extra keys args and command",
+        "detail": "The spec output example shows no args or command keys. They come from the shared echo of the other commands.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "the suggestion repeats rule text as shell syntax",
+        "detail": "A starts_with pattern such as x\" ; touch PWN # appears in the suggestion line as --branch-format text. Rule authors are repo admins, so the threat is low.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "gh stderr goes whole into notes",
+        "detail": "On a gh failure, stderr goes unbounded and unredacted into notes (200 KB and a token-like string reached the JSON output).",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "a rule pattern is echoed whole into the output",
+        "detail": "A 20 MB contains pattern gives 41 MB of stdout. The spec states no limit.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "the negate guard in derive is not needed for safety",
+        "detail": "Removing the negate check from derive changes no result, because the second verdict rejects every derived format of a negated rule.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
       "planRevisions": 0,
-      "fixRounds": 0,
+      "fixRounds": 1,
       "ladderStep": 0,
       "parkCycles": 0,
       "verifyDemanded": false,
       "infraRetries": 0,
-      "gateCommit": ""
-    }
+      "gateCommit": "537ecd4f9f090e085389be8f198fe3b32c92d03f"
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "gate",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-018",
