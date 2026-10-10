@@ -543,3 +543,11 @@
 - Decision: Option 2. This supersedes b1d3. Add a short bullet that sets WT=$REPO/.claude/worktrees/sdlc-run before the Git mode bullet. The Run worktree bullet keeps the gitignore check, the creation and the checkout, and stays after the Branch format bullet.
 - Consequences / how to reverse: One new bullet and one path qualifier in skills/sdlc/SKILL.md, with matching assertions. To reverse, change the qualifier to REPO only and accept the lost stack resume.
 - Affects: S-019, R-047, R-121
+
+### ADR-20261010-030412-implementer-S-021-985f: Merged head test uses an awaiting-merge slice
+- Status: auto
+- Context: Test "a lowercased head resolves to the ledger id" used a todo slice for its merged-head case. The script records a merged pull request only for a slice in awaiting-merge status, as the existing test for a human merge shows.
+- Options: (1) Change the script to treat a todo slice as merged. (2) Give the merged case an awaiting-merge slice.
+- Decision: Option 2. Option 1 would change the default-format behavior that R-077 keeps.
+- Consequences / how to reverse: One fixture line in next-action.test.mjs. To reverse, restore the todo slice and change the script.
+- Affects: S-021, R-054

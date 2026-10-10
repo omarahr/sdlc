@@ -575,7 +575,8 @@ test('a lowercased head resolves to the ledger id', opts, () => {
   assert.equal(open.sliceId, 'S-1')
   assert.equal(open.slice.status, 'awaiting-merge')
 
-  const merged = next(repo, { prs: { merged: [{ number: 4, headRefName: 'feature/proj-1-s-1', url: 'https://example.test/pr/4' }] } })
+  const awaiting = fixture({ 'slices.json': [slice('S-1', 'awaiting-merge', { pr: 'u' })] }, { gitMode: 'pr', config: { branchFormat: LOWER } })
+  const merged = next(awaiting, { prs: { merged: [{ number: 4, headRefName: 'feature/proj-1-s-1', url: 'https://example.test/pr/4' }] } })
   assert.equal(merged.action, 'retryMerge')
   assert.equal(merged.sliceId, 'S-1')
   assert.match(merged.reason, /was merged/)

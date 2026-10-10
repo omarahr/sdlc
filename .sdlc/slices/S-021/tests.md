@@ -8,3 +8,4 @@ All tests are in `skills/sdlc/test/next-action.test.mjs`.
 - a missing or empty branchFormat falls back to sdlc/{name} — R-055 — characterization: passes now and pins the default
 - the active slice branch, slice PR heads, the state PR, the e2e PR and the stack milestone hold are recognized under a custom format — R-076 — the script ignores every custom-format branch and head
 - R-077 — the existing next-action tests and `npm test` with no `branchFormat` are the proof; they pass now
+- Changed the merged case of the lowercased-head test to an awaiting-merge slice (ADR in DECISIONS.md).

@@ -192,17 +192,19 @@ def branch_slices(repo, branch, current):
     return None if value is None else as_list(value, "slices")
 
 
-def active_branch(repo, current):
-    """The local branch sdlc/<id> whose own slices.json marks <id> as in progress, if any."""
-    ok, out = run(repo, "git", "for-each-ref", "--format=%(refname:short)", "refs/heads/sdlc/")
+def active_branch(repo, current, fmt):
+    """The local slice branch whose own slices.json marks its slice as in progress, if any."""
+    ok, out = run(repo, "git", "for-each-ref", "--format=%(refname:short)", "refs/heads/")
     if not ok:
         return None
     found = []
     for branch in out.split():
-        sid = branch[len("sdlc/"):]
+        parsed = branches.parse(fmt, branch)
+        if parsed is None or parsed["kind"] != "slice":
+            continue
         slices = branch_slices(repo, branch, current) or []
         for i, s in enumerate(slices):
-            if s.get("id") == sid and s.get("status") == "in_progress":
+            if str(s.get("id")).lower() == parsed["id"].lower() and s.get("status") == "in_progress":
                 found.append((branch != current, i, branch))
     return min(found)[2] if found else None
 
@@ -272,6 +274,10 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
     if mode and mode not in GIT_MODES:
         raise StateError(f"config.json has gitMode {mode!r}, which is not one of {', '.join(GIT_MODES)}: fix config.json rather than let the run deliver the wrong way")
     stack = mode == "stack"
+    fmt = (config or {}).get("branchFormat") or branches.DEFAULT_FORMAT
+
+    def head_kind(head, ids=None):
+        return branches.parse(fmt, head, ids=ids)
 
     # sync and the state-PR wait (pr mode only: direct and mr mode have no pull requests for slices or state.
     # stack mode has pull requests for slices and milestones, but none for state, so it skips the state-PR arm)
@@ -280,12 +286,20 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
         if not prs_file:
             run(repo, "git", "fetch", "-q", "origin")
         open_prs, merged_prs = load_prs(repo, prs_file)
-        # both of these arms are pr mode's. In stack mode there are no sdlc/state-* pull requests at all, and
+        # both of these arms are pr mode's. In stack mode there are no state pull requests at all, and
         # the e2e suite merges into the milestone branch locally rather than as a pull request, so an
-        # sdlc/M-*-e2e pull request found here is stale and merging it would land e2e code straight on the
+        # e2e pull request found here is stale and merging it would land e2e code straight on the
         # default branch, bypassing the milestone it belongs to.
-        state_prs = [p for p in open_prs if mode == "pr" and p.get("headRefName", "").startswith("sdlc/state-")]
-        e2e_prs = [p for p in open_prs if mode == "pr" and re.fullmatch(r"sdlc/M-.*-e2e", p.get("headRefName", ""))]
+        def head_is(p, kind):
+            parsed = head_kind(p.get("headRefName", ""))
+            if parsed is None:
+                prefix, suffix, _ = branches.split(fmt)
+                head = p.get("headRefName", "")
+                return kind == "state" and head.startswith(prefix + "state-") and head.endswith(suffix)
+            return parsed["kind"] == kind
+
+        state_prs = [p for p in open_prs if mode == "pr" and head_is(p, "state")]
+        e2e_prs = [p for p in open_prs if mode == "pr" and head_is(p, "e2e")]
         ready = [p for p in state_prs + e2e_prs if pr_ready(p)]
         sync = [f"gh pr merge {p['number']} --squash --delete-branch" for p in ready]
         behind = False
@@ -326,7 +340,7 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
         return {"next": {"action": "bootstrap", "reason": f"A: DECISIONS.md has {overrides} OVERRIDE entries, config has seen {config.get('overridesSeen') or 0}"}}
 
     # the effective state: the active slice branch when there is one, else the default branch
-    active = active_branch(repo, current)
+    active = active_branch(repo, current, fmt)
     src = base if not active else (wt if active == current else Source(repo, active))
     slices = as_list(src.json(f"{sdlc}/slices.json", []), "slices")
     reqs = as_list(src.json(f"{sdlc}/requirements.json", []), "requirements")
@@ -336,13 +350,18 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
     by_id = {s["id"]: s for s in slices}
 
     # pr mode: a slice waiting on its pull request records that only on the PR's branch
-    merged_heads = {p.get("headRefName"): p for p in merged_prs}
+    merged_heads = {}
+    for p in merged_prs:
+        parsed = head_kind(p.get("headRefName", ""), ids=by_id)
+        if parsed is not None and parsed["kind"] == "slice" and parsed["known"]:
+            merged_heads[parsed["id"]] = p
     pr_of = {}
     for p in open_prs:
         head = p.get("headRefName", "")
-        sid = head[len("sdlc/"):] if head.startswith("sdlc/") else None
-        if sid not in by_id:
+        parsed = head_kind(head, ids=by_id)
+        if parsed is None or parsed["kind"] != "slice" or not parsed["known"]:
             continue
+        sid = parsed["id"]
         seen = branch_slices(repo, head, current)
         if seen is None:
             seen = branch_slices(repo, f"origin/{head}", current)
@@ -354,16 +373,15 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
             pr_of[sid] = p
 
     # stack mode: an open milestone pull request holds the run. Keyed on the pull request's head alone,
-    # never on milestones.json: the milestone's own record is committed on sdlc/M-<n> and only reaches the
+    # never on milestones.json: the milestone's own record is committed on the milestone branch and only reaches the
     # branch this decision reads from when the pull request merges, so consulting it here would skip the
     # hold for exactly the milestone that needs it.
     milestone_hold = None
     if stack:
         for p in open_prs:
             head = p.get("headRefName", "")
-            # the -e2e suffix is excluded explicitly, not by the pattern below: sdlc/M-1-e2e matches
-            # `sdlc/M-[^/]+` exactly as a milestone branch does. Stack mode merges the e2e suite locally and
-            # has no arm that would merge such a pull request, so holding on a stale one — left by a run
+            # only the milestone kind holds the run: an e2e head parses as its own kind. Stack mode merges
+            # the e2e suite locally and has no arm that would merge such a pull request, so holding on a stale one — left by a run
             # that changed mode — would livelock the run forever.
             #
             # Readiness is deliberately NOT part of this test. A milestone pull request holds the run while
@@ -372,8 +390,9 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
             # green milestone pull request is pr_ready, so holding only on a blocked one let control reach
             # C, which handed an already-verified milestone straight back to the milestone-writer to re-run
             # its whole behavior campaign against an open pull request.
-            if re.fullmatch(r"sdlc/M-[^/]+", head) and not head.endswith("-e2e"):
-                milestone_hold = (head[len("sdlc/"):], p.get("url") or p["number"])
+            parsed = head_kind(head)
+            if parsed is not None and parsed["kind"] == "milestone":
+                milestone_hold = (parsed["id"], p.get("url") or p["number"])
                 break
 
     def out(action, reason, s=None, **extra):
@@ -388,8 +407,8 @@ def decide(repo, spec_arg, bar_rounds, prs_file, main_root=None):
             continue
         if s["id"] in pr_of and pr_ready(pr_of[s["id"]]):
             return out("retryMerge", f"B: the PR of {s['id']} is mergeable, approved and green", s)
-        if s["id"] not in pr_of and f"sdlc/{s['id']}" in merged_heads:
-            s["pr"] = merged_heads[f"sdlc/{s['id']}"].get("url") or s.get("pr", "")
+        if s["id"] not in pr_of and s["id"] in merged_heads:
+            s["pr"] = merged_heads[s["id"]].get("url") or s.get("pr", "")
             return out("retryMerge", f"B: the PR of {s['id']} was merged; record it", s)
     for s in slices:
         if s.get("status") == "in_progress":
