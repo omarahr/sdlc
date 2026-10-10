@@ -4880,12 +4880,42 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-037",
     "pr": "",
     "risk": "medium",
     "riskReason": "Prompt text steers agents that commit and push branches.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "T-R-149 repeats literal-absence checks of T-R-063a",
+        "detail": "The sdlc/S-001 and sdlc/run-<n> absence is already pinned. Keep the sdlc/M-<n> and stack bullet clauses; optional trim.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-135 repeats the sdlc/state- check of T-R-063b",
+        "detail": "The date -u and _common.md link checks are new. Optional trim.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-135 repeats checks that T-R-063a and T-R-063b already pin",
+        "detail": "The four-placeholder loop and the `sdlc/state-` absence in T-R-135 repeat T-R-063a (commit-state row) and T-R-063b. Only the `date -u` and `_common.md` `<state branch>` mapping clauses are new. Trim T-R-135 to those two clauses if a later round touches the file. Not a fix round.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-149 literal checks overlap T-R-063a",
+        "detail": "The absence checks for `sdlc/S-001` and `sdlc/run-<n>` in T-R-149 repeat T-R-063a (state-schema row, LOOP_BRANCH_LITERAL) and T-R-065b. The `sdlc/M-<n>` absence and the `stack` bullet clause are new, so the test stays. Optionally drop the repeated literals.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "branches.py name --kind state ignores --id silently",
+        "detail": "With --kind state, --id S-1 exits 0 and prints the state name. The extra argument is not rejected. Harmless.",
+        "file": "skills/sdlc/branches.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4908,6 +4938,13 @@
       {
         "kind": "verify",
         "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 2,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
