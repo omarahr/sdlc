@@ -1502,3 +1502,43 @@ test('T-R-002d: env-detector orders the branchFormat sources input, existing val
   const fallback = rule.indexOf('else `sdlc/{name}`')
   assert.ok(input >= 0 && input < existing && existing < fallback)
 })
+
+test('T-R-134: state-schema.md describes runBranch and the slice branch field by kind', () => {
+  const text = sweepPromptText('state-schema')
+  assert.match(text, /the run branch \(`run` kind under `config\.branchFormat`\)/)
+  assert.match(text, /the slice branch under `config\.branchFormat`/)
+  assert.ok(!text.includes('sdlc/S-001'))
+  assert.ok(!text.includes('sdlc/run-<n>'))
+})
+
+test('T-R-135: commit-state.md uses the four branch placeholders and takes the state branch from branches.py', () => {
+  const text = sweepPromptText('commit-state')
+  for (const placeholder of ['<slice branch>', '<run branch>', '<milestone branch>', '<state branch>']) {
+    assert.ok(text.includes(placeholder), `commit-state.md lacks ${placeholder}`)
+  }
+  assert.ok(!text.includes('date -u'))
+  assert.ok(!text.includes('sdlc/state-'))
+  assert.match(sweepPromptText('_common'), /`<state branch>`\s*\|\s*`branches\.py name --kind state`/)
+})
+
+test('T-R-146: the 13 slice prompts hold no sdlc/<id> literal and use <slice branch>', () => {
+  const files = [...SLICE_BRANCH_FILES, 'verify-collector']
+  assert.equal(files.length, 13)
+  for (const file of files) {
+    const text = stripBranchesOutput(sweepPromptText(file))
+    assert.ok(!text.includes('sdlc/<id>'), `${file}.md holds sdlc/<id>`)
+    assert.doesNotMatch(text, LOOP_BRANCH_LITERAL, `${file}.md spells a loop branch literally`)
+    assert.ok(text.includes('<slice branch>'), `${file}.md lacks <slice branch>`)
+  }
+})
+
+test('T-R-149: state-schema.md holds no loop branch literal and names the milestone branch by kind', () => {
+  const text = sweepPromptText('state-schema')
+  for (const literal of ['sdlc/S-001', 'sdlc/run-<n>', 'sdlc/M-<n>']) {
+    assert.ok(!text.includes(literal), `state-schema.md holds ${literal}`)
+  }
+  const stack = text.split('\n').find(line => line.includes('`stack`: one branch per slice'))
+  assert.ok(stack, 'stack bullet missing')
+  assert.match(stack, /milestone/)
+  assert.doesNotMatch(stack, LOOP_BRANCH_LITERAL)
+})
