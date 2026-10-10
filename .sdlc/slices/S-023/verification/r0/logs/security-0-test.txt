@@ -1,0 +1,16 @@
+✔ verify security: only verify and attempt tails of S-001, sorted (712.513041ms)
+✔ verify security: S-0011 and S-010 do not leak into S-001, and S-001 not into S-0011 (621.783333ms)
+✔ verify security: custom format with prefix and suffix (447.103292ms)
+✔ verify security: lowercase format matches case-insensitively, case-sensitive format does not (338.139209ms)
+✔ verify security: hostile slice ids never raise an uncaught exception and match nothing unrelated (3136.729625ms)
+✔ verify security: slice id with regex metacharacters matches only itself (370.598042ms)
+✔ verify security: refusals have no side effect on the repo (573.329291ms)
+✔ verify security: invalid format and non-repo give a clean Fail (551.422042ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6843.214666

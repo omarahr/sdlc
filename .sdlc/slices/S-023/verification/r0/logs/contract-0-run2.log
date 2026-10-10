@@ -1,0 +1,111 @@
+preexisting traceback (same before and after) for patch-slice with non-object json: AttributeError: 'list' object has no attribute 'get'
+preexisting traceback (same before and after) for base-branch with non-object json: AttributeError: 'list' object has no attribute 'get'
+{"low":["feature/S-001-attempt-3","feature/S-001-v1-cli-0","feature/s-001-attempt-2","feature/s-001-attempt-4","feature/s-001-v0-cli-0"],"def":["feature/S-001-attempt-3","feature/S-001-v1-cli-0"],"defLower":["feature/s-001-attempt-2","feature/s-001-attempt-4","feature/s-001-v0-cli-0"]}
+✔ verify contract: patch-slice with missing config.json fails cleanly, same error class as before the change (478.54825ms)
+✔ verify contract: patch-slice with invalid json fails cleanly, same error class as before the change (482.616959ms)
+✔ verify contract: patch-slice with non-object json fails cleanly, same error class as before the change (487.301417ms)
+✔ verify contract: patch-slice with format without placeholder fails cleanly, same error class as before the change (459.136125ms)
+✔ verify contract: patch-slice with format with two placeholders fails cleanly, same error class as before the change (495.975084ms)
+✔ verify contract: patch-slice with format with whitespace fails cleanly, same error class as before the change (1079.26275ms)
+✔ verify contract: patch-slice with unknown git mode fails cleanly, same error class as before the change (485.666958ms)
+✖ verify contract: patch-slice with config is a directory fails cleanly, same error class as before the change (454.527875ms)
+✔ verify contract: base-branch with missing config.json fails cleanly, same error class as before the change (466.14825ms)
+✔ verify contract: base-branch with invalid json fails cleanly, same error class as before the change (481.681292ms)
+✔ verify contract: base-branch with non-object json fails cleanly, same error class as before the change (479.426458ms)
+✔ verify contract: base-branch with format without placeholder fails cleanly, same error class as before the change (473.895916ms)
+✔ verify contract: base-branch with format with two placeholders fails cleanly, same error class as before the change (472.356709ms)
+✔ verify contract: base-branch with format with whitespace fails cleanly, same error class as before the change (462.268042ms)
+✔ verify contract: base-branch with unknown git mode fails cleanly, same error class as before the change (467.862084ms)
+✖ verify contract: base-branch with config is a directory fails cleanly, same error class as before the change (462.556291ms)
+✖ verify contract: casing rule comes from branches.py alone (431.889583ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 14
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8881.475291
+
+✖ failing tests:
+
+test at .sdlc/slices/S-023/verification/r0/tests/contract-0/state-write.verify-contract.test.mjs:106:5
+✖ verify contract: patch-slice with config is a directory fails cleanly, same error class as before the change (454.527875ms)
+  AssertionError [ERR_ASSERTION]: traceback differs from before the change
+  now: IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-EmpTXt/repo-1/.sdlc/config.json'
+  before: IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-EmpTXt/repo-3/.sdlc/config.json'
+  + actual - expected
+  
+  + "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-EmpTXt/repo-1/.sdlc/config.json'"
+  - "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-EmpTXt/repo-3/.sdlc/config.json'"
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-023/verification/r0/tests/contract-0/state-write.verify-contract.test.mjs:113:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-EmpTXt/repo-1/.sdlc/config.json'",
+    expected: "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-EmpTXt/repo-3/.sdlc/config.json'",
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-023/verification/r0/tests/contract-0/state-write.verify-contract.test.mjs:106:5
+✖ verify contract: base-branch with config is a directory fails cleanly, same error class as before the change (462.556291ms)
+  AssertionError [ERR_ASSERTION]: traceback differs from before the change
+  now: IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-iIczkn/repo-1/.sdlc/config.json'
+  before: IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-iIczkn/repo-3/.sdlc/config.json'
+  + actual - expected
+  
+  + "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-iIczkn/repo-1/.sdlc/config.json'"
+  - "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-iIczkn/repo-3/.sdlc/config.json'"
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-023/verification/r0/tests/contract-0/state-write.verify-contract.test.mjs:113:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-iIczkn/repo-1/.sdlc/config.json'",
+    expected: "IsADirectoryError: [Errno 21] Is a directory: '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-2PuP6v/testkit-cli-iIczkn/repo-3/.sdlc/config.json'",
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at .sdlc/slices/S-023/verification/r0/tests/contract-0/state-write.verify-contract.test.mjs:338:1
+✖ verify contract: casing rule comes from branches.py alone (431.889583ms)
+  AssertionError [ERR_ASSERTION]: {"outcome":"return","value":["feature/S-001-attempt-3","feature/S-001-v1-cli-0","feature/s-001-attempt-2","feature/s-001-attempt-4","feature/s-001-v0-cli-0"],"stdout":"","stderr":""}
+  + actual - expected
+  
+    [
+  -   'Feature/s-001-attempt-4',
+      'feature/S-001-attempt-3',
+      'feature/S-001-v1-cli-0',
+      'feature/s-001-attempt-2',
+  +   'feature/s-001-attempt-4',
+      'feature/s-001-v0-cli-0'
+    ]
+  
+      at TestContext.<anonymous> (file:///Users/omar.ragab/projects/sdlc/.claude/worktrees/sdlc-run/.sdlc/slices/S-023/verification/r0/tests/contract-0/state-write.verify-contract.test.mjs:348:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at node:internal/test_runner/test:1285:31
+      at node:internal/process/task_queues:151:7
+      at AsyncResource.runInAsyncScope (node:async_hooks:227:14)
+      at AsyncResource.runMicrotask (node:internal/process/task_queues:148:8) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'feature/S-001-attempt-3', 'feature/S-001-v1-cli-0', 'feature/s-001-attempt-2', 'feature/s-001-attempt-4', 'feature/s-001-v0-cli-0' ],
+    expected: [ 'Feature/s-001-attempt-4', 'feature/S-001-attempt-3', 'feature/S-001-v1-cli-0', 'feature/s-001-attempt-2', 'feature/s-001-v0-cli-0' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
