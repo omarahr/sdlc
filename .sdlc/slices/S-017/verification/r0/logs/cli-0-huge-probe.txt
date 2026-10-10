@@ -1,4 +1,0 @@
-rules=1000 bytes=120781 status=1 ms=352 json=true treeUnchanged=true
-rules=5000 bytes=612781 status=1 ms=1526 json=true treeUnchanged=true
-rules=10000 bytes=1227781 status=1 ms=4989 json=true treeUnchanged=true
-rules=20000 bytes=2477781 status=1 ms=18880 json=true treeUnchanged=true

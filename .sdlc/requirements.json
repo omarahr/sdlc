@@ -1,7 +1,7 @@
 [
   {
     "id": "R-001",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "`config.branchFormat` is a string with exactly one placeholder, `{name}` or `{name:lower}`, and literal text around it.",
     "acceptance": "validate_format accepts `sdlc/{name}` and `sdlc/{name:lower}`. It rejects a format with no placeholder, two placeholders, a stray `{` or `}`, or whitespace.",
     "status": "done",
@@ -34,7 +34,7 @@
   },
   {
     "id": "R-002",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "The default is `sdlc/{name}`.",
     "acceptance": "load_format on a repo whose `.sdlc/config.json` has no branchFormat returns `sdlc/{name}`. A fresh run records `branchFormat: \"sdlc/{name}\"` in `config.json`.",
     "status": "in_progress",
@@ -65,7 +65,7 @@
   },
   {
     "id": "R-003",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `run` | `run-<n>` | `sdlc/run-1` | stack |",
     "acceptance": "`branches.py name --kind run --n 1` under the default format prints `sdlc/run-1`.",
     "status": "done",
@@ -117,7 +117,7 @@
   },
   {
     "id": "R-004",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `slice` | `<sliceId>` | `sdlc/S-001` | pr, stack |",
     "acceptance": "`branches.py name --kind slice --id S-001` under the default format prints `sdlc/S-001`.",
     "status": "done",
@@ -152,7 +152,7 @@
   },
   {
     "id": "R-005",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `milestone` | `<milestoneId>` | `sdlc/M-1` | stack |",
     "acceptance": "`branches.py name --kind milestone --id M-1` under the default format prints `sdlc/M-1`.",
     "status": "done",
@@ -201,7 +201,7 @@
   },
   {
     "id": "R-006",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `e2e` | `<milestoneId>-e2e` | `sdlc/M-1-e2e` | pr |",
     "acceptance": "`branches.py name --kind e2e --id M-1` under the default format prints `sdlc/M-1-e2e`.",
     "status": "done",
@@ -249,7 +249,7 @@
   },
   {
     "id": "R-007",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `e2e-area` | `<milestoneId>-e2e-<area>` | `sdlc/M-1-e2e-api` | never |",
     "acceptance": "`branches.py name --kind e2e-area --id M-1 --area api` under the default format prints `sdlc/M-1-e2e-api`.",
     "status": "done",
@@ -292,7 +292,7 @@
   },
   {
     "id": "R-008",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `state` | `state-<UTC timestamp, %Y%m%d%H%M%S>` | `sdlc/state-20261008101500` | pr |",
     "acceptance": "`branches.py name --kind state` prints `sdlc/state-` plus 14 UTC digits in `%Y%m%d%H%M%S` order. An explicit ts part is used as given.",
     "status": "done",
@@ -330,7 +330,7 @@
   },
   {
     "id": "R-009",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `verify` | `<sliceId>-v<round>-<profile>-<part>` | `sdlc/S-001-v0-http-api-0` | never |",
     "acceptance": "`branches.py name --kind verify --id S-001 --round 0 --profile http-api --part 0` prints `sdlc/S-001-v0-http-api-0`.",
     "status": "done",
@@ -384,7 +384,7 @@
   },
   {
     "id": "R-010",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `attempt` | `<sliceId>-attempt-<n>` | `sdlc/S-001-attempt-1` | never (deleted on the remote when present) |",
     "acceptance": "`branches.py name --kind attempt --id S-001 --n 1` prints `sdlc/S-001-attempt-1`.",
     "status": "done",
@@ -433,7 +433,7 @@
   },
   {
     "id": "R-011",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "`{name:lower}` lowercases the tail, for rules that forbid uppercase.",
     "acceptance": "`name(\"feature/PROJ-1-{name:lower}\", \"slice\", id=\"S-001\")` is `feature/PROJ-1-s-001`. The literal text keeps its case.",
     "status": "done",
@@ -460,7 +460,7 @@
   },
   {
     "id": "R-012",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "The format is resolved like `commitFormat`: the `--branch-format` flag, else `config.branchFormat` on resume, else the pre-flight's derivation (section 4), else the default.",
     "acceptance": "preflight with `--format` reports that format with given true. With no flag it reads `config.branchFormat`. With neither it derives or falls back to `sdlc/{name}`.",
     "status": "done",
@@ -491,7 +491,7 @@
   },
   {
     "id": "R-013",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "Python 3 standard library only. Importable (`next-action.py`, `state-write.py` and `janitor.py` insert the script directory into `sys.path` and import it) and runnable.",
     "acceptance": "`skills/sdlc/branches.py` exists. A probe imports it and finds the public functions. It imports only stdlib modules. `python3 branches.py <command>` runs.",
     "status": "done",
@@ -543,7 +543,7 @@
   },
   {
     "id": "R-014",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "Every command prints one JSON object; exit 2 with `{\"ok\": false, \"error\": \"...\"}` on bad input.",
     "acceptance": "`name`, `parse`, `list` and `preflight` accept the documented flags and print exactly one JSON object on stdout. Bad input, such as an invalid `--format` on preflight, exits 2 with `{\"ok\": false, \"error\": ...}`.",
     "status": "done",
@@ -610,7 +610,7 @@
   },
   {
     "id": "R-015",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`--format` overrides the repo's `config.branchFormat`; without either, the default applies. `--repo` is the target repo, whose `.sdlc/config.json` holds the format once a run exists.",
     "acceptance": "A repo with `branchFormat: \"feature/PROJ-1-{name}\"` and `--format \"sdlc/{name}\"` names `sdlc/S-001`. Without `--format` it names `feature/PROJ-1-S-001`. Without either it names `sdlc/S-001`.",
     "status": "done",
@@ -650,7 +650,7 @@
   },
   {
     "id": "R-016",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`load_format(repo)`: `config.branchFormat` when `.sdlc/config.json` has a non-empty one, else `\"sdlc/{name}\"`.",
     "acceptance": "load_format returns the config value when it is non-empty. It returns `sdlc/{name}` when the key is missing, empty, or the file is absent.",
     "status": "done",
@@ -708,7 +708,7 @@
   },
   {
     "id": "R-017",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`validate_format(fmt)`: raises `Fail` unless the format contains exactly one of `{name}` or `{name:lower}`, no other `{` or `}`, no whitespace, and `name(fmt, \"slice\", id=\"S-001\")` passes `git check-ref-format --branch`.",
     "acceptance": "validate_format rejects `{name}{name}`, `sdlc/`, `sdlc/{ name }`, and `sdlc/{name}..`. It accepts `sdlc/{name}` and `feature/PROJ-1-{name}`. The invalid-ref rejection carries `git check-ref-format`'s reason.",
     "status": "done",
@@ -767,7 +767,7 @@
   },
   {
     "id": "R-018",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`tail(kind, **parts)`: the tail from the table in section 1. `state` without `ts` generates the timestamp. A missing part is a `Fail`.",
     "acceptance": "`tail(\"slice\", id=\"S-001\")` is `S-001`. `tail(\"state\")` is 14 digits. `tail(\"e2e-area\", id=\"M-1\")` raises Fail because area is missing.",
     "status": "done",
@@ -820,7 +820,7 @@
   },
   {
     "id": "R-019",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`name(fmt, kind, **parts)`: the format with the placeholder replaced by the tail, lowercased for `{name:lower}`.",
     "acceptance": "`name(\"sdlc/{name}\", \"slice\", id=\"S-001\")` is `sdlc/S-001`. Every name output parses back to the same kind and parts. `{name:lower}` lowercases only the tail.",
     "status": "done",
@@ -856,7 +856,7 @@
   },
   {
     "id": "R-020",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`split(fmt)`: `(prefix, suffix, lower)`, the literal text before and after the placeholder and whether it lowercases.",
     "acceptance": "`split(\"a/{name}.x\")` is `(\"a/\", \".x\", false)`. `split(\"a/{name:lower}\")` is `(\"a/\", \"\", true)`.",
     "status": "done",
@@ -884,7 +884,7 @@
   },
   {
     "id": "R-021",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`parse(fmt, branch, ids=None)`: `None` unless `branch` starts with `prefix` and ends with `suffix`;",
     "acceptance": "parse returns null for `main`, for `feature/PROJ-1-foo` under `feature/PROJ-1-{name}`, and for `sdlc/feature-x` under the default. `sdlc/feature-x` passes the prefix and suffix test and still gives null because no kind row matches its tail.",
     "status": "done",
@@ -926,7 +926,7 @@
   },
   {
     "id": "R-022",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "otherwise the tail between them is classified by the first regex that matches, in this order, compiled with `re.IGNORECASE` when `lower` is set:",
     "acceptance": "Classification follows table rows 1 to 8 in order. `S-fix-M-1-2` is a slice. `M-1-e2e-api` is an e2e-area. `S-001-v0-http-api-0` is verify with profile `http-api`. An area with dashes parses whole: `M-1-e2e-a-b` gives area `a-b`. Under `{name:lower}` the regexes compile with re.IGNORECASE.",
     "status": "done",
@@ -973,7 +973,7 @@
   },
   {
     "id": "R-023",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "The result is `{\"kind\", \"tail\", \"id\", \"n\", \"area\", \"round\", \"profile\", \"part\", \"ts\", \"known\"}` with the parts that apply.",
     "acceptance": "parse of `sdlc/run-2` gives kind `run` and `n: 2`. Of `sdlc/state-20261008101500` gives `ts`. Of `sdlc/S-001-v0-http-api-0` gives `id`, `round`, `profile`, `part`. Of `sdlc/M-1-e2e-api` gives `id` and `area`.",
     "status": "done",
@@ -1012,7 +1012,7 @@
   },
   {
     "id": "R-024",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "When `ids` (an iterable of ledger ids) is given, `id` is replaced by the ledger's spelling that matches it, case-insensitively under `lower`, and `known` says whether one matched; without `ids`, `known` is `None`.",
     "acceptance": "`parse(\"feature/PROJ-1-{name:lower}\", \"feature/proj-1-s-001\", ids=[\"S-001\"])` gives `id: \"S-001\"` and `known: true`. An id absent from the list gives `known: false`. Without ids, `known` is null.",
     "status": "done",
@@ -1049,7 +1049,7 @@
   },
   {
     "id": "R-025",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`list_kind(repo, fmt, kind)`: every local branch (`git for-each-ref --format=%(refname:short) refs/heads/`) that parses to `kind`, with its parts, sorted by `n` for `run` and `attempt` and by name otherwise.",
     "acceptance": "A fixture repo holds branches of several kinds. `list --kind slice` returns only slice branches with their parts, sorted by name. `list --kind run` sorts by `n`. Foreign branches are absent.",
     "status": "done",
@@ -1117,7 +1117,7 @@
   },
   {
     "id": "R-026",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "A rule is `{\"source\": \"github\" | \"gitlab\", \"kind\": \"starts_with\" | \"ends_with\" | \"contains\" | \"regex\", \"pattern\": str, \"negate\": bool, \"label\": str}`.",
     "acceptance": "Every rule read_rules returns has exactly these keys. `kind` is one of the four values. `source` is `github` or `gitlab`.",
     "status": "done",
@@ -1166,7 +1166,7 @@
   },
   {
     "id": "R-027",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "for each sample, `gh api \"repos/{owner}/{repo}/rules/branches/<sample>\"` with `/` in the sample encoded as `%2F` (`urllib.parse.quote(sample, safe=\"\")`).",
     "acceptance": "The gh shim records one call per sample. The path is `repos/<owner>/<repo>/rules/branches/<sample>` with every `/` in the sample encoded as `%2F`.",
     "status": "done",
@@ -1214,7 +1214,7 @@
   },
   {
     "id": "R-028",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "Keep the objects whose `type` is `branch_name_pattern`: `kind` is `parameters.operator`, `pattern` is `parameters.pattern`, `negate` is `parameters.negate` or `false`, `label` is `parameters.name` when present, else `ruleset <ruleset_id>` when present, else `branch_name_pattern`.",
     "acceptance": "Canned GitHub JSON with branch_name_pattern and other rule types yields only the pattern rules. negate defaults to false. The label falls back from `parameters.name` to `ruleset <id>` to `branch_name_pattern`.",
     "status": "done",
@@ -1255,7 +1255,7 @@
   },
   {
     "id": "R-029",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "A `gh api` failure (not signed in, no access, a network error) is one note, `rules unknown on github: <stderr>`, and the samples are `unchecked`.",
     "acceptance": "A gh shim that exits 1 gives `ok: true`, one note starting `rules unknown on github:`, and every sample `unchecked`.",
     "status": "done",
@@ -1301,7 +1301,7 @@
   },
   {
     "id": "R-030",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "`glab api \"projects/:fullpath/push_rule\"` once. The literal `null` body, an error, or an empty `branch_name_regex` means no rule. Otherwise one rule, `kind` `regex`, `pattern` the regex, `label` `push rule`.",
     "acceptance": "The glab shim is called once. A null body, an error, or an empty `branch_name_regex` gives no rules. A regex gives one rule with kind `regex` and label `push rule`.",
     "status": "done",
@@ -1358,7 +1358,7 @@
   },
   {
     "id": "R-031",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "A `glab` failure is the note `rules unknown on gitlab: <stderr>` and the samples are `unchecked`.",
     "acceptance": "A glab shim that exits 1 gives one note starting `rules unknown on gitlab:` and every sample `unchecked`.",
     "status": "done",
@@ -1418,7 +1418,7 @@
   },
   {
     "id": "R-032",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "**No forge** (`forge` is `\"\"`): no rules; every sample is `unchecked`.",
     "acceptance": "With `forge: \"\"` the preflight returns an empty rules list and every sample `unchecked`.",
     "status": "done",
@@ -1461,7 +1461,7 @@
   },
   {
     "id": "R-033",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "`starts_with`: `sample.startswith(pattern)`; `ends_with`: `sample.endswith(pattern)`; `contains`: `pattern in sample`; all case-sensitive, as git refs are.\n- `regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "evaluate applies each operator to the sample. The comparisons are case-sensitive: `Feature/` does not match `feature/x` under starts_with. The regex kind matches with `re.search`.",
     "status": "done",
@@ -1512,7 +1512,7 @@
   },
   {
     "id": "R-034",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "`negate` flips `True` and `False`; `None` stays `None`.",
     "acceptance": "A negated starts_with rule that matched returns False. A None result stays None under negate.",
     "status": "done",
@@ -1562,7 +1562,7 @@
   },
   {
     "id": "R-035",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "A pattern `re.compile` rejects gives `None`, and the sample is `unevaluated` with the note `cannot evaluate <label>: <re.error>`; it never blocks.",
     "acceptance": "A rule whose pattern Python cannot compile gives None. The sample is `unevaluated` with a note starting `cannot evaluate`. The preflight still returns `ok: true` when nothing else fails.",
     "status": "done",
@@ -1619,7 +1619,7 @@
   },
   {
     "id": "R-036",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "A sample `fails` when any rule evaluates to `False` for it; it `passes` when every rule evaluates to `True`; it is `unevaluated` when no rule failed and at least one was `None`.",
     "acceptance": "One False makes the sample fail. All True makes it pass. No failure plus one None makes it `unevaluated`.",
     "status": "done",
@@ -1676,7 +1676,7 @@
   },
   {
     "id": "R-037",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "Besides the forge's rules, every sample must pass `git check-ref-format --branch <sample>`, which catches a literal part that makes an invalid ref (`..`, `~`, `^`, `:`, `?`, `*`, `[`, `\\`, a leading `/`, a trailing `.lock`). That failure is reported as the rule `git check-ref-format`.",
     "acceptance": "A sample with an invalid ref name, such as a `working` sample named `bad..name`, fails with rule `git check-ref-format`. A valid sample passes it.",
     "status": "done",
@@ -1733,7 +1733,7 @@
   },
   {
     "id": "R-038",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "`fmt` is `--format` when given, else `load_format(repo)`; `given` is whether a format came from the flag or the config. `validate_format(fmt)` or exit 2.",
     "acceptance": "With `--format`, given is true and `format` is the flag value. With a config branchFormat and no flag, given is true. With neither, given is false. An invalid format exits 2.",
     "status": "done",
@@ -1773,7 +1773,7 @@
   },
   {
     "id": "R-039",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "Samples, by mode: `pr`: `slice` (`S-001`), `state` (a generated timestamp), `e2e` (`M-1-e2e`); `stack`: `run` (`run-1`), `milestone` (`M-1`), `slice`; `mr` and `direct`: none of the loop's kinds.",
     "acceptance": "`--mode pr` samples slice, state, e2e. `--mode stack` samples run, milestone, slice. `--mode mr` and `--mode direct` sample none of the loop's kinds.",
     "status": "done",
@@ -1813,7 +1813,7 @@
   },
   {
     "id": "R-040",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "In `mr` mode only, `--branch CURRENT` adds the user's working branch as one more sample of kind `working`, evaluated as it is, because that is the branch the loop pushes in `mr` mode: this folds the existing `mr`-mode push-rule check into the same verdict. In every other mode `--branch` is ignored; the user's branch already exists and is never pushed by the loop.",
     "acceptance": "`--mode mr --branch X` adds a `working` sample named X, evaluated as given. `--mode pr --branch X` adds no `working` sample.",
     "status": "done",
@@ -1865,7 +1865,7 @@
   },
   {
     "id": "R-041",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "When every sample passes or is unevaluated or unchecked: `ok` is `true` with `fmt`.",
     "acceptance": "With no rules, preflight prints `ok: true` with the default format and exits 0. Samples that pass, are `unevaluated`, or are `unchecked` never block.",
     "status": "done",
@@ -1924,7 +1924,7 @@
   },
   {
     "id": "R-042",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "Otherwise, when `given` is false and the rules are exactly one rule with `negate` false and `kind` in `starts_with`, `ends_with`, `contains`: derive `fmt2` from the table below, evaluate the samples again under it, and when they all pass, `ok` is `true` with `fmt2` and `derived` `true`.\n\n| Rule | Derived format |\n|---|---|\n| `starts_with P` | `P` + `sdlc/{name}` |\n| `ends_with S` | `sdlc/{name}` + `S` |\n| `contains C` | `sdlc/` + `C` + `/{name}` |",
     "acceptance": "A single `starts_with feature/` rule with no format given derives `feature/sdlc/{name}`, sets `derived: true`, and exits 0 when the samples pass under it. The three operators map per the table. A given format, a negated rule, a regex rule, or more than one rule never derives.",
     "status": "done",
@@ -1975,7 +1975,7 @@
   },
   {
     "id": "R-043",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "Otherwise `ok` is `false`, and `suggestion` is a `--branch-format` line: for a derivable rule whose derivation still failed, the derived format; for a `regex` rule, `--branch-format \"<literal that your rule accepts>/{name}\"` with the pattern quoted beside it; for a `working` failure, the rename the user has to do.",
     "acceptance": "A failing verdict prints `ok: false` and exits 1, and carries a suggestion. A regex failure's suggestion names `--branch-format` and quotes the pattern. A `working` failure's suggestion names the rename.",
     "status": "done",
@@ -2026,7 +2026,7 @@
   },
   {
     "id": "R-044",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "`result` is `pass`, `fail`, `unevaluated` or `unchecked`; `rule` is the label of the first failing rule. Exit 0 when `ok`, 1 when not, 2 on bad input.",
     "acceptance": "Every sample object carries `kind`, `name`, `result`, `rule`. The output carries `ok`, `format`, `derived`, `forge`, `rules`, `samples`, `notes`, `suggestion`. A failed sample names the first failing rule's label. Exit codes are 0, 1, and 2 for ok, not ok, and bad input.",
     "status": "done",
@@ -2103,7 +2103,7 @@
   },
   {
     "id": "R-045",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "The Commands table gains `--branch-format \"<format>\"` beside `--commit-format`.",
     "acceptance": "SKILL.md's Commands table has a `--branch-format \"<format>\"` row next to `--commit-format`.",
     "status": "todo",
@@ -2118,7 +2118,7 @@
   },
   {
     "id": "R-046",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "**Branch format:** the loop names every branch it makes from one format (`branches.py`, placeholder `{name}`; default `sdlc/{name}`). Take the format from `--branch-format` when given, else from `$REPO/.sdlc/config.json` `branchFormat` when that file exists (a finished run leaves it on the default branch), else none. Run `python3 \"$SKILL_DIR/branches.py\" preflight --repo \"$REPO\" --mode <gitMode>` with `--format \"<format>\"` when you have one, and with `--branch \"$BASE_BRANCH\"` in `mr` mode. It reads the forge's branch-name rules, tests the names this mode will push, and prints a verdict. When `ok` is false, print its `samples` that failed with their `rule`, its `notes` and its `suggestion`, and end. When `ok` is true, `FMT` is its `format`; when `derived` is true, tell the user the format you derived and that it is now in config.json. A `working` sample that failed names the user's own branch: ask them to rename it and end. Then, when `$BASE_BRANCH` parses as one of the loop's kinds (`python3 \"$SKILL_DIR/branches.py\" parse --repo \"$REPO\" --format \"$FMT\" --branch \"$BASE_BRANCH\"` prints a kind), report that the workflow keeps those names for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end. This check is first run only: on a resume the current branch is normally the run branch.",
     "acceptance": "SKILL.md Pre-flight holds this bullet after **Git mode**. The old \"Branch name (first run only)\" bullet and the mr-mode push-rule sentence are gone. The bullet ends the run when `ok` is false and prints failed samples, notes, and suggestion. It sets FMT from `format`, reports a derived format, asks for a rename on a failed `working` sample, and asks to rename `$BASE_BRANCH` when it parses as a loop kind, first run only.",
     "status": "todo",
@@ -2133,7 +2133,7 @@
   },
   {
     "id": "R-047",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "The **Run worktree** bullet names the run branch through the module: `RUN_BRANCH=$(python3 \"$SKILL_DIR/branches.py\" name --repo \"$REPO\" --format \"$FMT\" --kind run --n <n>)` where `<n>` is one more than the count of `branches.py list --kind run` on a first run; on a relaunch the run branch is the last entry of that list, and the worktree is put back on it.",
     "acceptance": "SKILL.md's Run worktree bullet computes RUN_BRANCH through `branches.py name --kind run`, with `--n` one more than the `list --kind run` count on a first run. A relaunch reuses the last list entry.",
     "status": "todo",
@@ -2148,7 +2148,7 @@
   },
   {
     "id": "R-048",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "After the worktree exists, when `$WT/.sdlc/config.json` holds a `branchFormat` that differs from `$FMT`, report both and end: a run in progress keeps its names.",
     "acceptance": "SKILL.md instructs reporting both formats and ending when the worktree's `config.json` branchFormat differs from `$FMT`. A resume that passes a different `--branch-format` is refused with both values.",
     "status": "todo",
@@ -2163,7 +2163,7 @@
   },
   {
     "id": "R-049",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "In **Launch**, the workflow args gain `branchFormat: \"$FMT\"`.",
     "acceptance": "SKILL.md's Launch section passes `branchFormat: \"$FMT\"` in the workflow args.",
     "status": "todo",
@@ -2178,7 +2178,7 @@
   },
   {
     "id": "R-050",
-    "specRef": "§6",
+    "specRef": "\u00a76",
     "quote": "const BRANCH_FORMAT = A.branchFormat || 'sdlc/{name}'\nfunction branchName(tail) {\n  const lower = BRANCH_FORMAT.includes('{name:lower}')\n  return BRANCH_FORMAT.replace(lower ? '{name:lower}' : '{name}', lower ? tail.toLowerCase() : tail)\n}",
     "acceptance": "sdlc-loop.js defines BRANCH_FORMAT from `A.branchFormat` with fallback `sdlc/{name}`. branchName substitutes the placeholder and lowercases the tail for `{name:lower}`. INTERNALS exports branchName and BRANCH_FORMAT.",
     "status": "todo",
@@ -2193,7 +2193,7 @@
   },
   {
     "id": "R-051",
-    "specRef": "§6",
+    "specRef": "\u00a76",
     "quote": "`verifyPhase`'s `const branch = g => \\`sdlc/${id}-v${round}-${g.profile}-${g.part}\\`` becomes `const branch = g => branchName(\\`${id}-v${round}-${g.profile}-${g.part}\\`)`.",
     "acceptance": "sdlc-loop.js builds the verifier branch with branchName and no `sdlc/` literal. `rt.I.branchName` output equals `branches.py name` for the verify tail.",
     "status": "todo",
@@ -2208,7 +2208,7 @@
   },
   {
     "id": "R-052",
-    "specRef": "§6",
+    "specRef": "\u00a76",
     "quote": "The env-detector call gains `branchFormat: A.branchFormat || null`.",
     "acceptance": "The env-detector invocation in sdlc-loop.js passes `branchFormat: A.branchFormat || null`.",
     "status": "todo",
@@ -2223,7 +2223,7 @@
   },
   {
     "id": "R-053",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "`active_branch(repo, current)`: enumerate `refs/heads/` (all local branches), keep those `parse` classifies as `slice`, and use the parsed `id` as `sid`.",
     "acceptance": "next-action.py finds the active slice by parsing every local branch under the configured format. The slice id comes from the parsed id. A foreign branch never reads as active.",
     "status": "todo",
@@ -2238,7 +2238,7 @@
   },
   {
     "id": "R-054",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "Pull-request heads: `state_prs` keeps heads that parse to `state`; `e2e_prs` keeps heads that parse to `e2e` (not `e2e-area`); the slice map keeps heads that parse to `slice`, with `ids=by_id` so a lowercased head resolves to the ledger id; `merged_heads` is looked up with `name(fmt, \"slice\", id=s[\"id\"])`; the stack milestone hold keeps heads that parse to `milestone`.",
     "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, state_prs keeps only state heads, e2e_prs keeps e2e heads and rejects e2e-area heads, the slice map resolves a lowercased head to its ledger id, merged_heads looks up `name(fmt, \"slice\", id=...)`, and the stack hold keeps milestone heads. A foreign head is ignored.",
     "status": "todo",
@@ -2253,7 +2253,7 @@
   },
   {
     "id": "R-055",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "The format comes from the `config` the decision already read (`load_format` semantics: `config.get(\"branchFormat\") or \"sdlc/{name}\"`).",
     "acceptance": "next-action.py reads branchFormat from the config it already loads. A missing or empty value falls back to `sdlc/{name}`.",
     "status": "todo",
@@ -2268,7 +2268,7 @@
   },
   {
     "id": "R-056",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "`ensure_milestone_branch` wants `name(fmt, \"milestone\", id=milestone_id)`; `ensure_slice_branch` wants `name(fmt, \"slice\", id=slice_id)`; the awaiting-merge dependency branch is `name(fmt, \"slice\", id=dep)`; `milestone_branches_with_open_slice_pr` adds `name(fmt, \"milestone\", id=mid)`",
     "acceptance": "Under `branchFormat: \"feature/PROJ-1-{name}\"`, state-write.py creates the slice and milestone branches as `feature/PROJ-1-S-001` and `feature/PROJ-1-M-1`, and finds the awaiting-merge dependency branch through `name(fmt, \"slice\", id=dep)`.",
     "status": "todo",
@@ -2283,7 +2283,7 @@
   },
   {
     "id": "R-057",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "`MILESTONE_BRANCH` is replaced by `parse(...)[\"kind\"] == \"milestone\"` wherever it is used.",
     "acceptance": "state-write.py has no MILESTONE_BRANCH regex. Milestone branches are recognized by parse kind, including in `prune_stale_milestone_branches` and `branch_run`.",
     "status": "todo",
@@ -2298,7 +2298,7 @@
   },
   {
     "id": "R-058",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "`config.runBranch` keeps holding a full branch name, so `advance_run_branch` and `shipped_into` are unchanged.",
     "acceptance": "config.runBranch stores a complete branch name. advance_run_branch and shipped_into behave as before.",
     "status": "todo",
@@ -2313,7 +2313,7 @@
   },
   {
     "id": "R-059",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "A `fmt` argument is threaded from `main()` where `config` is read, with `load_format(repo)` as the fallback.",
     "acceptance": "state-write.py derives fmt once in main() from the config, with load_format as fallback, and passes it to the branch helpers.",
     "status": "todo",
@@ -2328,7 +2328,7 @@
   },
   {
     "id": "R-060",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "`V_BRANCH` and `V_ID` are replaced by `parse`: a branch is swept only when it parses to `verify`, its `id` is unknown to the ledger or its status is `done` or `rejected`; `run`, `attempt` and every other kind are never deleted. The format comes from `load_format(repo)`.",
     "acceptance": "janitor.py has no V_BRANCH or V_ID. Under a custom format it sweeps only verify branches whose id is unknown or whose status is done or rejected. It never deletes run, attempt, or any other kind.",
     "status": "todo",
@@ -2343,7 +2343,7 @@
   },
   {
     "id": "R-061",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "**`slicer.md`** writes the slice's informational `branch` field through the module (`<slice branch>` below); nothing in the scripts reads that field.",
     "acceptance": "slicer.md writes `branch: <slice branch>`. No script reads a slice's branch field.",
     "status": "todo",
@@ -2358,7 +2358,7 @@
   },
   {
     "id": "R-062",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "**Branch names:** every branch the loop makes is named by one format, `config.branchFormat` (default `sdlc/{name}`). Never write such a name by hand.",
     "acceptance": "_common.md has the Branch names section. It lists all eight placeholders with their commands: run branch, slice branch, milestone branch, e2e branch, e2e area branch, state branch, attempt branch, verify branch. It points to `branches.py parse` to classify a branch.",
     "status": "todo",
@@ -2373,7 +2373,7 @@
   },
   {
     "id": "R-063",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "Every prompt that spells a branch today uses the placeholder instead. The literals to replace, by file (paths under `.sdlc/` are not branches and stay):",
     "acceptance": "Every prompt file and SKILL.md matches no `(?<![.\\w])sdlc/(?!tracker|STOP)` outside fenced blocks that quote `branches.py` output. Each file row of the section 8 table uses its mapped placeholders.",
     "status": "todo",
@@ -2388,7 +2388,7 @@
   },
   {
     "id": "R-064",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "`env-detector.md` gains the input `branchFormat` and the config line: \"`branchFormat`: the `branchFormat` input when it is not null; else an existing `config.branchFormat`; else `sdlc/{name}`. The driver's pre-flight derived or checked it; do not read the forge's rules here.\" Its commit-format step keeps reading the push rule for `commit_message_regex`.",
     "acceptance": "env-detector.md takes a branchFormat input and writes config from it, else the existing value, else `sdlc/{name}`. It does not read the forge's branch-name rules. It still reads `commit_message_regex` for the commit format.",
     "status": "todo",
@@ -2403,7 +2403,7 @@
   },
   {
     "id": "R-065",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "`state-schema.md` documents `\"branchFormat\": \"sdlc/{name}\"` in `config.json`: \"the format of every branch the loop makes: literal text around one `{name}` (or `{name:lower}`) placeholder, which carries the loop's own tail per branch kind (`branches.py`). Set at the first launch; a resume keeps it.\"",
     "acceptance": "state-schema.md's config.json block holds branchFormat with that text. The slice branch field is described as \"the slice branch under `config.branchFormat`\" and runBranch as \"the run branch (`run` kind under `config.branchFormat`)\".",
     "status": "todo",
@@ -2418,7 +2418,7 @@
   },
   {
     "id": "R-066",
-    "specRef": "§9",
+    "specRef": "\u00a79",
     "quote": "`README.md`: the Usage table gets the `--branch-format \"<format>\"` flag with one example; a short **Branch names** paragraph after the git-mode bullets lists the kinds and tails, the default, the rules the pre-flight reads and what happens on a mismatch; \"What it writes to your repo\" mentions `branchFormat` in `config.json`; the Development tree lists `branches.py`.",
     "acceptance": "README.md has the flag row with an example, a **Branch names** paragraph after the git-mode bullets, a branchFormat mention under \"What it writes to your repo\", and branches.py in the Development tree.",
     "status": "todo",
@@ -2433,7 +2433,7 @@
   },
   {
     "id": "R-067",
-    "specRef": "§9",
+    "specRef": "\u00a79",
     "quote": "`prompts/ste-style.md` is unchanged; every prompt edit passes `ste-check.py`.",
     "acceptance": "ste-style.md has no diff. ste-check.py passes on every edited prompt.",
     "status": "todo",
@@ -2448,7 +2448,7 @@
   },
   {
     "id": "R-068",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`name and parse round-trip every kind under the default, a prefixed and a lowercased format`: for each kind and the formats `sdlc/{name}`, `feature/PROJ-1-{name}`, `feature/PROJ-1-{name:lower}`.",
     "acceptance": "`skills/sdlc/test/branches.test.mjs` is new. It runs `branches.py` through execFileSync and imports it in a probe for the Python API. Its round-trip test covers all eight kinds under the three formats.",
     "status": "done",
@@ -2485,7 +2485,7 @@
   },
   {
     "id": "R-069",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`parse returns null for a foreign branch and resolves ids against the ledger`: `main`, `feature/PROJ-1-foo`, `sdlc/feature-x` give `null`; `feature/proj-1-s-001` with ids `['S-001']` gives `S-001`, `known: true`.",
     "acceptance": "The branches test asserts those four parse results.",
     "status": "done",
@@ -2516,7 +2516,7 @@
   },
   {
     "id": "R-070",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`parse keeps the table's precedence`: `S-fix-M-1-2` is a slice, `M-1-e2e-api` is an e2e area, `S-001-v0-http-api-0` is a verify branch with profile `http-api`.",
     "acceptance": "The branches test asserts the three classifications.",
     "status": "done",
@@ -2557,7 +2557,7 @@
   },
   {
     "id": "R-071",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`validate_format rejects two placeholders, none, whitespace and an invalid ref`.",
     "acceptance": "The branches test asserts the four rejections.",
     "status": "done",
@@ -2588,7 +2588,7 @@
   },
   {
     "id": "R-072",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`evaluate follows each operator, negate flips, and a bad regex gives null`.",
     "acceptance": "The branches test asserts each operator's result, the negate flip, and null for an uncompilable pattern.",
     "status": "done",
@@ -2637,7 +2637,7 @@
   },
   {
     "id": "R-073",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`derive follows the table and refuses regex, negate and several rules`.",
     "acceptance": "The branches test asserts the three derived formats and the three refusals.",
     "status": "done",
@@ -2688,22 +2688,76 @@
   },
   {
     "id": "R-074",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`preflight` on a fixture repo with `gh` and `glab` shims on `PATH` (shell scripts printing canned JSON): no rules gives `ok` with the default; a `starts_with feature/` ruleset derives `feature/sdlc/{name}`; a regex that the default fails gives exit 1 with a suggestion; a regex the default passes gives `ok`; a shim that exits 1 gives `ok` with `rules unknown` in `notes` and `unchecked` samples; `--mode mr --branch bad-name` against a GitLab regex fails the `working` sample; an invalid `--format` exits 2.",
     "acceptance": "The branches test asserts all seven preflight scenarios through the shims.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-074a",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:44",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:82",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:90",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:104",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:136",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:143",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:152",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:167",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:185",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:195",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:238",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:260",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:268",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:318",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:335",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:358",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:375",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:389",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:399",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:413",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:431",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:449",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:459",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:475",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:487",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:495",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:508",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:61",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:140",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:153",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:204",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:220",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:241",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:265",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:290",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:304",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:322",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:342",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:1",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:106",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:155",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:193",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:251",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:324"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
   {
     "id": "R-075",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`the loop script and the module name branches the same way`: `rt.I.branchName(tail)` equals `branches.py name` for the three formats and the verify tail, the way `git-modes.test.mjs` compares the mode lists.",
     "acceptance": "The branches test asserts equality of `rt.I.branchName` and `branches.py name` for the three formats and the verify tail.",
     "status": "todo",
@@ -2718,7 +2772,7 @@
   },
   {
     "id": "R-076",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`the active slice branch, slice PR heads, the state PR, the e2e PR and the stack milestone hold are recognized under a custom format`: fixture with `branchFormat: \"feature/PROJ-1-{name}\"`; a `feature/PROJ-1-sdlc-foo`-style foreign head is ignored.",
     "acceptance": "test/next-action.test.mjs asserts the five recognitions under the custom format and the ignored foreign head.",
     "status": "todo",
@@ -2733,7 +2787,7 @@
   },
   {
     "id": "R-077",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "The existing tests keep passing under the default.",
     "acceptance": "The full suite passes with no branchFormat set, including the existing next-action tests.",
     "status": "todo",
@@ -2748,7 +2802,7 @@
   },
   {
     "id": "R-078",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`state-write creates the slice and milestone branches under a custom format and finds the dependency branch`.",
     "acceptance": "test/scripts.test.mjs asserts the creations and the dependency lookup under a custom format.",
     "status": "todo",
@@ -2763,7 +2817,7 @@
   },
   {
     "id": "R-079",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`janitor sweeps verify branches under a custom format and never touches run or attempt branches`.",
     "acceptance": "test/scripts.test.mjs asserts the sweep and the untouched kinds under a custom format.",
     "status": "todo",
@@ -2778,7 +2832,7 @@
   },
   {
     "id": "R-080",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`no prompt spells a loop branch literally`: for every prompt file and `SKILL.md`, no match for `(?<![.\\w])sdlc/(?!tracker|STOP)` outside fenced blocks that quote `branches.py` output.",
     "acceptance": "test/prompts.test.mjs runs that check over every prompt file and SKILL.md.",
     "status": "todo",
@@ -2793,7 +2847,7 @@
   },
   {
     "id": "R-081",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "`_common.md defines every branch placeholder and env-detector records the format`: the eight placeholders are present; `env-detector.md` matches `/branchFormat/`; `SKILL.md` matches `/--branch-format/` and `/branches\\.py\" preflight/`.",
     "acceptance": "The prompts test asserts the eight placeholders, the branchFormat match in env-detector.md, and the two SKILL.md matches.",
     "status": "todo",
@@ -2808,7 +2862,7 @@
   },
   {
     "id": "R-082",
-    "specRef": "§Testing",
+    "specRef": "\u00a7Testing",
     "quote": "The existing STE test covers every edited prompt.",
     "acceptance": "The STE test runs over every prompt the change edits and passes.",
     "status": "todo",
@@ -2823,7 +2877,7 @@
   },
   {
     "id": "R-083",
-    "specRef": "§Assumptions",
+    "specRef": "\u00a7Assumptions",
     "quote": "Whichever of the two specs lands second adapts the other's matching to `branches.parse`.",
     "acceptance": "`ship-prune` and `collect-verification` in `state-write.py` match their `-v*` and `-attempt-*` names through `branches.parse`, not a local regex. A test asserts a verify tail and an attempt tail match under a custom format.",
     "status": "todo",
@@ -2838,7 +2892,7 @@
   },
   {
     "id": "R-084",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "**`gh` or `glab` not available or not signed in**: `unchecked`, a note, the run launches.",
     "acceptance": "With `gh` absent from `PATH` on a github-mode repo, preflight prints `ok: true`, one note, and every sample `unchecked`. The same holds for `glab` on a gitlab-mode repo. It does not crash and does not block.",
     "status": "done",
@@ -2871,7 +2925,7 @@
   },
   {
     "id": "R-085",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "An old run's branches under the default when the new run gets a derived format: the new run's `list` and `parse` do not see them; the janitor leaves them; they are the user's to delete.",
     "acceptance": "Under a derived format `feature/sdlc/{name}`, `parse` of `sdlc/S-001` returns null and `list` does not return it. The janitor does not delete an old-format verify branch such as `sdlc/S-001-v0-http-api-0`.",
     "status": "todo",
@@ -2886,7 +2940,7 @@
   },
   {
     "id": "R-086",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "`next-action.py` and `janitor.py` always pass the ledger's ids.",
     "acceptance": "Under `feature/p-1-{name:lower}`, janitor.py parses the verify branch `feature/p-1-s-001-v0-http-api-0` with the ledger's ids, the id resolves to `S-001`, and the branch of a todo slice is not swept.",
     "status": "todo",
@@ -2901,7 +2955,7 @@
   },
   {
     "id": "R-087",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "for a derivable rule whose derivation still failed, the derived format",
     "acceptance": "One simple rule, no format given, the derivation applied, and the samples still fail under the derived format: the verdict prints `ok: false` and `suggestion` is the derived format string.",
     "status": "done",
@@ -2952,7 +3006,7 @@
   },
   {
     "id": "R-088",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "branches.py name     --repo DIR --kind KIND [--id ID] [--n N] [--area A] [--round R] [--profile P] [--part K] [--format F]\nbranches.py parse    --repo DIR --branch NAME [--format F]\nbranches.py list     --repo DIR --kind KIND [--format F]\nbranches.py preflight --repo DIR --mode MODE [--format F] [--branch CURRENT]",
     "acceptance": "Each command accepts the flags its line names. `name` takes --repo, --kind and optional --id, --n, --area, --round, --profile, --part, --format. `parse` takes --repo, --branch, --format. `list` takes --repo, --kind, --format. `preflight` takes --repo, --mode, --format, --branch. A test runs every command with its flags and reads one JSON object.",
     "status": "done",
@@ -3003,7 +3057,7 @@
   },
   {
     "id": "R-089",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<run branch>` | the branch `config.runBranch` names in `stack` mode; otherwise `branches.py list --kind run`, its last entry |",
     "acceptance": "_common.md's placeholder table maps `<run branch>` to the branch `config.runBranch` names in `stack` mode. Outside `stack` mode it maps to the last entry of `branches.py list --kind run`.",
     "status": "todo",
@@ -3018,7 +3072,7 @@
   },
   {
     "id": "R-090",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<verify branch>` | the `branch` input your prompt carries |",
     "acceptance": "The `<verify branch>` placeholder is filled from the branch input the role's prompt carries. No prompt fills it with a `branches.py name` call.",
     "status": "todo",
@@ -3033,37 +3087,148 @@
   },
   {
     "id": "R-091",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "**The default already satisfies the rule** (a regex like `^[a-z]+/.+`): `ok` with the default, nothing derived.",
     "acceptance": "One regex rule that the default format satisfies: preflight exits 0, prints `ok: true`, `format` `sdlc/{name}`, and `derived: false`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-091a",
+        "T-R-091b",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:44",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:82",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:90",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:104",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:136",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:143",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:152",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:167",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:185",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:195",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:238",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:260",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:268",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:318",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:335",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:358",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:375",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:389",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:399",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:413",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:431",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:449",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:459",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:475",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:487",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:495",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:508",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:61",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:140",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:153",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:204",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:220",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:241",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:265",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:290",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:304",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:322",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:342",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:1",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:106",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:155",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:193",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:251",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:324"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
   {
     "id": "R-092",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "**Several rules, or a negated one, and no format given**: no derivation; the verdict lists each failing sample with the rule, and the suggestion asks for a format.",
     "acceptance": "Two rules and no format given: `ok` is false, `derived` is false, every failing sample carries its rule's label, and `suggestion` contains `--branch-format`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-092a",
+        "T-R-092b",
+        "T-R-092c",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:44",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:82",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:90",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:104",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:136",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:143",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:152",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:167",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:185",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:195",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:238",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:260",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:268",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:318",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:335",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:358",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:375",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:389",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:399",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:413",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:431",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:449",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:459",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:475",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:487",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:495",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:508",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:61",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:140",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:153",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:204",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:220",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:241",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:265",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:290",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:304",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:322",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:342",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:1",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:106",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:155",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:193",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:251",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:324"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (structures)"
   },
   {
     "id": "R-093",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `attempt` | `<sliceId>-attempt-<n>` | `sdlc/S-001-attempt-1` | never (deleted on the remote when present) |",
     "acceptance": "In `pr`, `mr` and `stack` modes the integrator deletes every attempt branch of the slice locally and on the remote with `git push origin --delete`. It finds them through `branches.py list --kind attempt` filtered to the slice, under a custom format too.",
     "status": "todo",
@@ -3081,7 +3246,7 @@
   },
   {
     "id": "R-094",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "`list_kind(repo, fmt, kind)`: every local branch (`git for-each-ref --format=%(refname:short) refs/heads/`) that parses to `kind`, with its parts, sorted by `n` for `run` and `attempt` and by name otherwise.",
     "acceptance": "`list --kind attempt` sorts by `n` numerically: `sdlc/S-001-attempt-2` precedes `sdlc/S-001-attempt-10`.",
     "status": "done",
@@ -3114,7 +3279,7 @@
   },
   {
     "id": "R-095",
-    "specRef": "§3",
+    "specRef": "\u00a73",
     "quote": "`starts_with`: `sample.startswith(pattern)`; `ends_with`: `sample.endswith(pattern)`; `contains`: `pattern in sample`; all case-sensitive, as git refs are.\n- `regex`: `re.search(pattern, sample) is not None`.",
     "acceptance": "`ends_with` and `contains` are case-sensitive: the pattern `-E2E` does not match a sample ending `e2e`, and the pattern `Feature` is not in `feature/x`.",
     "status": "done",
@@ -3164,7 +3329,7 @@
   },
   {
     "id": "R-096",
-    "specRef": "§7",
+    "specRef": "\u00a77",
     "quote": "`ensure_milestone_branch` wants `name(fmt, \"milestone\", id=milestone_id)`; `ensure_slice_branch` wants `name(fmt, \"slice\", id=slice_id)`; the awaiting-merge dependency branch is `name(fmt, \"slice\", id=dep)`; `milestone_branches_with_open_slice_pr` adds `name(fmt, \"milestone\", id=mid)`",
     "acceptance": "`milestone_branches_with_open_slice_pr` builds the milestone branch with `name(fmt, \"milestone\", id=mid)`. Under `feature/PROJ-1-{name}` it matches `feature/PROJ-1-M-1`.",
     "status": "todo",
@@ -3179,7 +3344,7 @@
   },
   {
     "id": "R-097",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "When `ok` is true, `FMT` is its `format`; when `derived` is true, tell the user the format you derived and that it is now in config.json.",
     "acceptance": "A first run whose pre-flight derives `feature/sdlc/{name}` records `branchFormat: \"feature/sdlc/{name}\"` in the worktree's `.sdlc/config.json`. A resume without `--branch-format` reuses that value.",
     "status": "todo",
@@ -3194,7 +3359,7 @@
   },
   {
     "id": "R-098",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "Importable (`next-action.py`, `state-write.py` and `janitor.py` insert the script directory into `sys.path` and import it) and runnable.",
     "acceptance": "Each of `next-action.py`, `state-write.py` and `janitor.py` runs with the working directory outside the skill directory, and its branch recognition still resolves. The `branches` import resolves through the script directory on `sys.path`.",
     "status": "done",
@@ -3258,7 +3423,7 @@
   },
   {
     "id": "R-099",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "A missing part is a `Fail`.",
     "acceptance": "`branches.py name --kind e2e-area --id M-1` with no `--area` exits 2 and prints one JSON object with `ok: false` and a non-empty `error`. No traceback appears.",
     "status": "done",
@@ -3310,22 +3475,79 @@
   },
   {
     "id": "R-100",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "**A rule that targets only the default branch**: the GitHub endpoint returns no `branch_name_pattern` for the samples; `ok`.",
     "acceptance": "A canned GitHub response with no `branch_name_pattern` object for the samples gives an empty `rules` list, no failing sample, `ok: true`, `derived: false`, and exit 0.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/branches.py",
+        "skills/sdlc/test/branches.test.mjs"
+      ],
+      "tests": [
+        "T-R-100a",
+        "T-R-100b",
+        "T-R-100c",
+        "T-R-100d",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:44",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:58",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:70",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:82",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:90",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:104",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:122",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:136",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:143",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:152",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:167",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:185",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:195",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:238",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:260",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:268",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:297",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:318",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:335",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:358",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:375",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:389",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:399",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:413",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:431",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:449",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:459",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:475",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:487",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:495",
+        ".sdlc/slices/S-017/verification/r1/tests/cli-0/preflight.verify-cli.test.mjs:508",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:61",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:140",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:153",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:165",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:204",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:220",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:241",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:265",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:290",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:304",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:322",
+        ".sdlc/slices/S-017/verification/r1/tests/contract-0/preflight.verify-contract.test.mjs:342",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:1",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:106",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:155",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:193",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:251",
+        ".sdlc/slices/S-017/verification/r1/tests/security-0/preflight.verify-security.test.mjs:324"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
   {
     "id": "R-101",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "**The user's branch is `sdlc/feature-x`**: not a loop kind; no rename asked.",
     "acceptance": "With `$BASE_BRANCH` `sdlc/feature-x` under the default format, `parse` returns no kind, the driver does not ask for a rename, and the launch continues.",
     "status": "todo",
@@ -3340,7 +3562,7 @@
   },
   {
     "id": "R-102",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 1 | `run` | `^run-(\\d+)$` | `n` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/run-3') returns kind 'run' with n 3. 'sdlc/run-x' returns None.",
     "status": "done",
@@ -3381,7 +3603,7 @@
   },
   {
     "id": "R-103",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 2 | `milestone` | `^(M-\\d+)$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2') returns kind 'milestone' with id 'M-2'. 'sdlc/M-2-e2e' does not match this row.",
     "status": "done",
@@ -3422,7 +3644,7 @@
   },
   {
     "id": "R-104",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 3 | `e2e` | `^(M-\\d+)-e2e$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2-e2e') returns kind 'e2e' with id 'M-2'. 'sdlc/M-2-e2e-api' does not match this row.",
     "status": "done",
@@ -3463,7 +3685,7 @@
   },
   {
     "id": "R-105",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 4 | `e2e-area` | `^(M-\\d+)-e2e-(.+)$` | `id`, `area` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/M-2-e2e-api-v2') returns kind 'e2e-area', id 'M-2', area 'api-v2'. A dashed area stays whole. Areas never contain '/'. ",
     "status": "done",
@@ -3506,7 +3728,7 @@
   },
   {
     "id": "R-106",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 5 | `state` | `^state-(\\d{14})$` | `ts` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/state-20261008101500') returns kind 'state' with ts '20261008101500'. A 13-digit tail returns None.",
     "status": "done",
@@ -3550,7 +3772,7 @@
   },
   {
     "id": "R-107",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 6 | `verify` | `^(.+)-v(\\d+)-([a-z0-9-]+?)-(\\d+)$` | `id`, `round`, `profile`, `part` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/S-001-v0-http-api-0') returns kind 'verify', id 'S-001', round 0, profile 'http-api', part 0.",
     "status": "done",
@@ -3595,7 +3817,7 @@
   },
   {
     "id": "R-108",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 7 | `attempt` | `^(.+)-attempt-(\\d+)$` | `id`, `n` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/S-001-attempt-2') returns kind 'attempt', id 'S-001', n 2.",
     "status": "done",
@@ -3639,7 +3861,7 @@
   },
   {
     "id": "R-109",
-    "specRef": "§2",
+    "specRef": "\u00a72",
     "quote": "| 8 | `slice` | `^(S-[A-Za-z0-9-]+)$` | `id` |",
     "acceptance": "parse('sdlc/{name}', 'sdlc/S-001') returns kind 'slice', id 'S-001'. 'sdlc/S-fix-M-1-2' parses as a slice with id 'S-fix-M-1-2'.",
     "status": "done",
@@ -3684,7 +3906,7 @@
   },
   {
     "id": "R-110",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<slice branch>` | `branches.py name --kind slice --id <sliceId>` |",
     "acceptance": "_common.md's placeholder table maps `<slice branch>` to `branches.py name --kind slice --id <sliceId>`.",
     "status": "todo",
@@ -3699,7 +3921,7 @@
   },
   {
     "id": "R-111",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<milestone branch>` | `branches.py name --kind milestone --id <milestoneId>` |",
     "acceptance": "_common.md's placeholder table maps `<milestone branch>` to `branches.py name --kind milestone --id <milestoneId>`.",
     "status": "todo",
@@ -3714,7 +3936,7 @@
   },
   {
     "id": "R-112",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<e2e branch>` | `branches.py name --kind e2e --id <milestoneId>` |",
     "acceptance": "_common.md's placeholder table maps `<e2e branch>` to `branches.py name --kind e2e --id <milestoneId>`.",
     "status": "todo",
@@ -3729,7 +3951,7 @@
   },
   {
     "id": "R-113",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<e2e area branch>` | `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>` |",
     "acceptance": "_common.md's placeholder table maps `<e2e area branch>` to `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>`.",
     "status": "todo",
@@ -3744,7 +3966,7 @@
   },
   {
     "id": "R-114",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<state branch>` | `branches.py name --kind state` (it makes the timestamp) |",
     "acceptance": "_common.md's placeholder table maps `<state branch>` to `branches.py name --kind state`, which makes the timestamp.",
     "status": "todo",
@@ -3759,7 +3981,7 @@
   },
   {
     "id": "R-115",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "| `<attempt branch>` | `branches.py name --kind attempt --id <sliceId> --n <n>` |",
     "acceptance": "_common.md's placeholder table maps `<attempt branch>` to `branches.py name --kind attempt --id <sliceId> --n <n>`.",
     "status": "todo",
@@ -3774,7 +3996,7 @@
   },
   {
     "id": "R-116",
-    "specRef": "§6",
+    "specRef": "\u00a76",
     "quote": "`INTERNALS` exports `branchName` and `BRANCH_FORMAT`.",
     "acceptance": "The loop script's INTERNALS object exposes both `branchName` and `BRANCH_FORMAT`. A test imports them.",
     "status": "todo",
@@ -3789,7 +4011,7 @@
   },
   {
     "id": "R-117",
-    "specRef": "§8",
+    "specRef": "\u00a78",
     "quote": "To learn what a branch is, `branches.py parse --repo . --branch <name>` prints its kind and ids, or `null` for a branch that is not the loop's.",
     "acceptance": "_common.md's Branch names section tells the reader to run `branches.py parse --repo . --branch <name>`. It says a branch that is not the loop's prints `null`.",
     "status": "todo",
@@ -3804,7 +4026,7 @@
   },
   {
     "id": "R-118",
-    "specRef": "§Edge cases",
+    "specRef": "\u00a7Edge cases",
     "quote": "**The user's branch is `feature/PROJ-1-S-002` under that format**: it parses as a slice; the driver asks for a rename before the first run.",
     "acceptance": "`parse(\"feature/PROJ-1-{name}\", \"feature/PROJ-1-S-002\")` returns kind `slice` with id `S-002`. The branches test asserts it, as the complement of `feature/PROJ-1-foo` returning null.",
     "status": "todo",
@@ -3819,7 +4041,7 @@
   },
   {
     "id": "R-119",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `verify` | `<sliceId>-v<round>-<profile>-<part>` | `sdlc/S-001-v0-http-api-0` | never |",
     "acceptance": "A source check over `sdlc-loop.js` and the skill scripts finds no `git push` or pull-request creation for a branch whose parsed kind is `verify`. A verify branch stays local.",
     "status": "parked",
@@ -3834,7 +4056,7 @@
   },
   {
     "id": "R-120",
-    "specRef": "§1",
+    "specRef": "\u00a71",
     "quote": "| `e2e-area` | `<milestoneId>-e2e-<area>` | `sdlc/M-1-e2e-api` | never |",
     "acceptance": "A source check over `sdlc-loop.js` and the skill scripts finds no `git push` or pull-request creation for a branch whose parsed kind is `e2e-area`. An e2e-area branch stays local.",
     "status": "done",
@@ -3859,7 +4081,7 @@
   },
   {
     "id": "R-121",
-    "specRef": "§5",
+    "specRef": "\u00a75",
     "quote": "The **Run worktree** bullet names the run branch through the module: `RUN_BRANCH=$(python3 \"$SKILL_DIR/branches.py\" name --repo \"$REPO\" --format \"$FMT\" --kind run --n <n>)` where `<n>` is one more than the count of `branches.py list --kind run` on a first run; on a relaunch the run branch is the last entry of that list, and the worktree is put back on it.",
     "acceptance": "On a relaunch, the run worktree is put back on the existing run branch, the last `branches.py list --kind run` entry. The driver does not create a new run branch on a relaunch.",
     "status": "todo",
@@ -3874,7 +4096,7 @@
   },
   {
     "id": "R-122",
-    "specRef": "§4",
+    "specRef": "\u00a74",
     "quote": "for a `regex` rule, `--branch-format \"<literal that your rule accepts>/{name}\"` with the pattern quoted beside it",
     "acceptance": "A regex rule the default format fails, no format given: the suggestion carries a `--branch-format` line of the shape `<literal>/{name}`. Substituting the tail `S-001` into the literal gives a name that passes the failing regex rule.",
     "status": "done",
