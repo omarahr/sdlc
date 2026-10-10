@@ -2531,7 +2531,7 @@
         "slice_side_branches matches under a lowercase format",
         "state-write.py holds no local regex for verify or attempt names"
       ],
-      "commit": "pending"
+      "commit": "3c81f65b42cf9af2e6ef88079f700fab801532a0"
     },
     "notes": ""
   },
@@ -3134,7 +3134,7 @@
         "slice_side_branches matches under a lowercase format",
         "state-write.py holds no local regex for verify or attempt names"
       ],
-      "commit": "pending"
+      "commit": "3c81f65b42cf9af2e6ef88079f700fab801532a0"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },
