@@ -1,0 +1,205 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "28d6cce",
+  "environment": "Node 22 node:test, python3 branches.py, scratch repo from cli-runner; full npm test on sdlc/S-036: 782 tests, 781 pass, 0 fail",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-132"
+      ],
+      "title": "scenario-runner.md holds the exact worktree command and no loop literal",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "exact command present; no loop literal after stripBranchesOutput",
+      "expected": "exact command present; no loop literal after stripBranchesOutput",
+      "actual": "exact command present; no loop literal after stripBranchesOutput",
+      "result": "pass",
+      "specSource": "plan-r0 VS-1 notes; R-132 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:13",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-132"
+      ],
+      "title": "Variants (literal branch, swapped placeholders, other spelling) break the exact-command check",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "each variant removes the exact command; the literal variant trips the guard",
+      "expected": "each variant removes the exact command; the literal variant trips the guard",
+      "actual": "each variant removes the exact command; the literal variant trips the guard",
+      "result": "pass",
+      "specSource": "plan-r0 VS-1 notes; R-132 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:19",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-133"
+      ],
+      "title": "env-detector.md has 3 run placeholders, the kind phrase, no sdlc/run- text, and keeps sdlc/{name}",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "3 placeholders, phrase present, default format allowed",
+      "expected": "3 placeholders, phrase present, default format allowed",
+      "actual": "3 placeholders, phrase present, default format allowed",
+      "result": "pass",
+      "specSource": "plan-r0 VS-2 notes; R-133 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:28",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-133"
+      ],
+      "title": "branches.py parse under sdlc/{name} reports kind run for sdlc/run-2",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "exit 0, kind run, tail run-2; feature/x gives kind null",
+      "expected": "exit 0, kind run, tail run-2; feature/x gives kind null",
+      "actual": "exit 0, kind run, tail run-2; feature/x gives kind null",
+      "result": "pass",
+      "specSource": "plan-r0 VS-2 notes; R-133 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:37",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "branches.py parse",
+          "inline": "$ python3 branches.py parse --repo <scratch> --branch sdlc/run-2 --format sdlc/{name}\nexit 0 {\"ok\":true,\"branch\":\"sdlc/run-2\",\"kind\":\"run\",\"tail\":\"run-2\",\"n\":2}\n$ ... --branch feature/x\nexit 0 {\"ok\":true,\"branch\":\"feature/x\",\"kind\":null}"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-132",
+        "R-133",
+        "R-144",
+        "R-148"
+      ],
+      "title": "Guard matches sdlc/M-1, sdlc/run-2, sdlc/S-003 and e2e forms; ignores sdlc/{name}, .sdlc/, tracker, STOP and branches.py fences",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "all bad samples match; all allowed samples do not",
+      "expected": "all bad samples match; all allowed samples do not",
+      "actual": "all bad samples match; all allowed samples do not",
+      "result": "pass",
+      "specSource": "plan-r0 VS-5 notes; R-132, R-133, R-144, R-148 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:48",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-132",
+        "R-133",
+        "R-144",
+        "R-148"
+      ],
+      "title": "A literal injected into each of the four prompts trips the guard, bare or in a fence",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "8 injections and 4 fence injections all match",
+      "expected": "8 injections and 4 fence injections all match",
+      "actual": "8 injections and 4 fence injections all match",
+      "result": "pass",
+      "specSource": "plan-r0 VS-5 notes; R-132, R-133, R-144, R-148 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:56",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-132",
+        "R-133",
+        "R-144",
+        "R-148"
+      ],
+      "title": "A literal appended to a scratch copy of milestone-writer.md fails T-R-144, T-R-063a and T-R-080 in the real prompts.test.mjs",
+      "given": "the prompts on branch sdlc/S-036 at 28d6cce",
+      "when": "the test reads the prompt files from disk and runs the guard regex",
+      "then": "real suite exits non-zero and names the three tests",
+      "expected": "real suite exits non-zero and names the three tests",
+      "actual": "real suite exits non-zero and names the three tests",
+      "result": "pass",
+      "specSource": "plan-r0 VS-5 notes; R-132, R-133, R-144, R-148 acceptance",
+      "test": ".sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs:66",
+      "command": "VERIFY_WT=<worktree of sdlc/S-036> node --test .sdlc/slices/S-036/verification/r0/tests/cli-0/prompts.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "node --test run (7 pass, 0 fail)",
+          "path": ".sdlc/slices/S-036/verification/r0/logs/cli-0-verify.txt"
+        },
+        {
+          "kind": "transcript",
+          "title": "branches.py parse",
+          "inline": "scratch copy + \"Create sdlc/M-1 now.\" -> failed: T-R-063a, T-R-144, T-R-080"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": []
+}

@@ -1,0 +1,17 @@
+{"run":{"ok":true,"command":"parse","format":"sdlc/{name}","branch":"sdlc/run-2","kind":"run","tail":"run-2","n":2,"known":null},"none":{"ok":true,"command":"parse","format":"sdlc/{name}","branch":"feature/x","kind":null},"status":0}
+✖ T-R-063a,✖ T-R-144,✖ T-R-080,✖ T-R-063a,✖ T-R-144,✖ T-R-080
+✔ verify cli: VS-1 scenario-runner on disk holds the exact worktree command and no literal (0.476084ms)
+✔ verify cli: VS-1 variants of the worktree line are rejected by the exact-command check (0.380667ms)
+✔ verify cli: VS-2 env-detector on disk has three run placeholders, the kind phrase, no glob (0.1405ms)
+✔ verify cli: VS-2 branches.py parse reports kind run for a run branch under the default format (506.851708ms)
+✔ verify cli: VS-5 guard matches bad samples and ignores allowed text (0.106292ms)
+✔ verify cli: VS-5 injecting a literal into a scratch copy of each prompt trips the guard (0.320208ms)
+✔ verify cli: VS-5 injected prompt in a scratch copy of the real test file fails the real test (3715.429125ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4263.986417
