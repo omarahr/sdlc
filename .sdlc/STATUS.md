@@ -1,5 +1,5 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T13:48:24Z
+Updated: 2026-10-10T13:48:54Z
 
 Requirements: 150/151 done · 0 parked · 0 stubbed · 0 obsolete
 Slices: 39/40 done · current: none · awaiting merge: none
@@ -8,7 +8,6 @@ Audit: pending · Bar raiser: round 0, dry rounds 0/2
 ADRs: 88 · Spec proposals: 6
 
 ## Recent
-- 2026-10-10T08:55:28Z note S-029 no CI checks on https://github.com/omarahr/sdlc/pull/119
 - 2026-10-10T09:29:35Z slice-merged S-030 derive maps one simple rule to a format
 - 2026-10-10T10:01:35Z slice-merged S-031 evaluate regex, name literals and preflight edge formats
 - 2026-10-10T10:40:27Z slice-merged S-032 preflight samples each kind in its own mode
@@ -18,6 +17,7 @@ ADRs: 88 · Spec proposals: 6
 - 2026-10-10T12:42:15Z slice-merged S-035 integrator, escalator and state-writer prompts use branch placeholders
 - 2026-10-10T13:12:27Z slice-merged S-036 S-036 shipped
 - 2026-10-10T13:48:24Z slice-merged S-037 S-037 verified and ready to ship
+- 2026-10-10T13:48:54Z note S-037 no CI checks on https://github.com/omarahr/sdlc/pull/135
 
 ## Needs a human eye (non-blocking)
 - S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.
