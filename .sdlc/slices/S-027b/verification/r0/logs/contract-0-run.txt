@@ -1,0 +1,19 @@
+property-run seed=20261010 runs=1000
+ 
+✔ verify contract VS-1: default format list and delete leave only non-attempt branches (497.891167ms)
+✔ verify contract VS-2: lowercase format, filter ignores case, no prefix collisions (753.881459ms)
+✔ verify contract VS-2: mixed-case {name} format (275.141958ms)
+✔ verify contract VS-2: attempt numbers sort by number, not text (536.287334ms)
+✔ verify contract VS-2: property against a reference model over 1000 draws (9355.244125ms)
+✔ verify contract VS-5: parent id list under a custom format keeps the child attempts (437.602ms)
+✔ verify contract VS-5: parent walk text (0.206542ms)
+✔ verify contract VS-6: Clean up holds no literal attempt pattern; step 1 keeps the verify half (0.087333ms)
+✔ verify contract VS-6: ste-check passes on integrator.md (39.626375ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11945.451333

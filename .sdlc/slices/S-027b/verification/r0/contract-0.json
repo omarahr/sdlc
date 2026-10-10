@@ -1,0 +1,248 @@
+{
+  "profile": "contract",
+  "part": 0,
+  "round": 0,
+  "commit": "f346b0b",
+  "environment": "node 24, python3, git; scratch repos in the OS temp dir; the worktree of sdlc/S-027b at f346b0b",
+  "surface": "Consumer view: the prompt text integrator.md Clean up steps 0 to 4, and the JSON of 'branches.py list --kind attempt' ({ok, command, format, kind, branches:[{branch, kind, tail, id, n, known}]}), sorted by n. No export differs from the plan.",
+  "cases": [
+    {
+      "id": "TC-contract-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Default format: list gives both attempt branches; local delete leaves the rest",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "list gives sdlc/S-001-attempt-1, -attempt-2; after git branch -D, main, sdlc/S-001, sdlc/S-001-v0, sdlc/S-002-attempt-1 remain",
+      "expected": "list gives sdlc/S-001-attempt-1, -attempt-2; after git branch -D, main, sdlc/S-001, sdlc/S-001-v0, sdlc/S-002-attempt-1 remain",
+      "actual": "list gives sdlc/S-001-attempt-1, -attempt-2; after git branch -D, main, sdlc/S-001, sdlc/S-001-v0, sdlc/S-002-attempt-1 remain",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:35",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Lowercase format: id is s-001, case-blind filter keeps it, no collision with s-0010 or s-001a",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "S-001 gives 2 branches in order; S-027b and S-0010 give one each; a case-sensitive filter on S-001 finds none",
+      "expected": "S-001 gives 2 branches in order; S-027b and S-0010 give one each; a case-sensitive filter on S-001 finds none",
+      "actual": "S-001 gives 2 branches in order; S-027b and S-0010 give one each; a case-sensitive filter on S-001 finds none",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:43",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Mixed-case {name} format and S-027b suffix id",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "S-027b matches team/S-027b-attempt-1 and -2 only, not S-027",
+      "expected": "S-027b matches team/S-027b-attempt-1 and -2 only, not S-027",
+      "actual": "S-027b matches team/S-027b-attempt-1 and -2 only, not S-027",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:55",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-4",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Attempt numbers 1 to 12 come back in numeric order",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "order 1..12",
+      "expected": "order 1..12",
+      "actual": "order 1..12",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:60",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-5",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Property: list plus case-blind filter equals a reference model built from the spec text",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "1000 draws over 5 formats and 7 ids, all equal the model",
+      "expected": "1000 draws over 5 formats and 7 ids, all equal the model",
+      "actual": "1000 draws over 5 formats and 7 ids, all equal the model",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:66",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "property-run",
+          "title": "reference-model property",
+          "inline": "property=list+case-blind filter equals model; seed=20261010; runs=1000; result=pass; shrunk counterexample: none"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-6",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Parent id list under a custom format keeps child attempts",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "S-013 gives only s-013 attempts; S-013a gives only s-013a attempts",
+      "expected": "S-013 gives only s-013 attempts; S-013a gives only s-013a attempts",
+      "actual": "S-013 gives only s-013 attempts; S-013a gives only s-013a attempts",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:89",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-7",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Parent walk text keeps splitInto, stop rule, rejected rule and never-delete sentence",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "all phrases present",
+      "expected": "all phrases present",
+      "actual": "all phrases present",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:96",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-8",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Clean up holds no literal attempt pattern; step 1 points to step 2; mode list and remote-missing sentence present",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "no sdlc/<id>-attempt, no -attempt-*; sdlc/<id>-v* kept in step 1",
+      "expected": "no sdlc/<id>-attempt, no -attempt-*; sdlc/<id>-v* kept in step 1",
+      "actual": "no sdlc/<id>-attempt, no -attempt-*; sdlc/<id>-v* kept in step 1",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:106",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-contract-9",
+      "scenarioId": "VS-6",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "ste-check.py passes on integrator.md",
+      "given": "scratch git repo built by the test",
+      "when": "the test runs the exact command text from integrator.md Clean up step 2",
+      "then": "exit 0",
+      "expected": "exit 0",
+      "actual": "exit 0",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/contract-0/integrator.verify-contract.test.mjs:119",
+      "command": "npm-free: cd .sdlc/slices/S-027b/verification/r0 && VERIFY_WT=<worktree of sdlc/S-027b> node --test tests/contract-0/integrator.verify-contract.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "log",
+          "title": "test run",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/contract-0-run.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [],
+  "seeds": [
+    {
+      "title": "list --kind attempt returns attempt branches whose id is not a slice id",
+      "detail": "List shows ids such as s-001a and s-0010. The prompt's id-equals filter handles it. Verified with S-001 against S-0010 and S-001a. No action needed.",
+      "file": "skills/sdlc/prompts/integrator.md"
+    },
+    {
+      "title": "Format {name:upper} is not a valid branch format",
+      "detail": "branches.py accepts only {name} and {name:lower}. A prompt reader may expect {name:upper}. No change needed.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}

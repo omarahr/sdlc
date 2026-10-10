@@ -3903,12 +3903,61 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-027b",
     "pr": "",
     "risk": "medium",
     "riskReason": "The sweep rewrites about twenty prompts; a wrong replacement misdirects one role at run time.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "Step 1 still hardcodes the verify-branch literal",
+        "detail": "Step 1 of Clean up still says `sdlc/<id>-v*`, which misses branches under a custom format. The slice plan defers this to S-027c, so it is correct here. Make sure S-027c picks it up.",
+        "file": "skills/sdlc/prompts/integrator.md",
+        "blocking": false
+      },
+      {
+        "title": "Old attempt test name no longer matches what it checks",
+        "detail": "The test 'the integrator deletes archived attempt branches once a slice ships' in skills/sdlc/test/prompts.test.mjs now checks only the Clean up heading, splitInto and the never-delete sentence. It no longer checks anything about attempt branches, and T-R-093a pins the same splitInto and never-delete sentence. Remove the duplicated assertions from one of the two tests, or rename the old test to say what it checks.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-093c re-implements the prompt's id filter in the test",
+        "detail": "The test filters with b.id.toLowerCase() === 'S-001'.toLowerCase(), a copy of the prompt's rule. If the prompt rule changes, the test still passes. The command is extracted from the prompt, but the filter is not. This is acceptable for a prompt-only slice, so no fix is needed beyond awareness.",
+        "file": "skills/sdlc/test/prompts.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "list reads local branches only",
+        "detail": "An attempt branch that exists only on origin is not found by branches.py list, so it stays. The plan records this limit.",
+        "file": "skills/sdlc/prompts/integrator.md"
+      },
+      {
+        "title": "Prompt leaves the branch unquoted in git branch -D and git push origin --delete",
+        "detail": "branches.py accepts a branchFormat such as f$(id)/{name} or f;id;/{name}. An agent that pastes the listed branch into a shell without quotes would run the text. Quote the branch in the prompt.",
+        "file": "skills/sdlc/prompts/integrator.md"
+      },
+      {
+        "title": "Failed remote delete for a missing ref exits 1",
+        "detail": "git push origin --delete exits 1 with 'remote ref does not exist'. The prompt says this is fine but does not say to continue with the next branch after any failed command in step 2.",
+        "file": "skills/sdlc/prompts/integrator.md"
+      },
+      {
+        "title": "branches.py list reads local branches only",
+        "detail": "A remote-only attempt branch stays on origin. The plan records this limit.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "{name:upper} is not a valid branch format",
+        "detail": "branches.py accepts only {name} and {name:lower}. No change needed.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Integrator step 2 says 'ignoring case' without naming a method",
+        "detail": "A literal reader who upper-cases or casefolds the id would match a branch named with U+017F (long s) as S-001. Lower-casing is safe. Naming 'lower-case both sides' would remove the doubt. Needs a branch name an attacker already made in the repo, so it is outside the threat model.",
+        "file": "skills/sdlc/prompts/integrator.md"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3919,7 +3968,16 @@
       "verifyDemanded": false,
       "infraRetries": 0,
       "gateCommit": ""
-    }
+    },
+    "ledger": [
+      {
+        "kind": "verify",
+        "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      }
+    ]
   },
   {
     "id": "S-027c",

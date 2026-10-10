@@ -1,0 +1,211 @@
+{
+  "VS-1": {
+    "before": [
+      "main",
+      "sdlc/S-001",
+      "sdlc/S-001-attempt-1",
+      "sdlc/S-001-attempt-2",
+      "sdlc/S-001-v0"
+    ],
+    "list": "{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-1\", \"id\": \"S-001\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/S-001-attempt-2\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-2\", \"id\": \"S-001\", \"n\": 2, \"known\": null}]}\n",
+    "out": [
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-1",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-2",
+        "status": 0,
+        "stderr": ""
+      }
+    ],
+    "after": [
+      "main",
+      "sdlc/S-001",
+      "sdlc/S-001-v0"
+    ]
+  },
+  "VS-2": {
+    "list": "{\"ok\": true, \"command\": \"list\", \"format\": \"feature/PROJ-1-{name:lower}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"feature/PROJ-1-s-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"s-001-attempt-1\", \"id\": \"s-001\", \"n\": 1, \"known\": null}, {\"branch\": \"feature/PROJ-1-s-0010-attempt-1\", \"kind\": \"attempt\", \"tail\": \"s-0010-attempt-1\", \"id\": \"s-0010\", \"n\": 1, \"known\": null}, {\"branch\": \"feature/PROJ-1-s-001a-attempt-1\", \"kind\": \"attempt\", \"tail\": \"s-001a-attempt-1\", \"id\": \"s-001a\", \"n\": 1, \"known\": null}, {\"branch\": \"feature/PROJ-1-s-002-attempt-1\", \"kind\": \"attempt\", \"tail\": \"s-002-attempt-1\", \"id\": \"s-002\", \"n\": 1, \"known\": null}, {\"branch\": \"feature/PROJ-1-s-001-attempt-2\", \"kind\": \"attempt\", \"tail\": \"s-001-attempt-2\", \"id\": \"s-001\", \"n\": 2, \"known\": null}]}\n",
+    "out": [
+      {
+        "cmd": "git branch -D feature/PROJ-1-s-001-attempt-1",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git branch -D feature/PROJ-1-s-001-attempt-2",
+        "status": 0,
+        "stderr": ""
+      }
+    ],
+    "after": [
+      "feature/PROJ-1-s-001",
+      "feature/PROJ-1-s-0010-attempt-1",
+      "feature/PROJ-1-s-001a-attempt-1",
+      "feature/PROJ-1-s-002-attempt-1",
+      "main"
+    ]
+  },
+  "VS-2b": {
+    "list": "{\"ok\": true, \"command\": \"list\", \"format\": \"work/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"work/S-027-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-027-attempt-1\", \"id\": \"S-027\", \"n\": 1, \"known\": null}, {\"branch\": \"work/S-027b-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-027b-attempt-1\", \"id\": \"S-027b\", \"n\": 1, \"known\": null}, {\"branch\": \"work/S-027bc-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-027bc-attempt-1\", \"id\": \"S-027bc\", \"n\": 1, \"known\": null}]}\n",
+    "out": [
+      {
+        "cmd": "git branch -D work/S-027b-attempt-1",
+        "status": 0,
+        "stderr": ""
+      }
+    ],
+    "after": [
+      "main",
+      "work/S-027-attempt-1",
+      "work/S-027b",
+      "work/S-027bc-attempt-1"
+    ]
+  },
+  "VS-3": {
+    "list": "{\"ok\": true, \"command\": \"list\", \"format\": \"sdlc/{name}\", \"kind\": \"attempt\", \"branches\": [{\"branch\": \"sdlc/S-001-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-1\", \"id\": \"S-001\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/S-0010-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-0010-attempt-1\", \"id\": \"S-0010\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/S-001a-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-001a-attempt-1\", \"id\": \"S-001a\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/S-002-attempt-1\", \"kind\": \"attempt\", \"tail\": \"S-002-attempt-1\", \"id\": \"S-002\", \"n\": 1, \"known\": null}, {\"branch\": \"sdlc/S-001-attempt-12\", \"kind\": \"attempt\", \"tail\": \"S-001-attempt-12\", \"id\": \"S-001\", \"n\": 12, \"known\": null}]}\n",
+    "out": [
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-1",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-12",
+        "status": 0,
+        "stderr": ""
+      }
+    ],
+    "after": [
+      "S-001-attempt-1",
+      "main",
+      "mine",
+      "sdlc/S-001-v0",
+      "sdlc/S-001-v0-attempt-1x",
+      "sdlc/S-0010-attempt-1",
+      "sdlc/S-001a-attempt-1",
+      "sdlc/S-002-attempt-1",
+      "sdlc/run-3",
+      "user/S-001-attempt-1"
+    ]
+  },
+  "VS-3b": [
+    {
+      "fmt": "ünï/{name}",
+      "branch": "ünï/S-001-attempt-1",
+      "out": [
+        {
+          "cmd": "git branch -D ünï/S-001-attempt-1",
+          "status": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "fmt": "-x/{name}",
+      "rejectedByName": "{\"ok\": false, \"error\": \"the branch format '-x/{name}' gives '-x/S-001', which git check-ref-format refuses: fatal: '-x/S-001' is not a valid branch name\"}"
+    },
+    {
+      "fmt": "--x{name}",
+      "rejectedByName": "{\"ok\": false, \"error\": \"the branch format '--x{name}' gives '--xS-001', which git check-ref-format refuses: fatal: '--xS-001' is not a valid branch name\"}"
+    },
+    {
+      "fmt": "a b/{name}",
+      "rejectedByName": "{\"ok\": false, \"error\": \"the branch format 'a b/{name}' holds whitespace\"}"
+    },
+    {
+      "fmt": "f$(touch PWNED)/{name}",
+      "rejectedByName": "{\"ok\": false, \"error\": \"the branch format 'f$(touch PWNED)/{name}' holds whitespace\"}"
+    },
+    {
+      "fmt": "f';touch PWNED;'/{name}",
+      "rejectedByName": "{\"ok\": false, \"error\": \"the branch format \\\"f';touch PWNED;'/{name}\\\" holds whitespace\"}"
+    }
+  ],
+  "VS-4": {
+    "before": [
+      "main",
+      "sdlc/S-001",
+      "sdlc/S-001-attempt-1",
+      "sdlc/S-002-attempt-1"
+    ],
+    "out": [
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-1",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git push origin --delete sdlc/S-001-attempt-1",
+        "status": 0,
+        "stderr": "To /var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-FgAeMF/testkit-cli-lT5sof/origin.git-33\n - [deleted]         sdlc/S-001-attempt-1"
+      },
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-2",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git push origin --delete sdlc/S-001-attempt-2",
+        "status": 1,
+        "stderr": "error: unable to delete 'sdlc/S-001-attempt-2': remote ref does not exist\nerror: failed to push some refs to '/var/folders/b_/kllw7bcd59sbstn3r2yv6r6m0000gp/T/sdlc-test-FgAeMF/testkit-cli-lT5sof/origin.git-33'"
+      }
+    ],
+    "remoteAfter": [
+      "main",
+      "sdlc/S-001",
+      "sdlc/S-002-attempt-1"
+    ]
+  },
+  "VS-4c": {
+    "out": [
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-1",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git push origin --delete sdlc/S-001-attempt-1",
+        "status": 128,
+        "stderr": "fatal: 'origin' does not appear to be a git repository\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists."
+      },
+      {
+        "cmd": "git branch -D sdlc/S-001-attempt-2",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git push origin --delete sdlc/S-001-attempt-2",
+        "status": 128,
+        "stderr": "fatal: 'origin' does not appear to be a git repository\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists."
+      }
+    ]
+  },
+  "VS-5": {
+    "parent": [
+      {
+        "cmd": "git branch -D feature/s-013-attempt-1",
+        "status": 0,
+        "stderr": ""
+      },
+      {
+        "cmd": "git branch -D feature/s-013-attempt-2",
+        "status": 0,
+        "stderr": ""
+      }
+    ],
+    "child": [
+      {
+        "cmd": "git branch -D feature/s-013a-attempt-1",
+        "status": 0,
+        "stderr": ""
+      }
+    ],
+    "after": [
+      "feature/s-013b-attempt-1",
+      "main"
+    ]
+  }
+}

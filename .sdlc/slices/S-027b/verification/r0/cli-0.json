@@ -1,0 +1,257 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "f346b0b",
+  "environment": "Node test runner, python3 branches.py, git with scratch repos and a bare origin under a temp dir; executor runs the prompt's command text with argv, no shell",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Default format: list returns two attempt branches and delete removes only them",
+      "given": "Repo with sdlc/S-001-attempt-1, -attempt-2, sdlc/S-001, sdlc/S-001-v0",
+      "when": "Run the list command from integrator.md step 2, filter id S-001, run git branch -D per entry",
+      "then": "Only the two attempt branches go; sdlc/S-001 and sdlc/S-001-v0 stay",
+      "expected": "Only the two attempt branches go; sdlc/S-001 and sdlc/S-001-v0 stay",
+      "actual": "Only the two attempt branches go; sdlc/S-001 and sdlc/S-001-v0 stay",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-1",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Lowercase format: id s-001 matches S-001 case-blind; S-0010 and S-001a stay",
+      "given": "branchFormat feature/PROJ-1-{name:lower}",
+      "when": "List, filter ignoring case, delete",
+      "then": "List prints id s-001; an exact-case filter finds 0; the case-blind filter finds 2; other ids stay",
+      "expected": "List prints id s-001; an exact-case filter finds 0; the case-blind filter finds 2; other ids stay",
+      "actual": "List prints id s-001; an exact-case filter finds 0; the case-blind filter finds 2; other ids stay",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-2",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Mixed-case format and letter-suffix id S-027b",
+      "given": "branchFormat work/{name}, branches for S-027, S-027b, S-027bc",
+      "when": "Filter with id s-027B",
+      "then": "Only work/S-027b-attempt-1 is deleted",
+      "expected": "Only work/S-027b-attempt-1 is deleted",
+      "actual": "Only work/S-027b-attempt-1 is deleted",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-2b",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Other slices and non-attempt branches survive",
+      "given": "Branches of S-002, S-0010, S-001a, run-3, verify, user and bare names",
+      "when": "List, filter S-001, delete",
+      "then": "Only attempt-1 and attempt-12 of S-001 go",
+      "expected": "Only attempt-1 and attempt-12 of S-001 go",
+      "actual": "Only attempt-1 and attempt-12 of S-001 go",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-3",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Hostile format prefixes do not break the delete commands",
+      "given": "Formats with unicode, leading dash, whitespace, shell characters; flag-like corpus branch names",
+      "when": "Run name, list and delete",
+      "then": "Unicode name deletes cleanly; dash-leading and whitespace formats are refused by branches.py; no injected file appears",
+      "expected": "Unicode name deletes cleanly; dash-leading and whitespace formats are refused by branches.py; no injected file appears",
+      "actual": "Unicode name deletes cleanly; dash-leading and whitespace formats are refused by branches.py; no injected file appears",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-3b",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-6",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "pr/mr/stack: remote attempt ref vanishes, missing remote ref is tolerated",
+      "given": "Bare origin holds attempt-1 only; attempt-2 is local",
+      "when": "Run local delete and git push origin --delete for each",
+      "then": "attempt-1 vanishes on origin; push for attempt-2 exits 1 with 'remote ref does not exist' and the run continues; S-002 ref stays",
+      "expected": "attempt-1 vanishes on origin; push for attempt-2 exits 1 with 'remote ref does not exist' and the run continues; S-002 ref stays",
+      "actual": "attempt-1 vanishes on origin; push for attempt-2 exits 1 with 'remote ref does not exist' and the run continues; S-002 ref stays",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-4",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-7",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Direct mode text names no push and no push happens",
+      "given": "Prompt step 2 text; origin holds attempt-1",
+      "when": "Run local-only cleanup",
+      "then": "Text lists only pr, mr and stack; origin keeps its ref",
+      "expected": "Text lists only pr, mr and stack; origin keeps its ref",
+      "actual": "Text lists only pr, mr and stack; origin keeps its ref",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-4b",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-8",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "No origin remote: failed push does not stop the other deletions",
+      "given": "Repo without origin",
+      "when": "Run delete and push for two attempt branches",
+      "then": "Both local branches go; push exits non-zero",
+      "expected": "Both local branches go; push exits non-zero",
+      "actual": "Both local branches go; push exits non-zero",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-4c",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-9",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-093"
+      ],
+      "title": "Parent walk: step 3 text and per-parent list under a custom format",
+      "given": "S-013 and its children S-013a, S-013b under feature/{name:lower}",
+      "when": "Run step 2 for the parent id, then for S-013a",
+      "then": "Parent attempts go, child attempts stay until their own id runs; text keeps splitInto and never-delete-unfinished",
+      "expected": "Parent attempts go, child attempts stay until their own id runs; text keeps splitInto and never-delete-unfinished",
+      "actual": "Parent attempts go, child attempts stay until their own id runs; text keeps splitInto and never-delete-unfinished",
+      "result": "pass",
+      "specSource": "R-093 acceptance",
+      "test": ".sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs:VS-5",
+      "command": "SDLC_ROOT=$PWD LOG_DIR=$PWD/.sdlc/slices/S-027b/verification/r0/logs node --test .sdlc/slices/S-027b/verification/r0/tests/cli-0/cleanup.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "run transcript",
+          "path": ".sdlc/slices/S-027b/verification/r0/logs/cli-0-transcripts.json"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "name": "hostile branch formats",
+      "result": "dash-leading, double-dash and whitespace formats are refused; unicode works; shell characters are accepted by the format (seed)"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "Prompt writes git branch -D <branch> unquoted; branches.py accepts shell characters in a format",
+      "detail": "A branchFormat such as f$(id)/{name} or f;id;/{name} passes branches.py name. An agent that pastes the listed branch into a shell without quotes would run the text. The format is owner-controlled, so the risk is low. Quote the branch in the prompt.",
+      "file": "skills/sdlc/prompts/integrator.md"
+    },
+    {
+      "title": "A failed git push origin --delete exits 1 for a missing ref",
+      "detail": "The prompt says a missing name is fine. An agent must read exit 1 plus 'remote ref does not exist' as fine and still continue. The prompt does not say to continue after any failure of step 2 for one branch, though step 4 sends failures to notes.",
+      "file": "skills/sdlc/prompts/integrator.md"
+    },
+    {
+      "title": "branches.py list reads local branches only",
+      "detail": "A remote-only attempt branch stays on origin. The plan records this limit in its risks.",
+      "file": "skills/sdlc/branches.py"
+    }
+  ]
+}
