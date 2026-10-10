@@ -2106,13 +2106,21 @@
     "specRef": "§5",
     "quote": "The Commands table gains `--branch-format \"<format>\"` beside `--commit-format`.",
     "acceptance": "SKILL.md's Commands table has a `--branch-format \"<format>\"` row next to `--commit-format`.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/SKILL.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-045",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:27",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:32",
+        ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2121,13 +2129,23 @@
     "specRef": "§5",
     "quote": "**Branch format:** the loop names every branch it makes from one format (`branches.py`, placeholder `{name}`; default `sdlc/{name}`). Take the format from `--branch-format` when given, else from `$REPO/.sdlc/config.json` `branchFormat` when that file exists (a finished run leaves it on the default branch), else none. Run `python3 \"$SKILL_DIR/branches.py\" preflight --repo \"$REPO\" --mode <gitMode>` with `--format \"<format>\"` when you have one, and with `--branch \"$BASE_BRANCH\"` in `mr` mode. It reads the forge's branch-name rules, tests the names this mode will push, and prints a verdict. When `ok` is false, print its `samples` that failed with their `rule`, its `notes` and its `suggestion`, and end. When `ok` is true, `FMT` is its `format`; when `derived` is true, tell the user the format you derived and that it is now in config.json. A `working` sample that failed names the user's own branch: ask them to rename it and end. Then, when `$BASE_BRANCH` parses as one of the loop's kinds (`python3 \"$SKILL_DIR/branches.py\" parse --repo \"$REPO\" --format \"$FMT\" --branch \"$BASE_BRANCH\"` prints a kind), report that the workflow keeps those names for its own branches, ask the user to rename the branch (`git branch -m <new-name>`), and end. This check is first run only: on a resume the current branch is normally the run branch.",
     "acceptance": "SKILL.md Pre-flight holds this bullet after **Git mode**. The old \"Branch name (first run only)\" bullet and the mr-mode push-rule sentence are gone. The bullet ends the run when `ok` is false and prints failed samples, notes, and suggestion. It sets FMT from `format`, reports a derived format, asks for a rename on a failed `working` sample, and asks to rename `$BASE_BRANCH` when it parses as a loop kind, first run only.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/SKILL.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-046a",
+        "T-R-046b",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:56",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:74",
+        ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2151,13 +2169,25 @@
     "specRef": "§5",
     "quote": "After the worktree exists, when `$WT/.sdlc/config.json` holds a `branchFormat` that differs from `$FMT`, report both and end: a run in progress keeps its names.",
     "acceptance": "SKILL.md instructs reporting both formats and ending when the worktree's `config.json` branchFormat differs from `$FMT`. A resume that passes a different `--branch-format` is refused with both values.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
-    "adrs": [],
+    "adrs": [
+      "ADR-20261010-012348-planner-S-018-d35c",
+      "ADR-20261010-012412-decision-judge-S-018-fd46",
+      "ADR-20261010-012416-decision-judge-S-018-b1c1"
+    ],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/SKILL.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-048",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:101",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:90",
+        ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -2166,13 +2196,19 @@
     "specRef": "§5",
     "quote": "In **Launch**, the workflow args gain `branchFormat: \"$FMT\"`.",
     "acceptance": "SKILL.md's Launch section passes `branchFormat: \"$FMT\"` in the workflow args.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/SKILL.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-049",
+        ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
+      ],
+      "commit": "pending"
     },
     "notes": ""
   },
@@ -3347,13 +3383,22 @@
     "specRef": "§5",
     "quote": "When `ok` is true, `FMT` is its `format`; when `derived` is true, tell the user the format you derived and that it is now in config.json.",
     "acceptance": "A first run whose pre-flight derives `feature/sdlc/{name}` records `branchFormat: \"feature/sdlc/{name}\"` in the worktree's `.sdlc/config.json`. A resume without `--branch-format` reuses that value.",
-    "status": "in_progress",
+    "status": "done",
     "flags": [],
     "adrs": [],
     "evidence": {
-      "files": [],
-      "tests": [],
-      "commit": ""
+      "files": [
+        "skills/sdlc/SKILL.md",
+        "skills/sdlc/test/prompts.test.mjs"
+      ],
+      "tests": [
+        "T-R-097",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:39",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:56",
+        ".sdlc/slices/S-018/verification/r0/tests/cli-0/skillmd.verify-cli.test.mjs:83",
+        ".sdlc/slices/S-018/verification/r0/tests/contract-0/skill-md.verify-contract.test.mjs"
+      ],
+      "commit": "pending"
     },
     "notes": "added by the completeness critic (cross-cutting)"
   },

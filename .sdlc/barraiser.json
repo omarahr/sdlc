@@ -40,7 +40,7 @@
     },
     {
       "title": "Unicode digits accepted as integers",
-      "detail": "type=int accepts non-ASCII digits: `--n '\u0661'` gives n = 1. Later tails could embed a value the user did not type in ASCII.",
+      "detail": "type=int accepts non-ASCII digits: `--n '١'` gives n = 1. Later tails could embed a value the user did not type in ASCII.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -65,7 +65,7 @@
     },
     {
       "title": "--n, --round and --part accept negative, huge, padded, underscore and non-ASCII digit values",
-      "detail": "type=int accepts -1, 99999999999999999999, ' 3', Arabic-Indic 3, '0003', '1_000' and '+4' (TC-cli-10). Tails in spec \u00a71 need non-negative ASCII integers. The slices that build name() should reject these.",
+      "detail": "type=int accepts -1, 99999999999999999999, ' 3', Arabic-Indic 3, '0003', '1_000' and '+4' (TC-cli-10). Tails in spec §1 need non-negative ASCII integers. The slices that build name() should reject these.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -227,7 +227,7 @@
     },
     {
       "title": "Invisible characters pass validation",
-      "detail": "validate_format accepts U+200B because git allows it. I ran 'sdlc/\u200b{name}' and it passed. Such a format gives names that look the same as other names. The spec gives this job to git and the forge rules, so this note is for information only.",
+      "detail": "validate_format accepts U+200B because git allows it. I ran 'sdlc/​{name}' and it passed. Such a format gives names that look the same as other names. The spec gives this job to git and the forge rules, so this note is for information only.",
       "file": "skills/sdlc/branches.py",
       "blocking": false
     },
@@ -272,7 +272,7 @@
     },
     {
       "title": "Zero-width characters pass validate_format",
-      "detail": "U+200B, U+200D and U+FEFF do not match Python \\s, and git accepts them, so a\u200bb/{name} is valid (TC-cli-5). The branch names then look the same as names without these characters.",
+      "detail": "U+200B, U+200D and U+FEFF do not match Python \\s, and git accepts them, so a​b/{name} is valid (TC-cli-5). The branch names then look the same as names without these characters.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -413,7 +413,7 @@
     },
     {
       "title": "the integer flags take unicode digits, padded values and underscores",
-      "detail": "argparse type=int uses Python int(). So --n=\u0663, --n=\uff11\uff12, --n=' 3 ', --n=1_000, --n=+1 and --n=9223372036854775808 all exit 0. No S-003 row consumes these parts. When the verify and attempt rows land in S-004 to S-006, --n=\u0663 and --n=3 will give the same branch. Decide whether that is the intended result. List: .sdlc/slices/S-003/verification/r0/logs/cli-1-TC-cli-105-accepted.txt.",
+      "detail": "argparse type=int uses Python int(). So --n=٣, --n=１２, --n=' 3 ', --n=1_000, --n=+1 and --n=9223372036854775808 all exit 0. No S-003 row consumes these parts. When the verify and attempt rows land in S-004 to S-006, --n=٣ and --n=3 will give the same branch. Decide whether that is the intended result. List: .sdlc/slices/S-003/verification/r0/logs/cli-1-TC-cli-105-accepted.txt.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -448,7 +448,7 @@
     },
     {
       "title": "integer flags accept unicode digits, padding and underscores",
-      "detail": "argparse type=int uses Python int(), so '\u0663', '\uff11\uff12', ' 3 ', NBSP-padded 3 and '1_000' are accepted. When n, round or part reach a branch name in S-004 to S-006, the name can differ from the operator's text.",
+      "detail": "argparse type=int uses Python int(), so '٣', '１２', ' 3 ', NBSP-padded 3 and '1_000' are accepted. When n, round or part reach a branch name in S-004 to S-006, the name can differ from the operator's text.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -591,7 +591,7 @@
     },
     {
       "title": "Integer parts accept unicode digits, whitespace and huge values",
-      "detail": "--part \u0663, --n \uff11\uff12, --round ' 3' and 9999... are accepted and changed to ASCII, so two inputs give one branch name. Negative values give names such as sdlc/S-001-attempt--1.",
+      "detail": "--part ٣, --n １２, --round ' 3' and 9999... are accepted and changed to ASCII, so two inputs give one branch name. Negative values give names such as sdlc/S-001-attempt--1.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -717,7 +717,7 @@
     },
     {
       "title": "Lowercase length change in prefix gives wrong null",
-      "detail": "Under {name:lower}, parse reassigns prefix to prefix.lower() before it slices the tail. A prefix with a character whose lowercase form is longer (for example \u0130) shifts the slice, and parse('\u0130/{name:lower}', '\u0130/s-001') gives None. validate_format accepts that format. The spec does not cover this case.",
+      "detail": "Under {name:lower}, parse reassigns prefix to prefix.lower() before it slices the tail. A prefix with a character whose lowercase form is longer (for example İ) shifts the slice, and parse('İ/{name:lower}', 'İ/s-001') gives None. validate_format accepts that format. The spec does not cover this case.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -782,7 +782,7 @@
     },
     {
       "title": "parse accepts non-ASCII digits",
-      "detail": "\\d matches Arabic-Indic and fullwidth digits and int() converts them: run-\u0663 gives n 3.",
+      "detail": "\\d matches Arabic-Indic and fullwidth digits and int() converts them: run-٣ gives n 3.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -860,7 +860,7 @@
     },
     {
       "title": "Unicode digits and slash in area accepted",
-      "detail": "sdlc/run-\u0663 gives n 3. sdlc/M-2-e2e-a/b gives area a/b. The slash case follows ADR-20261009-173303-decision-judge-S-008-a88a. The spec says areas never contain slash but gives no check.",
+      "detail": "sdlc/run-٣ gives n 3. sdlc/M-2-e2e-a/b gives area a/b. The slash case follows ADR-20261009-173303-decision-judge-S-008-a88a. The spec says areas never contain slash but gives no check.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -870,7 +870,7 @@
     },
     {
       "title": "parse treats unicode digits as digits",
-      "detail": "sdlc/run-\u0663 gives n 3 and sdlc/M-\u0662 gives milestone, because \\d matches non-ASCII digits. The plan keeps this behavior.",
+      "detail": "sdlc/run-٣ gives n 3 and sdlc/M-٢ gives milestone, because \\d matches non-ASCII digits. The plan keeps this behavior.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -900,7 +900,7 @@
     },
     {
       "title": "Unicode digits accepted in run-N and M-N",
-      "detail": "Python \\d matches non-ASCII digits, so run-\u0663 is n 3 and M-\uff12 is a milestone with a non-ASCII id. Use [0-9] or re.ASCII.",
+      "detail": "Python \\d matches non-ASCII digits, so run-٣ is n 3 and M-２ is a milestone with a non-ASCII id. Use [0-9] or re.ASCII.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -915,7 +915,7 @@
     },
     {
       "title": "parse treats unicode digits as digits",
-      "detail": "run-\u0663 gives n 3 and M-\u0662 gives a milestone. The plan keeps this.",
+      "detail": "run-٣ gives n 3 and M-٢ gives a milestone. The plan keeps this.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -1031,7 +1031,7 @@
     },
     {
       "title": "Non-ASCII Unicode digits count as digits in loop branch names",
-      "detail": "The parse regexes use \\d without re.ASCII, so sdlc/run-\u0661 and sdlc/run-\uff11\uff10 list as run with n 1 and 10. 46 such names were classified across run, attempt, state, verify and milestone. Later run numbering reads this list.",
+      "detail": "The parse regexes use \\d without re.ASCII, so sdlc/run-١ and sdlc/run-１０ list as run with n 1 and 10. 46 such names were classified across run, attempt, state, verify and milestone. Later run numbering reads this list.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -1066,7 +1066,7 @@
     },
     {
       "title": "parse accepts non-ASCII digits in run and attempt tails",
-      "detail": "Python \\d matches Unicode digits, so sdlc/run-\u0661 and sdlc/S-001-attempt-\uff11\uff12 parse as run n=1 and attempt n=12 and list next to sdlc/run-1. Two branches then claim one n, and name(run, n=1) does not return the listed branch. The spec writes the regex as \\d+, so this follows the text and no requirement forbids it. Fix: use [0-9]+ or re.ASCII for the numeric parts in PARSE_ROWS.",
+      "detail": "Python \\d matches Unicode digits, so sdlc/run-١ and sdlc/S-001-attempt-１２ parse as run n=1 and attempt n=12 and list next to sdlc/run-1. Two branches then claim one n, and name(run, n=1) does not return the listed branch. The spec writes the regex as \\d+, so this follows the text and no requirement forbids it. Fix: use [0-9]+ or re.ASCII for the numeric parts in PARSE_ROWS.",
       "file": "skills/sdlc/branches.py"
     },
     {
@@ -1716,6 +1716,67 @@
       "title": "the negate guard in derive is not needed for safety",
       "detail": "Removing the negate check from derive changes no result, because the second verdict rejects every derived format of a negated rule.",
       "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "User-supplied branch format reaches a shell command",
+      "detail": "SKILL.md passes the --branch-format value to branches.py in double quotes. The driver must keep the quotes and must not use eval. Non-blocking reminder; no change required.",
+      "file": "skills/sdlc/SKILL.md",
+      "blocking": false
+    },
+    {
+      "title": "Mismatch bullet sits before the worktree is created",
+      "detail": "The bullet 'After the worktree exists ...' is in Pre-flight, before the Launch step. The spec places it there, so the order is acceptable, but a driver that reads steps in order cannot apply it until the worktree exists. Add 'in Launch, once $WT exists' or move the bullet next to where $WT is created. Not blocking.",
+      "file": "skills/sdlc/SKILL.md",
+      "blocking": false
+    },
+    {
+      "title": "Rewritten stack-flag assertion matches across a wide span",
+      "detail": "The assertion uses [\\s\\S]* between '**Branch format:**', 'first run only' and the resume wording. It can match text from other bullets. Use a bounded span, or reuse branchFormatBullet(). Not blocking.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Weak needles in T-R-046a",
+      "detail": "The needles list holds the common words 'rule', 'notes', 'format' and 'samples'. Each word appears anywhere in the bullet, so these checks pass even when the clause that uses them is gone. Pin each word inside a phrase, as T-R-097 does, or drop the weak needles.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Weak match for the end clause in T-R-048",
+      "detail": "The check `assert.match(mismatch, /end/)` also matches words such as 'append' or 'ending'. Pin the phrase 'report both and end' with one regex. The existing 'report both' check already covers most of it.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "Prose-pinning tests are brittle to rewording",
+      "detail": "All new tests match SKILL.md wording. This is the only way to check a driver prompt, and the plan accepts it. Later slices that reword the bullet must update these tests. No change is needed now.",
+      "file": "skills/sdlc/test/prompts.test.mjs",
+      "blocking": false
+    },
+    {
+      "title": "branches.py non-string pattern hardening is outside the slice",
+      "detail": "The diff adds isinstance checks in regex_error, _raw_result and judge. The spec does not require them and the slice plan does not list them.",
+      "file": "skills/sdlc/branches.py"
+    },
+    {
+      "title": "cli: driver end-the-run paths have no run-time check",
+      "detail": "SKILL.md is prose for the driver. The tests check its wording and the commands it names. They cannot run the decision to end on ok false or on a config.json mismatch. The ok false path with a forge rule needs a gh or glab stub.",
+      "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "preflight invalid-format verdict lacks samples, notes and suggestion",
+      "detail": "branches.py preflight with a format that lacks one {name} prints {ok:false,error} and exits 2. The bullet tells the driver to print samples, notes and suggestion when ok is false. It has no instruction for the error key.",
+      "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "Branch format bullet adds a sentence to the spec text",
+      "detail": "The bullet adds an On a resume sentence that R-046 quote lacks. It is consistent with R-097.",
+      "file": "skills/sdlc/SKILL.md"
+    },
+    {
+      "title": "Launch text states the arg as shorthand",
+      "detail": "R-049 quote shows branchFormat: \"$FMT\". The args object lists the bare name and a sentence gives the value. The shape stays valid.",
+      "file": "skills/sdlc/SKILL.md"
     }
   ]
 }
