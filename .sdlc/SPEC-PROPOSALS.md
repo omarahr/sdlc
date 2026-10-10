@@ -49,3 +49,8 @@
 - Source: behavior-campaign
 - Proposal: In spec section 2, state what `name` does when a part such as `--id` or `--area` makes a branch that `git check-ref-format --branch` refuses. Either `name` exits 2 with an error, or it prints the branch as given.
 - Rationale: R-017 checks only the format with the sample id S-001. The spec says exit 2 on bad input but does not call a hostile id bad input. Ids come from the ledger. Scenario SC-M-1-012 expects exit 2 or a valid ref. The code prints the refused ref and runs no hostile text.
+
+### P-20261010-172007: Spec section 3 note tail is status and HTTP code, not stderr
+- Source: contradiction ADR-20261010-172007-decision-judge-S-fix-M-1-2-91a8
+- Proposal: In spec section 3, replace the note "rules unknown on github: <stderr>" with "rules unknown on github: <tool> exited with status <n>", plus " (HTTP <code>)" when stderr holds a three-digit status. Make the same change for gitlab. State that raw stderr never enters the note.
+- Rationale: Raw stderr can hold a token and has no size limit. Scenarios SC-M-1-059, -061 and -064 need no secret on stdout and a bounded note.

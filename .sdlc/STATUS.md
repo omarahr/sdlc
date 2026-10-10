@@ -1,11 +1,11 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T17:15:19Z
+Updated: 2026-10-10T17:20:57Z
 
 Requirements: 143/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 41/44 done · current: none · awaiting merge: none
+Slices: 41/44 done · current: S-fix-M-1-2 Forge rules failures give a bounded note that holds no forge stderr · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: M-1
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 95 · Spec proposals: 10
+ADRs: 96 · Spec proposals: 11
 
 ## Recent
 - 2026-10-10T12:16:43Z slice-merged S-034 SKILL.md orders the format sources and the preflight command
