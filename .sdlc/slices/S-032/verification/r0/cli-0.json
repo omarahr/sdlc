@@ -1,0 +1,148 @@
+{
+  "profile": "cli",
+  "part": 0,
+  "round": 0,
+  "commit": "bf55a29",
+  "environment": "node test runner, python3, cli-runner scratch repos, attack-corpus (130 argv-safe entries); no product code changed",
+  "cases": [
+    {
+      "id": "TC-cli-1",
+      "scenarioId": "VS-1",
+      "requirementIds": [
+        "R-136"
+      ],
+      "title": "The pr preflight samples one state branch named sdlc/state-<14 digits>; the stack preflight samples none; a custom format changes the prefix only",
+      "given": "A scratch git repo built by cli-runner with a controlled environment",
+      "when": "branches.py preflight runs with the mode, flags and config the scenario names",
+      "then": "The samples hold the kinds the spec table allows for that mode",
+      "expected": "The pr preflight samples one state branch named sdlc/state-<14 digits>; the stack preflight samples none; a custom format changes the prefix only",
+      "actual": "pr samples: slice, state (sdlc/state-20261010101651), e2e. stack samples: run, milestone, slice. Custom config format feature/{name} and --format x/{name} gave feature/state-<14 digits> and x/state-<14 digits>. Stack with custom format: no state.",
+      "result": "pass",
+      "specSource": "R-136 quote and acceptance",
+      "test": ".sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs:21",
+      "command": "node --test .sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, exit code, JSON)",
+          "path": ".sdlc/slices/S-032/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-2",
+      "scenarioId": "VS-2",
+      "requirementIds": [
+        "R-136"
+      ],
+      "title": "mr and direct preflights sample no state kind, with and without --branch",
+      "given": "A scratch git repo built by cli-runner with a controlled environment",
+      "when": "branches.py preflight runs with the mode, flags and config the scenario names",
+      "then": "The samples hold the kinds the spec table allows for that mode",
+      "expected": "mr and direct preflights sample no state kind, with and without --branch",
+      "actual": "mr without --branch: no samples. mr with --branch: one working sample only. direct: no samples in both cases.",
+      "result": "pass",
+      "specSource": "R-136 quote and acceptance",
+      "test": ".sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs:34",
+      "command": "node --test .sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, exit code, JSON)",
+          "path": ".sdlc/slices/S-032/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-3",
+      "scenarioId": "VS-3",
+      "requirementIds": [
+        "R-137"
+      ],
+      "title": "Only stack samples run and milestone, and both follow the branch format",
+      "given": "A scratch git repo built by cli-runner with a controlled environment",
+      "when": "branches.py preflight runs with the mode, flags and config the scenario names",
+      "then": "The samples hold the kinds the spec table allows for that mode",
+      "expected": "Only stack samples run and milestone, and both follow the branch format",
+      "actual": "stack: sdlc/run-1, sdlc/M-1. pr, mr, direct: no run or milestone. With feature/{name}: feature/run-1, feature/M-1.",
+      "result": "pass",
+      "specSource": "R-137 quote and acceptance",
+      "test": ".sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs:46",
+      "command": "node --test .sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, exit code, JSON)",
+          "path": ".sdlc/slices/S-032/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-4",
+      "scenarioId": "VS-4",
+      "requirementIds": [
+        "R-137"
+      ],
+      "title": "Only pr samples an e2e branch",
+      "given": "A scratch git repo built by cli-runner with a controlled environment",
+      "when": "branches.py preflight runs with the mode, flags and config the scenario names",
+      "then": "The samples hold the kinds the spec table allows for that mode",
+      "expected": "Only pr samples an e2e branch",
+      "actual": "pr: sdlc/M-1-e2e (feature/M-1-e2e with a custom format). stack, mr, direct: no e2e sample.",
+      "result": "pass",
+      "specSource": "R-137 quote and acceptance",
+      "test": ".sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs:58",
+      "command": "node --test .sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, exit code, JSON)",
+          "path": ".sdlc/slices/S-032/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    },
+    {
+      "id": "TC-cli-5",
+      "scenarioId": "VS-5",
+      "requirementIds": [
+        "R-137"
+      ],
+      "title": "No mode samples e2e-area, verify or attempt, also with hostile --branch, --format and config branchFormat values",
+      "given": "A scratch git repo built by cli-runner with a controlled environment",
+      "when": "branches.py preflight runs with the mode, flags and config the scenario names",
+      "then": "The samples hold the kinds the spec table allows for that mode",
+      "expected": "No mode samples e2e-area, verify or attempt, also with hostile --branch, --format and config branchFormat values",
+      "actual": "Plain run: each mode held only its allowed kinds. 130 attack-corpus entries run as --branch (4 modes), --format (pr) and config branchFormat (stack): no traceback, no new kind in any sample.",
+      "result": "pass",
+      "specSource": "R-137 quote and acceptance",
+      "test": ".sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs:64",
+      "command": "node --test .sdlc/slices/S-032/verification/r0/tests/cli-0/kinds.verify-cli.test.mjs",
+      "manual": false,
+      "evidence": [
+        {
+          "kind": "transcript",
+          "title": "preflight transcripts (command, exit code, JSON)",
+          "path": ".sdlc/slices/S-032/verification/r0/logs/cli-0-transcripts.txt"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "family": "attack-corpus all families",
+      "target": "preflight --branch, --format, config branchFormat",
+      "result": "no traceback, sampled kinds unchanged"
+    }
+  ],
+  "seeds": [
+    {
+      "title": "verify: hostile sweep of preflight is slow",
+      "detail": "Each cli-runner call takes about 0.25 s, so the 130-entry sweep over 4 modes takes about 144 s. A smaller corpus subset would run faster.",
+      "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+    }
+  ]
+}
