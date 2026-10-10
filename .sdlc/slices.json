@@ -2976,12 +2976,56 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-020",
     "pr": "",
     "risk": "medium",
     "riskReason": "The loop script names verifier branches; a mismatch with the module breaks verification plumbing.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "T-R-051b duplicates the default case of T-R-075a",
+        "detail": "T-R-051b still compares the default verify branch with branches.py. T-R-075a covers the same case. Keep only the source-literal check in T-R-051b.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "branchName repeats the branches.py format rule",
+        "detail": "The {name} and {name:lower} rule exists in JS and in Python. T-R-075a pins both, so drift fails a test. No change needed now.",
+        "file": "skills/sdlc/sdlc-loop.js"
+      },
+      {
+        "title": "T-R-116a repeats coverage of T-R-050a and T-R-050b",
+        "detail": "T-R-116a only checks that branchName is a function and BRANCH_FORMAT is a string. T-R-050a and T-R-050b already call both and assert their values. Delete T-R-116a, or fold its typeof checks into T-R-050a. Not blocking: the test is cheap and its name is honest.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "T-R-118 may overlap an existing parse test",
+        "detail": "T-R-118 parses a slice branch under the plain prefix format. The parse test near line 947 already covers S-002 under several formats. Check whether that test pins the same kind and id. If so, delete T-R-118. Not blocking: this round could not confirm the overlap.",
+        "file": "skills/sdlc/test/branches.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "branchName passes the tail as a String.replace replacement string",
+        "detail": "A tail with $&, $$, $', $` or a$&b is rewritten by String.replace. The spec text shows this exact code. Real tails hold ids, rounds, profile names and parts, so none holds a dollar sign. A function replacement or split/join would make it exact.",
+        "file": "skills/sdlc/sdlc-loop.js"
+      },
+      {
+        "title": "A format with both {name} and {name:lower} leaves {name} unreplaced",
+        "detail": "branchName('AB') with a-{name}-{name:lower} gives a-{name}-ab. The spec does not define this format. Check that format validation rejects it.",
+        "file": "skills/sdlc/sdlc-loop.js"
+      },
+      {
+        "title": "Dollar-pattern tails are reachable only through a hostile slice id",
+        "detail": "The tail comes from the slice id and a fixed profile list, so reach is low. Fix: pass a replacer function to String.replace, for example .replace(token, () => value).",
+        "file": "skills/sdlc/sdlc-loop.js"
+      },
+      {
+        "title": "Janitor test depends on shared real temp dir",
+        "detail": "The scripts.test.mjs janitor test ages a dir in the real tmpdir. A concurrent janitor run by another agent can reap it and fail the test. Use an isolated TMPDIR for the test.",
+        "file": "skills/sdlc/test/scripts.test.mjs"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3004,6 +3048,13 @@
       {
         "kind": "verify",
         "round": 1,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 2,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
