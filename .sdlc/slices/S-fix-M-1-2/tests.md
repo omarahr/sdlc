@@ -9,3 +9,8 @@ T-R-084-multiline — R-084 — the note keeps the newline and all 5000 characte
 SC-M-1-059 — R-029 — the note holds the secret from stderr (`e2e/tests/faults.test.mjs`)
 SC-M-1-061 — R-031 — the note holds the secret from stderr (`e2e/tests/faults.test.mjs`)
 SC-M-1-064 — R-029 — the note holds the huge stderr (`e2e/tests/faults.test.mjs`)
+
+## Promoted in fix round 1
+
+T-R-029-http-code — R-029 — promoted from `verification/r0/tests/security-0/forge-failure.verify-security.test.mjs` (`verify security: VS-5 _forge_failure reads status and one HTTP code only`), in `skills/sdlc/test/branches.test.mjs`
+T-R-029-unicode-digits — R-029 — promoted from the same file (`verify security: VS-5 unicode digits never reach the note`), in `skills/sdlc/test/branches.test.mjs`

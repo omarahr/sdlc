@@ -124,7 +124,7 @@ def _bounded(text):
 
 def _forge_failure(tool, returncode, stderr):
     message = f"{tool} exited with status {returncode}"
-    match = re.search(r"\bHTTP(?:/\d(?:\.\d)?)? (\d{3})\b", stderr)
+    match = re.search(r"\bHTTP(?:/[0-9](?:\.[0-9])?)? ([0-9]{3})\b", stderr, re.ASCII)
     if match:
         message += f" (HTTP {match.group(1)})"
     return message

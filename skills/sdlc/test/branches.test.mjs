@@ -3114,6 +3114,40 @@ test('T-R-029-bounded a 10 MB gh stderr gives a short note', opts, () => {
   assert.ok(!JSON.stringify(out).includes(SECRET_TOKEN))
 })
 
+const forgeFailureEach = (stderrs) => JSON.parse(probe(`${CALL}
+print(json.dumps([call(mod._forge_failure, "gh", 1, x) for x in json.loads(sys.argv[2])]))
+`, [BRANCHES, JSON.stringify(stderrs)], { cwd: scratch('sdlc-branches-cwd-') }))
+
+test('T-R-029-http-code the note reads the status and one three-digit HTTP code only', opts, () => {
+  const plain = 'gh exited with status 1'
+  const cases = [
+    ['', plain],
+    ['boom', plain],
+    ['HTTP 403', `${plain} (HTTP 403)`],
+    ['HTTP 4031', plain],
+    ['HTTP 40', plain],
+    ['http 403', plain],
+    ['HTTP/1.1 502 Bad Gateway', `${plain} (HTTP 502)`],
+    ['HTTP/2 404', `${plain} (HTTP 404)`],
+    ['HTTP 401 then HTTP 500', `${plain} (HTTP 401)`],
+    [`token_HTTP 403_${SECRET_TOKEN}`, plain],
+    ['HTTP\r\n403', plain],
+    [`HTTP 403\r\n${SECRET_TOKEN}`, `${plain} (HTTP 403)`],
+    ['\u0000HTTP 403\u0000', `${plain} (HTTP 403)`],
+    ['HTTP  403', plain],
+    ['HTTP 403a', plain],
+  ]
+  const results = forgeFailureEach(cases.map(([stderr]) => stderr))
+  cases.forEach(([stderr, want], i) => {
+    assert.deepEqual(results[i], { ret: want }, JSON.stringify(stderr))
+  })
+})
+
+test('T-R-029-unicode-digits unicode digits never reach the note', opts, () => {
+  const results = forgeFailureEach(['HTTP \u0663\u0660\u0663 and HTTP \uFF14\uFF10\uFF13'])
+  assert.deepEqual(results[0], { ret: 'gh exited with status 1' })
+})
+
 test('T-R-031-secret a failing glab note holds the status and no stderr text', opts, () => {
   const shim = glabShim({ body: '', stderr: `token ${SECRET_TOKEN}\nHTTP 401\n`, exit: 1 })
   const got = withGlab(shim, gitlabRepo(), ['sdlc/A', 'sdlc/B'])
