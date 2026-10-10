@@ -3361,7 +3361,7 @@
     "specRef": "§Testing",
     "quote": "`_common.md defines every branch placeholder and env-detector records the format`: the eight placeholders are present; `env-detector.md` matches `/branchFormat/`; `SKILL.md` matches `/--branch-format/` and `/branches\\.py\" preflight/`.",
     "acceptance": "The prompts test asserts the eight placeholders, the branchFormat match in env-detector.md, and the two SKILL.md matches.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3376,7 +3376,7 @@
     "specRef": "§Testing",
     "quote": "The existing STE test covers every edited prompt.",
     "acceptance": "The STE test runs over every prompt the change edits and passes.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
