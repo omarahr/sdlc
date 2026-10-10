@@ -4541,7 +4541,7 @@
     "specRef": "§8",
     "quote": "| `<milestone branch>` | `branches.py name --kind milestone --id <milestoneId>` |",
     "acceptance": "_common.md's placeholder table maps `<milestone branch>` to `branches.py name --kind milestone --id <milestoneId>`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4556,7 +4556,7 @@
     "specRef": "§8",
     "quote": "| `<e2e branch>` | `branches.py name --kind e2e --id <milestoneId>` |",
     "acceptance": "_common.md's placeholder table maps `<e2e branch>` to `branches.py name --kind e2e --id <milestoneId>`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4571,7 +4571,7 @@
     "specRef": "§8",
     "quote": "| `<e2e area branch>` | `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>` |",
     "acceptance": "_common.md's placeholder table maps `<e2e area branch>` to `branches.py name --kind e2e-area --id <milestoneId> --area <areaId>`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4586,7 +4586,7 @@
     "specRef": "§8",
     "quote": "| `<state branch>` | `branches.py name --kind state` (it makes the timestamp) |",
     "acceptance": "_common.md's placeholder table maps `<state branch>` to `branches.py name --kind state`, which makes the timestamp.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -4601,7 +4601,7 @@
     "specRef": "§8",
     "quote": "| `<attempt branch>` | `branches.py name --kind attempt --id <sliceId> --n <n>` |",
     "acceptance": "_common.md's placeholder table maps `<attempt branch>` to `branches.py name --kind attempt --id <sliceId> --n <n>`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {

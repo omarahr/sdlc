@@ -3763,8 +3763,8 @@
       "S-025"
     ],
     "kind": "spec",
-    "status": "todo",
-    "phase": "plan",
+    "status": "in_progress",
+    "phase": "tests",
     "branch": "sdlc/S-026",
     "pr": "",
     "risk": "medium",
