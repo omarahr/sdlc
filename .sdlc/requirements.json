@@ -2691,7 +2691,7 @@
     "specRef": "§Testing",
     "quote": "`preflight` on a fixture repo with `gh` and `glab` shims on `PATH` (shell scripts printing canned JSON): no rules gives `ok` with the default; a `starts_with feature/` ruleset derives `feature/sdlc/{name}`; a regex that the default fails gives exit 1 with a suggestion; a regex the default passes gives `ok`; a shim that exits 1 gives `ok` with `rules unknown` in `notes` and `unchecked` samples; `--mode mr --branch bad-name` against a GitLab regex fails the `working` sample; an invalid `--format` exits 2.",
     "acceptance": "The branches test asserts all seven preflight scenarios through the shims.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3036,7 +3036,7 @@
     "specRef": "§Edge cases",
     "quote": "**The default already satisfies the rule** (a regex like `^[a-z]+/.+`): `ok` with the default, nothing derived.",
     "acceptance": "One regex rule that the default format satisfies: preflight exits 0, prints `ok: true`, `format` `sdlc/{name}`, and `derived: false`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3051,7 +3051,7 @@
     "specRef": "§Edge cases",
     "quote": "**Several rules, or a negated one, and no format given**: no derivation; the verdict lists each failing sample with the rule, and the suggestion asks for a format.",
     "acceptance": "Two rules and no format given: `ok` is false, `derived` is false, every failing sample carries its rule's label, and `suggestion` contains `--branch-format`.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
@@ -3313,7 +3313,7 @@
     "specRef": "§Edge cases",
     "quote": "**A rule that targets only the default branch**: the GitHub endpoint returns no `branch_name_pattern` for the samples; `ok`.",
     "acceptance": "A canned GitHub response with no `branch_name_pattern` object for the samples gives an empty `rules` list, no failing sample, `ok: true`, `derived: false`, and exit 0.",
-    "status": "todo",
+    "status": "in_progress",
     "flags": [],
     "adrs": [],
     "evidence": {
