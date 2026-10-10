@@ -1030,6 +1030,36 @@ test('T-R-089: the run branch placeholder follows the git mode', () => {
   assert.match(row, /last entry/)
 })
 
+test('T-R-111: the milestone branch placeholder maps to branches.py name', () => {
+  const { bullet } = commonBranchNames()
+  assert.ok(branchRow(bullet, '<milestone branch>').includes('branches.py name --kind milestone --id <milestoneId>'))
+})
+
+test('T-R-112: the e2e branch placeholder maps to branches.py name', () => {
+  const { bullet } = commonBranchNames()
+  const row = branchRow(bullet, '<e2e branch>')
+  assert.ok(row.includes('branches.py name --kind e2e --id <milestoneId>'))
+  assert.ok(!row.includes('--area'))
+})
+
+test('T-R-113: the e2e area branch placeholder maps to branches.py name', () => {
+  const { bullet } = commonBranchNames()
+  assert.ok(branchRow(bullet, '<e2e area branch>').includes('branches.py name --kind e2e-area --id <milestoneId> --area <areaId>'))
+})
+
+test('T-R-114: the state branch placeholder takes no id and makes the timestamp', () => {
+  const { bullet } = commonBranchNames()
+  const row = branchRow(bullet, '<state branch>')
+  assert.ok(row.includes('branches.py name --kind state'))
+  assert.ok(!row.includes('--id'))
+  assert.match(row, /makes the timestamp/)
+})
+
+test('T-R-115: the attempt branch placeholder maps to branches.py name', () => {
+  const { bullet } = commonBranchNames()
+  assert.ok(branchRow(bullet, '<attempt branch>').includes('branches.py name --kind attempt --id <sliceId> --n <n>'))
+})
+
 test('T-R-090: the verify branch placeholder comes from the prompt input', () => {
   const { common, bullet } = commonBranchNames()
   assert.ok(branchRow(bullet, '<verify branch>').includes('the `branch` input'))
