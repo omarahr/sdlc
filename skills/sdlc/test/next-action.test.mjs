@@ -505,3 +505,151 @@ test('stack mode stops holding once the milestone pull request is merged into th
   const d = decide(repo, { prs: { merged: [pr('sdlc/M-2')] } })
   assert.notEqual(d.next?.action, 'wait', 'a merged milestone PR must not hold the run')
 })
+
+const CUSTOM = 'feature/PROJ-1-{name}'
+const LOWER = 'feature/PROJ-1-{name:lower}'
+const merges = d => (d.sync ?? []).filter(c => c.startsWith('gh pr merge'))
+
+function inProgressOn(repo, branch, id = 'S-1') {
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  git(repo, 'checkout', '-q', '-b', branch)
+  writeFileSync(join(repo, '.sdlc', 'slices.json'), JSON.stringify([slice(id, 'in_progress', { phase: 'implement' })]))
+  git(repo, 'commit', '-q', '-am', `state ${id}`)
+  git(repo, 'checkout', '-q', 'main')
+}
+
+test('active slice branch is found by parse under a custom format', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  inProgressOn(repo, 'feature/PROJ-1-S-1')
+  const d = decide(repo)
+  assert.equal(d.next.action, 'slice')
+  assert.equal(d.next.slice.phase, 'implement')
+  assert.equal(d.checkout, 'feature/PROJ-1-S-1')
+
+  const foreign = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  inProgressOn(foreign, 'sdlc/S-1')
+  git(foreign, 'checkout', '-q', '-b', 'feature/PROJ-1-sdlc-foo')
+  writeFileSync(join(foreign, '.sdlc', 'slices.json'), JSON.stringify([slice('sdlc-foo', 'in_progress')]))
+  git(foreign, 'commit', '-q', '-am', 'foreign')
+  git(foreign, 'checkout', '-q', 'main')
+  assert.equal(decide(foreign).checkout, null, 'a foreign branch and an sdlc/ branch are not active under the custom format')
+})
+
+test('state, e2e, slice and milestone heads are recognized under a custom format', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: 'pr', config: { branchFormat: CUSTOM } })
+  const ready = decide(repo, { prs: { open: [
+    pr('feature/PROJ-1-state-20261010000000', { number: 12 }),
+    pr('feature/PROJ-1-M-1-e2e-ui', { number: 13 }),
+    pr('feature/PROJ-1-sdlc-foo', { number: 14 }),
+  ] } })
+  assert.deepEqual(merges(ready), ['gh pr merge 12 --squash --delete-branch'])
+
+  const e2e = decide(repo, { prs: { open: [pr('feature/PROJ-1-M-1-e2e', { number: 15 })] } })
+  assert.deepEqual(merges(e2e), ['gh pr merge 15 --squash --delete-branch'])
+
+  const sliceHead = next(repo, { prs: { open: [pr('feature/PROJ-1-S-1')] } })
+  assert.equal(sliceHead.action, 'retryMerge')
+  assert.equal(sliceHead.sliceId, 'S-1')
+  assert.equal(sliceHead.slice.status, 'awaiting-merge')
+
+  const foreignHead = next(repo, { prs: { open: [pr('feature/PROJ-1-sdlc-foo')] } })
+  assert.equal(foreignHead.action, 'slice')
+
+  const stack = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-2', status: 'verified', attempts: 1, slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'feature/PROJ-1-run-1', branchFormat: CUSTOM } })
+  const held = next(stack, { prs: { open: [pr('feature/PROJ-1-M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(held.action, 'wait')
+  assert.match(held.reason, /M-2/)
+  const stale = next(stack, { prs: { open: [pr('feature/PROJ-1-M-2-e2e', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.notEqual(stale.action, 'wait')
+})
+
+test('a lowercased head resolves to the ledger id', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: 'pr', config: { branchFormat: LOWER } })
+  const open = next(repo, { prs: { open: [pr('feature/proj-1-s-1')] } })
+  assert.equal(open.action, 'retryMerge')
+  assert.equal(open.sliceId, 'S-1')
+  assert.equal(open.slice.status, 'awaiting-merge')
+
+  const awaiting = fixture({ 'slices.json': [slice('S-1', 'awaiting-merge', { pr: 'u' })] }, { gitMode: 'pr', config: { branchFormat: LOWER } })
+  const merged = next(awaiting, { prs: { merged: [{ number: 4, headRefName: 'feature/proj-1-s-1', url: 'https://example.test/pr/4' }] } })
+  assert.equal(merged.action, 'retryMerge')
+  assert.equal(merged.sliceId, 'S-1')
+  assert.match(merged.reason, /was merged/)
+
+  const active = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: LOWER } })
+  inProgressOn(active, 'feature/proj-1-s-1')
+  assert.equal(decide(active).checkout, 'feature/proj-1-s-1')
+})
+
+test('a missing or empty branchFormat falls back to sdlc/{name}', opts, () => {
+  for (const config of [{ branchFormat: '' }, {}]) {
+    const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: 'pr', config })
+    const open = next(repo, { prs: { open: [pr('sdlc/S-1')] } })
+    assert.equal(open.action, 'retryMerge')
+    assert.equal(open.sliceId, 'S-1')
+    const active = fixture({ 'slices.json': [slice('S-1')] }, { config })
+    inProgressOn(active, 'sdlc/S-1')
+    assert.equal(decide(active).checkout, 'sdlc/S-1')
+  }
+})
+
+test('the active slice branch, slice PR heads, the state PR, the e2e PR and the stack milestone hold are recognized under a custom format', opts, () => {
+  const active = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  inProgressOn(active, 'feature/PROJ-1-S-1')
+  assert.equal(decide(active).checkout, 'feature/PROJ-1-S-1')
+
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { gitMode: 'pr', config: { branchFormat: CUSTOM } })
+  const d = decide(repo, { prs: { open: [
+    pr('feature/PROJ-1-state-20261010000000', { number: 12 }),
+    pr('feature/PROJ-1-M-1-e2e', { number: 13 }),
+    pr('feature/PROJ-1-M-1-e2e-ui', { number: 14 }),
+    pr('feature/PROJ-1-sdlc-foo', { number: 15 }),
+  ] } })
+  assert.deepEqual(merges(d), ['gh pr merge 12 --squash --delete-branch', 'gh pr merge 13 --squash --delete-branch'])
+  const sliceHead = next(repo, { prs: { open: [pr('feature/PROJ-1-S-1')] } })
+  assert.equal(sliceHead.action, 'retryMerge')
+  assert.equal(sliceHead.sliceId, 'S-1')
+
+  const stack = fixture({
+    'slices.json': [slice('S-014', 'done')],
+    'milestones.json': [{ id: 'M-2', status: 'verified', attempts: 1, slices: ['S-014'], fixSlices: [] }],
+  }, { gitMode: 'stack', config: { runBranch: 'feature/PROJ-1-run-1', branchFormat: CUSTOM } })
+  const held = next(stack, { prs: { open: [pr('feature/PROJ-1-M-2', { reviewDecision: 'REVIEW_REQUIRED' })] } })
+  assert.equal(held.action, 'wait')
+  assert.match(held.reason, /M-2/)
+})
+
+function branchWith(repo, branch, slices) {
+  git(repo, 'checkout', '-q', '-b', branch)
+  writeFileSync(join(repo, '.sdlc', 'slices.json'), JSON.stringify(slices))
+  git(repo, 'commit', '-q', '-am', `state ${branch}`)
+  git(repo, 'checkout', '-q', 'main')
+}
+
+test('a slice-shaped branch without an in-progress ledger entry stays inactive', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  branchWith(repo, 'feature/PROJ-1-S-002', [slice('S-1', 'in_progress')])
+  branchWith(repo, 'feature/PROJ-1-S-3', [slice('S-3', 'todo')])
+  assert.equal(decide(repo).checkout, null)
+})
+
+test('the checked-out branch wins over another in-progress branch', opts, () => {
+  const repo = fixture({ 'slices.json': [slice('S-1')] }, { config: { branchFormat: CUSTOM } })
+  git(repo, 'init', '-q', '-b', 'main')
+  git(repo, 'add', '-A')
+  git(repo, 'commit', '-q', '-m', 'bootstrap')
+  branchWith(repo, 'feature/PROJ-1-S-1', [slice('S-1', 'in_progress', { phase: 'implement' })])
+  branchWith(repo, 'feature/PROJ-1-S-2', [slice('S-2', 'in_progress', { phase: 'tests' })])
+  git(repo, 'checkout', '-q', 'feature/PROJ-1-S-2')
+  const d = decide(repo)
+  assert.equal(d.checkout, null)
+  assert.equal(d.next.slice.id, 'S-2')
+})
