@@ -1829,7 +1829,7 @@ test('T-R-028f rules stay with their sample', opts, () => {
 test('T-R-029a a failing gh gives one note and unchecked samples', opts, () => {
   const shim = ghShim({ body: '', stderr: 'boom\n', exit: 1 })
   const got = withGh(shim, githubRepo(), ['sdlc/A', 'sdlc/B', 'sdlc/C'])
-  assert.deepEqual(got.ret.notes, ['rules unknown on github: boom'])
+  assert.deepEqual(got.ret.notes, ['rules unknown on github: gh exited with status 1'])
   assert.deepEqual(got.ret.rules, [])
   assert.equal(got.ret.unchecked, true)
   assert.equal(shim.calls().length, 1)
@@ -1947,7 +1947,7 @@ test('T-R-030d other push rule fields are ignored', opts, () => {
 test('T-R-031a a failing glab gives one note and unchecked samples', opts, () => {
   const shim = glabShim({ body: '', stderr: 'boom\n', exit: 1 })
   const got = withGlab(shim, gitlabRepo(), ['sdlc/A', 'sdlc/B'])
-  assert.deepEqual(got.ret.notes, ['rules unknown on gitlab: boom'])
+  assert.deepEqual(got.ret.notes, ['rules unknown on gitlab: glab exited with status 1'])
   assert.deepEqual(got.ret.rules, [])
   assert.deepEqual(got.ret.by_sample, {})
   assert.equal(got.ret.unchecked, true)
@@ -3086,4 +3086,72 @@ test('T-R-019-state-ts name keeps a given state timestamp through the round trip
   const out = pyName([{ fmt: DEFAULT_FMT, kind: 'state', parts: { ts: '20261011101010' } }])
   assert.equal(out[0].branch, 'sdlc/state-20261011101010')
   assert.equal(out[0].parsed.ts, '20261011101010')
+})
+
+const SECRET_TOKEN = 'ghp_SECRET123'
+
+test('T-R-029-secret a failing gh note holds the status and no stderr text', opts, () => {
+  const shim = ghShim({ body: '', stderr: `token ${SECRET_TOKEN}\nHTTP 403\n`, exit: 1 })
+  const got = withGh(shim, githubRepo(), ['sdlc/A', 'sdlc/B'])
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], /^rules unknown on github:/)
+  assert.ok(got.ret.notes[0].includes('403'), got.ret.notes[0])
+  assert.ok(!JSON.stringify(got).includes(SECRET_TOKEN), JSON.stringify(got))
+  assert.equal(got.ret.unchecked, true)
+  assert.deepEqual(got.ret.rules, [])
+})
+
+test('T-R-029-bounded a 10 MB gh stderr gives a short note', opts, () => {
+  const big = `token ${SECRET_TOKEN}\n${'x'.repeat(10 * 1024 * 1024)}\n`
+  const shim = ghShim({ body: '', stderr: big, exit: 1 })
+  const got = withGh(shim, githubRepo(), ['sdlc/A'])
+  assert.equal(got.ret.notes.length, 1)
+  assert.ok(got.ret.notes[0].length < 200, String(got.ret.notes[0].length))
+  assert.ok(!got.ret.notes[0].includes(SECRET_TOKEN))
+  const { status, out } = preflight(githubRepo(), ['--mode', 'pr'], shim)
+  assert.equal(status, 0)
+  assert.ok(JSON.stringify(out).length < 20000)
+  assert.ok(!JSON.stringify(out).includes(SECRET_TOKEN))
+})
+
+test('T-R-031-secret a failing glab note holds the status and no stderr text', opts, () => {
+  const shim = glabShim({ body: '', stderr: `token ${SECRET_TOKEN}\nHTTP 401\n`, exit: 1 })
+  const got = withGlab(shim, gitlabRepo(), ['sdlc/A', 'sdlc/B'])
+  assert.equal(got.ret.notes.length, 1)
+  assert.match(got.ret.notes[0], /^rules unknown on gitlab:/)
+  assert.ok(got.ret.notes[0].includes('401'), got.ret.notes[0])
+  assert.ok(!JSON.stringify(got).includes(SECRET_TOKEN), JSON.stringify(got))
+  assert.equal(got.ret.unchecked, true)
+  assert.deepEqual(got.ret.rules, [])
+})
+
+test('T-R-084-launch a missing gh or glab gives one short line', opts, () => {
+  const bin = scratch('sdlc-nocli-bin-')
+  symlinkSync(PYTHON_PATH, join(bin, 'python3'))
+  symlinkSync(GIT_PATH, join(bin, 'git'))
+  for (const [forge, repo] of [['github', githubRepo()], ['gitlab', gitlabRepo()]]) {
+    const got = readRules(repo, ['sdlc/A'], [bin])
+    assert.equal(got.ret.notes.length, 1)
+    const note = got.ret.notes[0]
+    assert.ok(note.startsWith(`rules unknown on ${forge}: `), note)
+    assert.ok(!note.includes('\n'), note)
+    assert.ok(note.length <= 200 + `rules unknown on ${forge}: `.length, String(note.length))
+  }
+})
+
+test('T-R-084-multiline a long multi-line launch error gives one short line', opts, () => {
+  const repo = githubRepo()
+  const out = probe(`${CALL}
+import subprocess
+def boom(*a, **k):
+    raise OSError("first line\\n" + ("y" * 5000))
+subprocess.run = boom
+print(json.dumps(call(mod.read_rules, sys.argv[2], ["sdlc/A"])))
+`, [BRANCHES, repo], { cwd: scratch('sdlc-branches-cwd-') })
+  const got = JSON.parse(out)
+  assert.equal(got.ret.notes.length, 1, out)
+  const note = got.ret.notes[0]
+  assert.ok(note.startsWith('rules unknown on github: '), note)
+  assert.ok(!note.includes('\n'), note)
+  assert.ok(note.length <= 200 + 'rules unknown on github: '.length, String(note.length))
 })
