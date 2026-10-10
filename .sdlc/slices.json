@@ -4458,12 +4458,23 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-032",
     "pr": "",
     "risk": "medium",
     "riskReason": "Mode and kind selection decides which branch names the forge tests.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "verify: hostile sweep of preflight is slow",
+        "detail": "Each cli-runner call takes about 0.25 s, so a sweep of 130 corpus entries over 4 modes takes about 144 s. A smaller corpus subset would run faster.",
+        "file": "skills/sdlc/test/testkit/cli-runner.mjs"
+      },
+      {
+        "title": "Hostile-input test cannot see a refusal that yields no samples",
+        "detail": "When preflight refuses a hostile format, it prints no samples, so the kinds check holds for an empty set. It proves no extra kind and no traceback, not the refusal text.",
+        "file": ".sdlc/slices/S-032/verification/r0/tests/security-0/sampled-kinds.verify-security.test.mjs"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -4479,6 +4490,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
