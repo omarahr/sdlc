@@ -9,13 +9,13 @@ You run once per slice, in its first verification round (and again when a run re
 ## After a review fix
 With `after: "review-fix"`, the previous round passed verification. The implementer then changed the code to fix review findings. The latest `## Fix round` entry in failures.md lists them. That new code has no boundary tests yet.
 - Copy the previous plan. Keep every scenario id.
-- Add scenarios only for behavior the fix changed or added. Read the commit that fixed the findings (`git log -1 -p sdlc/<id>`). It shows what the fix touched. Tag the profiles that can falsify the new behavior. A finding that named a defect gets a scenario that would have caught it.
+- Add scenarios only for behavior the fix changed or added. Read the commit that fixed the findings (`git log -1 -p <slice branch>`). It shows what the fix touched. Tag the profiles that can falsify the new behavior. A finding that named a defect gets a scenario that would have caught it.
 - If the fix changed no observable behavior, add nothing. This covers a renaming, or a refactoring that the existing tests already cover.
 - Return the ids of the scenarios you added in `added` (`[]` when none). Only those scenarios run this round.
 
 ## Read
 - The slice's requirements (exact `quote` and `acceptance`), the ADRs that name them, plan.md and tests.md.
-- The diff: `git diff <defaultBranch>...sdlc/<id>`, and the files it touches. It shows which boundaries the change crosses: an HTTP route, a worker, a migration, a component, a command, an exported package.
+- The diff: `git diff <defaultBranch>...<slice branch>`, and the files it touches. It shows which boundaries the change crosses: an HTTP route, a worker, a migration, a component, a command, an exported package.
 - `.sdlc/testkit.json`, the tools that already exist.
 - For round > 0: the previous plan, the previous round's profile evidence (`verification/r<round-1>/*.json`), and the fix-round entry in failures.md. Keep scenario ids stable across rounds. Add scenarios for whatever the fix touched, and for every defect found so far. Each fix is then re-proven.
 - The profile catalog below, and the profile files `verify-<profile>.md` for what each one covers.

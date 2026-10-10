@@ -17,18 +17,18 @@ Do not work it out yourself from `gitMode` or from a git command. `gitMode` does
    - `why`,
    - the attempts already made (read plan.md, verify-*.md, review-*.md),
    - the concrete failing evidence.
-2. **Archive the current attempt:** if branch `sdlc/<id>` exists:
+2. **Archive the current attempt:** if branch `<slice branch>` exists:
    - commit any uncommitted work on it as "wip before <action>",
-   - rename it `sdlc/<id>-attempt-<n>`, where n is the next free number,
-   - Get the worktree to a safe branch before the actions. In `direct` and `pr` mode run `git checkout sdlc/run-<n>`: `<baseBranch>` is `<defaultBranch>` there, and the owner's checkout holds it. In `stack` and `mr` mode run `git checkout <baseBranch>`. In `stack` mode the default branch is never committed to.
+   - rename it `<attempt branch>`, where n is the next free number,
+   - Get the worktree to a safe branch before the actions. In `direct` and `pr` mode run `git checkout <run branch>`: `<baseBranch>` is `<defaultBranch>` there, and the owner's checkout holds it. In `stack` and `mr` mode run `git checkout <baseBranch>`. In `stack` mode the default branch is never committed to.
 
-**Default-branch commits keep the write-up (I2):** before any **default-branch commit** below, copy the slice's recorded files from the archived branch: `git checkout sdlc/<id>-attempt-<n> -- .sdlc/slices/<id> .sdlc/DECISIONS.md .sdlc/SPEC-PROPOSALS.md`. Do this **after** the checkout in step 2. The copy stages the files; the **default-branch commit** below then puts them on `<baseBranch>`. Without this, parked retries and STUCK.md would read an empty failures.md.
+**Default-branch commits keep the write-up (I2):** before any **default-branch commit** below, copy the slice's recorded files from the archived branch: `git checkout <attempt branch> -- .sdlc/slices/<id> .sdlc/DECISIONS.md .sdlc/SPEC-PROPOSALS.md`. Do this **after** the checkout in step 2. The copy stages the files; the **default-branch commit** below then puts them on `<baseBranch>`. Without this, parked retries and STUCK.md would read an empty failures.md.
 
 Every **default-branch commit** below lands on `<baseBranch>`: the **default-branch commit** procedure in commit-state.md puts it there, whatever branch HEAD is on. The checkout in step 2 gets the worktree to a safe branch before the actions.
 
 **Actions:**
 - **replan:**
-  1. Create a fresh `sdlc/<id>` from `<baseBranch>`, the branch it was cut from. Follow the slice-commit procedure in commit-state.md. Never cut it from `<defaultBranch>` in `stack` mode. Then `git checkout <archived branch> -- .sdlc`.
+  1. Create a fresh `<slice branch>` from `<baseBranch>`, the branch it was cut from. Follow the slice-commit procedure in commit-state.md. Never cut it from `<defaultBranch>` in `stack` mode. Then `git checkout <archived branch> -- .sdlc`.
   2. Set the slice to `phase: plan`, `status: in_progress`, and `counters = {planRevisions: 0, fixRounds: 0, ladderStep: 1, parkCycles: <unchanged>}`. Set `notes` to "Re-plan from scratch with the simplest approach; read failures.md."
   3. Do a **slice commit** (commit-state.md).
 - **split:**
@@ -38,7 +38,7 @@ Every **default-branch commit** below lands on `<baseBranch>`: the **default-bra
   3. Mark the original `status: rejected` with `splitInto: [<ids>]` and `notes: "split into <ids>"`. In every other slice, replace the original id in `dependsOn` with the sub-slice ids.
   4. Do a **default-branch commit**.
 - **spike:**
-  1. The slice keeps failing. Run the smallest experiments that explain why. Use a scratch branch `sdlc/<id>-spike` from `<baseBranch>`, the same base as the slice itself. The experiments reproduce the failure, isolate the cause, and test one or two hypotheses.
+  1. The slice keeps failing. Run the smallest experiments that explain why. Use a scratch branch `a scratch branch named like <slice branch> with -spike added` from `<baseBranch>`, the same base as the slice itself. The experiments reproduce the failure, isolate the cause, and test one or two hypotheses.
   2. Write the findings and a recommended approach to `.sdlc/slices/<id>/spike.md`.
   3. Delete the scratch branch, keeping nothing from it but spike.md.
   4. Then do exactly what replan does, with `ladderStep: 3`, and a note: read spike.md.

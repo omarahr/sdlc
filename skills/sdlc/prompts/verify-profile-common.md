@@ -13,7 +13,7 @@ In a fix round you are given only the scenarios that failed or were blocked for 
 - Each requirement's exact `quote` and `acceptance` in requirements.json, the ADRs that name them in DECISIONS.md, and the slice's plan.md and tests.md.
 - `.sdlc/testkit.json` and the usage notes of every tool your profile file names. Use the toolkit rather than writing helpers again.
 - For round > 0: your profile's evidence from earlier rounds (`verification/r*/<profile>-*.json`) for the same scenarios. Re-run those cases first and keep their ids. Do not re-report seeds you or others already reported.
-- The diff: `git diff <defaultBranch>...sdlc/<id>`.
+- The diff: `git diff <defaultBranch>...<slice branch>`.
 
 ## Time limit
 Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover each scenario's notes and your profile's required corners first. Go further only when a result surprises you: a surprising result is worth depth, a clean pass is not. When the time is up, stop adding cases, then write what you have.
@@ -22,10 +22,10 @@ Spend about 20 minutes, or about 10 for a slice the plan rates `low` risk. Cover
 A defect blocks the slice only in these cases: the expected behavior is required by a requirement's `quote` or `acceptance`; it is required by an ADR; a limit, error code or failure behavior the spec states requires it. Cite that source on the case (`specSource`). Anything else goes to `seeds` as `[{title, detail, file}]`. The bar raiser weighs seeds later, and they never refute.
 
 ## 3. Isolation and git
-- Work in your own worktree on your own branch: `git worktree add -b <branch> "$TMPDIR/<branch with / replaced by ->" sdlc/<id>`. Run everything there. If the branch already exists from a crashed attempt, delete it first: `git branch -D <branch>`.
+- Work in your own worktree on your own branch: `git worktree add -b <branch> "$TMPDIR/<branch with / replaced by ->" <slice branch>`. Run everything there. If the branch already exists from a crashed attempt, delete it first: `git branch -D <branch>`.
 - Write tests only. Never change product code, and never change the toolkit. If a tool is missing or broken, write the smallest helper you need inside your own test file. Add a seed `{title: "testkit: <what is missing>", ...}`.
 - Name test files and tests so they can be found: include `verify` and your profile, following the repo's conventions. Examples: `replay.verify-http-api.test.ts`, `retry_verify_async_test.go`, `test('verify async: …')`, `func TestVerifyAsync_…`.
-- Write your test files **directly into the main tree** at `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` (create the directories). They are evidence: they are never committed to `sdlc/<id>`, and you commit nothing to your branch.
+- Write your test files **directly into the main tree** at `.sdlc/slices/<id>/verification/r<round>/tests/<profile>-<part>/` (create the directories). They are evidence: they are never committed to `<slice branch>`, and you commit nothing to your branch.
 - A verification test runs in milliseconds-to-seconds. Anything needing containers, servers or a browser belongs to the scenario, not the test file; never invoke the repo's test command from a test. The ui profile's browser fixture is the exception — a browser boot is its scenario vehicle; the rule bans nested suite runs and heavyweight CI dependencies, not the fixture.
 - When done, `git worktree remove --force` your worktree but **keep the branch**. The verify-collector deletes it.
 - Evidence files go in the **main** tree at the paths below, not in your worktree.
