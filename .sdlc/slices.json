@@ -3083,12 +3083,113 @@
     ],
     "kind": "spec",
     "status": "in_progress",
-    "phase": "implement",
+    "phase": "gate",
     "branch": "sdlc/S-021",
     "pr": "",
     "risk": "medium",
     "riskReason": "next-action drives every slice decision from branch state; a wrong parse resumes the wrong slice.",
-    "seeds": [],
+    "seeds": [
+      {
+        "title": "State-head fallback bypasses parse",
+        "detail": "head_is in decide falls back to a startswith('state-') test through branches.split when parse returns None. R-054 says state heads must parse to state. The fallback accepts malformed heads (for example state-abc) and leaks branches internals into next-action.py. Delete the fallback, or move the tolerance into branches.py.",
+        "file": "skills/sdlc/next-action.py",
+        "blocking": false
+      },
+      {
+        "title": "Thin head_kind wrapper",
+        "detail": "head_kind only forwards to branches.parse with fmt. Call branches.parse(fmt, ...) directly, or use the wrapper everywhere (active_branch does not). Naming is inconsistent with the surrounding code.",
+        "file": "skills/sdlc/next-action.py",
+        "blocking": false
+      },
+      {
+        "title": "Milestone head pattern narrowed without a test",
+        "detail": "The old hold matched sdlc/M-[^/]+. parse now matches only M-<digits>. This is correct for ledger ids, but no test pins a non-numeric milestone head being ignored.",
+        "file": "skills/sdlc/test/next-action.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Spec-named test repeats earlier assertions",
+        "detail": "The test named in R-076 repeats the active-branch, state/e2e merge and milestone-hold assertions of the first two custom-format tests. The spec fixes its name, so keep it. Optionally trim the earlier tests to the cases it lacks (lowercase, stale e2e hold, foreign branch).",
+        "file": "skills/sdlc/test/next-action.test.mjs",
+        "blocking": false
+      },
+      {
+        "title": "Edited comments in next-action.py are long",
+        "detail": "The slice reworded older comments, and some lines now run past 20 words. Shorten them in STE style.",
+        "file": "skills/sdlc/next-action.py",
+        "blocking": false
+      },
+      {
+        "title": "merged_heads uses parse, not name()",
+        "detail": "R-054 quotes a name(fmt, \"slice\", id=...) lookup. The code uses parse with ids=by_id. The result is the same for real heads and also accepts case-folded heads. The failures.md notes this deviation.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "Non-string branchFormat crashes with a trace",
+        "detail": "fmt comes from config with no validation. A non-string value makes branches.split raise Fail, and decide does not turn it into a StateError.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "No test for the state head prefix fallback",
+        "detail": "head_is accepts an unparsed head that holds the state- prefix and the suffix. No test pins this fallback.",
+        "file": "skills/sdlc/test/next-action.test.mjs"
+      },
+      {
+        "title": "active_branch compares ids without case in a case-sensitive format",
+        "detail": "The compare lowercases both ids even when the format is not {name:lower}, so S-ABC and S-abc match.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "spec-vs-code: merged_heads uses parse, not name",
+        "detail": "R-054 quote says merged_heads is looked up with name(fmt, \"slice\", id=...). The code keys merged_heads by the parsed id instead. Behavior matches in every case run, so this is a wording difference only.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "active_branch matches ledger ids without case under a non-lower format",
+        "detail": "active_branch compares ids with .lower() even when the format does not lower-case names. The slice parse pattern is case-sensitive, so no case was found where it changes a decision.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "Default-format decision differs from main for a milestone branch with an in-progress entry",
+        "detail": "Main read sdlc/M-1 as a slice branch if its slices.json held an in-progress entry with id M-1. The new code reads slice kind only. State never writes such an entry, so the change is harmless and matches the intent.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "branches.parse accepts a trailing newline in a head",
+        "detail": "The slice, milestone and state patterns end with $, which matches before a final newline. A head of feature/proj-1-s-1 plus a newline resolves to S-1. Git and gh refuse such names, so it cannot occur. Use fullmatch.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "Default-format stack hold changed for e2e-area and malformed milestone heads",
+        "detail": "Under the default format in stack mode, main held the run on sdlc/M-2-e2e-ui and sdlc/M-1-. The branch ignores both because they do not parse to the milestone kind. This follows R-054 but changes the old behavior.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "next-action.py does not run validate_format",
+        "detail": "A format with whitespace, such as a b/{name}, passes through decide and matches heads. preflight rejects it earlier, so only a hand-edited config reaches this.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "branches.parse: \\d and $ accept Unicode digits and a trailing newline",
+        "detail": "PARSE_ROWS use \\d and $ without re.ASCII. A fork PR head like feature/PROJ-1-M-<fullwidth 2> holds the stack, and feature/PROJ-1-M-1-e2e<LF> gets a merge command. Fix: re.ASCII and \\Z. Not a regression: the old check was looser.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "lowercased format: IGNORECASE folds Kelvin sign into ASCII",
+        "detail": "A local branch with U+212A matches ledger id S-K1 under {name:lower}. Creating it needs repo write, which is trusted.",
+        "file": "skills/sdlc/branches.py"
+      },
+      {
+        "title": "state prefix fallback merges any ready head that starts with state-",
+        "detail": "The spec requires the fallback. A green, mergeable fork PR head feature/PROJ-1-state-x gets gh pr merge in pr mode. Same exposure as sdlc/state- on main.",
+        "file": "skills/sdlc/next-action.py"
+      },
+      {
+        "title": "merged_heads uses parse, not name()",
+        "detail": "R-054 quote names name(fmt, \"slice\", id=...) for merged_heads. The code resolves merged heads through parse with ids=by_id. Behavior is equal for heads that name() produces. Align the wording or the code.",
+        "file": "skills/sdlc/next-action.py"
+      }
+    ],
     "ideaKeys": [],
     "notes": "",
     "counters": {
@@ -3104,6 +3205,13 @@
       {
         "kind": "verify",
         "round": 0,
+        "outcome": "verified",
+        "refutations": 0,
+        "failingTests": 0
+      },
+      {
+        "kind": "verify",
+        "round": 1,
         "outcome": "verified",
         "refutations": 0,
         "failingTests": 0
