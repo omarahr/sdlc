@@ -1,15 +1,13 @@
 # SDLC status: Branch format: one owner for the loop's branch names, checked against the forge's rules before launch
-Updated: 2026-10-10T14:36:41Z
+Updated: 2026-10-10T14:47:04Z
 
 Requirements: 139/151 done · 0 parked · 0 stubbed · 0 obsolete
-Slices: 39/43 done · current: none · awaiting merge: none
+Slices: 39/44 done · current: none · awaiting merge: none
 Milestones: 0/1 verified · next: M-1 The branch format owns every loop branch name · fixing: M-1
 Audit: pending · Bar raiser: round 0, dry rounds 0/2
-ADRs: 88 · Spec proposals: 10
+ADRs: 92 · Spec proposals: 10
 
 ## Recent
-- 2026-10-10T10:01:35Z slice-merged S-031 evaluate regex, name literals and preflight edge formats
-- 2026-10-10T10:40:27Z slice-merged S-032 preflight samples each kind in its own mode
 - 2026-10-10T11:19:43Z slice-merged S-033 state-write and janitor take their format from the module
 - 2026-10-10T11:28:57Z slice-escalated S-034 step 1 replan: plan refuted 3 times
 - 2026-10-10T12:16:43Z slice-merged S-034 SKILL.md orders the format sources and the preflight command
@@ -18,6 +16,8 @@ ADRs: 88 · Spec proposals: 10
 - 2026-10-10T13:48:24Z slice-merged S-037 S-037 verified and ready to ship
 - 2026-10-10T13:48:54Z note S-037 no CI checks on https://github.com/omarahr/sdlc/pull/135
 - 2026-10-10T14:30:46Z milestone M-1 fixing: 71/84 scenarios passed, 2 confirmed bug(s), 6 dismissed, 0 blocked; 5 unjudged
+- 2026-10-10T14:36:54Z note no CI checks on state PR
+- 2026-10-10T14:47:04Z slice-escalated S-fix-M-1-1 step 2 split: plan refuted 3 times; into S-fix-M-1-1a, S-fix-M-1-1b
 
 ## Needs a human eye (non-blocking)
 - S-005b parked: Parked at step 5: attempt 3 failed three fix rounds; read failures.md.

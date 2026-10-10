@@ -703,3 +703,35 @@
 - Decision: Option 1. The driver ends on a resume with the printed samples. It asks for no rename and runs no parse check. Add no carve-out. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
 - Consequences / how to reverse: The rule is one clause in the Branch format bullet of skills/sdlc/SKILL.md, pinned in prompts.test.mjs. To let a resume continue, change the clause and its pin. No script or state depends on it.
 - Affects: R-130, S-034
+
+### ADR-20261010-143858-decision-judge-S-fix-M-1-1-b796: Treat the e2e files as absent in S-fix-M-1-1
+- Status: auto
+- Context: The slice notes name e2e/tests/names.test.mjs, e2e/tests/parse-list.test.mjs and e2e/pending.json. The repo has no e2e directory. No OVERRIDE ADR covers this question.
+- Options: (1) Treat the e2e files as absent; put tests in skills/sdlc/test. (2) Same, as the least code. (3) Same, as the notes come from another repo.
+- Decision: Option 1. Put the new tests in skills/sdlc/test/*.test.mjs. Create no e2e directory and no e2e/pending.json. Skip the pending.json edit. Name SC-M-1-076 and SC-M-1-080 in the test titles. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: Nothing is created. To add e2e tests later, add e2e/ and pending.json in one commit.
+- Affects: S-fix-M-1-1
+
+### ADR-20261010-143901-decision-judge-S-fix-M-1-1-ea04: Accept n=02 in name; compare integer parts by value
+- Status: auto
+- Context: The plan compares integer parts by value, so n=02 is accepted. The spec says only that every name output parses back to the same kind and parts. No OVERRIDE ADR covers this question.
+- Options: (1) Accept n=02; compare by value; add no canonical-text check. (2) Same, with a test that pins parse of n=02 equal to n=2. (3) Same, as the plan says, with no canonical-form refusal.
+- Decision: Option 1. The printed name parses back to the same kind and parts, so the guarantee holds. Add no leading-zero rule. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: To refuse 02 later, add one check in name that compares str(int(value)) with the given text, and one test. No signature, CLI flag or state format changes. Branches with leading zeros still parse.
+- Affects: S-fix-M-1-1
+
+### ADR-20261010-144331-decision-judge-S-fix-M-1-1-a2e0: Confirm the e2e ruling for S-fix-M-1-1
+- Status: auto
+- Context: The slice notes name e2e/tests files and e2e/pending.json. The repo has no e2e directory. ADR-20261010-143858-decision-judge-S-fix-M-1-1-b796 already settles this. No OVERRIDE ADR contradicts it.
+- Options: (1) Follow that ADR; put tests in skills/sdlc/test/branches.test.mjs; skip the pending.json edit. (2) Same, as the simplest option. (3) Same, with the same file.
+- Decision: Option 1. Treat the e2e files as absent. Create no e2e directory and no e2e/pending.json. Name SC-M-1-076 and SC-M-1-080 in the test titles. The three options give the same result. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: Nothing is created. To add e2e tests later, add e2e/ and pending.json in one commit.
+- Affects: S-fix-M-1-1
+
+### ADR-20261010-144335-decision-judge-S-fix-M-1-1-9b5c: Allow re.ASCII and ASCII-only lowercase in parse
+- Status: auto
+- Context: Spec section 2 says parse compiles with re.IGNORECASE under lower. R-024 and SC-M-1-080 need look-alike unicode tails to return None. Unicode IGNORECASE lets U+212A match k and U+017F match s. No OVERRIDE ADR covers this question.
+- Options: (1) Add re.ASCII to the lower-mode regexes; use an ASCII-only lowercase. (2) Add re.ASCII to every parse regex; use an ASCII-only compare. (3) Same, scoped to the tail matchers in one small function.
+- Decision: Option 1. Treat it as a refinement of spec section 2, not a conflict. Valid ids and tails are pure ASCII, so only look-alikes change. Keep re.IGNORECASE. Scores: fit 5, reversibility 5, simplicity 5.
+- Consequences / how to reverse: The change is one flag and one lowercase helper in branches.py. To reverse, remove both and review the look-alike tests. No stored data or branch name changes.
+- Affects: R-024, S-fix-M-1-1
