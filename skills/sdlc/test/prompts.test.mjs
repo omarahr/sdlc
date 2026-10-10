@@ -1352,6 +1352,18 @@ test('T-R-063b: the six extra literals are gone', () => {
   assert.doesNotMatch(skill, /sdlc\/M-/)
 })
 
+test('T-R-132: scenario-runner.md names its worktree branches through the placeholders', () => {
+  const text = sweepPromptText('scenario-runner')
+  assert.ok(text.includes('git worktree add "$TMPDIR/sdlc-<milestoneId>-<areaId>" -b <e2e area branch> <e2e branch>'))
+})
+
+test('T-R-133: env-detector.md reads the run branch through the placeholder and the parsed kind', () => {
+  const text = sweepPromptText('env-detector')
+  assert.ok(text.split('<run branch>').length - 1 >= 3, 'env-detector.md has fewer than three run branch placeholders')
+  assert.ok(text.includes('a branch that parses as kind `run`'))
+  assert.doesNotMatch(text, /sdlc\/run-/)
+})
+
 test('T-R-080: no prompt spells a loop branch literally', () => {
   const files = promptFiles()
   assert.ok(files.length > 20, 'the scan found too few files')
