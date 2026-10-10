@@ -2815,7 +2815,7 @@
         "T-R-066c: README file table lists branchFormat in config.json",
         "T-R-066d: README Development tree lists branches.py"
       ],
-      "commit": "pending"
+      "commit": "2dca6b1725aa6677c5e09431b338b14f85e22d71"
     },
     "notes": ""
   },
@@ -2835,7 +2835,7 @@
       "tests": [
         "existing ste-check test in skills/sdlc/test/prompts.test.mjs"
       ],
-      "commit": "pending"
+      "commit": "2dca6b1725aa6677c5e09431b338b14f85e22d71"
     },
     "notes": ""
   },
